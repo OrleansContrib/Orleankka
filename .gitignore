@@ -1,0 +1,42 @@
+#ignore thumbnails created by windows
+Thumbs.db
+
+#Ignore files build by Visual Studio
+*.obj
+*.exe
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+App_Data/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+[Tt]est[Rr]esult*
+*.tmp
+*.chw
+*.dotCover
+*.debug.css
+*.sln.ide/
+_ReSharper*
+
+#ignore certain folders
+/Output/
+/Packages/
+/Packages/!Repositories.config
+
+#ignore codegen stuff
+orleans.codegen.cs

@@ -1,2 +1,7 @@
-# Orleankka
-Akka-style actor API for MSR Orleans
+### Orleankka
+
+Familiar Akka-like API for MSR Orleans
+
+### Why?
+
+Coming soon!
