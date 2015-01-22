@@ -25,17 +25,17 @@ namespace Orleankka
             this.system = system;
         }
 
-        protected ActorPath Path
+        public ActorPath Path
         {
             get { return (path ?? (path = ActorPath.Map(GetType(), Id))); }
         }
 
-        protected string Id
+        public string Id
         {
             get { return (id ?? (id = Identity.Of(this))); }
         }
 
-        protected IActorRef Self()
+        public IActorRef Self()
         {
             return system.ActorOf(Path);
         }
@@ -58,7 +58,7 @@ namespace Orleankka
             );
         }
 
-        protected Notification Notification(object message)
+        public Notification Notification(object message)
         {
             return new Notification(Path, message);
         }

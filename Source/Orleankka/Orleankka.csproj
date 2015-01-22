@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ActorFactory.cs" />
     <Compile Include="Actor.cs" />
+    <Compile Include="ActorObserverCollection.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="Identity.cs" />
