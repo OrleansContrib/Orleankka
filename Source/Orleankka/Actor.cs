@@ -22,8 +22,9 @@ namespace Orleankka
             system = ActorSystem.Instance;
         }
         
-        protected Actor(string id, IActorSystem system = null)
+        protected Actor(string id, IActorSystem system)
         {
+            Requires.NotNull(system, "system");
             Requires.NotNullOrWhitespace(id, "id");
 
             this.id = id;
@@ -43,6 +44,11 @@ namespace Orleankka
         public IActorRef Self()
         {
             return system.ActorOf(Path);
+        }
+
+        public IActorSystem System
+        {
+            get { return system; }
         }
 
         public virtual Task OnTell(object message)
