@@ -49,12 +49,12 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Default Orleans bound implementation of <see cref="IReminderService"/>
+    /// Default runtime-bound implementation of <see cref="IReminderService"/>
     /// </summary>
     public class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly IActorServices service;
+        readonly IInternalReminderService service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReminderService"/> class.

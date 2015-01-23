@@ -8,7 +8,10 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
-    public abstract class Actor : Grain, IActor, IActorServices
+    public abstract class Actor : Grain, IActor, 
+        IInternalActivationService, 
+        IInternalReminderService,
+        IInternalTimerService 
     {
         string id;
         ActorPath path;
@@ -75,39 +78,39 @@ namespace Orleankka
             );
         }
 
-        #region IActorServices
+        #region Internals
 
-        void IActorServices.DeactivateOnIdle()
+        void IInternalActivationService.DeactivateOnIdle()
         {
             DeactivateOnIdle();
         }
 
-        void IActorServices.DelayDeactivation(TimeSpan timeSpan)
+        void IInternalActivationService.DelayDeactivation(TimeSpan timeSpan)
         {
             DelayDeactivation(timeSpan);
         }
 
-        Task<IGrainReminder> IActorServices.GetReminder(string reminderName)
+        Task<IGrainReminder> IInternalReminderService.GetReminder(string reminderName)
         {
             return GetReminder(reminderName);
         }
 
-        Task<List<IGrainReminder>> IActorServices.GetReminders()
+        Task<List<IGrainReminder>> IInternalReminderService.GetReminders()
         {
             return GetReminders();
         }
 
-        Task<IGrainReminder> IActorServices.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+        Task<IGrainReminder> IInternalReminderService.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterOrUpdateReminder(reminderName, dueTime, period);
         }
 
-        Task IActorServices.UnregisterReminder(IGrainReminder reminder)
+        Task IInternalReminderService.UnregisterReminder(IGrainReminder reminder)
         {
             return UnregisterReminder(reminder);
         }
 
-        IDisposable IActorServices.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+        IDisposable IInternalTimerService.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterTimer(asyncCallback, state, dueTime, period);
         }

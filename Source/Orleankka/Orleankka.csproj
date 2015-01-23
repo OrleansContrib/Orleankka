@@ -50,7 +50,7 @@
     <Compile Include="ActorObserverCollection.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="ActorRef.cs" />
-    <Compile Include="IActorServices.cs" />
+    <Compile Include="Internals.cs" />
     <Compile Include="Identity.cs" />
     <Compile Include="ActorObserverProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

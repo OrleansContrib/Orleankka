@@ -27,21 +27,28 @@ namespace Orleankka
         void DelayDeactivation(TimeSpan period);
     }
 
-    class ActivationService : IActivationService
+    /// <summary>
+    /// Default runtime-bound implementation of <see cref="IActivationService"/>
+    /// </summary>
+    public class ActivationService : IActivationService
     {
-        readonly IActorServices service;
+        readonly IInternalActivationService service;
 
-        public ActivationService(IActorServices service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivationService"/> class.
+        /// </summary>
+        /// <param name="actor">The actor which requires activation services.</param>
+        public ActivationService(Actor actor)
         {
-            this.service = service;
+            service = actor;
         }
 
-        public void DeactivateOnIdle()
+        void IActivationService.DeactivateOnIdle()
         {
             service.DeactivateOnIdle();
         }
 
-        public void DelayDeactivation(TimeSpan period)
+        void IActivationService.DelayDeactivation(TimeSpan period)
         {
             service.DelayDeactivation(period);
         } 
