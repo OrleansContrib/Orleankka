@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
-    public abstract class Actor : Grain, IActor
+    public abstract class Actor : Grain, IActor, IActorServices
     {
         string id;
         ActorPath path;
@@ -50,6 +52,21 @@ namespace Orleankka
             throw NotImplemented("OnAsk");
         }
 
+        public virtual Task<object> OnReminder(string id)
+        {
+            throw NotImplemented("OnReminder");
+        }
+
+        Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
+        {
+            return OnReminder(reminderName);
+        }
+
+        protected Notification Notification(object message)
+        {
+            return new Notification(Path, message);
+        }
+
         NotImplementedException NotImplemented(string method)
         {
             return new NotImplementedException(string.Format(
@@ -58,9 +75,43 @@ namespace Orleankka
             );
         }
 
-        public Notification Notification(object message)
+        #region IActorServices
+
+        void IActorServices.DeactivateOnIdle()
         {
-            return new Notification(Path, message);
+            DeactivateOnIdle();
         }
+
+        void IActorServices.DelayDeactivation(TimeSpan timeSpan)
+        {
+            DelayDeactivation(timeSpan);
+        }
+
+        Task<IGrainReminder> IActorServices.GetReminder(string reminderName)
+        {
+            return GetReminder(reminderName);
+        }
+
+        Task<List<IGrainReminder>> IActorServices.GetReminders()
+        {
+            return GetReminders();
+        }
+
+        Task<IGrainReminder> IActorServices.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+        {
+            return RegisterOrUpdateReminder(reminderName, dueTime, period);
+        }
+
+        Task IActorServices.UnregisterReminder(IGrainReminder reminder)
+        {
+            return UnregisterReminder(reminder);
+        }
+
+        IDisposable IActorServices.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+        {
+            return RegisterTimer(asyncCallback, state, dueTime, period);
+        }
+
+        #endregion
     }
 }

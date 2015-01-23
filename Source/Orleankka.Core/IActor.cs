@@ -6,7 +6,7 @@ using Orleans;
 
 namespace Orleankka
 {
-    public interface IActor : IGrainWithStringKey
+    public interface IActor : IGrainWithStringKey, IRemindable
     {
         Task OnTell(object message);
 
