@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Core", "Source\Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Tests.Interfaces", "Source\Orleankka.Tests.Interfaces\Orleankka.Tests.Interfaces.csproj", "{3D7A4D04-6D86-458A-9C52-331FAE3D428C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestKit", "TestKit", "{C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.TestKit", "Source\Orleankka.TestKit\Orleankka.TestKit.csproj", "{0EEC0553-0B9A-4E51-94BF-694DC7164B92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.TestKit.Tests", "Source\Orleankka.TestKit.Tests\Orleankka.TestKit.Tests.csproj", "{429B185F-3261-45BC-B992-B0D6B8A87E8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +39,20 @@ Global
 		{3D7A4D04-6D86-458A-9C52-331FAE3D428C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D7A4D04-6D86-458A-9C52-331FAE3D428C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D7A4D04-6D86-458A-9C52-331FAE3D428C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92} = {C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D} = {C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}
 	EndGlobalSection
 EndGlobal

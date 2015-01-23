@@ -8,7 +8,15 @@ namespace Orleankka
     {
         Task Tell(object message);
         
-        Task<object> Ask(object message);
+        Task<TResult> Ask<TResult>(object message);
+    }
+
+    public static class ActorRefExtensions
+    {
+        public static Task<object> Ask(this IActorRef @ref, object message)
+        {
+            return @ref.Ask<object>(message);
+        }
     }
 
     class ActorRef : IActorRef
@@ -29,11 +37,11 @@ namespace Orleankka
                     .UnwrapExceptions();
         }
 
-        public Task<object> Ask(object message)
+        public async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, "message");
 
-            return actor
+            return (TResult) await actor
                     .OnAsk(message)
                     .UnwrapExceptions();
         }

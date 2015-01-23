@@ -46,6 +46,11 @@ namespace Orleankka
 
         IActorRef IActorSystem.ActorOf(ActorPath path)
         {
+            return GetActorRef(path);
+        }
+
+        static IActorRef GetActorRef(ActorPath path)
+        {
             Requires.NotNull(path, "path");
             return new ActorRef(path);
         }
