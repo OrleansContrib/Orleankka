@@ -15,9 +15,6 @@ namespace Orleankka
 
         internal static ActorPath Map(Type type, string id)
         {
-            Requires.NotNull(type, "type");
-            Requires.NotNullOrWhitespace(id, "id");
-
             return new ActorPath(ActorInterfaceOf(type), id);
         }
 
