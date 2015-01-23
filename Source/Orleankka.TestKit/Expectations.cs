@@ -10,7 +10,7 @@ namespace Orleankka.TestKit
         object Apply();
     }
 
-    public sealed class Expectation<TMessage> : IExpectation
+    sealed class Expectation<TMessage> : IExpectation
     {
         readonly object result;
         readonly Exception exception;
@@ -74,7 +74,7 @@ namespace Orleankka.TestKit
         readonly Expression<Func<TCommand, bool>> expression;
         Exception exception;
 
-        public CommandExpectation(Expression<Func<TCommand, bool>> expression)
+        internal CommandExpectation(Expression<Func<TCommand, bool>> expression)
         {
             this.expression = expression;
         }
@@ -100,7 +100,7 @@ namespace Orleankka.TestKit
         bool IExpectation.Match(object message)
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is uncomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
 
             return expectation.Match(message);
         }
@@ -108,7 +108,7 @@ namespace Orleankka.TestKit
         object IExpectation.Apply()
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is uncomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
 
             return expectation.Apply();
         }
@@ -121,7 +121,7 @@ namespace Orleankka.TestKit
         Exception exception;
         object result;
 
-        public QueryExpectation(Expression<Func<TQuery, bool>> expression)
+        internal QueryExpectation(Expression<Func<TQuery, bool>> expression)
         {
             this.expression = expression;
         }
@@ -154,7 +154,7 @@ namespace Orleankka.TestKit
         bool IExpectation.Match(object message)
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is uncomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
 
             return expectation.Match(message);
         }
@@ -162,7 +162,7 @@ namespace Orleankka.TestKit
         object IExpectation.Apply()
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is uncomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
 
             return expectation.Apply();
         }

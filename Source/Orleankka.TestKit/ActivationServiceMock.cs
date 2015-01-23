@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ActivationMock : IActivationService
+    public class ActivationServiceMock : IActivationService
     {
         public readonly List<RecordedDeactivationRequest> RecordedRequests = new List<RecordedDeactivationRequest>();
 
-        void IActivation.DeactivateOnIdle()
+        void IActivationService.DeactivateOnIdle()
         {
             RecordedRequests.Add(new DeactivateOnIdle());
         }
 
-        void IActivation.DelayDeactivation(TimeSpan period)
+        void IActivationService.DelayDeactivation(TimeSpan period)
         {
             RecordedRequests.Add(new DelayDeactivation(period));
         }

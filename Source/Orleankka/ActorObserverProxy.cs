@@ -14,19 +14,10 @@ namespace Orleankka
     public interface IActorObserverProxy : IObservable<Notification>, IDisposable
     {
         /// <summary>
-        /// Notifies the provider that an observer is to receive notifications.
-        /// </summary>
-        /// <returns>
-        /// A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.
-        /// </returns>
-        /// <param name="callback">The callback delegate that is to receive notifications.</param>
-        IDisposable Subscribe(Action<Notification> callback);
-
-        /// <summary>
-        /// Gets the actual observer proxy that could be passed to <see cref="IActorRef.Handle"/>.
+        /// Gets the actual observer proxy that could be passed along with the message.
         /// </summary>
         /// <value>
-        /// The observer proxy.
+        /// The observer proxy reference.
         /// </value>
         IActorObserver Proxy
         {
@@ -71,13 +62,6 @@ namespace Orleankka
             get { return proxy; }
         }
 
-        IDisposable IActorObserverProxy.Subscribe(Action<Notification> callback)
-        {
-            Requires.NotNull(callback, "callback");
-
-            return DoSubscribe(new DelegateObserver(callback));
-        }
-
         IDisposable IObservable<Notification>.Subscribe(IObserver<Notification> observer)
         {
             Requires.NotNull(observer, "observer");
@@ -101,6 +85,39 @@ namespace Orleankka
                 observer.OnNext(notification);
         }
 
+        class DisposableSubscription : IDisposable
+        {
+            readonly ActorObserverProxy parent;
+
+            public DisposableSubscription(ActorObserverProxy parent)
+            {
+                this.parent = parent;
+            }
+
+            public void Dispose()
+            {
+                parent.observer = null;
+            }
+        }
+    }
+
+    public static class ActorObserverProxyExtensions
+    {
+        /// <summary>
+        /// Notifies the provider that an observer is to receive notifications.
+        /// </summary>
+        /// <returns>
+        /// A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.
+        /// </returns>
+        /// <param name="observer">The instance of observer proxy</param>
+        /// <param name="callback">The callback delegate that is to receive notifications</param>
+        public static IDisposable Subscribe(this IActorObserverProxy observer, Action<Notification> callback)
+        {
+            Requires.NotNull(callback, "callback");
+
+            return observer.Subscribe(new DelegateObserver(callback));
+        }
+        
         class DelegateObserver : IObserver<Notification>
         {
             readonly Action<Notification> callback;
@@ -123,21 +140,6 @@ namespace Orleankka
             public void OnCompleted()
             {
                 throw new NotImplementedException();
-            }
-        }
-
-        class DisposableSubscription : IDisposable
-        {
-            readonly ActorObserverProxy parent;
-
-            public DisposableSubscription(ActorObserverProxy parent)
-            {
-                this.parent = parent;
-            }
-
-            public void Dispose()
-            {
-                parent.observer = null;
             }
         }
     }

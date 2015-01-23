@@ -8,20 +8,13 @@ namespace Orleankka.TestKit
     [TestFixture]
     public class ActorRefStubFixture
     {
-        readonly ActorPath path = new ActorPath(typeof(ITestActor), "some-id");
         ActorRefStub stub;
 
         [SetUp]
         public void SetUp()
         {
-            stub = new ActorRefStub(path);
+            stub = new ActorRefStub();
         }
-
-        [Test]
-        public void Remembers_path()
-        {
-            Assert.That(stub.Path, Is.EqualTo(path));
-        } 
 
         [Test]
         public void Do_nothing_for_commands()

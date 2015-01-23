@@ -8,13 +8,6 @@ namespace Orleankka.TestKit
 {
     public class ActorRefStub : IActorRef
     {
-        public readonly ActorPath Path;
-
-        public ActorRefStub(ActorPath path)
-        {
-            Path = path;
-        }
-
         public Task Tell(object message)
         {
             return TaskDone.Done;

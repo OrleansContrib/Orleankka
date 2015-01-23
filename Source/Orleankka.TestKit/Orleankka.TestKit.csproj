@@ -29,7 +29,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Orleankka.TestKit.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Orleans">
@@ -39,16 +40,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActivationMock.cs" />
+    <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorRefMock.cs" />
     <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ActorSystemMock.cs" />
-    <None Include="ObservableProxyMock.cs" />
-    <None Include="ObserverCollectionMock.cs" />
-    <None Include="ReminderCollectionMock.cs" />
-    <None Include="TimerCollectionMock.cs" />
+    <Compile Include="ActorObserverProxyStub.cs" />
+    <Compile Include="ActorObserverCollectionMock.cs" />
+    <Compile Include="ReminderServiceMock.cs" />
+    <Compile Include="TimerServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

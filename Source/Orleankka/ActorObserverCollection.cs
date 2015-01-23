@@ -9,7 +9,7 @@ namespace Orleankka
     /// This  is a simple helper class for actors that need to manage observer susbscriptions.
     /// It provides methods for adding/removing observers and for notifying about particular notifications.
     /// </summary>
-    public interface IObserverCollection : IEnumerable<IActorObserver>
+    public interface IActorObserverCollection : IEnumerable<IActorObserver>
     {
         /// <summary>
         /// Adds given observer subscription.
@@ -33,29 +33,29 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Default implementation of <see cref="IObserverCollection"/>
+    /// Default implementation of <see cref="IActorObserverCollection"/>
     /// </summary>
-    public class ObserverCollection : IObserverCollection
+    public class ActorObserverCollection : IActorObserverCollection
     {
         readonly HashSet<IActorObserver> observers = new HashSet<IActorObserver>();
         readonly Func<ActorPath> source;
 
-        public ObserverCollection(Func<ActorPath> source)
+        public ActorObserverCollection(Func<ActorPath> source)
         {
             this.source = source;
         }
 
-        void IObserverCollection.Add(IActorObserver observer)
+        void IActorObserverCollection.Add(IActorObserver observer)
         {
             observers.Add(observer);
         }
 
-        void IObserverCollection.Remove(IActorObserver observer)
+        void IActorObserverCollection.Remove(IActorObserver observer)
         {
             observers.Remove(observer);
         }
 
-        void IObserverCollection.Notify(object message)
+        void IActorObserverCollection.Notify(object message)
         {
             var failed = new List<IActorObserver>();
 

@@ -4,30 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans;
+
 namespace Orleankka.TestKit
 {
-    public class ReminderCollectionMock : IReminderCollection, IEnumerable<RecordedReminder>
+    public class ReminderServiceMock : IReminderService, IEnumerable<RecordedReminder>
     {
         readonly List<RecordedReminder> recorded = new List<RecordedReminder>();
 
-        Task IReminderCollection.Register(string id, TimeSpan due, TimeSpan period)
+        Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
             recorded.Add(new RecordedReminder(id, due, period));
             return TaskDone.Done;
         }
 
-        Task IReminderCollection.Unregister(string id)
+        Task IReminderService.Unregister(string id)
         {
             recorded.RemoveAll(x => x.Id == id);
             return TaskDone.Done;
         }
 
-        Task<bool> IReminderCollection.IsRegistered(string id)
+        Task<bool> IReminderService.IsRegistered(string id)
         {
             return Task.FromResult(recorded.Exists(x => x.Id == id));
         }
 
-        Task<IEnumerable<string>> IReminderCollection.Registered()
+        Task<IEnumerable<string>> IReminderService.Registered()
         {
             return Task.FromResult(recorded.Select(x => x.Id));
         }

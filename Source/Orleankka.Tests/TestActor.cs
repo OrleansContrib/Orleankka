@@ -11,11 +11,11 @@ namespace Orleankka
         string fooText = "";
         string barText = "";
 
-        readonly IObserverCollection observers;
+        readonly IActorObserverCollection actorObservers;
 
         public TestActor()
         {
-            observers = new ObserverCollection(()=> Path);
+            actorObservers = new ActorObserverCollection(()=> Path);
         }
 
         public override Task OnTell(object message)
@@ -57,25 +57,25 @@ namespace Orleankka
 
         public Task Handle(PublishFoo cmd)
         {
-            observers.Notify(new FooPublished {Foo = cmd.Foo});
+            actorObservers.Notify(new FooPublished {Foo = cmd.Foo});
             return TaskDone.Done;
         }
 
         public Task Handle(PublishBar cmd)
         {
-            observers.Notify(new BarPublished {Bar = cmd.Bar});
+            actorObservers.Notify(new BarPublished {Bar = cmd.Bar});
             return TaskDone.Done;
         }
 
         public Task Handle(Attach cmd)
         {
-            observers.Add(cmd.Observer);
+            actorObservers.Add(cmd.Observer);
             return TaskDone.Done;
         }
 
         public Task Handle(Detach cmd)
         {
-            observers.Remove(cmd.Observer);
+            actorObservers.Remove(cmd.Observer);
             return TaskDone.Done;
         }
     }

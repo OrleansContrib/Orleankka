@@ -10,7 +10,7 @@ namespace Orleankka
     [TestFixture]
     public class ActorObserverCollectionFixture
     {
-        IObserverCollection collection;
+        IActorObserverCollection collection;
         ActorObserverClient client;
         IActorObserver proxy;
         ActorPath source;
@@ -25,7 +25,7 @@ namespace Orleankka
             message = new FooPublished { Foo = "foo" };
             source  = new ActorPath(typeof(ITestActor), "some-id");
             
-            collection = new ObserverCollection(()=> source);
+            collection = new ActorObserverCollection(()=> source);
         }
 
         [Test]

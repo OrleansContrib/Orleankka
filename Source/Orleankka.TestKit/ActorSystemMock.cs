@@ -6,11 +6,11 @@ namespace Orleankka.TestKit
 {
     public class ActorSystemMock : IActorSystem
     {
-        readonly Dictionary<ActorPath, ActorRefMock> expected = 
-             new Dictionary<ActorPath, ActorRefMock>();
+        readonly Dictionary<ActorPath, ActorRefMock> expected =
+            new Dictionary<ActorPath, ActorRefMock>();
 
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
-             new Dictionary<ActorPath, ActorRefStub>();
+            new Dictionary<ActorPath, ActorRefStub>();
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
@@ -33,22 +33,10 @@ namespace Orleankka.TestKit
             if (unexpected.ContainsKey(path))
                 return unexpected[path];
 
-            var stub = new ActorRefStub(path);
+            var stub = new ActorRefStub();
             unexpected.Add(path, stub);
 
             return stub;
-        }
-
-        public IEnumerable<ActorRefStub> Unexpected
-        {
-            get { return unexpected.Values; }
-        }
-
-        public void Verify()
-        {
-            // TODO: 
-            //- Check unexpected ActorRef requests (no Mock was previously set), if there any - throw
-            //- For all expected ActorRef requests, check unexpected Command and Queries - and throw
         }
     }
 }
