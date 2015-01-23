@@ -20,7 +20,7 @@ namespace Orleankka.Scenarios
             actor = system.ActorOf<ITestActor>("test");
             
             observer = ActorObserverProxy.Create().Result;
-            actor.Tell(new Attach(observer.Proxy)).Wait();
+            actor.Tell(new Attach(observer)).Wait();
         }
 
         [TearDown]

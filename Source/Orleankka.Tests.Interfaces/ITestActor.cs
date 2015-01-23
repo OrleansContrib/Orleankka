@@ -69,16 +69,16 @@ namespace Orleankka
     [Immutable, Serializable]
     public class Attach : ActorObserverRequest
     {
-        public Attach(IActorObserver observer)
-            : base(observer)
+        public Attach(IActorObserverProxy observer)
+            : base(observer.Proxy)
         {}
     }
 
     [Immutable, Serializable]
     public class Detach : ActorObserverRequest
     {
-        public Detach(IActorObserver observer)
-            : base(observer)
+        public Detach(IActorObserverProxy observer)
+            : base(observer.Proxy)
         {}
     }
 
