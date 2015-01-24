@@ -12,12 +12,12 @@ namespace Orleankka.TestKit
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            recorded.Add(new RecordedTimer(id, due, period, callback, null));
+            recorded.Add(new RecordedTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            recorded.Add(new RecordedTimer(id, due, period, callback, state));
+            recorded.Add(new RecordedTimer<TState>(id, due, period, callback, state));
         }
 
         void ITimerService.Unregister(string id)
@@ -66,14 +66,25 @@ namespace Orleankka.TestKit
         public readonly string Id;
         public readonly TimeSpan Due;
         public readonly TimeSpan Period;
-        public readonly Delegate Callback;
-        public readonly object State;
+        public readonly Func<Task> Callback;
 
-        public RecordedTimer(string id, TimeSpan due, TimeSpan period, Delegate callback, object state)
+        public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
             Id = id;
             Due = due;
             Period = period;
+            Callback = callback;
+        }
+    }
+
+    public class RecordedTimer<TState> : RecordedTimer
+    {
+        new public readonly Func<TState, Task> Callback;
+        public readonly TState State;
+
+        public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func<TState, Task> callback, TState state)
+            : base(id, due, period, null)
+        {
             Callback = callback;
             State = state;
         }

@@ -61,7 +61,7 @@ namespace Orleankka
             throw NotImplemented("OnAsk");
         }
 
-        public virtual Task<object> OnReminder(string id)
+        public virtual Task OnReminder(string id)
         {
             throw NotImplemented("OnReminder");
         }

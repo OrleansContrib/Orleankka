@@ -117,7 +117,7 @@ namespace Orleankka
 
             return observer.Subscribe(new DelegateObserver(callback));
         }
-        
+       
         class DelegateObserver : IObserver<Notification>
         {
             readonly Action<Notification> callback;
