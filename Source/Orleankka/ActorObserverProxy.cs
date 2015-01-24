@@ -66,11 +66,6 @@ namespace Orleankka
         {
             Requires.NotNull(observer, "observer");
 
-            return DoSubscribe(observer);
-        }
-
-        IDisposable DoSubscribe(IObserver<Notification> observer)
-        {
             if (this.observer != null)
                 throw new ArgumentException("Susbscription has already been registered", "observer");
 
