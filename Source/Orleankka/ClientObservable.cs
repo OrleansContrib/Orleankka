@@ -27,8 +27,8 @@ namespace Orleankka
 
     /// <summary>
     /// Factory for <see cref="IClientObservable"/>
-    /// </summary>
-    public sealed class ClientObservable : IClientObservable, IActorObserver
+     /// </summary>
+    public sealed class ClientObservable : IClientObservable
     {
         /// <summary>
         /// Creates new <see cref="IClientObservable"/>
@@ -36,25 +36,25 @@ namespace Orleankka
         /// <returns>New instance of <see cref="IClientObservable"/></returns>
         public static async Task<ClientObservable> Create()
         {
-            var instance = new ClientObservable();
+            var observer = new ClientActorObserver();
 
-            var proxy = await ActorObserverFactory.CreateObjectReference(instance);
-            instance.Initialize(proxy);
+            var proxy = await ActorObserverFactory.CreateObjectReference(observer);
 
-            return instance;
+            return new ClientObservable(observer, proxy);
         }
 
-        IActorObserver proxy;
-        IObserver<Notification> observer;
+        readonly ClientActorObserver client;
+        readonly IActorObserver proxy;
 
-        void Initialize(IActorObserver proxy)
+        ClientObservable(ClientActorObserver client, IActorObserver proxy)
         {
+            this.client = client;
             this.proxy = proxy;
         }
 
         void IDisposable.Dispose()
         {
-            ActorObserverFactory.DeleteObjectReference(proxy);
+            ActorObserverFactory.DeleteObjectReference(Proxy);
         }
 
         public IActorObserver Proxy
@@ -64,49 +64,44 @@ namespace Orleankka
 
         IDisposable IObservable<Notification>.Subscribe(IObserver<Notification> observer)
         {
-            Requires.NotNull(observer, "observer");
-
-            if (this.observer != null)
-                throw new ArgumentException("Susbscription has already been registered", "observer");
-
-            this.observer = observer;
-
-            return new DisposableSubscription(this);
+            return client.Subscribe(observer);
         }
 
-        void IActorObserver.OnNext(Notification notification)
+        class ClientActorObserver : IActorObserver
         {
-            if (observer != null)
-                observer.OnNext(notification);
-        }
+            IObserver<Notification> observer;
 
-        class ActorObserver : IActorObserver
-        {
-            IActorObserver proxy;
-
-            void Initialize(IActorObserver proxy)
+            public IDisposable Subscribe(IObserver<Notification> observer)
             {
-                this.proxy = proxy;
+                Requires.NotNull(observer, "observer");
+
+                if (this.observer != null)
+                    throw new ArgumentException("Susbscription has already been registered", "observer");
+
+                this.observer = observer;
+
+                return new DisposableSubscription(this);
             }
 
             public void OnNext(Notification notification)
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        class DisposableSubscription : IDisposable
-        {
-            readonly ClientObservable parent;
-
-            public DisposableSubscription(ClientObservable parent)
-            {
-                this.parent = parent;
+                if (observer != null)
+                    observer.OnNext(notification);
             }
 
-            public void Dispose()
+            class DisposableSubscription : IDisposable
             {
-                parent.observer = null;
+                readonly ClientActorObserver owner;
+
+                public DisposableSubscription(ClientActorObserver owner)
+                {
+                    this.owner = owner;
+                }
+
+                public void Dispose()
+                {
+                    owner.observer = null;
+                }
             }
         }
     }
