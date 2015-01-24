@@ -54,14 +54,14 @@ namespace Orleankka
 
         public bool Equals(ActorPath other)
         {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || 
-                    Type == other.Type && string.Equals(Id, other.Id));
+            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
+                    || Type == other.Type && string.Equals(Id, other.Id));
         }
 
         public override bool Equals(object obj)
         {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || 
-                    obj is ActorPath && Equals((ActorPath) obj));
+            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
+                    || obj is ActorPath && Equals((ActorPath) obj));
         }
 
         public override int GetHashCode()

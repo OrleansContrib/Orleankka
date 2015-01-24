@@ -56,30 +56,25 @@ namespace Orleankka
     }
 
     [Immutable, Serializable]
-    public abstract class ActorObserverRequest : Command
+    public class Attach : Command
     {
-        public readonly IActorObserver Observer;
+        public ActorObserverPath Path;
 
-        protected ActorObserverRequest(IActorObserver observer)
+        public Attach(ActorObserverPath path)
         {
-            Observer = observer;
+            Path = path;
         }
     }
 
     [Immutable, Serializable]
-    public class Attach : ActorObserverRequest
+    public class Detach : Command
     {
-        public Attach(IClientObservable observer)
-            : base(observer.Proxy)
-        {}
-    }
+        public ActorObserverPath Path;
 
-    [Immutable, Serializable]
-    public class Detach : ActorObserverRequest
-    {
-        public Detach(IClientObservable observer)
-            : base(observer.Proxy)
-        {}
+        public Detach(ActorObserverPath path)
+        {
+            Path = path;
+        }
     }
 
     public interface ITestActor : IActor {}

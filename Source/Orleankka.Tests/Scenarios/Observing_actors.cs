@@ -11,7 +11,7 @@ namespace Orleankka.Scenarios
     {
         IActorSystem system;
         IActorRef actor;
-        IClientObservable observer;
+        ClientObservable observable;
 
         [SetUp]
         public void SetUp()
@@ -19,14 +19,14 @@ namespace Orleankka.Scenarios
             system = new ActorSystem();
             actor = system.ActorOf<ITestActor>("test");
             
-            observer = ClientObservable.Create().Result;
-            actor.Tell(new Attach(observer)).Wait();
+            observable = ClientObservable.Create().Result;
+            actor.Tell(new Attach(observable)).Wait();
         }
 
         [TearDown]
         public void TearDown()
         {
-            observer.Dispose();
+            observable.Dispose();
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Orleankka.Scenarios
             FooPublished @event = null;
 
             var received = new AutoResetEvent(false);
-            observer.Subscribe(e =>
+            observable.Subscribe(e =>
             {
                 source = e.Source;
                 @event = e.Message as FooPublished;

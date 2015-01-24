@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 
+using Orleans.Runtime;
+
 namespace Orleankka
 {
     /// <summary>
-    /// Serves as factory for actor references
+    /// Serves as factory for acquiring/dehydrating actor/observer references from their paths.
+    /// Also, in reverse, allows to get actor/observer paths from their references.
     /// </summary>
     public interface IActorSystem
     {
@@ -14,6 +17,20 @@ namespace Orleankka
         /// <param name="path">The actor path</param>
         /// <returns>An actor reference</returns>
         IActorRef ActorOf(ActorPath path);
+
+        /// <summary>
+        /// Dehydrates the reference to <see cref="IActorObserver"/> from its <see cref="ActorObserverPath"/>.
+        /// </summary>
+        /// <param name="path">The path of actor observer.</param>
+        /// <returns>The instance of <see cref="IActorObserver"/> </returns>
+        IActorObserver ObserverOf(ActorObserverPath path);
+
+        /// <summary>
+        /// Retruns the path of the given <see cref="IActorObserver"/> reference.
+        /// </summary>
+        /// <param name="observer">The actor observer reference.</param>
+        /// <returns>The isntance of <see cref="ActorObserverPath"/> </returns>
+        ActorObserverPath PathOf(IActorObserver observer);
     }
 
     /// <summary>
@@ -47,7 +64,20 @@ namespace Orleankka
         IActorRef IActorSystem.ActorOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
+
             return new ActorRef(path);
+        }
+        
+        IActorObserver IActorSystem.ObserverOf(ActorObserverPath path)
+        {
+            Requires.NotNull(path, "path");
+
+            return ActorObserverFactory.ActorObserverReference.Cast(GrainReference.FromKeyString(path));
+        }
+
+        ActorObserverPath IActorSystem.PathOf(IActorObserver observer)
+        {
+            return new ActorObserverPath(((GrainReference)observer).ToKeyString());
         }
     }
 }

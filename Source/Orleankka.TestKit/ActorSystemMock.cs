@@ -12,6 +12,9 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
             new Dictionary<ActorPath, ActorRefStub>();
 
+        readonly Dictionary<ActorObserverPath, IActorObserver> observers =
+             new Dictionary<ActorObserverPath, IActorObserver>();
+
         public ActorRefMock MockActorOf<TActor>(string id)
         {
             var path = new ActorPath(typeof(TActor), id);
@@ -37,6 +40,28 @@ namespace Orleankka.TestKit
             unexpected.Add(path, stub);
 
             return stub;
+        }
+
+        public IActorObserver ObserverOf(ActorObserverPath path)
+        {
+            if (observers.ContainsKey(path))
+                return observers[path];
+
+            var stub = new ActorObserverStub();
+            observers.Add(path, stub);
+
+            return stub;
+        }
+
+        public ActorObserverPath PathOf(IActorObserver observer)
+        {
+            if (observers.ContainsValue(observer))
+                return observers.Single(x => x.Value == observer).Key;
+
+            var path = new ActorObserverPath(Guid.NewGuid().ToString("D"));
+            observers.Add(path, new ActorObserverStub());
+
+            return path;
         }
     }
 }

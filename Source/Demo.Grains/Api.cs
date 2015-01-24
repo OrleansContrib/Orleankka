@@ -51,7 +51,7 @@ namespace Demo
 
         public Task Handle(MonitorAvailabilityChanges cmd)
         {
-            observers.Add(cmd.Observer);
+            observers.Add(System.ObserverOf(cmd.Path));
             return TaskDone.Done;
         }
 

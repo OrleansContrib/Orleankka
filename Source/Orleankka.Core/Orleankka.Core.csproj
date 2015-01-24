@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActorObserverPath.cs" />
     <Compile Include="ActorPath.cs" />
     <Compile Include="Annotations.cs" />
     <Compile Include="IActor.cs" />

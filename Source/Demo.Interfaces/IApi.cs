@@ -21,11 +21,11 @@ namespace Demo
     [Immutable, Serializable]
     public class MonitorAvailabilityChanges : Command
     {
-        public readonly IActorObserver Observer;
+        public readonly ActorObserverPath Path;
 
-        public MonitorAvailabilityChanges(IClientObservable observer)
+        public MonitorAvailabilityChanges(ActorObserverPath path)
         {
-            Observer = observer.Proxy;
+            Path = path;
         }
     }
 

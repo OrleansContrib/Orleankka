@@ -10,12 +10,12 @@ namespace Demo
     public class Client
     {
         readonly IActorSystem system;
-        readonly IClientObservable observer;
+        readonly ClientObservable observable;
 
-        public Client(IActorSystem system, IClientObservable observer)
+        public Client(IActorSystem system, ClientObservable observable)
         {
             this.system = system;
-            this.observer = observer;
+            this.observable = observable;
         }
 
         public async void Run()
@@ -23,7 +23,7 @@ namespace Demo
             await MonitorAvailabilityChanges("facebook");
             await MonitorAvailabilityChanges("twitter");
 
-            observer.Subscribe(LogToConsole);
+            observable.Subscribe(LogToConsole);
 
             foreach (var i in Enumerable.Range(1, 25))
             {
@@ -39,7 +39,7 @@ namespace Demo
 
         async Task MonitorAvailabilityChanges(string api)
         {
-            await system.ActorOf<IApi>(api).Tell(new MonitorAvailabilityChanges(observer));
+            await system.ActorOf<IApi>(api).Tell(new MonitorAvailabilityChanges(observable));
         }
 
         static void LogToConsole(Notification notification)

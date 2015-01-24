@@ -3,22 +3,13 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ClientObservableStub : IClientObservable
+    public class ClientObservableStub : ClientObservable
     {
-        readonly IActorObserver proxy = new ProxyStub();
+        protected ClientObservableStub()
+            : base(new ActorObserverPath(Guid.NewGuid().ToString("D")))
+        {}
 
-        public IActorObserver Proxy
-        {
-            get {return proxy;}
-        }
-
-        class ProxyStub : IActorObserver
-        {
-            public void OnNext(Notification notification)
-            {}
-        }
-
-        public IDisposable Subscribe(IObserver<Notification> observer)
+        public override IDisposable Subscribe(IObserver<Notification> observer)
         {
             return new DisposableStub();
         }
@@ -29,7 +20,7 @@ namespace Orleankka.TestKit
             {}
         }
 
-        public void Dispose()
+        public override void Dispose()
         {}
     }
 }
