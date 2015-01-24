@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,52 +13,71 @@ namespace Demo
 
     static class ApiWorkerFactory
     {
-        public static IApiWorker Create(string api)
+        static readonly IDictionary<string, IApiWorker> registry = new Dictionary<string, IApiWorker>
         {
-            if (api == "facebook")
-                return new FacebookApiWorker();
+            {"facebook", new Faulty(new FacebookApiWorker("facebook.com"))},
+            {"twitter",  new Faulty(new TwitterApiWorker("twitter.com"))},
+        };
 
-            if (api == "twitter")
-                return new TwitterApiWorker();
-
-            throw new InvalidOperationException("Unknown api: " + api);
+        public static Func<IApiWorker> Create(Func<string> api)
+        {
+            return () => registry[api()];
         }
     }
 
-    class FacebookApiWorker : IApiWorker
+    abstract class ApiWorkerBase : IApiWorker
+    {
+        public string EndPoint { get; private set; }
+
+        protected ApiWorkerBase(string endPoint)
+        {
+            EndPoint = endPoint;
+        }
+
+        public abstract Task<int> Search(string subject);
+    }
+
+    class FacebookApiWorker : ApiWorkerBase
     {
         readonly Random random = new Random();
-        
-        public Task<int> Search(string subject)
+
+        public FacebookApiWorker(string endPoint)
+            : base(endPoint)
+        {}
+
+        public override Task<int> Search(string subject)
         {
-            return Task.FromResult(random.Next(0, 100));
+            return Task.FromResult(random.Next(0, 50));
         }
     }
 
-    class TwitterApiWorker : IApiWorker
+    class TwitterApiWorker : ApiWorkerBase  
     {
         readonly Random random = new Random();
 
-        public Task<int> Search(string subject)
+        public TwitterApiWorker(string endPoint)
+            : base(endPoint)
+        {}
+
+        public override Task<int> Search(string subject)
         {
-            return Task.FromResult(random.Next(0, 100));
+            return Task.FromResult(random.Next(0, 50));
         }
     }
 
-    class FaultyDemoWorker : IApiWorker
+    class Faulty : ApiWorkerBase
     {
-        readonly Random random = new Random();
-        readonly string api;
+        readonly ApiWorkerBase api;
 
         bool faulted;
         long requests;
 
-        public FaultyDemoWorker(string api)
+        public Faulty(ApiWorkerBase api) : base(api.EndPoint)
         {
             this.api = api;
         }
 
-        public Task<int> Search(string subject)
+        public override Task<int> Search(string subject)
         {
             requests++;
 
@@ -66,13 +86,13 @@ namespace Demo
                 if (requests % 5 == 0)
                     faulted = false;
 
-                throw new HttpException(500, api + " is down");
+                throw new HttpException(500, api.EndPoint + " is down");
             }
             
-            if (requests % 20 == 0)
+            if (requests % 10 == 0)
                 faulted = true;
             
-            return Task.FromResult(random.Next(0, 100));
+            return api.Search(subject);
         }
     }
 }

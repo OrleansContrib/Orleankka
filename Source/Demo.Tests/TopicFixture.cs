@@ -20,11 +20,7 @@ namespace Demo
         const string subject = "ПТН ПНХ";
         Dictionary<string, TimeSpan> schedule;
 
-        TopicState state;
-        TopicStorageMock storage;
-
-        ActorRefMock facebook;
-        ActorRefMock twitter;
+        ActorRefMock api;
         
         [SetUp]
         public override void SetUp()
@@ -37,17 +33,9 @@ namespace Demo
                 {"twitter",  TimeSpan.FromMinutes(5)},
             };
             
-            topic = new Topic
-            {
-                System = System,
-                Timers = Timers,
-                Reminders = Reminders,
-                Storage = storage = new TopicStorageMock(),
-                State = state = new TopicState()
-            };
-
-            facebook = System.MockActorOf<IApi>("facebook");
-            twitter  = System.MockActorOf<IApi>("twitter");
+            topic = new Topic("42", System, Timers, Reminders, new TopicStorageMock());
+            
+            api = System.MockActorOf<IApi>("facebook");
         }
 
         [Test]
@@ -81,8 +69,8 @@ namespace Demo
             await ReceiveReminder("facebook");
 
             // then
-            IsTrue(()=> facebook.Queries().Count() == 1);
-            IsTrue(()=> facebook.FirstQuery<Search>().Subject == subject);
+            IsTrue(()=> api.Queries().Count() == 1);
+            IsTrue(()=> api.FirstQuery<Search>().Subject == subject);
         }
        
         [Test]
@@ -91,7 +79,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            facebook
+            api
                 .ExpectQuery<Search>()
                 .Return(100);
 
@@ -100,7 +88,7 @@ namespace Demo
             await ReceiveReminder("facebook");
 
             // assert
-            IsTrue(()=> topic.State.Total == 100 * 2);
+            IsTrue(()=> topic.total == 100 * 2);
         }
 
         [Test]
@@ -110,7 +98,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            facebook
+            api
                 .ExpectQuery<Search>()
                 .Return(100);
 
@@ -130,7 +118,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            facebook
+            api
                 .ExpectQuery<Search>()
                 .Throw(new ApiUnavailableException("facebook.com"));
 
@@ -156,7 +144,7 @@ namespace Demo
             await ReceiveReminder("facebook");
 
             // assert
-            IsTrue(()=> facebook.DidNotReceiveAnyQueries());
+            IsTrue(()=> api.DidNotReceiveAnyQueries());
         }
 
         [Test]
@@ -170,7 +158,7 @@ namespace Demo
             IsTrue(()=> Timers.Count() == 1);
 
             // return something
-            facebook
+            api
                 .ExpectQuery<Search>()
                 .Return(122);
 
@@ -183,14 +171,14 @@ namespace Demo
             /* now, check regular searching works as expected  #1# */
 
             // arrange
-            facebook.Reset();
+            api.Reset();
 
             // act 
             await ReceiveReminder("facebook");
 
             // assert sent search query
-            IsTrue(() => facebook.Queries().Count() == 1);
-            IsTrue(() => facebook.FirstQuery<Search>().Subject == subject);            
+            IsTrue(() => api.Queries().Count() == 1);
+            IsTrue(() => api.FirstQuery<Search>().Subject == subject);            
         }
 
         [Test]
@@ -201,7 +189,7 @@ namespace Demo
             RetriesScheduled("facebook");
 
             // throw
-            facebook
+            api
                 .ExpectQuery<Search>()
                 .Throw(new ApiUnavailableException("facebook.com"));
 
@@ -221,7 +209,7 @@ namespace Demo
             await TopicCreated();
 
             // throw
-            facebook 
+            api 
                 .ExpectQuery<Search>()
                 .Throw(new ApplicationException("unknown"));
 
@@ -246,12 +234,12 @@ namespace Demo
 
         class TopicStorageMock : ITopicStorage
         {
-            public Task<TopicState> ReadStateAsync(string id)
+            public Task<int> ReadTotalAsync(string id)
             {
-                return Task.FromResult(new TopicState());
+                return Task.FromResult(0);
             }
 
-            public Task WriteStateAsync(string id, TopicState state)
+            public Task WriteTotalAsync(string id, int total)
             {
                 return TaskDone.Done;
             }

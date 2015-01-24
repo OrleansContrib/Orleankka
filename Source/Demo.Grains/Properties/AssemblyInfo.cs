@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("Demo.Grains")]
+[assembly: InternalsVisibleTo("Demo.Tests")]

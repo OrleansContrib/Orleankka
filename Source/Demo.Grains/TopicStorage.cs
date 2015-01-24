@@ -9,8 +9,8 @@ namespace Demo
 {
     public interface ITopicStorage
     {
-        Task<TopicState> ReadStateAsync(string id);
-        Task WriteStateAsync(string id, TopicState state);
+        Task<int> ReadTotalAsync(string id);
+        Task WriteTotalAsync(string id, int total);
     }
 
     public class TopicStorage : ITopicStorage
@@ -37,26 +37,22 @@ namespace Demo
             this.container = container;
         }
 
-        public async Task<TopicState> ReadStateAsync(string id)
+        public async Task<int> ReadTotalAsync(string id)
         {
-            var state = new TopicState();
-
             var blob = container.GetBlockBlobReference(GetBlobName(id));
             if (!(await blob.ExistsAsync()))
-                return state;
+                return 0;
 
             var contents = await blob.DownloadTextAsync();
-            if (string.IsNullOrWhiteSpace(contents))
-                return state;
-
-            state.Total = int.Parse(contents);
-            return state;
+            return !string.IsNullOrWhiteSpace(contents) 
+                    ? int.Parse(contents) 
+                    : 0;
         }
 
-        public Task WriteStateAsync(string id, TopicState state)
+        public Task WriteTotalAsync(string id, int total)
         {
             var blob = container.GetBlockBlobReference(GetBlobName(id));
-            return blob.UploadTextAsync(state.Total.ToString(CultureInfo.InvariantCulture));
+            return blob.UploadTextAsync(total.ToString(CultureInfo.InvariantCulture));
         }
 
         static string GetBlobName(string id)

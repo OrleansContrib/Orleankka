@@ -22,13 +22,7 @@ namespace Demo
             
             worker = new MockApiWorker();
 
-            api = new Api
-            {
-                Id = "facebook",
-                Timers = Timers,
-                Observers = Observers,
-                Worker = worker
-            };
+            api = new Api("facebook", System, Timers, Observers, worker);
         }
 
         [Test]

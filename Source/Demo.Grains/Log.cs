@@ -5,14 +5,19 @@ namespace Demo
 {
     public static class Log
     {
+        static readonly object locker = new object();
+
         public static void Message(ConsoleColor color, string text, params object[] args)
         {
-            var prev = Console.ForegroundColor;
+            lock (locker)
+            {
+                var prev = Console.ForegroundColor;
 
-            Console.ForegroundColor = color;
-            Console.WriteLine(text, args);
+                Console.ForegroundColor = color;
+                Console.WriteLine(text, args);
 
-            Console.ForegroundColor = prev;
+                Console.ForegroundColor = prev;
+            }
         }
     }
 }
