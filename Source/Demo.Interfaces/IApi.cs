@@ -23,7 +23,7 @@ namespace Demo
     {
         public readonly IActorObserver Observer;
 
-        public MonitorAvailabilityChanges(IActorObserverProxy observer)
+        public MonitorAvailabilityChanges(IClientObservable observer)
         {
             Observer = observer.Proxy;
         }

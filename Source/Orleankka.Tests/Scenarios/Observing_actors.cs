@@ -11,7 +11,7 @@ namespace Orleankka.Scenarios
     {
         IActorSystem system;
         IActorRef actor;
-        IActorObserverProxy observer;
+        IClientObservable observer;
 
         [SetUp]
         public void SetUp()
@@ -19,7 +19,7 @@ namespace Orleankka.Scenarios
             system = new ActorSystem();
             actor = system.ActorOf<ITestActor>("test");
             
-            observer = ActorObserverProxy.Create().Result;
+            observer = ClientObservable.Create().Result;
             actor.Tell(new Attach(observer)).Wait();
         }
 

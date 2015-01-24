@@ -10,9 +10,9 @@ namespace Demo
     public class Client
     {
         readonly IActorSystem system;
-        readonly IActorObserverProxy observer;
+        readonly IClientObservable observer;
 
-        public Client(IActorSystem system, IActorObserverProxy observer)
+        public Client(IActorSystem system, IClientObservable observer)
         {
             this.system = system;
             this.observer = observer;

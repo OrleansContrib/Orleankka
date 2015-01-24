@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ActorObserverProxyStub : IActorObserverProxy
+    public class ClientObservableStub : IClientObservable
     {
         readonly IActorObserver proxy = new ProxyStub();
 

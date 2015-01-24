@@ -49,7 +49,7 @@ namespace Demo
 
         static void RunClient()
         {
-            client = new Client(ActorSystem.Instance, ActorObserverProxy.Create().Result);
+            client = new Client(ActorSystem.Instance, ClientObservable.Create().Result);
             client.Run();
         }
     }

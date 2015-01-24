@@ -11,7 +11,7 @@ namespace Orleankka
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    public interface IActorObserverProxy : IObservable<Notification>, IDisposable
+    public interface IClientObservable : IObservable<Notification>, IDisposable
     {
         /// <summary>
         /// Gets the actual observer proxy that could be passed along with the message.
@@ -26,17 +26,17 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Factory for <see cref="IActorObserverProxy"/>
+    /// Factory for <see cref="IClientObservable"/>
     /// </summary>
-    public sealed class ActorObserverProxy : IActorObserverProxy, IActorObserver
+    public sealed class ClientObservable : IClientObservable, IActorObserver
     {
         /// <summary>
-        /// Creates new <see cref="IActorObserverProxy"/>
+        /// Creates new <see cref="IClientObservable"/>
         /// </summary>
-        /// <returns>New instance of <see cref="IActorObserverProxy"/></returns>
-        public static async Task<ActorObserverProxy> Create()
+        /// <returns>New instance of <see cref="IClientObservable"/></returns>
+        public static async Task<ClientObservable> Create()
         {
-            var instance = new ActorObserverProxy();
+            var instance = new ClientObservable();
 
             var proxy = await ActorObserverFactory.CreateObjectReference(instance);
             instance.Initialize(proxy);
@@ -80,11 +80,26 @@ namespace Orleankka
                 observer.OnNext(notification);
         }
 
+        class ActorObserver : IActorObserver
+        {
+            IActorObserver proxy;
+
+            void Initialize(IActorObserver proxy)
+            {
+                this.proxy = proxy;
+            }
+
+            public void OnNext(Notification notification)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         class DisposableSubscription : IDisposable
         {
-            readonly ActorObserverProxy parent;
+            readonly ClientObservable parent;
 
-            public DisposableSubscription(ActorObserverProxy parent)
+            public DisposableSubscription(ClientObservable parent)
             {
                 this.parent = parent;
             }
@@ -106,7 +121,7 @@ namespace Orleankka
         /// </returns>
         /// <param name="observer">The instance of observer proxy</param>
         /// <param name="callback">The callback delegate that is to receive notifications</param>
-        public static IDisposable Subscribe(this IActorObserverProxy observer, Action<Notification> callback)
+        public static IDisposable Subscribe(this IClientObservable observer, Action<Notification> callback)
         {
             Requires.NotNull(callback, "callback");
 

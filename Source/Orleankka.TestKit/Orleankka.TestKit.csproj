@@ -46,7 +46,7 @@
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ActorSystemMock.cs" />
-    <Compile Include="ActorObserverProxyStub.cs" />
+    <Compile Include="ClientObservableStub.cs" />
     <Compile Include="ActorObserverCollectionMock.cs" />
     <Compile Include="ReminderServiceMock.cs" />
     <Compile Include="TimerServiceMock.cs" />
