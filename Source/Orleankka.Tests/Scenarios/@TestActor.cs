@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Orleans;
 
-namespace Orleankka
+namespace Orleankka.Scenarios
 {
     public class TestActor : Actor, ITestActor
     {

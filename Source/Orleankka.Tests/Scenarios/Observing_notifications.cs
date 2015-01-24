@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Orleankka.Scenarios
 {
     [TestFixture]
-    public class Observing_actors
+    public class Observing_notifications
     {
         IActorSystem system;
         IActorRef actor;
