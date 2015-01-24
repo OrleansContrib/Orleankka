@@ -71,11 +71,6 @@ namespace Orleankka
             return OnReminder(reminderName);
         }
 
-        protected Notification Notification(object message)
-        {
-            return new Notification(Path, message);
-        }
-
         NotImplementedException NotImplemented(string method)
         {
             return new NotImplementedException(string.Format(
