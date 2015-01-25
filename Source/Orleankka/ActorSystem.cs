@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 
 using Orleans.Runtime;
@@ -6,8 +7,7 @@ using Orleans.Runtime;
 namespace Orleankka
 {
     /// <summary>
-    /// Serves as factory for acquiring/dehydrating actor/observer references from their paths.
-    /// Also, in reverse, allows to get actor/observer paths from their references.
+    /// Serves as factory for acquiring actor/observer references from their paths.
     /// </summary>
     public interface IActorSystem
     {
@@ -19,18 +19,11 @@ namespace Orleankka
         IActorRef ActorOf(ActorPath path);
 
         /// <summary>
-        /// Dehydrates the reference to <see cref="IActorObserver"/> from its <see cref="ActorObserverPath"/>.
+        /// Acquires the reference to <see cref="IActorObserver"/> from its <see cref="ActorPath"/>.
         /// </summary>
         /// <param name="path">The path of actor observer.</param>
         /// <returns>The instance of <see cref="IActorObserver"/> </returns>
-        IActorObserver ObserverOf(ActorObserverPath path);
-
-        /// <summary>
-        /// Retruns the path of the given <see cref="IActorObserver"/> reference.
-        /// </summary>
-        /// <param name="observer">The actor observer reference.</param>
-        /// <returns>The isntance of <see cref="ActorObserverPath"/> </returns>
-        ActorObserverPath PathOf(IActorObserver observer);
+        IActorObserver ObserverOf(ActorPath path);
     }
 
     /// <summary>
@@ -39,13 +32,13 @@ namespace Orleankka
     public static class ActorSystemExtensions
     {
         /// <summary>
-        /// Acquires the reference for the given id and interface type of the actor.
+        /// Acquires the reference for the given id and type of the actor.
         /// </summary>
-        /// <typeparam name="TActor">The interface type of the actor</typeparam>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
         /// <returns>An actor reference</returns>
-        public static IActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static IActorRef ActorOf<TActor>(this IActorSystem system, string id)
         {
             return system.ActorOf(new ActorPath(typeof(TActor), id));
         }
@@ -68,16 +61,37 @@ namespace Orleankka
             return new ActorRef(path);
         }
         
-        IActorObserver IActorSystem.ObserverOf(ActorObserverPath path)
+        IActorObserver IActorSystem.ObserverOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
 
-            return ActorObserverFactory.ActorObserverReference.Cast(GrainReference.FromKeyString(path));
+            return ActorObserverFactory.ActorObserverReference.Cast(GrainReference.FromKeyString(path.Id));
         }
 
-        ActorObserverPath IActorSystem.PathOf(IActorObserver observer)
+        bool IsActor(Type type)
         {
-            return new ActorObserverPath(((GrainReference)observer).ToKeyString());
+            return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
+        }
+
+        static readonly ConcurrentDictionary<Type, Type> interfaceMap =
+            new ConcurrentDictionary<Type, Type>();
+
+        internal static Type InterfaceOf(Type type)
+        {
+            return interfaceMap.GetOrAdd(type, t =>
+            {
+                var found = t.GetInterfaces()
+                             .Except(t.GetInterfaces().SelectMany(x => x.GetInterfaces()))
+                             .Where(x => typeof(IActor).IsAssignableFrom(x))
+                             .Where(x => x != typeof(IActor))
+                             .ToArray();
+
+                if (!found.Any())
+                    throw new InvalidOperationException(
+                        String.Format("The type '{0}' does not implement any of IActor inherited interfaces", t));
+
+                return found[0];
+            });
         }
     }
 }

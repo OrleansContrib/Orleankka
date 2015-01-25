@@ -15,7 +15,7 @@ namespace Orleankka.Scenarios
 
         public TestActor()
         {
-            observers = new ActorObserverCollection(()=> Path);
+            observers = new ActorObserverCollection(()=> ActorPath);
         }
 
         public override Task OnTell(object message)
@@ -69,13 +69,13 @@ namespace Orleankka.Scenarios
 
         public Task Handle(Attach cmd)
         {
-            observers.Add(System.ObserverOf(cmd.Path));
+            observers.Add(System.ObserverOf(cmd.Sender));
             return TaskDone.Done;
         }
 
         public Task Handle(Detach cmd)
         {
-            observers.Remove(System.ObserverOf(cmd.Path));
+            observers.Remove(System.ObserverOf(cmd.Sender));
             return TaskDone.Done;
         }
     }

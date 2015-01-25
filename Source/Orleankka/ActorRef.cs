@@ -25,7 +25,7 @@ namespace Orleankka
 
         internal ActorRef(ActorPath path)
         {
-            actor = ActorFactory.Instance.GetReference(path.Type, path.Id);
+            actor = StaticActorFactory.Instance.GetReference(path.Type, path.Id);
         }
 
         public Task Tell(object message)

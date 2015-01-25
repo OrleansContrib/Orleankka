@@ -21,11 +21,11 @@ namespace Demo
     [Immutable, Serializable]
     public class MonitorAvailabilityChanges : Command
     {
-        public readonly ActorObserverPath Path;
+        public readonly ActorPath Sender;
 
-        public MonitorAvailabilityChanges(ActorObserverPath path)
+        public MonitorAvailabilityChanges(ActorPath sender)
         {
-            Path = path;
+            Sender = sender;
         }
     }
 

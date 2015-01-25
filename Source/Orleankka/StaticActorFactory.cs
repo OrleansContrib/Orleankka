@@ -9,14 +9,14 @@ using System.Reflection;
 
 namespace Orleankka
 {
-    internal class ActorFactory
+    internal class StaticActorFactory
     {
-        public static readonly ActorFactory Instance = new ActorFactory().Initialize();
+        public static readonly StaticActorFactory Instance = new StaticActorFactory().Initialize();
 
         readonly IDictionary<Type, Func<string, object>> grains = 
              new Dictionary<Type, Func<string, object>>();
 
-        ActorFactory Initialize()
+        StaticActorFactory Initialize()
         {
             var factories = LoadAssemblies()
                 .SelectMany(assembly => assembly.ExportedTypes)
@@ -50,7 +50,7 @@ namespace Orleankka
         static string GetAssemblyPath()
         {
             var builder = new UriBuilder(Assembly.GetExecutingAssembly().CodeBase);
-            return Path.GetDirectoryName(Uri.UnescapeDataString(builder.Path));
+            return System.IO.Path.GetDirectoryName(Uri.UnescapeDataString(builder.Path));
         }
 
         static bool ContainsOrleansGeneratedCode(string dll)

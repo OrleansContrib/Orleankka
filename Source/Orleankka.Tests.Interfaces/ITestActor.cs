@@ -58,22 +58,22 @@ namespace Orleankka
     [Immutable, Serializable]
     public class Attach : Command
     {
-        public ActorObserverPath Path;
+        public ActorPath Sender;
 
-        public Attach(ActorObserverPath path)
+        public Attach(ActorPath sender)
         {
-            Path = path;
+            Sender = sender;
         }
     }
 
     [Immutable, Serializable]
     public class Detach : Command
     {
-        public ActorObserverPath Path;
+        public ActorPath Sender;
 
-        public Detach(ActorObserverPath path)
+        public Detach(ActorPath sender)
         {
-            Path = path;
+            Sender = sender;
         }
     }
 

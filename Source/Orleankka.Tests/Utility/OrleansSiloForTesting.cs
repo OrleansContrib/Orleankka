@@ -83,7 +83,7 @@ namespace Orleankka.Utility
         static string ConfigurationFilePath(string configFileName)
         {
             var outputDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            return Path.Combine(outputDirectory, @"Utility\" + configFileName);
+            return System.IO.Path.Combine(outputDirectory, @"Utility\" + configFileName);
         }
     }
 }

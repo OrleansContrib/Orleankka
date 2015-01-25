@@ -31,9 +31,9 @@ namespace Orleankka
             this.system = system;
         }
 
-        public ActorPath Path
+        public ActorPath ActorPath
         {
-            get { return (path ?? (path = ActorPath.Map(GetType(), Id))); }
+            get { return (path ?? (path = new ActorPath(ActorSystem.InterfaceOf(GetType()), Id))); }
         }
 
         public string Id
@@ -43,7 +43,7 @@ namespace Orleankka
 
         public IActorRef Self()
         {
-            return system.ActorOf(Path);
+            return system.ActorOf(ActorPath);
         }
 
         public IActorSystem System

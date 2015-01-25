@@ -6,7 +6,7 @@ namespace Orleankka.TestKit
     public class ClientObservableStub : ClientObservable
     {
         protected ClientObservableStub()
-            : base(new ActorObserverPath(Guid.NewGuid().ToString("D")))
+            : base(new ActorPath(typeof(IActorObserver), Guid.NewGuid().ToString("D")))
         {}
 
         public override IDisposable Subscribe(IObserver<Notification> observer)

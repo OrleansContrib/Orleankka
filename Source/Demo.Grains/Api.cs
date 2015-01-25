@@ -22,7 +22,7 @@ namespace Demo
         public Api()
         {
             timers = new TimerService(this);
-            observers = new ActorObserverCollection(()=> Path);
+            observers = new ActorObserverCollection(()=> ActorPath);
             worker = ApiWorkerFactory.Create(()=> Id);
         }
 
@@ -51,7 +51,7 @@ namespace Demo
 
         public Task Handle(MonitorAvailabilityChanges cmd)
         {
-            observers.Add(System.ObserverOf(cmd.Path));
+            observers.Add(System.ObserverOf(cmd.Sender));
             return TaskDone.Done;
         }
 

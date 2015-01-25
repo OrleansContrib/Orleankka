@@ -20,23 +20,21 @@ namespace Orleankka
         public static async Task<ClientObservable> Create()
         {
             var observer = new ClientActorObserver();
-
             var proxy = await ActorObserverFactory.CreateObjectReference(observer);
-
             return new ClientObservable(observer, proxy);
         }
 
         readonly ClientActorObserver client;
         readonly IActorObserver proxy;
-        readonly ActorObserverPath path;
+        readonly ActorPath path;
 
-        protected ClientObservable(ActorObserverPath path)
+        protected ClientObservable(ActorPath path)
         {
             this.path = path;
         }
 
-        ClientObservable(ClientActorObserver client, IActorObserver proxy)
-            : this(ActorSystem.Instance.PathOf(proxy))
+        ClientObservable(ClientActorObserver client, IActorObserver proxy) 
+            : this(new ActorPath(typeof(IActorObserver), Identity.Of(proxy)))
         {
             this.client = client;
             this.proxy = proxy;
@@ -56,35 +54,23 @@ namespace Orleankka
         /// <value>
         /// The runtime path of the underlying observer proxy.
         /// </value>
-        public ActorObserverPath Path
+        public ActorPath Path
         {
             get { return path; }
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ClientObservable"/> to its <see cref="ActorObserverPath"/> runtime path.
+        /// Performs an implicit conversion from <see cref="ClientObservable"/> to its <see cref="ActorPath"/> runtime path.
         /// </summary>
         /// <param name="arg">The argument.</param>
         /// <returns>
         /// The runtime path of the underlying observer proxy.
         /// </returns>
-        public static implicit operator ActorObserverPath(ClientObservable arg)
+        public static implicit operator ActorPath(ClientObservable arg)
         {
             return arg.Path;
         }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="ClientObservable"/> to its <see cref="System.String"/> runtime key string.
-        /// </summary>
-        /// <param name="arg">The argument.</param>
-        /// <returns>
-        /// The runtime key string of the underlying observer proxy.
-        /// </returns>
-        public static implicit operator string(ClientObservable arg)
-        {
-            return arg.Path;
-        }
-
+        
         public virtual IDisposable Subscribe(IObserver<Notification> observer)
         {
             return client.Subscribe(observer);
@@ -137,13 +123,13 @@ namespace Orleankka
         /// <returns>
         /// A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.
         /// </returns>
-        /// <param name="observable">The instance of client observable proxy</param>
+        /// <param name="client">The instance of client observable proxy</param>
         /// <param name="callback">The callback delegate that is to receive notifications</param>
-        public static IDisposable Subscribe(this ClientObservable observable, Action<Notification> callback)
+        public static IDisposable Subscribe(this ClientObservable client, Action<Notification> callback)
         {
             Requires.NotNull(callback, "callback");
 
-            return observable.Subscribe(new DelegateObserver(callback));
+            return client.Subscribe(new DelegateObserver(callback));
         }
        
         class DelegateObserver : IObserver<Notification>
