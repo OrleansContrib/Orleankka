@@ -5,7 +5,7 @@ namespace Orleankka
 {
     public static class TestingExtensions
     {
-        public static IActorRef FreshActorOf<TActor>(this IActorSystem system)
+        public static ActorRef FreshActorOf<TActor>(this IActorSystem system)
         {
             return system.ActorOf<TActor>(Guid.NewGuid().ToString());
         }

@@ -6,19 +6,14 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
-    public class ActorRefStub : IActorRef
+    public class ActorRefStub : ActorRef
     {
-        ActorPath IActorRef.Path
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        Task IActorRef.Tell(object message)
+        public override Task Tell(object message)
         {
             return TaskDone.Done;
         }
 
-        Task<TResult> IActorRef.Ask<TResult>(object message)
+        public override Task<TResult> Ask<TResult>(object message)
         {
             return Task.FromResult(default(TResult));
         }

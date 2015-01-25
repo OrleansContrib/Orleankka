@@ -8,7 +8,7 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Unwrapping_exceptions
     {
-        static readonly IActorSystem system = new ActorSystem();
+        static readonly IActorSystem system = ActorSystem.Instance;
 
         [Test]
         public void Client_to_actor()
@@ -26,7 +26,7 @@ namespace Orleankka.Scenarios
             var another = system.FreshActorOf<ITestActor>();
 
             Assert.Throws<ApplicationException>(async ()=> await 
-                one.Tell(new DoTell(another.Path, new Throw(new ApplicationException("a-a")))));
+                one.Tell(new DoTell(another, new Throw(new ApplicationException("a-a")))));
         }
     }
 }

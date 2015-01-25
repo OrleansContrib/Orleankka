@@ -9,14 +9,8 @@ namespace Orleankka
     [TestFixture]
     public class ActorSystemFixture
     {
-        IActorSystem system;
+        readonly IActorSystem system = ActorSystem.Instance;
 
-        [SetUp]
-        public void SetUp()
-        {
-            system = new ActorSystem();
-        }
-        
         [Test]
         public void Should_throw_if_passed_type_is_not_an_interface_which_implements_IActor()
         {

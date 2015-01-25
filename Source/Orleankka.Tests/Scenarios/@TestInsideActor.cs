@@ -36,7 +36,7 @@ namespace Orleankka.Scenarios
 
         public Task Handle(DoAttach cmd)
         {
-            return ActorOf(cmd.Path).Tell(new Attach(Self));
+            return ActorOf(cmd.Path).Tell(new Attach(this));
         }
 
         public Task<Notification[]> Answer(GetReceivedNotifications query)

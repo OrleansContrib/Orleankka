@@ -10,7 +10,7 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Observing_notifications
     {
-        static readonly IActorSystem system = new ActorSystem();
+        static readonly IActorSystem system = ActorSystem.Instance;
 
         [Test]
         public async void Client_to_actor()
@@ -51,7 +51,7 @@ namespace Orleankka.Scenarios
             var one = system.FreshActorOf<ITestInsideActor>();
             var another = system.FreshActorOf<ITestActor>();
 
-            await one.Tell(new DoAttach(another.Path));
+            await one.Tell(new DoAttach(another));
             await another.Tell(new SetText("a-a"));
 
             await Task.Delay(TimeSpan.FromSeconds(2));
@@ -60,7 +60,7 @@ namespace Orleankka.Scenarios
             Assert.That(received.Length, Is.EqualTo(1));
 
             var notification = received[0];
-            Assert.That(notification.Source, Is.EqualTo(another.Path));
+            Assert.That(notification.Source, Is.EqualTo(another));
             Assert.That(notification.Message, Is.EqualTo("a-a"));
         }
     }

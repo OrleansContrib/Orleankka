@@ -14,7 +14,7 @@ namespace Orleankka
         IInternalTimerService 
     {
         string id;
-        ActorPath self;
+        ActorRef self;
         readonly IActorSystem system;
 
         protected Actor()
@@ -31,14 +31,14 @@ namespace Orleankka
             this.system = system;
         }
 
-        public ActorPath Self
+        public ActorRef Self
         {
-            get { return (self ?? (self = new ActorPath(ActorInterface.Of(GetType()), Id))); }
+            get { return (self ?? (self = ActorOf(new ActorPath(ActorInterface.Of(GetType()), Id)))); }
         }
 
         public string Id
         {
-            get { return (id ?? (id = Identity.Of((IActor)this))); }
+            get { return (id ?? (id = Identity.Of(this))); }
         }
 
         public IActorSystem System
@@ -79,7 +79,7 @@ namespace Orleankka
             );
         }
 
-        protected IActorRef ActorOf(ActorPath path)
+        protected ActorRef ActorOf(ActorPath path)
         {
             return System.ActorOf(path);
         }        
@@ -87,6 +87,11 @@ namespace Orleankka
         protected IActorObserver ObserverOf(ActorPath path)
         {
             return System.ObserverOf(path);
+        }
+
+        public static implicit operator ActorPath(Actor arg)
+        {
+            return arg.Self;
         }
 
         #region Internals

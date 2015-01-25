@@ -15,7 +15,7 @@ namespace Orleankka
         /// </summary>
         /// <param name="path">The actor path</param>
         /// <returns>An actor reference</returns>
-        IActorRef ActorOf(ActorPath path);
+        ActorRef ActorOf(ActorPath path);
 
         /// <summary>
         /// Acquires the reference to <see cref="IActorObserver"/> from its <see cref="ActorPath"/>.
@@ -37,7 +37,7 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
         /// <returns>An actor reference</returns>
-        public static IActorRef ActorOf<TActor>(this IActorSystem system, string id)
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id)
         {
             return system.ActorOf(new ActorPath(typeof(TActor), id));
         }
@@ -53,11 +53,14 @@ namespace Orleankka
         /// </summary>
         public static readonly IActorSystem Instance = new ActorSystem();
 
-        IActorRef IActorSystem.ActorOf(ActorPath path)
+        ActorSystem()
+        {}
+
+        ActorRef IActorSystem.ActorOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
 
-            if (!IsActor(path.Type))
+            if (!IsStaticActor(path.Type))
                 throw new ArgumentException("Path type should be an interface which implements IActor", "path");
             
             return new ActorRef(path, ActorRefFactory.Create(path));
@@ -70,13 +73,13 @@ namespace Orleankka
             if (path.Type == typeof(ClientObservable))
                 return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
 
-            if (IsActor(path.Type))
+            if (IsStaticActor(path.Type))
                 return ActorObserverFactory.Cast(ActorRefFactory.Create(path));
 
             throw new InvalidOperationException("Can't bind " + path.Type);
         }
 
-        static bool IsActor(Type type)
+        static bool IsStaticActor(Type type)
         {
             return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
         }

@@ -8,7 +8,7 @@ namespace Orleankka
 {
     static class Identity
     {
-        public static string Of(IActor actor)
+        public static string Of(Actor actor)
         {
             string id;
             actor.GetPrimaryKey(out id);

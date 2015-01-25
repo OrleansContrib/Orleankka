@@ -8,7 +8,7 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Request_response
     {
-        static readonly IActorSystem system = new ActorSystem();
+        static readonly IActorSystem system = ActorSystem.Instance;
 
         [Test]
         public async void Client_to_actor()
@@ -25,8 +25,8 @@ namespace Orleankka.Scenarios
             var one = system.FreshActorOf<ITestInsideActor>();
             var another = system.FreshActorOf<ITestActor>();
 
-            await one.Tell(new DoTell(another.Path, new SetText("a-a")));
-            Assert.AreEqual("a-a", await one.Ask(new DoAsk(another.Path, new GetText())));
+            await one.Tell(new DoTell(another, new SetText("a-a")));
+            Assert.AreEqual("a-a", await one.Ask(new DoAsk(another, new GetText())));
         }
     }
 }

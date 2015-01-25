@@ -8,17 +8,12 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
-    public class ActorRefMock : IActorRef
+    public class ActorRefMock : ActorRef
     {
         public readonly List<RecordedCommand> RecordedCommands = new List<RecordedCommand>();
         public readonly List<RecordedQuery> RecordedQueries = new List<RecordedQuery>();
 
         readonly List<IExpectation> expectations = new List<IExpectation>();
-
-        ActorPath IActorRef.Path
-        {
-            get { throw new NotImplementedException();}
-        }
 
         public CommandExpectation<TCommand> ExpectTell<TCommand>(Expression<Func<TCommand, bool>> match = null)
         {
@@ -34,7 +29,7 @@ namespace Orleankka.TestKit
             return expectation;
         }
 
-        public Task Tell(object message)
+        public override Task Tell(object message)
         {
             var expectation = Match(message);
             var expected = expectation != null;
@@ -48,7 +43,7 @@ namespace Orleankka.TestKit
             return TaskDone.Done;
         }
 
-        public Task<TResult> Ask<TResult>(object message)
+        public override Task<TResult> Ask<TResult>(object message)
         {
             var expectation = Match(message);
             var expected = expectation != null;

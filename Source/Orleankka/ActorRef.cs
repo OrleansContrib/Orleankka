@@ -4,26 +4,12 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
-    public interface IActorRef
-    {
-        Task Tell(object message);
-        
-        Task<TResult> Ask<TResult>(object message);
-
-        ActorPath Path {get;}
-    }
-
-    public static class ActorRefExtensions
-    {
-        public static Task<object> Ask(this IActorRef @ref, object message)
-        {
-            return @ref.Ask<object>(message);
-        }
-    }
-
-    class ActorRef : IActorRef
+    public class ActorRef : IEquatable<ActorPath>
     {
         readonly IActor actor;
+
+        protected ActorRef()
+        {}
 
         internal ActorRef(ActorPath path, IActor actor)
         {
@@ -36,7 +22,7 @@ namespace Orleankka
             get; private set;
         }
 
-        public Task Tell(object message)
+        public virtual Task Tell(object message)
         {
             Requires.NotNull(message, "message");
 
@@ -45,13 +31,31 @@ namespace Orleankka
                     .UnwrapExceptions();
         }
 
-        public async Task<TResult> Ask<TResult>(object message)
+        public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, "message");
 
             return (TResult) await actor
                     .OnAsk(message)
                     .UnwrapExceptions();
+        }
+
+        public static implicit operator ActorPath(ActorRef arg)
+        {
+            return arg.Path;
+        }
+
+        public bool Equals(ActorPath other)
+        {
+            return Path.Equals(other);
+        }
+    }
+
+    public static class ActorRefExtensions
+    {
+        public static Task<object> Ask(this ActorRef @ref, object message)
+        {
+            return @ref.Ask<object>(message);
         }
     }
 }

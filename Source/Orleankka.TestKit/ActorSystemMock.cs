@@ -28,7 +28,7 @@ namespace Orleankka.TestKit
             return mock;
         }
 
-        IActorRef IActorSystem.ActorOf(ActorPath path)
+        ActorRef IActorSystem.ActorOf(ActorPath path)
         {
             if (expected.ContainsKey(path))
                 return expected[path];

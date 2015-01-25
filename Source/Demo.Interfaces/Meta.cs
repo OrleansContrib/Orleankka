@@ -20,12 +20,12 @@ namespace Demo
 
     public static class ActorRefExtensions
     {
-        public static Task Send(this IActorRef @ref, Command cmd)
+        public static Task Send(this ActorRef @ref, Command cmd)
         {
             return @ref.Tell(cmd);
         }
 
-        public static Task<TResult> Query<TResult>(this IActorRef @ref, Query<TResult> query)
+        public static Task<TResult> Query<TResult>(this ActorRef @ref, Query<TResult> query)
         {
             return @ref.Ask<TResult>(query);
         }

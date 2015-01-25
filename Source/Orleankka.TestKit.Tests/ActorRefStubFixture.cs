@@ -8,7 +8,7 @@ namespace Orleankka.TestKit
     [TestFixture]
     public class ActorRefStubFixture
     {
-        IActorRef stub;
+        ActorRefStub stub;
 
         [SetUp]
         public void SetUp()
