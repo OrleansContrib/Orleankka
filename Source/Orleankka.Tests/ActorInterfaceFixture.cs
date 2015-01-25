@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Orleankka
 {
     [TestFixture]
-    public class ActorInterfaceMapFixture
+    public class ActorInterfaceFixture
     {
         [Test]
         public void Should_find_closest_IActor_inherited_interface()

@@ -11,11 +11,16 @@ namespace Orleankka
         public readonly Type Type;
         public readonly string Id;
 
-        public ActorPath(Type type, string id)
+        public static ActorPath Of(Type type, string id)
         {
             Requires.NotNull(type, "type");
             Requires.NotNullOrWhitespace(id, "id");
             
+            return new ActorPath(type, id);
+        }
+
+        internal ActorPath(Type type, string id)
+        {           
             Type = type;
             Id = id;
         }

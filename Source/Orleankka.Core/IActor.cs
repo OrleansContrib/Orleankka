@@ -9,7 +9,6 @@ namespace Orleankka
     public interface IActor : IGrainWithStringKey, IRemindable
     {
         Task OnTell(object message);
-
         Task<object> OnAsk(object message);
     }
 }

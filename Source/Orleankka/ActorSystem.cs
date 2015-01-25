@@ -63,7 +63,7 @@ namespace Orleankka
             if (!IsStaticActor(path.Type))
                 throw new ArgumentException("Path type should be an interface which implements IActor", "path");
             
-            return new ActorRef(path, ActorRefFactory.Create(path));
+            return new ActorRef(path, StaticActorFactory.Create(path));
         }
         
         IActorObserver IActorSystem.ObserverOf(ActorPath path)
@@ -74,7 +74,7 @@ namespace Orleankka
                 return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
 
             if (IsStaticActor(path.Type))
-                return ActorObserverFactory.Cast(ActorRefFactory.Create(path));
+                return ActorObserverFactory.Cast(StaticActorFactory.Create(path));
 
             throw new InvalidOperationException("Can't bind " + path.Type);
         }

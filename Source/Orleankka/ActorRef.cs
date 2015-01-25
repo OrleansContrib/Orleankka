@@ -45,7 +45,7 @@ namespace Orleankka
             return arg.Path;
         }
 
-        public bool Equals(ActorPath other)
+        bool IEquatable<ActorPath>.Equals(ActorPath other)
         {
             return Path.Equals(other);
         }

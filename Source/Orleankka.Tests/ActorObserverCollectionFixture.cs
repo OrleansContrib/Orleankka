@@ -10,21 +10,18 @@ namespace Orleankka
     [TestFixture]
     public class ActorObserverCollectionFixture
     {
+        const string message = "foo";
+        static readonly ActorPath source = new ActorPath(typeof(ITestActor), "some-id");
+
         IActorObserverCollection collection;
-        ActorObserverClient client;
+        ActorObserver observer;
         IActorObserver proxy;
-        ActorPath source;
-        string message;
 
         [SetUp]
         public void SetUp()
         {
-            client = new ActorObserverClient();
-            proxy  = ActorObserverFactory.CreateObjectReference(client).Result;
-
-            message = "foo";
-            source  = new ActorPath(typeof(ITestActor), "some-id");
-            
+            observer = new ActorObserver();
+            proxy = ActorObserverFactory.CreateObjectReference(observer).Result;
             collection = new ActorObserverCollection(()=> source);
         }
 
@@ -40,11 +37,11 @@ namespace Orleankka
             collection.Add(proxy);
             collection.Notify(message);
 
-            client.Received.WaitOne(TimeSpan.FromSeconds(5));
-            Assert.That(client.Notifications.Count, 
+            observer.Received.WaitOne(TimeSpan.FromSeconds(5));
+            Assert.That(observer.Notifications.Count, 
                 Is.EqualTo(1));
 
-            var notification = client.Notifications[0];
+            var notification = observer.Notifications[0];
             
             Assert.That(notification.Source, Is.EqualTo(source));
             Assert.That(notification.Message, Is.EqualTo(message));
@@ -69,7 +66,7 @@ namespace Orleankka
             Assert.AreEqual(0, collection.Count());
         }
 
-        class ActorObserverClient : IActorObserver
+        class ActorObserver : IActorObserver
         {
             public readonly List<Notification> Notifications = new List<Notification>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);

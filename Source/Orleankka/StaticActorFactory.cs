@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Orleankka
 {
-    static class ActorRefFactory
+    static class StaticActorFactory
     {
         static readonly ConcurrentDictionary<Type, Func<string, IActor>> cache =
                     new ConcurrentDictionary<Type, Func<string, IActor>>();

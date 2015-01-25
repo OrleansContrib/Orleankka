@@ -17,7 +17,7 @@ namespace Orleankka.TestKit
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
-            var path = new ActorPath(typeof(TActor), id);
+            var path = ActorPath.Of(typeof(TActor), id);
 
             if (expected.ContainsKey(path))
                 return expected[path];

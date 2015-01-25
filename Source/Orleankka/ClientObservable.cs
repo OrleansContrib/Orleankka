@@ -11,7 +11,7 @@ namespace Orleankka
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    public class ClientObservable : IObservable<Notification>, IDisposable
+    public class ClientObservable : IObservable<Notification>, IEquatable<ActorPath>, IDisposable
     {
         /// <summary>
         /// Creates new <see cref="ClientObservable"/>
@@ -69,6 +69,11 @@ namespace Orleankka
         public static implicit operator ActorPath(ClientObservable arg)
         {
             return arg.Path;
+        }
+
+        bool IEquatable<ActorPath>.Equals(ActorPath other)
+        {
+            return path.Equals(other);
         }
         
         public virtual IDisposable Subscribe(IObserver<Notification> observer)

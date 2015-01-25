@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="ActivationService.cs" />
     <Compile Include="ActorInterface.cs" />
-    <Compile Include="ActorRefFactory.cs" />
+    <Compile Include="StaticActorFactory.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="ActorObserverCollection.cs" />
     <Compile Include="ActorSystem.cs" />
