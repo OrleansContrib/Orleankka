@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Linq;
 
 using Orleans.Runtime;
@@ -58,40 +57,16 @@ namespace Orleankka
         {
             Requires.NotNull(path, "path");
 
-            return new ActorRef(path);
+            return ActorRefFactory.Create(path);
         }
         
         IActorObserver IActorSystem.ObserverOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
 
-            return ActorObserverFactory.ActorObserverReference.Cast(GrainReference.FromKeyString(path.Id));
-        }
+            var reference = GrainReference.FromKeyString(path.Id);
 
-        bool IsActor(Type type)
-        {
-            return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
-        }
-
-        static readonly ConcurrentDictionary<Type, Type> interfaceMap =
-            new ConcurrentDictionary<Type, Type>();
-
-        internal static Type InterfaceOf(Type type)
-        {
-            return interfaceMap.GetOrAdd(type, t =>
-            {
-                var found = t.GetInterfaces()
-                             .Except(t.GetInterfaces().SelectMany(x => x.GetInterfaces()))
-                             .Where(x => typeof(IActor).IsAssignableFrom(x))
-                             .Where(x => x != typeof(IActor))
-                             .ToArray();
-
-                if (!found.Any())
-                    throw new InvalidOperationException(
-                        String.Format("The type '{0}' does not implement any of IActor inherited interfaces", t));
-
-                return found[0];
-            });
+            return ActorObserverFactory.ActorObserverReference.Cast(reference);
         }
     }
 }

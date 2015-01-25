@@ -33,7 +33,7 @@ namespace Orleankka
 
         public ActorPath ActorPath
         {
-            get { return (path ?? (path = new ActorPath(ActorSystem.InterfaceOf(GetType()), Id))); }
+            get { return (path ?? (path = new ActorPath(ActorInterface.Of(GetType()), Id))); }
         }
 
         public string Id
