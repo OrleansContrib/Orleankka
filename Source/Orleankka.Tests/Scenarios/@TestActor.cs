@@ -69,13 +69,13 @@ namespace Orleankka.Scenarios
 
         public Task Handle(Attach cmd)
         {
-            observers.Add(System.ObserverOf(cmd.Sender));
+            observers.Add(ObserverOf(cmd.Observer));
             return TaskDone.Done;
         }
 
         public Task Handle(Detach cmd)
         {
-            observers.Remove(System.ObserverOf(cmd.Sender));
+            observers.Remove(ObserverOf(cmd.Observer));
             return TaskDone.Done;
         }
     }

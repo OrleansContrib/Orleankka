@@ -8,7 +8,7 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
-    public abstract class Actor : Grain, IActor, 
+    public abstract class Actor : Grain, IActor, IActorObserver,
         IInternalActivationService, 
         IInternalReminderService,
         IInternalTimerService 
@@ -38,12 +38,12 @@ namespace Orleankka
 
         public string Id
         {
-            get { return (id ?? (id = Identity.Of(this))); }
+            get { return (id ?? (id = Identity.Of((IActor)this))); }
         }
 
         public IActorRef Self()
         {
-            return system.ActorOf(ActorPath);
+            return ActorOf(ActorPath);
         }
 
         public IActorSystem System
@@ -66,6 +66,11 @@ namespace Orleankka
             throw NotImplemented("OnReminder");
         }
 
+        public void OnNext(Notification notification)
+        {
+            throw NotImplemented("OnNext");
+        }
+
         Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
         {
             return OnReminder(reminderName);
@@ -77,6 +82,16 @@ namespace Orleankka
                 "Override {0}() method in class {1} to implement corresponding behavior", 
                 method, GetType())
             );
+        }
+
+        protected IActorRef ActorOf(ActorPath path)
+        {
+            return System.ActorOf(path);
+        }        
+        
+        protected IActorObserver ObserverOf(ActorPath path)
+        {
+            return System.ObserverOf(path);
         }
 
         #region Internals
