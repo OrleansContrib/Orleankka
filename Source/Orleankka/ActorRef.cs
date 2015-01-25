@@ -4,14 +4,20 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    interface IActorProxy
+    {
+        Task OnTell(object message);
+        Task<object> OnAsk(object message);
+    }
+
     public class ActorRef : IEquatable<ActorPath>
     {
-        readonly IActor actor;
+        readonly IActorProxy actor;
 
         protected ActorRef()
         {}
 
-        internal ActorRef(ActorPath path, IActor actor)
+        internal ActorRef(ActorPath path, IActorProxy actor)
         {
             Path = path;
             this.actor = actor;

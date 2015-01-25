@@ -21,6 +21,17 @@ namespace Orleankka
     {}
 
     [Immutable, Serializable]
+    public class TextChanged : Event
+    {
+        public readonly string Text;
+
+        public TextChanged(string text)
+        {
+            Text = text;
+        }
+    }
+
+    [Immutable, Serializable]
     public class Throw : Command
     {
         public readonly Exception Exception;

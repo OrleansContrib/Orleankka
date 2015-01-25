@@ -37,11 +37,18 @@ namespace Orleankka.Utility
 
         public OrleansSiloForTesting()
         {
+            var setup = AppDomain.CurrentDomain.SetupInformation;
+
             domain = AppDomain.CreateDomain("OrleansSiloForTesting", null, new AppDomainSetup
             {
                 AppDomainInitializer = Start,
                 AppDomainInitializerArguments = new string[0],
-                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory
+                ApplicationBase = setup.ApplicationBase,
+                CachePath = setup.CachePath,
+                ConfigurationFile = setup.ConfigurationFile,
+                PrivateBinPath = setup.PrivateBinPath,
+                ShadowCopyDirectories = setup.ShadowCopyDirectories,
+                ShadowCopyFiles = setup.ShadowCopyFiles
             });
 
             var clientConfigFileName = ConfigurationFilePath("OrleansClientConfigurationForTesting.xml");

@@ -31,6 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -64,6 +68,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
+    <Compile Include="Scenarios\Dynamic\%40TestActor.cs" />
+    <Compile Include="Scenarios\Dynamic\%40TestInsideActor.cs" />
+    <Compile Include="Scenarios\Dynamic\%40Bootstrapper.cs" />
+    <Compile Include="Scenarios\Dynamic\Observing_notifications.cs" />
+    <Compile Include="Scenarios\Dynamic\Request_response.cs" />
+    <Compile Include="Scenarios\Dynamic\Unwrapping_exceptions.cs" />
     <Compile Include="Scenarios\Observing_notifications.cs" />
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\Unwrapping_exceptions.cs" />

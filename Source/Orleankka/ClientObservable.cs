@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans.Runtime;
+
 namespace Orleankka
 {
     /// <summary>
@@ -34,7 +36,7 @@ namespace Orleankka
         }
 
         ClientObservable(ClientActorObserver client, IActorObserver proxy)
-            : this(new ActorPath(typeof(ClientObservable), Identity.Of(proxy)))
+            : this(new ActorPath(typeof(ClientObservable), ((GrainReference)proxy).ToKeyString()))
         {
             this.client = client;
             this.proxy = proxy;
@@ -117,6 +119,16 @@ namespace Orleankka
                     owner.observer = null;
                 }
             }
+        }
+
+        internal static bool IsCompatible(ActorPath path)
+        {
+            return path.Type == typeof(ClientObservable);
+        }
+
+        internal static IActorObserver Observer(ActorPath path)
+        {
+            return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
         }
     }
 

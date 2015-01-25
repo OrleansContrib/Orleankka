@@ -1,6 +1,10 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -33,12 +37,12 @@ namespace Orleankka
 
         public ActorRef Self
         {
-            get { return (self ?? (self = ActorOf(new ActorPath(ActorInterface.Of(GetType()), Id)))); }
+            get { return (self ?? (self = ActorOf(new ActorPath(Interface.Of(GetType()), Id)))); }
         }
 
         public string Id
         {
-            get { return (id ?? (id = Identity.Of(this))); }
+            get { return (id ?? (id = RuntimeIdentity(this))); }
         }
 
         public IActorSystem System
@@ -73,7 +77,7 @@ namespace Orleankka
 
         NotImplementedException NotImplemented(string method)
         {
-            return new NotImplementedException(string.Format(
+            return new NotImplementedException(String.Format(
                 "Override {0}() method in class {1} to implement corresponding behavior", 
                 method, GetType())
             );
@@ -132,5 +136,116 @@ namespace Orleankka
         }
 
         #endregion
+
+        static string RuntimeIdentity(Actor actor)
+        {
+            string id;
+            actor.GetPrimaryKey(out id);
+            return id;
+        }        
+
+        internal static bool IsCompatible(Type type)
+        {
+            return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
+        }
+
+        internal static IActorObserver Observer(ActorPath path)
+        {
+            return ActorObserverFactory.Cast(Factory.Create(path));
+        }
+
+        internal static IActorProxy Proxy(ActorPath path)
+        {
+            return new ActorProxy(Factory.Create(path));
+        }
+
+        class ActorProxy : IActorProxy
+        {
+            readonly IActor actor;
+
+            public ActorProxy(IActor actor)
+            {
+                this.actor = actor;
+            }
+
+            public Task OnTell(object message)
+            {
+                return actor.OnTell(message);
+            }
+
+            public Task<object> OnAsk(object message)
+            {
+                return actor.OnAsk(message);
+            }
+        }
+
+        static class Factory
+        {
+            static readonly ConcurrentDictionary<Type, Func<string, IActor>> cache =
+                        new ConcurrentDictionary<Type, Func<string, IActor>>();
+
+            public static IActor Create(ActorPath path)
+            {
+                var create = cache.GetOrAdd(path.Type, type =>
+                {
+                    var factory = type.Assembly
+                        .ExportedTypes
+                        .Where(IsOrleansCodegenedFactory)
+                        .SingleOrDefault(x => x.GetMethod("Cast").ReturnType == type);
+
+                    if (factory == null)
+                        throw new ApplicationException("Can't find factory class for " + type);
+
+                    return Bind(factory);
+                });
+
+                return create(path.Id);
+            }
+
+            static bool IsOrleansCodegenedFactory(Type type)
+            {
+                return type.GetCustomAttributes(typeof(GeneratedCodeAttribute), true)
+                           .Cast<GeneratedCodeAttribute>()
+                           .Any(x => x.Tool == "Orleans-CodeGenerator")
+                       && type.Name.EndsWith("Factory");
+            }
+
+            static Func<string, IActor> Bind(IReflect factory)
+            {
+                var method = factory.GetMethod("GetGrain",
+                    BindingFlags.Public | BindingFlags.Static, null,
+                    new[] { typeof(string) }, null);
+
+                var argument = Expression.Parameter(typeof(string), "primaryKey");
+                var call = Expression.Call(method, new Expression[] { argument });
+                var lambda = Expression.Lambda<Func<string, IActor>>(call, argument);
+
+                return lambda.Compile();
+            }
+        }
+
+        internal static class Interface
+        {
+            static readonly ConcurrentDictionary<Type, Type> cache =
+                        new ConcurrentDictionary<Type, Type>();
+
+            public static Type Of(Type type)
+            {
+                return cache.GetOrAdd(type, t =>
+                {
+                    var found = t.GetInterfaces()
+                                 .Except(t.GetInterfaces().SelectMany(x => x.GetInterfaces()))
+                                 .Where(x => typeof(IActor).IsAssignableFrom(x))
+                                 .Where(x => x != typeof(IActor))
+                                 .ToArray();
+
+                    if (!found.Any())
+                        throw new InvalidOperationException(
+                            String.Format("The type '{0}' does not implement any of IActor inherited interfaces", t));
+
+                    return found[0];
+                });
+            }
+        }
     }
 }

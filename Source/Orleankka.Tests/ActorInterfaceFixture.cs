@@ -11,15 +11,13 @@ namespace Orleankka
         [Test]
         public void Should_find_closest_IActor_inherited_interface()
         {
-            Assert.That(ActorInterface.Of(typeof(ActorClass)), 
-                Is.SameAs(typeof(IActorFinalInterface)));
+            Assert.That(Actor.Interface.Of(typeof(ActorClass)),  Is.SameAs(typeof(IActorFinalInterface)));
         }
 
         [Test]
         public void But_which_is_not_IActor_itself()
         {
-            Assert.Throws<InvalidOperationException>(() =>
-                ActorInterface.Of(typeof(BadActorClass)));
+            Assert.Throws<InvalidOperationException>(() => Actor.Interface.Of(typeof(BadActorClass)));
         }
 
         interface IActorSubInterface : IActor {}

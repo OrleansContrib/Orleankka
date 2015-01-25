@@ -48,8 +48,11 @@
   <ItemGroup>
     <Compile Include="ActorPath.cs" />
     <Compile Include="Annotations.cs" />
+    <Compile Include="Dynamic\IDynamicActorObserver.cs" />
+    <Compile Include="Dynamic\DynamicNotification.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IActorObserver.cs" />
+    <Compile Include="Dynamic\IDynamicActor.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

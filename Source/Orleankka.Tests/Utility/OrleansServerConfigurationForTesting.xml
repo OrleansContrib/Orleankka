@@ -5,7 +5,10 @@
       <Provider Type="Orleans.Storage.MemoryStorage" 
                 Name="MemoryStore" />
     </StorageProviders>
-    <SeedNode Address="localhost" Port="11111" />
+    <BootstrapProviders>
+      <Provider Type="Orleankka.Scenarios.Dynamic.Bootstrapper" Name="Boot"/>
+    </BootstrapProviders>
+    <SeedNode Address="localhost" Port="11111" />    
   </Globals>
   <Defaults>
     <Networking Address="localhost" Port="11111" />

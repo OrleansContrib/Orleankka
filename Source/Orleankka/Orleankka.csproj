@@ -45,14 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivationService.cs" />
-    <Compile Include="ActorInterface.cs" />
-    <Compile Include="StaticActorFactory.cs" />
+    <Compile Include="DynamicActor.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="ActorObserverCollection.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="ActorRef.cs" />
+    <Compile Include="DynamicActorHost.cs" />
     <Compile Include="Internals.cs" />
-    <Compile Include="Identity.cs" />
     <Compile Include="ClientObservable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\AggregateExceptionExtensions.cs" />
