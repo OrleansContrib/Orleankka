@@ -9,24 +9,29 @@ namespace Orleankka
 {
     static class ActorRefFactory
     {
-        static readonly ConcurrentDictionary<Type, Func<string, object>> cache =
-                    new ConcurrentDictionary<Type, Func<string, object>>();
+        static readonly ConcurrentDictionary<Type, Func<string, IActor>> cache =
+                    new ConcurrentDictionary<Type, Func<string, IActor>>();
 
-        public static ActorRef Create(ActorPath path)
+        public static IActor Create(ActorPath path)
         {
-            return new ActorRef((IActor)cache.GetOrAdd(path.Type, type =>
+            var factory = FactoryOf(path.Type);
+            return factory(path.Id);
+        }
+
+        static Func<string, IActor> FactoryOf(Type type)
+        {
+            return cache.GetOrAdd(type, t =>
             {
-                var factory = type.Assembly
-                                   .ExportedTypes
-                                   .Where(IsOrleansCodegenedFactory)
-                                   .SingleOrDefault(x => x.GetMethod("Cast").ReturnType == type);
+                var factory = t.Assembly
+                    .ExportedTypes
+                    .Where(IsOrleansCodegenedFactory)
+                    .SingleOrDefault(x => x.GetMethod("Cast").ReturnType == t);
 
                 if (factory == null)
-                    throw new ApplicationException("Can't find factory class for " + type);
+                    throw new ApplicationException("Can't find factory class for " + t);
 
                 return Bind(factory);
-            })
-            (path.Id));
+            });
         }
 
         static bool IsOrleansCodegenedFactory(Type type)
@@ -37,7 +42,7 @@ namespace Orleankka
                    && type.Name.EndsWith("Factory");
         }
 
-        static Func<string, object> Bind(IReflect factory)
+        static Func<string, IActor> Bind(IReflect factory)
         {
             var method = factory.GetMethod("GetGrain",
                 BindingFlags.Public | BindingFlags.Static, null,
@@ -45,7 +50,7 @@ namespace Orleankka
 
             var argument = Expression.Parameter(typeof(string), "primaryKey");
             var call = Expression.Call(method, new Expression[] {argument});
-            var lambda = Expression.Lambda<Func<string, object>>(call, argument);
+            var lambda = Expression.Lambda<Func<string, IActor>>(call, argument);
 
             return lambda.Compile();
         }

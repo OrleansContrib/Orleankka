@@ -26,10 +26,5 @@ namespace Orleankka
                 return found[0];
             });
         }
-
-        public static bool IsActor(Type type)
-        {
-            return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
-        }
     }
 }

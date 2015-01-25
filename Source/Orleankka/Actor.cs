@@ -14,7 +14,7 @@ namespace Orleankka
         IInternalTimerService 
     {
         string id;
-        ActorPath path;
+        ActorPath self;
         readonly IActorSystem system;
 
         protected Actor()
@@ -31,19 +31,14 @@ namespace Orleankka
             this.system = system;
         }
 
-        public ActorPath ActorPath
+        public ActorPath Self
         {
-            get { return (path ?? (path = new ActorPath(ActorInterface.Of(GetType()), Id))); }
+            get { return (self ?? (self = new ActorPath(ActorInterface.Of(GetType()), Id))); }
         }
 
         public string Id
         {
             get { return (id ?? (id = Identity.Of((IActor)this))); }
-        }
-
-        public IActorRef Self()
-        {
-            return ActorOf(ActorPath);
         }
 
         public IActorSystem System
@@ -66,7 +61,7 @@ namespace Orleankka
             throw NotImplemented("OnReminder");
         }
 
-        public void OnNext(Notification notification)
+        public virtual void OnNext(Notification notification)
         {
             throw NotImplemented("OnNext");
         }

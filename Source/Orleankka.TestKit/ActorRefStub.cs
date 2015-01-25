@@ -8,12 +8,17 @@ namespace Orleankka.TestKit
 {
     public class ActorRefStub : IActorRef
     {
-        public Task Tell(object message)
+        ActorPath IActorRef.Path
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        Task IActorRef.Tell(object message)
         {
             return TaskDone.Done;
         }
 
-        public Task<TResult> Ask<TResult>(object message)
+        Task<TResult> IActorRef.Ask<TResult>(object message)
         {
             return Task.FromResult(default(TResult));
         }

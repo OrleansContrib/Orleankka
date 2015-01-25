@@ -33,8 +33,8 @@ namespace Orleankka
             this.path = path;
         }
 
-        ClientObservable(ClientActorObserver client, IActorObserver proxy) 
-            : this(new ActorPath(typeof(IActorObserver), Identity.Of(proxy)))
+        ClientObservable(ClientActorObserver client, IActorObserver proxy)
+            : this(new ActorPath(typeof(ClientObservable), Identity.Of(proxy)))
         {
             this.client = client;
             this.proxy = proxy;

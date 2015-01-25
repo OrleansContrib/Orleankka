@@ -8,14 +8,12 @@ namespace Orleankka.Scenarios
 {
     public class TestActor : Actor, ITestActor
     {
-        string fooText = "";
-        string barText = "";
-
         readonly IActorObserverCollection observers;
+        string text = "";
 
         public TestActor()
         {
-            observers = new ActorObserverCollection(()=> ActorPath);
+            observers = new ActorObserverCollection(()=> Self);
         }
 
         public override Task OnTell(object message)
@@ -28,43 +26,16 @@ namespace Orleankka.Scenarios
             return await this.Answer((dynamic)message);
         }
 
-        public Task Handle(DoFoo cmd)
+        public Task Handle(SetText cmd)
         {
-            fooText = cmd.Text;
+            text = cmd.Text;
+            observers.Notify(cmd.Text);
             return TaskDone.Done;
         }
 
-        public Task Handle(DoBar cmd)
+        public Task<string> Answer(GetText query)
         {
-            barText = cmd.Text;
-            return TaskDone.Done;
-        }
-
-        public Task Handle(Throw cmd)
-        {
-            throw cmd.Exception;
-        }
-
-        public Task<string> Answer(GetFoo query)
-        {
-            return Task.FromResult(fooText + "-" + Id);
-        }
-
-        public Task<string> Answer(GetBar query)
-        {
-            return Task.FromResult(barText + "-" + Id);
-        }
-
-        public Task Handle(PublishFoo cmd)
-        {
-            observers.Notify(new FooPublished {Foo = cmd.Foo});
-            return TaskDone.Done;
-        }
-
-        public Task Handle(PublishBar cmd)
-        {
-            observers.Notify(new BarPublished {Bar = cmd.Bar});
-            return TaskDone.Done;
+            return Task.FromResult(text);
         }
 
         public Task Handle(Attach cmd)
@@ -73,10 +44,9 @@ namespace Orleankka.Scenarios
             return TaskDone.Done;
         }
 
-        public Task Handle(Detach cmd)
+        public Task Handle(Throw cmd)
         {
-            observers.Remove(ObserverOf(cmd.Observer));
-            return TaskDone.Done;
+            throw cmd.Exception;
         }
     }
 }

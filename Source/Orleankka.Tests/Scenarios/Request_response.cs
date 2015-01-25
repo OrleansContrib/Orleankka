@@ -8,30 +8,25 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Request_response
     {
-        IActorSystem system;
-        IActorRef actor;
+        static readonly IActorSystem system = new ActorSystem();
 
-        [SetUp]
-        public void SetUp()
+        [Test]
+        public async void Client_to_actor()
         {
-            system = new ActorSystem();
-            actor  = system.ActorOf<ITestActor>("test");
+            var actor = system.FreshActorOf<ITestActor>();
+            
+            await actor.Tell(new SetText("c-a"));
+            Assert.AreEqual("c-a", await actor.Ask(new GetText()));
         }
 
         [Test]
-        public void When_tell()
+        public async void Actor_to_actor()
         {
-            Assert.DoesNotThrow(
-                async ()=> await actor.Tell(new DoFoo()));
-        }
+            var one = system.FreshActorOf<ITestInsideActor>();
+            var another = system.FreshActorOf<ITestActor>();
 
-        [Test]
-        public async void When_ask()
-        {
-            await actor.Tell(new DoFoo {Text = "foo"});
-
-            Assert.AreEqual("foo-test", 
-                await actor.Ask(new GetFoo()));
+            await one.Tell(new DoTell(another.Path, new SetText("a-a")));
+            Assert.AreEqual("a-a", await one.Ask(new DoAsk(another.Path, new GetText())));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Orleankka.TestKit
     [TestFixture]
     public class ActorRefStubFixture
     {
-        ActorRefStub stub;
+        IActorRef stub;
 
         [SetUp]
         public void SetUp()
@@ -28,8 +28,5 @@ namespace Orleankka.TestKit
             Assert.AreEqual(default(int), await stub.Ask<int>(new object()));
             Assert.AreEqual(default(object), await stub.Ask(new object()));
         }
-
-        interface ITestActor : IActor
-        {}
     }
 }

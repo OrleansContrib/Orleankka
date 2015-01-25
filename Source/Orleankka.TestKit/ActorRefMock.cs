@@ -15,6 +15,11 @@ namespace Orleankka.TestKit
 
         readonly List<IExpectation> expectations = new List<IExpectation>();
 
+        ActorPath IActorRef.Path
+        {
+            get { throw new NotImplementedException();}
+        }
+
         public CommandExpectation<TCommand> ExpectTell<TCommand>(Expression<Func<TCommand, bool>> match = null)
         {
             var expectation = new CommandExpectation<TCommand>(match ?? (_ => true));

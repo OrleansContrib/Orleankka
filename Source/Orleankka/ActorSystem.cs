@@ -57,16 +57,28 @@ namespace Orleankka
         {
             Requires.NotNull(path, "path");
 
-            return ActorRefFactory.Create(path);
+            if (!IsActor(path.Type))
+                throw new ArgumentException("Path type should be an interface which implements IActor", "path");
+            
+            return new ActorRef(path, ActorRefFactory.Create(path));
         }
         
         IActorObserver IActorSystem.ObserverOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
 
-            var reference = GrainReference.FromKeyString(path.Id);
+            if (path.Type == typeof(ClientObservable))
+                return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
 
-            return ActorObserverFactory.ActorObserverReference.Cast(reference);
+            if (IsActor(path.Type))
+                return ActorObserverFactory.Cast(ActorRefFactory.Create(path));
+
+            throw new InvalidOperationException("Can't bind " + path.Type);
+        }
+
+        static bool IsActor(Type type)
+        {
+            return type.IsInterface && type != typeof(IActor) && typeof(IActor).IsAssignableFrom(type);
         }
     }
 }

@@ -6,53 +6,29 @@ using Orleans.Concurrency;
 namespace Orleankka
 {
     [Immutable, Serializable]
-    public class DoFoo : Command
+    public class SetText : Command
     {
-        public string Text;
+        public readonly string Text;
+
+        public SetText(string text)
+        {
+            Text = text;
+        }
     }
 
     [Immutable, Serializable]
-    public class DoBar : Command
-    {
-        public string Text;
-    }
-
-    [Immutable, Serializable]
-    public class GetFoo : Query<string> 
-    {}
-
-    [Immutable, Serializable]
-    public class GetBar : Query<string> 
+    public class GetText : Query<string> 
     {}
 
     [Immutable, Serializable]
     public class Throw : Command
     {
-        public Exception Exception;
-    }
+        public readonly Exception Exception;
 
-    [Immutable, Serializable]
-    public class PublishFoo : Command
-    {
-        public string Foo;
-    }
-
-    [Immutable, Serializable]
-    public class FooPublished : Event
-    {
-        public string Foo;
-    }
-
-    [Immutable, Serializable]
-    public class PublishBar : Command
-    {
-        public string Bar;
-    }
-
-    [Immutable, Serializable]
-    public class BarPublished : Event
-    {
-        public string Bar;
+        public Throw(Exception exception)
+        {
+            Exception = exception;
+        }
     }
 
     [Immutable, Serializable]
@@ -61,17 +37,6 @@ namespace Orleankka
         public ActorPath Observer;
 
         public Attach(ActorPath observer)
-        {
-            Observer = observer;
-        }
-    }
-
-    [Immutable, Serializable]
-    public class Detach : Command
-    {
-        public ActorPath Observer;
-
-        public Detach(ActorPath observer)
         {
             Observer = observer;
         }

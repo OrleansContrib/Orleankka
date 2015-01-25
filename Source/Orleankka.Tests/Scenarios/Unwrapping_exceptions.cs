@@ -8,17 +8,25 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Unwrapping_exceptions
     {
-        [Test]
-        public void Should_unwrap_exception()
-        {
-            var system = new ActorSystem();
-            var actor  = system.ActorOf<ITestActor>("test");
+        static readonly IActorSystem system = new ActorSystem();
 
-            Assert.Throws<ApplicationException>(async ()=>
-            {
-                var message = new Throw {Exception = new ApplicationException("err")};
-                await actor.Tell(message);
-            });
+        [Test]
+        public void Client_to_actor()
+        {
+            var actor = system.FreshActorOf<ITestActor>();
+
+            Assert.Throws<ApplicationException>(async ()=> await 
+                actor.Tell(new Throw(new ApplicationException("c-a"))));
+        }
+
+        [Test]
+        public void Actor_to_actor()
+        {
+            var one = system.FreshActorOf<ITestInsideActor>();
+            var another = system.FreshActorOf<ITestActor>();
+
+            Assert.Throws<ApplicationException>(async ()=> await 
+                one.Tell(new DoTell(another.Path, new Throw(new ApplicationException("a-a")))));
         }
     }
 }

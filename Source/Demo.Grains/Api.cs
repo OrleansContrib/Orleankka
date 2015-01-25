@@ -22,7 +22,7 @@ namespace Demo
         public Api()
         {
             timers = new TimerService(this);
-            observers = new ActorObserverCollection(()=> ActorPath);
+            observers = new ActorObserverCollection(()=> Self);
             worker = ApiWorkerFactory.Create(()=> Id);
         }
 

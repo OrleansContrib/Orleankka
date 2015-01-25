@@ -14,7 +14,7 @@ namespace Orleankka
         ActorObserverClient client;
         IActorObserver proxy;
         ActorPath source;
-        FooPublished message;
+        string message;
 
         [SetUp]
         public void SetUp()
@@ -22,7 +22,7 @@ namespace Orleankka
             client = new ActorObserverClient();
             proxy  = ActorObserverFactory.CreateObjectReference(client).Result;
 
-            message = new FooPublished { Foo = "foo" };
+            message = "foo";
             source  = new ActorPath(typeof(ITestActor), "some-id");
             
             collection = new ActorObserverCollection(()=> source);
@@ -46,11 +46,8 @@ namespace Orleankka
 
             var notification = client.Notifications[0];
             
-            Assert.That(notification.Source, 
-                Is.EqualTo(source));
-
-            Assert.That(notification.Message, 
-                Is.TypeOf<FooPublished>());
+            Assert.That(notification.Source, Is.EqualTo(source));
+            Assert.That(notification.Message, Is.EqualTo(message));
         }
         
         [Test]
@@ -58,9 +55,7 @@ namespace Orleankka
         {
             collection.Add(proxy);
 
-            Assert.DoesNotThrow(() =>
-                collection.Add(proxy));
-
+            Assert.DoesNotThrow(() => collection.Add(proxy));
             Assert.AreEqual(1, collection.Count());
         }
 
@@ -70,9 +65,7 @@ namespace Orleankka
             collection.Add(proxy);
             collection.Remove(proxy);
 
-            Assert.DoesNotThrow(() =>
-                collection.Remove(proxy));
-
+            Assert.DoesNotThrow(() => collection.Remove(proxy));
             Assert.AreEqual(0, collection.Count());
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 using NUnit.Framework;
 
@@ -9,45 +10,58 @@ namespace Orleankka.Scenarios
     [TestFixture]
     public class Observing_notifications
     {
-        IActorSystem system;
-        IActorRef actor;
-        ClientObservable client;
-
-        [SetUp]
-        public void SetUp()
-        {
-            system = new ActorSystem();
-            actor = system.ActorOf<ITestActor>("test");
-            
-            client = ClientObservable.Create().Result;
-            actor.Tell(new Attach(client)).Wait();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            client.Dispose();
-        }
+        static readonly IActorSystem system = new ActorSystem();
 
         [Test]
-        public async void Should_notify_via_callback()
+        public async void Client_to_actor()
         {
-            ActorPath source = null;
-            FooPublished @event = null;
+            var actor = system.FreshActorOf<ITestActor>();
 
-            var received = new AutoResetEvent(false);
-            client.Subscribe(e =>
+            using (var observable = await ClientObservable.Create())
             {
-                source = e.Source;
-                @event = e.Message as FooPublished;
-                received.Set();
-            });
-            
-            await actor.Tell(new PublishFoo {Foo = "foo"});
-            received.WaitOne(TimeSpan.FromSeconds(5));
+                await actor.Tell(new Attach(observable));
 
-            Assert.AreEqual(new ActorPath(typeof(ITestActor), "test"), source);
-            Assert.AreEqual("foo", @event.Foo);
+                Notification notification = null;
+                var done = new AutoResetEvent(false);
+
+                var subscription = observable.Subscribe(x =>
+                {
+                    notification = x;
+                    done.Set();
+                });
+                
+                await actor.Tell(new SetText("c-a"));
+                done.WaitOne(TimeSpan.FromSeconds(5));
+
+                Assert.That(notification.Source, Is.EqualTo(actor.Path));
+                Assert.That(notification.Message, Is.EqualTo("c-a"));
+
+                subscription.Dispose();
+
+                await actor.Tell(new SetText("kaboom"));
+                done.WaitOne(TimeSpan.FromSeconds(5));
+
+                Assert.That(notification.Message, Is.EqualTo("c-a"));
+            }            
+        }
+        
+        [Test]
+        public async void Actor_to_actor()
+        {
+            var one = system.FreshActorOf<ITestInsideActor>();
+            var another = system.FreshActorOf<ITestActor>();
+
+            await one.Tell(new DoAttach(another.Path));
+            await another.Tell(new SetText("a-a"));
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+            var received = await one.Ask<Notification[]>(new GetReceivedNotifications());
+            Assert.That(received.Length, Is.EqualTo(1));
+
+            var notification = received[0];
+            Assert.That(notification.Source, Is.EqualTo(another.Path));
+            Assert.That(notification.Message, Is.EqualTo("a-a"));
         }
     }
 }

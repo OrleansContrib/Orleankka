@@ -7,7 +7,10 @@ namespace Orleankka
     public interface IActorRef
     {
         Task Tell(object message);
+        
         Task<TResult> Ask<TResult>(object message);
+
+        ActorPath Path {get;}
     }
 
     public static class ActorRefExtensions
@@ -22,9 +25,15 @@ namespace Orleankka
     {
         readonly IActor actor;
 
-        internal ActorRef(IActor actor)
+        internal ActorRef(ActorPath path, IActor actor)
         {
+            Path = path;
             this.actor = actor;
+        }
+
+        public ActorPath Path
+        {
+            get; private set;
         }
 
         public Task Tell(object message)
