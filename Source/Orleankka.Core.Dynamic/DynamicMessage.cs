@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Orleankka.Dynamic
+namespace Orleankka.Dynamic.Internal
 {
     static class DynamicMessage
     {

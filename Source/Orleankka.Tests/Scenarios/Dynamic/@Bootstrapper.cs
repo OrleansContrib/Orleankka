@@ -31,8 +31,8 @@ namespace Orleankka.Scenarios.Dynamic
 
         internal static void Init()
         {
-            ActorSystem.Dynamic.Serializer = Serialize;
-            ActorSystem.Dynamic.Deserializer = Deserialize;
+            Orleankka.Dynamic.ActorSystem.Dynamic.Serializer = Serialize;
+            Orleankka.Dynamic.ActorSystem.Dynamic.Deserializer = Deserialize;
         }
 
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings

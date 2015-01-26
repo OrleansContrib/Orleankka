@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans.Runtime;
+using Orleankka.Dynamic.Internal;
 
 namespace Orleankka
 {
@@ -22,12 +23,16 @@ namespace Orleankka
         public static async Task<ClientObservable> Create()
         {
             var observer = new ClientActorObserver();
-            var proxy = await ActorObserverFactory.CreateObjectReference(observer);
-            return new ClientObservable(observer, proxy);
+
+            var actorObserverProxy = await ActorObserverFactory.CreateObjectReference(observer);
+            var dynamicActorObserverProxy = await DynamicActorObserverFactory.CreateObjectReference(observer);
+
+            return new ClientObservable(observer, actorObserverProxy, dynamicActorObserverProxy);
         }
 
         readonly ClientActorObserver client;
-        readonly IActorObserver proxy;
+        readonly IActorObserver actorObserverProxy;
+        readonly IDynamicActorObserver dynamicActorObserverProxy;
         readonly ActorPath path;
 
         protected ClientObservable(ActorPath path)
@@ -35,16 +40,18 @@ namespace Orleankka
             this.path = path;
         }
 
-        ClientObservable(ClientActorObserver client, IActorObserver proxy)
-            : this(new ActorPath(typeof(ClientObservable), IdentityOf(proxy)))
+        ClientObservable(ClientActorObserver client, IActorObserver actorObserverProxy, IDynamicActorObserver dynamicActorObserverProxy)
+            : this(new ActorPath(typeof(ClientObservable), IdentityOf(actorObserverProxy, dynamicActorObserverProxy)))
         {
             this.client = client;
-            this.proxy = proxy;
+            this.actorObserverProxy = actorObserverProxy;
+            this.dynamicActorObserverProxy = dynamicActorObserverProxy;
         }
 
         public virtual void Dispose()
         {
-            ActorObserverFactory.DeleteObjectReference(proxy);
+            ActorObserverFactory.DeleteObjectReference(actorObserverProxy);
+            DynamicActorObserverFactory.DeleteObjectReference(dynamicActorObserverProxy);
         }
 
         /// <summary>
@@ -83,7 +90,7 @@ namespace Orleankka
             return client.Subscribe(observer);
         }
 
-        class ClientActorObserver : IActorObserver
+        class ClientActorObserver : IActorObserver, IDynamicActorObserver
         {
             IObserver<Notification> observer;
 
@@ -105,6 +112,11 @@ namespace Orleankka
                     observer.OnNext(notification);
             }
 
+            public void OnNext(DynamicNotification notification)
+            {
+                OnNext(new Notification(notification.Source, notification.Message));
+            }
+
             class DisposableSubscription : IDisposable
             {
                 readonly ClientActorObserver owner;
@@ -121,9 +133,9 @@ namespace Orleankka
             }
         }
 
-        static string IdentityOf(IActorObserver proxy)
+        static string IdentityOf(IActorObserver actorObserverProxy, IDynamicActorObserver dynamicActorObserverProxy)
         {
-            return ((GrainReference)proxy).ToKeyString();
+            return ((GrainReference)actorObserverProxy).ToKeyString();
         }
 
         internal static bool IsCompatible(ActorPath path)

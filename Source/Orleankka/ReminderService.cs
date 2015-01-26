@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleankka.Dynamic;
+
 using Orleans.Runtime;
 
 namespace Orleankka

@@ -47,12 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorPath.cs" />
-    <Compile Include="Dynamic\DynamicMessage.cs" />
-    <Compile Include="Dynamic\DynamicResponse.cs" />
-    <Compile Include="Dynamic\DynamicRequest.cs" />
-    <Compile Include="Dynamic\DynamicNotification.cs" />
-    <Compile Include="Dynamic\IDynamicActor.cs" />
-    <Compile Include="Dynamic\IDynamicActorObserver.cs" />
     <Compile Include="Annotations.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IActorObserver.cs" />

@@ -47,11 +47,16 @@
     <Compile Include="ActivationService.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="ActorObserverCollection.cs" />
+    <Compile Include="ActorProxy.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="ClientObservable.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="DynamicActor.cs" />
+    <Compile Include="Dynamic\DynamicActor.cs" />
+    <Compile Include="Dynamic\DynamicActorObserver.cs" />
+    <Compile Include="Dynamic\DynamicActorProxy.cs" />
+    <Compile Include="Dynamic\DynamicActorSystem.cs" />
+    <Compile Include="Dynamic\Internal\DynamicActorHost.cs" />
     <Compile Include="Extensions\AggregateExceptionExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Internals.cs" />
@@ -63,6 +68,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orleankka.Core.Dynamic\Orleankka.Core.Dynamic.csproj">
+      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9ff5}</Project>
+      <Name>Orleankka.Core.Dynamic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>

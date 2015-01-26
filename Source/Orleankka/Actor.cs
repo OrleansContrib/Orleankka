@@ -137,7 +137,7 @@ namespace Orleankka
 
         #endregion
 
-        static string IdentityOf(Actor actor)
+        static string IdentityOf(IGrain actor)
         {
             string id;
             actor.GetPrimaryKey(out id);
@@ -157,26 +157,6 @@ namespace Orleankka
         internal static IActorProxy Proxy(ActorPath path)
         {
             return new ActorProxy(Factory.Create(path));
-        }
-
-        class ActorProxy : IActorProxy
-        {
-            readonly IActor actor;
-
-            public ActorProxy(IActor actor)
-            {
-                this.actor = actor;
-            }
-
-            public Task OnTell(object message)
-            {
-                return actor.OnTell(message);
-            }
-
-            public Task<object> OnAsk(object message)
-            {
-                return actor.OnAsk(message);
-            }
         }
 
         static class Factory
@@ -214,7 +194,7 @@ namespace Orleankka
             {
                 var method = factory.GetMethod("GetGrain",
                     BindingFlags.Public | BindingFlags.Static, null,
-                    new[] { typeof(string) }, null);
+                    new[] {typeof(string)}, null);
 
                 var argument = Expression.Parameter(typeof(string), "primaryKey");
                 var call = Expression.Call(method, new Expression[] { argument });

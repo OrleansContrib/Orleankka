@@ -4,7 +4,7 @@ using System.Linq;
 using Orleans.CodeGeneration;
 using Orleans.Serialization;
 
-namespace Orleankka.Dynamic
+namespace Orleankka.Dynamic.Internal
 {
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 

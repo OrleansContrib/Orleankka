@@ -9,8 +9,8 @@
     <ProjectGuid>{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orleankka.Dynamic</RootNamespace>
-    <AssemblyName>Orleankka.Dynamic.Core</AssemblyName>
+    <RootNamespace>Orleankka.Dynamic.Internal</RootNamespace>
+    <AssemblyName>Orleankka.Core.Dynamic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,19 +33,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Dynamic" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml" />
     <Reference Include="Orleans">
       <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicMessage.cs" />
+    <Compile Include="DynamicNotification.cs" />
+    <Compile Include="DynamicRequest.cs" />
+    <Compile Include="DynamicResponse.cs" />
+    <Compile Include="IDynamicActor.cs" />
+    <Compile Include="IDynamicActorObserver.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

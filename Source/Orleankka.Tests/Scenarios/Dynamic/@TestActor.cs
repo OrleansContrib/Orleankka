@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleankka.Dynamic;
+
 using Orleans;
 
 namespace Orleankka.Scenarios.Dynamic

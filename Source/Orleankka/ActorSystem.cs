@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Orleankka.Dynamic;
+
 namespace Orleankka
 {
     /// <summary>

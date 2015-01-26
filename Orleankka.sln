@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Client", "Source\Demo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Tests", "Source\Demo.Tests\Demo.Tests.csproj", "{A84434F9-A885-4EAF-8AF4-4DAB55A5AC57}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Core.Dynamic", "Source\Orleankka.Core.Dynamic\Orleankka.Core.Dynamic.csproj", "{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{A84434F9-A885-4EAF-8AF4-4DAB55A5AC57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A84434F9-A885-4EAF-8AF4-4DAB55A5AC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A84434F9-A885-4EAF-8AF4-4DAB55A5AC57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2220A904-CAFA-4F1C-BBCB-82B9257C9FF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
