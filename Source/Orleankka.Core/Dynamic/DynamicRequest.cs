@@ -9,33 +9,33 @@ namespace Orleankka.Dynamic
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 
     /// </summary>
-    public class DynamicNotification
+    public class DynamicRequest
     {
-        public readonly ActorPath Source;
+        public readonly ActorPath Target;
         public readonly object Message;
 
-        internal DynamicNotification(ActorPath source, object message)
+        internal DynamicRequest(ActorPath target, object message)
         {
-            Source = source;
+            Target = target;
             Message = message;
         }
 
         [SerializerMethod]
-        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type t)
+        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
-            var msg = (DynamicNotification)obj;
-
-            SerializationManager.SerializeInner(msg.Source, stream, typeof(ActorPath));
-            SerializationManager.SerializeInner(DynamicMessage.Serializer(msg.Message), stream, typeof(byte[]));
+            var request = (DynamicRequest) obj;
+            
+            SerializationManager.SerializeInner(request.Target, stream, typeof(ActorPath));
+            SerializationManager.SerializeInner(DynamicMessage.Serializer(request.Message), stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var source = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
+            var target = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
             var message = DynamicMessage.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
 
-            return new DynamicNotification(source, message);
+            return new DynamicRequest(target, message);
         }
 
         [CopierMethod]

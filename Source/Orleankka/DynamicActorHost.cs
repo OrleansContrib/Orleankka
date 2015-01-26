@@ -20,21 +20,21 @@ namespace Orleankka
         {
             DynamicActor actor;
 
-            public async Task OnTell(ActorPath path, byte[] message)
+            public async Task OnTell(DynamicRequest request)
             {
-                await EnsureInstance(path);
-                await actor.OnTell(Deserialize(message));
+                await EnsureInstance(request.Target);
+                await actor.OnTell(request.Message);
             }
 
-            public async Task<byte[]> OnAsk(ActorPath path, byte[] message)
+            public async Task<DynamicResponse> OnAsk(DynamicRequest request)
             {
-                await EnsureInstance(path);
-                return (Serialize(await actor.OnAsk(Deserialize(message))));
+                await EnsureInstance(request.Target);
+                return new DynamicResponse(await actor.OnAsk(request.Message));
             }
 
             public void OnNext(DynamicNotification notification)
             {
-                actor.OnNext(new Notification(notification.Source, Deserialize(notification.Message)));
+                actor.OnNext(new Notification(notification.Source, notification.Message));
             }
 
             Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
@@ -51,16 +51,6 @@ namespace Orleankka
                 actor.Initialize(this, path.Id, ActorSystem.Instance);
 
                 await actor.OnActivate();
-            }
-
-            static byte[] Serialize(object obj)
-            {
-                return ActorSystem.Dynamic.Serializer(obj);
-            }
-
-            static object Deserialize(byte[] bytes)
-            {
-                return ActorSystem.Dynamic.Deserializer(bytes);
             }
 
             #region Internals

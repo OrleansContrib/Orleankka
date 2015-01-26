@@ -122,12 +122,7 @@ namespace Orleankka
 
             public void OnNext(Notification notification)
             {
-                observer.OnNext(new DynamicNotification(notification.Source, Serialize(notification.Message)));
-            }
-
-            static byte[] Serialize(object message)
-            {
-                return ActorSystem.Dynamic.Serializer(message);
+                observer.OnNext(new DynamicNotification(notification.Source, notification.Message));
             }
 
             public bool Equals(DynamicActorObserver other)
@@ -179,22 +174,12 @@ namespace Orleankka
 
             public Task OnTell(object message)
             {
-                return actor.OnTell(path, Serialize(message));
+                return actor.OnTell(new DynamicRequest(path, message));
             }
 
             public async Task<object> OnAsk(object message)
             {
-                return (Deserialize(await actor.OnAsk(path, Serialize(message))));
-            }
-
-            static byte[] Serialize(object obj)
-            {
-                return ActorSystem.Dynamic.Serializer(obj);
-            }
-
-            static object Deserialize(byte[] bytes)
-            {
-                return ActorSystem.Dynamic.Deserializer(bytes);
+                return (await actor.OnAsk(new DynamicRequest(path, message))).Message;
             }
         }
 
@@ -202,7 +187,7 @@ namespace Orleankka
         {
             public static IDynamicActor Create(ActorPath path)
             {
-                var runtimeIdentity = ActorSystem.Dynamic.ActorPath.Serializer(path);
+                var runtimeIdentity = ActorSystem.Dynamic.ActorType.Serializer(path);
                 return DynamicActorFactory.GetGrain(runtimeIdentity);
             }
         }

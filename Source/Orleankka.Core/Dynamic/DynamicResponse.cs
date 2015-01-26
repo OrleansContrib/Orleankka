@@ -9,33 +9,27 @@ namespace Orleankka.Dynamic
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 
     /// </summary>
-    public class DynamicNotification
+    public class DynamicResponse
     {
-        public readonly ActorPath Source;
         public readonly object Message;
 
-        internal DynamicNotification(ActorPath source, object message)
+        internal DynamicResponse(object message)
         {
-            Source = source;
             Message = message;
         }
 
         [SerializerMethod]
-        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type t)
+        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
-            var msg = (DynamicNotification)obj;
-
-            SerializationManager.SerializeInner(msg.Source, stream, typeof(ActorPath));
-            SerializationManager.SerializeInner(DynamicMessage.Serializer(msg.Message), stream, typeof(byte[]));
+            var response = (DynamicResponse)obj;
+            SerializationManager.SerializeInner(DynamicMessage.Serializer(response.Message), stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var source = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
             var message = DynamicMessage.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
-
-            return new DynamicNotification(source, message);
+            return new DynamicResponse(message);
         }
 
         [CopierMethod]

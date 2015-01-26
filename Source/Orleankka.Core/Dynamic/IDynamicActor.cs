@@ -11,7 +11,7 @@ namespace Orleankka.Dynamic
     /// </summary>
     public interface IDynamicActor : IGrainWithStringKey, IRemindable
     {
-        Task OnTell(ActorPath path, byte[] message);
-        Task<byte[]> OnAsk(ActorPath path, byte[] message);
+        Task OnTell(DynamicRequest request);
+        Task<DynamicResponse> OnAsk(DynamicRequest request);
     }
 }
