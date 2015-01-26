@@ -62,12 +62,12 @@ namespace Orleankka.Scenarios.Dynamic
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                writer.WriteValue(ActorSystem.Dynamic.ActorType.Serializer((ActorPath) value));
+                writer.WriteValue(value.ToString());
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                return ActorSystem.Dynamic.ActorType.Deserializer((string) reader.Value);
+                return ActorPath.Of((string)reader.Value);
             }
         }
     }

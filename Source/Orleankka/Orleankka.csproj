@@ -52,8 +52,6 @@
     <Compile Include="ClientObservable.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="DynamicActor.cs" />
-    <Compile Include="DynamicActorHost.cs" />
-    <Compile Include="DynamicActorSystem.cs" />
     <Compile Include="Extensions\AggregateExceptionExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Internals.cs" />

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -187,8 +191,158 @@ namespace Orleankka
         {
             public static IDynamicActor Create(ActorPath path)
             {
-                var runtimeIdentity = ActorSystem.Dynamic.ActorType.Serializer(path);
-                return DynamicActorFactory.GetGrain(runtimeIdentity);
+                return DynamicActorFactory.GetGrain(path.ToString());
+            }
+        }
+    }
+
+    namespace Dynamic
+    {
+        /// <summary> 
+        /// FOR INTERNAL USE ONLY! 
+        /// </summary>
+        public class DynamicActorHost : Grain, IDynamicActor, IDynamicActorObserver,
+            IInternalActivationService,
+            IInternalReminderService,
+            IInternalTimerService
+        {
+            DynamicActor actor;
+
+            public async Task OnTell(DynamicRequest request)
+            {
+                await EnsureInstance(request.Target);
+                await actor.OnTell(request.Message);
+            }
+
+            public async Task<DynamicResponse> OnAsk(DynamicRequest request)
+            {
+                await EnsureInstance(request.Target);
+                return new DynamicResponse(await actor.OnAsk(request.Message));
+            }
+
+            public void OnNext(DynamicNotification notification)
+            {
+                actor.OnNext(new Notification(notification.Source, notification.Message));
+            }
+
+            Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
+            {
+                throw new NotImplementedException("TODO: Parse type and id from actor id");
+            }
+
+            async Task EnsureInstance(ActorPath path)
+            {
+                if (actor != null)
+                    return;
+
+                actor = ActorSystem.Dynamic.Activator(path);
+                actor.Initialize(this, path.Id, ActorSystem.Instance);
+
+                await actor.OnActivate();
+            }
+
+            #region Internals
+
+            void IInternalActivationService.DeactivateOnIdle()
+            {
+                DeactivateOnIdle();
+            }
+
+            void IInternalActivationService.DelayDeactivation(TimeSpan timeSpan)
+            {
+                DelayDeactivation(timeSpan);
+            }
+
+            Task<IGrainReminder> IInternalReminderService.GetReminder(string reminderName)
+            {
+                return GetReminder(reminderName);
+            }
+
+            Task<List<IGrainReminder>> IInternalReminderService.GetReminders()
+            {
+                return GetReminders();
+            }
+
+            Task<IGrainReminder> IInternalReminderService.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+            {
+                return RegisterOrUpdateReminder(reminderName, dueTime, period);
+            }
+
+            Task IInternalReminderService.UnregisterReminder(IGrainReminder reminder)
+            {
+                return UnregisterReminder(reminder);
+            }
+
+            IDisposable IInternalTimerService.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+            {
+                return RegisterTimer(asyncCallback, state, dueTime, period);
+            }
+
+            #endregion
+        }
+    }
+
+    partial class ActorSystem
+    {
+        /// <summary>
+        /// Global configuration options for dynamic actor feature.
+        /// </summary>
+        public static class Dynamic
+        {
+            static Dynamic()
+            {
+                Activator = path => (DynamicActor) System.Activator.CreateInstance(path.Type);
+
+                Serializer = obj =>
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        new BinaryFormatter().Serialize(ms, obj);
+                        return ms.ToArray();
+                    }
+                };
+
+                Deserializer = bytes =>
+                {
+                    using (var ms = new MemoryStream(bytes))
+                    {
+                        var formatter = new BinaryFormatter();
+                        return formatter.Deserialize(ms);
+                    }
+                };
+            }
+
+            /// <summary>
+            /// The activation function, which creates actual instances of <see cref="Orleankka.DynamicActor"/>
+            /// </summary>
+            /// <remarks>
+            /// By default expects type to have a public parameterless constructor 
+            /// as a consequence of using standard  <see cref="System.Activator"/>
+            /// </remarks>
+            public static Func<ActorPath, DynamicActor> Activator { get; set; }
+
+            /// <summary>
+            /// The serialization function, which serializes messages to byte[]
+            /// </summary>
+            /// <remarks>
+            /// By default uses standard binary serialization provided by <see cref="BinaryFormatter"/>
+            /// </remarks>
+            public static Func<object, byte[]> Serializer
+            {
+                get { return DynamicMessage.Serializer; }
+                set { DynamicMessage.Serializer = value; }
+            }
+
+            /// <summary>
+            /// The deserialization function, which deserializes byte[] back to messages
+            /// </summary>
+            /// <remarks>
+            /// By default uses standard binary serialization provided by 
+            /// <see cref="BinaryFormatter"/></remarks>
+            public static Func<byte[], object> Deserializer
+            {
+                get { return DynamicMessage.Deserializer; }
+                set { DynamicMessage.Deserializer = value; }
             }
         }
     }
