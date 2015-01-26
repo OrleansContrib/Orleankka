@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka.Dynamic;
 
 namespace Orleankka
 {
+    using Dynamic;
+
     public abstract class DynamicActor
     {
         string id;

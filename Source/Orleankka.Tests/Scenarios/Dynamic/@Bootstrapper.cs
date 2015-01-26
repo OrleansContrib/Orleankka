@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
-using Orleans;
 using Newtonsoft.Json;
 
+using Orleans;
 using Orleankka.Scenarios.Dynamic;
+
 [assembly: BootstrapperTestAction]
 
 namespace Orleankka.Scenarios.Dynamic
@@ -22,7 +22,7 @@ namespace Orleankka.Scenarios.Dynamic
         }
     }
 
-    public class Bootstrapper : ActorSystem.Bootstrapper
+    public class Bootstrapper : Orleankka.Bootstrapper
     {
         public override Task Init(IDictionary<string, string> properties)
         {
