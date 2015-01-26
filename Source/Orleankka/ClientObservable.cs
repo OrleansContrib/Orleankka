@@ -133,9 +133,13 @@ namespace Orleankka
             }
         }
 
+        static readonly string[] keySeparator = {"++"};
+
         static string IdentityOf(IActorObserver actorObserverProxy, IDynamicActorObserver dynamicActorObserverProxy)
         {
-            return ((GrainReference)actorObserverProxy).ToKeyString();
+            var observerKey = ((GrainReference)actorObserverProxy).ToKeyString();
+            var dynamicObserverKey = ((GrainReference)dynamicActorObserverProxy).ToKeyString();
+            return string.Format("{0}{1}{2}", observerKey, keySeparator[0], dynamicObserverKey);
         }
 
         internal static bool IsCompatible(ActorPath path)
@@ -145,7 +149,32 @@ namespace Orleankka
 
         internal static IActorObserver Observer(ActorPath path)
         {
-            return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
+            return ActorObserverFactory.Cast(ObserverReference(path));
+        }
+
+        internal static IDynamicActorObserver DynamicObserver(ActorPath path)
+        {
+            return DynamicActorObserverFactory.Cast(DynamicObserverReference(path));
+        }
+
+        static GrainReference ObserverReference(ActorPath path)
+        {
+            return Reference(Keys(path)[0]);
+        }
+
+        static GrainReference DynamicObserverReference(ActorPath path)
+        {
+            return Reference(Keys(path)[1]);
+        }
+
+        static string[] Keys(ActorPath path)
+        {
+            return path.Id.Split(keySeparator, 2, StringSplitOptions.None);
+        }
+
+        static GrainReference Reference(string key)
+        {
+            return GrainReference.FromKeyString(key);
         }
     }
 

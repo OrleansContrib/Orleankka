@@ -88,7 +88,9 @@ namespace Orleankka.Dynamic
 
                 public IActorObserver ObserverOf(ActorPath path)
                 {
-                    return system.ObserverOf(path);
+                    return ClientObservable.IsCompatible(path) 
+                            ? new DynamicActorObserver(ClientObservable.DynamicObserver(path)) 
+                            : system.ObserverOf(path);
                 }
             }
         }
