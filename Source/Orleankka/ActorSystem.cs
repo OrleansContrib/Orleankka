@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -125,6 +126,9 @@ namespace Orleankka
             {
                 static readonly string[] separator = {"::"};
 
+                static readonly ConcurrentDictionary<string, Type> cache = 
+                            new ConcurrentDictionary<string, Type>(); 
+
                 /// <summary>
                 /// The serialization function, which serializes <see cref="Orleankka.ActorPath"/> to runtime identity string
                 /// </summary>
@@ -137,8 +141,28 @@ namespace Orleankka
                 public static Func<string, Orleankka.ActorPath> Deserializer = path =>
                 {
                     var parts = path.Split(separator, 2, StringSplitOptions.None);
-                    return new Orleankka.ActorPath(Type.GetType(parts[0]), parts[1]);
+                    return new Orleankka.ActorPath(Find(parts[0]), parts[1]);
                 };
+
+                static Type Find(string fullName)
+                {
+                    return cache.GetOrAdd(fullName, n =>
+                    {
+                        var candidates = AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .SelectMany(x => x.GetTypes())
+                            .Where(x => x.FullName == n)
+                            .ToArray();
+
+                        if (candidates.Length > 1)
+                            throw new InvalidOperationException("Multiple types match the given type full name: " + n);
+
+                        if (candidates.Length == 0)
+                            throw new InvalidOperationException("Can't find type its by full name: " + n);
+
+                        return candidates[0];
+                    });
+                }
             }
         }
 

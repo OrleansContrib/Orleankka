@@ -36,7 +36,7 @@ namespace Orleankka
         }
 
         ClientObservable(ClientActorObserver client, IActorObserver proxy)
-            : this(new ActorPath(typeof(ClientObservable), ((GrainReference)proxy).ToKeyString()))
+            : this(new ActorPath(typeof(ClientObservable), IdentityOf(proxy)))
         {
             this.client = client;
             this.proxy = proxy;
@@ -119,6 +119,11 @@ namespace Orleankka
                     owner.observer = null;
                 }
             }
+        }
+
+        static string IdentityOf(IActorObserver proxy)
+        {
+            return ((GrainReference)proxy).ToKeyString();
         }
 
         internal static bool IsCompatible(ActorPath path)

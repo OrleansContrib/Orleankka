@@ -42,7 +42,7 @@ namespace Orleankka
 
         public string Id
         {
-            get { return (id ?? (id = RuntimeIdentity(this))); }
+            get { return (id ?? (id = IdentityOf(this))); }
         }
 
         public IActorSystem System
@@ -137,7 +137,7 @@ namespace Orleankka
 
         #endregion
 
-        static string RuntimeIdentity(Actor actor)
+        static string IdentityOf(Actor actor)
         {
             string id;
             actor.GetPrimaryKey(out id);

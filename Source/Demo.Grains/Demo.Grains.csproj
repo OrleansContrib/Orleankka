@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiWorker.cs" />
-    <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="TopicStorage.cs" />
     <Compile Include="Api.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
