@@ -24,7 +24,7 @@ namespace Orleankka.TestKit
         }
 
         [Test]
-        public void Matches_command_when_destination_and_type_do_match()
+        public void Unconditionally_matches_commands_by_type()
         {
             actor
                 .ExpectTell<TestCommand>()
@@ -35,7 +35,7 @@ namespace Orleankka.TestKit
         }
         
         [Test]
-        public async void Matches_query_when_destination_and_type_do_match()
+        public async void Unconditionally_matches_queries_by_type()
         {
             actor
                 .ExpectAsk<TestQuery>()
