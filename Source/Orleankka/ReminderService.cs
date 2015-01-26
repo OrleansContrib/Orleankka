@@ -60,9 +60,21 @@ namespace Orleankka
         /// Initializes a new instance of the <see cref="ReminderService"/> class.
         /// </summary>
         /// <param name="actor">The actor which requires reminder services.</param>
-        public ReminderService(Actor actor)
+        public ReminderService(Actor actor) 
+            : this((IInternalReminderService)actor)
+        {}        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReminderService"/> class.
+        /// </summary>
+        /// <param name="actor">The dynamic actor which requires reminder services.</param>
+        public ReminderService(DynamicActor actor) 
+            : this(actor.Host)
+        {}
+
+        ReminderService(IInternalReminderService service)
         {
-            service = actor;
+            this.service = service;
         }
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)

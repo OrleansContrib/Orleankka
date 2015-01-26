@@ -97,9 +97,21 @@ namespace Orleankka
         /// Initializes a new instance of the <see cref="TimerService"/> class.
         /// </summary>
         /// <param name="actor">The actor which requires timer services.</param>
-        public TimerService(Actor actor)
+        public TimerService(Actor actor) 
+            : this((IInternalTimerService)actor)
+        {}
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimerService"/> class.
+        /// </summary>
+        /// <param name="actor">The actor which requires timer services.</param>
+        public TimerService(DynamicActor actor) 
+            : this(actor.Host)
+        {}
+
+        TimerService(IInternalTimerService service)
         {
-            service = actor;
+            this.service = service;
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
