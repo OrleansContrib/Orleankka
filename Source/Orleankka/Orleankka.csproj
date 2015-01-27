@@ -50,8 +50,8 @@
     <Compile Include="ActorProxy.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
+    <Compile Include="ActorSystemBootstrapper.cs" />
     <Compile Include="ClientObservable.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Dynamic\DynamicActor.cs" />
     <Compile Include="Dynamic\DynamicActorObserver.cs" />
     <Compile Include="Dynamic\DynamicActorProxy.cs" />

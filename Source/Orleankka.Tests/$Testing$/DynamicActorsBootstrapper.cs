@@ -4,35 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using NUnit.Framework;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 using Orleans;
-using Orleankka.Scenarios.Dynamic;
+using Orleankka;
 
-[assembly: BootstrapperTestAction]
+[assembly: DynamicActorsBootstrapper]
 
-namespace Orleankka.Scenarios.Dynamic
+namespace Orleankka
 {
-    public class BootstrapperTestActionAttribute : TestActionAttribute
+    public class DynamicActorsBootstrapperAttribute : TestActionAttribute
     {
         public override void BeforeTest(TestDetails details)
         {
-            Bootstrapper.Init();
+            DynamicActorsBootstrapper.Run();
         }
     }
 
-    public class Bootstrapper : Orleankka.Bootstrapper
+    public class DynamicActorsBootstrapper : ActorSystemBootstrapper
     {
-        public override Task Init(IDictionary<string, string> properties)
+        public override Task Run(IDictionary<string, string> properties)
         {
-            Init(); return TaskDone.Done;
+            Run(); return TaskDone.Done;
         }
 
-        internal static void Init()
+        internal static void Run()
         {
-            Orleankka.Dynamic.ActorSystem.Dynamic.Serializer = Serialize;
-            Orleankka.Dynamic.ActorSystem.Dynamic.Deserializer = Deserialize;
+            ActorSystem.Dynamic.Serializer = Serialize;
+            ActorSystem.Dynamic.Deserializer = Deserialize;
         }
 
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings

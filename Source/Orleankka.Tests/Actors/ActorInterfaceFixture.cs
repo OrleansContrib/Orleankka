@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Orleankka
+namespace Orleankka.Actors
 {
     [TestFixture]
     public class ActorInterfaceFixture

@@ -2,56 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Dynamic;
-
 using Orleans;
 
-namespace Orleankka.Scenarios.Dynamic
+namespace Orleankka.Actors
 {
-    public class SetText : Command
-    {
-        public readonly string Text;
-
-        public SetText(string text)
-        {
-            Text = text;
-        }
-    }
-
-    public class GetText : Query<string>
-    {}
-
-    public class TextChanged : Event
-    {
-        public readonly string Text;
-
-        public TextChanged(string text)
-        {
-            Text = text;
-        }
-    }
-
-    public class Throw : Command
-    {
-        public readonly Exception Exception;
-
-        public Throw(Exception exception)
-        {
-            Exception = exception;
-        }
-    }
-
-    public class Attach : Command
-    {
-        public ActorPath Observer;
-
-        public Attach(ActorPath observer)
-        {
-            Observer = observer;
-        }
-    }
-
-    public class TestActor : DynamicActor
+    public class TestActor : Actor, ITestActor
     {
         readonly IActorObserverCollection observers;
         string text = "";

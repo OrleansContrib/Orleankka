@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Orleankka.Scenarios.Dynamic
+namespace Orleankka.Actors.Scenarios
 {
     [TestFixture]
     public class Unwrapping_exceptions
@@ -13,7 +13,7 @@ namespace Orleankka.Scenarios.Dynamic
         [Test]
         public void Client_to_actor()
         {
-            var actor = system.FreshActorOf<TestActor>();
+            var actor = system.FreshActorOf<ITestActor>();
 
             Assert.Throws<ApplicationException>(async ()=> await 
                 actor.Tell(new Throw(new ApplicationException("c-a"))));
@@ -22,8 +22,8 @@ namespace Orleankka.Scenarios.Dynamic
         [Test]
         public void Actor_to_actor()
         {
-            var one = system.FreshActorOf<TestInsideActor>();
-            var another = system.FreshActorOf<TestActor>();
+            var one = system.FreshActorOf<ITestInsideActor>();
+            var another = system.FreshActorOf<ITestActor>();
 
             Assert.Throws<ApplicationException>(async ()=> await 
                 one.Tell(new DoTell(another, new Throw(new ApplicationException("a-a")))));

@@ -8,19 +8,19 @@ using Orleans;
 using Orleans.Host;
 using Orleans.Runtime.Configuration;
 
-using Orleankka.Utility;
-[assembly: OrleansSiloForTestingAction]
+using Orleankka;
+[assembly: EmbeddedSiloAction]
 
-namespace Orleankka.Utility
+namespace Orleankka
 {
-    public class OrleansSiloForTestingActionAttribute : TestActionAttribute
+    public class EmbeddedSiloActionAttribute : TestActionAttribute
     {
-        OrleansSiloForTesting silo;
+        EmbeddedSilo silo;
 
         public override void BeforeTest(TestDetails details)
         {
             if (details.IsSuite)
-                silo = new OrleansSiloForTesting();
+                silo = new EmbeddedSilo();
         }
 
         public override void AfterTest(TestDetails details)
@@ -30,16 +30,16 @@ namespace Orleankka.Utility
         }
     }
 
-    public class OrleansSiloForTesting : IDisposable
+    public class EmbeddedSilo : IDisposable
     {
         static OrleansSiloHost host;
         static AppDomain domain;
 
-        public OrleansSiloForTesting()
+        public EmbeddedSilo()
         {
             var setup = AppDomain.CurrentDomain.SetupInformation;
 
-            domain = AppDomain.CreateDomain("OrleansSiloForTesting", null, new AppDomainSetup
+            domain = AppDomain.CreateDomain("EmbeddedSilo", null, new AppDomainSetup
             {
                 AppDomainInitializer = Start,
                 AppDomainInitializerArguments = new string[0],
@@ -51,7 +51,7 @@ namespace Orleankka.Utility
                 ShadowCopyFiles = setup.ShadowCopyFiles
             });
 
-            var clientConfigFileName = ConfigurationFilePath("OrleansClientConfigurationForTesting.xml");
+            var clientConfigFileName = ConfigurationFilePath("Orleans.Client.Configuration.xml");
             OrleansClient.Initialize(clientConfigFileName);
         }
 
@@ -63,8 +63,8 @@ namespace Orleankka.Utility
 
         static void Start(string[] args)
         {
-            var serverConfigFileName = ConfigurationFilePath("OrleansServerConfigurationForTesting.xml");
-            host = new OrleansSiloHost(Dns.GetHostName()) { ConfigFileName = serverConfigFileName };
+            var serverConfigFileName = ConfigurationFilePath("Orleans.Server.Configuration.xml");
+            host = new OrleansSiloHost(Dns.GetHostName()) {ConfigFileName = serverConfigFileName};
 
             host.LoadOrleansConfig();
             host.InitializeOrleansSilo();
@@ -89,7 +89,7 @@ namespace Orleankka.Utility
         static string ConfigurationFilePath(string configFileName)
         {
             var outputDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            return System.IO.Path.Combine(outputDirectory, @"Utility\" + configFileName);
+            return System.IO.Path.Combine(outputDirectory, @"$Testing$\" + configFileName);
         }
     }
 }

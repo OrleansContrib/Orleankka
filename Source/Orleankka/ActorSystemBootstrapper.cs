@@ -7,16 +7,16 @@ using Orleans.Providers;
 
 namespace Orleankka
 {
-    public abstract class Bootstrapper : IBootstrapProvider
+    public abstract class ActorSystemBootstrapper : MarshalByRefObject, IBootstrapProvider
     {
-        public string Name {get; private set;}
+        public string Name { get; private set; }
 
         Task IOrleansProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
             Name = name;
-            return Init(config.Properties);
+            return Run(config.Properties);
         }
 
-        public abstract Task Init(IDictionary<string, string> properties);
+        public abstract Task Run(IDictionary<string, string> properties);
     }
 }

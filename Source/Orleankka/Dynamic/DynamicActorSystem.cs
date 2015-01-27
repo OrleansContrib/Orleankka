@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Orleankka.Dynamic.Internal;
-
-namespace Orleankka.Dynamic
+namespace Orleankka
 {
+    using Dynamic;
+    using Dynamic.Internal;
+
     public sealed partial class ActorSystem
     {
         /// <summary>

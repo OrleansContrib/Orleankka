@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Orleankka.Scenarios
+namespace Orleankka.Actors.Scenarios
 {
     [TestFixture]
     public class Request_response

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Orleankka.Dynamic;
 
-namespace Orleankka.Scenarios.Dynamic
+namespace Orleankka.Dynamic.Actors
 {
     public class DoTell : Command
     {

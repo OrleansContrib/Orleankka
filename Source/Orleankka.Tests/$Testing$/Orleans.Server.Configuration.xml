@@ -6,7 +6,7 @@
                 Name="MemoryStore" />
     </StorageProviders>
     <BootstrapProviders>
-      <Provider Type="Orleankka.Scenarios.Dynamic.Bootstrapper" Name="Boot"/>
+      <Provider Type="Orleankka.DynamicActorsBootstrapper" Name="Boot"/>
     </BootstrapProviders>
     <SeedNode Address="localhost" Port="11111" />    
   </Globals>

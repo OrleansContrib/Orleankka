@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-namespace Orleankka.Scenarios.Dynamic
+namespace Orleankka.Dynamic.Actors.Scenarios
 {
     [TestFixture]
     public class Observing_notifications
