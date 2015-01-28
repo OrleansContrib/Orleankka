@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 
-using Orleankka.Dynamic;
+using Orleankka.Internal;
 
 namespace Orleankka
 {
@@ -21,7 +22,7 @@ namespace Orleankka
         /// Acquires the reference to <see cref="IActorObserver"/> from its <see cref="ActorPath"/>.
         /// </summary>
         /// <param name="path">The path of actor observer.</param>
-        /// <returns>The instance of <see cref="IActorObserver"/> </returns>
+        /// <returns>The instance of <see cref="IObserver{T}"/> </returns>
         IActorObserver ObserverOf(ActorPath path);
     }
 
@@ -46,7 +47,7 @@ namespace Orleankka
     /// <summary>
     /// Runtime implementation of <see cref="IActorSystem"/>
     /// </summary>
-    public sealed partial class ActorSystem : IActorSystem
+    public sealed class ActorSystem : IActorSystem
     {
         /// <summary>
         /// The static instance of <see cref="IActorSystem"/>
@@ -56,6 +57,44 @@ namespace Orleankka
         ActorSystem()
         {}
 
+        static ActorSystem()
+        {
+            Activator = path => (Actor) System.Activator.CreateInstance(path.Type);
+        }
+
+        /// <summary>
+        /// The activation function, which creates actual instances of <see cref="Actor"/>
+        /// </summary>
+        /// <remarks>
+        /// By default expects type to have a public parameterless constructor 
+        /// as a consequence of using standard  <see cref="System.Activator"/>
+        /// </remarks>
+        public static Func<ActorPath, Actor> Activator { get; set; }
+
+        /// <summary>
+        /// The serialization function, which serializes messages to byte[]
+        /// </summary>
+        /// <remarks>
+        /// By default uses standard binary serialization provided by <see cref="BinaryFormatter"/>
+        /// </remarks>
+        public static Func<object, byte[]> Serializer
+        {
+            get { return Message.Serializer; }
+            set { Message.Serializer = value; }
+        }
+
+        /// <summary>
+        /// The deserialization function, which deserializes byte[] back to messages
+        /// </summary>
+        /// <remarks>
+        /// By default uses standard binary serialization provided by 
+        /// <see cref="BinaryFormatter"/></remarks>
+        public static Func<byte[], object> Deserializer
+        {
+            get { return Message.Deserializer; }
+            set { Message.Deserializer = value; }
+        }
+
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
@@ -63,12 +102,9 @@ namespace Orleankka
             if (Actor.IsCompatible(path.Type))
                 return new ActorRef(path, Actor.Proxy(path));
 
-            if (DynamicActor.IsCompatible(path.Type))
-                return new ActorRef(path, DynamicActor.Proxy(path));
-
             throw new ArgumentException("Path type should be either an interface which implements IActor or non-abstract type inherited from DynamicActor", "path");
         }
-        
+
         IActorObserver IActorSystem.ObserverOf(ActorPath path)
         {
             Requires.NotNull(path, "path");
@@ -78,9 +114,6 @@ namespace Orleankka
 
             if (Actor.IsCompatible(path.Type))
                 return Actor.Observer(path);
-
-            if (DynamicActor.IsCompatible(path.Type))
-                return DynamicActor.Observer(path);
 
             throw new InvalidOperationException("Can't bind " + path.Type);
         }

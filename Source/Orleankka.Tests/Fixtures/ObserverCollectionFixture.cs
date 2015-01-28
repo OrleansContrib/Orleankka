@@ -5,17 +5,15 @@ using System.Threading;
 
 using NUnit.Framework;
 
-using Orleankka.Dynamic.Actors;
-
-namespace Orleankka.Utility
+namespace Orleankka.Fixtures
 {
     [TestFixture]
-    public class ActorObserverCollectionFixture
+    public class ObserverCollectionFixture
     {
         const string message = "foo";
         static readonly ActorPath source = new ActorPath(typeof(TestActor), "some-id");
 
-        IActorObserverCollection collection;
+        IObserverCollection collection;
         ActorObserver observer;
         IActorObserver proxy;
 
@@ -24,7 +22,7 @@ namespace Orleankka.Utility
         {
             observer = new ActorObserver();
             proxy = ActorObserverFactory.CreateObjectReference(observer).Result;
-            collection = new ActorObserverCollection(()=> source);
+            collection = new ObserverCollection(()=> source);
         }
 
         [Test]
@@ -36,7 +34,7 @@ namespace Orleankka.Utility
         [Test]
         public void Creates_notification_with_passed_in_source_actor_path()
         {
-            collection.Add(proxy);
+            collection.Add(observer);
             collection.Notify(message);
 
             observer.Received.WaitOne(TimeSpan.FromSeconds(5));
@@ -52,19 +50,19 @@ namespace Orleankka.Utility
         [Test]
         public void Add_is_idempotent()
         {
-            collection.Add(proxy);
+            collection.Add(observer);
 
-            Assert.DoesNotThrow(() => collection.Add(proxy));
+            Assert.DoesNotThrow(() => collection.Add(observer));
             Assert.AreEqual(1, collection.Count());
         }
 
         [Test]
         public void Remove_is_also_idempotent()
         {
-            collection.Add(proxy);
-            collection.Remove(proxy);
+            collection.Add(observer);
+            collection.Remove(observer);
 
-            Assert.DoesNotThrow(() => collection.Remove(proxy));
+            Assert.DoesNotThrow(() => collection.Remove(observer));
             Assert.AreEqual(0, collection.Count());
         }
 
@@ -79,6 +77,8 @@ namespace Orleankka.Utility
                 Received.Set();
             }
         }
-    }
 
+        class TestActor : Actor
+        {}
+    }
 }

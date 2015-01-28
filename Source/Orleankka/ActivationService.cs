@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using Orleankka.Dynamic;
+using Orleankka;
 
 namespace Orleankka
 {
@@ -39,16 +39,8 @@ namespace Orleankka
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivationService"/> class.
         /// </summary>
-        /// <param name="actor">The actor which requires activation services.</param>
-        public ActivationService(Actor actor)
-            : this(()=>(IInternalActivationService)actor)
-        {}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActivationService"/> class.
-        /// </summary>
         /// <param name="actor">The dynamic actor which requires activation services.</param>
-        public ActivationService(DynamicActor actor)
+        public ActivationService(Actor actor)
             : this(()=>actor.Host)
         {}
 

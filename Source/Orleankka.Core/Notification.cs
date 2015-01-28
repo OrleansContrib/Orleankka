@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 
-using Orleans.Concurrency;
+using Orleans.Serialization;
+using Orleans.CodeGeneration;
 
 namespace Orleankka
 {
     /// <summary>
     /// Represent actor notification data
     /// </summary>
-    [Immutable, Serializable]
     public sealed class Notification
     {
         /// <summary>
@@ -33,6 +33,30 @@ namespace Orleankka
 
             Source = source;
             Message = message;
+        }
+
+        [SerializerMethod]
+        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type t)
+        {
+            var msg = (Notification)obj;
+
+            SerializationManager.SerializeInner(msg.Source, stream, typeof(ActorPath));
+            SerializationManager.SerializeInner(Internal.Message.Serializer(msg.Message), stream, typeof(byte[]));
+        }
+
+        [DeserializerMethod]
+        internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
+        {
+            var source = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
+            var message = Internal.Message.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
+
+            return new Notification(source, message);
+        }
+
+        [CopierMethod]
+        internal static object DeepCopy(object original)
+        {
+            return original;
         }
     }
 }

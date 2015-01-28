@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-namespace Orleankka.Dynamic.Actors.Scenarios
+namespace Orleankka.Scenarios
 {
     [TestFixture, Explicit]
     public class Using_reminders

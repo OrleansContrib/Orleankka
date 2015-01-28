@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans.Runtime;
-using Orleankka.Dynamic.Internal;
 
 namespace Orleankka
 {
@@ -23,16 +22,12 @@ namespace Orleankka
         public static async Task<ClientObservable> Create()
         {
             var observer = new ClientActorObserver();
-
-            var actorObserverProxy = await ActorObserverFactory.CreateObjectReference(observer);
-            var dynamicActorObserverProxy = await DynamicActorObserverFactory.CreateObjectReference(observer);
-
-            return new ClientObservable(observer, actorObserverProxy, dynamicActorObserverProxy);
+            var proxy = await ActorObserverFactory.CreateObjectReference(observer);
+            return new ClientObservable(observer, proxy);
         }
 
         readonly ClientActorObserver client;
-        readonly IActorObserver actorObserverProxy;
-        readonly IDynamicActorObserver dynamicActorObserverProxy;
+        readonly IActorObserver proxy;
         readonly ActorPath path;
 
         protected ClientObservable(ActorPath path)
@@ -40,25 +35,23 @@ namespace Orleankka
             this.path = path;
         }
 
-        ClientObservable(ClientActorObserver client, IActorObserver actorObserverProxy, IDynamicActorObserver dynamicActorObserverProxy)
-            : this(new ActorPath(typeof(ClientObservable), IdentityOf(actorObserverProxy, dynamicActorObserverProxy)))
+        ClientObservable(ClientActorObserver client, IActorObserver proxy)
+            : this(new ActorPath(typeof(ClientObservable), IdentityOf(proxy)))
         {
             this.client = client;
-            this.actorObserverProxy = actorObserverProxy;
-            this.dynamicActorObserverProxy = dynamicActorObserverProxy;
+            this.proxy = proxy;
         }
 
         public virtual void Dispose()
         {
-            ActorObserverFactory.DeleteObjectReference(actorObserverProxy);
-            DynamicActorObserverFactory.DeleteObjectReference(dynamicActorObserverProxy);
+            ActorObserverFactory.DeleteObjectReference(proxy);
         }
 
         /// <summary>
         /// <para>
-        /// Gets the runtime path of the underlying <see cref="IActorObserver"/>  proxy that could be passed (serialized) along with the message.
+        /// Gets the runtime path of the underlying <see cref="IObserver{T}"/>  proxy that could be passed (serialized) along with the message.
         /// </para>
-        /// The path could be dehydrated back into a reference of <see cref="IActorObserver"/> interface by using <see cref="IActorSystem.ObserverOf"/> method.
+        /// The path could be dehydrated back into a reference of <see cref="IObserver{T}"/> interface by using <see cref="IActorSystem.ObserverOf"/> method.
         /// </summary>
         /// <value>
         /// The runtime path of the underlying observer proxy.
@@ -90,7 +83,7 @@ namespace Orleankka
             return client.Subscribe(observer);
         }
 
-        class ClientActorObserver : IActorObserver, IDynamicActorObserver
+        class ClientActorObserver : IActorObserver
         {
             IObserver<Notification> observer;
 
@@ -112,11 +105,6 @@ namespace Orleankka
                     observer.OnNext(notification);
             }
 
-            public void OnNext(DynamicNotification notification)
-            {
-                OnNext(new Notification(notification.Source, notification.Message));
-            }
-
             class DisposableSubscription : IDisposable
             {
                 readonly ClientActorObserver owner;
@@ -133,13 +121,9 @@ namespace Orleankka
             }
         }
 
-        static readonly string[] keySeparator = {"++"};
-
-        static string IdentityOf(IActorObserver actorObserverProxy, IDynamicActorObserver dynamicActorObserverProxy)
+        static string IdentityOf(IActorObserver proxy)
         {
-            var observerKey = ((GrainReference)actorObserverProxy).ToKeyString();
-            var dynamicObserverKey = ((GrainReference)dynamicActorObserverProxy).ToKeyString();
-            return string.Format("{0}{1}{2}", observerKey, keySeparator[0], dynamicObserverKey);
+            return ((GrainReference)proxy).ToKeyString();
         }
 
         internal static bool IsCompatible(ActorPath path)
@@ -149,32 +133,7 @@ namespace Orleankka
 
         internal static IActorObserver Observer(ActorPath path)
         {
-            return ActorObserverFactory.Cast(ObserverReference(path));
-        }
-
-        internal static IDynamicActorObserver DynamicObserver(ActorPath path)
-        {
-            return DynamicActorObserverFactory.Cast(DynamicObserverReference(path));
-        }
-
-        static GrainReference ObserverReference(ActorPath path)
-        {
-            return Reference(Keys(path)[0]);
-        }
-
-        static GrainReference DynamicObserverReference(ActorPath path)
-        {
-            return Reference(Keys(path)[1]);
-        }
-
-        static string[] Keys(ActorPath path)
-        {
-            return path.Id.Split(keySeparator, 2, StringSplitOptions.None);
-        }
-
-        static GrainReference Reference(string key)
-        {
-            return GrainReference.FromKeyString(key);
+            return ActorObserverFactory.Cast(GrainReference.FromKeyString(path.Id));
         }
     }
 

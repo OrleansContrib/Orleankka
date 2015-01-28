@@ -53,7 +53,7 @@ namespace Demo
             this.storage = storage;
         }
 
-        public override async Task ActivateAsync()
+        public override async Task OnActivate()
         {
             total = await storage.ReadTotalAsync(Id);
         }

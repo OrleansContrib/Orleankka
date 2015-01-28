@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Orleankka.Dynamic;
-
 namespace Orleankka
 {
     /// <summary>
     /// This  is a simple helper class for actors that need to manage observer susbscriptions.
     /// It provides methods for adding/removing observers and for notifying about particular notifications.
     /// </summary>
-    public interface IActorObserverCollection : IEnumerable<IActorObserver>
+    public interface IObserverCollection : IEnumerable<IActorObserver>
     {
         /// <summary>
         /// Adds given observer subscription.
@@ -35,37 +33,33 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Default implementation of <see cref="IActorObserverCollection"/>
+    /// Default implementation of <see cref="IObserverCollection"/>
     /// </summary>
-    public class ActorObserverCollection : IActorObserverCollection
+    public class ObserverCollection : IObserverCollection
     {
         readonly HashSet<IActorObserver> observers = new HashSet<IActorObserver>();
         readonly Func<ActorPath> source;
 
-        public ActorObserverCollection(Actor actor)
+        public ObserverCollection(Actor actor)
             : this(() => actor.Self)
         {}
 
-        public ActorObserverCollection(DynamicActor actor)
-            : this(() => actor.Self)
-        {}
-
-        internal ActorObserverCollection(Func<ActorPath> source)
+        internal ObserverCollection(Func<ActorPath> source)
         {
             this.source = source;
         }
 
-        void IActorObserverCollection.Add(IActorObserver observer)
+        void IObserverCollection.Add(IActorObserver observer)
         {
             observers.Add(observer);
         }
 
-        void IActorObserverCollection.Remove(IActorObserver observer)
+        void IObserverCollection.Remove(IActorObserver observer)
         {
             observers.Remove(observer);
         }
 
-        void IActorObserverCollection.Notify(object message)
+        void IObserverCollection.Notify(object message)
         {
             var failed = new List<IActorObserver>();
 

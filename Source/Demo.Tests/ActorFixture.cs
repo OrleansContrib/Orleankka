@@ -17,7 +17,7 @@ namespace Demo
         protected ActorSystemMock System;
         protected TimerServiceMock Timers;
         protected ReminderServiceMock Reminders;
-        protected ActorObserverCollectionMock Observers;
+        protected ObserverCollectionMock Observers;
 
         [SetUp]
         public virtual void SetUp()
@@ -25,7 +25,7 @@ namespace Demo
             System = new ActorSystemMock();
             Timers = new TimerServiceMock();
             Reminders = new ReminderServiceMock();
-            Observers = new ActorObserverCollectionMock();
+            Observers = new ObserverCollectionMock();
         }
 
         protected static void IsFalse([InstantHandle] Expression<Func<bool>> expression, string message = null)
@@ -151,12 +151,12 @@ namespace Demo
 
     public static class ActorObserverCollectionMockExtensions
     {
-        public static IEnumerable<Event> Events(this ActorObserverCollectionMock mock)
+        public static IEnumerable<Event> Events(this ObserverCollectionMock mock)
         {
             return mock.RecordedNotifications.Cast<Event>();
         }
 
-        public static TEvent FirstEvent<TEvent>(this ActorObserverCollectionMock mock) where TEvent : Event
+        public static TEvent FirstEvent<TEvent>(this ObserverCollectionMock mock) where TEvent : Event
         {
             return mock.Events().OfType<TEvent>().FirstOrDefault();
         }

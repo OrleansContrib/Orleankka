@@ -61,7 +61,7 @@ namespace Demo
         const int FailureThreshold = 3;
 
         readonly ITimerService timers;
-        readonly IActorObserverCollection observers;
+        readonly IObserverCollection observers;
         readonly Func<IApiWorker> worker;
 
         int failures;
@@ -70,7 +70,7 @@ namespace Demo
         public Api()
         {
             timers = new TimerService(this);
-            observers = new ActorObserverCollection(this);
+            observers = new ObserverCollection(this);
             worker = ApiWorkerFactory.Create(()=> Id);
         }
 
@@ -78,7 +78,7 @@ namespace Demo
             string id, 
             IActorSystem system, 
             ITimerService timers, 
-            IActorObserverCollection observers, 
+            IObserverCollection observers, 
             IApiWorker worker)
             : base(id, system)
         {

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ActorObserverStub : IActorObserver
+    public class ActorActorObserverStub : IActorObserver
     {
         public void OnNext(Notification notification)
         {}

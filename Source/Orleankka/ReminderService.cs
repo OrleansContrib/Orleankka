@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Dynamic;
-
 using Orleans.Runtime;
 
 namespace Orleankka
@@ -61,16 +59,8 @@ namespace Orleankka
         /// <summary>
         /// Initializes a new instance of the <see cref="ReminderService"/> class.
         /// </summary>
-        /// <param name="actor">The actor which requires reminder services.</param>
-        public ReminderService(Actor actor) 
-            : this(()=>(IInternalReminderService)actor)
-        {}        
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReminderService"/> class.
-        /// </summary>
         /// <param name="actor">The dynamic actor which requires reminder services.</param>
-        public ReminderService(DynamicActor actor) 
+        public ReminderService(Actor actor) 
             : this(()=>actor.Host)
         {}
 

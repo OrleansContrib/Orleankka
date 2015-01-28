@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Dynamic;
-
 namespace Orleankka
 {
     /// <summary>
@@ -100,14 +98,6 @@ namespace Orleankka
         /// </summary>
         /// <param name="actor">The actor which requires timer services.</param>
         public TimerService(Actor actor) 
-            : this(()=>(IInternalTimerService)actor)
-        {}
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimerService"/> class.
-        /// </summary>
-        /// <param name="actor">The actor which requires timer services.</param>
-        public TimerService(DynamicActor actor) 
             : this(()=>actor.Host)
         {}
 

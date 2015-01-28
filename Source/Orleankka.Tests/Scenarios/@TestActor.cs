@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Orleans;
 
-namespace Orleankka.Dynamic.Actors
+namespace Orleankka.Scenarios
 {
     public class SetText : Command
     {
@@ -59,9 +59,9 @@ namespace Orleankka.Dynamic.Actors
     public class GetInstanceHashcode : Query<int>
     {}
 
-    public class TestActor : DynamicActor
+    public class TestActor : Actor
     {
-        readonly IActorObserverCollection observers;
+        readonly IObserverCollection observers;
         readonly IActivationService activation;
         readonly IReminderService reminders;
 
@@ -70,7 +70,7 @@ namespace Orleankka.Dynamic.Actors
 
         public TestActor()
         {
-            observers  = new ActorObserverCollection(this);
+            observers  = new ObserverCollection(this);
             activation = new ActivationService(this);
             reminders  = new ReminderService(this);
         }

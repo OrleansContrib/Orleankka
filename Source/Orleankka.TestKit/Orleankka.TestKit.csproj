@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorRefMock.cs" />
-    <Compile Include="ActorObserverStub.cs" />
+    <Compile Include="ActorActorObserverStub.cs" />
     <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />

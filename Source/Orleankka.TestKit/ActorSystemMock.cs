@@ -12,8 +12,8 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
             new Dictionary<ActorPath, ActorRefStub>();
 
-        readonly Dictionary<ActorPath, ActorObserverStub> observers =
-             new Dictionary<ActorPath, ActorObserverStub>();
+        readonly Dictionary<ActorPath, ActorActorObserverStub> observers =
+             new Dictionary<ActorPath, ActorActorObserverStub>();
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
@@ -47,7 +47,7 @@ namespace Orleankka.TestKit
             if (observers.ContainsKey(path))
                 return observers[path];
 
-            var stub = new ActorObserverStub();
+            var stub = new ActorActorObserverStub();
             observers.Add(path, stub);
 
             return stub;

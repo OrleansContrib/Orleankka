@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Orleankka.Dynamic.Actors
+namespace Orleankka.Scenarios
 {
     public class DoTell : Command
     {
@@ -39,11 +39,10 @@ namespace Orleankka.Dynamic.Actors
         }
     }
 
-    [Serializable]
     public class GetReceivedNotifications : Query<Notification[]>
     {}
 
-    public class TestInsideActor : DynamicActor
+    public class TestInsideActor : Actor
     {
         readonly List<Notification> received = new List<Notification>();
 

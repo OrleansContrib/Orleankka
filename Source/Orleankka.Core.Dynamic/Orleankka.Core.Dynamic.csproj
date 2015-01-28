@@ -39,12 +39,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicMessage.cs" />
-    <Compile Include="DynamicNotification.cs" />
-    <Compile Include="DynamicRequest.cs" />
-    <Compile Include="DynamicResponse.cs" />
-    <Compile Include="IDynamicActor.cs" />
-    <Compile Include="IDynamicActorObserver.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

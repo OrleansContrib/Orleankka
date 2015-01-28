@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using NUnit.Framework;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 using Orleans;
 using Orleans.Runtime.Configuration;
 
-using Orleankka;
+using Orleankka.Testing;
 [assembly: TestSuiteSetup]
 
-namespace Orleankka
+namespace Orleankka.Testing
 {
     public class TestSuiteSetupAttribute : TestActionAttribute
     {
@@ -25,10 +25,10 @@ namespace Orleankka
                 return;
 
             var serverConfig = new ServerConfiguration()
-                .LoadFromEmbeddedResource(GetType().Assembly, "Orleankka._Testing_.Orleans.Server.Configuration.xml");
+                .LoadFromEmbeddedResource(GetType(), "Orleans.Server.Configuration.xml");
 
             var clientConfig = new ClientConfiguration()
-                .LoadFromEmbeddedResource(GetType().Assembly, "Orleankka._Testing_.Orleans.Client.Configuration.xml");
+                .LoadFromEmbeddedResource(GetType(), "Orleans.Client.Configuration.xml");
 
             silo = new EmbeddedSilo()
                 .With(serverConfig)
@@ -57,8 +57,8 @@ namespace Orleankka
 
         public static void Run()
         {
-            ActorSystem.Dynamic.Serializer = Serialize;
-            ActorSystem.Dynamic.Deserializer = Deserialize;
+            ActorSystem.Serializer = Serialize;
+            ActorSystem.Deserializer = Deserialize;
         }
 
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
