@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +7,7 @@ using Orleans.Providers;
 
 namespace Orleankka
 {
-    public abstract class ActorSystemBootstrapper : MarshalByRefObject, IBootstrapProvider
+    public abstract class Bootstrapper : MarshalByRefObject, IBootstrapProvider
     {
         public string Name { get; private set; }
 

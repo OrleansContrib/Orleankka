@@ -37,7 +37,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OrleansConfiguration xmlns="urn:orleans">
-  <Globals>
+  <Globals>    
     <StorageProviders>
       <Provider Type="Orleans.Storage.MemoryStorage" 
                 Name="MemoryStore" />
     </StorageProviders>
-    <BootstrapProviders>
-      <Provider Type="Orleankka.DynamicActorsBootstrapper" Name="Boot"/>
-    </BootstrapProviders>
+    <ReminderService ReminderServiceType="ReminderTableGrain"/>
     <SeedNode Address="localhost" Port="11111" />    
   </Globals>
   <Defaults>

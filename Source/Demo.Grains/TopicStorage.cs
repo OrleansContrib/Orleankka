@@ -15,19 +15,15 @@ namespace Demo
 
     public class TopicStorage : ITopicStorage
     {
-        public static ITopicStorage Instance
+        public static ITopicStorage Init(string connectionString)
         {
-            get; private set;
-        }
-
-        public static void Init(CloudStorageAccount account)
-        {
+            var account = CloudStorageAccount.Parse(connectionString);
             var blobClient = account.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("topics");
             container.CreateIfNotExists();
 
-            Instance = new TopicStorage(container);
+            return new TopicStorage(container);
         }
 
         readonly CloudBlobContainer container;

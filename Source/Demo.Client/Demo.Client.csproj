@@ -75,7 +75,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="OrleansSilo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,12 +93,8 @@
     <None Include="Packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientConfiguration.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ServerConfiguration.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Orleans.Client.Configuration.xml" />
+    <EmbeddedResource Include="Orleans.Server.Configuration.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demo.Grains\Demo.Grains.csproj">

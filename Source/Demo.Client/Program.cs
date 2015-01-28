@@ -1,56 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 
-using Orleans;
 using Orleankka;
-
-using Microsoft.WindowsAzure.Storage;
+using Orleans.Runtime.Configuration;
 
 namespace Demo
 {
     public static class Program
     {
-        static OrleansSilo silo;
         static Client client;
 
         public static void Main()
         {
-            var args = new[]
-            {
-                "UseDevelopmentStorage=true" // # TopicStorageAccount
-            };
+            var serverConfig = new ServerConfiguration()
+                .LoadFromEmbeddedResource<Client>("Orleans.Server.Configuration.xml");
 
-            var hostDomain = AppDomain.CreateDomain("OrleansHost", null, new AppDomainSetup
-            {
-                AppDomainInitializer = StartSilo,
-                AppDomainInitializerArguments = args,
-            });
+            var clientConfig = new ClientConfiguration()
+                .LoadFromEmbeddedResource<Client>("Orleans.Client.Configuration.xml");
 
-            OrleansClient.Initialize("ClientConfiguration.xml");
-            RunClient();
+            var properties = new Dictionary<string, string> 
+              {{"account", "UseDevelopmentStorage=true"}};
+
+            var silo = new EmbeddedSilo()
+                .With(serverConfig)
+                .With(clientConfig)
+                .Use<ServiceLocator>(properties)
+                .Start();
+
+            client = new Client(ActorSystem.Instance, ClientObservable.Create().Result);
+            client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
 
-            hostDomain.DoCallBack(StopSilo);
-        }
-
-        static void StartSilo(string[] args)
-        {
-            TopicStorage.Init(CloudStorageAccount.Parse(args[0]));
-
-            silo = new OrleansSilo();
-            silo.Start();
-        }
-
-        static void StopSilo()
-        {
-            silo.Stop();
-        }
-
-        static void RunClient()
-        {
-            client = new Client(ActorSystem.Instance, ClientObservable.Create().Result);
-            client.Run();
+            silo.Dispose();
         }
     }
 }

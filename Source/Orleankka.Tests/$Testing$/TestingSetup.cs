@@ -4,32 +4,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
 using NUnit.Framework;
+using Newtonsoft.Json;
 
 using Orleans;
-using Orleankka;
+using Orleans.Runtime.Configuration;
 
-[assembly: DynamicActorsBootstrapper]
+using Orleankka;
+[assembly: TestSuiteSetup]
 
 namespace Orleankka
 {
-    public class DynamicActorsBootstrapperAttribute : TestActionAttribute
+    public class TestSuiteSetupAttribute : TestActionAttribute
     {
+        IDisposable silo;
+
         public override void BeforeTest(TestDetails details)
         {
+            if (!details.IsSuite)
+                return;
+
+            var serverConfig = new ServerConfiguration()
+                .LoadFromEmbeddedResource(GetType().Assembly, "Orleankka._Testing_.Orleans.Server.Configuration.xml");
+
+            var clientConfig = new ClientConfiguration()
+                .LoadFromEmbeddedResource(GetType().Assembly, "Orleankka._Testing_.Orleans.Client.Configuration.xml");
+
+            silo = new EmbeddedSilo()
+                .With(serverConfig)
+                .With(clientConfig)
+                .Use<DynamicActorsBootstrapper>()
+                .Start();
+
             DynamicActorsBootstrapper.Run();
+        }
+
+        public override void AfterTest(TestDetails details)
+        {
+            if (!details.IsSuite)
+                return;
+
+            silo.Dispose();
         }
     }
 
-    public class DynamicActorsBootstrapper : ActorSystemBootstrapper
+    public class DynamicActorsBootstrapper : Bootstrapper
     {
         public override Task Run(IDictionary<string, string> properties)
         {
             Run(); return TaskDone.Done;
         }
 
-        internal static void Run()
+        public static void Run()
         {
             ActorSystem.Dynamic.Serializer = Serialize;
             ActorSystem.Dynamic.Deserializer = Deserialize;
@@ -38,7 +64,7 @@ namespace Orleankka
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            Converters = {new ActorPathConverter()}
+            Converters = { new ActorPathConverter() }
         };
 
         static byte[] Serialize(object obj)

@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

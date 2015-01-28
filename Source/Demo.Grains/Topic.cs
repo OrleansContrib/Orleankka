@@ -18,13 +18,13 @@ namespace Demo
         readonly IDictionary<string, int> retrying = new Dictionary<string, int>();
 
         internal int total;
-        internal string query;
+        string query;
 
         public Topic()
         {
             timers = new TimerService(this);
             reminders = new ReminderService(this);
-            storage = TopicStorage.Instance;
+            storage = ServiceLocator.TopicStorage;
         }
 
         public Topic(

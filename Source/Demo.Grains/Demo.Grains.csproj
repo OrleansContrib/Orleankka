@@ -72,17 +72,18 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiWorker.cs" />
+    <Compile Include="ServiceLocator.cs" />
     <Compile Include="TopicStorage.cs" />
     <Compile Include="Api.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Topic.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demo.Interfaces\Demo.Interfaces.csproj">

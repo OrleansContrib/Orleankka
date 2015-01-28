@@ -41,7 +41,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
