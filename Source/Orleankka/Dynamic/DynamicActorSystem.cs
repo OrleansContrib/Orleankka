@@ -71,7 +71,7 @@ namespace Orleankka
                 set { DynamicMessage.Deserializer = value; }
             }
 
-            internal static readonly IActorSystem Instance = new DynamicActorSystem(Orleankka.ActorSystem.Instance);
+            internal static readonly IActorSystem Instance = new DynamicActorSystem(ActorSystem.Instance);
 
             class DynamicActorSystem : IActorSystem
             {

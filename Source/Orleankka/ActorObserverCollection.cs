@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using Orleankka.Dynamic;
+
 namespace Orleankka
 {
     /// <summary>
@@ -40,7 +42,15 @@ namespace Orleankka
         readonly HashSet<IActorObserver> observers = new HashSet<IActorObserver>();
         readonly Func<ActorPath> source;
 
-        public ActorObserverCollection(Func<ActorPath> source)
+        public ActorObserverCollection(Actor actor)
+            : this(() => actor.Self)
+        {}
+
+        public ActorObserverCollection(DynamicActor actor)
+            : this(() => actor.Self)
+        {}
+
+        internal ActorObserverCollection(Func<ActorPath> source)
         {
             this.source = source;
         }

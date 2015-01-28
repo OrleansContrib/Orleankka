@@ -62,6 +62,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dynamic.Actors\Scenarios\Using_reminders.cs" />
     <Compile Include="Utility\ActorObserverCollectionFixture.cs" />
     <Compile Include="Actors\%40TestActor.cs" />
     <Compile Include="Actors\%40TestInsideActor.cs" />

@@ -34,14 +34,14 @@ namespace Orleankka
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly IInternalActivationService service;
+        readonly Func<IInternalActivationService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivationService"/> class.
         /// </summary>
         /// <param name="actor">The actor which requires activation services.</param>
         public ActivationService(Actor actor)
-            : this((IInternalActivationService)actor)
+            : this(()=>(IInternalActivationService)actor)
         {}
 
         /// <summary>
@@ -49,22 +49,22 @@ namespace Orleankka
         /// </summary>
         /// <param name="actor">The dynamic actor which requires activation services.</param>
         public ActivationService(DynamicActor actor)
-            : this(actor.Host)
+            : this(()=>actor.Host)
         {}
 
-        ActivationService(IInternalActivationService service)
+        ActivationService(Func<IInternalActivationService> service)
         {
             this.service = service;
         }
 
         void IActivationService.DeactivateOnIdle()
         {
-            service.DeactivateOnIdle();
+            service().DeactivateOnIdle();
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            service.DelayDeactivation(period);
+            service().DelayDeactivation(period);
         } 
     }
 }

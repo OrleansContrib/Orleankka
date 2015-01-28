@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-using Orleankka.Dynamic;
 
 using Orleans;
 
@@ -51,14 +50,29 @@ namespace Orleankka.Dynamic.Actors
         }
     }
 
+    public class SetReminder : Command
+    {}
+
+    public class HasBeenReminded : Query<int>
+    {}
+
+    public class GetInstanceHashcode : Query<int>
+    {}
+
     public class TestActor : DynamicActor
     {
         readonly IActorObserverCollection observers;
+        readonly IActivationService activation;
+        readonly IReminderService reminders;
+
         string text = "";
+        bool reminded;
 
         public TestActor()
         {
-            observers = new ActorObserverCollection(()=> this);
+            observers  = new ActorObserverCollection(this);
+            activation = new ActivationService(this);
+            reminders  = new ReminderService(this);
         }
 
         public override Task OnTell(object message)
@@ -69,6 +83,13 @@ namespace Orleankka.Dynamic.Actors
         public override async Task<object> OnAsk(object message)
         {
             return await this.Answer((dynamic)message);
+        }
+
+        public override Task OnReminder(string id)
+        {
+            reminded = true;
+            activation.DelayDeactivation(TimeSpan.FromSeconds(600));
+            return TaskDone.Done;
         }
 
         public Task Handle(SetText cmd)
@@ -92,6 +113,23 @@ namespace Orleankka.Dynamic.Actors
         public Task Handle(Throw cmd)
         {
             throw cmd.Exception;
+        }
+        
+        public Task Handle(SetReminder cmd)
+        {
+            reminders.Register("test", TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+            activation.DeactivateOnIdle();
+            return TaskDone.Done;
+        }
+
+        public Task<bool> Answer(HasBeenReminded query)
+        {
+            return Task.FromResult(reminded);
+        }
+
+        public Task<int> Answer(GetInstanceHashcode query)
+        {
+            return Task.FromResult(RuntimeHelpers.GetHashCode(this));
         }
     }
 }

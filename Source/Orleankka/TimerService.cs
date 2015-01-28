@@ -93,14 +93,14 @@ namespace Orleankka
     public class TimerService : ITimerService
     {
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly IInternalTimerService service;
+        readonly Func<IInternalTimerService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimerService"/> class.
         /// </summary>
         /// <param name="actor">The actor which requires timer services.</param>
         public TimerService(Actor actor) 
-            : this((IInternalTimerService)actor)
+            : this(()=>(IInternalTimerService)actor)
         {}
         
         /// <summary>
@@ -108,22 +108,22 @@ namespace Orleankka
         /// </summary>
         /// <param name="actor">The actor which requires timer services.</param>
         public TimerService(DynamicActor actor) 
-            : this(actor.Host)
+            : this(()=>actor.Host)
         {}
 
-        TimerService(IInternalTimerService service)
+        TimerService(Func<IInternalTimerService> service)
         {
             this.service = service;
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, service.RegisterTimer(s => callback(), null, due, period));
+            timers.Add(id, service().RegisterTimer(s => callback(), null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, service.RegisterTimer(s => callback((TState)s), state, due, period));
+            timers.Add(id, service().RegisterTimer(s => callback((TState)s), state, due, period));
         }
 
         void ITimerService.Unregister(string id)

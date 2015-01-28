@@ -5,7 +5,7 @@ using System.Threading;
 
 using NUnit.Framework;
 
-namespace Orleankka
+namespace Orleankka.Utility
 {
     [TestFixture]
     public class ActorObserverCollectionFixture
