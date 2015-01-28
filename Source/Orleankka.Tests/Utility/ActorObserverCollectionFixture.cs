@@ -5,13 +5,15 @@ using System.Threading;
 
 using NUnit.Framework;
 
+using Orleankka.Dynamic.Actors;
+
 namespace Orleankka.Utility
 {
     [TestFixture]
     public class ActorObserverCollectionFixture
     {
         const string message = "foo";
-        static readonly ActorPath source = new ActorPath(typeof(ITestActor), "some-id");
+        static readonly ActorPath source = new ActorPath(typeof(TestActor), "some-id");
 
         IActorObserverCollection collection;
         ActorObserver observer;

@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Demo</RootNamespace>
-    <AssemblyName>Demo.Grains</AssemblyName>
+    <AssemblyName>Demo.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiWorker.cs" />
+    <Compile Include="Meta.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="TopicStorage.cs" />
     <Compile Include="Api.cs" />
@@ -86,10 +87,6 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Demo.Interfaces\Demo.Interfaces.csproj">
-      <Project>{37e40f4a-6a78-417d-aae8-924720b389c0}</Project>
-      <Name>Demo.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>

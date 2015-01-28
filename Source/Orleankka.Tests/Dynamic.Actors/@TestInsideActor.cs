@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Dynamic;
-
 namespace Orleankka.Dynamic.Actors
 {
     public class DoTell : Command

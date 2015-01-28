@@ -7,7 +7,20 @@ using Orleankka;
 
 namespace Demo
 {
-    public class Topic : Actor, ITopic
+    [Serializable]
+    public class CreateTopic : Command
+    {
+        public readonly string Query;
+        public readonly IDictionary<string, TimeSpan> Schedule;
+
+        public CreateTopic(string query, IDictionary<string, TimeSpan> schedule)
+        {
+            Query = query;
+            Schedule = schedule;
+        }
+    }
+
+    public class Topic : Actor
     {
         readonly ITimerService timers;
         readonly IReminderService reminders;
@@ -122,7 +135,7 @@ namespace Demo
 
         async Task Search(string api)
         {
-            var provider = System.ActorOf<IApi>(api);
+            var provider = System.ActorOf<Api>(api);
 
             total += await provider.Query(new Search(query));
             Log.Message(ConsoleColor.DarkGray, "[{0}] succesfully obtained results from {1} ...", Id, api);

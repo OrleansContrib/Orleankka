@@ -62,15 +62,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dynamic.Actors\Meta.cs" />
     <Compile Include="Dynamic.Actors\Scenarios\Using_reminders.cs" />
     <Compile Include="Utility\ActorObserverCollectionFixture.cs" />
-    <Compile Include="Actors\%40TestActor.cs" />
-    <Compile Include="Actors\%40TestInsideActor.cs" />
-    <Compile Include="Actors\ActorInterfaceFixture.cs" />
     <Compile Include="Services\ActorSystemFixture.cs" />
-    <Compile Include="Actors\Scenarios\Observing_notifications.cs" />
-    <Compile Include="Actors\Scenarios\Request_response.cs" />
-    <Compile Include="Actors\Scenarios\Unwrapping_exceptions.cs" />
     <Compile Include="Dynamic.Actors\DynamicActorObserverFixture.cs" />
     <Compile Include="Dynamic.Actors\%40TestActor.cs" />
     <Compile Include="Dynamic.Actors\%40TestInsideActor.cs" />
@@ -93,10 +88,6 @@
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Tests.Interfaces\Orleankka.Tests.Interfaces.csproj">
-      <Project>{3d7a4d04-6d86-458a-9c52-331fae3d428c}</Project>
-      <Name>Orleankka.Tests.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>

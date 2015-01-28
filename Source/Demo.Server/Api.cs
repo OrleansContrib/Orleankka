@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -8,7 +9,54 @@ using Orleankka;
 
 namespace Demo
 {
-    public class Api : Actor, IApi
+    [Serializable]
+    public class Search : Query<int>
+    {
+        public readonly string Subject;
+
+        public Search(string subject)
+        {
+            Subject = subject;
+        }
+    }
+
+    [Serializable]
+    public class MonitorAvailabilityChanges : Command
+    {
+        public readonly ActorPath Sender;
+
+        public MonitorAvailabilityChanges(ActorPath sender)
+        {
+            Sender = sender;
+        }
+    }
+
+    [Serializable]
+    public class AvailabilityChanged : Event
+    {
+        public readonly string Api;
+        public readonly bool Available;
+
+        public AvailabilityChanged(string api, bool available)
+        {
+            Api = api;
+            Available = available;
+        }
+    }
+
+    [Serializable]
+    public class ApiUnavailableException : ApplicationException
+    {
+        public ApiUnavailableException(string api)
+            : base(api + " api is unavailable. Try later!")
+        {}
+
+        protected ApiUnavailableException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {}
+    }
+
+    public class Api : Actor
     {
         const int FailureThreshold = 3;
 

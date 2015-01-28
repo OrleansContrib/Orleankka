@@ -27,7 +27,7 @@ namespace Demo
 
             foreach (var i in Enumerable.Range(1, 25))
             {
-                var topic = system.ActorOf<ITopic>(i.ToString());
+                var topic = system.ActorOf<Topic>(i.ToString());
 
                 await topic.Send(new CreateTopic("[" + i + "]", new Dictionary<string, TimeSpan>
                 {
@@ -39,7 +39,7 @@ namespace Demo
 
         async Task MonitorAvailabilityChanges(string api)
         {
-            await system.ActorOf<IApi>(api).Tell(new MonitorAvailabilityChanges(observable));
+            await system.ActorOf<Api>(api).Tell(new MonitorAvailabilityChanges(observable));
         }
 
         static void LogToConsole(Notification notification)

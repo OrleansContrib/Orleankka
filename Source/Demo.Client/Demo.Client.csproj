@@ -97,13 +97,9 @@
     <EmbeddedResource Include="Orleans.Server.Configuration.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Demo.Grains\Demo.Grains.csproj">
+    <ProjectReference Include="..\Demo.Server\Demo.Server.csproj">
       <Project>{05133fcf-5247-475a-a3f0-c1e518e08e56}</Project>
-      <Name>Demo.Grains</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Demo.Interfaces\Demo.Interfaces.csproj">
-      <Project>{37e40f4a-6a78-417d-aae8-924720b389c0}</Project>
-      <Name>Demo.Interfaces</Name>
+      <Name>Demo.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>

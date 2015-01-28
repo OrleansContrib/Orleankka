@@ -35,7 +35,7 @@ namespace Demo
             
             topic = new Topic("42", System, Timers, Reminders, new TopicStorageMock());
             
-            api = System.MockActorOf<IApi>("facebook");
+            api = System.MockActorOf<Api>("facebook");
         }
 
         [Test]
