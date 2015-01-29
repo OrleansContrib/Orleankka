@@ -9,9 +9,8 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void Reminders()
+        public void TypeCode()
         {
-            // + Check Reminders. Introduce explicit assembly registration. Enumerate types and use type name as typecode.
             // - Make sure Orleans' TypeCodeOverride is utilized.
         }
 
