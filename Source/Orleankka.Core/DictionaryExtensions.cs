@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace System.Collections.Generic
+namespace Orleankka
 {
     static class DictionaryExtensions
     {

@@ -48,10 +48,11 @@
   <ItemGroup>
     <Compile Include="ActorPath.cs" />
     <Compile Include="Annotations.cs" />
-    <Compile Include="Internal\Message.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="Internal\Payload.cs" />
     <Compile Include="Internal\Request.cs" />
     <Compile Include="Internal\Response.cs" />
-    <Compile Include="Internal\IActor.cs" />
+    <Compile Include="Internal\IActorHost.cs" />
     <Compile Include="IActorObserver.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />

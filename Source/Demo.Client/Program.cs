@@ -25,6 +25,7 @@ namespace Demo
                 .With(serverConfig)
                 .With(clientConfig)
                 .Use<ServiceLocator>(properties)
+                .Register(typeof(Api).Assembly)
                 .Start();
 
             client = new Client(ActorSystem.Instance, ClientObservable.Create().Result);

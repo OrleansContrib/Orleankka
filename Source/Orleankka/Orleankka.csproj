@@ -56,10 +56,9 @@
     <Compile Include="ClientObservable.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="ActorProxy.cs" />
-    <Compile Include="Host.cs" />
+    <Compile Include="ActorHost.cs" />
     <Compile Include="EmbeddedSilo.cs" />
-    <Compile Include="Extensions\AggregateExceptionExtensions.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="TaskExtensions.cs" />
     <Compile Include="Internals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReminderService.cs" />
