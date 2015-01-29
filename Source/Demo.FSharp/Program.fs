@@ -30,7 +30,7 @@ let main argv =
    let serverConfig = ServerConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Server.Configuration.xml")
    let clientConfig = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Client.Configuration.xml")
 
-   let silo = EmbeddedSilo().With(serverConfig).With(clientConfig).Start()
+   let silo = EmbeddedSilo().With(serverConfig).With(clientConfig).Register(assembly).Start()
 
    let actorSystem = ActorSystem.Instance
 
