@@ -11,7 +11,7 @@ namespace Orleankka.Fixtures
     public class ObserverCollectionFixture
     {
         const string message = "foo";
-        static readonly ActorPath source = new ActorPath(typeof(TestActor), "some-id");
+        static readonly ActorPath source = ActorPath.From("TestActor::some-id");
 
         IObserverCollection collection;
         ActorObserver observer;
@@ -77,8 +77,5 @@ namespace Orleankka.Fixtures
                 Received.Set();
             }
         }
-
-        class TestActor : Actor
-        {}
     }
 }

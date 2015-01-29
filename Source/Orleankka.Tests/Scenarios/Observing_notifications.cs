@@ -21,8 +21,8 @@ namespace Orleankka.Scenarios
             {
                 await actor.Tell(new Attach(observable));
 
+                ActorPath source = ActorPath.Empty;
                 TextChanged @event = null;
-                ActorPath source = null;
 
                 var done = new AutoResetEvent(false);
                 var subscription = observable.Subscribe(notification =>
@@ -35,6 +35,7 @@ namespace Orleankka.Scenarios
                 await actor.Tell(new SetText("c-a"));
                 done.WaitOne(TimeSpan.FromSeconds(5));
 
+                Assert.That(source, Is.Not.EqualTo(ActorPath.Empty));
                 Assert.That(source, Is.EqualTo(actor.Path));
                 Assert.That(@event.Text, Is.EqualTo("c-a"));
 
@@ -61,9 +62,10 @@ namespace Orleankka.Scenarios
             var received = await one.Ask<Notification[]>(new GetReceivedNotifications());
             Assert.That(received.Length, Is.EqualTo(1));
 
-            var @event = (TextChanged)received[0].Message;
             var source = received[0].Source;
+            var @event = (TextChanged)received[0].Message;
 
+            Assert.That(source, Is.Not.EqualTo(ActorPath.Empty));
             Assert.That(source, Is.EqualTo(another));
             Assert.That(@event.Text, Is.EqualTo("a-a"));
         }

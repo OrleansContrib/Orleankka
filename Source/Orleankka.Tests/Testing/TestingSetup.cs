@@ -10,7 +10,9 @@ using NUnit.Framework;
 using Orleans;
 using Orleans.Runtime.Configuration;
 
+using Orleankka.Scenarios;
 using Orleankka.Testing;
+
 [assembly: TestSuiteSetup]
 
 namespace Orleankka.Testing
@@ -33,10 +35,11 @@ namespace Orleankka.Testing
             silo = new EmbeddedSilo()
                 .With(serverConfig)
                 .With(clientConfig)
-                .Use<DynamicActorsBootstrapper>()
+                .Use<SerializationBootstrapper>()
+                .Register(typeof(TestActor).Assembly)
                 .Start();
 
-            DynamicActorsBootstrapper.Run();
+            SerializationBootstrapper.Run();
         }
 
         public override void AfterTest(TestDetails details)
@@ -48,11 +51,12 @@ namespace Orleankka.Testing
         }
     }
 
-    public class DynamicActorsBootstrapper : Bootstrapper
+    public class SerializationBootstrapper : Bootstrapper
     {
         public override Task Run(IDictionary<string, string> properties)
         {
-            Run(); return TaskDone.Done;
+            Run();
+            return TaskDone.Done;
         }
 
         public static void Run()
@@ -93,7 +97,7 @@ namespace Orleankka.Testing
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                return ActorPath.Of((string)reader.Value);
+                return ActorPath.From((string)reader.Value);
             }
         }
     }

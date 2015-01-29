@@ -26,14 +26,14 @@ namespace Orleankka.Internal
             var request = (Request) obj;
             
             SerializationManager.SerializeInner(request.Target, stream, typeof(ActorPath));
-            SerializationManager.SerializeInner(Internal.Message.Serializer(request.Message), stream, typeof(byte[]));
+            SerializationManager.SerializeInner(Internal.Payload.Serialize(request.Message), stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
             var target = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
-            var message = Internal.Message.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
+            var message = Internal.Payload.Deserialize((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
 
             return new Request(target, message);
         }

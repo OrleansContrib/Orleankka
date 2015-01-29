@@ -15,6 +15,8 @@ namespace Orleankka
     /// <remarks> Instances of this type are not thread safe </remarks>
     public class ClientObservable : IObservable<Notification>, IEquatable<ActorPath>, IDisposable
     {
+        const string TypeCode = "client";
+
         /// <summary>
         /// Creates new <see cref="ClientObservable"/>
         /// </summary>
@@ -29,14 +31,14 @@ namespace Orleankka
         readonly ClientActorObserver client;
         readonly IActorObserver proxy;
         readonly ActorPath path;
-
+        
         protected ClientObservable(ActorPath path)
         {
             this.path = path;
         }
 
         ClientObservable(ClientActorObserver client, IActorObserver proxy)
-            : this(new ActorPath(typeof(ClientObservable), IdentityOf(proxy)))
+            : this(new ActorPath(TypeCode, IdentityOf(proxy)))
         {
             this.client = client;
             this.proxy = proxy;
@@ -128,7 +130,7 @@ namespace Orleankka
 
         internal static bool IsCompatible(ActorPath path)
         {
-            return path.Type == typeof(ClientObservable);
+            return path.TypeCode == TypeCode;
         }
 
         internal static IActorObserver Observer(ActorPath path)

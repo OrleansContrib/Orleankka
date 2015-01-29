@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using Orleankka.Internal;
@@ -38,9 +40,9 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id)
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
         {
-            return system.ActorOf(new ActorPath(typeof(TActor), id));
+            return system.ActorOf(ActorPath.From(typeof(TActor), id));
         }
     }
 
@@ -57,11 +59,6 @@ namespace Orleankka
         ActorSystem()
         {}
 
-        static ActorSystem()
-        {
-            Activator = path => (Actor) System.Activator.CreateInstance(path.Type);
-        }
-
         /// <summary>
         /// The activation function, which creates actual instances of <see cref="Actor"/>
         /// </summary>
@@ -69,7 +66,15 @@ namespace Orleankka
         /// By default expects type to have a public parameterless constructor 
         /// as a consequence of using standard  <see cref="System.Activator"/>
         /// </remarks>
-        public static Func<ActorPath, Actor> Activator { get; set; }
+        public static Func<Type, Actor> Activator
+        {
+            get { return ActorHost.Activator; }
+            set
+            {
+                Requires.NotNull(value, "value");
+                ActorHost.Activator = value;
+            }
+        }
 
         /// <summary>
         /// The serialization function, which serializes messages to byte[]
@@ -79,8 +84,12 @@ namespace Orleankka
         /// </remarks>
         public static Func<object, byte[]> Serializer
         {
-            get { return Message.Serializer; }
-            set { Message.Serializer = value; }
+            get { return Payload.Serialize; }
+            set
+            {
+                Requires.NotNull(value, "value");
+                Payload.Serialize = value;
+            }
         }
 
         /// <summary>
@@ -91,31 +100,96 @@ namespace Orleankka
         /// <see cref="BinaryFormatter"/></remarks>
         public static Func<byte[], object> Deserializer
         {
-            get { return Message.Deserializer; }
-            set { Message.Deserializer = value; }
+            get { return Payload.Deserialize; }
+            set
+            {
+                Requires.NotNull(value, "value");
+                Payload.Deserialize = value;
+            }
+        }
+
+        /// <summary>
+        /// Registers actor types defined in the specified assembly.
+        /// </summary>
+        /// <param name="assembly">The assembly.</param>
+        public static void Register(Assembly assembly)
+        {
+            Requires.NotNull(assembly, "assembly");
+
+            var types = assembly
+                .GetTypes()
+                .Where(x => 
+                    !x.IsAbstract 
+                    && typeof(Actor).IsAssignableFrom(x));
+
+            foreach (var type in types)
+                TypeCache.Register(type);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
-            Requires.NotNull(path, "path");
+            if (path == ActorPath.Empty)
+                throw new ArgumentException("ActorPath is empty", "path");
 
-            if (Actor.IsCompatible(path.Type))
+            if (Actor.IsCompatible(RuntimeType(path)))
                 return new ActorRef(path, Actor.Proxy(path));
 
-            throw new ArgumentException("Path type should be either an interface which implements IActor or non-abstract type inherited from DynamicActor", "path");
+            throw new ArgumentException("Path type should be a non-abstract type inherited from Actor class", "path");
         }
 
         IActorObserver IActorSystem.ObserverOf(ActorPath path)
         {
-            Requires.NotNull(path, "path");
+            if (path == ActorPath.Empty)
+                throw new ArgumentException("ActorPath is empty", "path");
 
             if (ClientObservable.IsCompatible(path))
                 return ClientObservable.Observer(path);
 
-            if (Actor.IsCompatible(path.Type))
+            if (Actor.IsCompatible(RuntimeType(path)))
                 return Actor.Observer(path);
 
-            throw new InvalidOperationException("Can't bind " + path.Type);
+            throw new InvalidOperationException("Can't bind IActorObserver reference for the given path: " + path);
+        }
+
+        internal static Type RuntimeType(ActorPath path)
+        {
+            return TypeCache.Find(path.TypeCode);
+        }
+
+        class TypeCache
+        {
+            static readonly Dictionary<string, Type> cache =
+                        new Dictionary<string, Type>();
+
+            internal static void Register(Type type)
+            {
+                var typeCode = ActorPath.TypeCodeOf(type);
+
+                if (cache.ContainsKey(typeCode))
+                {
+                    var existing = cache[typeCode];
+
+                    if (existing != type)
+                        throw new ArgumentException(
+                            string.Format("The type {0} has been already registered under the code {1}. Use TypeCodeOverride attribute to provide unique code for {2}",
+                                          existing.FullName, typeCode, type.FullName));
+
+                    throw new ArgumentException(string.Format("The type {0} has been already registered", type));
+                }
+
+                cache.Add(typeCode, type);
+            }
+
+            public static Type Find(string typeCode)
+            {
+                Type type = cache.Find(typeCode);
+                
+                if (type == null)
+                    throw new InvalidOperationException(
+                        string.Format("Unable to map type code '{0}' to the corresponding runtime type. Make sure that you've registered the assembly containing this type", typeCode));
+
+                return type;
+            }
         }
     }
 }

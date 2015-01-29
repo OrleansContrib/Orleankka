@@ -5,11 +5,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Orleankka.Internal
 {
-    static class Message
+    static class Payload
     {
-        static Message()
+        static Payload()
         {
-            Serializer = obj =>
+            Serialize = obj =>
             {
                 using (var ms = new MemoryStream())
                 {
@@ -18,7 +18,7 @@ namespace Orleankka.Internal
                 }
             };
 
-            Deserializer = bytes =>
+            Deserialize = bytes =>
             {
                 using (var ms = new MemoryStream(bytes))
                 {
@@ -28,7 +28,7 @@ namespace Orleankka.Internal
             };
         }
 
-        internal static Func<object, byte[]> Serializer;
-        internal static Func<byte[], object> Deserializer;
+        internal static Func<object, byte[]> Serialize;
+        internal static Func<byte[], object> Deserialize;
     }
 }

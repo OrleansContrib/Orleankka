@@ -53,7 +53,7 @@ namespace Orleankka.Scenarios
     public class SetReminder : Command
     {}
 
-    public class HasBeenReminded : Query<int>
+    public class HasBeenReminded : Query<bool>
     {}
 
     public class GetInstanceHashcode : Query<int>

@@ -25,21 +25,21 @@ namespace Orleankka
             this.system = system;
         }
 
-        internal void Initialize(Host host, string id, IActorSystem system)
+        internal void Initialize(ActorHost host, string id, IActorSystem system)
         {
             Host = host;
             this.id = id;
             this.system = system;
         }
 
-        internal Host Host
+        internal ActorHost Host
         {
             get; private set;
         }
 
         public ActorRef Self
         {
-            get { return (self ?? (self = ActorOf(new ActorPath(GetType(), Id)))); }
+            get { return (self ?? (self = ActorOf(ActorPath.From(GetType(), Id)))); }
         }
 
         public string Id
@@ -117,9 +117,9 @@ namespace Orleankka
 
         static class Factory
         {
-            public static IActor Create(ActorPath path)
+            public static IActorHost Create(ActorPath path)
             {
-                return ActorFactory.GetGrain(path.ToString());
+                return ActorHostFactory.GetGrain(path.ToString());
             }
         }
     }

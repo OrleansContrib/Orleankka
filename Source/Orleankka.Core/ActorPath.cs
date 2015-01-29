@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 
 using Orleans.Concurrency;
@@ -7,102 +7,87 @@ using Orleans.Concurrency;
 namespace Orleankka
 {
     [Immutable, Serializable]
-    public sealed class ActorPath : IEquatable<ActorPath>
+    [DebuggerDisplay("{TypeCode}::{Id}")]
+    public struct ActorPath : IEquatable<ActorPath>
     {
-        public readonly Type Type;
+        static readonly string[] separator = { "::" };
+        
+        public readonly string TypeCode;
         public readonly string Id;
 
-        public static ActorPath Of(Type type, string id)
+        public static readonly ActorPath Empty = new ActorPath();
+
+        public ActorPath(string typeCode, string id)
+        {
+            Requires.NotNullOrWhitespace(typeCode, "typeCode");
+            Requires.NotNullOrWhitespace(id, "id");
+
+            if (typeCode.Contains(separator[0]))
+                throw new ArgumentException(
+                    string.Format("Type code cannot contain '{0}' chars", separator[0]));
+            
+            TypeCode = typeCode;
+            Id = id;
+        }
+
+        public static ActorPath From(Type type, string id)
         {
             Requires.NotNull(type, "type");
-            Requires.NotNullOrWhitespace(id, "id");
-            
-            return new ActorPath(type, id);
+            return new ActorPath(TypeCodeOf(type), id);
         }
 
-        public static ActorPath Of(string path)
+        public static ActorPath From(string path)
         {
-            return Serializer.Deserialize(path);
+            Requires.NotNullOrWhitespace(path, "path");
+
+            var parts = path.Split(separator, 2, StringSplitOptions.None);
+            if (parts.Length != 2)
+                throw new ArgumentException("Invalid actor path: " + path);
+            
+            return new ActorPath(parts[0], parts[1]);
         }
 
-        internal ActorPath(Type type, string id)
-        {           
-            Type = type;
-            Id = id;
+        internal static string TypeCodeOf(Type type)
+        {
+            return type.Name; // TODO: check TypeCodeOverride attribute
         }
 
         public bool Equals(ActorPath other)
         {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || Type == other.Type && string.Equals(Id, other.Id));
+            return string.Equals(TypeCode, other.TypeCode) && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
         {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
-                    || obj is ActorPath && Equals((ActorPath) obj));
+            return !ReferenceEquals(null, obj) && (obj is ActorPath && Equals((ActorPath) obj));
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Type.GetHashCode() * 397) ^ Id.GetHashCode();
+                return ((TypeCode != null ? TypeCode.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
             }
         }
 
         public static bool operator ==(ActorPath left, ActorPath right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(ActorPath left, ActorPath right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
+        }
+
+        public static implicit operator string(ActorPath arg)
+        {
+            return arg.ToString();
         }
 
         public override string ToString()
         {
-            return Serializer.Serialize(this);
-        }
-
-        static class Serializer
-        {
-            static readonly string[] separator = {"::"};
-
-            static readonly ConcurrentDictionary<string, Type> cache =
-                        new ConcurrentDictionary<string, Type>();
-
-            public static string Serialize(ActorPath path)
-            {
-                return string.Format("{0}{1}{2}", path.Type.FullName, separator[0], path.Id);
-            }
-            
-            public static ActorPath Deserialize(string path)
-            {
-                var parts = path.Split(separator, 2, StringSplitOptions.None);
-                return new ActorPath(Find(parts[0]), parts[1]);
-            }
-
-            static Type Find(string fullName)
-            {
-                return cache.GetOrAdd(fullName, n =>
-                {
-                    var candidates = AppDomain.CurrentDomain
-                        .GetAssemblies()
-                        .SelectMany(x => x.GetTypes())
-                        .Where(x => x.FullName == n)
-                        .ToArray();
-
-                    if (candidates.Length > 1)
-                        throw new InvalidOperationException("Multiple types match the given type full name: " + n);
-
-                    if (candidates.Length == 0)
-                        throw new InvalidOperationException("Can't find type its by full name: " + n);
-
-                    return candidates[0];
-                });
-            }
+            return string.Format("{0}{1}{2}", TypeCode, separator[0], Id);
         }
     }
 }

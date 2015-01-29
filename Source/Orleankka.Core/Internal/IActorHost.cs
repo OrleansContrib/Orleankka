@@ -9,9 +9,9 @@ namespace Orleankka.Internal
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 
     /// </summary>
-    public interface IActor : IGrainWithStringKey, IRemindable
+    public interface IActorHost : IGrainWithStringKey, IRemindable
     {
-        Task OnTell(Request request);
-        Task<Response> OnAsk(Request request);
+        Task ReceiveTell(Request request);
+        Task<Response> ReceiveAsk(Request request);
     }
 }

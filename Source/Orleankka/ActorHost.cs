@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,45 +14,66 @@ namespace Orleankka
         /// <summary> 
         /// FOR INTERNAL USE ONLY! 
         /// </summary>
-        public class Host
-            : Grain, IActor, IActorObserver,
-              IInternalActivationService,
-              IInternalReminderService,
-              IInternalTimerService
+        public class ActorHost : Grain, IActorHost, IActorObserver,
+            IInternalActivationService,
+            IInternalReminderService,
+            IInternalTimerService
         {
+            public static Func<Type, Actor> Activator;
+            
+            static ActorHost()
+            {
+                Activator = type => (Actor) System.Activator.CreateInstance(type);
+            }
+
             Actor actor;
 
-            public async Task OnTell(Request request)
+            public async Task ReceiveTell(Request request)
             {
-                await EnsureInstance(request.Target);
+                if (actor == null)
+                    await Activate(request.Target);
+
+                Debug.Assert(actor != null);
                 await actor.OnTell(request.Message);
             }
 
-            public async Task<Response> OnAsk(Request request)
+            public async Task<Response> ReceiveAsk(Request request)
             {
-                await EnsureInstance(request.Target);
+                if (actor == null)
+                    await Activate(request.Target);
+
+                Debug.Assert(actor != null);
                 return new Response(await actor.OnAsk(request.Message));
             }
 
             public void OnNext(Notification notification)
             {
+                Debug.Assert(actor != null);
                 actor.OnNext(notification);
             }
 
-            Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
+            async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
             {
-                throw new NotImplementedException("TODO: Parse type and id from actor id");
+                if (actor == null)
+                    await Activate(ActorPath.From(IdentityOf(this)));
+
+                Debug.Assert(actor != null);
+                await actor.OnReminder(reminderName);
             }
 
-            async Task EnsureInstance(ActorPath path)
+            async Task Activate(ActorPath path)
             {
-                if (actor != null)
-                    return;
-
-                actor = ActorSystem.Activator(path);
+                actor = Activator(ActorSystem.RuntimeType(path));
                 actor.Initialize(this, path.Id, ActorSystem.Instance);
 
                 await actor.OnActivate();
+            }
+
+            static string IdentityOf(IGrain grain)
+            {
+                string identity;
+                grain.GetPrimaryKeyLong(out identity);
+                return identity;
             }
 
             #region Internals

@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
-namespace System.Threading.Tasks
+namespace Orleankka
 {
-    static class AggregateExceptionExtensions
+    static class TaskExtensions
     {
         public static async Task UnwrapExceptions(this Task task)
         {

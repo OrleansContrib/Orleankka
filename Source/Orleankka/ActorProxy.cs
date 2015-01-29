@@ -8,23 +8,23 @@ namespace Orleankka
 
     class ActorProxy : IActorProxy
     {
-        readonly IActor actor;
+        readonly IActorHost host;
         readonly ActorPath path;
 
-        public ActorProxy(IActor actor, ActorPath path)
+        public ActorProxy(IActorHost host, ActorPath path)
         {
-            this.actor = actor;
+            this.host = host;
             this.path = path;
         }
 
         public Task OnTell(object message)
         {
-            return actor.OnTell(new Request(path, message));
+            return host.ReceiveTell(new Request(path, message));
         }
 
         public async Task<object> OnAsk(object message)
         {
-            return (await actor.OnAsk(new Request(path, message))).Message;
+            return (await host.ReceiveAsk(new Request(path, message))).Message;
         }
     }
 }
