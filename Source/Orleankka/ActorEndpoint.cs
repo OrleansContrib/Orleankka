@@ -9,47 +9,42 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
-    namespace Internal
+    namespace Core
     {
         /// <summary> 
         /// FOR INTERNAL USE ONLY! 
         /// </summary>
-        public class ActorHost : Grain, IActorHost, IActorObserver,
+        public class ActorEndpoint : Grain, 
+            IActorEndpoint,
             IInternalActivationService,
             IInternalReminderService,
             IInternalTimerService
         {
             public static Func<Type, Actor> Activator;
             
-            static ActorHost()
+            static ActorEndpoint()
             {
                 Activator = type => (Actor) System.Activator.CreateInstance(type);
             }
 
             Actor actor;
 
-            public async Task ReceiveTell(Request request)
+            public async Task ReceiveTell(RequestEnvelope envelope)
             {
                 if (actor == null)
-                    await Activate(request.Target);
+                    await Activate(envelope.Target);
 
                 Debug.Assert(actor != null);
-                await actor.OnTell(request.Message);
+                await actor.OnTell(envelope.Message);
             }
 
-            public async Task<Response> ReceiveAsk(Request request)
+            public async Task<ResponseEnvelope> ReceiveAsk(RequestEnvelope envelope)
             {
                 if (actor == null)
-                    await Activate(request.Target);
+                    await Activate(envelope.Target);
 
                 Debug.Assert(actor != null);
-                return new Response(await actor.OnAsk(request.Message));
-            }
-
-            public void OnNext(Notification notification)
-            {
-                Debug.Assert(actor != null);
-                actor.OnNext(notification);
+                return new ResponseEnvelope(await actor.OnAsk(envelope.Message));
             }
 
             async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
@@ -63,17 +58,10 @@ namespace Orleankka
 
             async Task Activate(ActorPath path)
             {
-                actor = Activator(ActorSystem.RuntimeType(path));
+                actor = Activator(path.RuntimeType());
                 actor.Initialize(this, path.Id, ActorSystem.Instance);
 
                 await actor.OnActivate();
-            }
-
-            static string IdentityOf(IGrain grain)
-            {
-                string identity;
-                grain.GetPrimaryKeyLong(out identity);
-                return identity;
             }
 
             #region Internals
@@ -114,6 +102,26 @@ namespace Orleankka
             }
 
             #endregion
+
+            internal static string IdentityOf(IGrain grain)
+            {
+                string identity;
+                grain.GetPrimaryKeyLong(out identity);
+                return identity;
+            }
+
+            internal static IActorEndpoint Proxy(ActorPath path)
+            {
+                return Factory.Create(path);
+            }
+
+            static class Factory
+            {
+                public static IActorEndpoint Create(ActorPath path)
+                {
+                    return ActorEndpointFactory.GetGrain(path.ToString());
+                }
+            }
         }
     }
 }

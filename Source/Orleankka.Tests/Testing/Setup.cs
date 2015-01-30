@@ -13,11 +13,11 @@ using Orleans.Runtime.Configuration;
 using Orleankka.Scenarios;
 using Orleankka.Testing;
 
-[assembly: TestSuiteSetup]
+[assembly: Setup]
 
 namespace Orleankka.Testing
 {
-    public class TestSuiteSetupAttribute : TestActionAttribute
+    public class SetupAttribute : TestActionAttribute
     {
         IDisposable silo;
 
@@ -68,7 +68,11 @@ namespace Orleankka.Testing
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            Converters = { new ActorPathConverter() }
+            Converters =
+            {
+                new ActorRefConverter(), 
+                new ObserverRefConverter()
+            }
         };
 
         static byte[] Serialize(object obj)
@@ -83,11 +87,11 @@ namespace Orleankka.Testing
             return JsonConvert.DeserializeObject(data, JsonSerializerSettings);
         }
 
-        class ActorPathConverter : JsonConverter
+        class ActorRefConverter : JsonConverter
         {
             public override bool CanConvert(Type objectType)
             {
-                return typeof(ActorPath) == objectType;
+                return typeof(ActorRef) == objectType;
             }
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -97,7 +101,25 @@ namespace Orleankka.Testing
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                return ActorPath.From((string)reader.Value);
+                return ActorRef.Resolve((string)reader.Value);
+            }
+        }
+
+        class ObserverRefConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+                return typeof(ObserverRef) == objectType;
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                writer.WriteValue(value.ToString());
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                return ObserverRef.Resolve((string)reader.Value);
             }
         }
     }

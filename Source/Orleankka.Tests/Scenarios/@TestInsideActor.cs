@@ -7,35 +7,35 @@ namespace Orleankka.Scenarios
 {
     public class DoTell : Command
     {
-        public readonly ActorPath Path;
+        public readonly ActorRef Target;
         public readonly object Message;
 
-        public DoTell(ActorPath path, object message)
+        public DoTell(ActorRef target, object message)
         {
-            Path = path;
+            Target = target;
             Message = message;
         }
     }
 
     public class DoAsk : Query<object>
     {
-        public readonly ActorPath Path;
+        public readonly ActorRef Target;
         public readonly object Message;
 
-        public DoAsk(ActorPath path, object message)
+        public DoAsk(ActorRef target, object message)
         {
-            Path = path;
+            Target = target;
             Message = message;
         }
     }
 
     public class DoAttach : Command
     {
-        public readonly ActorPath Path;
+        public readonly ActorRef Target;
 
-        public DoAttach(ActorPath path)
+        public DoAttach(ActorRef target)
         {
-            Path = path;
+            Target = target;
         }
     }
 
@@ -63,17 +63,12 @@ namespace Orleankka.Scenarios
 
         public Task Handle(DoTell cmd)
         {
-            return ActorOf(cmd.Path).Tell(cmd.Message);
+            return cmd.Target.Tell(cmd.Message);
         }
 
         public Task<string> Answer(DoAsk query)
         {
-            return ActorOf(query.Path).Ask<string>(query.Message);
-        }
-
-        public Task Handle(DoAttach cmd)
-        {
-            return ActorOf(cmd.Path).Tell(new Attach(this));
+            return query.Target.Ask<string>(query.Message);
         }
 
         public Task<Notification[]> Answer(GetReceivedNotifications query)

@@ -13,7 +13,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            actor = new ActorRefMock();
+            actor = new ActorRefMock(ActorPath.From("mock::" + Guid.NewGuid().ToString("D")));
         }
 
         [Test]

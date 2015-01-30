@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
+using Orleankka.Core;
 
 namespace Orleankka.Fixtures
 {
@@ -11,17 +12,17 @@ namespace Orleankka.Fixtures
     public class ObserverCollectionFixture
     {
         const string message = "foo";
-        static readonly ActorPath source = ActorPath.From("TestActor::some-id");
+        static readonly ObserverPath source = ObserverPath.From("some-id");
 
         IObserverCollection collection;
         ActorObserver observer;
-        IActorObserver proxy;
+        IObserverEndpoint proxy;
 
         [SetUp]
         public void SetUp()
         {
             observer = new ActorObserver();
-            proxy = ActorObserverFactory.CreateObjectReference(observer).Result;
+            proxy = ObserverEndpointFactory.CreateObjectReference(observer).Result;
             collection = new ObserverCollection(()=> source);
         }
 
@@ -43,7 +44,7 @@ namespace Orleankka.Fixtures
 
             var notification = observer.Notifications[0];
             
-            Assert.That(notification.Source, Is.EqualTo(source));
+            Assert.That(notification.Sender, Is.EqualTo(source));
             Assert.That(notification.Message, Is.EqualTo(message));
         }
         
@@ -66,14 +67,14 @@ namespace Orleankka.Fixtures
             Assert.AreEqual(0, collection.Count());
         }
 
-        class ActorObserver : IActorObserver
+        class ActorObserver : IObserverEndpoint
         {
             public readonly List<Notification> Notifications = new List<Notification>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
             
-            public void OnNext(Notification notification)
+            public void ReceiveNotify(NotificationEnvelope envelope)
             {
-                Notifications.Add(notification);
+                Notifications.Add(new Notification(envelope.Message);
                 Received.Set();
             }
         }

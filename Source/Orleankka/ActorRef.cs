@@ -1,39 +1,51 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleankka.Core;
+
 namespace Orleankka
 {
-    interface IActorProxy
+    [Serializable]
+    [DebuggerDisplay("a->{Path}")]
+    public class ActorRef : IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        Task OnTell(object message);
-        Task<object> OnAsk(object message);
-    }
-
-    public class ActorRef : IEquatable<ActorPath>
-    {
-        readonly IActorProxy actor;
-
-        protected ActorRef()
-        {}
-
-        internal ActorRef(ActorPath path, IActorProxy actor)
+        public static ActorRef Resolve(string path)
         {
-            Path = path;
-            this.actor = actor;
+            return Resolve(ActorPath.From(path));
+        }
+
+        public static ActorRef Resolve(ActorPath path)
+        {
+            return ActorSystem.Instance.ActorOf(path);
+        }
+
+        readonly ActorPath path;
+        readonly IActorEndpoint endpoint;
+
+        protected ActorRef(ActorPath path)
+        {
+            this.path = path;
+        }
+
+        internal ActorRef(ActorPath path, IActorEndpoint endpoint) 
+            : this(path)
+        {
+            this.endpoint = endpoint;
         }
 
         public ActorPath Path
         {
-            get; private set;
+            get { return path; }
         }
 
         public virtual Task Tell(object message)
         {
             Requires.NotNull(message, "message");
 
-            return actor
-                    .OnTell(message)
+            return endpoint
+                    .ReceiveTell(new RequestEnvelope(path, message))
                     .UnwrapExceptions();
         }
 
@@ -41,19 +53,48 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            return (TResult) await actor
-                    .OnAsk(message)
+            var response = await endpoint
+                    .ReceiveAsk(new RequestEnvelope(path, message))
                     .UnwrapExceptions();
+
+            return (TResult) response.Message;
         }
 
-        public static implicit operator ActorPath(ActorRef arg)
+        public bool Equals(ActorRef other)
         {
-            return arg.Path;
+            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
+                    || path.Equals(other.path));
         }
 
-        bool IEquatable<ActorPath>.Equals(ActorPath other)
+        public bool Equals(ActorPath other)
         {
-            return Path.Equals(other);
+            return path.Equals(other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
+                    || obj.GetType() == GetType() && Equals((ActorRef) obj));
+        }
+
+        public override int GetHashCode()
+        {
+            return path.GetHashCode();
+        }
+
+        public static bool operator ==(ActorRef left, ActorRef right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ActorRef left, ActorRef right)
+        {
+            return !Equals(left, right);
+        }
+
+        public override string ToString()
+        {
+            return Path.ToString();
         }
     }
 

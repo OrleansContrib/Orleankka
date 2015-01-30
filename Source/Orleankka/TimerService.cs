@@ -97,8 +97,8 @@ namespace Orleankka
         /// Initializes a new instance of the <see cref="TimerService"/> class.
         /// </summary>
         /// <param name="actor">The actor which requires timer services.</param>
-        public TimerService(Actor actor) 
-            : this(()=>actor.Host)
+        public TimerService(Actor actor)
+            : this(() => actor.Endpoint)
         {}
 
         TimerService(Func<IInternalTimerService> service)

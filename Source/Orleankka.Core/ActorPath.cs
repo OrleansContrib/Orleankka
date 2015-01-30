@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -10,51 +11,57 @@ namespace Orleankka
     [DebuggerDisplay("{TypeCode}::{Id}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
-        static readonly string[] separator = { "::" };
+        public static readonly ActorPath Empty = new ActorPath();
+        public static readonly string[] Separator = {"::"};
         
-        public readonly string TypeCode;
+        public readonly string Code;
         public readonly string Id;
 
-        public static readonly ActorPath Empty = new ActorPath();
-
-        public ActorPath(string typeCode, string id)
+        ActorPath(string code, string id)
         {
-            Requires.NotNullOrWhitespace(typeCode, "typeCode");
-            Requires.NotNullOrWhitespace(id, "id");
-
-            if (typeCode.Contains(separator[0]))
-                throw new ArgumentException(
-                    string.Format("Type code cannot contain '{0}' chars", separator[0]));
-            
-            TypeCode = typeCode;
+            Code = code;
             Id = id;
         }
 
         public static ActorPath From(Type type, string id)
         {
-            Requires.NotNull(type, "type");
-            return new ActorPath(TypeCodeOf(type), id);
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            if (id == null)
+                throw new ArgumentNullException("id");
+
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("An actor id cannot be empty or contain whitespace only", "id");
+
+            return new ActorPath(TypeCode.Find(type), id);
         }
 
         public static ActorPath From(string path)
         {
-            Requires.NotNullOrWhitespace(path, "path");
+            if (path == null)
+                throw new ArgumentNullException("path");
 
-            var parts = path.Split(separator, 2, StringSplitOptions.None);
+            var parts = path.Split(Separator, 2, StringSplitOptions.None);
             if (parts.Length != 2)
                 throw new ArgumentException("Invalid actor path: " + path);
-            
+
             return new ActorPath(parts[0], parts[1]);
         }
 
-        internal static string TypeCodeOf(Type type)
+        internal static void Register(Type type, string code)
         {
-            return type.Name; // TODO: check TypeCodeOverride attribute
+            TypeCode.Cache(type, code);
+        }
+
+        public Type RuntimeType()
+        {
+            return TypeCode.Find(Code);
         }
 
         public bool Equals(ActorPath other)
         {
-            return string.Equals(TypeCode, other.TypeCode) && string.Equals(Id, other.Id);
+            return string.Equals(Code, other.Code) && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -66,7 +73,7 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((TypeCode != null ? TypeCode.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+                return ((Code != null ? Code.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
             }
         }
 
@@ -80,14 +87,58 @@ namespace Orleankka
             return !left.Equals(right);
         }
 
-        public static implicit operator string(ActorPath arg)
-        {
-            return arg.ToString();
-        }
-
         public override string ToString()
         {
-            return string.Format("{0}{1}{2}", TypeCode, separator[0], Id);
+            return string.Format("{0}{1}{2}", Code, Separator[0], Id);
+        }
+
+        static class TypeCode
+        {
+            static readonly Dictionary<string, Type> codeMap =
+                        new Dictionary<string, Type>();
+
+            static readonly Dictionary<Type, string> typeMap =
+                        new Dictionary<Type, string>();
+
+            internal static void Cache(Type type, string code)
+            {
+                if (codeMap.ContainsKey(code))
+                {
+                    var existing = codeMap[code];
+
+                    if (existing != type)
+                        throw new ArgumentException(
+                            string.Format("The type {0} has been already registered under the code {1}. Use TypeCode attribute to provide unique code for {2}",
+                                          existing.FullName, code, type.FullName));
+
+                    throw new ArgumentException(string.Format("The type {0} has been already registered", type));
+                }
+
+                codeMap.Add(code, type);
+                typeMap.Add(type, code);
+            }
+
+            internal static Type Find(string code)
+            {
+                Type type;
+                
+                if (!codeMap.TryGetValue(code, out type))
+                    throw new InvalidOperationException(
+                        string.Format("Unable to map type code '{0}' to the corresponding runtime type. Make sure that you've registered the assembly containing this type", code));
+
+                return type;
+            }            
+            
+            internal static string Find(Type type)
+            {
+                string code;
+
+                if (!typeMap.TryGetValue(type, out code))
+                    throw new InvalidOperationException(
+                        string.Format("Unable to map type '{0}' to the corresponding type code. Make sure that you've registered the assembly containing this type", type));
+
+                return code;
+            }
         }
     }
 }

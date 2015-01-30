@@ -49,15 +49,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivationService.cs" />
+    <Compile Include="ObserverEndpoint.cs" />
+    <Compile Include="Annotations.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="ObserverRef.cs" />
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ClientObservable.cs" />
+    <Compile Include="Observer.cs" />
     <Compile Include="Actor.cs" />
-    <Compile Include="ActorProxy.cs" />
-    <Compile Include="ActorHost.cs" />
+    <Compile Include="ActorEndpoint.cs" />
     <Compile Include="EmbeddedSilo.cs" />
+    <Compile Include="Requires.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="Internals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

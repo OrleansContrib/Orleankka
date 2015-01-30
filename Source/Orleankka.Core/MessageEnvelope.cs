@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Orleankka.Internal
+namespace Orleankka.Core
 {
-    static class Payload
+    static class MessageEnvelope
     {
-        static Payload()
+        static MessageEnvelope()
         {
-            Serialize = obj =>
+            Serializer = obj =>
             {
                 using (var ms = new MemoryStream())
                 {
@@ -18,7 +18,7 @@ namespace Orleankka.Internal
                 }
             };
 
-            Deserialize = bytes =>
+            Deserializer = bytes =>
             {
                 using (var ms = new MemoryStream(bytes))
                 {
@@ -28,7 +28,7 @@ namespace Orleankka.Internal
             };
         }
 
-        internal static Func<object, byte[]> Serialize;
-        internal static Func<byte[], object> Deserialize;
+        internal static Func<object, byte[]> Serializer;
+        internal static Func<byte[], object> Deserializer;
     }
 }

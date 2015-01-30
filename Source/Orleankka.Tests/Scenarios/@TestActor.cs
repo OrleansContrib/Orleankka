@@ -42,9 +42,9 @@ namespace Orleankka.Scenarios
 
     public class Attach : Command
     {
-        public ActorPath Observer;
+        public readonly ObserverRef Observer;
 
-        public Attach(ActorPath observer)
+        public Attach(ObserverRef observer)
         {
             Observer = observer;
         }
@@ -106,7 +106,7 @@ namespace Orleankka.Scenarios
 
         public Task Handle(Attach cmd)
         {
-            observers.Add(ObserverOf(cmd.Observer));
+            observers.Add(cmd.Observer);
             return TaskDone.Done;
         }
 

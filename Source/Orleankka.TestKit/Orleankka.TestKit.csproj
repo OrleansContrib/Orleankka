@@ -42,13 +42,13 @@
   <ItemGroup>
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorRefMock.cs" />
-    <Compile Include="ActorActorObserverStub.cs" />
+    <Compile Include="ObserverRefStub.cs" />
     <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ActorSystemMock.cs" />
-    <Compile Include="ClientObservableStub.cs" />
-    <Compile Include="ActorObserverCollectionMock.cs" />
+    <Compile Include="ObserverStub.cs" />
+    <Compile Include="ObserverCollectionMock.cs" />
     <Compile Include="ReminderServiceMock.cs" />
     <Compile Include="TimerServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

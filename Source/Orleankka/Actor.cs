@@ -5,7 +5,7 @@ using Orleans;
 
 namespace Orleankka
 {
-    using Internal;
+    using Core;
 
     public abstract class Actor
     {
@@ -25,21 +25,21 @@ namespace Orleankka
             this.system = system;
         }
 
-        internal void Initialize(ActorHost host, string id, IActorSystem system)
+        internal void Initialize(ActorEndpoint endpoint, string id, IActorSystem system)
         {
-            Host = host;
+            Endpoint = endpoint;
             this.id = id;
             this.system = system;
         }
 
-        internal ActorHost Host
+        internal ActorEndpoint Endpoint
         {
             get; private set;
         }
 
         public ActorRef Self
         {
-            get { return (self ?? (self = ActorOf(ActorPath.From(GetType(), Id)))); }
+            get { return (self ?? (self = System.ActorOf(ActorPath.From(GetType(), Id)))); }
         }
 
         public string Id
@@ -83,44 +83,6 @@ namespace Orleankka
                 "Override {0}() method in class {1} to implement corresponding behavior", 
                 method, GetType())
             );
-        }
-
-        protected ActorRef ActorOf(ActorPath path)
-        {
-            return System.ActorOf(path);
-        }        
-        
-        protected IActorObserver ObserverOf(ActorPath path)
-        {
-            return System.ObserverOf(path);
-        }
-
-        public static implicit operator ActorPath(Actor arg)
-        {
-            return arg.Self;
-        }
-
-        internal static bool IsCompatible(Type type)
-        {
-            return typeof(Actor).IsAssignableFrom(type) && !type.IsAbstract;
-        }
-
-        public static IActorObserver Observer(ActorPath path)
-        {
-            return ActorObserverFactory.Cast(Factory.Create(path));
-        }
-
-        internal static IActorProxy Proxy(ActorPath path)
-        {
-            return new ActorProxy(Factory.Create(path), path);
-        }
-
-        static class Factory
-        {
-            public static IActorHost Create(ActorPath path)
-            {
-                return ActorHostFactory.GetGrain(path.ToString());
-            }
         }
     }
 }

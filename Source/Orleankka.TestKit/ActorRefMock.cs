@@ -15,6 +15,10 @@ namespace Orleankka.TestKit
 
         readonly List<IExpectation> expectations = new List<IExpectation>();
 
+        public ActorRefMock(ActorPath path) 
+            : base(path)
+        {}
+
         public CommandExpectation<TCommand> ExpectTell<TCommand>(Expression<Func<TCommand, bool>> match = null)
         {
             var expectation = new CommandExpectation<TCommand>(match ?? (_ => true));

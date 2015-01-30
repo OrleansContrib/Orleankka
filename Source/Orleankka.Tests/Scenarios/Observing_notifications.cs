@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 using NUnit.Framework;
 
@@ -17,26 +16,25 @@ namespace Orleankka.Scenarios
         {
             var actor = system.FreshActorOf<TestActor>();
 
-            using (var observable = await ClientObservable.Create())
+            using (var observer = await Observer.Create())
             {
-                await actor.Tell(new Attach(observable));
+                await actor.Tell(new Attach(observer));
 
-                ActorPath source = ActorPath.Empty;
+                ActorRef sender = null;
                 TextChanged @event = null;
 
                 var done = new AutoResetEvent(false);
-                var subscription = observable.Subscribe(notification =>
+                var subscription = observer.Subscribe(notification =>
                 {
+                    sender = notification.Sender;
                     @event = (TextChanged) notification.Message;
-                    source = notification.Source;
                     done.Set();
                 });
 
                 await actor.Tell(new SetText("c-a"));
                 done.WaitOne(TimeSpan.FromSeconds(5));
 
-                Assert.That(source, Is.Not.EqualTo(ActorPath.Empty));
-                Assert.That(source, Is.EqualTo(actor.Path));
+                Assert.That(sender, Is.EqualTo(actor));
                 Assert.That(@event.Text, Is.EqualTo("c-a"));
 
                 subscription.Dispose();
@@ -46,28 +44,6 @@ namespace Orleankka.Scenarios
 
                 Assert.That(@event.Text, Is.EqualTo("c-a"));
             }
-        }
-        
-        [Test]
-        public async void Actor_to_actor()
-        {
-            var one = system.FreshActorOf<TestInsideActor>();
-            var another = system.FreshActorOf<TestActor>();
-
-            await one.Tell(new DoAttach(another));
-            await another.Tell(new SetText("a-a"));
-
-            await Task.Delay(TimeSpan.FromSeconds(2));
-
-            var received = await one.Ask<Notification[]>(new GetReceivedNotifications());
-            Assert.That(received.Length, Is.EqualTo(1));
-
-            var source = received[0].Source;
-            var @event = (TextChanged)received[0].Message;
-
-            Assert.That(source, Is.Not.EqualTo(ActorPath.Empty));
-            Assert.That(source, Is.EqualTo(another));
-            Assert.That(@event.Text, Is.EqualTo("a-a"));
         }
     }
 }

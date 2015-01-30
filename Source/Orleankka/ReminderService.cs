@@ -60,8 +60,8 @@ namespace Orleankka
         /// Initializes a new instance of the <see cref="ReminderService"/> class.
         /// </summary>
         /// <param name="actor">The dynamic actor which requires reminder services.</param>
-        public ReminderService(Actor actor) 
-            : this(()=>actor.Host)
+        public ReminderService(Actor actor)
+            : this(() => actor.Endpoint)
         {}
 
         ReminderService(Func<IInternalReminderService> service)

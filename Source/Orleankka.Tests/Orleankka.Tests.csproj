@@ -69,11 +69,11 @@
     <Compile Include="Scenarios\Request_response.cs" />
     <Compile Include="Scenarios\Unwrapping_exceptions.cs" />
     <Compile Include="Scenarios\Using_reminders.cs" />
-    <Compile Include="Fixtures\ObserverCollectionFixture.cs" />
+    <None Include="Fixtures\ObserverCollectionFixture.cs" />
     <Compile Include="TODO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestingExtensions.cs" />
-    <Compile Include="Testing\TestingSetup.cs" />
+    <Compile Include="Testing\Setup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

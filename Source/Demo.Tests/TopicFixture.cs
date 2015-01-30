@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleans;
+using Orleankka;
 using Orleankka.TestKit;
 
 namespace Demo
@@ -18,24 +19,26 @@ namespace Demo
         
         Topic topic;
         const string subject = "ПТН ПНХ";
-        Dictionary<string, TimeSpan> schedule;
+        Dictionary<ActorRef, TimeSpan> schedule;
 
-        ActorRefMock api;
+        ActorRefMock facebook;
+        ActorRefMock twitter;
         
         [SetUp]
         public override void SetUp()
         {
             base.SetUp();
 
-            schedule = new Dictionary<string, TimeSpan>
+            facebook = System.MockActorOf<Api>("facebook");
+            twitter = System.MockActorOf<Api>("twitter");
+
+            schedule = new Dictionary<ActorRef, TimeSpan>
             {
-                {"facebook", TimeSpan.FromMinutes(10)},
-                {"twitter",  TimeSpan.FromMinutes(5)},
+                {facebook, TimeSpan.FromMinutes(10)},
+                {twitter,  TimeSpan.FromMinutes(5)},
             };
             
             topic = new Topic("42", System, Timers, Reminders, new TopicStorageMock());
-            
-            api = System.MockActorOf<Api>("facebook");
         }
 
         [Test]
@@ -46,15 +49,15 @@ namespace Demo
             IsTrue(()=> Reminders.Count() == schedule.Count, 
                    "Should schedule recurrent search reminder per each api");
 
-            AssertReminderScheduled("facebook");
-            AssertReminderScheduled("twitter");
+            AssertReminderScheduled(facebook);
+            AssertReminderScheduled(twitter);
         }
 
-        void AssertReminderScheduled(string api)
+        void AssertReminderScheduled(ActorRef api)
         {
-            var scheduled = Reminder(api);
+            var scheduled = Reminder(api.Path.Id);
 
-            IsTrue(()=> scheduled.Id == api);
+            IsTrue(()=> scheduled.Id == api.Path.Id);
             IsTrue(()=> scheduled.Due == TimeSpan.Zero);
             IsTrue(()=> scheduled.Period == schedule[api]);
         }
@@ -69,8 +72,8 @@ namespace Demo
             await ReceiveReminder("facebook");
 
             // then
-            IsTrue(()=> api.Queries().Count() == 1);
-            IsTrue(()=> api.FirstQuery<Search>().Subject == subject);
+            IsTrue(()=> facebook.Queries().Count() == 1);
+            IsTrue(()=> facebook.FirstQuery<Search>().Subject == subject);
         }
        
         [Test]
@@ -79,7 +82,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            api
+            facebook
                 .ExpectQuery<Search>()
                 .Return(100);
 
@@ -98,7 +101,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            api
+            facebook
                 .ExpectQuery<Search>()
                 .Return(100);
 
@@ -118,7 +121,7 @@ namespace Demo
             // arrange
             await TopicCreated();
 
-            api
+            facebook
                 .ExpectQuery<Search>()
                 .Throw(new ApiUnavailableException("facebook.com"));
 
@@ -144,7 +147,7 @@ namespace Demo
             await ReceiveReminder("facebook");
 
             // assert
-            IsTrue(()=> api.DidNotReceiveAnyQueries());
+            IsTrue(()=> facebook.DidNotReceiveAnyQueries());
         }
 
         [Test]
@@ -158,7 +161,7 @@ namespace Demo
             IsTrue(()=> Timers.Count() == 1);
 
             // return something
-            api
+            facebook
                 .ExpectQuery<Search>()
                 .Return(122);
 
@@ -171,14 +174,14 @@ namespace Demo
             /* now, check regular searching works as expected  #1# */
 
             // arrange
-            api.Reset();
+            facebook.Reset();
 
             // act 
             await ReceiveReminder("facebook");
 
             // assert sent search query
-            IsTrue(() => api.Queries().Count() == 1);
-            IsTrue(() => api.FirstQuery<Search>().Subject == subject);            
+            IsTrue(() => facebook.Queries().Count() == 1);
+            IsTrue(() => facebook.FirstQuery<Search>().Subject == subject);            
         }
 
         [Test]
@@ -189,7 +192,7 @@ namespace Demo
             RetriesScheduled("facebook");
 
             // throw
-            api
+            facebook
                 .ExpectQuery<Search>()
                 .Throw(new ApiUnavailableException("facebook.com"));
 
@@ -199,7 +202,7 @@ namespace Demo
 
             // assert
             IsTrue(()=> Reminders.Count() == 1);
-            AssertReminderScheduled("twitter");
+            AssertReminderScheduled(twitter);
         }
 
         [Test]
@@ -209,7 +212,7 @@ namespace Demo
             await TopicCreated();
 
             // throw
-            api 
+            facebook 
                 .ExpectQuery<Search>()
                 .Throw(new ApplicationException("unknown"));
 

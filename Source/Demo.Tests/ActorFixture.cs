@@ -86,11 +86,11 @@ namespace Demo
         protected RecordedTimer<TState> Timer<TState>(string id)
         {
             return (RecordedTimer<TState>) Timers[id];
-        }        
+        }
 
-        protected RecordedReminder Reminder(string api)
+        protected RecordedReminder Reminder(string id)
         {
-            return Reminders[api];
+            return Reminders[id];
         }
     }
 
