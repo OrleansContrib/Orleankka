@@ -37,9 +37,9 @@ let main argv =
    let actor = actorSystem.ActorOf<GreetingActor>(Guid.NewGuid().ToString())
 
    async {
-      do! actor.Tell( Hi ) |> Async.AwaitVoidTask
-      do! actor.Tell( Greet("Yevhen") ) |> Async.AwaitVoidTask
-      do! actor.Tell( Greet("AntyaDev") ) |> Async.AwaitVoidTask
+      do! actor <! Hi |> Async.AwaitVoidTask
+      do! actor <! Greet "Yevhen" |> Async.AwaitVoidTask
+      do! actor <! Greet "AntyaDev" |> Async.AwaitVoidTask
    }
    |> Async.RunSynchronously
 

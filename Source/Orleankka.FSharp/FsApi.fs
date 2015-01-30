@@ -1,5 +1,14 @@
 ﻿module Orleankka.FSharp
 
+open System.Threading.Tasks
+
+/// <summary>
+/// Unidirectional send operator. 
+/// Sends a message object directly to actor tracked by actorRef. 
+/// </summary>
+let inline (<!) (actorRef : ActorRef) (message : obj) : Task = actorRef.Tell(message)
+        
+
 module Async = 
    open System.Threading.Tasks
    
