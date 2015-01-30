@@ -128,17 +128,17 @@ namespace Orleankka
 
         void RegisterServerAssemblies(AppDomain domain)
         {
-            var type = typeof(AssemblyRegistry);
+            var type = typeof(AssemblyRegistrar);
 
-            var registry = (AssemblyRegistry) domain.CreateInstanceAndUnwrap(
+            var registrar = (AssemblyRegistrar) domain.CreateInstanceAndUnwrap(
                 type.Assembly.FullName, type.FullName, false,
                 BindingFlags.Public | BindingFlags.Instance, null,
                 new object[0], null, null);
 
-            registry.Register(assemblies.Values);
+            registrar.Register(assemblies.Values);
         }
 
-        class AssemblyRegistry : MarshalByRefObject
+        class AssemblyRegistrar : MarshalByRefObject
         {
             public void Register(IEnumerable<Assembly> assemblies)
             {

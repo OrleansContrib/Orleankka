@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,23 +28,8 @@ namespace Orleankka.Scenarios
         }
     }
 
-    public class DoAttach : Command
-    {
-        public readonly ActorRef Target;
-
-        public DoAttach(ActorRef target)
-        {
-            Target = target;
-        }
-    }
-
-    public class GetReceivedNotifications : Query<Notification[]>
-    {}
-
     public class TestInsideActor : Actor
     {
-        readonly List<Notification> received = new List<Notification>();
-
         public override Task OnTell(object message)
         {
             return this.Handle((dynamic)message);
@@ -56,11 +40,6 @@ namespace Orleankka.Scenarios
             return await this.Answer((dynamic)message);
         }
 
-        public override void OnNext(Notification notification)
-        {
-            received.Add(notification);
-        }
-
         public Task Handle(DoTell cmd)
         {
             return cmd.Target.Tell(cmd.Message);
@@ -69,11 +48,6 @@ namespace Orleankka.Scenarios
         public Task<string> Answer(DoAsk query)
         {
             return query.Target.Ask<string>(query.Message);
-        }
-
-        public Task<Notification[]> Answer(GetReceivedNotifications query)
-        {
-            return Task.FromResult(received.ToArray());
         }
     }
 }

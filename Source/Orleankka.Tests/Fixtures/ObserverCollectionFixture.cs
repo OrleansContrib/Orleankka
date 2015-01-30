@@ -2,41 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleankka.Core;
 
 namespace Orleankka.Fixtures
 {
     [TestFixture]
     public class ObserverCollectionFixture
     {
-        const string message = "foo";
-        static readonly ObserverPath source = ObserverPath.From("some-id");
-
         IObserverCollection collection;
-        ActorObserver observer;
-        IObserverEndpoint proxy;
+        ActorRef @ref;
 
         [SetUp]
         public void SetUp()
         {
-            observer = new ActorObserver();
-            proxy = ObserverEndpointFactory.CreateObjectReference(observer).Result;
-            collection = new ObserverCollection(()=> source);
+            @ref = new ActorRefStub();
+            collection = new ObserverCollection(()=> @ref);
         }
 
         [Test]
         public void Notify_when_no_observers()
         {
-            Assert.DoesNotThrow(() => collection.Notify(message));
+            Assert.DoesNotThrow(() => collection.Notify("foo"));
         }
 
         [Test]
-        public void Creates_notification_with_passed_in_source_actor_path()
+        public async void Creates_notification_with_passed_in_source_actor_path()
         {
+            var observer = await TestObserver.Create();
+            
             collection.Add(observer);
-            collection.Notify(message);
+            collection.Notify("foo");
 
             observer.Received.WaitOne(TimeSpan.FromSeconds(5));
             Assert.That(observer.Notifications.Count, 
@@ -44,13 +41,14 @@ namespace Orleankka.Fixtures
 
             var notification = observer.Notifications[0];
             
-            Assert.That(notification.Sender, Is.EqualTo(source));
-            Assert.That(notification.Message, Is.EqualTo(message));
+            Assert.That(notification.Sender, Is.EqualTo(@ref));
+            Assert.That(notification.Message, Is.EqualTo("foo"));
         }
         
         [Test]
-        public void Add_is_idempotent()
+        public async void Add_is_idempotent()
         {
+            var observer = await TestObserver.Create();
             collection.Add(observer);
 
             Assert.DoesNotThrow(() => collection.Add(observer));
@@ -58,8 +56,10 @@ namespace Orleankka.Fixtures
         }
 
         [Test]
-        public void Remove_is_also_idempotent()
+        public async void Remove_is_also_idempotent()
         {
+            var observer = await TestObserver.Create();
+            
             collection.Add(observer);
             collection.Remove(observer);
 
@@ -67,15 +67,38 @@ namespace Orleankka.Fixtures
             Assert.AreEqual(0, collection.Count());
         }
 
-        class ActorObserver : IObserverEndpoint
+        class ActorRefStub : ActorRef
         {
+            public ActorRefStub()
+                : base(ActorPath.From("stub::42"))
+            {}
+        }
+
+        class TestObserver
+        {
+            public static async Task<TestObserver> Create()
+            {
+                var observer = await Observer.Create();
+                return new TestObserver(observer);
+            }
+
             public readonly List<Notification> Notifications = new List<Notification>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
-            
-            public void ReceiveNotify(NotificationEnvelope envelope)
+            readonly Observer observer;
+
+            TestObserver(Observer observer)
             {
-                Notifications.Add(new Notification(envelope.Message);
-                Received.Set();
+                this.observer = observer;
+                observer.Subscribe(notification =>
+                {
+                    Notifications.Add(notification);
+                    Received.Set();
+                });
+            }
+
+            public static implicit operator ObserverRef(TestObserver arg)
+            {
+                return arg.observer;
             }
         }
     }

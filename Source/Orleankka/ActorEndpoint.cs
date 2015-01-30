@@ -59,7 +59,7 @@ namespace Orleankka
             async Task Activate(ActorPath path)
             {
                 actor = Activator(path.RuntimeType());
-                actor.Initialize(this, path.Id, ActorSystem.Instance);
+                actor.Initialize(path.Id, ActorSystem.Instance, this);
 
                 await actor.OnActivate();
             }
@@ -103,7 +103,7 @@ namespace Orleankka
 
             #endregion
 
-            internal static string IdentityOf(IGrain grain)
+            static string IdentityOf(IGrain grain)
             {
                 string identity;
                 grain.GetPrimaryKeyLong(out identity);

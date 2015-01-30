@@ -9,10 +9,8 @@ namespace Orleankka
 
     public abstract class Actor
     {
-        string id;
         ActorRef self;
-        IActorSystem system;
-        
+
         protected Actor()
         {}
 
@@ -21,15 +19,25 @@ namespace Orleankka
             Requires.NotNull(system, "system");
             Requires.NotNullOrWhitespace(id, "id");
 
-            this.id = id;
-            this.system = system;
+            Id = id;
+            System = system;
         }
 
-        internal void Initialize(ActorEndpoint endpoint, string id, IActorSystem system)
+        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint)
         {
+            Id = id;
+            System = system;
             Endpoint = endpoint;
-            this.id = id;
-            this.system = system;
+        }
+
+        public string Id
+        {
+            get; private set;
+        }
+
+        public IActorSystem System
+        {
+            get; private set;
         }
 
         internal ActorEndpoint Endpoint
@@ -39,17 +47,7 @@ namespace Orleankka
 
         public ActorRef Self
         {
-            get { return (self ?? (self = System.ActorOf(ActorPath.From(GetType(), Id)))); }
-        }
-
-        public string Id
-        {
-            get { return id; }
-        }
-
-        public IActorSystem System
-        {
-            get { return system; }
+            get {return (self ?? (self = System.ActorOf(ActorPath.From(GetType(), Id))));}
         }
 
         public virtual Task OnActivate()
@@ -70,11 +68,6 @@ namespace Orleankka
         public virtual Task OnReminder(string id)
         {
             throw NotImplemented("OnReminder");
-        }
-
-        public virtual void OnNext(Notification notification)
-        {
-            throw NotImplemented("OnNext");
         }
 
         NotImplementedException NotImplemented(string method)

@@ -9,7 +9,7 @@ namespace Orleankka
 {
     public abstract class Bootstrapper : MarshalByRefObject, IBootstrapProvider
     {
-        public string Name { get; private set; }
+        public string Name {get; private set;}
 
         Task IOrleansProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {

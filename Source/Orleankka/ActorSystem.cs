@@ -56,7 +56,7 @@ namespace Orleankka
         public static readonly IActorSystem Instance = new ActorSystem();
 
         ActorSystem()
-        { }
+        {}
 
         /// <summary>
         /// The activation function, which creates actual instances of <see cref="Actor"/>

@@ -8,7 +8,7 @@ namespace Orleankka
 {
     [Serializable]
     [DebuggerDisplay("o->{Path}")]
-    public class ObserverRef : IEquatable<ObserverRef>
+    public class ObserverRef : IEquatable<ObserverRef>, IEquatable<ObserverPath>
     {
         public static ObserverRef Resolve(string path)
         {
@@ -47,7 +47,12 @@ namespace Orleankka
         public bool Equals(ObserverRef other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other)
-                    || path.Equals(other.path));
+                    || Equals(path, other.path));
+        }
+
+        public bool Equals(ObserverPath other)
+        {
+            return path.Equals(other);
         }
 
         public override bool Equals(object obj)
