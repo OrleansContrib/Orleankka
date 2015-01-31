@@ -21,13 +21,13 @@ namespace Demo
     }
 
     [Serializable]
-    public class MonitorAvailabilityChanges : Command
+    public class Subscribe : Command
     {
-        public readonly ActorPath Sender;
+        public readonly ObserverRef Observer;
 
-        public MonitorAvailabilityChanges(ActorPath sender)
+        public Subscribe(ObserverRef observer)
         {
-            Sender = sender;
+            Observer = observer;
         }
     }
 
@@ -97,9 +97,9 @@ namespace Demo
             return await Answer((dynamic)message);
         }
 
-        public Task Handle(MonitorAvailabilityChanges cmd)
+        public Task Handle(Subscribe cmd)
         {
-            observers.Add(System.ObserverOf(cmd.Sender));
+            observers.Add(cmd.Observer);
             return TaskDone.Done;
         }
 

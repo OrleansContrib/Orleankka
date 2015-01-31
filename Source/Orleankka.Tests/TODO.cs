@@ -11,7 +11,7 @@ namespace Orleankka
         [Test, Ignore]
         public void TypeCode()
         {
-            // - Make sure Orleans' TypeCodeOverride is utilized.
+            // - Provide TypeCodeAttribute to be able to override default type name strategy
         }
 
         [Test, Ignore]

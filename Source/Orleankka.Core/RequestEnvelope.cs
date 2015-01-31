@@ -4,17 +4,17 @@ using System.Linq;
 using Orleans.CodeGeneration;
 using Orleans.Serialization;
 
-namespace Orleankka.Internal
+namespace Orleankka.Core
 {
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 
     /// </summary>
-    public class Request
+    public class RequestEnvelope
     {
         public readonly ActorPath Target;
         public readonly object Message;
 
-        internal Request(ActorPath target, object message)
+        internal RequestEnvelope(ActorPath target, object message)
         {
             Target = target;
             Message = message;
@@ -23,19 +23,17 @@ namespace Orleankka.Internal
         [SerializerMethod]
         internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
-            var request = (Request) obj;
-            
-            SerializationManager.SerializeInner(request.Target, stream, typeof(ActorPath));
-            SerializationManager.SerializeInner(Internal.Payload.Serialize(request.Message), stream, typeof(byte[]));
+            var envelope = (RequestEnvelope) obj;
+            SerializationManager.SerializeInner(envelope.Target, stream, typeof(ActorPath));
+            SerializationManager.SerializeInner(MessageEnvelope.Serializer(envelope.Message), stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var target = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
-            var message = Internal.Payload.Deserialize((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
-
-            return new Request(target, message);
+            var target  = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
+            var message = MessageEnvelope.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
+            return new RequestEnvelope(target, message);
         }
 
         [CopierMethod]

@@ -8,6 +8,10 @@ namespace Orleankka.TestKit
 {
     public class ActorRefStub : ActorRef
     {
+        public ActorRefStub(ActorPath path)
+            : base(path)
+        {}
+
         public override Task Tell(object message)
         {
             return TaskDone.Done;

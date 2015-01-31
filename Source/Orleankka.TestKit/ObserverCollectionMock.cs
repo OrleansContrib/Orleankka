@@ -8,14 +8,14 @@ namespace Orleankka.TestKit
     public class ObserverCollectionMock : IObserverCollection
     {
         public readonly List<object> RecordedNotifications = new List<object>();
-        public readonly List<IActorObserver> RecordedSubscriptions = new List<IActorObserver>();
+        public readonly List<ObserverRef> RecordedSubscriptions = new List<ObserverRef>();
 
         void IObserverCollection.Notify(object message)
         {
             RecordedNotifications.Add(message);
         }
 
-        void IObserverCollection.Add(IActorObserver observer)
+        void IObserverCollection.Add(ObserverRef observer)
         {
             if (RecordedSubscriptions.Any(x => x == observer))
                 return;
@@ -23,12 +23,12 @@ namespace Orleankka.TestKit
             RecordedSubscriptions.Add(observer);
         }
 
-        void IObserverCollection.Remove(IActorObserver observer)
+        void IObserverCollection.Remove(ObserverRef observer)
         {
             RecordedSubscriptions.Remove(observer);
         }
 
-        public IEnumerator<IActorObserver> GetEnumerator()
+        public IEnumerator<ObserverRef> GetEnumerator()
         {
             return RecordedSubscriptions.GetEnumerator();
         }

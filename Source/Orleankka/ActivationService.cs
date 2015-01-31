@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Orleankka;
-
 namespace Orleankka
 {
     /// <summary>
@@ -41,7 +39,7 @@ namespace Orleankka
         /// </summary>
         /// <param name="actor">The dynamic actor which requires activation services.</param>
         public ActivationService(Actor actor)
-            : this(()=>actor.Host)
+            : this(() => actor.Endpoint)
         {}
 
         ActivationService(Func<IInternalActivationService> service)

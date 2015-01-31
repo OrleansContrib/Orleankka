@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ClientObservableStub : ClientObservable
+    public class ObserverStub : Observer
     {
-        protected ClientObservableStub()
-            : base(ActorPath.From(typeof(ClientObservableStub), Guid.NewGuid().ToString("D")))
+        protected ObserverStub()
+            : base(new ObserverRefStub(ObserverPath.From(Guid.NewGuid().ToString("D"))))
         {}
 
         public override IDisposable Subscribe(IObserver<Notification> observer)

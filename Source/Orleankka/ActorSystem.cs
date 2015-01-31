@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Orleankka.Internal;
+using Orleankka.Core;
 
 namespace Orleankka
 {
@@ -14,18 +13,18 @@ namespace Orleankka
     public interface IActorSystem
     {
         /// <summary>
-        /// Acquires the reference for the given actor path.
+        /// Acquires the actor reference for the given path.
         /// </summary>
-        /// <param name="path">The actor path</param>
-        /// <returns>An actor reference</returns>
+        /// <param name="path">The path of the actor</param>
+        /// <returns>The actor reference</returns>
         ActorRef ActorOf(ActorPath path);
 
         /// <summary>
-        /// Acquires the reference to <see cref="IActorObserver"/> from its <see cref="ActorPath"/>.
+        /// Acquires the obserer reference for the given path
         /// </summary>
-        /// <param name="path">The path of actor observer.</param>
-        /// <returns>The instance of <see cref="IObserver{T}"/> </returns>
-        IActorObserver ObserverOf(ActorPath path);
+        /// <param name="path">The path of the observer</param>
+        /// <returns>The observer reference</returns>
+        ObserverRef ObserverOf(ObserverPath path);
     }
 
     /// <summary>
@@ -68,11 +67,11 @@ namespace Orleankka
         /// </remarks>
         public static Func<Type, Actor> Activator
         {
-            get { return ActorHost.Activator; }
+            get { return ActorEndpoint.Activator; }
             set
             {
                 Requires.NotNull(value, "value");
-                ActorHost.Activator = value;
+                ActorEndpoint.Activator = value;
             }
         }
 
@@ -84,11 +83,11 @@ namespace Orleankka
         /// </remarks>
         public static Func<object, byte[]> Serializer
         {
-            get { return Payload.Serialize; }
+            get { return MessageEnvelope.Serializer; }
             set
             {
                 Requires.NotNull(value, "value");
-                Payload.Serialize = value;
+                MessageEnvelope.Serializer = value;
             }
         }
 
@@ -100,11 +99,11 @@ namespace Orleankka
         /// <see cref="BinaryFormatter"/></remarks>
         public static Func<byte[], object> Deserializer
         {
-            get { return Payload.Deserialize; }
+            get { return MessageEnvelope.Deserializer; }
             set
             {
                 Requires.NotNull(value, "value");
-                Payload.Deserialize = value;
+                MessageEnvelope.Deserializer = value;
             }
         }
 
@@ -118,12 +117,12 @@ namespace Orleankka
 
             var types = assembly
                 .GetTypes()
-                .Where(x => 
-                    !x.IsAbstract 
-                    && typeof(Actor).IsAssignableFrom(x));
+                .Where(x =>
+                       !x.IsAbstract
+                       && typeof(Actor).IsAssignableFrom(x));
 
             foreach (var type in types)
-                TypeCache.Register(type);
+                ActorPath.Register(type, type.Name); // TODO: add support for TypeCode override
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
@@ -131,65 +130,15 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("ActorPath is empty", "path");
 
-            if (Actor.IsCompatible(RuntimeType(path)))
-                return new ActorRef(path, Actor.Proxy(path));
-
-            throw new ArgumentException("Path type should be a non-abstract type inherited from Actor class", "path");
+            return new ActorRef(path, ActorEndpoint.Proxy(path));
         }
 
-        IActorObserver IActorSystem.ObserverOf(ActorPath path)
+        ObserverRef IActorSystem.ObserverOf(ObserverPath path)
         {
-            if (path == ActorPath.Empty)
-                throw new ArgumentException("ActorPath is empty", "path");
+            if (path == ObserverPath.Empty)
+                throw new ArgumentException("ObserverPath is empty", "path");
 
-            if (ClientObservable.IsCompatible(path))
-                return ClientObservable.Observer(path);
-
-            if (Actor.IsCompatible(RuntimeType(path)))
-                return Actor.Observer(path);
-
-            throw new InvalidOperationException("Can't bind IActorObserver reference for the given path: " + path);
-        }
-
-        internal static Type RuntimeType(ActorPath path)
-        {
-            return TypeCache.Find(path.TypeCode);
-        }
-
-        class TypeCache
-        {
-            static readonly Dictionary<string, Type> cache =
-                        new Dictionary<string, Type>();
-
-            internal static void Register(Type type)
-            {
-                var typeCode = ActorPath.TypeCodeOf(type);
-
-                if (cache.ContainsKey(typeCode))
-                {
-                    var existing = cache[typeCode];
-
-                    if (existing != type)
-                        throw new ArgumentException(
-                            string.Format("The type {0} has been already registered under the code {1}. Use TypeCodeOverride attribute to provide unique code for {2}",
-                                          existing.FullName, typeCode, type.FullName));
-
-                    throw new ArgumentException(string.Format("The type {0} has been already registered", type));
-                }
-
-                cache.Add(typeCode, type);
-            }
-
-            public static Type Find(string typeCode)
-            {
-                Type type = cache.Find(typeCode);
-                
-                if (type == null)
-                    throw new InvalidOperationException(
-                        string.Format("Unable to map type code '{0}' to the corresponding runtime type. Make sure that you've registered the assembly containing this type", typeCode));
-
-                return type;
-            }
+            return new ObserverRef(path, ObserverEndpoint.Proxy(path));
         }
     }
 }

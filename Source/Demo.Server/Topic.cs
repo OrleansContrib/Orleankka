@@ -11,9 +11,9 @@ namespace Demo
     public class CreateTopic : Command
     {
         public readonly string Query;
-        public readonly IDictionary<string, TimeSpan> Schedule;
+        public readonly IDictionary<ActorRef, TimeSpan> Schedule;
 
-        public CreateTopic(string query, IDictionary<string, TimeSpan> schedule)
+        public CreateTopic(string query, IDictionary<ActorRef, TimeSpan> schedule)
         {
             Query = query;
             Schedule = schedule;
@@ -68,7 +68,7 @@ namespace Demo
             query = cmd.Query;
 
             foreach (var entry in cmd.Schedule)
-                await reminders.Register(entry.Key, TimeSpan.Zero, entry.Value);
+                await reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
         public override async Task OnReminder(string api)

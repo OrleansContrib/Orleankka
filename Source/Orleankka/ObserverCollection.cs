@@ -9,21 +9,21 @@ namespace Orleankka
     /// This  is a simple helper class for actors that need to manage observer susbscriptions.
     /// It provides methods for adding/removing observers and for notifying about particular notifications.
     /// </summary>
-    public interface IObserverCollection : IEnumerable<IActorObserver>
+    public interface IObserverCollection : IEnumerable<ObserverRef>
     {
         /// <summary>
         /// Adds given observer subscription.
         /// </summary>
         /// <param name="observer">The observer proxy</param>
         /// <remarks>The operation is idempotent</remarks>
-        void Add(IActorObserver observer);
+        void Add(ObserverRef observer);
 
         /// <summary>
         /// Removes given observer subscription.
         /// </summary>
         /// <param name="observer">The observer proxy</param>
         /// <remarks>The operation is idempotent</remarks>
-        void Remove(IActorObserver observer);
+        void Remove(ObserverRef observer);
 
         /// <summary>
         /// Notifies all observers with specified notification information.
@@ -37,37 +37,37 @@ namespace Orleankka
     /// </summary>
     public class ObserverCollection : IObserverCollection
     {
-        readonly HashSet<IActorObserver> observers = new HashSet<IActorObserver>();
-        readonly Func<ActorPath> source;
+        readonly HashSet<ObserverRef> observers = new HashSet<ObserverRef>();
+        readonly Func<ActorRef> sender;
 
         public ObserverCollection(Actor actor)
             : this(() => actor.Self)
         {}
 
-        internal ObserverCollection(Func<ActorPath> source)
+        internal ObserverCollection(Func<ActorRef> sender)
         {
-            this.source = source;
+            this.sender = sender;
         }
 
-        void IObserverCollection.Add(IActorObserver observer)
+        void IObserverCollection.Add(ObserverRef observer)
         {
             observers.Add(observer);
         }
 
-        void IObserverCollection.Remove(IActorObserver observer)
+        void IObserverCollection.Remove(ObserverRef observer)
         {
             observers.Remove(observer);
         }
 
         void IObserverCollection.Notify(object message)
         {
-            var failed = new List<IActorObserver>();
+            var failed = new List<ObserverRef>();
 
             foreach (var observer in observers)
             {
                 try
                 {
-                    observer.OnNext(new Notification(source(),  message));
+                    observer.Notify(new Notification(sender(),  message));
                 }
                 catch (Exception)
                 {
@@ -78,7 +78,7 @@ namespace Orleankka
             observers.RemoveWhere(failed.Contains);
         }
 
-        public IEnumerator<IActorObserver> GetEnumerator()
+        public IEnumerator<ObserverRef> GetEnumerator()
         {
             return observers.GetEnumerator();
         }
