@@ -7,7 +7,22 @@ open System.Threading.Tasks
 /// Sends a message object directly to actor tracked by actorRef. 
 /// </summary>
 let inline (<!) (actorRef : ActorRef) (message : obj) : Task = actorRef.Tell(message)
-        
+
+
+module System =       
+   open System.Reflection
+   open Orleans.Runtime.Configuration   
+   
+   let inline createSilo () = EmbeddedSilo()
+
+   let inline configWith config silo = 
+      (^silo : (member With : ^config -> EmbeddedSilo) (silo, config))   
+
+   let inline registerWith data silo =
+      (^silo : (member Register : ^data -> EmbeddedSilo) (silo, data)) 
+
+   let inline start (silo : EmbeddedSilo) = silo.Start()
+
 
 module Async = 
    open System.Threading.Tasks

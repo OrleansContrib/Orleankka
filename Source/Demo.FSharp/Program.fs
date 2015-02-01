@@ -4,6 +4,7 @@ open Orleans
 open Orleankka
 open Orleans.Runtime.Configuration
 open Orleankka.FSharp
+open Orleankka.FSharp.System
 
 type Message = 
    | Greet of string
@@ -12,16 +13,17 @@ type Message =
 type GreetingActor() = 
    inherit Actor()   
 
-   override this.OnTell(message : obj) =
-      this.Handle(message :?> Message)      
-
-   member this.Handle(message) =            
-      
+   override this.OnTell(message : obj) =      
       match message with
-      | Greet who -> printfn "Hello %s" who
-      | Hi -> printfn "Hello from F#!"            
-      
-      TaskDone.Done
+      | :? Message as m ->
+                   
+         match m with
+         | Greet who -> printfn "Hello %s" who
+         | Hi -> printfn "Hello from F#!"     
+         TaskDone.Done            
+
+      | _ -> failwith "unknown message"
+
 
 [<EntryPoint>]
 let main argv = 
@@ -30,7 +32,11 @@ let main argv =
    let serverConfig = ServerConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Server.Configuration.xml")
    let clientConfig = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Client.Configuration.xml")
 
-   let silo = EmbeddedSilo().With(serverConfig).With(clientConfig).Register(assembly).Start()
+   use silo = createSilo()
+              |> configWith serverConfig
+              |> configWith clientConfig
+              |> registerWith [|assembly|]
+              |> start
 
    let actorSystem = ActorSystem.Instance
 
@@ -44,8 +50,6 @@ let main argv =
    |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
-   
-   silo.Dispose()
 
    printfn "%A" argv
    0 // return an integer exit code
