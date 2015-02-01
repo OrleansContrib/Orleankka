@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
@@ -91,7 +93,7 @@ namespace Orleankka
     public class TimerService : ITimerService
     {
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly Func<IInternalTimerService> service;
+        readonly Func<IGrainTimerService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimerService"/> class.
@@ -101,7 +103,7 @@ namespace Orleankka
             : this(() => actor.Endpoint)
         {}
 
-        TimerService(Func<IInternalTimerService> service)
+        TimerService(Func<IGrainTimerService> service)
         {
             this.service = service;
         }

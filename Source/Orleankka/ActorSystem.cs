@@ -3,10 +3,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Orleankka.Core;
-
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Serves as factory for acquiring actor/observer references from their paths.
     /// </summary>
@@ -122,7 +122,10 @@ namespace Orleankka
                        && typeof(Actor).IsAssignableFrom(x));
 
             foreach (var type in types)
+            {
                 ActorPath.Register(type, type.Name); // TODO: add support for TypeCode override
+                ActorEndpointFactory.Register(type);
+            }
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
@@ -130,7 +133,7 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("ActorPath is empty", "path");
 
-            return new ActorRef(path, ActorEndpoint.Proxy(path));
+            return new ActorRef(path, ActorEndpoint.Invoker(path));
         }
 
         ObserverRef IActorSystem.ObserverOf(ObserverPath path)

@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Resources;
 
 using Orleans;
-using Orleans.Host;
 using Orleans.Providers;
 using Orleans.Runtime.Configuration;
+using Orleans.Runtime.Host;
 
 namespace Orleankka
 {
@@ -78,26 +78,26 @@ namespace Orleankka
             if (setup == null)
                 setup = AppDomain.CurrentDomain.SetupInformation;
 
-            var hostType = typeof(OrleansSiloHost);
-            var hostConstructorArgs = new object[]{Dns.GetHostName()};
+            RegisterBootstrappers();
+
+            var hostType = typeof(SiloHost);
+            var hostConstructorArgs = new object[]{Dns.GetHostName(), server};
 
             var domain = AppDomain.CreateDomain("EmbeddedSilo", null, setup);
-            var host = (OrleansSiloHost) domain.CreateInstanceAndUnwrap(
+            var host = (SiloHost)domain.CreateInstanceAndUnwrap(
                 hostType.Assembly.FullName, hostType.FullName, false, 
                 BindingFlags.Public | BindingFlags.Instance, null, 
                 hostConstructorArgs, null, null);
 
-            RegisterBootstrappers();
             RegisterClientAssemblies();
             RegisterServerAssemblies(domain);
 
-            host.SetOrleansConfig(server);
             host.LoadOrleansConfig();
 
             host.InitializeOrleansSilo();
             host.StartOrleansSilo();
-            
-            OrleansClient.Initialize(client);
+
+            GrainClient.Initialize(client);
             return new Disposable(domain, host);
         }
 
@@ -150,9 +150,9 @@ namespace Orleankka
         class Disposable : IDisposable
         {
             readonly AppDomain domain;
-            readonly OrleansSiloHost host;
+            readonly SiloHost host;
 
-            internal Disposable(AppDomain domain, OrleansSiloHost host)
+            internal Disposable(AppDomain domain, SiloHost host)
             {
                 this.domain = domain;
                 this.host = host;
@@ -197,14 +197,14 @@ namespace Orleankka
             {
                 var config = new ProviderConfiguration(properties, type.FullName, "Boot" + type.FullName);
 
-                var peskyField1 = typeof(ProviderConfiguration).GetField("_childConfigurations", BindingFlags.Instance | BindingFlags.NonPublic);
-                var peskyField2 = typeof(ProviderConfiguration).GetField("_childProviders", BindingFlags.Instance | BindingFlags.NonPublic);
+                var peskyField1 = typeof(ProviderConfiguration).GetField("childConfigurations", BindingFlags.Instance | BindingFlags.NonPublic);
+                var peskyField2 = typeof(ProviderConfiguration).GetField("childProviders", BindingFlags.Instance | BindingFlags.NonPublic);
 
                 Debug.Assert(peskyField1 != null);
                 Debug.Assert(peskyField2 != null);
 
                 peskyField1.SetValue(config, new List<ProviderConfiguration>());
-                peskyField2.SetValue(config, new List<IOrleansProvider>());
+                peskyField2.SetValue(config, new List<IProvider>());
 
                 category.Providers.Add(config.Name, config);
             }
@@ -215,7 +215,7 @@ namespace Orleankka
     /// Data object holding server (silo) configuration parameters.
     /// </summary>
     [Serializable]
-    public class ServerConfiguration : OrleansConfiguration
+    public class ServerConfiguration : ClusterConfiguration
     {
         // just an alias for consistency (Client/Server)
     }

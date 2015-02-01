@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
-
-using Orleankka.Core;
 
 namespace Orleankka
 {
+    using Core;
+
     [Serializable]
     [DebuggerDisplay("a->{Path}")]
-    public class ActorRef : IEquatable<ActorRef>, IEquatable<ActorPath>
+    public class ActorRef : IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
         public static ActorRef Resolve(string path)
         {
@@ -22,17 +23,19 @@ namespace Orleankka
         }
 
         readonly ActorPath path;
-        readonly IActorEndpoint endpoint;
+        readonly ActorEndpointInvoker invoker;
+        readonly object endpoint;
 
-        protected ActorRef(ActorPath path)
+        protected internal ActorRef(ActorPath path)
         {
             this.path = path;
         }
 
-        internal ActorRef(ActorPath path, IActorEndpoint endpoint) 
+        internal ActorRef(ActorPath path, ActorEndpointInvoker invoker) 
             : this(path)
         {
-            this.endpoint = endpoint;
+            this.invoker = invoker;
+            endpoint = invoker.GetProxy(path.ToString());
         }
 
         public ActorPath Path
@@ -44,8 +47,8 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            return endpoint
-                    .ReceiveTell(new RequestEnvelope(path, message))
+            return invoker
+                    .ReceiveTell(endpoint, new RequestEnvelope(path, message))
                     .UnwrapExceptions();
         }
 
@@ -53,8 +56,8 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            var response = await endpoint
-                    .ReceiveAsk(new RequestEnvelope(path, message))
+            var response = await invoker
+                    .ReceiveAsk(endpoint, new RequestEnvelope(path, message))
                     .UnwrapExceptions();
 
             return (TResult) response.Message;
@@ -96,6 +99,22 @@ namespace Orleankka
         {
             return Path.ToString();
         }
+
+        #region Serialization
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("path", path.ToString(), typeof(string));
+        }
+
+        public ActorRef(SerializationInfo info, StreamingContext context)
+        {
+            path = ActorPath.From((string) info.GetValue("path", typeof(string)));
+            invoker = ActorEndpoint.Invoker(path);
+            endpoint = invoker.GetProxy(path.ToString());
+        }
+
+        #endregion
     }
 
     public static class ActorRefExtensions

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 using Orleans.Runtime;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
-    interface IInternalActivationService
+    interface IGrainActivationService
     {
         void DeactivateOnIdle();
         void DelayDeactivation(TimeSpan timeSpan);
     }
 
-    interface IInternalReminderService
+    interface IGrainReminderService
     {
         Task<IGrainReminder> GetReminder(string reminderName);
         Task<List<IGrainReminder>> GetReminders();
@@ -21,7 +21,7 @@ namespace Orleankka
         Task UnregisterReminder(IGrainReminder reminder);
     }
 
-    interface IInternalTimerService
+    interface IGrainTimerService
     {
         IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period);
     }

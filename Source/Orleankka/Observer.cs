@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Allows clients to receive push-based notifications from actors, ie observing them.
     /// <para>

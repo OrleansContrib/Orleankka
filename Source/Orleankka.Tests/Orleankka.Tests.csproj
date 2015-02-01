@@ -39,19 +39,15 @@
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OrleansProviderInterfaces">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\OrleansProviderInterfaces.dll</HintPath>
+      <HintPath>..\..\Binaries\Orleans\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansProviders">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\OrleansProviders.dll</HintPath>
+      <HintPath>..\..\Binaries\Orleans\lib\net45\OrleansProviders.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\Binaries\Orleans\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -67,6 +63,7 @@
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
     <Compile Include="Meta.cs" />
+    <Compile Include="Core\HardcoreFixture.cs" />
     <Compile Include="Scenarios\Observing_notifications.cs" />
     <Compile Include="Scenarios\Request_response.cs" />
     <Compile Include="Scenarios\Unwrapping_exceptions.cs" />
@@ -88,6 +85,10 @@
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Hardcore\Orleankka.Hardcore.csproj">
+      <Project>{d9a6e703-d3d0-4758-9308-bfef6fc5686b}</Project>
+      <Name>Orleankka.Hardcore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
@@ -101,11 +102,4 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

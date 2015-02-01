@@ -1,12 +1,11 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans.Runtime;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
-    using Core;
-
     class ObserverEndpoint : IObserverEndpoint, IDisposable
     {
         public static async Task<ObserverEndpoint> Create()

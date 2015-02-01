@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Linq;
 
-using Orleankka.Core;
-
 namespace Orleankka
 {
+    using Core;
+
     [Serializable]
     [DebuggerDisplay("o->{Path}")]
     public class ObserverRef : IEquatable<ObserverRef>, IEquatable<ObserverPath>

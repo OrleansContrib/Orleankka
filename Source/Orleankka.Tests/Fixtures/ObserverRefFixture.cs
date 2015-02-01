@@ -9,7 +9,7 @@ namespace Orleankka.Fixtures
     public class ObserverRefFixture
     {
         [Test]
-        public void Observer_ref_is_equatable_by_path()
+        public void Equatable_by_path()
         {
             var ref1 = new ObserverRef(ObserverPath.From("42"), null);
             var ref2 = new ObserverRef(ObserverPath.From("42"), null);

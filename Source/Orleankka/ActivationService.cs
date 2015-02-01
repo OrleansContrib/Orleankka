@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Manages actor activation lifetime
     /// </summary>
@@ -32,7 +34,7 @@ namespace Orleankka
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly Func<IInternalActivationService> service;
+        readonly Func<IGrainActivationService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivationService"/> class.
@@ -42,7 +44,7 @@ namespace Orleankka
             : this(() => actor.Endpoint)
         {}
 
-        ActivationService(Func<IInternalActivationService> service)
+        ActivationService(Func<IGrainActivationService> service)
         {
             this.service = service;
         }

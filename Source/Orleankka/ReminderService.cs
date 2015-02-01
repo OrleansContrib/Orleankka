@@ -7,6 +7,8 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Manages registration of durable actor reminders
     /// </summary>
@@ -54,7 +56,7 @@ namespace Orleankka
     public class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly Func<IInternalReminderService> service;
+        readonly Func<IGrainReminderService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReminderService"/> class.
@@ -64,7 +66,7 @@ namespace Orleankka
             : this(() => actor.Endpoint)
         {}
 
-        ReminderService(Func<IInternalReminderService> service)
+        ReminderService(Func<IGrainReminderService> service)
         {
             this.service = service;
         }

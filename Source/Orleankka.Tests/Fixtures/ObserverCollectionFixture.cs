@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Fixtures
 {
     [TestFixture]
     public class ObserverCollectionFixture
     {
+        readonly IActorSystem system = ActorSystem.Instance;
         IObserverCollection collection;
         ActorRef @ref;
 
         [SetUp]
         public void SetUp()
         {
-            @ref = new ActorRefStub();
+            @ref = system.ActorOf<TestObservableActor>("producer");
             collection = new ObserverCollection(()=> @ref);
         }
 
@@ -67,12 +70,8 @@ namespace Orleankka.Fixtures
             Assert.AreEqual(0, collection.Count());
         }
 
-        class ActorRefStub : ActorRef
-        {
-            public ActorRefStub()
-                : base(ActorPath.From("stub::42"))
-            {}
-        }
+        class TestObservableActor : Actor
+        {}
 
         class TestObserver
         {

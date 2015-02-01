@@ -11,7 +11,7 @@ namespace Orleankka
     {
         public string Name {get; private set;}
 
-        Task IOrleansProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
+        Task IProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
             Name = name;
             return Run(config.Properties);

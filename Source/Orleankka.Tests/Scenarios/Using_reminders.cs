@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
-    [TestFixture, Explicit]
+    [TestFixture]
     public class Using_reminders
     {
         static readonly IActorSystem system = ActorSystem.Instance;

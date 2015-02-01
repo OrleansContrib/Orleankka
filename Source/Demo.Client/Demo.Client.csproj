@@ -75,11 +75,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Orleans">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\Orleans.dll</HintPath>
+      <HintPath>..\..\Binaries\Orleans\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>$(OrleansSDK)\Binaries\OrleansServer\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\Binaries\Orleans\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

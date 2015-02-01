@@ -9,10 +9,12 @@ namespace Orleankka.Fixtures
     public class ActorRefFixture
     {
         [Test]
-        public void Observer_ref_is_equatable_by_path()
+        public void Equatable_by_path()
         {
-            var ref1 = new ActorRef(ActorPath.From("a::42"), null);
-            var ref2 = new ActorRef(ActorPath.From("a::42"), null);
+            var path = ActorPath.From("a::42");
+
+            var ref1 = new ActorRef(path);
+            var ref2 = new ActorRef(path);
             
             Assert.True(ref1 == ref2);
             Assert.True(ref1.Equals(ref2));
