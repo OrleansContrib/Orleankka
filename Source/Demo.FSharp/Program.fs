@@ -24,6 +24,19 @@ type GreetingActor() =
 
       | _ -> failwith "unknown message"
 
+type ProxyActor() = 
+   inherit Actor()   
+
+   override this.OnTell(message : obj) =      
+      match message with
+      | :? Message as m ->
+                   
+         match m with
+         | Greet who -> this.System.ActorOf<GreetingActor>("test").Tell(m)
+         | Hi -> this.System.ActorOf<GreetingActor>("test").Tell(m)
+         
+      | _ -> failwith "unknown message"
+
 
 [<EntryPoint>]
 let main argv = 
@@ -40,7 +53,7 @@ let main argv =
 
    let actorSystem = ActorSystem.Instance
 
-   let actor = actorSystem.ActorOf<GreetingActor>(Guid.NewGuid().ToString())
+   let actor = actorSystem.ActorOf<ProxyActor>(Guid.NewGuid().ToString())
 
    async {
       do! actor <! Hi
