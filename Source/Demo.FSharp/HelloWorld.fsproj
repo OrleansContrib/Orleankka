@@ -56,8 +56,6 @@
   <ItemGroup>
     <Compile Include="Program.fs" />
     <None Include="App.config" />
-    <EmbeddedResource Include="Orleans.Client.Configuration.xml" />
-    <EmbeddedResource Include="Orleans.Server.Configuration.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

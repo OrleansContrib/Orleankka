@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OrleansConfiguration xmlns="urn:orleans">
   <Globals>
-    <ReminderService ReminderServiceType="ReminderTableGrain"/>    
     <SeedNode Address="localhost" Port="11111" />
   </Globals>
   <Defaults>

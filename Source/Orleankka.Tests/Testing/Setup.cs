@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 
 using Orleans;
-using Orleans.Runtime.Configuration;
-
 using Orleankka.Scenarios;
 using Orleankka.Testing;
 
@@ -19,25 +17,19 @@ namespace Orleankka.Testing
 {
     public class SetupAttribute : TestActionAttribute
     {
-        IDisposable silo;
+        IActorSystem system;
 
         public override void BeforeTest(TestDetails details)
         {
             if (!details.IsSuite)
                 return;
 
-            var serverConfig = new ServerConfiguration()
-                .LoadFromEmbeddedResource(GetType(), "Orleans.Server.Configuration.xml");
-
-            var clientConfig = new ClientConfiguration()
-                .LoadFromEmbeddedResource(GetType(), "Orleans.Client.Configuration.xml");
-
-            silo = new EmbeddedSilo()
-                .With(serverConfig)
-                .With(clientConfig)
+            system = ActorSystem.Configure()
+                .Embedded()
+                .InMemory()
                 .Use<SerializationBootstrapper>()
                 .Register(typeof(TestActor).Assembly)
-                .Start();
+                .Done();
 
             SerializationBootstrapper.Run();
         }
@@ -47,7 +39,7 @@ namespace Orleankka.Testing
             if (!details.IsSuite)
                 return;
 
-            silo.Dispose();
+            system.Dispose();
         }
     }
 

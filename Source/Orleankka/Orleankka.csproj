@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivationService.cs" />
+    <Compile Include="ActorSystemBuilder.cs" />
     <Compile Include="Core\ActorEndpoint.Blends.cs">
       <DependentUpon>ActorEndpoint.Blends.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -68,7 +69,7 @@
     <Compile Include="Observer.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="Core\ActorEndpoint.cs" />
-    <Compile Include="EmbeddedSilo.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Requires.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +94,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActorEndpoint.Blends.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Configs\Default.Cluster.Configuration.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configs\Default.Client.Configuration.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

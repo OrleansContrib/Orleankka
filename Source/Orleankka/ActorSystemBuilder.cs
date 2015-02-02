@@ -1,44 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Resources;
 
 using Orleans;
 using Orleans.Providers;
+using Orleans.Runtime;
 using Orleans.Runtime.Configuration;
 using Orleans.Runtime.Host;
 
 namespace Orleankka
 {
-    public class EmbeddedSilo
+    public partial class ActorSystem
     {
-        ServerConfiguration server;
+        public static ActorSystemConfiguration Configure()
+        {
+            return new ActorSystemConfiguration();
+        }
+    }
+
+    public sealed class ActorSystemConfiguration
+    {
+        internal ActorSystemConfiguration()
+        {}
+
+        public ActorSystemClientConfiguration Client()
+        {
+            return new ActorSystemClientConfiguration();
+        }
+
+        public ActorSystemClusterConfiguration Cluster()
+        {
+            return new ActorSystemClusterConfiguration();
+        }
+
+        public ActorSystemEmbeddedConfiguration Embedded()
+        {
+            return new ActorSystemEmbeddedConfiguration();
+        }
+    }
+
+    public sealed class ActorSystemClientConfiguration
+    {
+        internal ActorSystemClientConfiguration()
+        {}
+    }
+
+    public sealed class ActorSystemClusterConfiguration
+    {
+        internal ActorSystemClusterConfiguration()
+        {}
+    }
+
+    public sealed class ActorSystemEmbeddedConfiguration
+    {
+        ClusterConfiguration cluster;
         ClientConfiguration client;
 
         readonly HashSet<BootstrapperConfiguration> bootstrappers = new HashSet<BootstrapperConfiguration>();
         readonly Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
-        
+
         AppDomainSetup setup;
 
-        public EmbeddedSilo With(ServerConfiguration config)
+        internal ActorSystemEmbeddedConfiguration()
         {
-            Requires.NotNull(config, "config");
-            server = config;
+            // can't get it to work programmatically
+            cluster = new ClusterConfiguration()
+                .LoadFromEmbeddedResource<Actor>("Configs.Default.Cluster.Configuration.xml");
+            
+            client = new ClientConfiguration
+            {
+                GatewayProvider = ClientConfiguration.GatewayProviderType.Config,
+                ResponseTimeout = TimeSpan.FromSeconds(60),
+                DefaultTraceLevel = Logger.Severity.Warning,
+                TraceToConsole = true,
+                TraceFileName = ""
+            };
+
+            client.Gateways.Add(new IPEndPoint(IPAddress.Loopback, 30000));
+            client.TraceLevelOverrides.Add(new Tuple<string, Logger.Severity>("Application", Logger.Severity.Info));
+        }
+
+        public ActorSystemEmbeddedConfiguration InMemory()
+        {
+            cluster.Globals.LivenessType = GlobalConfiguration.LivenessProviderType.MembershipTableGrain;
+            cluster.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
+
             return this;
         }
 
-        public EmbeddedSilo With(ClientConfiguration config)
+        public ActorSystemEmbeddedConfiguration With(ClusterConfiguration config)
+        {
+            Requires.NotNull(config, "config");
+            cluster = config;
+            return this;
+        }
+
+        public ActorSystemEmbeddedConfiguration With(ClientConfiguration config)
         {
             Requires.NotNull(config, "config");
             client = config;
             return this;
         }
 
-        public EmbeddedSilo Use<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
+        public ActorSystemEmbeddedConfiguration Use<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
         {
             if (!bootstrappers.Add(new BootstrapperConfiguration(typeof(T), properties)))
                 throw new ArgumentException(
@@ -47,17 +114,17 @@ namespace Orleankka
             return this;
         }
 
-        public EmbeddedSilo With(AppDomainSetup setup)
+        public ActorSystemEmbeddedConfiguration With(AppDomainSetup setup)
         {
             Requires.NotNull(setup, "setup");
             this.setup = setup;
             return this;
         }
 
-        public EmbeddedSilo Register(params Assembly[] assemblies)
+        public ActorSystemEmbeddedConfiguration Register(params Assembly[] assemblies)
         {
             Requires.NotNull(assemblies, "assemblies");
-            
+
             foreach (var assembly in assemblies)
             {
                 if (this.assemblies.ContainsKey(assembly.FullName))
@@ -70,9 +137,9 @@ namespace Orleankka
             return this;
         }
 
-        public IDisposable Start()
+        public IActorSystem Done()
         {
-            if (client == null || server == null)
+            if (client == null || cluster == null)
                 throw new InvalidOperationException("Both client and server configs should be provided before starting an embedded silo");
 
             if (setup == null)
@@ -81,30 +148,30 @@ namespace Orleankka
             RegisterBootstrappers();
 
             var hostType = typeof(SiloHost);
-            var hostConstructorArgs = new object[]{Dns.GetHostName(), server};
+            var hostConstructorArgs = new object[] {Dns.GetHostName(), cluster};
 
             var domain = AppDomain.CreateDomain("EmbeddedSilo", null, setup);
             var host = (SiloHost)domain.CreateInstanceAndUnwrap(
-                hostType.Assembly.FullName, hostType.FullName, false, 
-                BindingFlags.Public | BindingFlags.Instance, null, 
+                hostType.Assembly.FullName, hostType.FullName, false,
+                BindingFlags.Public | BindingFlags.Instance, null,
                 hostConstructorArgs, null, null);
 
             RegisterClientAssemblies();
             RegisterServerAssemblies(domain);
 
             host.LoadOrleansConfig();
-
             host.InitializeOrleansSilo();
             host.StartOrleansSilo();
 
             GrainClient.Initialize(client);
-            return new Disposable(domain, host);
-        }
 
+            return new EmbeddedActorSystem(ActorSystem.Instance, domain, host);
+        }
+        
         void RegisterBootstrappers()
         {
-            ProviderCategoryConfiguration category = server.Globals.ProviderConfigurations.Find("Bootstrap");
-            
+            ProviderCategoryConfiguration category = cluster.Globals.ProviderConfigurations.Find("Bootstrap");
+
             if (category == null)
             {
                 category = new ProviderCategoryConfiguration
@@ -113,7 +180,7 @@ namespace Orleankka
                     Providers = new Dictionary<string, IProviderConfiguration>()
                 };
 
-                server.Globals.ProviderConfigurations.Add("Bootstrap", category);
+                cluster.Globals.ProviderConfigurations.Add("Bootstrap", category);
             }
 
             foreach (var bootstrapper in bootstrappers)
@@ -130,7 +197,7 @@ namespace Orleankka
         {
             var type = typeof(AssemblyRegistrar);
 
-            var registrar = (AssemblyRegistrar) domain.CreateInstanceAndUnwrap(
+            var registrar = (AssemblyRegistrar)domain.CreateInstanceAndUnwrap(
                 type.Assembly.FullName, type.FullName, false,
                 BindingFlags.Public | BindingFlags.Instance, null,
                 new object[0], null, null);
@@ -147,13 +214,15 @@ namespace Orleankka
             }
         }
 
-        class Disposable : IDisposable
+        class EmbeddedActorSystem : IActorSystem
         {
+            readonly IActorSystem system;
             readonly AppDomain domain;
             readonly SiloHost host;
 
-            internal Disposable(AppDomain domain, SiloHost host)
+            internal EmbeddedActorSystem(IActorSystem system, AppDomain domain, SiloHost host)
             {
+                this.system = system;
                 this.domain = domain;
                 this.host = host;
             }
@@ -164,6 +233,16 @@ namespace Orleankka
                 host.Dispose();
 
                 AppDomain.Unload(domain);
+            }
+
+            public ActorRef ActorOf(ActorPath path)
+            {
+                return system.ActorOf(path);
+            }
+
+            public ObserverRef ObserverOf(ObserverPath path)
+            {
+                return system.ObserverOf(path);
             }
         }
 
@@ -185,7 +264,7 @@ namespace Orleankka
 
             public override bool Equals(object obj)
             {
-                return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || Equals((BootstrapperConfiguration) obj));
+                return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || Equals((BootstrapperConfiguration)obj));
             }
 
             public override int GetHashCode()
@@ -207,67 +286,6 @@ namespace Orleankka
                 peskyField2.SetValue(config, new List<IProvider>());
 
                 category.Providers.Add(config.Name, config);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Data object holding server (silo) configuration parameters.
-    /// </summary>
-    [Serializable]
-    public class ServerConfiguration : ClusterConfiguration
-    {
-        // just an alias for consistency (Client/Server)
-    }
-
-    public static class EmbeddedSiloConfigurationExtensions
-    {
-        public static ClientConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ClientConfiguration config, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, typeof(TNamespaceScope), resourceName);
-        }
-
-        public static ClientConfiguration LoadFromEmbeddedResource(this ClientConfiguration config, Type namespaceScope, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, string.Format("{0}.{1}", namespaceScope.Namespace, resourceName));
-        }
-
-        public static ClientConfiguration LoadFromEmbeddedResource(this ClientConfiguration config, Assembly assembly, string fullResourcePath)
-        {
-            var result = new ClientConfiguration();
-
-            var loader = result.GetType().GetMethod("Load", BindingFlags.Instance | BindingFlags.NonPublic, null, new[] {typeof(TextReader)}, null);
-            loader.Invoke(result, new object[]{LoadFromEmbeddedResource(assembly, fullResourcePath)});
-
-            return result;
-        }
-
-        public static ServerConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ServerConfiguration config, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, typeof(TNamespaceScope), resourceName);
-        }
-
-        public static ServerConfiguration LoadFromEmbeddedResource(this ServerConfiguration config, Type namespaceScope, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, string.Format("{0}.{1}", namespaceScope.Namespace, resourceName));
-        }
-
-        public static ServerConfiguration LoadFromEmbeddedResource(this ServerConfiguration config, Assembly assembly, string fullResourcePath)
-        {
-            var result = new ServerConfiguration();
-            result.Load(LoadFromEmbeddedResource(assembly, fullResourcePath));
-            return result;
-        }
-
-        static TextReader LoadFromEmbeddedResource(Assembly assembly, string fullResourcePath)
-        {
-            using (var stream = assembly.GetManifestResourceStream(fullResourcePath))
-            {
-                if (stream == null)
-                    throw new MissingManifestResourceException(
-                        string.Format("Unable to find resource with the path {0} in assembly {1}", fullResourcePath, assembly.FullName));
-
-                return new StringReader(new StreamReader(stream).ReadToEnd());
             }
         }
     }

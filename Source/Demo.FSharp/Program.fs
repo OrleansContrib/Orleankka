@@ -42,18 +42,11 @@ type ProxyActor() =
 let main argv = 
    let assembly = Assembly.GetExecutingAssembly()
    
-   let serverConfig = ServerConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Server.Configuration.xml")
-   let clientConfig = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Orleans.Client.Configuration.xml")
-
-   use silo = createSilo()
-              |> configWith serverConfig
-              |> configWith clientConfig
-              |> registerWith [|assembly|]
+   use system = embeddedActorSystem()
+              |> register [|assembly|]
               |> start
 
-   let actorSystem = ActorSystem.Instance
-
-   let actor = actorSystem.ActorOf<ProxyActor>(Guid.NewGuid().ToString())
+   let actor = system.ActorOf<ProxyActor>(Guid.NewGuid().ToString())
 
    async {
       do! actor <! Hi
@@ -63,6 +56,7 @@ let main argv =
    |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
+   system.Dispose()
 
    printfn "%A" argv
    0 // return an integer exit code

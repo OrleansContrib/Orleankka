@@ -52,5 +52,8 @@ namespace Orleankka.TestKit
 
             return stub;
         }
+
+        public void Dispose()
+        {}
     }
 }

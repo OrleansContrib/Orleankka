@@ -14,15 +14,15 @@ module System =
    open System.Reflection
    open Orleans.Runtime.Configuration   
    
-   let inline createSilo () = EmbeddedSilo()
+   let inline embeddedActorSystem () = ActorSystem.Configure().Embedded()
 
    let inline configWith config silo = 
-      (^silo : (member With : ^config -> EmbeddedSilo) (silo, config))   
+      (^silo : (member With : ^config -> ActorSystemEmbeddedConfiguration) (silo, config))   
 
-   let inline registerWith data silo =
-      (^silo : (member Register : ^data -> EmbeddedSilo) (silo, data)) 
+   let inline register data silo =
+      (^silo : (member Register : ^data -> ActorSystemEmbeddedConfiguration) (silo, data)) 
 
-   let inline start (silo : EmbeddedSilo) = silo.Start()
+   let inline start (cfg : ActorSystemEmbeddedConfiguration) = cfg.Done()
 
 
 let inline (<!) (actorRef : ActorRef) (message : obj) = actorRef.Tell message |> AsyncTask.Await

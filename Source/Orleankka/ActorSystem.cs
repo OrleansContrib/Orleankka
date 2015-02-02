@@ -10,7 +10,7 @@ namespace Orleankka
     /// <summary>
     /// Serves as factory for acquiring actor/observer references from their paths.
     /// </summary>
-    public interface IActorSystem
+    public interface IActorSystem : IDisposable
     {
         /// <summary>
         /// Acquires the actor reference for the given path.
@@ -48,7 +48,7 @@ namespace Orleankka
     /// <summary>
     /// Runtime implementation of <see cref="IActorSystem"/>
     /// </summary>
-    public sealed class ActorSystem : IActorSystem
+    public partial class ActorSystem : IActorSystem
     {
         /// <summary>
         /// The static instance of <see cref="IActorSystem"/>
@@ -142,6 +142,11 @@ namespace Orleankka
                 throw new ArgumentException("ObserverPath is empty", "path");
 
             return new ObserverRef(path, ObserverEndpoint.Proxy(path));
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

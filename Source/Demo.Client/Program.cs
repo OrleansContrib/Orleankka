@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Orleankka;
-using Orleans.Runtime.Configuration;
 
 namespace Demo
 {
@@ -12,29 +11,23 @@ namespace Demo
 
         public static void Main()
         {
-            var serverConfig = new ServerConfiguration()
-                .LoadFromEmbeddedResource<Client>("Orleans.Server.Configuration.xml");
-
-            var clientConfig = new ClientConfiguration()
-                .LoadFromEmbeddedResource<Client>("Orleans.Client.Configuration.xml");
-
             var properties = new Dictionary<string, string> 
               {{"account", "UseDevelopmentStorage=true"}};
 
-            var silo = new EmbeddedSilo()
-                .With(serverConfig)
-                .With(clientConfig)
+            var system = ActorSystem.Configure()
+                .Embedded()
+                .InMemory()
                 .Use<ServiceLocator>(properties)
                 .Register(typeof(Api).Assembly)
-                .Start();
+                .Done();
 
-            client = new Client(ActorSystem.Instance, Observer.Create().Result);
+            client = new Client(system, Observer.Create().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
 
-            silo.Dispose();
+            system.Dispose();
         }
     }
 }
