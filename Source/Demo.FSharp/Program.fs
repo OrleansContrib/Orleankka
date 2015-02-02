@@ -10,7 +10,7 @@ type Message =
    | Greet of string
    | Hi
 
-type GreetingActor() = 
+type Greeter() = 
    inherit Actor()   
 
    override this.OnTell(message : obj) =      
@@ -24,20 +24,6 @@ type GreetingActor() =
 
       | _ -> failwith "unknown message"
 
-type ProxyActor() = 
-   inherit Actor()   
-
-   override this.OnTell(message : obj) =      
-      match message with
-      | :? Message as m ->
-                   
-         match m with
-         | Greet who -> this.System.ActorOf<GreetingActor>("test").Tell(m)
-         | Hi -> this.System.ActorOf<GreetingActor>("test").Tell(m)
-         
-      | _ -> failwith "unknown message"
-
-
 [<EntryPoint>]
 let main argv = 
    let assembly = Assembly.GetExecutingAssembly()
@@ -46,7 +32,7 @@ let main argv =
               |> register [|assembly|]
               |> start
 
-   let actor = system.ActorOf<ProxyActor>(Guid.NewGuid().ToString())
+   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
    async {
       do! actor <! Hi
@@ -56,7 +42,6 @@ let main argv =
    |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
-   system.Dispose()
-
+   
    printfn "%A" argv
    0 // return an integer exit code

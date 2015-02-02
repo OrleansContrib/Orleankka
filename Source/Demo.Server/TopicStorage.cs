@@ -2,8 +2,10 @@
 using System.Globalization;
 using System.Threading.Tasks;
 
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.StorageClient;
+
+using Orleans;
 
 namespace Demo
 {
@@ -21,7 +23,7 @@ namespace Demo
             var blobClient = account.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("topics");
-            container.CreateIfNotExists();
+            container.CreateIfNotExist();
 
             return new TopicStorage(container);
         }
@@ -33,22 +35,23 @@ namespace Demo
             this.container = container;
         }
 
-        public async Task<int> ReadTotalAsync(string id)
+        public Task<int> ReadTotalAsync(string id)
         {
-            var blob = container.GetBlockBlobReference(GetBlobName(id));
-            if (!(await blob.ExistsAsync()))
-                return 0;
+            var blob = container
+                .GetBlockBlobReference(GetBlobName(id));
 
-            var contents = await blob.DownloadTextAsync();
+            var contents = blob.DownloadText();
+
             return !string.IsNullOrWhiteSpace(contents) 
-                    ? int.Parse(contents) 
-                    : 0;
+                    ? Task.FromResult(int.Parse(contents)) 
+                    : Task.FromResult(0);
         }
 
         public Task WriteTotalAsync(string id, int total)
         {
             var blob = container.GetBlockBlobReference(GetBlobName(id));
-            return blob.UploadTextAsync(total.ToString(CultureInfo.InvariantCulture));
+            blob.UploadText(total.ToString(CultureInfo.InvariantCulture));
+            return TaskDone.Done;
         }
 
         static string GetBlobName(string id)

@@ -231,7 +231,7 @@ namespace Orleankka
             {
                 host.StopOrleansSilo();
                 host.Dispose();
-
+                
                 AppDomain.Unload(domain);
             }
 
