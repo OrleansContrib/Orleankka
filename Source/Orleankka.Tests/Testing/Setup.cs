@@ -25,8 +25,7 @@ namespace Orleankka.Testing
                 return;
 
             system = ActorSystem.Configure()
-                .Embedded()
-                .InMemory()
+                .Playground()
                 .Use<SerializationBootstrapper>()
                 .Register(typeof(TestActor).Assembly)
                 .Done();

@@ -1,8 +1,8 @@
 ﻿open System
 open System.Reflection
 open Orleans
-open Orleankka
 open Orleans.Runtime.Configuration
+open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.System
 
@@ -28,7 +28,7 @@ type Greeter() =
 let main argv = 
    let assembly = Assembly.GetExecutingAssembly()
    
-   use system = embeddedActorSystem()
+   use system = playgroundActorSystem()
               |> register [|assembly|]
               |> start
 

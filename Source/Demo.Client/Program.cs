@@ -11,12 +11,13 @@ namespace Demo
 
         public static void Main()
         {
-            var properties = new Dictionary<string, string> 
-              {{"account", "UseDevelopmentStorage=true"}};
+            var properties = new Dictionary<string, string>
+            {
+                {"account", "UseDevelopmentStorage=true"}
+            };
 
             var system = ActorSystem.Configure()
-                .Embedded()
-                .InMemory()
+                .Playground()
                 .Use<ServiceLocator>(properties)
                 .Register(typeof(Api).Assembly)
                 .Done();

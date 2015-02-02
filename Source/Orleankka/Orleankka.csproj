@@ -70,6 +70,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Core\ActorEndpoint.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="Playground\ActorSystemPlaygroundConfiguration.cs" />
     <Compile Include="Requires.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,10 +98,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Configs\Default.Cluster.Configuration.xml" />
+    <EmbeddedResource Include="Playground\Cluster.Configuration.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configs\Default.Client.Configuration.xml" />
+    <EmbeddedResource Include="Playground\Client.Configuration.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
