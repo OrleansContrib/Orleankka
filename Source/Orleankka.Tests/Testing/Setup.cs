@@ -42,7 +42,7 @@ namespace Orleankka.Testing
         }
     }
 
-    public class SerializationBootstrapper : Bootstrapper
+    public class SerializationBootstrapper : ActorSystemBootstrapper
     {
         public override Task Run(IDictionary<string, string> properties)
         {

@@ -42,6 +42,6 @@ let main argv =
    |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
-   
+
    printfn "%A" argv
    0 // return an integer exit code

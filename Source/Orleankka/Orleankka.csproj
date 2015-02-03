@@ -50,6 +50,9 @@
   <ItemGroup>
     <Compile Include="ActivationService.cs" />
     <Compile Include="ActorSystemBuilder.cs" />
+    <Compile Include="Configuration\Embedded\ActorSystemEmbeddedConfiguration.cs" />
+    <Compile Include="Configuration\Embedded\EmbeddedActorSystem.cs" />
+    <Compile Include="Configuration\Playground\ActorSystemPlaygroundConfiguration.cs" />
     <Compile Include="Core\ActorEndpoint.Blends.cs">
       <DependentUpon>ActorEndpoint.Blends.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -65,12 +68,11 @@
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ActorSystemBootstrapper.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="Core\ActorEndpoint.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
-    <Compile Include="Playground\ActorSystemPlaygroundConfiguration.cs" />
     <Compile Include="Requires.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,12 +98,9 @@
       <LastGenOutput>ActorEndpoint.Blends.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Playground\Cluster.Configuration.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.Configuration.xml" />
+    <EmbeddedResource Include="Configuration\Playground\Client.Configuration.xml" />
+    <EmbeddedResource Include="Configuration\Playground\Cluster.Configuration.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -18,7 +18,7 @@ namespace Demo
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Use<ServiceLocator>(properties)
+                .Use<Bootstrap>(properties)
                 .Register(typeof(Api).Assembly)
                 .Done();
 

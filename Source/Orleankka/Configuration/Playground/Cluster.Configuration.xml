@@ -6,7 +6,7 @@
   <Defaults>
     <Networking Address="localhost" Port="11111" />
     <ProxyingGateway Address="localhost" Port="30000" />
-    <Tracing DefaultTraceLevel="Warning" TraceToConsole="true" TraceToFile="">
+    <Tracing DefaultTraceLevel="Error" TraceToConsole="true" TraceToFile="">
       <TraceLevelOverride LogPrefix="Application" TraceLevel="Info" />
     </Tracing>
   </Defaults>

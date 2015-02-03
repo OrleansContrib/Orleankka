@@ -13,14 +13,15 @@ module AsyncTask =
 module System =       
    open System.Reflection
    open Orleans.Runtime.Configuration   
-   open Orleankka.Playground
+   open Orleankka.Configuration.Embedded
+   open Orleankka.Configuration.Playground
    
    let inline playgroundActorSystem () = ActorSystem.Configure().Playground()
 
    let inline register data silo =
-      (^silo : (member Register : ^data -> ActorSystemPlaygroundConfiguration) (silo, data)) 
+      (^silo : (member Register : ^data -> ActorSystemEmbeddedConfiguration) (silo, data)) 
 
-   let inline start (cfg : ActorSystemPlaygroundConfiguration) = cfg.Done()
+   let inline start (cfg : ActorSystemEmbeddedConfiguration) = cfg.Done()
 
 
 let inline (<!) (actorRef : ActorRef) (message : obj) = actorRef.Tell message |> AsyncTask.Await

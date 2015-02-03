@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using Orleankka.Playground;
+using Orleankka.Configuration.Embedded;
+using Orleankka.Configuration.Playground;
 
 namespace Orleankka
 {
@@ -48,12 +49,6 @@ namespace Orleankka
     public sealed class ActorSystemClusterConfiguration
     {
         internal ActorSystemClusterConfiguration()
-        {}
-    }
-    
-    public sealed class ActorSystemEmbeddedConfiguration
-    {
-        internal ActorSystemEmbeddedConfiguration()
         {}
     }
 }
