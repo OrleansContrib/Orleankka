@@ -72,7 +72,6 @@
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />
     <Compile Include="Notification.cs" />
-    <Compile Include="ObserverPath.cs" />
     <Compile Include="ObserverRef.cs" />
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />

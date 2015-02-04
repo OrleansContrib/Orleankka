@@ -83,9 +83,9 @@ namespace Orleankka.Core
             return ((GrainReference)proxy).ToKeyString();
         }
 
-        internal static IObserverEndpoint Proxy(ObserverPath path)
+        internal static IObserverEndpoint Proxy(string path)
         {
-            return ObserverEndpointFactory.Cast(GrainReference.FromKeyString(path.ToString()));
+            return ObserverEndpointFactory.Cast(GrainReference.FromKeyString(path));
         }
     }
 }

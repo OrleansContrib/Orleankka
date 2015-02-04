@@ -47,7 +47,16 @@ namespace Orleankka
 
         public ActorRef Self
         {
-            get {return (self ?? (self = System.ActorOf(ActorPath.From(GetType(), Id))));}
+            get
+            {
+                if (self == null)
+                {
+                    var path = ActorPath.From(GetType(), Id);
+                    self = System.ActorOf(path);
+                }
+
+                return self;
+            }
         }
 
         public virtual Task OnActivate()

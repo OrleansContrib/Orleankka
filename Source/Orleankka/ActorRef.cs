@@ -9,7 +9,7 @@ namespace Orleankka
     using Core;
 
     [Serializable]
-    [DebuggerDisplay("a->{Path}")]
+    [DebuggerDisplay("{DebuggerDisplay()}")]
     public class ActorRef : IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
         public static ActorRef Resolve(string path)
@@ -112,9 +112,9 @@ namespace Orleankka
             return !Equals(left, right);
         }
 
-        public override string ToString()
+        internal string DebuggerDisplay()
         {
-            return Serialize();
+            return path.DebuggerDisplay();
         }
 
         #region Default Binary Serialization

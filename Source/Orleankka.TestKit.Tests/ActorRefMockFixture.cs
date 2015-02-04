@@ -13,7 +13,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            actor = new ActorRefMock(ActorPath.Parse("mock::" + Guid.NewGuid().ToString("D")));
+            actor = new ActorRefMock(ActorPath.From(typeof(TestActor), Guid.NewGuid().ToString("D")));
         }
 
         [Test]
@@ -119,6 +119,9 @@ namespace Orleankka.TestKit
             Assert.That(await actor.Ask<int>(new TestQuery()),
                 Is.EqualTo(222));
         }
+
+        class TestActor : Actor
+        {}
 
         class TestCommand
         {}

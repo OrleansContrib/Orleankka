@@ -5,7 +5,7 @@ namespace Orleankka.TestKit
 {
     public class ObserverRefStub : ObserverRef
     {
-        public ObserverRefStub(ObserverPath path)
+        public ObserverRefStub(string path)
             : base(path)
         {}
 

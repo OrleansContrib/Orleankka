@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Orleankka
 {
-    static class ActorTypeCode
+    class ActorTypeCode
     {
         static readonly Dictionary<string, Type> codeMap =
                     new Dictionary<string, Type>();
@@ -12,9 +12,18 @@ namespace Orleankka
         static readonly Dictionary<Type, string> typeMap =
                     new Dictionary<Type, string>();
 
+        readonly Type type;
+        readonly string code;
+
+        public ActorTypeCode(Type type, string code)
+        {
+            this.type = type;
+            this.code = code;
+        }
+
         public static void Register(Type type)
         {
-            string code = type.Name;  // TODO: add support for ActorTypeCodeAttribute override
+            string code = CodeOf(type);
 
             if (codeMap.ContainsKey(code))
             {
@@ -32,7 +41,7 @@ namespace Orleankka
             typeMap.Add(type, code);
         }
 
-        public static Type Find(string code)
+        public static Type RegisteredType(string code)
         {
             Type type;
                 
@@ -43,7 +52,7 @@ namespace Orleankka
             return type;
         }
 
-        public static string Find(Type type)
+        public static string RegisteredCode(Type type)
         {
             string code;
 
@@ -58,6 +67,11 @@ namespace Orleankka
         {
             codeMap.Clear();
             typeMap.Clear();
+        }
+
+        public static string CodeOf(Type type)
+        {
+            return type.Name;   // TODO: add support for ActorTypeCodeAttribute override
         }
     }
 

@@ -63,7 +63,7 @@ namespace Orleankka.Core
         {
             var system = ActorSystem.Instance;
 
-            actor = Activator.Activate(path.RuntimeType());
+            actor = Activator.Activate(path.Type);
             actor.Initialize(path.Id, system, this);
             
             await actor.OnActivate();
@@ -117,7 +117,7 @@ namespace Orleankka.Core
 
         internal static ActorEndpointInvoker Invoker(ActorPath path)
         {
-            return ActorEndpointFactory.Invoker(path.RuntimeType());
+            return ActorEndpointFactory.Invoker(path.Type);
         }
     }
 }

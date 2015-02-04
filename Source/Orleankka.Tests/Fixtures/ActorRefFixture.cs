@@ -11,7 +11,7 @@ namespace Orleankka.Fixtures
         [Test]
         public void Equatable_by_path()
         {
-            var path = ActorPath.Parse("a::42");
+            var path = ActorPath.From(typeof(T), "42");
 
             var ref1 = new ActorRef(path);
             var ref2 = new ActorRef(path);
@@ -19,5 +19,8 @@ namespace Orleankka.Fixtures
             Assert.True(ref1 == ref2);
             Assert.True(ref1.Equals(ref2));
         }
+
+        class T
+        {}
     }
 }

@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace Orleankka
 {
-    [DebuggerDisplay("{TypeCode}::{Id}")]
+    [DebuggerDisplay("{DebuggerDisplay()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = {"::"};
         
-        public readonly string Code;
+        public readonly Type Type;
         public readonly string Id;
 
-        ActorPath(string code, string id)
+        ActorPath(Type type, string id)
         {
-            Code = code;
+            Type = type;
             Id = id;
         }
 
@@ -30,7 +30,7 @@ namespace Orleankka
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", "id");
 
-            return new ActorPath(ActorTypeCode.Find(type), id);
+            return new ActorPath(type, id);
         }
 
         public static ActorPath Parse(string path)
@@ -42,28 +42,45 @@ namespace Orleankka
             if (parts.Length != 2)
                 throw new ArgumentException("Invalid actor path: " + path);
 
-            return new ActorPath(parts[0], parts[1]);
+            var code = parts[0];
+            var id = parts[1];
+
+            return new ActorPath(RegisteredType(code), id);
         }
 
         public static ActorPath Deserialize(string path)
         {
             var parts = path.Split(Separator, 2, StringSplitOptions.None);
-            return new ActorPath(parts[0], parts[1]);
+            
+            var code = parts[0];
+            var id = parts[1];
+
+            return new ActorPath(RegisteredType(code), id);
         }
 
         public string Serialize()
         {
-            return string.Format("{0}{1}{2}", Code, Separator[0], Id);
+            return Serialize(RegisteredCode(Type));
+        }
+        
+        string Serialize(string code)
+        {
+            return string.Format("{0}{1}{2}", code, Separator[0], Id);
         }
 
-        internal Type RuntimeType()
+        static Type RegisteredType(string code)
         {
-            return ActorTypeCode.Find(Code);
+            return ActorTypeCode.RegisteredType(code);
+        }
+
+        static string RegisteredCode(Type type)
+        {
+            return ActorTypeCode.RegisteredCode(type);
         }
 
         public bool Equals(ActorPath other)
         {
-            return string.Equals(Code, other.Code) && string.Equals(Id, other.Id);
+            return Type == other.Type && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -75,7 +92,7 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((Code != null ? Code.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+                return ((Type != null ? Type.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
             }
         }
 
@@ -89,9 +106,9 @@ namespace Orleankka
             return !left.Equals(right);
         }
 
-        public override string ToString()
+        internal string DebuggerDisplay()
         {
-            return Serialize();
+            return Serialize(ActorTypeCode.CodeOf(Type));
         }
     }
 }

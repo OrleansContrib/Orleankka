@@ -8,53 +8,46 @@ namespace Orleankka
     using Core;
 
     [Serializable]
-    [DebuggerDisplay("o->{Path}")]
-    public class ObserverRef : IEquatable<ObserverRef>, IEquatable<ObserverPath>, ISerializable
+    [DebuggerDisplay("{DebuggerDisplay()}")]
+    public class ObserverRef : IEquatable<ObserverRef>, IEquatable<string>, ISerializable
     {
         public static ObserverRef Resolve(string path)
         {
-            return Resolve(ObserverPath.Parse(path));
-        }
+            if (path == null)
+                throw new ArgumentNullException("path");
 
-        public static ObserverRef Resolve(ObserverPath path)
-        {
-            if (path == ObserverPath.Empty)
-                throw new ArgumentException("ObserverPath is empty", "path");
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("An observer path cannot be empty or contain whitespace only", "path");
 
             return Deserialize(path);
         }
         
         public static ObserverRef Deserialize(string path)
         {
-            return Deserialize(ObserverPath.Deserialize(path));
-        }
-        
-        public static ObserverRef Deserialize(ObserverPath path)
-        {
             return new ObserverRef(path, ObserverEndpoint.Proxy(path));
         }
 
-        readonly ObserverPath path;
+        readonly string path;
         readonly IObserverEndpoint endpoint;
 
-        protected internal ObserverRef(ObserverPath path)
+        protected internal ObserverRef(string path)
         {
             this.path = path;
         }
 
-        ObserverRef(ObserverPath path, IObserverEndpoint endpoint) : this(path)
+        ObserverRef(string path, IObserverEndpoint endpoint) : this(path)
         {
             this.endpoint = endpoint;
         }
 
-        public ObserverPath Path
+        public string Path
         {
             get { return path; }
         }
 
         public string Serialize()
         {
-            return Path.Serialize();
+            return Path;
         }
 
         public virtual void Notify(Notification notification)
@@ -73,7 +66,7 @@ namespace Orleankka
                     || Equals(path, other.path));
         }
 
-        public bool Equals(ObserverPath other)
+        public bool Equals(string other)
         {
             return path.Equals(other);
         }
@@ -99,7 +92,7 @@ namespace Orleankka
             return !Equals(left, right);
         }
 
-        public override string ToString()
+        internal string DebuggerDisplay()
         {
             return Serialize();
         }
@@ -108,13 +101,12 @@ namespace Orleankka
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path.Serialize(), typeof(string));
+            info.AddValue("path", path, typeof(string));
         }
 
         public ObserverRef(SerializationInfo info, StreamingContext context)
         {
-            var value = (string) info.GetValue("path", typeof(string));
-            path = ObserverPath.Deserialize(value);
+            path = (string) info.GetValue("path", typeof(string));
             endpoint = ObserverEndpoint.Proxy(path);
         }
 

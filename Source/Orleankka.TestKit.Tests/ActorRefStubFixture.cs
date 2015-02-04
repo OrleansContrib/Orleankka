@@ -13,7 +13,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            stub = new ActorRefStub(ActorPath.Parse("mock::" + Guid.NewGuid().ToString("D")));
+            stub = new ActorRefStub(ActorPath.From(typeof(TestActor), Guid.NewGuid().ToString("D")));
         }
 
         [Test]
@@ -28,5 +28,8 @@ namespace Orleankka.TestKit
             Assert.AreEqual(default(int), await stub.Ask<int>(new object()));
             Assert.AreEqual(default(object), await stub.Ask(new object()));
         }
+        
+        class TestActor : Actor
+        {}
     }
 }
