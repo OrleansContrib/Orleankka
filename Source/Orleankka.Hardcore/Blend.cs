@@ -37,6 +37,11 @@ namespace Orleankka.Core.Hardcore
                 .Reverse());
         }
 
+        public static Blend Mix(params Flavor[] flavors)
+        {
+            return flavors.Aggregate(Default, (current, flavor) => current.Mix(flavor));
+        }
+
         public Blend Mix(Flavor flavor)
         {
             var mix = flavors.ToArray();

@@ -56,49 +56,36 @@ namespace Orleankka.Core
         [Test]
         public void Blend_from_non_attributed_type()
         {
-            Blend blend = Blend.From(typeof(RegularSingleton));
-
-            Assert.That(blend.Flavors, Contains.Item(Activation.Singleton));
-            Assert.That(blend.Flavors, Contains.Item(Concurrency.Default));
-            Assert.That(blend.Flavors, Contains.Item(Placement.Default));
-            Assert.That(blend.Flavors, Contains.Item(Delivery.Default));
-            Assert.That(blend.Flavors, Contains.Item(Interleave.Default));
+            AssertContains(Blend.From(typeof(RegularSingleton)), Activation.Singleton);
         }
 
         [Test]
         public void Blend_from_unordered_stateless_worker()
         {
-            Blend blend = Blend.From(typeof(UnorderedStatelessWorker));
-
-            Assert.That(blend.Flavors, Contains.Item(Activation.StatelessWorker));
-            Assert.That(blend.Flavors, Contains.Item(Concurrency.Default));
-            Assert.That(blend.Flavors, Contains.Item(Placement.Default));
-            Assert.That(blend.Flavors, Contains.Item(Delivery.Unordered));
-            Assert.That(blend.Flavors, Contains.Item(Interleave.Default));
+            AssertContains(Blend.From(typeof(UnorderedStatelessWorker)),
+                Activation.StatelessWorker,
+                Delivery.Unordered);
         }
 
         [Test]
         public void Blend_from_singleton_with_tell_method_attributed()
         {
-            Blend blend = Blend.From(typeof(TellInterleave));
-
-            Assert.That(blend.Flavors, Contains.Item(Activation.Singleton));
-            Assert.That(blend.Flavors, Contains.Item(Concurrency.Default));
-            Assert.That(blend.Flavors, Contains.Item(Placement.Default));
-            Assert.That(blend.Flavors, Contains.Item(Delivery.Default));
-            Assert.That(blend.Flavors, Contains.Item(Interleave.Tell));
+            AssertContains(Blend.From(typeof(TellInterleave)),
+                Activation.Singleton,
+                Interleave.Tell);
         }
 
         [Test]
         public void Blend_from_worker_with_both_methods_attributed()
         {
-            Blend blend = Blend.From(typeof(WorkerWithInterleave));
+            AssertContains(Blend.From(typeof(WorkerWithInterleave)), 
+                Activation.StatelessWorker, 
+                Interleave.Both);
+        }
 
-            Assert.That(blend.Flavors, Contains.Item(Activation.StatelessWorker));
-            Assert.That(blend.Flavors, Contains.Item(Concurrency.Default));
-            Assert.That(blend.Flavors, Contains.Item(Placement.Default));
-            Assert.That(blend.Flavors, Contains.Item(Delivery.Default));
-            Assert.That(blend.Flavors, Contains.Item(Interleave.Both));
+        static void AssertContains(Blend blend, params Flavor[] flavors)
+        {
+            Assert.That(blend, Is.EqualTo(Blend.Mix(flavors)));
         }
 
         class RegularSingleton {}
