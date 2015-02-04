@@ -4,22 +4,13 @@ using System.Linq;
 
 namespace Orleankka
 {
-    class ActorTypeCode
+    static class ActorTypeCode
     {
         static readonly Dictionary<string, Type> codeMap =
                     new Dictionary<string, Type>();
 
         static readonly Dictionary<Type, string> typeMap =
                     new Dictionary<Type, string>();
-
-        readonly Type type;
-        readonly string code;
-
-        public ActorTypeCode(Type type, string code)
-        {
-            this.type = type;
-            this.code = code;
-        }
 
         public static void Register(Type type)
         {
@@ -31,7 +22,7 @@ namespace Orleankka
 
                 if (existing != type)
                     throw new ArgumentException(
-                        String.Format("The type {0} has been already registered under the code {1}. Use TypeCode attribute to provide unique code for {2}",
+                        string.Format("The type {0} has been already registered under the code {1}. Use ActorTypeCode attribute to provide unique code for {2}",
                                       existing.FullName, code, type.FullName));
 
                 throw new ArgumentException(string.Format("The type {0} has been already registered", type));
@@ -71,11 +62,28 @@ namespace Orleankka
 
         public static string CodeOf(Type type)
         {
-            return type.Name;   // TODO: add support for ActorTypeCodeAttribute override
+            var att = type
+                .GetCustomAttributes(typeof(ActorTypeCodeAttribute), false)
+                .Cast<ActorTypeCodeAttribute>()
+                .SingleOrDefault();
+
+            return att != null ? att.Code : type.Name;
         }
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class ActorTypeCodeAttribute : Attribute
-    {}
+    {
+        internal readonly string Code;
+
+        public ActorTypeCodeAttribute(string code)
+        {
+            Requires.NotNullOrWhitespace(code, "code");
+
+            if (code.Contains(ActorPath.Separator[0]))
+                throw new ArgumentException("Actor type code cannot contain path separator: " + code);
+
+            Code = code;
+        }
+    }
 }
