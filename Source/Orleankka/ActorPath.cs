@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Orleankka
 {
-    [DebuggerDisplay("{DebuggerDisplay()}")]
+    [DebuggerDisplay("{ToString()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
@@ -106,7 +106,7 @@ namespace Orleankka
             return !left.Equals(right);
         }
 
-        internal string DebuggerDisplay()
+        public override string ToString()
         {
             return Serialize(ActorTypeCode.CodeOf(Type));
         }

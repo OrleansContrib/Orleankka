@@ -8,7 +8,7 @@ namespace Orleankka
     using Core;
 
     [Serializable]
-    [DebuggerDisplay("{DebuggerDisplay()}")]
+    [DebuggerDisplay("{ToString()}")]
     public class ObserverRef : IEquatable<ObserverRef>, IEquatable<string>, ISerializable
     {
         public static ObserverRef Resolve(string path)
@@ -92,9 +92,9 @@ namespace Orleankka
             return !Equals(left, right);
         }
 
-        internal string DebuggerDisplay()
+        public override string ToString()
         {
-            return Serialize();
+            return Path;
         }
 
         #region Default Binary Serialization
