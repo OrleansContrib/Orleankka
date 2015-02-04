@@ -15,10 +15,9 @@ namespace Demo
 
         public class Bootstrap : Bootstrapper
         {
-            public override Task Run(IDictionary<string, string> properties)
+            public override async Task Run(IDictionary<string, string> properties)
             {
-                TopicStorage = Demo.TopicStorage.Init(properties["account"]);
-                return TaskDone.Done;
+                TopicStorage = await Demo.TopicStorage.Init(properties["account"]);
             }
         }
     }

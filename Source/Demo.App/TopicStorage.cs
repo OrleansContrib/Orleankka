@@ -2,10 +2,8 @@
 using System.Globalization;
 using System.Threading.Tasks;
 
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
-
-using Orleans;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Demo
 {
@@ -17,13 +15,13 @@ namespace Demo
 
     public class TopicStorage : ITopicStorage
     {
-        public static ITopicStorage Init(string connectionString)
+        public static async Task<ITopicStorage> Init(string connectionString)
         {
             var account = CloudStorageAccount.Parse(connectionString);
             var blobClient = account.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("topics");
-            container.CreateIfNotExist();
+            await container.CreateIfNotExistsAsync();
 
             return new TopicStorage(container);
         }
@@ -35,23 +33,22 @@ namespace Demo
             this.container = container;
         }
 
-        public Task<int> ReadTotalAsync(string id)
+        public async Task<int> ReadTotalAsync(string id)
         {
-            var blob = container
-                .GetBlockBlobReference(GetBlobName(id));
+            var blob = container.GetBlockBlobReference(GetBlobName(id));
+            if (!(await blob.ExistsAsync()))
+                return 0;
 
-            var contents = blob.DownloadText();
-
-            return !string.IsNullOrWhiteSpace(contents) 
-                    ? Task.FromResult(int.Parse(contents)) 
-                    : Task.FromResult(0);
+            var contents = await blob.DownloadTextAsync();
+            return !string.IsNullOrWhiteSpace(contents)
+                    ? int.Parse(contents)
+                    : 0;
         }
 
         public Task WriteTotalAsync(string id, int total)
         {
             var blob = container.GetBlockBlobReference(GetBlobName(id));
-            blob.UploadText(total.ToString(CultureInfo.InvariantCulture));
-            return TaskDone.Done;
+            return blob.UploadTextAsync(total.ToString(CultureInfo.InvariantCulture));
         }
 
         static string GetBlobName(string id)
