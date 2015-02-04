@@ -11,7 +11,7 @@ namespace Orleankka.Scenarios
     {
         static readonly IActorSystem system = ActorSystem.Instance;
 
-        [Test]
+        [Test, Explicit]
         public async void When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
         {
             var actor = system.FreshActorOf<TestActor>();
