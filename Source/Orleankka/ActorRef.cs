@@ -14,12 +14,25 @@ namespace Orleankka
     {
         public static ActorRef Resolve(string path)
         {
-            return Resolve(ActorPath.From(path));
+            return Resolve(ActorPath.Parse(path));
         }
 
         public static ActorRef Resolve(ActorPath path)
         {
-            return ActorSystem.Instance.ActorOf(path);
+            if (path == ActorPath.Empty)
+                throw new ArgumentException("ActorPath is empty", "path");
+
+            return Deserialize(path);
+        }
+
+        public static ActorRef Deserialize(string path)
+        {
+            return Deserialize(ActorPath.Deserialize(path));
+        }
+
+        public static ActorRef Deserialize(ActorPath path)
+        {
+            return new ActorRef(path, ActorEndpoint.Invoker(path));
         }
 
         readonly ActorPath path;
@@ -31,8 +44,7 @@ namespace Orleankka
             this.path = path;
         }
 
-        internal ActorRef(ActorPath path, ActorEndpointInvoker invoker) 
-            : this(path)
+        ActorRef(ActorPath path, ActorEndpointInvoker invoker) : this(path)
         {
             this.invoker = invoker;
             endpoint = invoker.GetProxy(path.ToString());
@@ -43,12 +55,17 @@ namespace Orleankka
             get { return path; }
         }
 
+        public string Serialize()
+        {
+            return Path.Serialize();
+        }
+
         public virtual Task Tell(object message)
         {
             Requires.NotNull(message, "message");
 
             return invoker
-                    .ReceiveTell(endpoint, new RequestEnvelope(path, message))
+                    .ReceiveTell(endpoint, new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
         }
 
@@ -57,7 +74,7 @@ namespace Orleankka
             Requires.NotNull(message, "message");
 
             var response = await invoker
-                    .ReceiveAsk(endpoint, new RequestEnvelope(path, message))
+                    .ReceiveAsk(endpoint, new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
 
             return (TResult) response.Message;
@@ -97,21 +114,22 @@ namespace Orleankka
 
         public override string ToString()
         {
-            return Path.ToString();
+            return Serialize();
         }
 
-        #region Serialization
+        #region Default Binary Serialization
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path.ToString(), typeof(string));
+            info.AddValue("path", path.Serialize(), typeof(string));
         }
 
         public ActorRef(SerializationInfo info, StreamingContext context)
         {
-            path = ActorPath.From((string) info.GetValue("path", typeof(string)));
+            var value = (string) info.GetValue("path", typeof(string));
+            path = ActorPath.Deserialize(value);
             invoker = ActorEndpoint.Invoker(path);
-            endpoint = invoker.GetProxy(path.ToString());
+            endpoint = invoker.GetProxy(value);
         }
 
         #endregion

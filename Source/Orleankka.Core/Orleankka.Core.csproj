@@ -51,10 +51,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IActorEndpoint.Blends.tt</DependentUpon>
     </Compile>
-    <Compile Include="ObserverPath.cs" />
-    <Compile Include="ActorPath.cs" />
+    <Compile Include="IMessageSerializer.cs" />
     <Compile Include="MessageEnvelope.cs" />
-    <Compile Include="Attributes.cs" />
     <Compile Include="RequestEnvelope.cs" />
     <Compile Include="ResponseEnvelope.cs" />
     <Compile Include="IObserverEndpoint.cs" />

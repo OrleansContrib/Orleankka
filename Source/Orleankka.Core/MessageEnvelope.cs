@@ -1,34 +1,20 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Orleankka.Core
 {
     static class MessageEnvelope
     {
-        static MessageEnvelope()
-        {
-            Serializer = obj =>
-            {
-                using (var ms = new MemoryStream())
-                {
-                    new BinaryFormatter().Serialize(ms, obj);
-                    return ms.ToArray();
-                }
-            };
+        public static IMessageSerializer Serializer;
 
-            Deserializer = bytes =>
-            {
-                using (var ms = new MemoryStream(bytes))
-                {
-                    var formatter = new BinaryFormatter();
-                    return formatter.Deserialize(ms);
-                }
-            };
+        public static void Reset()
+        {
+            Serializer = new DefaultMessageSerializer();
         }
 
-        internal static Func<object, byte[]> Serializer;
-        internal static Func<byte[], object> Deserializer;
+        static MessageEnvelope()
+        {
+            Reset();
+        }
     }
 }

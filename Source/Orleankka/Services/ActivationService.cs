@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Orleankka
+namespace Orleankka.Services
 {
     using Core;
 
@@ -34,7 +34,7 @@ namespace Orleankka
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly Func<IGrainActivationService> service;
+        readonly Func<IActorEndpointActivationService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivationService"/> class.
@@ -44,7 +44,7 @@ namespace Orleankka
             : this(() => actor.Endpoint)
         {}
 
-        ActivationService(Func<IGrainActivationService> service)
+        ActivationService(Func<IActorEndpointActivationService> service)
         {
             this.service = service;
         }

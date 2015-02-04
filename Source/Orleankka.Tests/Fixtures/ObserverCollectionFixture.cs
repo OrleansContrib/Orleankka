@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleankka.Client;
+
 using Orleans;
 
 namespace Orleankka.Fixtures

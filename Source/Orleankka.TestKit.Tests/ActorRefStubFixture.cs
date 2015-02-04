@@ -13,7 +13,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            stub = new ActorRefStub(ActorPath.From("mock::" + Guid.NewGuid().ToString("D")));
+            stub = new ActorRefStub(ActorPath.Parse("mock::" + Guid.NewGuid().ToString("D")));
         }
 
         [Test]

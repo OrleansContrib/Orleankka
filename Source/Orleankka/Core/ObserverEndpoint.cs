@@ -25,9 +25,8 @@ namespace Orleankka.Core
         {
             this.proxy = proxy;
             
-            var path = new ObserverPath(IdentityOf(proxy));
-            Self = ActorSystem.Instance.ObserverOf(path);
-
+            Self = ObserverRef.Deserialize(IdentityOf(proxy));
+            
             return this;
         }
 

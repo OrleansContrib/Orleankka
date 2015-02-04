@@ -31,6 +31,11 @@ namespace Orleankka.Core
             var factory = Type.GetType("Orleankka.Core.Hardcore." + name + ".ActorEndpointFactory, Orleankka.Core");
             return new ActorEndpointInvoker(factory);
         }
+
+        public static void Reset()
+        {
+            invokers.Clear();
+        }
     }
 
     class ActorEndpointInvoker

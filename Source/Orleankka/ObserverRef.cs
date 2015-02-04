@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Orleankka
 {
@@ -8,23 +9,40 @@ namespace Orleankka
 
     [Serializable]
     [DebuggerDisplay("o->{Path}")]
-    public class ObserverRef : IEquatable<ObserverRef>, IEquatable<ObserverPath>
+    public class ObserverRef : IEquatable<ObserverRef>, IEquatable<ObserverPath>, ISerializable
     {
         public static ObserverRef Resolve(string path)
         {
-            return ActorSystem.Instance.ObserverOf(ObserverPath.From(path));
+            return Resolve(ObserverPath.Parse(path));
+        }
+
+        public static ObserverRef Resolve(ObserverPath path)
+        {
+            if (path == ObserverPath.Empty)
+                throw new ArgumentException("ObserverPath is empty", "path");
+
+            return Deserialize(path);
+        }
+        
+        public static ObserverRef Deserialize(string path)
+        {
+            return Deserialize(ObserverPath.Deserialize(path));
+        }
+        
+        public static ObserverRef Deserialize(ObserverPath path)
+        {
+            return new ObserverRef(path, ObserverEndpoint.Proxy(path));
         }
 
         readonly ObserverPath path;
         readonly IObserverEndpoint endpoint;
 
-        protected ObserverRef(ObserverPath path)
+        protected internal ObserverRef(ObserverPath path)
         {
             this.path = path;
         }
 
-        internal ObserverRef(ObserverPath path, IObserverEndpoint endpoint) 
-            : this(path)
+        ObserverRef(ObserverPath path, IObserverEndpoint endpoint) : this(path)
         {
             this.endpoint = endpoint;
         }
@@ -34,10 +52,15 @@ namespace Orleankka
             get { return path; }
         }
 
+        public string Serialize()
+        {
+            return Path.Serialize();
+        }
+
         public virtual void Notify(Notification notification)
         {
             var envelope = new NotificationEnvelope(
-                notification.Sender.Path, 
+                notification.Sender.Serialize(), 
                 notification.Message
             );
 
@@ -78,7 +101,23 @@ namespace Orleankka
 
         public override string ToString()
         {
-            return Path.ToString();
+            return Serialize();
         }
+
+        #region Default Binary Serialization
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("path", path.Serialize(), typeof(string));
+        }
+
+        public ObserverRef(SerializationInfo info, StreamingContext context)
+        {
+            var value = (string) info.GetValue("path", typeof(string));
+            path = ObserverPath.Deserialize(value);
+            endpoint = ObserverEndpoint.Proxy(path);
+        }
+
+        #endregion
     }
 }

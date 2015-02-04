@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Orleankka
-{
-    using Core;
+using Orleankka.Core;
 
+namespace Orleankka.Services
+{
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
@@ -93,7 +93,7 @@ namespace Orleankka
     public class TimerService : ITimerService
     {
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly Func<IGrainTimerService> service;
+        readonly Func<IActorEndpointTimerService> service;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimerService"/> class.
@@ -103,7 +103,7 @@ namespace Orleankka
             : this(() => actor.Endpoint)
         {}
 
-        TimerService(Func<IGrainTimerService> service)
+        TimerService(Func<IActorEndpointTimerService> service)
         {
             this.service = service;
         }

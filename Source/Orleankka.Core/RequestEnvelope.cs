@@ -11,10 +11,10 @@ namespace Orleankka.Core
     /// </summary>
     public class RequestEnvelope
     {
-        public readonly ActorPath Target;
+        public readonly string Target;
         public readonly object Message;
 
-        internal RequestEnvelope(ActorPath target, object message)
+        internal RequestEnvelope(string target, object message)
         {
             Target = target;
             Message = message;
@@ -24,15 +24,20 @@ namespace Orleankka.Core
         internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
             var envelope = (RequestEnvelope) obj;
-            SerializationManager.SerializeInner(envelope.Target, stream, typeof(ActorPath));
-            SerializationManager.SerializeInner(MessageEnvelope.Serializer(envelope.Message), stream, typeof(byte[]));
+            stream.Write(envelope.Target);
+
+            var bytes = MessageEnvelope.Serializer.Serialize(envelope.Message);
+            SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var target  = (ActorPath)SerializationManager.DeserializeInner(typeof(ActorPath), stream);
-            var message = MessageEnvelope.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
+            var target = stream.ReadString();
+            
+            var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
+            var message = MessageEnvelope.Serializer.Deserialize(bytes);
+
             return new RequestEnvelope(target, message);
         }
 

@@ -22,13 +22,15 @@ namespace Orleankka.Core
         internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
             var envelope = (ResponseEnvelope)obj;
-            SerializationManager.SerializeInner(MessageEnvelope.Serializer(envelope.Message), stream, typeof(byte[]));
+            var bytes = MessageEnvelope.Serializer.Serialize(envelope.Message);
+            SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
         }
 
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var message = MessageEnvelope.Deserializer((byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream));
+            var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
+            var message = MessageEnvelope.Serializer.Deserialize(bytes);
             return new ResponseEnvelope(message);
         }
 

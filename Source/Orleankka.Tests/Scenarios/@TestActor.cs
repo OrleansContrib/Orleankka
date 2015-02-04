@@ -3,6 +3,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Orleankka.Services;
+
 using Orleans;
 
 namespace Orleankka.Scenarios

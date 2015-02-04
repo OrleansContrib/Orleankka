@@ -10,12 +10,6 @@ namespace Orleankka.TestKit
     {
         ActorSystemMock system;
 
-        [TestFixtureSetUp]
-        public void SetUpFixture()
-        {
-            ActorSystem.Register(typeof(TestActor).Assembly);
-        }
-        
         [SetUp]
         public void SetUpTest()
         {

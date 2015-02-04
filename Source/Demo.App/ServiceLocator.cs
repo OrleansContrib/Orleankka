@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka;
+using Orleankka.Cluster;
 
 namespace Demo
 {
@@ -12,14 +12,14 @@ namespace Demo
         {
             get; internal set;
         }
-    }
 
-    public class Bootstrap : ActorSystemBootstrapper
-    {
-        public override Task Run(IDictionary<string, string> properties)
+        public class Bootstrap : Bootstrapper
         {
-            ServiceLocator.TopicStorage = TopicStorage.Init(properties["account"]);
-            return TaskDone.Done;
-        }   
+            public override Task Run(IDictionary<string, string> properties)
+            {
+                TopicStorage = Demo.TopicStorage.Init(properties["account"]);
+                return TaskDone.Done;
+            }
+        }
     }
 }

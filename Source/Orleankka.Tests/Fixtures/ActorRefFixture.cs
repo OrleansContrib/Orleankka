@@ -11,7 +11,7 @@ namespace Orleankka.Fixtures
         [Test]
         public void Equatable_by_path()
         {
-            var path = ActorPath.From("a::42");
+            var path = ActorPath.Parse("a::42");
 
             var ref1 = new ActorRef(path);
             var ref2 = new ActorRef(path);

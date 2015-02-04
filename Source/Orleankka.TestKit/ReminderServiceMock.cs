@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleankka.Services;
+
 using Orleans;
 
 namespace Orleankka.TestKit

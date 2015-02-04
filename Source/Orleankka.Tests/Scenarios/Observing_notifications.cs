@@ -4,6 +4,8 @@ using System.Threading;
 
 using NUnit.Framework;
 
+using Orleankka.Client;
+
 namespace Orleankka.Scenarios
 {
     [TestFixture]

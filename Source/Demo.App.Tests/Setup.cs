@@ -4,7 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 
 using Demo;
-using Orleankka;
+using Orleankka.Core;
 using Orleankka.TestKit;
 
 [assembly: Setup]
@@ -17,9 +17,6 @@ namespace Demo
         {
             if (!details.IsSuite)
                 return;
-
-            ActorSystem.Register(typeof(Topic).Assembly);
-            ActorSystem.Register(typeof(ActorRefStub).Assembly);
         }
     }
 }

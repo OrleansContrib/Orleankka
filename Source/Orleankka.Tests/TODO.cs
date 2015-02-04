@@ -15,9 +15,9 @@ namespace Orleankka
         }
 
         [Test, Ignore]
-        public void Bootsrap()
+        public void AutomaticDeactivation()
         {
-            // - Provide fluent DSL for configuring Client, Server, Embedded, InMemory
+            // - Add support for per-type idle deactivation timeouts
         }
     }
 }

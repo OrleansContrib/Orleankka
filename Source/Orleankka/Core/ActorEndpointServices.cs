@@ -7,13 +7,13 @@ using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
-    interface IGrainActivationService
+    interface IActorEndpointActivationService
     {
         void DeactivateOnIdle();
         void DelayDeactivation(TimeSpan timeSpan);
     }
 
-    interface IGrainReminderService
+    interface IActorEndpointReminderService
     {
         Task<IGrainReminder> GetReminder(string reminderName);
         Task<List<IGrainReminder>> GetReminders();
@@ -21,7 +21,7 @@ namespace Orleankka.Core
         Task UnregisterReminder(IGrainReminder reminder);
     }
 
-    interface IGrainTimerService
+    interface IActorEndpointTimerService
     {
         IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period);
     }

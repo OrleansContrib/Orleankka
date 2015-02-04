@@ -10,19 +10,24 @@ using Orleans.Runtime;
 namespace Orleankka.Core
 {
     /// <summary> 
-    /// FOR INTERNAL USE ONLY! 
+    /// FOR INTERNAL USE ONLY!
     /// </summary>
     public abstract class ActorEndpoint : Grain,
         IRemindable,
-        IGrainActivationService,
-        IGrainReminderService,
-        IGrainTimerService
+        IActorEndpointActivationService,
+        IActorEndpointReminderService,
+        IActorEndpointTimerService
     {
-        public static Func<Type, Actor> Activator;
-            
+        internal static IInstanceActivator Activator;
+
+        internal static void Reset()
+        {
+            Activator = new DefaultInstanceActivator();
+        }
+
         static ActorEndpoint()
         {
-            Activator = type => (Actor) System.Activator.CreateInstance(type);
+            Reset();
         }
 
         Actor actor;
@@ -30,7 +35,7 @@ namespace Orleankka.Core
         public async Task ReceiveTell(RequestEnvelope envelope)
         {
             if (actor == null)
-                await Activate(envelope.Target);
+                await Activate(ActorPath.Deserialize(envelope.Target));
 
             Debug.Assert(actor != null);
             await actor.OnTell(envelope.Message);
@@ -39,7 +44,7 @@ namespace Orleankka.Core
         public async Task<ResponseEnvelope> ReceiveAsk(RequestEnvelope envelope)
         {
             if (actor == null)
-                await Activate(envelope.Target);
+                await Activate(ActorPath.Deserialize(envelope.Target));
 
             Debug.Assert(actor != null);
             return new ResponseEnvelope(await actor.OnAsk(envelope.Message));
@@ -48,7 +53,7 @@ namespace Orleankka.Core
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
         {
             if (actor == null)
-                await Activate(ActorPath.From(IdentityOf(this)));
+                await Activate(ActorPath.Deserialize(IdentityOf(this)));
 
             Debug.Assert(actor != null);
             await actor.OnReminder(reminderName);
@@ -56,45 +61,47 @@ namespace Orleankka.Core
 
         async Task Activate(ActorPath path)
         {
-            actor = Activator(path.RuntimeType());
-            actor.Initialize(path.Id, ActorSystem.Instance, this);
+            var system = ActorSystem.Instance;
 
+            actor = Activator.Activate(path.RuntimeType());
+            actor.Initialize(path.Id, system, this);
+            
             await actor.OnActivate();
         }
 
         #region Internals
 
-        void IGrainActivationService.DeactivateOnIdle()
+        void IActorEndpointActivationService.DeactivateOnIdle()
         {
             DeactivateOnIdle();
         }
 
-        void IGrainActivationService.DelayDeactivation(TimeSpan timeSpan)
+        void IActorEndpointActivationService.DelayDeactivation(TimeSpan timeSpan)
         {
             DelayDeactivation(timeSpan);
         }
 
-        Task<IGrainReminder> IGrainReminderService.GetReminder(string reminderName)
+        Task<IGrainReminder> IActorEndpointReminderService.GetReminder(string reminderName)
         {
             return GetReminder(reminderName);
         }
 
-        Task<List<IGrainReminder>> IGrainReminderService.GetReminders()
+        Task<List<IGrainReminder>> IActorEndpointReminderService.GetReminders()
         {
             return GetReminders();
         }
 
-        Task<IGrainReminder> IGrainReminderService.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+        Task<IGrainReminder> IActorEndpointReminderService.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterOrUpdateReminder(reminderName, dueTime, period);
         }
 
-        Task IGrainReminderService.UnregisterReminder(IGrainReminder reminder)
+        Task IActorEndpointReminderService.UnregisterReminder(IGrainReminder reminder)
         {
             return UnregisterReminder(reminder);
         }
 
-        IDisposable IGrainTimerService.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+        IDisposable IActorEndpointTimerService.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterTimer(asyncCallback, state, dueTime, period);
         }

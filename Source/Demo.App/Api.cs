@@ -6,6 +6,7 @@ using System.Web;
 
 using Orleans;
 using Orleankka;
+using Orleankka.Services;
 
 namespace Demo
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Orleankka;
+using Orleankka.Client;
 
 namespace Demo
 {

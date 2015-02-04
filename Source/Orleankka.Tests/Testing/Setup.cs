@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-using Orleans;
 using Orleankka.Scenarios;
 using Orleankka.Testing;
 
@@ -15,6 +13,9 @@ using Orleankka.Testing;
 
 namespace Orleankka.Testing
 {
+    using Core;
+    using Playground;
+
     public class SetupAttribute : TestActionAttribute
     {
         IActorSystem system;
@@ -26,11 +27,9 @@ namespace Orleankka.Testing
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Use<SerializationBootstrapper>()
                 .Register(typeof(TestActor).Assembly)
+                .Serializer<JsonSerializer>()
                 .Done();
-
-            SerializationBootstrapper.Run();
         }
 
         public override void AfterTest(TestDetails details)
@@ -42,19 +41,10 @@ namespace Orleankka.Testing
         }
     }
 
-    public class SerializationBootstrapper : ActorSystemBootstrapper
+    public class JsonSerializer : IMessageSerializer
     {
-        public override Task Run(IDictionary<string, string> properties)
-        {
-            Run();
-            return TaskDone.Done;
-        }
-
-        public static void Run()
-        {
-            ActorSystem.Serializer = Serialize;
-            ActorSystem.Deserializer = Deserialize;
-        }
+        public void Init(IDictionary<string, string> properties)
+        {}
 
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
@@ -66,13 +56,13 @@ namespace Orleankka.Testing
             }
         };
 
-        static byte[] Serialize(object obj)
+        byte[] IMessageSerializer.Serialize(object message)
         {
-            string data = JsonConvert.SerializeObject(obj, Formatting.None, JsonSerializerSettings);
+            string data = JsonConvert.SerializeObject(message, Formatting.None, JsonSerializerSettings);
             return Encoding.Default.GetBytes(data);
         }
 
-        static object Deserialize(byte[] bytes)
+        object IMessageSerializer.Deserialize(byte[] bytes)
         {
             string data = Encoding.Default.GetString(bytes);
             return JsonConvert.DeserializeObject(data, JsonSerializerSettings);
@@ -85,14 +75,15 @@ namespace Orleankka.Testing
                 return typeof(ActorRef) == objectType;
             }
 
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
             {
-                writer.WriteValue(value.ToString());
+                var @ref = (ActorRef) value;
+                writer.WriteValue(@ref.Serialize());
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
-                return ActorRef.Resolve((string)reader.Value);
+                return ActorRef.Deserialize((string)reader.Value);
             }
         }
 
@@ -103,14 +94,15 @@ namespace Orleankka.Testing
                 return typeof(ObserverRef) == objectType;
             }
 
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
             {
-                writer.WriteValue(value.ToString());
+                var @ref = (ObserverRef)value;
+                writer.WriteValue(@ref.Serialize());
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
-                return ObserverRef.Resolve((string)reader.Value);
+                return ObserverRef.Deserialize((string)reader.Value);
             }
         }
     }

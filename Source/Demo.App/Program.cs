@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Orleankka;
+using Orleankka.Client;
+using Orleankka.Playground;
 
 namespace Demo
 {
@@ -18,7 +20,7 @@ namespace Demo
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Use<Bootstrap>(properties)
+                .Run<ServiceLocator.Bootstrap>(properties)
                 .Register(typeof(Api).Assembly)
                 .Done();
 
