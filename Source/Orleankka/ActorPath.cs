@@ -8,7 +8,7 @@ namespace Orleankka
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
-        public static readonly string[] Separator = {"::"};
+        public static readonly string[] Separator = {"/"};
         
         public readonly Type Type;
         public readonly string Id;
