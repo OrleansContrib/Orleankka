@@ -27,7 +27,7 @@ type Greeter() =
 [<EntryPoint>]
 let main argv = 
 
-   Console.WriteLine "Running demo. Booting cluster might take some time ...\n"
+   printfn "Running demo. Booting cluster might take some time ...\n"
 
    let assembly = Assembly.GetExecutingAssembly()
    
@@ -35,14 +35,16 @@ let main argv =
               |> register [|assembly|]
               |> start
 
-   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
-
-   async {
-      do! actor <! Hi
-      do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"
-   }
-   |> Async.RunSynchronously
+   ActorToActor.startDemo(system)
+   
+//   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+//
+//   async {
+//      do! actor <! Hi
+//      do! actor <! Greet "Yevhen"
+//      do! actor <! Greet "AntyaDev"
+//   }
+//   |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
 

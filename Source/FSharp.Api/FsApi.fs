@@ -1,5 +1,7 @@
 ﻿module Orleankka.FSharp
 
+open System.Threading.Tasks
+
 module AsyncTask = 
    open System.Threading.Tasks
    
@@ -24,4 +26,28 @@ module System =
    let inline start (cfg : EmbeddedConfigurator) = cfg.Done()
 
 
-let inline (<!) (actorRef : ActorRef) (message : obj) = actorRef.Tell message |> AsyncTask.Await
+let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message) |> Async.AwaitTask
+
+let inline (<!) (actorRef : ActorRef) (message : obj) = actorRef.Ask<obj>(message) |> Async.AwaitTask |> Async.Ignore
+
+[<AbstractClass>]
+type Actor<'TMsg, 'TResponse>() =
+   inherit Actor()
+   
+   abstract Receive : 'TMsg -> Async<'TResponse>
+
+   override this.OnAsk(msg : obj) =
+      match msg with
+      | :? 'TMsg as m ->
+
+         let source = TaskCompletionSource<obj>();
+
+         async { 
+            let! response = this.Receive(m)
+            source.SetResult(response :> obj)
+         }
+         |> Async.StartImmediate
+
+         source.Task
+                  
+      | _ -> failwith( sprintf "Unsupported message type %s" (msg.GetType().ToString()) )
