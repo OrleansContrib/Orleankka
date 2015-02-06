@@ -65,6 +65,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="ActorToActor.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="Packages.config" />

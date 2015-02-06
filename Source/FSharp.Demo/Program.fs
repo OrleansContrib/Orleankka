@@ -35,14 +35,16 @@ let main argv =
               |> register [|assembly|]
               |> start
 
-   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
-
-   async {
-      do! actor <! Hi
-      do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"
-   }
-   |> Async.RunSynchronously
+   ActorToActor.startDemo(system)
+   
+//   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+//
+//   async {
+//      do! actor <! Hi
+//      do! actor <! Greet "Yevhen"
+//      do! actor <! Greet "AntyaDev"
+//   }
+//   |> Async.RunSynchronously
 
    Console.ReadLine() |> ignore
 
