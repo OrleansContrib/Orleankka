@@ -34,9 +34,9 @@ var ReleasePath = @"{PackagePath}\Release";
 
 /// Builds sources using specified configuration and output path
 [Step] void Build(string config = "Debug", string outDir = OutputPath)
-{
+{    
     Clean(outDir);
-    
+
     Exec(@"$ProgramFiles(x86)$\MSBuild\12.0\Bin\MSBuild.exe", 
           "{CoreProject}.sln /p:Configuration={config};OutDir={outDir};ReferencePath={outDir}");
 }
@@ -54,7 +54,7 @@ var ReleasePath = @"{PackagePath}\Release";
 [Step] void Package()
 {
     Test(@"{PackagePath}\Debug");
-    Build("Release", ReleasePath);
+    Build("Package", ReleasePath);
 
     Merge();
     Pack(CoreProject);

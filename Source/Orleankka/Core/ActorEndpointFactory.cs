@@ -28,7 +28,17 @@ namespace Orleankka.Core
 
         static ActorEndpointInvoker Bind(string name)
         {
-            var factory = Type.GetType("Orleankka.Core.Hardcore." + name + ".ActorEndpointFactory, Orleankka.Core");
+            #if PACKAGE
+                const string assemblyName = "Orleankka";
+            #else
+                const string assemblyName = "Orleankka.Core";
+            #endif
+
+            var factory = Type.GetType(
+                "Orleankka.Core.Hardcore." 
+                + name + ".ActorEndpointFactory, " 
+                + assemblyName);
+
             return new ActorEndpointInvoker(factory);
         }
 

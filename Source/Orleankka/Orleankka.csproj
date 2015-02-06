@@ -30,6 +30,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Orleankka.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
+    <OutputPath>bin\Package\</OutputPath>
+    <DefineConstants>TRACE;PACKAGE</DefineConstants>
+    <DocumentationFile>bin\Release\Orleankka.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Orleans">
