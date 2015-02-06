@@ -7,7 +7,7 @@
     <owners>Yevhen Bobrov</owners>
     <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
-    <description>Message bus for Orleans framework</description>
+    <description>Akka-style actor API for MSR Orleans. Features a uniform interface that doesn't require static codegen</description>
     <tags>Orleans Akka distributed messaging actor concurrency CQRS Azure functional F#</tags>
   </metadata>
   <files>
