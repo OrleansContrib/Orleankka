@@ -27,7 +27,7 @@ type Greeter() =
 [<EntryPoint>]
 let main argv = 
 
-   Console.WriteLine "Running demo. Booting cluster might take some time ...\n"
+   printfn "Running demo. Booting cluster might take some time ...\n"
 
    let assembly = Assembly.GetExecutingAssembly()
    

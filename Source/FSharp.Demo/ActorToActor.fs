@@ -14,9 +14,10 @@ type AccountMessage =
    | GetBalance 
    
 type ShopMessage =
-   | Sell of ActorRef * int
-   | ItemsCount
-   | MoneyBalance
+   | Sell of Account : ActorRef * Items : int
+   | PutItems of Items : int
+   | GetItems
+   | GetMoney
    
 
 type BankAccount() =
@@ -43,18 +44,22 @@ type Shop() =
    override this.Receive(msg) = async {      
                         
       match msg with
-      | Sell (account, count) ->
+      | Sell (account, items) ->
          
          let money = _items * 10
 
          let! balance = account <? Withdraw(money)
 
          _money <- _money + balance
-         _items <- _items - count
-         return count
+         _items <- _items - items
+         return _items
       
-      | ItemsCount -> return _items
-      | MoneyBalance -> return _money
+      | PutItems items ->
+         _items <- _items + items
+         return _items
+
+      | GetItems -> return _items
+      | GetMoney -> return _money
    }
 
 let startDemo (system : IActorSystem) =
@@ -62,9 +67,32 @@ let startDemo (system : IActorSystem) =
    let shop = system.ActorOf<Shop>("shop")
    let userTest = system.ActorOf<BankAccount>("user test")   
 
-   async {
+   async {   
+      
+      let! shopItems = shop <? GetItems      
+      printfn "shop's items count is %i \n" shopItems
+
+      let! balance = userTest <? GetBalance
+      printfn "user's balance is %i \n" balance
+
+      printfn "let's put 100$ deposit on user's account \n"
       let! balance = userTest <? Deposit(100)      
-      printf "user's balance is %i" balance
-      do! shop <! Sell(userTest, 5)      
+      printfn "current user's balance is %i \n" balance
+
+      printfn "let's put new 5 items to shop \n"
+      do! shop <! PutItems(5)            
+
+      let! shopItems = shop <? GetItems      
+      printfn "shop's items count is %i \n" shopItems
+
+      printfn "let's sell 2 items to user \n"
+      do! shop <! Sell(userTest, 2)      
+
+      let! shopItems = shop <? GetItems      
+      printfn "now shop's items count is %i \n" shopItems
+
+      let! balance = userTest <? GetBalance
+      printfn "current user's balance is %i \n" balance
+
    }
    |> Async.RunSynchronously
