@@ -48,6 +48,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Orleankka.Version.cs">
+      <Link>Properties\Orleankka.Version.cs</Link>
+    </Compile>
+    <Compile Include="..\Product.cs">
+      <Link>Properties\Product.cs</Link>
+    </Compile>
     <Compile Include="ActorPath.cs" />
     <Compile Include="ActorSystemConfigurator.cs" />
     <Compile Include="AssemblyExtensions.cs" />

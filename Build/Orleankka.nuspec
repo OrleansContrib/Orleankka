@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Orleankka</id>
+    <version>$version$</version>
+    <authors>Yevhen Bobrov</authors>
+    <owners>Yevhen Bobrov</owners>
+    <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
+    <description>Message bus for Orleans framework</description>
+    <tags>Orleans Akka distributed messaging actor concurrency CQRS Azure functional F#</tags>
+  </metadata>
+  <files>
+    <file src="Output\Package\Merged\Orleankka.*" target="lib/net45" />
+    <file src="Output\Package\Release\Orleans.*" target="lib/net45" />
+    <file src="Output\Package\Release\OrleansProviders.*" target="lib/net45" />
+    <file src="Output\Package\Release\OrleansRuntime.*" target="lib/net45" />
+    <file src="Output\Package\Release\Microsoft.WindowsAzure.StorageClient.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.FSharp.dll" target="ext" />
+    <file src="Output\Package\Release\Orleankka.FSharp.xml" target="ext" />
+  </files>
+</package>
