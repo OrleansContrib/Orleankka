@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorEndpointServices.cs" />
+    <Compile Include="Core\FunActor.cs" />
     <Compile Include="Core\IInstanceActivator.cs" />
     <Compile Include="Core\ObserverEndpoint.cs" />
     <Compile Include="Annotations.cs" />
