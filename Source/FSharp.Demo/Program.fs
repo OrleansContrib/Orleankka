@@ -35,7 +35,9 @@ let main argv =
               |> register [|assembly|]
               |> start
 
-   ActorToActor.startDemo(system)
+   ActorToActor.startDemo(system).Wait()
+
+   // todo: add task builder fsharp
    
 //   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 //
