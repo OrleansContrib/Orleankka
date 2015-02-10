@@ -31,6 +31,7 @@ namespace Orleankka.Core
             {
                 ActorTypeCode.Register(type);
                 ActorEndpointFactory.Register(type);
+                FunActor.Register(type);
             }
         }
     }
