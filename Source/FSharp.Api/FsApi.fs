@@ -198,19 +198,23 @@ let task = Task.TaskBuilder(scheduler = TaskScheduler.Current)
 let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)
 
 [<AbstractClass>]
-type Actor<'TState>() = 
+type FuncActor<'TState>() = 
    inherit Actor()
 
-   let mutable _handler = fun (state : 'TState, req) -> Unchecked.defaultof<'TState>
+   let mutable _handler = fun state message -> Unchecked.defaultof<Task<'TState>>   
+   let mutable _reply = null   
    let mutable _state = Unchecked.defaultof<'TState>
-   let mutable _reply = null
 
-   member this.Receive(handler : 'TState -> 'TMessage -> 'TState) = 
-      _handler <- fun (st : 'TState, msg : obj) -> handler st (msg :?> 'TMessage)
+   member this.InitState(init: unit -> 'TState) = _state <- init()
+
+   member this.Receive(handler : 'TState -> 'TMessage -> Task<'TState>) = 
+      _handler <- fun (st : 'TState) (msg : obj) -> handler st (msg :?> 'TMessage)
 
    member this.Reply(result : obj) = _reply <- result
 
-   override this.OnAsk(msg : obj) = 
+   override this.OnAsk(msg : obj) = task {
       _reply <- null
-      _state <- _handler (_state, msg)
-      Task.FromResult(_reply)
+      let! newState = _handler _state msg
+      _state <- newState
+      return _reply
+   }
