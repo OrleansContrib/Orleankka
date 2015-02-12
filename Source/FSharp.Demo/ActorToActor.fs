@@ -24,7 +24,7 @@ type BankAccount() as this =
    inherit FuncActor<int>()
 
    do 
-      this.InitState(fun () -> 0)
+      this.InitState(0)
 
       this.Receive(fun balance message -> task {         
          match message with
@@ -45,7 +45,7 @@ type Shop() as this =
    inherit FuncActor<ShopBalance>()   
    
    do 
-      this.InitState(fun () -> { Money = 0; Items = 0 })
+      this.InitState({ Money = 0; Items = 0 })
 
       this.Receive(fun shopBalance message -> task {         
          match message with
