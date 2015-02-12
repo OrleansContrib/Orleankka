@@ -170,15 +170,6 @@ module Task =
         
         member this.Delay f = this.Bind(this.Return (), f)
 
-module AsyncTask = 
-   open System.Threading.Tasks
-   
-   let inline Await (task : Task) = 
-      let continuation (t : Task) : unit = 
-         match t.IsFaulted with
-         | true -> raise t.Exception
-         | arg -> ()
-      task.ContinueWith continuation |> Async.AwaitTask
 
 module System =       
    open System.Reflection
