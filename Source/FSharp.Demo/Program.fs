@@ -1,54 +1,59 @@
 ﻿open System
 open System.Reflection
+
 open Orleans
 open Orleans.Runtime.Configuration
+
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.System
 
-type Message = 
-   | Greet of string
-   | Hi
-
-type Greeter() = 
-   inherit Actor()   
-
-   override this.OnTell(message : obj) =      
-      match message with
-      | :? Message as m ->
-                   
-         match m with
-         | Greet who -> printfn "Hello %s" who
-         | Hi -> printfn "Hello from F#!"     
-         TaskDone.Done            
-
-      | _ -> failwith "unknown message"
+open Shop
+open Account
 
 [<EntryPoint>]
 let main argv = 
 
-   printfn "Running demo. Booting cluster might take some time ...\n"
+    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   let assembly = Assembly.GetExecutingAssembly()
+    let assembly = Assembly.GetExecutingAssembly()
    
-   use system = playgroundActorSystem()
-              |> register [|assembly|]
-              |> start
-
-   ActorToActor.startDemo(system).Wait()
-
-   // todo: add task builder fsharp
+    use system = playgroundActorSystem()
+                |> register [|assembly|]
+                |> start
+                  
+    let shop = system.ActorOf<Shop>("Amazon")
+    let account = system.ActorOf<Account>("Antya")
    
-//   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
-//
-//   async {
-//      do! actor <! Hi
-//      do! actor <! Greet "Yevhen"
-//      do! actor <! Greet "AntyaDev"
-//   }
-//   |> Async.RunSynchronously
+    let t = task {
 
-   Console.ReadLine() |> ignore
+        let! stock = shop <? Stock
+        printfn "Shop has %i items in stock \n" stock
 
-   printfn "%A" argv
-   0 // return an integer exit code
+        let! balance = account <? Balance
+        printfn "Account balance is %i \n" balance
+
+        printfn "Let's put 100$ on the account \n"
+        do! account <? Deposit(100)      
+
+        printfn "Let's put 5 items in stock \n"
+        do! shop <? CheckIn(5)
+
+        let! shopItems = shop <? Stock
+        printfn "Now shop has %i items in stock \n" stock
+
+        printfn "Let's sell 2 items to user \n"
+        do! shop <? Sell(account, 2)      
+
+        let! stock = shop <? Stock
+        printfn "Now shop has %i items in stock \n" stock
+
+        let! balance = account <? Balance
+        printfn "And account balance is %i \n" balance
+    }
+        
+    t.Wait()     
+    Console.ReadLine() |> ignore
+
+    printfn "%A" argv
+    0

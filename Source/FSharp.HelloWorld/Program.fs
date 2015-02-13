@@ -10,43 +10,37 @@ type Message =
    | Greet of string
    | Hi
 
-type Greeter() = 
-   inherit Actor()   
+type Greeter() as this = 
+   inherit FunActor()   
 
-   override this.OnTell(message : obj) =      
-      match message with
-      | :? Message as m ->
-                   
-         match m with
-         | Greet who -> printfn "Hello %s" who
-         | Hi -> printfn "Hello from F#!"     
-         TaskDone.Done            
-
-      | _ -> failwith "unknown message"
+   do 
+      this.Receive(fun message -> task {      
+        match message with
+        | Greet who -> printfn "Hello %s" who
+        | Hi -> printfn "Hello from F#!"     
+    })   
 
 [<EntryPoint>]
 let main argv = 
 
-   printfn "Running demo. Booting cluster might take some time ...\n"
+    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   let assembly = Assembly.GetExecutingAssembly()
+    let assembly = Assembly.GetExecutingAssembly()
    
-   use system = playgroundActorSystem()
-              |> register [|assembly|]
-              |> start
+    use system = playgroundActorSystem()
+                |> register [|assembly|]
+                |> start
+                  
+    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
-   // todo: add task builder fsharp
-   
-//   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
-//
-//   async {
-//      do! actor <! Hi
-//      do! actor <! Greet "Yevhen"
-//      do! actor <! Greet "AntyaDev"
-//   }
-//   |> Async.RunSynchronously
+    let t = task {
+        do! actor <? Hi
+        do! actor <? Greet "Yevhen"
+        do! actor <? Greet "AntyaDev"
+    } 
+        
+    t.Wait()     
+    Console.ReadLine() |> ignore
 
-   Console.ReadLine() |> ignore
-
-   printfn "%A" argv
-   0 // return an integer exit code
+    printfn "%A" argv
+    0

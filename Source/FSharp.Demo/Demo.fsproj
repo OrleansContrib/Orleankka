@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>195f95c3-accd-474a-8c71-2f6b89de1b52</ProjectGuid>
+    <ProjectGuid>{0f80861a-cfdf-4df0-a0b7-086a1f12448d}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
     <AssemblyName>Orleankka.FSharp.Demo</AssemblyName>
@@ -65,10 +65,10 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="ActorToActor.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="Account.fs" />
+    <Compile Include="Shop.fs" />
     <None Include="App.config" />
-    <None Include="Packages.config" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
