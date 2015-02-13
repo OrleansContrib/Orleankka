@@ -77,7 +77,7 @@ namespace Orleankka
                     .ReceiveAsk(endpoint, new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
 
-            return (TResult) response.Message;
+            return (TResult) response.Result;
         }
 
         public bool Equals(ActorRef other)
@@ -133,13 +133,5 @@ namespace Orleankka
         }
 
         #endregion
-    }
-
-    public static class ActorRefExtensions
-    {
-        public static Task<object> Ask(this ActorRef @ref, object message)
-        {
-            return @ref.Ask<object>(message);
-        }
     }
 }

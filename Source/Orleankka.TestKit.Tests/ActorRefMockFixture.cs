@@ -20,7 +20,7 @@ namespace Orleankka.TestKit
         public async void Returns_default_result_for_unmatched_queries()
         {
             Assert.AreEqual(default(int), await actor.Ask<int>(new TestQuery()));
-            Assert.AreEqual(default(object), await actor.Ask(new TestQuery()));
+            Assert.AreEqual(default(object), await actor.Ask<object>(new TestQuery()));
         }
 
         [Test]

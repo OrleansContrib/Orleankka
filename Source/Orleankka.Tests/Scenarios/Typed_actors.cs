@@ -2,7 +2,6 @@
 using System.Linq;
 
 using NUnit.Framework;
-using Orleankka.Core;
 
 namespace Orleankka.Scenarios
 {
@@ -10,23 +9,23 @@ namespace Orleankka.Scenarios
     {
         string text = "{}";
 
-        protected override void Receive()
+        protected override void Define()
         {
             On<SetText>(req => text = req.Text);
             
-            On<GetText>(async req =>
+            On<GetText, string>(req =>
             {
                 var other = System.ActorOf<AnotherTestTypedActor>("123");
-                Reply(await other.Ask(text));
+                return other.Ask<string>(text);
             });
         }
     }
 
     public class AnotherTestTypedActor : TypedActor
     {
-        protected override void Receive()
+        protected override void Define()
         {
-            On<string>(req => Reply(req));
+            On<string, string>(req => req);
         }
     }
 
@@ -42,7 +41,7 @@ namespace Orleankka.Scenarios
 
             await actor.Tell(new SetText("c-a"));
             
-            Assert.AreEqual("c-a", await actor.Ask(new GetText()));
+            Assert.AreEqual("c-a", await actor.Ask<string>(new GetText()));
         }
     }
 }

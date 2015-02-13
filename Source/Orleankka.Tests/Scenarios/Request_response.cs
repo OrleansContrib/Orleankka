@@ -16,7 +16,7 @@ namespace Orleankka.Scenarios
             var actor = system.FreshActorOf<TestActor>();
             
             await actor.Tell(new SetText("c-a"));
-            Assert.AreEqual("c-a", await actor.Ask(new GetText()));
+            Assert.AreEqual("c-a", await actor.Ask<string>(new GetText()));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Orleankka.Scenarios
             var another = system.FreshActorOf<TestActor>();
 
             await one.Tell(new DoTell(another, new SetText("a-a")));
-            Assert.AreEqual("a-a", await one.Ask(new DoAsk(another, new GetText())));
+            Assert.AreEqual("a-a", await one.Ask<string>(new DoAsk(another, new GetText())));
         }
     }
 }

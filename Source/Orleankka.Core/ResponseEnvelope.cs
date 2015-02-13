@@ -11,11 +11,11 @@ namespace Orleankka.Core
     /// </summary>
     public class ResponseEnvelope
     {
-        public readonly object Message;
+        public readonly object Result;
 
-        internal ResponseEnvelope(object message)
+        internal ResponseEnvelope(object result)
         {
-            Message = message;
+            Result = result;
         }
 
         [SerializerMethod]
@@ -23,9 +23,9 @@ namespace Orleankka.Core
         {
             var envelope = (ResponseEnvelope)obj;
 
-            var bytes = (envelope.Message == null)
-                        ? new byte[0] 
-                        : MessageEnvelope.Serializer.Serialize(envelope.Message);
+            var bytes = envelope.Result != null
+                        ? MessageEnvelope.Serializer.Serialize(envelope.Result) 
+                        : new byte[0];
 
             SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
         }
@@ -35,9 +35,9 @@ namespace Orleankka.Core
         {
             var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
             
-            var message = (bytes.Length == 0)
-                          ? null
-                          : MessageEnvelope.Serializer.Deserialize(bytes);
+            var message = bytes.Length != 0
+                          ? MessageEnvelope.Serializer.Deserialize(bytes)
+                          : null;
 
             return new ResponseEnvelope(message);
         }
