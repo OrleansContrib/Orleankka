@@ -27,9 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.App.Tests", "Source\De
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp", "Source\FSharp.Api\Orleankka.FSharp.fsproj", "{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HelloWorld", "Source\FSharp.Demo\HelloWorld.fsproj", "{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Azure", "Source\Orleankka.Azure\Orleankka.Azure.csproj", "{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HelloWorld", "Source\FSharp.HelloWorld\HelloWorld.fsproj", "{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,18 +92,18 @@ Global
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Package|Any CPU.Build.0 = Package|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Package|Any CPU.ActiveCfg = Package|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Package|Any CPU.Build.0 = Package|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Release|Any CPU.Build.0 = Release|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Package|Any CPU.ActiveCfg = Package|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Package|Any CPU.Build.0 = Package|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Package|Any CPU.Build.0 = Package|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195F95C3-ACCD-474A-8C71-2F6B89DE1B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@
     <ProjectGuid>195f95c3-accd-474a-8c71-2f6b89de1b52</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
-    <AssemblyName>Orleankka.FSharp.HelloWorld</AssemblyName>
+    <AssemblyName>Orleankka.FSharp.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
@@ -65,8 +65,10 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="ActorToActor.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <None Include="Packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
