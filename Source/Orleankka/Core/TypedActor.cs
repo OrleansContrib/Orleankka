@@ -8,7 +8,7 @@ using Orleans;
 
 namespace Orleankka.Core
 {
-    public abstract class FunActor : Actor
+    public abstract class TypedActor : Actor
     {
         static readonly Dictionary<Type, Func<object, object, Task>> handlers = 
                     new Dictionary<Type, Func<object, object, Task>>(); 
@@ -85,10 +85,10 @@ namespace Orleankka.Core
 
         public static void Register(Type type)
         {
-            if (!typeof(FunActor).IsAssignableFrom(type) || type.IsAbstract)
+            if (!typeof(TypedActor).IsAssignableFrom(type) || type.IsAbstract)
                 return;
 
-            var proto = (FunActor) Activator.CreateInstance(type);
+            var proto = (TypedActor) Activator.CreateInstance(type);
             proto.Receive();
         }
 

@@ -6,7 +6,7 @@ using Orleankka.Core;
 
 namespace Orleankka.Scenarios
 {
-    public class TestFunActor : FunActor
+    public class TestTypedActor : TypedActor
     {
         string text = "{}";
 
@@ -16,13 +16,13 @@ namespace Orleankka.Scenarios
             
             On<GetText>(async req =>
             {
-                var other = System.ActorOf<AnotherTestFunActor>("123");
+                var other = System.ActorOf<AnotherTestTypedActor>("123");
                 Reply(await other.Ask(text));
             });
         }
     }
 
-    public class AnotherTestFunActor : FunActor
+    public class AnotherTestTypedActor : TypedActor
     {
         protected override void Receive()
         {
@@ -38,7 +38,7 @@ namespace Orleankka.Scenarios
         [Test]
         public async void Client_to_actor()
         {
-            var actor = system.FreshActorOf<TestFunActor>();
+            var actor = system.FreshActorOf<TestTypedActor>();
 
             await actor.Tell(new SetText("c-a"));
             
