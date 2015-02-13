@@ -199,6 +199,11 @@ namespace Orleankka
             proto.Define();
         }
 
+        public static void Reset()
+        {
+            handlers.Clear();
+        }
+
         protected abstract void Define();
     }
 }

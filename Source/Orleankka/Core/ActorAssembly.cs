@@ -11,6 +11,7 @@ namespace Orleankka.Core
         {
             ActorTypeCode.Reset();
             ActorEndpointFactory.Reset();
+            TypedActor.Reset();
         }
 
         public static void Register(IEnumerable<Assembly> assemblies)
