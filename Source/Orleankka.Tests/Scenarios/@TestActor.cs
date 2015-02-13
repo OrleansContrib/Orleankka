@@ -22,6 +22,9 @@ namespace Orleankka.Scenarios
     public class GetText : Query<string>
     {}
 
+    public class GetNull : Query<string>
+    {}
+
     public class TextChanged : Event
     {
         public readonly string Text;
@@ -132,6 +135,12 @@ namespace Orleankka.Scenarios
         public Task<int> Answer(GetInstanceHashcode query)
         {
             return Task.FromResult(RuntimeHelpers.GetHashCode(this));
+        }
+
+        public Task<string> Answer(GetNull query)
+        {
+            string nullStr = null;
+            return Task.FromResult(nullStr);
         }
     }
 }

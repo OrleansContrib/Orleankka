@@ -28,5 +28,12 @@ namespace Orleankka.Scenarios
             await one.Tell(new DoTell(another, new SetText("a-a")));
             Assert.AreEqual("a-a", await one.Ask(new DoAsk(another, new GetText())));
         }
+
+        [Test]
+        public async void Actor_can_returns_null()
+        {
+            var one = system.FreshActorOf<TestActor>();
+            Assert.IsNull(await one.Ask<string>(new GetNull()));
+        }
     }
 }
