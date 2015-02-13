@@ -170,15 +170,6 @@ module Task =
         
         member this.Delay f = this.Bind(this.Return (), f)
 
-module AsyncTask = 
-   open System.Threading.Tasks
-   
-   let inline Await (task : Task) = 
-      let continuation (t : Task) : unit = 
-         match t.IsFaulted with
-         | true -> raise t.Exception
-         | arg -> ()
-      task.ContinueWith continuation |> Async.AwaitTask
 
 module System =       
    open System.Reflection
@@ -195,8 +186,6 @@ module System =
 
 let task = Task.TaskBuilder(scheduler = TaskScheduler.Current)
 
-let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)
-
 [<AbstractClass>]
 type FuncActor<'TState>() = 
    inherit Actor()
@@ -205,7 +194,9 @@ type FuncActor<'TState>() =
    let mutable _reply = null   
    let mutable _state = Unchecked.defaultof<'TState>
 
-   member this.InitState(init: unit -> 'TState) = _state <- init()
+   member this.InitState(init : unit -> 'TState) = _state <- init()
+
+   member this.InitState(state) = _state <- state
 
    member this.Receive(handler : 'TState -> 'TMessage -> Task<'TState>) = 
       _handler <- fun (st : 'TState) (msg : obj) -> handler st (msg :?> 'TMessage)
@@ -218,3 +209,5 @@ type FuncActor<'TState>() =
       _state <- newState
       return _reply
    }
+
+let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)
