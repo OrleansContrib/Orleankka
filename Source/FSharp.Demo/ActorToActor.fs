@@ -11,90 +11,80 @@ open Orleankka.FSharp.System
 type AccountMessage = 
    | Deposit of int
    | Withdraw of int
-   | GetBalance 
+   | Balance 
    
 type ShopMessage =
-   | Sell of Account : ActorRef * Items : int
-   | PutItems of Items : int
-   | GetItems
-   | GetMoney
+   | Sell of Account : ActorRef * Count : int
+   | CheckIn of Count : int
+   | Cash
+   | Stock
    
+type Account() as this = 
+   inherit FunActor()
 
-type BankAccount() as this = 
-   inherit FuncActor<int>()
-
+   let mutable balance = 0
+   
    do 
-      this.InitState(0)
-
-      this.Receive(fun balance message -> task {         
+      this.Receive(fun message -> task {         
          match message with
-         | Deposit value -> return balance + value         
-         | Withdraw value -> return balance - value         
-         | GetBalance -> 
-            this.Reply(balance)
-            return balance
+         | Deposit amount   -> balance <- balance + amount
+         | Withdraw amount  -> balance <- balance - amount         
+         | Balance          -> this.Reply(balance)
       })         
          
 
-type ShopBalance = {
-   Money : int;
-   Items : int 
-}
-
 type Shop() as this =
-   inherit FuncActor<ShopBalance>()   
+   inherit FunActor()   
+   
+   let price = 10
+
+   let mutable cash = 0
+   let mutable stock = 0
    
    do 
-      this.InitState({ Money = 0; Items = 0 })
-
-      this.Receive(fun shopBalance message -> task {         
+      this.Receive(fun message -> task {         
          match message with
-         | Sell (account, items) ->
-            let money = items * 10     
-            do! account <? Withdraw(money)
-            return { Money = shopBalance.Money + money
-                     Items = shopBalance.Items - items }
          
-         | PutItems items -> return { shopBalance with Items = items + shopBalance.Items }         
-         | GetItems -> 
-            this.Reply(shopBalance.Items)
-            return shopBalance
-         | GetMoney -> 
-            this.Reply(shopBalance.Money)
-            return shopBalance
-      })
+         | Sell (account, count) ->
+            let amount = count * price
+            do! account <? Withdraw(amount)
+            cash <- cash + amount
+            stock <- stock - count
+                     
+         | CheckIn count -> stock <- stock + count
 
+         | Cash  -> this.Reply(cash)
+         | Stock -> this.Reply(stock)
+      })     
 
 let startDemo (system : IActorSystem) =
    
-   let shop = system.ActorOf<Shop>("shop")
-   let userTest = system.ActorOf<BankAccount>("user test")
+   let shop = system.ActorOf<Shop>("Amazon")
+   let account = system.ActorOf<Account>("Antya")
    
    task {
 
-      let! shopItems = shop <? GetItems      
-      printfn "shop's items count is %i \n" shopItems
+      let! stock = shop <? Stock
+      printfn "Shop has %i items in stock \n" stock
 
-      let! balance = userTest <? GetBalance
-      printfn "user's balance is %i \n" balance
+      let! balance = account <? Balance
+      printfn "Account balance is %i \n" balance
 
-      printfn "let's put 100$ deposit on user's account \n"
-      do! userTest <? Deposit(100)      
-      //printfn "current user's balance is %i \n" balance
+      printfn "Let's put 100$ on the account \n"
+      do! account <? Deposit(100)      
 
-      printfn "let's put new 5 items to shop \n"
-      do! shop <? PutItems(5)
+      printfn "Let's put 5 items in stock \n"
+      do! shop <? CheckIn(5)
 
-      let! shopItems = shop <? GetItems      
-      printfn "shop's items count is %i \n" shopItems
+      let! shopItems = shop <? Stock
+      printfn "Now shop has %i items in stock \n" stock
 
-      printfn "let's sell 2 items to user \n"
-      do! shop <? Sell(userTest, 2)      
+      printfn "Let's sell 2 items to user \n"
+      do! shop <? Sell(account, 2)      
 
-      let! shopItems = shop <? GetItems      
-      printfn "now shop's items count is %i \n" shopItems
+      let! stock = shop <? Stock
+      printfn "Now shop has %i items in stock \n" stock
 
-      let! balance = userTest <? GetBalance
-      printfn "current user's balance is %i \n" balance
-
+      let! balance = account <? Balance
+      printfn "And account balance is %i \n" balance
    }
