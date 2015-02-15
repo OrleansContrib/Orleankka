@@ -15,11 +15,11 @@ namespace Orleankka.Core.Hardcore
         public readonly string AttributeText;
         public readonly string Name;
 
-        protected Flavor(Attribute attribute = null, string name = null)
+        protected Flavor(string name, Attribute attribute = null)
         {
             Attribute = attribute;
             AttributeText = attribute != null ? attribute.GetType().Name.Replace("Attribute", "") : null;
-            Name = name ?? (attribute != null ? AttributeText : "Default");
+            Name = name ?? AttributeText;
         }
 
         public override string ToString()
@@ -33,11 +33,6 @@ namespace Orleankka.Core.Hardcore
                 return false;
 
             return Attribute is TAttribute;
-        }
-
-        protected static bool Has<TAttribute>(MemberInfo info) where TAttribute : Attribute
-        {
-            return info.GetCustomAttributes<TAttribute>().Any();
         }
     }
 
@@ -73,8 +68,8 @@ namespace Orleankka.Core.Hardcore
 
     public abstract class TypeLevelFlavor : Flavor
     {
-        protected TypeLevelFlavor(Attribute attribute = null, string name = null)
-            : base(attribute, name)
+        protected TypeLevelFlavor(string name = null, Attribute attribute = null)
+            : base(name, attribute)
         {}
 
         public bool AppliesToInterface()
@@ -97,8 +92,8 @@ namespace Orleankka.Core.Hardcore
     {
         readonly Method method;
 
-        protected MethodLevelFlavor(Method method, Attribute attribute = null, string name = null)
-            : base(attribute, method != Method.None ? Enum.GetName(typeof(Method), method) + name : null)
+        protected MethodLevelFlavor(Method method, string name, Attribute attribute = null)
+            : base(name, attribute)
         {
             this.method = method;
         }
@@ -128,63 +123,88 @@ namespace Orleankka.Core.Hardcore
         public static readonly Activation StatelessWorker = new Activation(new StatelessWorkerAttribute());
 
         Activation(Attribute attribute = null, string name = null)
-            : base(attribute, name)
+            : base(name, attribute)
         {}
 
-        public static Activation Of(Type type)
+        public static Activation Of(ActorConfiguration cfg)
         {
-            return Has<StatelessWorkerAttribute>(type) ? StatelessWorker : Singleton;
-        }
-    }
-
-    public class Concurrency : TypeLevelFlavor
-    {
-        public static readonly Concurrency Default = new Concurrency();
-        public static readonly Concurrency Reentrant = new Concurrency(new ReentrantAttribute());
-
-        Concurrency(Attribute attribute = null, string name = null)
-            : base(attribute, name)
-        {}
-
-        public static Concurrency Of(Type type)
-        {
-            return Has<ReentrantAttribute>(type) ? Reentrant : Default;
+            switch (cfg.Activation)
+            {
+                case ActivationKind.Singleton:
+                    return Singleton;
+                case ActivationKind.StatelessWorker:
+                    return StatelessWorker;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
     public class Placement : TypeLevelFlavor
     {
-        public static readonly Placement Default = new Placement();
+        public static readonly Placement Default = new Placement(name: "DefaultPlacement");
         public static readonly Placement Random = new Placement(new RandomPlacementAttribute());
         public static readonly Placement PreferLocal = new Placement(new PreferLocalPlacementAttribute());
-        public static readonly Placement ActivationCountBased = new Placement(new ActivationCountBasedPlacementAttribute());
+        public static readonly Placement DistributeEvenly = new Placement(new ActivationCountBasedPlacementAttribute());
 
         Placement(Attribute attribute = null, string name = null)
-            : base(attribute, name)
+            : base(name, attribute)
         {}
 
-        public static Placement Of(Type type)
+        public static Placement Of(ActorConfiguration cfg)
         {
-            if (Has<RandomPlacementAttribute>(type))
-                return Random;
-            
-            if (Has<PreferLocalPlacementAttribute>(type))
-                return PreferLocal;
-            
-            if (Has<ActivationCountBasedPlacementAttribute>(type))
-                return ActivationCountBased;
+            switch (cfg.Placement)
+            {
+                case PlacementKind.Default:
+                    return Default;                
+                case PlacementKind.Random:
+                    return Random;
+                case PlacementKind.PreferLocal:
+                    return PreferLocal;
+                case PlacementKind.DistributeEvenly:
+                    return DistributeEvenly;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
-            return Default;
+    public class Concurrency : MethodLevelFlavor
+    {
+        public static readonly Concurrency Sequential = new Concurrency(Method.None, "Sequential");
+        public static readonly Concurrency Reentrant = new Concurrency(Method.Both, "Reentrant", new AlwaysInterleaveAttribute());
+        public static readonly Concurrency TellInterleave = new Concurrency(Method.Tell, "TellInterleave", new AlwaysInterleaveAttribute());
+        public static readonly Concurrency AskInterleave = new Concurrency(Method.Ask, "AskInterleave", new AlwaysInterleaveAttribute());
+
+        Concurrency(Method method, string name, Attribute attribute = null)
+            : base(method, "Concurrency" + name, attribute)
+        {}
+
+        public static Concurrency Of(ActorConfiguration cfg)
+        {
+            switch (cfg.Concurrency)
+            {
+                case ConcurrencyKind.Sequential:
+                    return Sequential;
+                case ConcurrencyKind.Reentrant:
+                    return Reentrant;
+                case ConcurrencyKind.TellInterleave:
+                    return TellInterleave;
+                case ConcurrencyKind.AskInterleave:
+                    return AskInterleave;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
     public class Delivery : TypeLevelFlavor
     {
-        public static readonly Delivery Default = new Delivery();
-        public static readonly Delivery Unordered = new Delivery(new UnorderedAttribute());
+        public static readonly Delivery Ordered   = new Delivery("OrderedDelivery");
+        public static readonly Delivery Unordered = new Delivery("UnorderedDelivery", new UnorderedAttribute());
 
-        Delivery(Attribute attribute = null, string name = null)
-            : base(attribute, name)
+        Delivery(string name, Attribute attribute = null)
+            : base(name: name, attribute: attribute)
         {}
 
         protected override bool InterfaceTarget
@@ -192,43 +212,17 @@ namespace Orleankka.Core.Hardcore
             get { return true; }
         }
 
-        public static Delivery Of(Type type)
+        public static Delivery Of(ActorConfiguration cfg)
         {
-            return Has<UnorderedAttribute>(type) ? Unordered : Default;
-        }
-    }
-
-    public class Interleave : MethodLevelFlavor
-    {
-        public static readonly Interleave Default = new Interleave(Method.None);
-        public static readonly Interleave Both = new Interleave(Method.Both, new AlwaysInterleaveAttribute());
-        public static readonly Interleave Tell = new Interleave(Method.Tell, new AlwaysInterleaveAttribute());
-        public static readonly Interleave Ask = new Interleave(Method.Ask, new AlwaysInterleaveAttribute());
-
-        Interleave(Method method, Attribute attribute = null)
-            : base(method, attribute, "Interleave")
-        {}
-
-        public static Interleave Of(Type type)
-        {
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
-
-            var onTell = type.GetMethod("OnTell", flags);
-            var onAsk = type.GetMethod("OnAsk", flags);
-
-            var onTellHasAttributeApplied = onTell != null && Has<AlwaysInterleaveAttribute>(onTell);
-            var onAskHasAttributeApplied = onAsk != null && Has<AlwaysInterleaveAttribute>(onAsk);
-
-            if (onTellHasAttributeApplied && onAskHasAttributeApplied)
-                return Both;
-
-            if (onTellHasAttributeApplied)
-                return Tell;
-
-            if (onAskHasAttributeApplied)
-                return Ask;
-
-            return Default;
+            switch (cfg.Delivery)
+            {
+                case DeliveryKind.Ordered:
+                    return Ordered;
+                case DeliveryKind.Unordered:
+                    return Unordered;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

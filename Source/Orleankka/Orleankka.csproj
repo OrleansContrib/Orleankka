@@ -116,6 +116,10 @@
       <Project>{d9a6e703-d3d0-4758-9308-bfef6fc5686b}</Project>
       <Name>Orleankka.Hardcore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
+      <Project>{933568ea-bc0b-29bc-af0f-b4a4a62858ac}</Project>
+      <Name>Orleankka.Meta</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\ActorEndpoint.Blends.tt">

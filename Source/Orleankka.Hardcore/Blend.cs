@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Orleankka.Core.Hardcore
 {
@@ -11,10 +12,9 @@ namespace Orleankka.Core.Hardcore
         readonly Flavor[] flavors =
         {
             Activation.Singleton,
-            Concurrency.Default,
             Placement.Default,
-            Delivery.Default,
-            Interleave.Default
+            Concurrency.Sequential,
+            Delivery.Ordered,
         };
 
         readonly string name;
@@ -62,12 +62,22 @@ namespace Orleankka.Core.Hardcore
 
         public static Blend From(Type type)
         {
+            var att = type.GetCustomAttribute<ActorConfigurationAttribute>(true);
+            
+            var cfg = att != null 
+                ? att.Configuration 
+                : new ActorConfiguration();
+
+            return From(cfg);
+        }
+
+        static Blend From(ActorConfiguration cfg)
+        {
             return Default
-                    .Mix(Activation.Of(type))
-                    .Mix(Concurrency.Of(type))
-                    .Mix(Placement.Of(type))
-                    .Mix(Delivery.Of(type))
-                    .Mix(Interleave.Of(type));
+                    .Mix(Activation.Of(cfg))
+                    .Mix(Placement.Of(cfg))
+                    .Mix(Concurrency.Of(cfg))
+                    .Mix(Delivery.Of(cfg));
         }
 
         public string GetInterfaceAttributeString()

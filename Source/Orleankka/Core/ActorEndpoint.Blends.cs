@@ -8,7 +8,7 @@ namespace Orleankka.Core
 {
     namespace Hardcore
     {
-        namespace Singleton
+        namespace Singleton.DefaultPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -16,7 +16,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Default.BothInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -24,7 +24,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Default.TellInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -32,7 +32,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Default.AskInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -40,7 +40,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Unordered
+		namespace Singleton.DefaultPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -48,7 +48,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Unordered.BothInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -56,7 +56,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Unordered.TellInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -64,7 +64,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.Default.Unordered.AskInterleave
+		namespace Singleton.DefaultPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -72,7 +72,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement
+		namespace Singleton.RandomPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -81,7 +81,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Default.BothInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -90,7 +90,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Default.TellInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -99,7 +99,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Default.AskInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -108,7 +108,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Unordered
+		namespace Singleton.RandomPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -117,7 +117,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Unordered.BothInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -126,7 +126,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Unordered.TellInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -135,7 +135,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.RandomPlacement.Unordered.AskInterleave
+		namespace Singleton.RandomPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -144,7 +144,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement
+		namespace Singleton.PreferLocalPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -153,7 +153,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Default.BothInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -162,7 +162,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Default.TellInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -171,7 +171,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Default.AskInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -180,7 +180,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Unordered
+		namespace Singleton.PreferLocalPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -189,7 +189,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Unordered.BothInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -198,7 +198,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Unordered.TellInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -207,7 +207,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.PreferLocalPlacement.Unordered.AskInterleave
+		namespace Singleton.PreferLocalPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -216,7 +216,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -225,7 +225,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Default.BothInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -234,7 +234,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Default.TellInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -243,7 +243,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Default.AskInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -252,7 +252,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Unordered
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -261,7 +261,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Unordered.BothInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -270,7 +270,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Unordered.TellInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -279,7 +279,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Default.ActivationCountBasedPlacement.Unordered.AskInterleave
+		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -288,79 +288,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace Singleton.Reentrant
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.Default.Unordered
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.RandomPlacement
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.RandomPlacement.Unordered
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.PreferLocalPlacement
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.PreferLocalPlacement.Unordered
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.ActivationCountBasedPlacement
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.Reentrant.ActivationCountBasedPlacement.Unordered
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[Reentrant, ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker
+		namespace StatelessWorker.DefaultPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -369,7 +297,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Default.BothInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -378,7 +306,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Default.TellInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -387,7 +315,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Default.AskInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -396,7 +324,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Unordered
+		namespace StatelessWorker.DefaultPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -405,7 +333,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Unordered.BothInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -414,7 +342,7 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Unordered.TellInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
@@ -423,30 +351,12 @@ namespace Orleankka.Core
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.Default.Default.Unordered.AskInterleave
+		namespace StatelessWorker.DefaultPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.Reentrant
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker, Reentrant]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.Reentrant.Default.Unordered
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker, Reentrant]
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 

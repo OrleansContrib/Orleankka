@@ -17,7 +17,7 @@ namespace Orleankka.Core.Hardcore
                 Category.Of<Concurrency>(),
                 Category.Of<Placement>(),
                 Category.Of<Delivery>(),
-                Category.Of<Interleave>()
+                Category.Of<Concurrency>()
             };
 
             var blends = new List<Blend>();

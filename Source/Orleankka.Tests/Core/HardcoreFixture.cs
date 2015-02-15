@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 using NUnit.Framework;
-
-using Orleans;
-using Orleans.Concurrency;
 
 namespace Orleankka.Core
 {
@@ -17,8 +13,8 @@ namespace Orleankka.Core
         [Test]
         public void Check_mixed_combinations()
         {
-            Assert.That(Mixer.AllBlends.Count(), Is.EqualTo(128));
-            Assert.That(Mixer.AllowedBlends.Count(), Is.EqualTo(50));
+            Assert.That(Mixer.AllBlends.Count(), Is.EqualTo(64));
+            Assert.That(Mixer.AllowedBlends.Count(), Is.EqualTo(40));
         }
 
         [Test, Explicit]
@@ -68,19 +64,20 @@ namespace Orleankka.Core
         }
 
         [Test]
-        public void Blend_from_singleton_with_tell_method_attributed()
+        public void Blend_from_singleton_with_prefer_local_placement_and_tell_interleaved()
         {
-            AssertContains(Blend.From(typeof(TellInterleave)),
+            AssertContains(Blend.From(typeof(PreferLocalTellInterleave)),
                 Activation.Singleton,
-                Interleave.Tell);
+                Placement.PreferLocal,
+                Concurrency.TellInterleave);
         }
 
         [Test]
-        public void Blend_from_worker_with_both_methods_attributed()
+        public void Blend_from_reentrant_worker()
         {
-            AssertContains(Blend.From(typeof(WorkerWithInterleave)), 
+            AssertContains(Blend.From(typeof(ReentrantWorker)), 
                 Activation.StatelessWorker, 
-                Interleave.Both);
+                Concurrency.Reentrant);
         }
 
         static void AssertContains(Blend blend, params Flavor[] flavors)
@@ -88,34 +85,19 @@ namespace Orleankka.Core
             Assert.That(blend, Is.EqualTo(Blend.Mix(flavors)));
         }
 
-        class RegularSingleton {}
+        class RegularSingleton 
+        {}
         
-        [Unordered, StatelessWorker] 
-        class UnorderedStatelessWorker {}
+        [ActorConfiguration(ActivationKind.StatelessWorker, delivery: DeliveryKind.Unordered)]
+        class UnorderedStatelessWorker 
+        {}
 
-        class TellInterleave : Actor
-        {
-            [AlwaysInterleave]
-            public override Task OnTell(object message)
-            {
-                return TaskDone.Done;
-            }
-        }
+        [ActorConfiguration(placement: PlacementKind.PreferLocal, concurrency: ConcurrencyKind.TellInterleave)]
+        class PreferLocalTellInterleave : Actor
+        {}
 
-        [StatelessWorker] 
-        class WorkerWithInterleave : Actor
-        {
-            [AlwaysInterleave]
-            public override Task OnTell(object message)
-            {
-                return TaskDone.Done;
-            }
-
-            [AlwaysInterleave]
-            public override Task<object> OnAsk(object message)
-            {
-                return Task.FromResult(new object());
-            }
-        }
+        [ActorConfiguration(ActivationKind.StatelessWorker, concurrency: ConcurrencyKind.Reentrant)]
+        class ReentrantWorker : Actor
+        {}
     }
 }

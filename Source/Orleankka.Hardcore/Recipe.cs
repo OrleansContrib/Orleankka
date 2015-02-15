@@ -11,8 +11,7 @@ namespace Orleankka.Core.Hardcore
     {
         static readonly List<Recipe> wellKnownRecipes = new List<Recipe>
         {
-            new StatelessWorkerCannotSpecifyPlacement(),
-            new ReentrantCannotBeMixedWithAlwaysInterleave()
+            new StatelessWorkerCannotSpecifyPlacement()
         };
 
         public static bool IsValid(Blend blend)
@@ -29,7 +28,7 @@ namespace Orleankka.Core.Hardcore
             
             if (errors.Any())
                 throw new ApplicationException(
-                    string.Format("Type {0} has invalid mix of attributes: {1}", type, errors.First()));
+                    string.Format("Type {0} has invalid mix of actor configuration options: {1}", type, errors.First()));
         }
 
         protected abstract string Validate(Blend blend);
@@ -48,24 +47,7 @@ namespace Orleankka.Core.Hardcore
             if (!isStatelessWorker || !hasNonDefaultPlacement)
                 return null;
 
-            return "Specifying placement attributes together with StatelessWorker doesn't make any sense";
-        }
-    }
-
-    public class ReentrantCannotBeMixedWithAlwaysInterleave : Recipe
-    {
-        protected override string Validate(Blend blend)
-        {
-            bool isReentrant = blend.Flavors
-                .Any(x => x.Has<ReentrantAttribute>());
-
-            bool hasInterleaveSpecified = blend.Flavors
-                .Any(x => x.Has<AlwaysInterleaveAttribute>());
-            
-            if  (!isReentrant || !hasInterleaveSpecified)
-                return null;
-
-            return "Either specify Reentrant or mark individual handlers with AlwaysInterleave";
+            return "Specifying placement together with StatelessWorker doesn't make sense";
         }
     }
 }
