@@ -32,13 +32,13 @@ let main argv =
                   
     let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
-    let t = task {
-        do! actor <? Hi
-        do! actor <? Greet "Yevhen"
-        do! actor <? Greet "AntyaDev"
+    task {
+      do! actor <? Hi
+      do! actor <? Greet "Yevhen"
+      do! actor <? Greet "AntyaDev"
     } 
-        
-    t.Wait()     
+    |> Task.wait
+    
     Console.ReadLine() |> ignore
 
     printfn "%A" argv

@@ -17,6 +17,8 @@ module Task =
         /// Task completed successfully
         | Successful of 'T
 
+    let wait (task : Task<_>) = task.Wait()
+
     let run (t: unit -> Task<_>) = 
         try
             let task = t()
@@ -186,8 +188,6 @@ module System =
 
 let task = Task.TaskBuilder(scheduler = TaskScheduler.Current)
 
-open Orleans
-
 [<AbstractClass>]
 type FunActor() = 
    inherit Actor()
@@ -199,8 +199,8 @@ type FunActor() =
 
    member this.Receive(handler : 'TMessage -> Task<'TResult>) = 
       _handler <- fun (msg : obj) -> task {
-        let! result = handler (msg :?> 'TMessage)
-        return result :> obj
+         let! result = handler (msg :?> 'TMessage)
+         return result :> obj
       }
 
    override this.OnAsk(msg : obj) = task {
