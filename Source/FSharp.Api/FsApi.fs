@@ -188,25 +188,37 @@ module System =
 
 let task = Task.TaskBuilder(scheduler = TaskScheduler.Current)
 
+let Empty = null
+let Result (result : obj) = result
+
 [<AbstractClass>]
-type FunActor() = 
+type BaseActor<'TMessage>() = 
    inherit Actor()
-
-   let mutable _reply = null   
-   let mutable _handler = fun message -> Task.FromResult(null)
+   abstract Receive : 'TMessage -> Task<obj>
+   override this.OnAsk(msg : obj) = this.Receive(msg :?> 'TMessage)
    
-   member this.Reply(result : obj) = _reply <- result
 
-   member this.Receive(handler : 'TMessage -> Task<'TResult>) = 
-      _handler <- fun (msg : obj) -> task {
-         let! result = handler (msg :?> 'TMessage)
-         return result :> obj
-      }
+[<AbstractClass>]
+type FuncActor<'TState>() =
+   inherit Actor()
+   
+   let mutable _reply = null   
+   let mutable _state = Unchecked.defaultof<'TState>
+   let _replyFn (result : obj) = _reply <- result
+   let mutable _handler = fun state message replyFn -> Unchecked.defaultof<Task<'TState>>
+
+   member this.Init(init : 'TState -> 'TState) = _state <- init(_state)
+
+   member this.Receive(handler : 'TState -> 'TMessage -> (obj -> unit) -> Task<'TState>) = 
+      _handler <- 
+         fun (st : 'TState) (msg : obj) (replyFn : obj -> unit) ->
+            handler st (msg :?> 'TMessage) replyFn   
 
    override this.OnAsk(msg : obj) = task {
       _reply <- null
-      let! _ = _handler msg
+      let! newState = _handler _state msg _replyFn
+      _state <- newState
       return _reply
    }
-   
+
 let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)

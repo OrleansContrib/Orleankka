@@ -11,26 +11,26 @@ type ShopMessage =
    | Cash
    | Stock
 
-type Shop() as this =
-   inherit FunActor()   
+type Shop() =
+   inherit BaseActor<ShopMessage>()
    
    let price = 10
-
    let mutable cash = 0
-   let mutable stock = 0
+   let mutable stock = 0   
    
-   do 
-      this.Receive(fun message -> task {         
-         match message with
+   override this.Receive(message) = task {
+      match message with
          
-         | Sell (account, count) ->
-            let amount = count * price
-            do! account <? Withdraw(amount)
-            cash <- cash + amount
-            stock <- stock - count
+      | Sell (account, count) ->
+         let amount = count * price
+         do! account <? Withdraw(amount)
+         cash <- cash + amount
+         stock <- stock - count
+         return Empty
                      
-         | CheckIn count -> stock <- stock + count
+      | CheckIn count -> stock <- stock + count
+                         return Empty
 
-         | Cash  -> this.Reply(cash)
-         | Stock -> this.Reply(stock)
-      })     
+      | Cash  -> return Result(cash)
+      | Stock -> return Result(stock)
+   }     

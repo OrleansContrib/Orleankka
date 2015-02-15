@@ -8,15 +8,18 @@ type AccountMessage =
    | Withdraw of int
    | Balance 
    
-type Account() as this = 
-   inherit FunActor()
+type Account() = 
+   inherit BaseActor<AccountMessage>()
 
-   let mutable balance = 0
+   let mutable balance = 0   
    
-   do 
-      this.Receive(fun message -> task {         
-         match message with
-         | Deposit amount   -> balance <- balance + amount
-         | Withdraw amount  -> balance <- balance - amount         
-         | Balance          -> this.Reply(balance)
-      })         
+   override this.Receive(message) = task {
+      match message with
+      | Deposit amount   -> balance <- balance + amount
+                            return Empty
+
+      | Withdraw amount  -> balance <- balance - amount
+                            return Empty
+
+      | Balance          -> return Result(balance)
+   }
