@@ -1,7 +1,6 @@
 ﻿open System
 open System.Reflection
-open Orleans
-open Orleans.Runtime.Configuration
+
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.System
