@@ -87,23 +87,18 @@ namespace Demo
             this.worker = ()=> worker;
         }
     
-        public override Task OnTell(object message)
+        public override Task<object> OnReceive(object message)
         {
             return Handle((dynamic)message);
         }
 
-        public override async Task<object> OnAsk(object message)
-        {
-            return await Answer((dynamic)message);
-        }
-
-        public Task Handle(Subscribe cmd)
+        public Task<object> Handle(Subscribe cmd)
         {
             observers.Add(cmd.Observer);
             return Done();
         }
 
-        public async Task<int> Answer(Search search)
+        public async Task<object> Handle(Search search)
         {
             if (!available)
                 throw new ApiUnavailableException(Id);

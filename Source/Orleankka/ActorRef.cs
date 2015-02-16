@@ -65,7 +65,7 @@ namespace Orleankka
             Requires.NotNull(message, "message");
 
             return invoker
-                    .ReceiveTell(endpoint, new RequestEnvelope(Serialize(), message))
+                    .Receive(endpoint, new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
         }
 
@@ -74,7 +74,7 @@ namespace Orleankka
             Requires.NotNull(message, "message");
 
             var response = await invoker
-                    .ReceiveAsk(endpoint, new RequestEnvelope(Serialize(), message))
+                    .Receive(endpoint, new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
 
             return (TResult) response.Result;

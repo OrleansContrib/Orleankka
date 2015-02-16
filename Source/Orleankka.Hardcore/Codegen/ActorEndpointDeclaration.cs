@@ -16,14 +16,12 @@ namespace Orleankka.Codegen
             Mix(new[]
             {
                 ActorEndpointAttributeCategory.Of<PlacementAttribute>(),
-                ActorEndpointAttributeCategory.Of<ConcurrencyAttribute>(),
                 ActorEndpointAttributeCategory.Of<DeliveryAttribute>(),
             },
             Default.Mix(ActivationAttribute.Actor), all);
 
             Mix(new[]
             {
-                ActorEndpointAttributeCategory.Of<ConcurrencyAttribute>(),
                 ActorEndpointAttributeCategory.Of<DeliveryAttribute>(),
             },
             Default.Mix(ActivationAttribute.Worker), all);
@@ -56,8 +54,7 @@ namespace Orleankka.Codegen
         readonly ActorEndpointAttribute[] attributes =
         {
             ActivationAttribute.Actor,
-            PlacementAttribute.Random,
-            ConcurrencyAttribute.Sequential,
+            PlacementAttribute.Auto,
             DeliveryAttribute.Ordered,
         };
 
@@ -113,7 +110,6 @@ namespace Orleankka.Codegen
             return Default
                     .Mix(ActivationAttribute.Of(cfg))
                     .Mix(PlacementAttribute.Of(cfg))
-                    .Mix(ConcurrencyAttribute.Of(cfg))
                     .Mix(DeliveryAttribute.Of(cfg));
         }
 
@@ -125,16 +121,6 @@ namespace Orleankka.Codegen
         public string GetClassAttributesString()
         {
             return ToAttributeString(GetClassAttributes());
-        }
-
-        public string GetTellMethodAttributesString()
-        {
-            return ToAttributeString(GetTellMethodAttributes());
-        }
-
-        public string GetAskMethodAttributeString()
-        {
-            return ToAttributeString(GetAskMethodAttributes());
         }
 
         static string ToAttributeString(IEnumerable<ActorEndpointAttribute> attributes)
@@ -151,16 +137,6 @@ namespace Orleankka.Codegen
         IEnumerable<ActorEndpointAttribute> GetClassAttributes()
         {
             return attributes.OfType<TypeAttribute>().Where(x => x.AppliesToClass()).ToArray();
-        }
-
-        IEnumerable<ActorEndpointAttribute> GetTellMethodAttributes()
-        {
-            return attributes.OfType<MethodAttribute>().Where(x => x.AppliesToTell()).ToArray();
-        }
-
-        IEnumerable<ActorEndpointAttribute> GetAskMethodAttributes()
-        {
-            return attributes.OfType<MethodAttribute>().Where(x => x.AppliesToAsk()).ToArray();
         }
 
         public override string ToString()

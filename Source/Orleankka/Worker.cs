@@ -3,17 +3,12 @@ using System.Linq;
 
 namespace Orleankka
 {
-    public class Worker
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    public class WorkerAttribute : ActorConfigurationAttribute
     {
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-        public class ConfigurationAttribute : ActorConfigurationAttribute
+        public WorkerAttribute(Delivery delivery = Delivery.Ordered)
         {
-            public ConfigurationAttribute(
-                Concurrency concurrency = Concurrency.Sequential,
-                Delivery delivery = Delivery.Ordered)
-            {
-                Configuration = ActorConfiguration.Worker(concurrency, delivery);
-            }
+            Configuration = ActorConfiguration.Worker(delivery);
         }
     }
 }

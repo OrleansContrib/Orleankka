@@ -64,14 +64,9 @@ namespace Orleankka
             return TaskDone.Done;
         }
 
-        public virtual Task OnTell(object message)
+        public virtual Task<object> OnReceive(object message)
         {
-            throw NotImplemented("OnTell");
-        }
-
-        public virtual Task<object> OnAsk(object message)
-        {
-            throw NotImplemented("OnAsk");
+            throw NotImplemented("OnReceive");
         }
 
         public virtual Task OnReminder(string id)
@@ -87,9 +82,9 @@ namespace Orleankka
             );
         }
 
-        protected static Task Done()
+        protected static Task<object> Done()
         {
-            return TaskDone.Done;
+            return CompletedTask;
         }
 
         protected static Task<object> Result<T>(T arg)
@@ -97,16 +92,15 @@ namespace Orleankka
             return Task.FromResult((object)arg);
         }
 
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-        public class ConfigurationAttribute : ActorConfigurationAttribute
+        static readonly Task<object> CompletedTask = Task.FromResult((object)null);
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    public class ActorAttribute : ActorConfigurationAttribute
+    {
+        public ActorAttribute(Placement placement = Placement.Auto, Delivery delivery = Delivery.Ordered)
         {
-            public ConfigurationAttribute(
-                Placement placement = Placement.Random,
-                Concurrency concurrency = Concurrency.Sequential,
-                Delivery delivery = Delivery.Ordered)
-            {
-                Configuration = ActorConfiguration.Actor(placement, concurrency, delivery);
-            }
+            Configuration = ActorConfiguration.Actor(placement, delivery);
         }
     }
 }

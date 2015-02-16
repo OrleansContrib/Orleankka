@@ -32,22 +32,13 @@ namespace Orleankka.Core
 
         Actor actor;
 
-        public async Task ReceiveTell(RequestEnvelope envelope)
+        public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
         {
             if (actor == null)
                 await Activate(ActorPath.Deserialize(envelope.Target));
 
             Debug.Assert(actor != null);
-            await actor.OnTell(envelope.Message);
-        }
-
-        public async Task<ResponseEnvelope> ReceiveAsk(RequestEnvelope envelope)
-        {
-            if (actor == null)
-                await Activate(ActorPath.Deserialize(envelope.Target));
-
-            Debug.Assert(actor != null);
-            return new ResponseEnvelope(await actor.OnAsk(envelope.Message));
+            return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)

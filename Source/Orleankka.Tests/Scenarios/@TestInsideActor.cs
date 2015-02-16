@@ -30,24 +30,20 @@ namespace Orleankka.Scenarios
 
     public class TestInsideActor : Actor
     {
-        public override Task OnTell(object message)
+        public override Task<object> OnReceive(object message)
         {
             return this.Handle((dynamic)message);
         }
 
-        public override async Task<object> OnAsk(object message)
+        public async Task<object> Handle(DoTell cmd)
         {
-            return await this.Answer((dynamic)message);
+            await cmd.Target.Tell(cmd.Message);
+            return Done();
         }
 
-        public Task Handle(DoTell cmd)
+        public Task<object> Handle(DoAsk query)
         {
-            return cmd.Target.Tell(cmd.Message);
-        }
-
-        public Task<string> Answer(DoAsk query)
-        {
-            return query.Target.Ask<string>(query.Message);
+            return query.Target.Ask<object>(query.Message);
         }
     }
 }

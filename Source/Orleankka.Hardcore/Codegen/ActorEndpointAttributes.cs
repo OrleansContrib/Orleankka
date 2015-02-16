@@ -80,35 +80,6 @@ namespace Orleankka.Codegen
         }
     }
 
-    public abstract class MethodAttribute : ActorEndpointAttribute
-    {
-        readonly Method method;
-
-        protected MethodAttribute(Method method, string name, Attribute attribute = null)
-            : base(name, attribute)
-        {
-            this.method = method;
-        }
-
-        public bool AppliesToTell()
-        {
-            return method == Method.Tell || method == Method.Both;
-        }
-
-        public bool AppliesToAsk()
-        {
-            return method == Method.Ask || method == Method.Both;
-        }
-
-        protected enum Method
-        {
-            None,
-            Both,
-            Tell,
-            Ask
-        }
-    }
-
     public class ActivationAttribute : TypeAttribute
     {
         public static readonly ActivationAttribute Actor  = new ActivationAttribute("Actor");
@@ -134,7 +105,7 @@ namespace Orleankka.Codegen
 
     public class PlacementAttribute : TypeAttribute
     {
-        public static readonly PlacementAttribute Random = new PlacementAttribute("RandomPlacement");
+        public static readonly PlacementAttribute Auto = new PlacementAttribute("AutoPlacement");
         public static readonly PlacementAttribute PreferLocal = new PlacementAttribute("PreferLocalPlacement", new PreferLocalPlacementAttribute());
         public static readonly PlacementAttribute DistributeEvenly = new PlacementAttribute("EvenDistributionPlacement", new ActivationCountBasedPlacementAttribute());
 
@@ -146,41 +117,12 @@ namespace Orleankka.Codegen
         {
             switch (cfg.Placement)
             {
-                case Placement.Random:
-                    return Random;
+                case Placement.Auto:
+                    return Auto;
                 case Placement.PreferLocal:
                     return PreferLocal;
                 case Placement.DistributeEvenly:
                     return DistributeEvenly;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-    }
-
-    public class ConcurrencyAttribute : MethodAttribute
-    {
-        public static readonly ConcurrencyAttribute Sequential = new ConcurrencyAttribute(Method.None, "Sequential");
-        public static readonly ConcurrencyAttribute Reentrant = new ConcurrencyAttribute(Method.Both, "Reentrant", new AlwaysInterleaveAttribute());
-        public static readonly ConcurrencyAttribute TellInterleave = new ConcurrencyAttribute(Method.Tell, "TellInterleave", new AlwaysInterleaveAttribute());
-        public static readonly ConcurrencyAttribute AskInterleave = new ConcurrencyAttribute(Method.Ask, "AskInterleave", new AlwaysInterleaveAttribute());
-
-        ConcurrencyAttribute(Method method, string name, Attribute attribute = null)
-            : base(method, "Concurrency" + name, attribute)
-        {}
-
-        internal static ConcurrencyAttribute Of(ActorConfiguration cfg)
-        {
-            switch (cfg.Concurrency)
-            {
-                case Concurrency.Sequential:
-                    return Sequential;
-                case Concurrency.Reentrant:
-                    return Reentrant;
-                case Concurrency.TellInterleave:
-                    return TellInterleave;
-                case Concurrency.AskInterleave:
-                    return AskInterleave;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

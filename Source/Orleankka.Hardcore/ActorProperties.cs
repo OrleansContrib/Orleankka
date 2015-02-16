@@ -11,17 +11,9 @@ namespace Orleankka
 
     public enum Placement
     {
-        Random,
+        Auto,
         PreferLocal,
         DistributeEvenly
-    }
-
-    public enum Concurrency
-    {
-        Sequential,
-        Reentrant,
-        TellInterleave,
-        AskInterleave,
     }
 
     public enum Delivery

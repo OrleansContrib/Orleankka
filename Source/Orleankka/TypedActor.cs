@@ -12,19 +12,7 @@ namespace Orleankka
         static readonly Dictionary<Type, Func<object, object, Task<object>>> handlers = 
                     new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        static readonly Task<object> CompletedTask = Task.FromResult((object)null);
-
-        public override Task OnTell(object message)
-        {
-            var handler = handlers.Find(message.GetType());
-
-            if (handler == null)
-                throw new InvalidOperationException("Tell message handler hasn't been defined for: " + message.GetType());
-
-            return handler(this, message);
-        }
-
-        public override Task<object> OnAsk(object message)
+        public override Task<object> OnReceive(object message)
         {
             var handler = handlers.Find(message.GetType());
 
@@ -36,15 +24,15 @@ namespace Orleankka
 
         protected void On<TRequest, TResult>(Func<TRequest, TResult> handler)
         {
-            handlers.Add(typeof(TRequest), BindAsk<TRequest, TResult>(handler.Method));
+            handlers.Add(typeof(TRequest), BindFunc<TRequest, TResult>(handler.Method));
         }
 
-        Func<object, object, Task<object>> BindAsk<TRequest, TResult>(MethodInfo method)
+        Func<object, object, Task<object>> BindFunc<TRequest, TResult>(MethodInfo method)
         {
-            return method.IsStatic ? BindStaticAsk<TRequest, TResult>(method) : BindInstanceAsk<TRequest, TResult>(method);
+            return method.IsStatic ? BindStaticFunc<TRequest, TResult>(method) : BindInstanceBoundFunc<TRequest, TResult>(method);
         }
 
-        static Func<object, object, Task<object>> BindStaticAsk<TRequest, TResult>(MethodInfo method)
+        static Func<object, object, Task<object>> BindStaticFunc<TRequest, TResult>(MethodInfo method)
         {
             ParameterExpression request = Expression.Parameter(typeof(object));
             var requestConversion = Expression.Convert(request, typeof(TRequest));
@@ -55,7 +43,7 @@ namespace Orleankka
             return (t, r) => Task.FromResult((object)func(r));
         }
 
-        Func<object, object, Task<object>> BindInstanceAsk<TRequest, TResult>(MethodInfo method)
+        Func<object, object, Task<object>> BindInstanceBoundFunc<TRequest, TResult>(MethodInfo method)
         {
             ParameterExpression target = Expression.Parameter(typeof(object));
             ParameterExpression request = Expression.Parameter(typeof(object));
@@ -76,10 +64,10 @@ namespace Orleankka
 
         Func<object, object, Task<object>> BindAsyncAsk<TRequest, TResult>(MethodInfo method)
         {
-            return method.IsStatic ? BindStaticAsyncAsk<TRequest, TResult>(method) : BindInstanceAsyncAsk<TRequest, TResult>(method);
+            return method.IsStatic ? BindStaticAsyncFunc<TRequest, TResult>(method) : BindInstanceBoundAsyncFunc<TRequest, TResult>(method);
         }
 
-        static Func<object, object, Task<object>> BindStaticAsyncAsk<TRequest, TResult>(MethodInfo method)
+        static Func<object, object, Task<object>> BindStaticAsyncFunc<TRequest, TResult>(MethodInfo method)
         {
             ParameterExpression request = Expression.Parameter(typeof(object));
             var requestConversion = Expression.Convert(request, typeof(TRequest));
@@ -90,7 +78,7 @@ namespace Orleankka
             return async (t, r) => await func(r);
         }
         
-        Func<object, object, Task<object>> BindInstanceAsyncAsk<TRequest, TResult>(MethodInfo method)
+        Func<object, object, Task<object>> BindInstanceBoundAsyncFunc<TRequest, TResult>(MethodInfo method)
         {
             ParameterExpression target = Expression.Parameter(typeof(object));
             ParameterExpression request = Expression.Parameter(typeof(object));
@@ -106,15 +94,15 @@ namespace Orleankka
 
         protected void On<TRequest>(Action<TRequest> handler)
         {
-            handlers.Add(typeof(TRequest), BindTell<TRequest>(handler.Method));
+            handlers.Add(typeof(TRequest), BindAction<TRequest>(handler.Method));
         }
 
-        Func<object, object, Task<object>> BindTell<TRequest>(MethodInfo method)
+        Func<object, object, Task<object>> BindAction<TRequest>(MethodInfo method)
         {
-            return method.IsStatic ? BindStaticTell<TRequest>(method) : BindInstanceTell<TRequest>(method);
+            return method.IsStatic ? BindStaticAction<TRequest>(method) : BindInstanceBoundAction<TRequest>(method);
         }
 
-        static Func<object, object, Task<object>> BindStaticTell<TRequest>(MethodInfo method)
+        static Func<object, object, Task<object>> BindStaticAction<TRequest>(MethodInfo method)
         {
             ParameterExpression request = Expression.Parameter(typeof(object));
             var requestConversion = Expression.Convert(request, typeof(TRequest));
@@ -125,11 +113,11 @@ namespace Orleankka
             return (t, r) =>
             {
                 action(r);
-                return CompletedTask;
+                return Done();
             };
         }
         
-        Func<object, object, Task<object>> BindInstanceTell<TRequest>(MethodInfo method)
+        Func<object, object, Task<object>> BindInstanceBoundAction<TRequest>(MethodInfo method)
         {
             ParameterExpression target = Expression.Parameter(typeof(object));
             ParameterExpression request = Expression.Parameter(typeof(object));
@@ -143,21 +131,21 @@ namespace Orleankka
             return (t, r) =>
             {
                 action(t, r);
-                return CompletedTask;
+                return Done();
             };
         }
 
         protected void On<TRequest>(Func<TRequest, Task> handler)
         {
-            handlers.Add(typeof(TRequest), BindAsyncTell<TRequest>(handler.Method));
+            handlers.Add(typeof(TRequest), BindAsyncAction<TRequest>(handler.Method));
         }
 
-        Func<object, object, Task<object>> BindAsyncTell<TRequest>(MethodInfo method)
+        Func<object, object, Task<object>> BindAsyncAction<TRequest>(MethodInfo method)
         {
-            return method.IsStatic ? BindStaticAsyncTell<TRequest>(method) : BindInstanceAsyncTell<TRequest>(method);
+            return method.IsStatic ? BindStaticAsyncAction<TRequest>(method) : BindInstanceBoundAsyncAction<TRequest>(method);
         }
 
-        static Func<object, object, Task<object>> BindStaticAsyncTell<TRequest>(MethodInfo method)
+        static Func<object, object, Task<object>> BindStaticAsyncAction<TRequest>(MethodInfo method)
         {
             ParameterExpression request = Expression.Parameter(typeof(object));
             var requestConversion = Expression.Convert(request, typeof(TRequest));
@@ -168,11 +156,11 @@ namespace Orleankka
             return async (t, r) =>
             {
                 await func(r);
-                return CompletedTask;
+                return Done();
             };
         }
         
-        Func<object, object, Task<object>> BindInstanceAsyncTell<TRequest>(MethodInfo method)
+        Func<object, object, Task<object>> BindInstanceBoundAsyncAction<TRequest>(MethodInfo method)
         {
             ParameterExpression target = Expression.Parameter(typeof(object));
             ParameterExpression request = Expression.Parameter(typeof(object));
@@ -186,7 +174,7 @@ namespace Orleankka
             return async (t, r) =>
             {
                 await func(t, r);
-                return CompletedTask;
+                return Done();
             };
         }
 

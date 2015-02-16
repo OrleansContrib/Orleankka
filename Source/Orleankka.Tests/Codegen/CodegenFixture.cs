@@ -12,7 +12,7 @@ namespace Orleankka.Codegen
         public void Check_mixed_combinations()
         {
             Assert.That(ActorEndpointDeclaration.AllPossibleDeclarations.Count(), 
-                Is.EqualTo(32));
+                Is.EqualTo(8));
         }
 
         [Test, Explicit]
@@ -27,8 +27,6 @@ namespace Orleankka.Codegen
                 
                 Print("-Class-",     decl.GetClassAttributesString());
                 Print("-Interface-", decl.GetInterfaceAttributeString());
-                Print("-Tell-",      decl.GetTellMethodAttributesString());
-                Print("-Ask-",       decl.GetAskMethodAttributeString());
             }
         }
 
@@ -42,34 +40,25 @@ namespace Orleankka.Codegen
         }
 
         [Test]
-        public void Blend_from_non_attributed_type()
+        public void From_non_attributed_type()
         {
-            AssertContains(ActorEndpointDeclaration.From(typeof(RegularSingleton)), ActivationAttribute.Actor);
+            AssertContains(ActorEndpointDeclaration.From(typeof(RegularActor)), ActivationAttribute.Actor);
         }
 
         [Test]
-        public void Blend_from_unordered_stateless_worker()
+        public void From_unordered_worker()
         {
-            AssertContains(ActorEndpointDeclaration.From(typeof(UnorderedStatelessWorker)),
+            AssertContains(ActorEndpointDeclaration.From(typeof(UnorderedWorker)),
                 ActivationAttribute.Worker,
                 DeliveryAttribute.Unordered);
         }
 
         [Test]
-        public void Blend_from_singleton_with_prefer_local_placement_and_tell_interleaved()
+        public void From_actor_with_prefer_local_placement()
         {
-            AssertContains(ActorEndpointDeclaration.From(typeof(PreferLocalTellInterleave)),
+            AssertContains(ActorEndpointDeclaration.From(typeof(PreferLocalActor)),
                 ActivationAttribute.Actor,
-                PlacementAttribute.PreferLocal,
-                ConcurrencyAttribute.TellInterleave);
-        }
-
-        [Test]
-        public void Blend_from_reentrant_worker()
-        {
-            AssertContains(ActorEndpointDeclaration.From(typeof(ReentrantWorker)), 
-                ActivationAttribute.Worker, 
-                ConcurrencyAttribute.Reentrant);
+                PlacementAttribute.PreferLocal);
         }
 
         static void AssertContains(ActorEndpointDeclaration declaration, params ActorEndpointAttribute[] attributes)
@@ -77,21 +66,15 @@ namespace Orleankka.Codegen
             Assert.That(declaration, Is.EqualTo(ActorEndpointDeclaration.Mix(attributes)));
         }
 
-        class RegularSingleton 
+        class RegularActor 
         {}
         
-        [Worker.Configuration(delivery: Delivery.Unordered)]
-        class UnorderedStatelessWorker 
+        [Worker(Delivery.Unordered)]
+        class UnorderedWorker 
         {}
 
-        [Actor.Configuration(
-            placement: Placement.PreferLocal, 
-            concurrency: Concurrency.TellInterleave)]
-        class PreferLocalTellInterleave : Actor
-        {}
-
-        [Worker.Configuration(Concurrency.Reentrant)]
-        class ReentrantWorker : Actor
+        [Actor(Placement.PreferLocal)]
+        class PreferLocalActor : Actor
         {}
     }
 }

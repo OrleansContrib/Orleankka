@@ -10,8 +10,7 @@ namespace Orleankka.TestKit
 {
     public class ActorRefMock : ActorRef
     {
-        public readonly List<RecordedCommand> RecordedCommands = new List<RecordedCommand>();
-        public readonly List<RecordedQuery> RecordedQueries = new List<RecordedQuery>();
+        public readonly List<RecordedMessage> Received = new List<RecordedMessage>();
 
         readonly List<IExpectation> expectations = new List<IExpectation>();
 
@@ -38,8 +37,7 @@ namespace Orleankka.TestKit
             var expectation = Match(message);
             var expected = expectation != null;
 
-            RecordedCommands.Add(
-                new RecordedCommand(expected, message));
+            Received.Add(new RecordedMessage(expected, message, typeof(DoNotExpectResult)));
 
             if (expected)
                 expectation.Apply();
@@ -52,8 +50,7 @@ namespace Orleankka.TestKit
             var expectation = Match(message);
             var expected = expectation != null;
 
-            RecordedQueries.Add(
-                new RecordedQuery(expected, message, typeof(TResult)));
+            Received.Add(new RecordedMessage(expected, message, typeof(TResult)));
 
             return expected 
                        ? Task.FromResult((TResult) expectation.Apply()) 
@@ -66,29 +63,20 @@ namespace Orleankka.TestKit
         }
     }
 
-    public class RecordedCommand
-    {
-        public readonly bool Expected;
-        public readonly object Message;
-
-        public RecordedCommand(bool expected, object message)
-        {
-            Expected = expected;
-            Message = message;
-        }
-    }
-
-    public class RecordedQuery
+    public class RecordedMessage
     {
         public readonly bool Expected;
         public readonly object Message;
         public readonly Type Result;
 
-        public RecordedQuery(bool expected, object message, Type result)
+        public RecordedMessage(bool expected, object message, Type result)
         {
             Expected = expected;
             Message = message;
             Result = result;
         }
     }
+
+    public class DoNotExpectResult
+    {}
 }

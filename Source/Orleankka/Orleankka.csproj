@@ -74,8 +74,8 @@
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
     <Compile Include="Core\ActorAssembly.cs" />
-    <Compile Include="Core\ActorEndpoint.Blends.cs">
-      <DependentUpon>ActorEndpoint.Blends.tt</DependentUpon>
+    <Compile Include="Core\ActorEndpoint.Declarations.cs">
+      <DependentUpon>ActorEndpoint.Declarations.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -119,9 +119,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\ActorEndpoint.Blends.tt">
+    <None Include="Core\ActorEndpoint.Declarations.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.Blends.cs</LastGenOutput>
+      <LastGenOutput>ActorEndpoint.Declarations.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

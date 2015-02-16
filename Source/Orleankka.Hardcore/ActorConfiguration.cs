@@ -5,11 +5,10 @@ namespace Orleankka
 {
     class ActorConfiguration
     {
-        public static ActorConfiguration Default = new ActorConfiguration(); 
+        public static readonly ActorConfiguration Default = new ActorConfiguration(); 
 
         internal readonly Activation Activation = Activation.Actor;
-        internal readonly Placement Placement = Placement.Random;
-        internal readonly Concurrency Concurrency = Concurrency.Sequential;
+        internal readonly Placement Placement = Placement.Auto;
         internal readonly Delivery Delivery = Delivery.Ordered;
 
         ActorConfiguration()
@@ -18,23 +17,21 @@ namespace Orleankka
         ActorConfiguration(
             Activation activation,
             Placement placement,
-            Concurrency concurrency,
             Delivery delivery)
         {
             Activation = activation;
             Placement = placement;
-            Concurrency = concurrency;
             Delivery = delivery;
         }
 
-        internal static ActorConfiguration Actor(Placement placement, Concurrency concurrency, Delivery delivery)
+        internal static ActorConfiguration Actor(Placement placement, Delivery delivery)
         {
-            return new ActorConfiguration(Activation.Actor, placement, concurrency, delivery);
+            return new ActorConfiguration(Activation.Actor, placement, delivery);
         }
         
-        internal static ActorConfiguration Worker(Concurrency concurrency, Delivery delivery)
+        internal static ActorConfiguration Worker(Delivery delivery)
         {
-            return new ActorConfiguration(Activation.Worker, Placement.Random, concurrency, delivery);
+            return new ActorConfiguration(Activation.Worker, Placement.Auto, delivery);
         }
     }
 

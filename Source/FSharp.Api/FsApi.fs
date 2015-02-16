@@ -203,7 +203,7 @@ type FunActor() =
          return result :> obj
       }
 
-   override this.OnAsk(msg : obj) = task {
+   override this.OnReceive(msg : obj) = task {
       _reply <- null
       let! _ = _handler msg
       return _reply
