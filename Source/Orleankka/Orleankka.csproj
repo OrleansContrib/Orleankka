@@ -93,7 +93,7 @@
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
     <Compile Include="Actor.cs" />
-    <Compile Include="Core\ActorEndpointBase.cs" />
+    <Compile Include="Core\ActorEndpoint.cs" />
     <Compile Include="Playground\PlaygroundConfigurator.cs" />
     <Compile Include="Requires.cs" />
     <Compile Include="Services\ActivationService.cs" />

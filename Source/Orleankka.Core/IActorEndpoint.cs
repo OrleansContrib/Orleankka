@@ -9,7 +9,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public interface IActorEndpointTODO : IGrainWithStringKey, IRemindable
+    public interface IActorEndpoint : IGrainWithStringKey, IRemindable
     {
         Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
     }

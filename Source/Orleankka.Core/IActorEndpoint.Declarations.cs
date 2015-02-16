@@ -1,8 +1,5 @@
-﻿
-using System;
-using System.Threading.Tasks;
+﻿using System;
 
-using Orleans;
 using Orleans.Concurrency;
 
 namespace Orleankka.Core
@@ -14,10 +11,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Actor.AutoPlacement.UnorderedDelivery
@@ -26,10 +20,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[Unordered]
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Actor.PreferLocalPlacement.OrderedDelivery
@@ -37,10 +28,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Actor.PreferLocalPlacement.UnorderedDelivery
@@ -49,10 +37,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[Unordered]
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Actor.EvenDistributionPlacement.OrderedDelivery
@@ -60,10 +45,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Actor.EvenDistributionPlacement.UnorderedDelivery
@@ -72,10 +54,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[Unordered]
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Worker.AutoPlacement.OrderedDelivery
@@ -83,10 +62,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
 		namespace Worker.AutoPlacement.UnorderedDelivery
@@ -95,10 +71,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[Unordered]
-			public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-			{
-				Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-			}
+			public interface IActorEndpoint : Core.IActorEndpoint {}
 		}
 
     }

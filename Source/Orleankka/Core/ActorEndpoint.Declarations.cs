@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 using Orleans.Placement;
 using Orleans.Concurrency;
@@ -13,7 +12,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Actor.AutoPlacement.UnorderedDelivery
@@ -21,7 +20,7 @@ namespace Orleankka.Core
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Actor.PreferLocalPlacement.OrderedDelivery
@@ -30,7 +29,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Actor.PreferLocalPlacement.UnorderedDelivery
@@ -39,7 +38,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Actor.EvenDistributionPlacement.OrderedDelivery
@@ -48,7 +47,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Actor.EvenDistributionPlacement.UnorderedDelivery
@@ -57,7 +56,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Worker.AutoPlacement.OrderedDelivery
@@ -66,7 +65,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[StatelessWorker]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
 		namespace Worker.AutoPlacement.UnorderedDelivery
@@ -75,7 +74,7 @@ namespace Orleankka.Core
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[StatelessWorker]
-			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
 
     }

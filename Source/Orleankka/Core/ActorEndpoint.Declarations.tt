@@ -4,7 +4,6 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Orleankka.Codegen" #>
 <#@ output extension=".cs" #>
-
 using System;
 
 using Orleans.Placement;
@@ -39,7 +38,7 @@ namespace Orleankka.Core
                 WriteLine("/// </summary>");
                 
                 WriteIfNotEmpty(decl.GetClassAttributesString());
-                WriteLine("public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}");
+                WriteLine("public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}");
                                 
             PopIndent();
 

@@ -23,7 +23,7 @@ namespace Orleankka
             System = system;
         }
 
-        internal void Initialize(string id, IActorSystem system, ActorEndpointBase endpoint)
+        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint)
         {
             Id = id;
             System = system;
@@ -40,7 +40,7 @@ namespace Orleankka
             get; private set;
         }
 
-        internal ActorEndpointBase Endpoint
+        internal ActorEndpoint Endpoint
         {
             get; private set;
         }

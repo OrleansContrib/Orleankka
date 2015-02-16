@@ -4,11 +4,8 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Orleankka.Codegen" #>
 <#@ output extension=".cs" #>
-
 using System;
-using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Concurrency;
 
 namespace Orleankka.Core
@@ -40,15 +37,7 @@ namespace Orleankka.Core
                 WriteLine("/// </summary>");
 
                 WriteIfNotEmpty(decl.GetInterfaceAttributeString());
-                WriteLine("public interface IActorEndpoint : IGrainWithStringKey, IRemindable");
-                
-                WriteLine("{");
-                PushIndent("\t");
-
-                    WriteLine("Task<ResponseEnvelope> Receive(RequestEnvelope envelope);");
-                
-                PopIndent();
-                WriteLine("}");
+                WriteLine("public interface IActorEndpoint : Core.IActorEndpoint {}");
 
             PopIndent();
 

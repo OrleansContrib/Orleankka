@@ -12,7 +12,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpointBase : Grain,
+    public abstract class ActorEndpoint : Grain,
         IRemindable,
         IActorEndpointActivationService,
         IActorEndpointReminderService,
@@ -25,7 +25,7 @@ namespace Orleankka.Core
             Activator = new DefaultActorActivator();
         }
 
-        static ActorEndpointBase()
+        static ActorEndpoint()
         {
             Reset();
         }
@@ -106,9 +106,9 @@ namespace Orleankka.Core
             return identity;
         }
 
-        internal static ActorEndpointInvoker Invoker(ActorPath path)
+        internal static IActorEndpoint Proxy(ActorPath path)
         {
-            return ActorEndpointFactory.Invoker(path.Type);
+            return ActorEndpointDynamicFactory.Proxy(path);
         }
     }
 }
