@@ -32,7 +32,7 @@ namespace Orleankka
 
         public static ActorRef Deserialize(ActorPath path)
         {
-            return new ActorRef(path, ActorEndpoint.Invoker(path));
+            return new ActorRef(path, ActorEndpointBase.Invoker(path));
         }
 
         readonly ActorPath path;
@@ -128,7 +128,7 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             path = ActorPath.Deserialize(value);
-            invoker = ActorEndpoint.Invoker(path);
+            invoker = ActorEndpointBase.Invoker(path);
             endpoint = invoker.GetProxy(value);
         }
 

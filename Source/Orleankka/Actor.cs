@@ -23,7 +23,7 @@ namespace Orleankka
             System = system;
         }
 
-        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint)
+        internal void Initialize(string id, IActorSystem system, ActorEndpointBase endpoint)
         {
             Id = id;
             System = system;
@@ -40,7 +40,7 @@ namespace Orleankka
             get; private set;
         }
 
-        internal ActorEndpoint Endpoint
+        internal ActorEndpointBase Endpoint
         {
             get; private set;
         }
@@ -85,6 +85,28 @@ namespace Orleankka
                 "Override {0}() method in class {1} to implement corresponding behavior", 
                 method, GetType())
             );
+        }
+
+        protected static Task Done()
+        {
+            return TaskDone.Done;
+        }
+
+        protected static Task<object> Result<T>(T arg)
+        {
+            return Task.FromResult((object)arg);
+        }
+
+        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+        public class ConfigurationAttribute : ActorConfigurationAttribute
+        {
+            public ConfigurationAttribute(
+                Placement placement = Placement.Random,
+                Concurrency concurrency = Concurrency.Sequential,
+                Delivery delivery = Delivery.Ordered)
+            {
+                Configuration = ActorConfiguration.Actor(placement, concurrency, delivery);
+            }
         }
     }
 }

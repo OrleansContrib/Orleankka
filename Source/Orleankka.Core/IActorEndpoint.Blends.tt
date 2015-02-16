@@ -2,7 +2,7 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(SolutionDir)\Source\Orleankka.Hardcore\bin\Debug\Orleankka.Hardcore.dll" #>
 <#@ import namespace="System.Linq" #>
-<#@ import namespace="Orleankka.Core.Hardcore" #>
+<#@ import namespace="Orleankka.Codegen" #>
 <#@ output extension=".cs" #>
 
 using System;
@@ -18,19 +18,19 @@ namespace Orleankka.Core
         <#
         PushIndent("\t");
 
-        foreach (var blend in Mixer.AllowedBlends)
-            GenerateInterface(blend);
+        foreach (var decl in ActorEndpointDeclaration.AllPossibleDeclarations)
+            GenerateInterface(decl);
 
         PopIndent();
     #>
     }
 }
 <#+
-    void GenerateInterface(Blend blend)
+    void GenerateInterface(ActorEndpointDeclaration decl)
     {		
         PushIndent("\t");
 
-            WriteLine("namespace " + blend);
+            WriteLine("namespace " + decl);
             WriteLine("{");
             
             PushIndent("\t");
@@ -39,16 +39,16 @@ namespace Orleankka.Core
                 WriteLine("/// FOR INTERNAL USE ONLY!");
                 WriteLine("/// </summary>");
 
-                WriteIfNotEmpty(blend.GetInterfaceAttributeString());
+                WriteIfNotEmpty(decl.GetInterfaceAttributeString());
                 WriteLine("public interface IActorEndpoint : IGrainWithStringKey, IRemindable");
                 
                 WriteLine("{");
                 PushIndent("\t");
 
-                    WriteIfNotEmpty(blend.GetTellMethodAttributesString());
+                    WriteIfNotEmpty(decl.GetTellMethodAttributesString());
                     WriteLine("Task ReceiveTell(RequestEnvelope envelope);");
 
-                    WriteIfNotEmpty(blend.GetAskMethodAttributeString());
+                    WriteIfNotEmpty(decl.GetAskMethodAttributeString());
                     WriteLine("Task <ResponseEnvelope> ReceiveAsk(RequestEnvelope envelope);");
                 
                 PopIndent();

@@ -9,7 +9,7 @@
     <ProjectGuid>{D9A6E703-D3D0-4758-9308-BFEF6FC5686B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orleankka.Core.Hardcore</RootNamespace>
+    <RootNamespace>Orleankka</RootNamespace>
     <AssemblyName>Orleankka.Hardcore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,20 +49,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blend.cs" />
-    <Compile Include="Flavors.cs" />
-    <Compile Include="Mixer.cs" />
+    <Compile Include="ActorConfiguration.cs" />
+    <Compile Include="Codegen\ActorEndpointDeclaration.cs" />
+    <Compile Include="ActorProperties.cs" />
+    <Compile Include="Codegen\ActorEndpointAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recipe.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
-      <Project>{933568ea-bc0b-29bc-af0f-b4a4a62858ac}</Project>
-      <Name>Orleankka.Meta</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

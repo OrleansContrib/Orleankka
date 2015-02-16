@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orleankka.Core
 {
-    using Hardcore;
+    using Codegen;
 
     static class ActorEndpointFactory
     {
@@ -21,9 +21,8 @@ namespace Orleankka.Core
 
         public static void Register(Type type)
         {
-            var blend = Blend.From(type);
-            Recipe.AssertValid(blend, type);
-            invokers.Add(type, Bind(blend.ToString()));
+            var declaration = ActorEndpointDeclaration.From(type);
+            invokers.Add(type, Bind(declaration.ToString()));
         }
 
         static ActorEndpointInvoker Bind(string name)

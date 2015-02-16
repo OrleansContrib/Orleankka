@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 
-using Orleans;
 using Orleankka;
 using Orleankka.Services;
 
@@ -101,7 +100,7 @@ namespace Demo
         public Task Handle(Subscribe cmd)
         {
             observers.Add(cmd.Observer);
-            return TaskDone.Done;
+            return Done();
         }
 
         public async Task<int> Answer(Search search)

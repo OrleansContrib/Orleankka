@@ -8,356 +8,284 @@ namespace Orleankka.Core
 {
     namespace Hardcore
     {
-        namespace Singleton.DefaultPlacement.ConcurrencySequential.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyReentrant.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyTellInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyAskInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencySequential.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyReentrant.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyTellInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.DefaultPlacement.ConcurrencyAskInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencySequential.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyReentrant.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyTellInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyAskInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencySequential.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyReentrant.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyTellInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.RandomPlacement.ConcurrencyAskInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[RandomPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.PreferLocalPlacement.ConcurrencySequential.OrderedDelivery
+        namespace Actor.PreferLocalPlacement.ConcurrencyAskInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyReentrant.OrderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyAskInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencyAskInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencyAskInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencyTellInterleave.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyTellInterleave.OrderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyTellInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencyTellInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencyTellInterleave.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencySequential.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyAskInterleave.OrderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencySequential.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencySequential.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencySequential.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencyReentrant.OrderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencySequential.UnorderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyReentrant.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencyReentrant.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencyReentrant.OrderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencyAskInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyReentrant.UnorderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyAskInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencyAskInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencyAskInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencyTellInterleave.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyTellInterleave.UnorderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyTellInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencyTellInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencyTellInterleave.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencySequential.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.PreferLocalPlacement.ConcurrencyAskInterleave.UnorderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencySequential.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[StatelessWorker]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.RandomPlacement.ConcurrencySequential.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.EvenDistributionPlacement.ConcurrencySequential.UnorderedDelivery
+		{
+			/// <summary> 
+			/// FOR INTERNAL USE ONLY!
+			/// </summary>
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
+		}
+
+		namespace Actor.PreferLocalPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[PreferLocalPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencySequential.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyReentrant.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyTellInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyAskInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencySequential.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyReentrant.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyTellInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace Singleton.ActivationCountBasedPlacement.ConcurrencyAskInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[ActivationCountBasedPlacement]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencySequential.OrderedDelivery
+		namespace Worker.RandomPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
 			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyReentrant.OrderedDelivery
+		namespace Actor.RandomPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyTellInterleave.OrderedDelivery
+		namespace Actor.EvenDistributionPlacement.ConcurrencyReentrant.UnorderedDelivery
 		{
 			/// <summary> 
 			/// FOR INTERNAL USE ONLY!
 			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyAskInterleave.OrderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencySequential.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyReentrant.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyTellInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
-		}
-
-		namespace StatelessWorker.DefaultPlacement.ConcurrencyAskInterleave.UnorderedDelivery
-		{
-			/// <summary> 
-			/// FOR INTERNAL USE ONLY!
-			/// </summary>
-			[StatelessWorker]
-			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
+			[ActivationCountBasedPlacement]
+			public class ActorEndpoint : ActorEndpointBase, IActorEndpoint {}
 		}
 
     }

@@ -49,9 +49,9 @@ namespace Orleankka
 
             if (configuration.Activator != null)
             {
-                var activator = (IInstanceActivator) Activator.CreateInstance(configuration.Activator.Item1);
+                var activator = (IActorActivator) Activator.CreateInstance(configuration.Activator.Item1);
                 activator.Init(configuration.Activator.Item2 ?? new Dictionary<string, string>());
-                ActorEndpoint.Activator = activator;
+                ActorEndpointBase.Activator = activator;
             }
 
             ActorSystem.Instance = configuration.Instance;
@@ -60,7 +60,7 @@ namespace Orleankka
         void IDisposable.Dispose()
         {
             MessageEnvelope.Reset();
-            ActorEndpoint.Reset();
+            ActorEndpointBase.Reset();
             ActorAssembly.Reset();
             ActorSystem.Reset();
         }
