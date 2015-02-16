@@ -192,7 +192,7 @@ let Empty = null
 let Result (result : obj) = result
 
 [<AbstractClass>]
-type BaseActor<'TMessage>() = 
+type ObjectActor<'TMessage>() = 
    inherit Actor()
    abstract Receive : 'TMessage -> Task<obj>
    override this.OnAsk(msg : obj) = this.Receive(msg :?> 'TMessage)

@@ -10,7 +10,7 @@ type Message =
    | Hi
 
 type Greeter() = 
-   inherit BaseActor<Message>()   
+   inherit ObjectActor<Message>()   
 
    override this.Receive(message) = task {
       match message with
