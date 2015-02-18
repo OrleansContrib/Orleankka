@@ -11,7 +11,6 @@ namespace Orleankka.Core
         {
             ActorTypeCode.Reset();
             ActorEndpointDynamicFactory.Reset();
-            TypedActor.Reset();
         }
 
         public static void Register(IEnumerable<Assembly> assemblies)
@@ -32,7 +31,6 @@ namespace Orleankka.Core
             {
                 ActorTypeCode.Register(type);
                 ActorEndpointDynamicFactory.Register(type);
-                TypedActor.Register(type);
             }
         }
     }
