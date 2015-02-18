@@ -55,10 +55,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IActorEndpoint.Blends.cs">
+    <Compile Include="IActorEndpoint.cs" />
+    <Compile Include="IActorEndpoint.Declarations.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>IActorEndpoint.Blends.tt</DependentUpon>
+      <DependentUpon>IActorEndpoint.Declarations.tt</DependentUpon>
     </Compile>
     <Compile Include="IMessageSerializer.cs" />
     <Compile Include="MessageEnvelope.cs" />
@@ -73,9 +74,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IActorEndpoint.Blends.tt">
+    <None Include="IActorEndpoint.Declarations.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IActorEndpoint.Blends.cs</LastGenOutput>
+      <LastGenOutput>IActorEndpoint.Declarations.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

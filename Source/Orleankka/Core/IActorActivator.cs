@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Orleankka.Core
 {
-    public interface IInstanceActivator
+    public interface IActorActivator
     {
         void Init(IDictionary<string, string> properties);
 
@@ -14,7 +14,7 @@ namespace Orleankka.Core
         Actor Activate(Type type);
     }
 
-    class DefaultInstanceActivator : IInstanceActivator
+    class DefaultActorActivator : IActorActivator
     {
         public void Init(IDictionary<string, string> properties)
         {}

@@ -49,7 +49,7 @@ namespace Orleankka
 
             if (configuration.Activator != null)
             {
-                var activator = (IInstanceActivator) Activator.CreateInstance(configuration.Activator.Item1);
+                var activator = (IActorActivator) Activator.CreateInstance(configuration.Activator.Item1);
                 activator.Init(configuration.Activator.Item2 ?? new Dictionary<string, string>());
                 ActorEndpoint.Activator = activator;
             }

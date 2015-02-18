@@ -195,6 +195,6 @@ let Result (result : obj) = result
 type Actor<'TMessage>() = 
    inherit Actor()
    abstract Receive : 'TMessage -> Task<obj>
-   override this.OnAsk(msg : obj) = this.Receive(msg :?> 'TMessage)
+   override this.OnReceive(msg : obj) = this.Receive(msg :?> 'TMessage)
 
 let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)

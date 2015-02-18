@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 using Orleankka.Services;
 
-using Orleans;
-
 namespace Orleankka.Scenarios
 {
     public class SetText : Command
@@ -77,61 +75,56 @@ namespace Orleankka.Scenarios
             reminders  = new ReminderService(this);
         }
 
-        public override Task OnTell(object message)
+        public override Task<object> OnReceive(object message)
         {
             return this.Handle((dynamic)message);
-        }
-
-        public override async Task<object> OnAsk(object message)
-        {
-            return await this.Answer((dynamic)message);
         }
 
         public override Task OnReminder(string id)
         {
             reminded = true;
             activation.DelayDeactivation(TimeSpan.FromSeconds(600));
-            return TaskDone.Done;
+            return Done();
         }
 
-        public Task Handle(SetText cmd)
+        public Task<object> Handle(SetText cmd)
         {
             text = cmd.Text;
             observers.Notify(new TextChanged(cmd.Text));
-            return TaskDone.Done;
+            return Done();
         }
 
-        public Task<string> Answer(GetText query)
+        public Task<object> Handle(GetText q)
         {
-            return Task.FromResult(text);
+            return Result(text);
         }
 
-        public Task Handle(Attach cmd)
+        public Task<object> Handle(Attach cmd)
         {
             observers.Add(cmd.Observer);
-            return TaskDone.Done;
+            return Done();
         }
 
-        public Task Handle(Throw cmd)
+        public Task<object> Handle(Throw cmd)
         {
             throw cmd.Exception;
         }
-        
-        public Task Handle(SetReminder cmd)
+
+        public Task<object> Handle(SetReminder cmd)
         {
             reminders.Register("test", TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
             activation.DeactivateOnIdle();
-            return TaskDone.Done;
+            return Done();
         }
 
-        public Task<bool> Answer(HasBeenReminded query)
+        public Task<object> Handle(HasBeenReminded q)
         {
-            return Task.FromResult(reminded);
+            return Result(reminded);
         }
 
-        public Task<int> Answer(GetInstanceHashcode query)
+        public Task<object> Answer(GetInstanceHashcode q)
         {
-            return Task.FromResult(RuntimeHelpers.GetHashCode(this));
+            return Result(RuntimeHelpers.GetHashCode(this));
         }
     }
 }

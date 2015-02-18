@@ -114,18 +114,17 @@ namespace Demo
 
         public static void Reset(this ActorRefMock mock)
         {
-            mock.RecordedCommands.Clear();
-            mock.RecordedQueries.Clear();
+            mock.Received.Clear();
         }
 
         public static IEnumerable<Command> Commands(this ActorRefMock mock)
         {
-            return mock.RecordedCommands.Select(x => x.Message).Cast<Command>();
+            return mock.Received.Select(x => x.Message).Cast<Command>();
         }
 
         public static IEnumerable<Query> Queries(this ActorRefMock mock)
         {
-            return mock.RecordedQueries.Select(x => x.Message).Cast<Query>();
+            return mock.Received.Select(x => x.Message).Cast<Query>();
         }
 
         public static bool DidNotReceiveAnyCommands(this ActorRefMock mock)

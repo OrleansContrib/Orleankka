@@ -32,22 +32,20 @@ namespace Orleankka
 
         public static ActorRef Deserialize(ActorPath path)
         {
-            return new ActorRef(path, ActorEndpoint.Invoker(path));
+            return new ActorRef(path, ActorEndpoint.Proxy(path));
         }
 
         readonly ActorPath path;
-        readonly ActorEndpointInvoker invoker;
-        readonly object endpoint;
+        readonly IActorEndpoint endpoint;
 
         protected internal ActorRef(ActorPath path)
         {
             this.path = path;
         }
 
-        ActorRef(ActorPath path, ActorEndpointInvoker invoker) : this(path)
+        ActorRef(ActorPath path, IActorEndpoint endpoint) : this(path)
         {
-            this.invoker = invoker;
-            endpoint = invoker.GetProxy(path.Serialize());
+            this.endpoint = endpoint;
         }
 
         public ActorPath Path
@@ -64,8 +62,8 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            return invoker
-                    .ReceiveTell(endpoint, new RequestEnvelope(Serialize(), message))
+            return endpoint
+                    .Receive(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
         }
 
@@ -73,8 +71,8 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            var response = await invoker
-                    .ReceiveAsk(endpoint, new RequestEnvelope(Serialize(), message))
+            var response = await endpoint
+                    .Receive(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
 
             return (TResult) response.Result;
@@ -128,8 +126,7 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             path = ActorPath.Deserialize(value);
-            invoker = ActorEndpoint.Invoker(path);
-            endpoint = invoker.GetProxy(value);
+            endpoint = ActorEndpoint.Proxy(path);
         }
 
         #endregion

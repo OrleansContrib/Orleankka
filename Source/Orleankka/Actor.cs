@@ -64,14 +64,9 @@ namespace Orleankka
             return TaskDone.Done;
         }
 
-        public virtual Task OnTell(object message)
+        public virtual Task<object> OnReceive(object message)
         {
-            throw NotImplemented("OnTell");
-        }
-
-        public virtual Task<object> OnAsk(object message)
-        {
-            throw NotImplemented("OnAsk");
+            throw NotImplemented("OnReceive");
         }
 
         public virtual Task OnReminder(string id)
@@ -85,6 +80,27 @@ namespace Orleankka
                 "Override {0}() method in class {1} to implement corresponding behavior", 
                 method, GetType())
             );
+        }
+
+        protected static Task<object> Done()
+        {
+            return CompletedTask;
+        }
+
+        protected static Task<object> Result<T>(T arg)
+        {
+            return Task.FromResult((object)arg);
+        }
+
+        static readonly Task<object> CompletedTask = Task.FromResult((object)null);
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    public class ActorAttribute : ActorConfigurationAttribute
+    {
+        public ActorAttribute(Placement placement = Placement.Auto, Delivery delivery = Delivery.Ordered)
+        {
+            Configuration = ActorConfiguration.Actor(placement, delivery);
         }
     }
 }

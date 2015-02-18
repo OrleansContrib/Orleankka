@@ -1,0 +1,56 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\Source\Orleankka.Hardcore\bin\Debug\Orleankka.Hardcore.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Orleankka.Codegen" #>
+<#@ output extension=".cs" #>
+using System;
+
+using Orleans.Placement;
+using Orleans.Concurrency;
+
+namespace Orleankka.Core
+{
+    namespace Hardcore
+    {
+        <#
+        PushIndent("\t");
+
+        foreach (var decl in ActorEndpointDeclaration.AllPossibleDeclarations)
+            GenerateClass(decl);
+
+        PopIndent();
+    #>
+    }
+}
+<#+
+    void GenerateClass(ActorEndpointDeclaration decl)
+    {
+        PushIndent("\t");
+            
+            WriteLine("namespace " + decl);
+            WriteLine("{");
+            
+            PushIndent("\t");
+                
+                WriteLine("/// <summary> ");
+                WriteLine("/// FOR INTERNAL USE ONLY!");
+                WriteLine("/// </summary>");
+                
+                WriteIfNotEmpty(decl.GetClassAttributesString());
+                WriteLine("public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}");
+                                
+            PopIndent();
+
+        WriteLine("}");
+        WriteLine("");
+
+        PopIndent();
+    }
+
+    void WriteIfNotEmpty(string s)    
+    {
+        if (s != "")
+            WriteLine(s);
+    }
+#>

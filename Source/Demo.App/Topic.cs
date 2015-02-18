@@ -59,17 +59,19 @@ namespace Demo
             total = await storage.ReadTotalAsync(Id);
         }
 
-        public override Task OnTell(object message)
+        public override Task<object> OnReceive(object message)
         {
             return Handle((dynamic)message);
         }
 
-        public async Task Handle(CreateTopic cmd)
+        public async Task<object> Handle(CreateTopic cmd)
         {
             query = cmd.Query;
 
             foreach (var entry in cmd.Schedule)
                 await reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
+
+            return Done();
         }
 
         public override async Task OnReminder(string api)

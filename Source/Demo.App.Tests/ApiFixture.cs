@@ -30,9 +30,9 @@ namespace Demo
         {
             worker.ThrowException = true;
 
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Answer(query));
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Answer(query));
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Answer(query));
+            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
+            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
+            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
             
             IsTrue(()=> Observers.Events().Count() == 1);
             IsTrue(()=> Observers.FirstEvent<AvailabilityChanged>().Available == false);

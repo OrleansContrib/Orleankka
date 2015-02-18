@@ -74,14 +74,14 @@
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
     <Compile Include="Core\ActorAssembly.cs" />
-    <Compile Include="Core\ActorEndpoint.Blends.cs">
-      <DependentUpon>ActorEndpoint.Blends.tt</DependentUpon>
+    <Compile Include="Core\ActorEndpoint.Declarations.cs">
+      <DependentUpon>ActorEndpoint.Declarations.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorEndpointServices.cs" />
-    <Compile Include="Core\IInstanceActivator.cs" />
+    <Compile Include="Core\IActorActivator.cs" />
     <Compile Include="Core\ObserverEndpoint.cs" />
     <Compile Include="Annotations.cs" />
     <Compile Include="DictionaryExtensions.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActorTypeCode.cs" />
     <Compile Include="TypedActor.cs" />
+    <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -118,9 +119,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\ActorEndpoint.Blends.tt">
+    <None Include="Core\ActorEndpoint.Declarations.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.Blends.cs</LastGenOutput>
+      <LastGenOutput>ActorEndpoint.Declarations.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

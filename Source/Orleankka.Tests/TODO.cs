@@ -9,10 +9,9 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void LambdaActors()
+        public void InterleavingMessages()
         {
-            // - Add support for function actors
-            // - Need to support all avail attributes (passed inside spawn() func)
+            // - Add support for specifying interleaving on per-message type basis
         }
 
         [Test, Ignore]

@@ -18,11 +18,11 @@ namespace Orleankka.Core
         IActorEndpointReminderService,
         IActorEndpointTimerService
     {
-        internal static IInstanceActivator Activator;
+        internal static IActorActivator Activator;
 
         internal static void Reset()
         {
-            Activator = new DefaultInstanceActivator();
+            Activator = new DefaultActorActivator();
         }
 
         static ActorEndpoint()
@@ -32,22 +32,13 @@ namespace Orleankka.Core
 
         Actor actor;
 
-        public async Task ReceiveTell(RequestEnvelope envelope)
+        public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
         {
             if (actor == null)
                 await Activate(ActorPath.Deserialize(envelope.Target));
 
             Debug.Assert(actor != null);
-            await actor.OnTell(envelope.Message);
-        }
-
-        public async Task<ResponseEnvelope> ReceiveAsk(RequestEnvelope envelope)
-        {
-            if (actor == null)
-                await Activate(ActorPath.Deserialize(envelope.Target));
-
-            Debug.Assert(actor != null);
-            return new ResponseEnvelope(await actor.OnAsk(envelope.Message));
+            return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
@@ -115,9 +106,9 @@ namespace Orleankka.Core
             return identity;
         }
 
-        internal static ActorEndpointInvoker Invoker(ActorPath path)
+        internal static IActorEndpoint Proxy(ActorPath path)
         {
-            return ActorEndpointFactory.Invoker(path.Type);
+            return ActorEndpointDynamicFactory.Proxy(path);
         }
     }
 }
