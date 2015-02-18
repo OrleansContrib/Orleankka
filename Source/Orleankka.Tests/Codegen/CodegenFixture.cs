@@ -46,11 +46,11 @@ namespace Orleankka.Codegen
         }
 
         [Test]
-        public void From_unordered_worker()
+        public void From_worker()
         {
-            AssertContains(ActorEndpointDeclaration.From(typeof(UnorderedWorker)),
+            AssertContains(ActorEndpointDeclaration.From(typeof(Worker)),
                 ActivationAttribute.Worker,
-                DeliveryAttribute.Unordered);
+                DeliveryAttribute.Ordered);
         }
 
         [Test]
@@ -69,8 +69,8 @@ namespace Orleankka.Codegen
         class RegularActor 
         {}
         
-        [Worker(Delivery.Unordered)]
-        class UnorderedWorker 
+        [Worker]
+        class Worker 
         {}
 
         [Actor(Placement.PreferLocal)]

@@ -9,16 +9,16 @@ namespace Orleankka
         Worker
     }
 
+    enum Delivery
+    {
+        Ordered,
+        Unordered,
+    }
+
     public enum Placement
     {
         Auto,
         PreferLocal,
         DistributeEvenly
-    }
-
-    public enum Delivery
-    {
-        Ordered,
-        Unordered,
     }
 }

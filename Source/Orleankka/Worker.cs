@@ -6,9 +6,9 @@ namespace Orleankka
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class WorkerAttribute : ActorConfigurationAttribute
     {
-        public WorkerAttribute(Delivery delivery = Delivery.Ordered)
+        public WorkerAttribute()
         {
-            Configuration = ActorConfiguration.Worker(delivery);
+            Configuration = ActorConfiguration.Worker(Delivery.Ordered);
         }
     }
 }
