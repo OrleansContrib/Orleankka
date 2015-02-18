@@ -9,15 +9,15 @@ type Message =
    | Greet of string
    | Hi
 
-type Greeter() as this = 
-   inherit FunActor()   
+type Greeter() = 
+   inherit Actor<Message>()   
 
-   do 
-      this.Receive(fun message -> task {      
-        match message with
-        | Greet who -> printfn "Hello %s" who
-        | Hi -> printfn "Hello from F#!"     
-    })   
+   override this.Receive(message) = task {
+      match message with
+      | Greet who -> printfn "Hello %s" who
+      | Hi -> printfn "Hello from F#!"     
+      return Empty
+   }     
 
 [<EntryPoint>]
 let main argv = 

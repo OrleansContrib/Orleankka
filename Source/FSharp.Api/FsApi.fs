@@ -188,25 +188,13 @@ module System =
 
 let task = Task.TaskBuilder(scheduler = TaskScheduler.Current)
 
+let Empty = null
+let Result (result : obj) = result
+
 [<AbstractClass>]
-type FunActor() = 
+type Actor<'TMessage>() = 
    inherit Actor()
+   abstract Receive : 'TMessage -> Task<obj>
+   override this.OnReceive(msg : obj) = this.Receive(msg :?> 'TMessage)
 
-   let mutable _reply = null   
-   let mutable _handler = fun message -> Task.FromResult(null)
-   
-   member this.Reply(result : obj) = _reply <- result
-
-   member this.Receive(handler : 'TMessage -> Task<'TResult>) = 
-      _handler <- fun (msg : obj) -> task {
-         let! result = handler (msg :?> 'TMessage)
-         return result :> obj
-      }
-
-   override this.OnReceive(msg : obj) = task {
-      _reply <- null
-      let! _ = _handler msg
-      return _reply
-   }
-   
 let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)
