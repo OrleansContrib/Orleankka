@@ -9,7 +9,7 @@ type AccountMessage =
    | Balance 
    
 type Account() = 
-   inherit ObjectActor<AccountMessage>()
+   inherit Actor<AccountMessage>()
 
    let mutable balance = 0   
    

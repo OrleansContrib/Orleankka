@@ -192,33 +192,9 @@ let Empty = null
 let Result (result : obj) = result
 
 [<AbstractClass>]
-type ObjectActor<'TMessage>() = 
+type Actor<'TMessage>() = 
    inherit Actor()
    abstract Receive : 'TMessage -> Task<obj>
    override this.OnAsk(msg : obj) = this.Receive(msg :?> 'TMessage)
-   
-
-[<AbstractClass>]
-type FuncActor<'TState>() =
-   inherit Actor()
-   
-   let mutable _reply = null   
-   let mutable _state = Unchecked.defaultof<'TState>
-   let _replyFn (result : obj) = _reply <- result
-   let mutable _handler = fun state message replyFn -> Unchecked.defaultof<Task<'TState>>
-
-   member this.Init(init : 'TState -> 'TState) = _state <- init(_state)
-
-   member this.Receive(handler : 'TState -> 'TMessage -> (obj -> unit) -> Task<'TState>) = 
-      _handler <- 
-         fun (st : 'TState) (msg : obj) (replyFn : obj -> unit) ->
-            handler st (msg :?> 'TMessage) replyFn   
-
-   override this.OnAsk(msg : obj) = task {
-      _reply <- null
-      let! newState = _handler _state msg _replyFn
-      _state <- newState
-      return _reply
-   }
 
 let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)

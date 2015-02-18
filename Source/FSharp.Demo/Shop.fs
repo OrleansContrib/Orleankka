@@ -12,7 +12,7 @@ type ShopMessage =
    | Stock
 
 type Shop() =
-   inherit ObjectActor<ShopMessage>()
+   inherit Actor<ShopMessage>()
    
    let price = 10
    let mutable cash = 0

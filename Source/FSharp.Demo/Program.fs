@@ -22,7 +22,7 @@ let main argv =
     let shop = system.ActorOf<Shop>("Amazon")
     let account = system.ActorOf<Account>("Antya")
    
-    let t = task {
+    task {
 
         let! stock = shop <? Stock
         printfn "Shop has %i items in stock \n" stock
@@ -48,8 +48,8 @@ let main argv =
         let! balance = account <? Balance
         printfn "And account balance is %i \n" balance
     }
-        
-    t.Wait()     
+    |> Task.wait
+
     Console.ReadLine() |> ignore
 
     printfn "%A" argv
