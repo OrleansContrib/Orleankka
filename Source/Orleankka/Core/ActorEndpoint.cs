@@ -41,6 +41,11 @@ namespace Orleankka.Core
             return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
+        public Task<ResponseEnvelope> ReceiveInterleave(RequestEnvelope envelope)
+        {
+            return Receive(envelope);
+        }
+
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
         {
             if (actor == null)

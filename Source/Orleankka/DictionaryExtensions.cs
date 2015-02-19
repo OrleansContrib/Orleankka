@@ -11,5 +11,11 @@ namespace Orleankka
             TResult result;
             return !dictionary.TryGetValue(key, out result) ? null : result;
         }
+
+        public static TResult Find<TKey, TResult>(this IDictionary<TKey, TResult> dictionary, TKey key, TResult @default) where TResult : struct
+        {
+            TResult result;
+            return !dictionary.TryGetValue(key, out result) ? @default : result;
+        }
     }
 }

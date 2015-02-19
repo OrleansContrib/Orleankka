@@ -66,6 +66,7 @@
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
     <Compile Include="Meta.cs" />
     <Compile Include="Codegen\CodegenFixture.cs" />
+    <Compile Include="Scenarios\Message_interleaving.cs" />
     <Compile Include="Scenarios\Observing_notifications.cs" />
     <Compile Include="Scenarios\Request_response.cs" />
     <Compile Include="Scenarios\Type_codes.cs" />

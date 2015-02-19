@@ -101,7 +101,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiFixture.cs" />
     <Compile Include="ReSharper.cs" />
-    <Compile Include="Setup.cs" />
     <Compile Include="TopicFixture.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@
 <#@ import namespace="Orleankka.Codegen" #>
 <#@ output extension=".cs" #>
 using System;
-
 using Orleans.Concurrency;
 
 namespace Orleankka.Core

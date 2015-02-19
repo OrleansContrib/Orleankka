@@ -1,4 +1,10 @@
-﻿using System;
+﻿
+
+
+
+
+
+using System;
 
 using Orleans.Placement;
 using Orleans.Concurrency;
@@ -76,6 +82,7 @@ namespace Orleankka.Core
 			[StatelessWorker]
 			public class ActorEndpoint : Core.ActorEndpoint, IActorEndpoint {}
 		}
+
 
     }
 }

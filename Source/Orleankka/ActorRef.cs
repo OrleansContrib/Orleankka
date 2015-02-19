@@ -62,8 +62,7 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            return endpoint
-                    .Receive(new RequestEnvelope(Serialize(), message))
+            return Receive(message)(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
         }
 
@@ -71,11 +70,17 @@ namespace Orleankka
         {
             Requires.NotNull(message, "message");
 
-            var response = await endpoint
-                    .Receive(new RequestEnvelope(Serialize(), message))
+            var response = await Receive(message)(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
 
             return (TResult) response.Result;
+        }
+
+        Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
+        {
+            return Message.Interleaved(message.GetType()) 
+                       ? (Func<RequestEnvelope, Task<ResponseEnvelope>>) endpoint.ReceiveInterleave 
+                       : endpoint.Receive;
         }
 
         public bool Equals(ActorRef other)
