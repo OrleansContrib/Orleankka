@@ -15,4 +15,35 @@ namespace Orleankka.Core
         Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
         [AlwaysInterleave] Task<ResponseEnvelope> ReceiveInterleave(RequestEnvelope envelope);
     }
+
+    namespace Static
+    {
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.Random
+        /// </summary>
+        public interface IA0 : IActorEndpoint
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.PreferLocal
+        /// </summary>
+        public interface IA1 : IActorEndpoint
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.DistributeEvenly
+        /// </summary>
+        public interface IA2 : IActorEndpoint
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Worker
+        /// </summary>
+        public interface IW : IActorEndpoint
+        {}
+    }
 }

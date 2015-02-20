@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Concurrency;
+using Orleans.Placement;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
@@ -115,5 +117,39 @@ namespace Orleankka.Core
         {
             return ActorEndpointDynamicFactory.Proxy(path);
         }
+    }
+
+    namespace Static
+    {
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.Random
+        /// </summary>
+        public class A0 : ActorEndpoint, IA0
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.PreferLocal
+        /// </summary>
+        [PreferLocalPlacement]
+        public class A1 : ActorEndpoint, IA1
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Actor with Placement.DistributeEvenly
+        /// </summary>
+        [ActivationCountBasedPlacement]
+        public class A2 : ActorEndpoint, IA2
+        {}
+
+        /// <summary>
+        ///   FOR INTERNAL USE ONLY!
+        ///   Worker
+        /// </summary>
+        [StatelessWorker]
+        public class W : ActorEndpoint, IW
+        {}
     }
 }

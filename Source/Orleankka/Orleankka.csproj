@@ -65,6 +65,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorPath.cs" />
+    <Compile Include="Placement.cs" />
     <Compile Include="ActorSystemConfigurator.cs" />
     <Compile Include="AssemblyExtensions.cs" />
     <Compile Include="Client\ClientActorSystem.cs" />
@@ -74,11 +75,6 @@
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
     <Compile Include="Core\ActorAssembly.cs" />
-    <Compile Include="Core\ActorEndpoint.Declarations.cs">
-      <DependentUpon>ActorEndpoint.Declarations.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorEndpointServices.cs" />
     <Compile Include="Core\IActorActivator.cs" />
@@ -113,16 +109,6 @@
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Hardcore\Orleankka.Hardcore.csproj">
-      <Project>{d9a6e703-d3d0-4758-9308-bfef6fc5686b}</Project>
-      <Name>Orleankka.Hardcore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Core\ActorEndpoint.Declarations.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.Declarations.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Playground\Client.xml" />

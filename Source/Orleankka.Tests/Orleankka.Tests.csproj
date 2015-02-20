@@ -65,7 +65,6 @@
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
     <Compile Include="Meta.cs" />
-    <Compile Include="Codegen\CodegenFixture.cs" />
     <Compile Include="Scenarios\Message_interleaving.cs" />
     <Compile Include="Scenarios\Observing_notifications.cs" />
     <Compile Include="Scenarios\Request_response.cs" />
@@ -90,10 +89,6 @@
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Hardcore\Orleankka.Hardcore.csproj">
-      <Project>{d9a6e703-d3d0-4758-9308-bfef6fc5686b}</Project>
-      <Name>Orleankka.Hardcore</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>

@@ -96,11 +96,8 @@ namespace Orleankka
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class ActorAttribute : ActorConfigurationAttribute
+    public class ActorAttribute : Attribute
     {
-        public ActorAttribute(Placement placement = Placement.Auto)
-        {
-            Configuration = ActorConfiguration.Actor(placement, Delivery.Ordered);
-        }
+        public Placement Placement {get; set;}
     }
 }
