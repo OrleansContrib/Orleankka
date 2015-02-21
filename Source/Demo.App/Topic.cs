@@ -21,6 +21,7 @@ namespace Demo
         }
     }
 
+    [Actor(Placement = Placement.DistributeEvenly)]
     public class Topic : Actor
     {
         readonly ITimerService timers;

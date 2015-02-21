@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleankka.Cluster;
 
 namespace Demo
@@ -10,14 +10,21 @@ namespace Demo
     {
         public static ITopicStorage TopicStorage
         {
-            get; internal set;
+            get; private set;
         }
 
         public class Bootstrap : Bootstrapper
         {
+            static bool done;
+
             public override async Task Run(IDictionary<string, string> properties)
             {
+                if (done) 
+                    throw new InvalidOperationException("Already done");
+
                 TopicStorage = await Demo.TopicStorage.Init(properties["account"]);
+
+                done = true;
             }
         }
     }
