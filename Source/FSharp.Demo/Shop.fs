@@ -20,14 +20,14 @@ type Shop() =
    
    override this.Receive message reply = task {
       match message with
-         
+
+      | CheckIn count -> stock <- stock + count   
+      
       | Sell (account, count) ->
          let amount = count * price
          do! account <? Withdraw(amount)
          cash <- cash + amount
-         stock <- stock - count         
-                     
-      | CheckIn count -> stock <- stock + count
+         stock <- stock - count                              
 
       | Cash  -> reply cash
       | Stock -> reply stock

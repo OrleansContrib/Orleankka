@@ -13,11 +13,9 @@ type Account() =
 
    let mutable balance = 0   
    
-   override this.Receive message reply = task {
-      match message with
+   override this.Receive req reply = task {
+      match req with
       | Deposit amount   -> balance <- balance + amount
-
       | Withdraw amount  -> balance <- balance - amount
-
       | Balance          -> reply balance
    }
