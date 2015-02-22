@@ -30,16 +30,16 @@ let main argv =
         printfn "Account balance is %i \n" balance
 
         printfn "Let's put 100$ on the account \n"
-        do! account <? Deposit(100)      
+        do! account <! Deposit(100)      
 
         printfn "Let's put 5 items in stock \n"
-        do! shop <? CheckIn(5)
+        do! shop <! CheckIn(5)
 
         let! stock = shop <? Stock
         printfn "Now shop has %i items in stock \n" stock
 
         printfn "Let's sell 2 items to user \n"
-        do! shop <? Sell(account, 2)      
+        do! shop <! Sell(account, 2)      
 
         let! stock = shop <? Stock
         printfn "Now shop has %i items in stock \n" stock

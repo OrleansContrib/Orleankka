@@ -31,9 +31,9 @@ let main argv =
     let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
     task {
-      do! actor <? Hi
-      do! actor <? Greet "Yevhen"
-      do! actor <? Greet "AntyaDev"
+      do! actor <! Hi
+      do! actor <! Greet "Yevhen"
+      do! actor <! Greet "AntyaDev"
     } 
     |> Task.wait
     

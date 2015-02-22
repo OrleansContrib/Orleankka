@@ -25,7 +25,7 @@ type Shop() =
       
       | Sell (account, count) ->
          let amount = count * price
-         do! account <? Withdraw(amount)
+         do! account <! Withdraw(amount)
          cash <- cash + amount
          stock <- stock - count                              
 
