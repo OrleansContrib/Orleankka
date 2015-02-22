@@ -50,6 +50,16 @@ namespace Orleankka.Scenarios
         }
     }
 
+    public class Detach : Command
+    {
+        public readonly ObserverRef Observer;
+
+        public Detach(ObserverRef observer)
+        {
+            Observer = observer;
+        }
+    }
+
     public class SetReminder : Command
     {}
 
@@ -102,6 +112,12 @@ namespace Orleankka.Scenarios
         public Task<object> Handle(Attach cmd)
         {
             observers.Add(cmd.Observer);
+            return Done();
+        }
+        
+        public Task<object> Handle(Detach cmd)
+        {
+            observers.Remove(cmd.Observer);
             return Done();
         }
 

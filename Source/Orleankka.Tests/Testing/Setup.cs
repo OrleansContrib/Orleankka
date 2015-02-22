@@ -14,6 +14,7 @@ using Orleankka.Testing;
 namespace Orleankka.Testing
 {
     using Core;
+    using Client;
     using Playground;
 
     public class SetupAttribute : TestActionAttribute
@@ -49,11 +50,7 @@ namespace Orleankka.Testing
         static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            Converters =
-            {
-                new ActorRefConverter(), 
-                new ObserverRefConverter()
-            }
+            Converters = {new RefConverter()}
         };
 
         byte[] IMessageSerializer.Serialize(object message)
@@ -68,41 +65,36 @@ namespace Orleankka.Testing
             return JsonConvert.DeserializeObject(data, JsonSerializerSettings);
         }
 
-        class ActorRefConverter : JsonConverter
+        class RefConverter : JsonConverter
         {
             public override bool CanConvert(Type objectType)
             {
-                return typeof(ActorRef) == objectType;
+                return typeof(ActorRef)     == objectType 
+                    || typeof(ClientRef)    == objectType
+                    || typeof(ObserverRef)  == objectType;
             }
 
             public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
             {
-                var @ref = (ActorRef) value;
-                writer.WriteValue(@ref.Serialize());
+                var client = value as ClientRef;
+                if (client != null)
+                {
+                    writer.WriteValue("C__" + client.Serialize());
+                    return;
+                }
+                
+                var actor = (ActorRef) value;
+                writer.WriteValue(actor.Serialize());
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
-                return ActorRef.Deserialize((string)reader.Value);
-            }
-        }
+                var path = (string)reader.Value;
 
-        class ObserverRefConverter : JsonConverter
-        {
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(ObserverRef) == objectType;
-            }
+                if (path.StartsWith("C__"))
+                    return ClientRef.Deserialize(path.Substring(3));
 
-            public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
-            {
-                var @ref = (ObserverRef)value;
-                writer.WriteValue(@ref.Serialize());
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
-            {
-                return ObserverRef.Deserialize((string)reader.Value);
+                return ActorRef.Deserialize(path);
             }
         }
     }

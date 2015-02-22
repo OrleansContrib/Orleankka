@@ -4,13 +4,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
+using Orleans;
+
 namespace Orleankka
 {
     using Core;
 
     [Serializable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef : IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
+    public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
         public static ActorRef Resolve(string path)
         {
@@ -74,6 +76,11 @@ namespace Orleankka
                     .UnwrapExceptions();
 
             return (TResult) response.Result;
+        }
+
+        public override void Notify(object message)
+        {
+            Tell(message).Ignore();
         }
 
         Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,11 +29,27 @@ namespace Orleankka.Scenarios
         }
     }
 
+    public class ReceivedNotifications : Query<object[]>
+    {}
+
     public class TestInsideActor : Actor
     {
+        readonly List<object> objects = new List<object>();
+
         public override Task<object> OnReceive(object message)
         {
             return this.Handle((dynamic)message);
+        }
+
+        public Task<object> Handle(object n)
+        {
+            objects.Add(n);
+            return Done();
+        }
+
+        public Task<object> Handle(ReceivedNotifications q)
+        {
+            return Result(objects.ToArray());
         }
 
         public async Task<object> Handle(DoTell cmd)

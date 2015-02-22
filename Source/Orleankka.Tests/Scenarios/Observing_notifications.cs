@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
-
 using Orleankka.Client;
 
 namespace Orleankka.Scenarios
@@ -22,22 +21,20 @@ namespace Orleankka.Scenarios
             {
                 await actor.Tell(new Attach(observer));
 
-                ActorRef sender = null;
                 TextChanged @event = null;
 
                 var done = new AutoResetEvent(false);
                 var subscription = observer.Subscribe(notification =>
                 {
-                    sender = notification.Sender;
-                    @event = (TextChanged) notification.Message;
+                    @event = (TextChanged) notification;
                     done.Set();
                 });
 
                 await actor.Tell(new SetText("c-a"));
                 done.WaitOne(TimeSpan.FromSeconds(5));
 
-                Assert.That(sender, Is.EqualTo(actor));
-                Assert.That(@event.Text, Is.EqualTo("c-a"));
+                Assert.That(@event.Text, 
+                    Is.EqualTo("c-a"));
 
                 subscription.Dispose();
 
@@ -46,6 +43,28 @@ namespace Orleankka.Scenarios
 
                 Assert.That(@event.Text, Is.EqualTo("c-a"));
             }
+        }
+        
+        [Test]
+        public async void Actor_to_actor()
+        {
+            var actor = system.FreshActorOf<TestActor>();
+            var observer = system.FreshActorOf<TestInsideActor>();
+
+            await actor.Tell(new Attach(observer));
+            await actor.Tell(new SetText("a-a"));
+
+            var received = await observer.Ask<object[]>(new ReceivedNotifications());
+            Assert.That(received.Length, Is.EqualTo(1));
+
+            var @event = (TextChanged) received[0];
+            Assert.That(@event.Text, Is.EqualTo("a-a"));
+
+            await actor.Tell(new Detach(observer));
+            await actor.Tell(new SetText("kaboom"));
+
+            received = await observer.Ask<object[]>(new ReceivedNotifications());
+            Assert.That(received.Length, Is.EqualTo(1), "Nothing new has been received");
         }
     }
 }

@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fixtures\ActorRefFixture.cs" />
-    <Compile Include="Fixtures\ObserverRefFixture.cs" />
+    <Compile Include="Fixtures\ClientRefFixture.cs" />
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
     <Compile Include="Meta.cs" />

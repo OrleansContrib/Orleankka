@@ -67,7 +67,7 @@ namespace Orleankka
             {
                 try
                 {
-                    observer.Notify(new Notification(sender(),  message));
+                    observer.Notify(message);
                 }
                 catch (Exception)
                 {

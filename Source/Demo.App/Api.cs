@@ -34,10 +34,10 @@ namespace Demo
     [Serializable]
     public class AvailabilityChanged : Event
     {
-        public readonly string Api;
+        public readonly ActorRef Api;
         public readonly bool Available;
 
-        public AvailabilityChanged(string api, bool available)
+        public AvailabilityChanged(ActorRef api, bool available)
         {
             Api = api;
             Available = available;
@@ -175,12 +175,12 @@ namespace Demo
 
         void NotifyAvailable()
         {
-            observers.Notify(new AvailabilityChanged(Id, true));
+            observers.Notify(new AvailabilityChanged(Self, true));
         }
 
         void NotifyUnavailable()
         {
-            observers.Notify(new AvailabilityChanged(Id, false));
+            observers.Notify(new AvailabilityChanged(Self, false));
         }
     }
 }

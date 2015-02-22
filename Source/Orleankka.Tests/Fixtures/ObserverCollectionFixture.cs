@@ -5,10 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
 using Orleankka.Client;
-
-using Orleans;
 
 namespace Orleankka.Fixtures
 {
@@ -45,9 +42,7 @@ namespace Orleankka.Fixtures
                 Is.EqualTo(1));
 
             var notification = observer.Notifications[0];
-            
-            Assert.That(notification.Sender, Is.EqualTo(@ref));
-            Assert.That(notification.Message, Is.EqualTo("foo"));
+            Assert.That(notification, Is.EqualTo("foo"));
         }
         
         [Test]
@@ -83,16 +78,16 @@ namespace Orleankka.Fixtures
                 return new TestObserver(observer);
             }
 
-            public readonly List<Notification> Notifications = new List<Notification>();
+            public readonly List<object> Notifications = new List<object>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
             readonly Observer observer;
 
             TestObserver(Observer observer)
             {
                 this.observer = observer;
-                observer.Subscribe(notification =>
+                observer.Subscribe(message =>
                 {
-                    Notifications.Add(notification);
+                    Notifications.Add(message);
                     Received.Set();
                 });
             }

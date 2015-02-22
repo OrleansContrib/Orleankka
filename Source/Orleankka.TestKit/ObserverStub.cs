@@ -8,10 +8,10 @@ namespace Orleankka.TestKit
     public class ObserverStub : Observer
     {
         protected ObserverStub()
-            : base(new ObserverRefStub(Guid.NewGuid().ToString("D")))
+            : base(new ObserverRefStub())
         {}
 
-        public override IDisposable Subscribe(IObserver<Notification> observer)
+        public override IDisposable Subscribe(IObserver<object> observer)
         {
             return new DisposableStub();
         }

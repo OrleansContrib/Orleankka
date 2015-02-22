@@ -11,12 +11,10 @@ namespace Orleankka.Core
     /// </summary>
     public sealed class NotificationEnvelope
     {
-        public readonly string Sender;
         public readonly object Message;
 
-        internal NotificationEnvelope(string sender, object message)
+        internal NotificationEnvelope(object message)
         {
-            Sender = sender;
             Message = message;
         }
 
@@ -24,8 +22,6 @@ namespace Orleankka.Core
         internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
         {
             var envelope = (NotificationEnvelope)obj;
-            stream.Write(envelope.Sender);
-
             var bytes = MessageEnvelope.Serializer.Serialize(envelope.Message);
             SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
         }
@@ -33,12 +29,9 @@ namespace Orleankka.Core
         [DeserializerMethod]
         internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
         {
-            var sender = stream.ReadString();
-
             var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
             var message = MessageEnvelope.Serializer.Deserialize(bytes);
-
-            return new NotificationEnvelope(sender, message);
+            return new NotificationEnvelope(message);
         }
 
         [CopierMethod]

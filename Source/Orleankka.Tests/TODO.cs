@@ -14,6 +14,7 @@ namespace Orleankka
             // - Envelope and Body attributte
             // - Proper selection of Receive channel based on Body type
             // - Proper dispatching in TypeActor based on Body type
+            // - Notification is actually just an Envelope. Mark it!
         }
 
         [Test, Ignore]

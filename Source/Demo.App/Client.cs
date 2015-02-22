@@ -40,14 +40,14 @@ namespace Demo
             }
         }
     
-        static void LogToConsole(Notification notification)
+        static void LogToConsole(object message)
         {
-            var e = (AvailabilityChanged) notification.Message;
+            var e = (AvailabilityChanged) message;
 
             Log.Message(
                 !e.Available ? ConsoleColor.Red : ConsoleColor.Green,
                 !e.Available ? "*{0}* gone wild. Unavailable!" : "*{0}* is back available again!", 
-                notification.Sender);
+                e.Api);
         }
     }
 }

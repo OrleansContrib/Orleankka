@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 namespace Orleankka.Client
 {
-    using Core;
-
     /// <summary>
     /// Allows clients to receive push-based notifications from actors, ie observing them.
     /// <para>
@@ -13,7 +11,7 @@ namespace Orleankka.Client
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    public class Observer : IObservable<Notification>, IDisposable
+    public class Observer : IObservable<object>, IDisposable
     {
         /// <summary>
         /// Creates new <see cref="Observer"/>
@@ -21,11 +19,11 @@ namespace Orleankka.Client
         /// <returns>New instance of <see cref="Observer"/></returns>
         public static async Task<Observer> Create()
         {
-            var proxy = await ObserverEndpoint.Create();
+            var proxy = await ClientEndpoint.Create();
             return new Observer(proxy);
         }
 
-        readonly ObserverEndpoint endpoint;
+        readonly ClientEndpoint endpoint;
         readonly ObserverRef @ref;
 
         protected Observer(ObserverRef @ref)
@@ -33,7 +31,7 @@ namespace Orleankka.Client
             this.@ref = @ref;
         }
 
-        Observer(ObserverEndpoint endpoint) 
+        Observer(ClientEndpoint endpoint) 
             : this(endpoint.Self)
         {
             this.endpoint = endpoint;
@@ -44,7 +42,7 @@ namespace Orleankka.Client
             endpoint.Dispose();
         }
 
-        public virtual IDisposable Subscribe(IObserver<Notification> observer)
+        public virtual IDisposable Subscribe(IObserver<object> observer)
         {
             return endpoint.Subscribe(observer);
         }
@@ -66,23 +64,23 @@ namespace Orleankka.Client
         /// </returns>
         /// <param name="client">The instance of client observable proxy</param>
         /// <param name="callback">The callback delegate that is to receive notifications</param>
-        public static IDisposable Subscribe(this Observer client, Action<Notification> callback)
+        public static IDisposable Subscribe(this Observer client, Action<object> callback)
         {
             Requires.NotNull(callback, "callback");
 
             return client.Subscribe(new DelegateObserver(callback));
         }
 
-        class DelegateObserver : IObserver<Notification>
+        class DelegateObserver : IObserver<object>
         {
-            readonly Action<Notification> callback;
+            readonly Action<object> callback;
 
-            public DelegateObserver(Action<Notification> callback)
+            public DelegateObserver(Action<object> callback)
             {
                 this.callback = callback;
             }
 
-            public void OnNext(Notification value)
+            public void OnNext(object value)
             {
                 callback(value);
             }

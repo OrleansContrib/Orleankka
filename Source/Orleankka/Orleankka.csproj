@@ -65,6 +65,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorPath.cs" />
+    <Compile Include="Client\ClientRef.cs" />
     <Compile Include="Placement.cs" />
     <Compile Include="ActorSystemConfigurator.cs" />
     <Compile Include="AssemblyExtensions.cs" />
@@ -78,13 +79,12 @@
     <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorEndpointServices.cs" />
     <Compile Include="Core\IActorActivator.cs" />
-    <Compile Include="Core\ObserverEndpoint.cs" />
+    <Compile Include="Client\ClientEndpoint.cs" />
     <Compile Include="Annotations.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="Notification.cs" />
     <Compile Include="ObserverRef.cs" />
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />

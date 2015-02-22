@@ -58,10 +58,10 @@
     <Compile Include="IActorEndpoint.cs" />
     <Compile Include="IMessageSerializer.cs" />
     <Compile Include="MessageEnvelope.cs" />
+    <Compile Include="NotificationEnvelope.cs" />
     <Compile Include="RequestEnvelope.cs" />
     <Compile Include="ResponseEnvelope.cs" />
-    <Compile Include="IObserverEndpoint.cs" />
-    <Compile Include="NotificationEnvelope.cs" />
+    <Compile Include="IClientEndpoint.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
