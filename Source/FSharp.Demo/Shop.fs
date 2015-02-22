@@ -18,19 +18,17 @@ type Shop() =
    let mutable cash = 0
    let mutable stock = 0   
    
-   override this.Receive(message) = task {
+   override this.Receive message reply = task {
       match message with
          
       | Sell (account, count) ->
          let amount = count * price
          do! account <? Withdraw(amount)
          cash <- cash + amount
-         stock <- stock - count
-         return Empty
+         stock <- stock - count         
                      
       | CheckIn count -> stock <- stock + count
-                         return Empty
 
-      | Cash  -> return Result(cash)
-      | Stock -> return Result(stock)
+      | Cash  -> reply cash
+      | Stock -> reply stock
    }     

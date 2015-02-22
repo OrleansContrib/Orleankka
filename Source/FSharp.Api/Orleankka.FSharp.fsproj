@@ -10,7 +10,7 @@
     <RootNamespace>Orleankka.FSharp</RootNamespace>
     <AssemblyName>Orleankka.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <Name>Orleankka.FSharp</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -58,16 +58,27 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="Prelude.fs" />
-    <Compile Include="FsApi.fs" />
+    <Compile Include="System.fs" />
+    <Compile Include="Task.fs" />
+    <Compile Include="Actor.fs" />
+    <Compile Include="FuncActor.fs" />
     <Content Include="FSharp.Core.optdata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FSharp.Core.sigdata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Quotations.Evaluator">
+      <HintPath>..\..\packages\FSharp.Quotations.Evaluator.1.0.4\lib\net40\FSharp.Quotations.Evaluator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FsPickler">
+      <HintPath>..\..\packages\FsPickler.1.0.11\lib\net45\FsPickler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
