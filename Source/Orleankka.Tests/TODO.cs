@@ -14,7 +14,6 @@ namespace Orleankka
             // - Envelope and Body attributte
             // - Proper selection of Receive channel based on Body type
             // - Proper dispatching in TypeActor based on Body type
-            // - Notification is actually just an Envelope. Mark it!
         }
 
         [Test, Ignore]
@@ -46,9 +45,8 @@ namespace Orleankka
         [Test, Ignore]
         public void Messages()
         {
-            // - Require [Message] attribute for all in/out message classes ???
             // - Add support (deep-copy) for mutable (yay) messages
-            // - Support weak (name convention) attribute definition, 
+            // - Support weak (naming convention) attribute definition, 
             //   to remove dependency on Orleankka from message contract lib ???
         }
     }

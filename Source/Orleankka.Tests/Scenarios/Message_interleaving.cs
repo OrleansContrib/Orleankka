@@ -55,10 +55,10 @@ namespace Orleankka.Scenarios
         public TimeSpan Delay;
     }
 
-    [Message(Interleave = true)]
     class Read : Query<int> 
     {}
 
+    [Interleave(typeof(Read))]
     class ReaderWriterLockActor : Actor
     {
         long currentValue;

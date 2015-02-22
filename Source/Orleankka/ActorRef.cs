@@ -85,7 +85,7 @@ namespace Orleankka
 
         Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
         {
-            return Message.Interleaved(message.GetType()) 
+            return ActorDefinition.Of(Path.Type).Interleaved(message.GetType()) 
                        ? (Func<RequestEnvelope, Task<ResponseEnvelope>>) endpoint.ReceiveInterleave 
                        : endpoint.Receive;
         }

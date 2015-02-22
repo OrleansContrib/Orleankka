@@ -9,8 +9,8 @@ namespace Orleankka.Core
     {
         public static void Reset()
         {
-            Message.Reset();
             ActorTypeCode.Reset();
+            ActorDefinition.Reset();
             ActorEndpointDynamicFactory.Reset();
         }
 
@@ -22,9 +22,6 @@ namespace Orleankka.Core
 
         public static void Register(Assembly assembly)
         {
-            foreach (var type in assembly.GetTypes())
-                Message.Register(type);
-            
             var actors = assembly
                 .GetTypes()
                 .Where(x =>
@@ -34,6 +31,7 @@ namespace Orleankka.Core
             foreach (var type in actors)
             {
                 ActorTypeCode.Register(type);
+                ActorDefinition.Register(type);
                 ActorEndpointDynamicFactory.Register(type);
             }
         }

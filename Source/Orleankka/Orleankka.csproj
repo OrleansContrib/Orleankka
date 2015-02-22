@@ -84,7 +84,7 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="InterleaveAttribute.cs" />
     <Compile Include="ObserverRef.cs" />
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />
