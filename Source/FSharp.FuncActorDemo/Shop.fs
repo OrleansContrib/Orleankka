@@ -11,11 +11,7 @@ type ShopMessage =
    | Cash
    | Stock
 
-type private ShopState = {
-   Price : int
-   Cash : int
-   Stock : int
-}
+type private ShopState = { Price : int; Cash : int; Stock : int }
 
 let ShopActor = actor {
    name "Shop"
