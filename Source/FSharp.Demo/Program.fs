@@ -3,7 +3,6 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.System
 
 open Shop
 open Account
@@ -36,7 +35,7 @@ let main argv =
         printfn "Let's put 5 items in stock \n"
         do! shop <? CheckIn(5)
 
-        let! shopItems = shop <? Stock
+        let! stock = shop <? Stock
         printfn "Now shop has %i items in stock \n" stock
 
         printfn "Let's sell 2 items to user \n"

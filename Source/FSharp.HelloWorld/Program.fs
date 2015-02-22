@@ -3,7 +3,6 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.System
 
 type Message = 
    | Greet of string
@@ -12,12 +11,11 @@ type Message =
 type Greeter() = 
    inherit Actor<Message>()   
 
-   override this.Receive(message) = task {
+   override this.Receive message reply = task {
       match message with
       | Greet who -> printfn "Hello %s" who
-      | Hi -> printfn "Hello from F#!"     
-      return Empty
-   }     
+      | Hi -> printfn "Hello from F#!"           
+   }
 
 [<EntryPoint>]
 let main argv = 
