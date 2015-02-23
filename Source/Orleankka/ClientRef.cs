@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Orleankka.Client
+namespace Orleankka
 {
     using Core;
-
+    
     [Serializable]
     [DebuggerDisplay("{ToString()}")]
     public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>, ISerializable

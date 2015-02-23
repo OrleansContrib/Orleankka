@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 
 using Orleans.Runtime;
 
-namespace Orleankka.Client
+namespace Orleankka.Core
 {
-    using Core;
-
     class ClientEndpoint : IClientEndpoint, IDisposable
     {
         public static async Task<ClientEndpoint> Create()
