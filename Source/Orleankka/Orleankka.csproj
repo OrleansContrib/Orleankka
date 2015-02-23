@@ -64,7 +64,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
-    <Compile Include="ActorDefinition.cs" />
+    <Compile Include="ActorPrototype.cs" />
     <Compile Include="ActorPath.cs" />
     <Compile Include="ActorAttributes.cs" />
     <Compile Include="ClientRef.cs" />

@@ -58,7 +58,7 @@ namespace Orleankka.Scenarios
     class Read : Query<int> 
     {}
 
-    [Interleave(typeof(Read))]
+    [Reentrant(typeof(Read))]
     class ReaderWriterLockActor : Actor
     {
         long currentValue;

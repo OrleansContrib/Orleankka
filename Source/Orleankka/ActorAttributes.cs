@@ -16,11 +16,11 @@ namespace Orleankka
     {}
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-    public class InterleaveAttribute : Attribute
+    public class ReentrantAttribute : Attribute
     {
         internal readonly Type Message;
 
-        public InterleaveAttribute(Type message)
+        public ReentrantAttribute(Type message)
         {
             Requires.NotNull(message, "message");
             Message = message;
