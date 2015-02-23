@@ -10,6 +10,7 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Client
 {
     using Core;
+    using Utility;
 
     public sealed class ClientConfigurator
     {

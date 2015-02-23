@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 namespace Orleankka
 {
     using Core;
+    using Utility;
     
     [Serializable]
     [DebuggerDisplay("{ToString()}")]

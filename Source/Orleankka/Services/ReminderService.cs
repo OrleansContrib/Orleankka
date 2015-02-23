@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Core;
-
 using Orleans.Runtime;
 
 namespace Orleankka.Services
 {
+    using Core;
+    using Utility;
+
     /// <summary>
     /// Manages registration of durable actor reminders
     /// </summary>

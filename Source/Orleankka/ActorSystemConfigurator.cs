@@ -6,6 +6,7 @@ using System.Reflection;
 namespace Orleankka
 {
     using Core;
+    using Utility;
 
     public interface IActorSystemConfigurator : IDisposable
     {

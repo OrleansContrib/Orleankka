@@ -6,6 +6,8 @@ using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
+    using Utility;
+
     class ClientEndpoint : IClientEndpoint, IDisposable
     {
         public static async Task<ClientEndpoint> Create()

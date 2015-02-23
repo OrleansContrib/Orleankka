@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Orleankka
+namespace Orleankka.Utility
 {
     static class DictionaryExtensions
     {

@@ -10,6 +10,7 @@ namespace Orleankka.Embedded
     using Core;
     using Client;
     using Cluster;
+    using Utility;
 
     public class EmbeddedConfigurator
     {

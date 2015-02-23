@@ -11,6 +11,7 @@ using Orleans.Runtime.Host;
 namespace Orleankka.Cluster
 {
     using Core;
+    using Utility;
 
     public sealed class ClusterConfigurator : MarshalByRefObject
     {

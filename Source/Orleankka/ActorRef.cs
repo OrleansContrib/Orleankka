@@ -9,7 +9,8 @@ using Orleans;
 namespace Orleankka
 {
     using Core;
-
+    using Utility;
+    
     [Serializable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable

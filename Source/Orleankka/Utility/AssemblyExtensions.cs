@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 
-namespace Orleankka
+namespace Orleankka.Utility
 {
     public static class AssemblyExtensions
     {

@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Orleankka
 {
+    using Utility;
+
     static class ActorTypeCode
     {
         static readonly Dictionary<string, Type> codeMap =

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -9,6 +7,7 @@ using Orleans;
 namespace Orleankka
 {
     using Core;
+    using Utility;
 
     public abstract class Actor
     {
@@ -96,68 +95,5 @@ namespace Orleankka
         }
 
         static readonly Task<object> CompletedTask = Task.FromResult((object)null);
-        
-        class Message
-        {
-            static readonly Dictionary<Type, Type> interleaved =
-                        new Dictionary<Type, Type>();
-
-            internal static void Register(MemberInfo actor)
-            {
-            }
-
-            internal static void Reset()
-            {
-                interleaved.Clear();
-            }
-
-            internal static bool Interleaved(Type message)
-            {
-                return interleaved.ContainsKey(message);
-            }
-
-        }
-    }
-
-    class ActorDefinition
-    {
-        static readonly Dictionary<Type, ActorDefinition> cache =
-                    new Dictionary<Type, ActorDefinition>();
-
-        readonly HashSet<Type> interleave;
-
-        internal static void Register(Type actor)
-        {
-            var definition = new ActorDefinition(actor);
-            cache.Add(actor, definition);
-        }
-
-        internal static void Reset()
-        {
-            cache.Clear();
-        }
-
-        internal static ActorDefinition Of(Type actor)
-        {
-            ActorDefinition definition = cache.Find(actor);
-            return definition ?? new ActorDefinition(actor);
-        }
-
-        ActorDefinition(Type actor)
-        {
-            var attributes = actor.GetCustomAttributes<InterleaveAttribute>(inherit: true);
-            interleave = new HashSet<Type>(attributes.Select(x => x.Message));
-        }
-
-        internal bool Interleaved(Type message)
-        {
-            return interleave.Contains(message);
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class ActorAttribute : Attribute
-    {
-        public Placement Placement {get; set;}
     }
 }

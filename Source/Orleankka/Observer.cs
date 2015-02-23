@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Core;
-
 namespace Orleankka
 {
+    using Core;
+    using Utility;
+
     /// <summary>
     /// Allows clients to receive push-based notifications from actors, ie observing them.
     /// <para>
