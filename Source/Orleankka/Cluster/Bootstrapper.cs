@@ -39,6 +39,7 @@ namespace Orleankka.Cluster
             Name = name;
 
             var type = Type.GetType(config.Properties[TypeKey]);
+            config.Properties.Remove(TypeKey);
             Debug.Assert(type != null);
 
             var bootstrapper = (Bootstrapper)Activator.CreateInstance(type);
