@@ -14,7 +14,6 @@ using Orleankka.Testing;
 namespace Orleankka.Testing
 {
     using Core;
-    using Client;
     using Playground;
 
     public class SetupAttribute : TestActionAttribute

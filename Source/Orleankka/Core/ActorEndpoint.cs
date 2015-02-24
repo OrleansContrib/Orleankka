@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -43,8 +44,12 @@ namespace Orleankka.Core
             return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
-        public Task<ResponseEnvelope> ReceiveInterleave(RequestEnvelope envelope)
+        public Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope)
         {
+            #if DEBUG
+                CallContext.LogicalSetData("ReceiveReentrant", envelope.Message);
+            #endif
+
             return Receive(envelope);
         }
 

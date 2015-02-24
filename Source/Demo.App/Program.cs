@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Orleankka;
-using Orleankka.Client;
 using Orleankka.Playground;
 
 namespace Demo

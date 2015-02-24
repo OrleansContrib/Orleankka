@@ -13,7 +13,7 @@ namespace Orleankka.Core
     public interface IActorEndpoint : IGrainWithStringKey, IRemindable
     {
         Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-        [AlwaysInterleave] Task<ResponseEnvelope> ReceiveInterleave(RequestEnvelope envelope);
+        [AlwaysInterleave] Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope);
     }
 
     namespace Static
