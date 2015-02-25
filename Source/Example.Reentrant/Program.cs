@@ -34,7 +34,7 @@ namespace Example
 
         static async void Run(IActorSystem system)
         {
-            var rwx = system.ActorOf<RWLock>("rw-x");
+            var rwx = system.ActorOf<ReaderWriterLock>("rw-x");
             await rwx.Ask<int>(new Read()); // warm-up
 
             var writes = new List<Task>

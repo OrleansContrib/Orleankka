@@ -18,7 +18,7 @@ namespace Example
     {}
 
     [Reentrant(typeof(Read))]
-    public class RWLock : Actor
+    public class ReaderWriterLock : Actor
     {
         int currentValue;
 
