@@ -23,41 +23,38 @@ namespace Example
                 .Register(Assembly.GetExecutingAssembly())
                 .Done();
 
-            Run(system);
+            Run(system).Wait();
 
-            Console.WriteLine("Press any key to terminate ...");
+            Console.Write("\n\nPress any key to terminate ...");
             Console.ReadKey(true);
 
             system.Dispose();            
             Environment.Exit(0);
         }
 
-        static async void Run(IActorSystem system)
+        static async Task Run(IActorSystem system)
         {
             var rwx = system.ActorOf<ReaderWriterLock>("rw-x");
             await rwx.Ask<int>(new Read()); // warm-up
 
             var writes = new List<Task>
             {
-                rwx.Tell(new Write {Value = 1, Delay = TimeSpan.FromMilliseconds(800)}),
-                rwx.Tell(new Write {Value = 2, Delay = TimeSpan.FromMilliseconds(200)}),
+                rwx.Tell(new Write {Value = 1, Delay = TimeSpan.FromMilliseconds(1400)}),
+                rwx.Tell(new Write {Value = 2, Delay = TimeSpan.FromMilliseconds(600)}),
             };
 
             var cts = new CancellationTokenSource();
             var reads = new List<int>();
 
             Console.Write("\nReads: ");
-            
-            int left = Console.CursorLeft;
-            int top = Console.CursorTop;
+            var indicator = ConsolePosition.Current();
 
             Task.Run(async () =>
             {
                 while (!cts.Token.IsCancellationRequested)
                 {
                     reads.Add(await rwx.Ask<int>(new Read()));
-                    Console.SetCursorPosition(left, top);
-                    Console.Write(reads.Count);
+                    indicator.Write(reads.Count);
                 }
             },
             cts.Token).Ignore();

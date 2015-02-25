@@ -20,10 +20,8 @@ namespace Example
     [Reentrant(typeof(Read))]
     public class ReaderWriterLock : Actor
     {
-        int currentValue;
-
-        int left;
-        int top;
+        int value;
+        ConsolePosition indicator;
 
         public override Task<object> OnReceive(object message)
         {
@@ -32,28 +30,25 @@ namespace Example
 
         public override Task OnActivate()
         {
-            Console.Write("\nWrites: 0");
-
-            left = Console.CursorLeft - 1;
-            top = Console.CursorTop;
+            Console.Write("\nWrites: ");
+            indicator = ConsolePosition.Current();
 
             return base.OnActivate();
         }
 
         public async Task<object> On(Write req)
         {
-            currentValue = req.Value;
+            value = req.Value;
+            
+            indicator.Write(value);
             await Task.Delay(req.Delay);
-
-            Console.SetCursorPosition(left, top);
-            Console.Write(req.Value);
-
+            
             return null;
         }
 
         public Task<object> On(Read req)
         {
-            return Result(currentValue);
+            return Result(value);
         }
     }
 }
