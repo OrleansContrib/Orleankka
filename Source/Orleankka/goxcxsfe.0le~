@@ -52,7 +52,11 @@ namespace Orleankka
                                    (m.Name == "On" || m.Name == "Handle"));
 
             foreach (var method in methods)
-                handlers.Add(method.GetParameters()[0].ParameterType, Bind.Handler(method, actor));
+            {
+                handlers.Add(
+                    method.GetParameters()[0].ParameterType, 
+                    Bind.Handler(method, actor));
+            }
         }
 
         internal bool IsReentrant(Type message)
@@ -73,7 +77,7 @@ namespace Orleankka
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException
         {
-            const string description = "Can't find handler for '{0}'.\r\nCheck that handler method is public, has single arg and named 'On' or 'Handle'";
+            const string description = "Can't find handler for '{0}'.\r\nCheck that handling method is public, has single arg and named 'On' or 'Handle'";
 
             internal HandlerNotFoundException(Type message)
                 : base(string.Format(description, message))
@@ -90,28 +94,25 @@ namespace Orleankka
 
             public static Func<object, object, Task<object>> Handler(MethodInfo method, Type actor)
             {
-                if (typeof(Task).IsAssignableFrom(method.ReturnType))
+                const BindingFlags publicStatic = BindingFlags.Public | BindingFlags.Static;
+                var request = method.GetParameters()[0].ParameterType;
+
+                if (method.ReturnType.IsAssignableFrom(typeof(Task<>)))
                 {
-                    return method.ReturnType.GenericTypeArguments.Length != 0 
-                            ? Lambda(typeof(Async<>), "Func", method.ReturnType.GenericTypeArguments[0], method, actor) 
-                            : Lambda(typeof(Async<>), "Action", null, method, actor);
+                    var binder = typeof(Async<>)
+                        .MakeGenericType(request)
+                        .GetMethod("Func", publicStatic)
+                        .MakeGenericMethod(method.ReturnType.GenericTypeArguments);
+
+                    return Async.Func(method, actor);
                 }
 
-                return method.ReturnType != typeof(void) 
-                        ? Lambda(typeof(NonAsync<>), "Func", method.ReturnType, method, actor) 
-                        : Lambda(typeof(NonAsync<>), "Action", null, method, actor);
-            }
+                if (method.ReturnType.IsAssignableFrom(typeof(Task)))
+                    return Async.Action(method, actor);
 
-            static Func<object, object, Task<object>> Lambda(Type binder, string kind, Type arg, MethodInfo method, Type type)
-            {
-                var compiler = binder
-                    .MakeGenericType(method.GetParameters()[0].ParameterType)
-                    .GetMethod(kind, BindingFlags.Public | BindingFlags.Static);
-
-                if (arg != null)
-                    compiler = compiler.MakeGenericMethod(arg);
-                
-                return (Func<object, object, Task<object>>) compiler.Invoke(null, new object[] {method, type});
+                return method.ReturnType != typeof(Void) 
+                        ? NonAsync.Func(method, actor) 
+                        : NonAsync.Action(method, actor);
             }
 
             static class NonAsync<TRequest>
@@ -233,7 +234,7 @@ namespace Orleankka
                     return async (t, r) =>
                     {
                         await func(r);
-                        return null;
+                        return Done;
                     };
                 }
 
@@ -251,7 +252,7 @@ namespace Orleankka
                     return async (t, r) =>
                     {
                         await func(t, r);
-                        return null;
+                        return Done;
                     };
                 }
             }

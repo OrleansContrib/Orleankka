@@ -60,12 +60,6 @@ namespace Demo
             total = await storage.ReadTotalAsync(Id);
         }
 
-        public override async Task<object> OnReceive(object message)
-        {
-            await Handle((dynamic)message);
-            return null;
-        }
-
         public async Task Handle(CreateTopic cmd)
         {
             query = cmd.Query;

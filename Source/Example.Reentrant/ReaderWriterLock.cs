@@ -23,32 +23,23 @@ namespace Example
         int value;
         ConsolePosition indicator;
 
-        public override Task<object> OnReceive(object message)
-        {
-            return this.On((dynamic)message);
-        }
-
         public override Task OnActivate()
         {
             Console.Write("\nWrites: ");
             indicator = ConsolePosition.Current();
-
             return base.OnActivate();
         }
 
-        public async Task<object> On(Write req)
+        public async Task On(Write req)
         {
             value = req.Value;
-            
             indicator.Write(value);
             await Task.Delay(req.Delay);
-            
-            return null;
         }
 
-        public Task<object> On(Read req)
+        public int On(Read req)
         {
-            return Result(value);
+            return value;
         }
     }
 }

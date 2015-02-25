@@ -53,16 +53,14 @@ namespace Orleankka.Scenarios
             await actor.Tell(new Attach(observer));
             await actor.Tell(new SetText("a-a"));
 
-            var received = await observer.Ask<object[]>(new ReceivedNotifications());
+            var received = await observer.Ask<TextChanged[]>(new ReceivedNotifications());
             Assert.That(received.Length, Is.EqualTo(1));
-
-            var @event = (TextChanged) received[0];
-            Assert.That(@event.Text, Is.EqualTo("a-a"));
+            Assert.That(received[0].Text, Is.EqualTo("a-a"));
 
             await actor.Tell(new Detach(observer));
             await actor.Tell(new SetText("kaboom"));
 
-            received = await observer.Ask<object[]>(new ReceivedNotifications());
+            received = await observer.Ask<TextChanged[]>(new ReceivedNotifications());
             Assert.That(received.Length, Is.EqualTo(1), "Nothing new has been received");
         }
     }

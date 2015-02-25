@@ -67,6 +67,7 @@
     <Compile Include="Meta.cs" />
     <Compile Include="Scenarios\Reentrant_messages.cs" />
     <Compile Include="Scenarios\Observing_notifications.cs" />
+    <Compile Include="Scenarios\Automatic_handler_wiring.cs" />
     <Compile Include="Scenarios\Request_response.cs" />
     <Compile Include="Scenarios\Type_codes.cs" />
     <Compile Include="Scenarios\Unwrapping_exceptions.cs" />

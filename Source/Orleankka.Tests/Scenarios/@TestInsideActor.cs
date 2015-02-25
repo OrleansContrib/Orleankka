@@ -17,7 +17,7 @@ namespace Orleankka.Scenarios
         }
     }
 
-    public class DoAsk : Query<object>
+    public class DoAsk : Query<string>
     {
         public readonly ActorRef Target;
         public readonly object Message;
@@ -29,38 +29,31 @@ namespace Orleankka.Scenarios
         }
     }
 
-    public class ReceivedNotifications : Query<object[]>
+    public class ReceivedNotifications : Query<TextChanged[]>
     {}
 
     public class TestInsideActor : Actor
     {
-        readonly List<object> objects = new List<object>();
+        readonly List<TextChanged> notifications = new List<TextChanged>();
 
-        public override Task<object> OnReceive(object message)
+        public void Handle(TextChanged notification)
         {
-            return this.Handle((dynamic)message);
+            notifications.Add(notification);
         }
 
-        public Task<object> Handle(object n)
+        public TextChanged[] Handle(ReceivedNotifications query)
         {
-            objects.Add(n);
-            return Done();
+            return notifications.ToArray();
         }
 
-        public Task<object> Handle(ReceivedNotifications q)
-        {
-            return Result(objects.ToArray());
-        }
-
-        public async Task<object> Handle(DoTell cmd)
+        public async Task Handle(DoTell cmd)
         {
             await cmd.Target.Tell(cmd.Message);
-            return Done();
         }
 
-        public Task<object> Handle(DoAsk query)
+        public Task<string> Handle(DoAsk query)
         {
-            return query.Target.Ask<object>(query.Message);
+            return query.Target.Ask<string>(query.Message);
         }
     }
 }

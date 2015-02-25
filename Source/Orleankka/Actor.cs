@@ -25,11 +25,12 @@ namespace Orleankka
             System = system;
         }
 
-        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint)
+        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint, ActorPrototype prototype)
         {
             Id = id;
             System = system;
             Endpoint = endpoint;
+            _ = prototype;
         }
 
         public string Id
@@ -45,6 +46,11 @@ namespace Orleankka
         internal ActorEndpoint Endpoint
         {
             get; private set;
+        }
+
+        ActorPrototype _
+        {
+            get; set;
         }
 
         public ActorRef Self
@@ -68,7 +74,7 @@ namespace Orleankka
 
         public virtual Task<object> OnReceive(object message)
         {
-            throw NotImplemented("OnReceive");
+            return _.Dispatch(this, message);
         }
 
         public virtual Task OnReminder(string id)
@@ -83,17 +89,5 @@ namespace Orleankka
                 method, GetType())
             );
         }
-
-        protected static Task<object> Done()
-        {
-            return CompletedTask;
-        }
-
-        protected static Task<object> Result<T>(T arg)
-        {
-            return Task.FromResult((object)arg);
-        }
-
-        static readonly Task<object> CompletedTask = Task.FromResult((object)null);
     }
 }

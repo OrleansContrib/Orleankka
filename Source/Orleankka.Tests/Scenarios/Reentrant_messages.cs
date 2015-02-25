@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
-using System.Threading.Tasks;
 
 using NUnit.Framework;
 
@@ -29,9 +28,14 @@ namespace Orleankka.Scenarios
         [Reentrant(typeof(ReentrantMessage))]
         class TestReentrantActor : Actor
         {
-            public override Task<object> OnReceive(object message)
+            public bool Handle(RegularMessage message)
             {
-                return Result(CallContext.LogicalGetData("ReceiveReentrant") == message);
+                return CallContext.LogicalGetData("ReceiveReentrant") == message;
+            }
+
+            public bool Handle(ReentrantMessage message)
+            {
+                return CallContext.LogicalGetData("ReceiveReentrant") == message;
             }
         }
     }

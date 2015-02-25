@@ -72,4 +72,27 @@ namespace Example
                 "Should see all changes of the write sequence");
         }
     }
+
+    class ConsolePosition
+    {
+        readonly int left;
+        readonly int top;
+
+        ConsolePosition(int left, int top)
+        {
+            this.left = left;
+            this.top = top;
+        }
+
+        public void Write(object obj)
+        {
+            Console.SetCursorPosition(left, top);
+            Console.Write(obj);
+        }
+
+        public static ConsolePosition Current()
+        {
+            return new ConsolePosition(Console.CursorLeft, Console.CursorTop);
+        }
+    }
 }
