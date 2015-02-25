@@ -33,11 +33,13 @@ namespace Orleankka
         {
             // - Finish actor system configuration
         }
-
+        
         [Test, Ignore]
-        public void TypedActors()
+        public void ActorPrototype()
         {
-            // - TypedActor with automatic handler wire-up and ability to override dispatch (On, Via)
+            // - Allow to override automatic handler wire-up
+            // - Allow to specify reentrant message types, via lambda
+            // - Prototype extensibility?
         }
 
         [Test, Ignore]
