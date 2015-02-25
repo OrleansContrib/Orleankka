@@ -71,7 +71,7 @@ void Merge()
         Directory.CreateDirectory(mergeDir);
 
     Cmd(@"Packages\ilmerge.2.14.1208\tools\ILMerge.exe /copyattrs /target:library /xmldocs /lib:{ReleasePath}" +
-        @" /out:{mergeDir}\Orleankka.dll Orleankka.dll Orleankka.Core.dll Orleankka.Hardcore.dll");
+        @" /out:{mergeDir}\Orleankka.dll Orleankka.dll Orleankka.Core.dll");
 }
 
 void Pack(string project, string properties = null)
