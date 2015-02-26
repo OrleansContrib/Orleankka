@@ -13,7 +13,7 @@ namespace Orleankka
         {
             // - Envelope and Body attributte
             // - Proper selection of Receive channel based on Body type
-            // - Proper dispatching in TypeActor based on Body type
+            // - Proper dispatching based on Body type
         }
 
         [Test, Ignore]
@@ -38,7 +38,6 @@ namespace Orleankka
         public void ActorPrototype()
         {
             // - Allow to override automatic handler wire-up
-            // - Allow to specify reentrant message types, via lambda
             // - Prototype extensibility?
         }
 
