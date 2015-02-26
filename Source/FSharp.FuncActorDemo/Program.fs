@@ -13,7 +13,7 @@ let main argv =
    printfn "Running demo. Booting cluster might take some time ...\n"
    
    use system = playgroundActorSystem()
-                |> registerFuncActors [ShopActor; AccountActor]
+                |> registerFuncActors <@[ShopActor; AccountActor]@>
                 |> start
 
    let shop = spawn system ShopActor "Amazon"

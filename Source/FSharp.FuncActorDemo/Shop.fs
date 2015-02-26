@@ -13,8 +13,7 @@ type ShopMessage =
 
 type private ShopState = { Price : int; Cash : int; Stock : int }
 
-let ShopActor = actor {
-   name "Shop"
+let ShopActor = actor {   
    init (fun shop -> { Price = 10; Cash = 0; Stock = 0 })
    receive (fun shop message context -> task {
       match message with
