@@ -30,7 +30,7 @@ namespace Orleankka
             Id = id;
             System = system;
             Endpoint = endpoint;
-            _ = prototype;
+            Prototype = prototype;
         }
 
         public string Id
@@ -48,7 +48,7 @@ namespace Orleankka
             get; private set;
         }
 
-        ActorPrototype _
+        internal ActorPrototype Prototype
         {
             get; set;
         }
@@ -74,20 +74,24 @@ namespace Orleankka
 
         public virtual Task<object> OnReceive(object message)
         {
-            return _.Dispatch(this, message);
+            return Prototype.Dispatch(this, message);
         }
 
         public virtual Task OnReminder(string id)
         {
-            throw NotImplemented("OnReminder");
+            var message = string.Format("Override {0}() method in class {1} to implement corresponding behavior", 
+                                        "OnReminder", GetType());
+
+            throw new NotImplementedException(message);
         }
 
-        NotImplementedException NotImplemented(string method)
+        protected internal virtual void Define()
+        {}
+
+        protected void Reentrant(Func<object, bool> predicate)
         {
-            return new NotImplementedException(String.Format(
-                "Override {0}() method in class {1} to implement corresponding behavior", 
-                method, GetType())
-            );
+            Requires.NotNull(predicate, "predicate");
+            Prototype.RegisterReentrant(predicate);
         }
     }
 }

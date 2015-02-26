@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,20 +11,37 @@ namespace Orleankka
 {
     using Utility;
 
+    [DebuggerDisplay("_.{actor}")]
     class ActorPrototype
     {
         static readonly Dictionary<Type, ActorPrototype> cache =
                     new Dictionary<Type, ActorPrototype>();
 
+        readonly Type actor;
+        
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers = 
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        readonly HashSet<Type> reentrant;
+        HashSet<Type> reentrant = new HashSet<Type>();
+        Func<object, bool> isReentrant;
+
+        bool closed;
 
         internal static void Register(Type actor)
         {
             var prototype = new ActorPrototype(actor);
-            cache.Add(actor, prototype);
+
+            var instance = (Actor) Activator.CreateInstance(actor, nonPublic: true);
+            instance.Prototype = prototype;
+            instance.Define();
+
+            cache.Add(actor, prototype.Close());
+        }
+
+        ActorPrototype Close()
+        {
+            closed = true;
+            return this;
         }
 
         internal static void Reset()
@@ -39,25 +57,79 @@ namespace Orleankka
 
         ActorPrototype(Type actor)
         {
-            var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true);
-            reentrant = new HashSet<Type>(attributes.Select(x => x.Message));
-
-            var methods = actor.GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                               .Where(m =>
-                                   m.IsPublic &&
-                                   m.GetParameters().Length == 1 &&
-                                   !m.GetParameters()[0].IsOut &&
-                                   !m.GetParameters()[0].IsRetval &&
-                                   !m.IsGenericMethod && !m.ContainsGenericParameters &&                                   
-                                   (m.Name == "On" || m.Name == "Handle"));
-
-            foreach (var method in methods)
-                handlers.Add(method.GetParameters()[0].ParameterType, Bind.Handler(method, actor));
+            this.actor = actor;
+                        
+            RegisterReentrant();
+            RegisterHandlers();
         }
 
-        internal bool IsReentrant(Type message)
+        void RegisterReentrant()
         {
-            return reentrant.Contains(message);
+            var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true);
+
+            foreach (var attribute in attributes)
+            {
+                if (reentrant.Contains(attribute.Message))
+                    throw new InvalidOperationException(
+                        string.Format("{0} was already registered as Reentrant", attribute.Message));
+
+                reentrant.Add(attribute.Message);
+            }
+
+            isReentrant = message => reentrant.Contains(message.GetType());
+        }
+
+        public void RegisterReentrant(Func<object, bool> predicate)
+        {
+            AssertClosed();
+
+            if (reentrant == null)
+                throw new InvalidOperationException(
+                    "Reentrant message predicate has been set already");
+
+            if (reentrant.Count > 0)
+                throw new InvalidOperationException(
+                    "Either declarative or imperative definition of reentrant messages can be used at a time");
+
+            isReentrant = predicate;
+            reentrant = null;
+        }
+
+        internal bool IsReentrant(object message)
+        {
+            return isReentrant(message);
+        }
+
+        void RegisterHandlers()
+        {
+            var methods = actor.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                               .Where(m =>
+                                      m.IsPublic &&
+                                      m.GetParameters().Length == 1 &&
+                                      !m.GetParameters()[0].IsOut &&
+                                      !m.GetParameters()[0].IsRetval &&
+                                      !m.IsGenericMethod && !m.ContainsGenericParameters &&
+                                      (m.Name == "On" || m.Name == "Handle"));
+
+            foreach (var method in methods)
+                RegisterHandler(method.GetParameters()[0].ParameterType, Bind.Handler(method, actor));
+        }
+
+        void RegisterHandler(Type message, Func<object, object, Task<object>> handler)
+        {
+            AssertClosed();
+
+            if (handlers.ContainsKey(message))
+                throw new InvalidOperationException(
+                    string.Format("Handler for {0} has been already defined by {1}", message, actor));
+
+            handlers.Add(message, handler);
+        }
+
+        void AssertClosed()
+        {
+            if (closed)
+                throw new InvalidOperationException("Actor prototype can only be defined within Define() method");
         }
 
         internal Task<object> Dispatch(Actor target, object message)

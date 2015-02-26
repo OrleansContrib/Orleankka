@@ -12,11 +12,26 @@ namespace Orleankka.Scenarios
         static readonly IActorSystem system = ActorSystem.Instance;
 
         [Test]
-        public async void Should_deliver_to_interleaved_receive_channel()
+        public async void Reentrant_could_be_defined_via_attribute()
         {
-            var reentrant = system.FreshActorOf<TestReentrantActor>();
-            Assert.That(await reentrant.Ask<bool>(new RegularMessage()), Is.False);
-            Assert.That(await reentrant.Ask<bool>(new ReentrantMessage()), Is.True);
+            var actor = system.FreshActorOf<TestReentrantDefinedViaAttributeActor>();
+            Assert.That(await actor.Ask<bool>(new RegularMessage()), Is.False);
+            Assert.That(await actor.Ask<bool>(new ReentrantMessage()), Is.True);
+        }
+        
+        [Test]
+        public async void Reentrant_could_be_defined_via_prototype()
+        {
+            var actor = system.FreshActorOf<TestReentrantDefinedViaPrototypeActor>();
+            Assert.That(await actor.Ask<bool>(new RegularMessage()), Is.False);
+            Assert.That(await actor.Ask<bool>(new ReentrantMessage()), Is.True);
+        }
+
+        [Test]
+        public void Reentrant_cannot_be_defined_outside_of_prototype_definition()
+        {
+            var actor = system.FreshActorOf<TestReentrantDefinedOutsideOfPrototypeActor>();
+            Assert.Throws<InvalidOperationException>(async ()=> await actor.Tell("boo"));
         }
 
         class RegularMessage
@@ -25,8 +40,7 @@ namespace Orleankka.Scenarios
         class ReentrantMessage
         {}
 
-        [Reentrant(typeof(ReentrantMessage))]
-        class TestReentrantActor : Actor
+        abstract class TestReentrantActorBase : Actor
         {
             public bool Handle(RegularMessage message)
             {
@@ -36,6 +50,26 @@ namespace Orleankka.Scenarios
             public bool Handle(ReentrantMessage message)
             {
                 return CallContext.LogicalGetData("ReceiveReentrant") == message;
+            }
+        }
+
+        [Reentrant(typeof(ReentrantMessage))]
+        class TestReentrantDefinedViaAttributeActor : TestReentrantActorBase
+        {}
+
+        class TestReentrantDefinedViaPrototypeActor : TestReentrantActorBase
+        {
+            protected internal override void Define()
+            {
+                Reentrant(x => x is ReentrantMessage);
+            }
+        }
+
+        class TestReentrantDefinedOutsideOfPrototypeActor : TestReentrantActorBase
+        {
+            public void Handle(string message)
+            {
+                Reentrant(x => x is ReentrantMessage);
             }
         }
     }
