@@ -112,13 +112,16 @@ namespace Orleankka
                                       (m.Name == "On" || m.Name == "Handle"));
 
             foreach (var method in methods)
-                RegisterHandler(method.GetParameters()[0].ParameterType, Bind.Handler(method, actor));
+                RegisterHandler(method);
         }
 
-        void RegisterHandler(Type message, Func<object, object, Task<object>> handler)
+        public void RegisterHandler(MethodInfo method)
         {
             AssertClosed();
 
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.Handler(method, actor);
+            
             if (handlers.ContainsKey(message))
                 throw new InvalidOperationException(
                     string.Format("Handler for {0} has been already defined by {1}", message, actor));
