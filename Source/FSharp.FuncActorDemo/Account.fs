@@ -9,8 +9,7 @@ type AccountMessage =
    | Withdraw of int
    | Balance
 
-let AccountActor = actor {
-   name "Account"
+let AccountActor = actor {   
    init (fun balance -> 0)
    receive (fun balance message context -> task {
       match message with
