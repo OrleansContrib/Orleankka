@@ -11,17 +11,11 @@ namespace Orleankka
         [Test, Ignore]
         public void Envelopes()
         {
-            // - Envelope and Body attributte
+            // - Envelope and Body attribute
             // - Proper selection of Receive channel based on Body type
             // - Proper dispatching based on Body type
         }
 
-        [Test, Ignore]
-        public void Serialization()
-        {
-            // - Add support for native Orleans serializer
-        }
-        
         [Test, Ignore]
         public void AutomaticDeactivation()
         {
@@ -29,16 +23,9 @@ namespace Orleankka
         }
 
         [Test, Ignore]
-        public void AzureSystem()
+        public void Serialization()
         {
-            // - Finish actor system configuration
-        }
-        
-        [Test, Ignore]
-        public void ActorPrototype()
-        {
-            // - Allow to override automatic handler wire-up
-            // - Prototype extensibility?
+            // - Add support for native Orleans serializer
         }
 
         [Test, Ignore]
@@ -50,11 +37,21 @@ namespace Orleankka
         }
 
         [Test, Ignore]
-        public void Messages()
+        public void AzureSystem()
+        {
+            // - Finish actor system configuration
+        }
+
+        [Test, Ignore]
+        public void ActorPrototype()
+        {
+            // - Prototype extensibility?
+        }
+
+        [Test, Ignore]
+        public void MutableMessages()
         {
             // - Add support (deep-copy) for mutable (yay) messages
-            // - Support weak (naming convention) attribute definition, 
-            //   to remove dependency on Orleankka from message contract lib ???
         }
     }
 }
