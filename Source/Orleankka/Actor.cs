@@ -74,7 +74,7 @@ namespace Orleankka
 
         public virtual Task<object> OnReceive(object message)
         {
-            return Prototype.Dispatch(this, message);
+            return DispatchAsync(message);
         }
 
         public virtual Task OnReminder(string id)
@@ -88,10 +88,62 @@ namespace Orleankka
         protected internal virtual void Define()
         {}
 
-        protected void Reentrant(Func<object, bool> predicate)
+        protected void Reentrant(Func<object, bool> evaluator)
         {
-            Requires.NotNull(predicate, "predicate");
-            Prototype.RegisterReentrant(predicate);
+            Requires.NotNull(evaluator, "evaluator");
+            Prototype.RegisterReentrant(evaluator);
+        }
+
+        protected void Dispatch(object message)
+        {
+            Requires.NotNull(message, "message");
+            Prototype.Dispatch(this, message);
+        }
+
+        protected TResult DispatchResult<TResult>(object message)
+        {
+            return (TResult) DispatchResult(message);
+        }
+
+        protected object DispatchResult(object message)
+        {
+            Requires.NotNull(message, "message");
+            return Prototype.DispatchResult(this, message);
+        }
+
+        protected async Task<TResult> DispatchAsync<TResult>(object message)
+        {
+            return (TResult) await DispatchAsync(message);
+        }
+
+        protected Task<object> DispatchAsync(object message)
+        {
+            Requires.NotNull(message, "message");
+            return Prototype.DispatchAsync(this, message);
+        }
+
+        protected void On<TRequest, TResult>(Func<TRequest, TResult> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
+        }
+
+        protected void On<TRequest, TResult>(Func<TRequest, Task<TResult>> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
+        }
+
+        protected void On<TRequest>(Action<TRequest> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
+        }
+
+        protected void On<TRequest>(Func<TRequest, Task> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
         }
     }
 }

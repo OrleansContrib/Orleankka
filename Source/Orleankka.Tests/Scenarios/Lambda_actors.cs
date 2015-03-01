@@ -20,7 +20,7 @@ namespace Orleankka.Scenarios
             Assert.AreEqual("c-a", await actor.Ask<string>(new GetText()));
         }
 
-        class TestLambdaActor : LambdaActor
+        class TestLambdaActor : Actor
         {
             string text = "{}";
 
@@ -36,7 +36,7 @@ namespace Orleankka.Scenarios
             }
         }
 
-        class AnotherTestLambdaActor : LambdaActor
+        class AnotherTestLambdaActor : Actor
         {
             protected internal override void Define()
             {

@@ -27,10 +27,10 @@ namespace Orleankka.Scenarios
             Assert.That(await actor.Ask<string>(new HandleResultMessage()), Is.EqualTo("42"));
             Assert.That(await actor.Ask<string>(new HandleAsyncResultMessage()), Is.EqualTo("42"));
 
-            Assert.Throws<ActorPrototype.HandlerNotFoundException>(
+            Assert.Throws<Dispatcher.HandlerNotFoundException>(
                 async ()=> await actor.Tell(new NonPublicHandlerMessage()));
-            
-            Assert.Throws<ActorPrototype.HandlerNotFoundException>(
+
+            Assert.Throws<Dispatcher.HandlerNotFoundException>(
                 async ()=> await actor.Tell(new NonSingleArgumentHandlerMessage()));
         }
 

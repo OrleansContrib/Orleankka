@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Orleankka.Utility
+namespace Orleankka
 {
     namespace Annotations
     {
