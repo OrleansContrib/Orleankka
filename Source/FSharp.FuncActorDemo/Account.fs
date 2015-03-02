@@ -15,7 +15,7 @@ let AccountActor = actor {
       match message with
       | Deposit amount   -> return balance + amount
       | Withdraw amount  -> return balance - amount
-      | Balance          -> context.Response <- balance
+      | Balance          -> context.Reply(balance)
                             return balance
    })
 }

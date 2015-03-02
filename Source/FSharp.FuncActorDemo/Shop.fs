@@ -23,12 +23,13 @@ let ShopActor = actor {
       | Sell (account, count) ->
          let amount = count * shop.Price
          do! account <? Withdraw(amount)
-         return { shop with Cash = shop.Cash + amount; Stock = shop.Stock - count }         
+         return { shop with Cash = shop.Cash + amount;
+                            Stock = shop.Stock - count }
       
-      | Cash  -> context.Response <- shop.Cash
+      | Cash  -> context.Reply(shop.Cash)
                  return shop
 
-      | Stock -> context.Response <- shop.Stock
+      | Stock -> context.Reply(shop.Stock)
                  return shop
    })
 }
