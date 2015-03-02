@@ -15,9 +15,11 @@ open Orleankka.Embedded
 open FSharp.Quotations.Evaluator
 open Nessos.FsPickler
 
-type ActorContext = { 
-   mutable Response : obj
-}
+type ActorContext(id : string, self : ActorRef) =    
+   member this.Id = id
+   member this.Self = self   
+   member this.Reply(result : obj) : unit = this.Response <- result
+   member val internal Response = null with get, set
 
 type private Init = obj -> obj
 type private Receive = obj -> obj -> ActorContext -> Task<obj>
@@ -57,15 +59,16 @@ let private actorConfigs = Dictionary<string, ActorConfig>()
 
 type private FuncActor() =
    inherit Actor()
-      
-   let _context = { Response = null }
+   
    let mutable _state = null
    let mutable _receive = Unchecked.defaultof<Receive>
+   let mutable _context = Unchecked.defaultof<ActorContext>
 
    override this.OnActivate() = 
       let config = actorConfigs.[base.Id.Split([|':'|], count = 2).[0]]
       _state <- config.Init(_state)
       _receive <- config.Receive
+      _context <- ActorContext(this.Id, this.Self)
       TaskDone.Done
 
    override this.OnReceive(msg : obj) = task {
