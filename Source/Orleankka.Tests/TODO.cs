@@ -9,11 +9,9 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void Envelopes()
+        public void MessageHandlers()
         {
-            // - Envelope and Body attribute
-            // - Proper selection of Receive channel based on Body type
-            // - Proper dispatching based on Body type
+            // - Support specifying "method missiing" handler via prototype ???
         }
 
         [Test, Ignore]

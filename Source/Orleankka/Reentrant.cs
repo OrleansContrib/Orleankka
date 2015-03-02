@@ -5,6 +5,8 @@ using System.Reflection;
 
 namespace Orleankka
 {
+    using Utility;
+
     class Reentrant
     {
         HashSet<Type> messages = new HashSet<Type>();
@@ -43,6 +45,18 @@ namespace Orleankka
         public bool IsReentrant(object message)
         {
             return evaluator(message);
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public class ReentrantAttribute : Attribute
+    {
+        internal readonly Type Message;
+
+        public ReentrantAttribute(Type message)
+        {
+            Requires.NotNull(message, "message");
+            Message = message;
         }
     }
 }
