@@ -224,18 +224,25 @@
         </member>
         <member name="T:Orleans.AzureUtils.AzureQueueDataManager">
             <summary>
-            Utility class to encapsulate access to Azure queue storage .
+            Utility class to encapsulate access to Azure queue storage.
             </summary>
             <remarks>
             Used by Azure queue streaming provider.
             </remarks>
+        </member>
+        <member name="M:Orleans.AzureUtils.AzureQueueDataManager.#ctor(System.String,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="queueName">Name of the queue to be connected to.</param>
+            <param name="storageConnectionString">Connection string for the Azure storage account used to host this table.</param>
         </member>
         <member name="M:Orleans.AzureUtils.AzureQueueDataManager.#ctor(System.String,System.String,System.String)">
             <summary>
             Constructor.
             </summary>
             <param name="queueName">Name of the queue to be connected to.</param>
-            <param name="deploymentId">The deployment id pf the Azure service hosting this silo.</param>
+            <param name="deploymentId">The deployment id of the Azure service hosting this silo. It will be concatenated to the queueName.</param>
             <param name="storageConnectionString">Connection string for the Azure storage account used to host this table.</param>
         </member>
         <member name="M:Orleans.AzureUtils.AzureQueueDataManager.InitQueueAsync">
@@ -253,7 +260,7 @@
             Clears the queue.
             </summary>
         </member>
-        <member name="M:Orleans.AzureUtils.AzureQueueDataManager.AddQueueMessage(Microsoft.WindowsAzure.StorageClient.CloudQueueMessage)">
+        <member name="M:Orleans.AzureUtils.AzureQueueDataManager.AddQueueMessage(Microsoft.WindowsAzure.Storage.Queue.CloudQueueMessage)">
             <summary>
             Adds a new message to the queue.
             </summary>
@@ -275,7 +282,7 @@
             </summary>
             <param name="count">Number of messages to get from the queue.</param>
         </member>
-        <member name="M:Orleans.AzureUtils.AzureQueueDataManager.DeleteQueueMessage(Microsoft.WindowsAzure.StorageClient.CloudQueueMessage)">
+        <member name="M:Orleans.AzureUtils.AzureQueueDataManager.DeleteQueueMessage(Microsoft.WindowsAzure.Storage.Queue.CloudQueueMessage)">
             <summary>
             Deletes a messages from the queue.
             </summary>
@@ -296,6 +303,11 @@
             <remarks>
             These functions are mostly intended for internal usage by Orleans runtime, but due to certain assembly packaging constrants this class needs to have public visibility.
             </remarks>
+        </member>
+        <member name="F:Orleans.AzureUtils.AzureStorageUtils.ANY_ETAG">
+            <summary>
+            ETag of value "*" to match any etag for conditional table operations (update, nerge, delete).
+            </summary>
         </member>
         <member name="M:Orleans.AzureUtils.AzureStorageUtils.TableStorageDataNotFound(System.Exception)">
             <summary>
@@ -336,6 +348,13 @@
             <param name="httpStatusCode">HTTP status code to be examined.</param>
             <returns>Returns <c>true</c> if the HTTP status code is due to storage contention.</returns>
         </member>
+        <member name="M:Orleans.AzureUtils.AzureStorageUtils.IsNotFoundError(System.Net.HttpStatusCode)">
+            <summary>
+            Check whether a HTTP status code returned from a REST call might be due to a (temporary) storage contention error.
+            </summary>
+            <param name="httpStatusCode">HTTP status code to be examined.</param>
+            <returns>Returns <c>true</c> if the HTTP status code is due to storage contention.</returns>
+        </member>
         <member name="T:Orleans.AzureUtils.AzureTableDefaultPolicies">
             <summary>
             Utility class for default retry / timeout settings for Azure storage.
@@ -346,7 +365,7 @@
         </member>
         <member name="T:Orleans.AzureUtils.AzureTableDataManager`1">
             <summary>
-            Utility class to encapsulate row-based access to Azure table storage .
+            Utility class to encapsulate row-based access to Azure table storage.
             </summary>
             <remarks>
             These functions are mostly intended for internal usage by Orleans runtime, but due to certain assembly packaging constrants this class needs to have public visibility.
@@ -387,6 +406,13 @@
             <param name="data">Data to be inserted or replaced in the table.</param>
             <returns>Value promise with new Etag for this data entry after completing this storage operation.</returns>
         </member>
+        <member name="M:Orleans.AzureUtils.AzureTableDataManager`1.MergeTableEntryAsync(`0,System.String)">
+            <summary>
+            Merges a data entry in the Azure table, without checking eTags.
+            </summary>
+            <param name="data">Data to be merged in the table.</param>
+            <returns>Value promise with new Etag for this data entry after completing this storage operation.</returns>
+        </member>
         <member name="M:Orleans.AzureUtils.AzureTableDataManager`1.UpdateTableEntryAsync(`0,System.String)">
             <summary>
             Updates a data entry in the Azure table: updates an already existing data in the table, by using eTag.
@@ -424,7 +450,7 @@
             Read all entries in the table.
             NOTE: This could be a very expensive and slow operation for large tables!
             </summary>
-            <returns>Enumeration of all entries in the table</returns>
+            <returns>Enumeration of all entries in the table.</returns>
         </member>
         <member name="M:Orleans.AzureUtils.AzureTableDataManager`1.DeleteTableEntriesAsync(System.Collections.Generic.IReadOnlyCollection{System.Tuple{`0,System.String}})">
             <summary>
@@ -441,6 +467,14 @@
             <param name="predicate">Predicate function to use for querying the table and filtering the results.</param>
             <returns>Enumeration of entries in the table which match the query condition.</returns>
         </member>
+        <member name="M:Orleans.AzureUtils.AzureTableDataManager`1.BulkInsertTableEntries(System.Collections.Generic.IReadOnlyCollection{`0})">
+            <summary>
+            Inserts a set of new data entries into the table.
+            Fails if the data does already exists.
+            </summary>
+            <param name="list">List of data entries to be inserted into the table.</param>
+            <returns>Completion promise for this storage operation.</returns>
+        </member>
         <member name="P:Orleans.AzureUtils.AzureTableDataManager`1.TableName">
             <summary> Name of the table this instance is managing. </summary>
         </member>
@@ -450,7 +484,13 @@
         <member name="P:Orleans.AzureUtils.AzureTableDataManager`1.ConnectionString">
             <summary> Connection string for the Azure storage account used to host this table. </summary>
         </member>
-        <member name="M:Orleans.AzureUtils.OrleansSiloInstanceManager.InsertSiloEntryConditionally(Orleans.AzureUtils.SiloInstanceTableEntry,Orleans.AzureUtils.SiloInstanceTableEntry,System.String,System.Boolean)">
+        <member name="M:Orleans.AzureUtils.OrleansSiloInstanceManager.TryCreateTableVersionEntryAsync">
+            <summary>
+            Insert (create new) row entry
+            </summary>
+            <param name="siloEntry">Silo Entry to be written</param>
+        </member>
+        <member name="M:Orleans.AzureUtils.OrleansSiloInstanceManager.InsertSiloEntryConditionally(Orleans.AzureUtils.SiloInstanceTableEntry,Orleans.AzureUtils.SiloInstanceTableEntry,System.String)">
             <summary>
             Insert (create new) row entry
             </summary>
@@ -477,19 +517,19 @@
         <member name="M:Orleans.IGrainState.ClearStateAsync">
             <summary>
             Async method to cause the current grain state data to be cleared and reset. 
-            This will usually mean the state record is deleted from backin store, but the specific behavior is defined by the storage provider instance configured for this grain.
+            This will usually mean the state record is deleted from backing store, but the specific behavior is defined by the storage provider instance configured for this grain.
             If Etags do not match, then this operation will fail; Set Etag = <c>null</c> to indicate "always delete".
             </summary>
         </member>
         <member name="M:Orleans.IGrainState.WriteStateAsync">
             <summary>
-            Async method to cause write of the current grain state data into backin store.
+            Async method to cause write of the current grain state data into backing store.
             If Etags do not match, then this operation will fail; Set Etag = <c>null</c> to indicate "always overwrite".
             </summary>
         </member>
         <member name="M:Orleans.IGrainState.ReadStateAsync">
             <summary>
-            Async method to cause refresh of the current grain state data from backin store.
+            Async method to cause refresh of the current grain state data from backing store.
             Any previous contents of the grain state data will be overwritten.
             </summary>
         </member>
@@ -544,18 +584,18 @@
         </member>
         <member name="M:Orleans.CodeGeneration.GrainState.ReadStateAsync">
             <summary>
-            Async method to cause refresh of the current grain state data from backin store.
+            Async method to cause refresh of the current grain state data from backing store.
             Any previous contents of the grain state data will be overwritten.
             </summary>
         </member>
         <member name="M:Orleans.CodeGeneration.GrainState.WriteStateAsync">
             <summary>
-            Async method to cause write of the current grain state data into backin store.
+            Async method to cause write of the current grain state data into backing store.
             </summary>
         </member>
         <member name="M:Orleans.CodeGeneration.GrainState.ClearStateAsync">
             <summary>
-            Async method to cause write of the current grain state data into backin store.
+            Async method to cause write of the current grain state data into backing store.
             </summary>
         </member>
         <member name="M:Orleans.CodeGeneration.GrainState.AsDictionary">
@@ -688,6 +728,12 @@
             Signifies that an attempt was made to invoke a grain extension method on a grain where that extension was not installed.
             </summary>
         </member>
+        <member name="T:Orleans.Runtime.GuidId">
+            <summary>
+            Wrapper object around Guid.
+            Can be used in places where Guid is optional and in those cases it can be set to null and will not use the storage of an empty Guid struct.
+            </summary>
+        </member>
         <member name="T:Orleans.Messaging.GatewayManager">
             <summary>
             The GatewayManager class holds the list of known gateways, as well as maintaining the list of "dead" gateways.
@@ -727,6 +773,7 @@
                 assemblies to be loaded based on examination of their ReflectionOnly type
                 information (e.g. AssemblyLoaderCriteria.LoadTypesAssignableFrom).</param>
             <param name="logger">A logger to provide feedback to.</param>
+            <returns>List of discovered assembly locations</returns>
         </member>
         <member name="T:Orleans.Storage.IMemoryStorageGrain">
             <summary>
@@ -849,6 +896,16 @@
             Factory for accessing grains.
             </summary>
         </member>
+        <member name="F:Orleans.GrainFactory.referenceCreators">
+            <summary>
+            The collection of <see cref="T:Orleans.IGrainObserver"/> <c>CreateObjectReference</c> delegates.
+            </summary>
+        </member>
+        <member name="F:Orleans.GrainFactory.referenceDestoyers">
+            <summary>
+            The collection of <see cref="T:Orleans.IGrainObserver"/> <c>DeleteObjectReference</c> delegates.
+            </summary>
+        </member>
         <member name="M:Orleans.GrainFactory.GetGrain``1(System.Guid,System.String)">
             <summary>
             Gets a reference to a grain.
@@ -875,6 +932,36 @@
             <param name="primaryKey">The primary key of the grain.</param>
             <param name="grainClassNamePrefix">An optional class name prefix used to find the runtime type of the grain.</param>
             <returns></returns>
+        </member>
+        <member name="M:Orleans.GrainFactory.CreateObjectReference``1(Orleans.IGrainObserver)">
+            <summary>
+            Creates a reference to the provided <paramref name="obj"/>.
+            </summary>
+            <typeparam name="TGrainObserverInterface">
+            The specific <see cref="T:Orleans.IGrainObserver"/> type of <paramref name="obj"/>.
+            </typeparam>
+            <param name="obj">The object to create a reference to.</param>
+            <returns>The reference to <paramref name="obj"/>.</returns>
+        </member>
+        <member name="M:Orleans.GrainFactory.DeleteObjectReference``1(Orleans.IGrainObserver)">
+            <summary>
+            Deletes the provided object reference.
+            </summary>
+            <typeparam name="TGrainObserverInterface">
+            The specific <see cref="T:Orleans.IGrainObserver"/> type of <paramref name="obj"/>.
+            </typeparam>
+            <param name="obj">The reference being deleted.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the work performed.</returns>
+        </member>
+        <member name="M:Orleans.GrainFactory.MakeFactoryDelegate(System.Type,System.String,System.Type)">
+            <summary>
+            Creates a delegate for calling into the static method named <paramref name="methodName"/> on the generated
+            factory for <paramref name="interfaceType"/>.
+            </summary>
+            <param name="interfaceType">The interface type.</param>
+            <param name="methodName">The name of the static factory method.</param>
+            <param name="delegateType">The type of delegate to create.</param>
+            <returns>The created delegate.</returns>
         </member>
         <member name="M:Orleans.GrainFactory.CheckRuntimeEnvironmentSetup">
             <summary>
@@ -1366,6 +1453,205 @@
             <param name="entry"></param>
             <returns></returns>
         </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onErrorAsync">Delegte that is called for IAsyncObserver.OnErrorAsync.</param>
+            <param name="onCompletedAsync">Delegte that is called for IAsyncObserver.OnCompletedAsync.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.</returns>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Threading.Tasks.Task})">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onErrorAsync">Delegte that is called for IAsyncObserver.OnErrorAsync.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.</returns>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onCompletedAsync">Delegte that is called for IAsyncObserver.OnCompletedAsync.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.</returns>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task})">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.</returns>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken,Orleans.Streams.StreamFilterPredicate,System.Object)">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onErrorAsync">Delegte that is called for IAsyncObserver.OnErrorAsync.</param>
+            <param name="onCompletedAsync">Delegte that is called for IAsyncObserver.OnCompletedAsync.</param>
+            <param name="token">The stream sequence to be used as an offset to start the subscription from.</param>
+            <param name="filterFunc">Filter to be applied for this subscription</param>
+            <param name="filterData">Data object that will be passed in to the filterFunc.
+            This will usually contain any paramaters required by the filterFunc to make it's filtering decision.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.
+            </returns>
+            <exception cref="T:System.ArgumentException">Thrown if the supplied stream filter function is not suitable. 
+            Usually this is because it is not a static method. </exception>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Exception,System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken,Orleans.Streams.StreamFilterPredicate,System.Object)">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onErrorAsync">Delegte that is called for IAsyncObserver.OnErrorAsync.</param>
+            <param name="token">The stream sequence to be used as an offset to start the subscription from.</param>
+            <param name="filterFunc">Filter to be applied for this subscription</param>
+            <param name="filterData">Data object that will be passed in to the filterFunc.
+            This will usually contain any paramaters required by the filterFunc to make it's filtering decision.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.
+            </returns>
+            <exception cref="T:System.ArgumentException">Thrown if the supplied stream filter function is not suitable. 
+            Usually this is because it is not a static method. </exception>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},System.Func{System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken,Orleans.Streams.StreamFilterPredicate,System.Object)">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="onCompletedAsync">Delegte that is called for IAsyncObserver.OnCompletedAsync.</param>
+            <param name="token">The stream sequence to be used as an offset to start the subscription from.</param>
+            <param name="filterFunc">Filter to be applied for this subscription</param>
+            <param name="filterData">Data object that will be passed in to the filterFunc.
+            This will usually contain any paramaters required by the filterFunc to make it's filtering decision.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.
+            </returns>
+            <exception cref="T:System.ArgumentException">Thrown if the supplied stream filter function is not suitable. 
+            Usually this is because it is not a static method. </exception>
+        </member>
+        <member name="M:Orleans.Streams.AsyncObservableExtensions.SubscribeAsync``1(Orleans.Streams.IAsyncObservable{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken,Orleans.Streams.StreamFilterPredicate,System.Object)">
+            <summary>
+            Subscribe a consumer to this observable using delegates.
+            This method is a helper for the IAsyncObservable.SubscribeAsync allowing the subscribing class to inline the 
+            handler methods instead of requiring an instance of IAsyncObserver.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+            <param name="obs">The Observable object.</param>
+            <param name="onNextAsync">Delegte that is called for IAsyncObserver.OnNextAsync.</param>
+            <param name="token">The stream sequence to be used as an offset to start the subscription from.</param>
+            <param name="filterFunc">Filter to be applied for this subscription</param>
+            <param name="filterData">Data object that will be passed in to the filterFunc.
+            This will usually contain any paramaters required by the filterFunc to make it's filtering decision.</param>
+            <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
+            The consumer may unsubscribe by using this handle.
+            The subscription remains active for as long as it is not explicitely unsubscribed.
+            </returns>
+            <exception cref="T:System.ArgumentException">Thrown if the supplied stream filter function is not suitable. 
+            Usually this is because it is not a static method. </exception>
+        </member>
+        <member name="T:Orleans.Streams.GenericAsyncObserver`1">
+            <summary>
+            Class used by the IAsyncObservable extension methods to allow observation via delegate.
+            </summary>
+            <typeparam name="T">The type of object produced by the observable.</typeparam>
+        </member>
+        <member name="T:Orleans.Streams.IAsyncObserver`1">
+            <summary>
+            This interface generalizes the standard .NET IObserver interface to allow asynchronous production of items.
+            <para>
+            Note that this interface is implemented by item consumers and invoked (used) by item producers.
+            This means that the producer endpoint of a stream implements this interface.
+            </para>
+            </summary>
+            <typeparam name="T">The type of object consumed by the observer.</typeparam>
+        </member>
+        <member name="M:Orleans.Streams.IAsyncObserver`1.OnNextAsync(`0,Orleans.Streams.StreamSequenceToken)">
+            <summary>
+            Passes the next item to the consumer.
+            <para>
+            The Task returned from this method should be completed when the item's processing has been
+            sufficiently processed by the consumer to meet any behavioral guarantees.
+            </para>
+            <para>
+            When the consumer is the (producer endpoint of) a stream, the Task is completed when the stream implementation
+            has accepted responsibility for the item and is assured of meeting its delivery guarantees.
+            For instance, a stream based on a durable queue would complete the Task when the item has been durably saved.
+            A stream that provides best-effort at most once delivery would return a Task that is already complete.
+            </para>
+            <para>
+            When the producer is the (consumer endpoint of) a stream, the Task should be completed by the consumer code
+            when it has accepted responsibility for the item. 
+            In particular, if the stream provider guarantees at-least-once delivery, then the item should not be considered
+            delivered until the Task returned by the consumer has been completed.
+            </para>
+            </summary>
+            <param name="item">The item to be passed.</param>
+            <param name="token">The stream sequence token of this item.</param>
+            <returns>A Task that is completed when the item has been accepted.</returns>
+        </member>
+        <member name="M:Orleans.Streams.IAsyncObserver`1.OnCompletedAsync">
+            <summary>
+            Notifies the consumer that the stream was completed.
+            <para>
+            The Task returned from this method should be completed when the consumer is done processing the stream closure.
+            </para>
+            </summary>
+            <returns>A Task that is completed when the stream-complete operation has been accepted.</returns>
+        </member>
+        <member name="M:Orleans.Streams.IAsyncObserver`1.OnErrorAsync(System.Exception)">
+            <summary>
+            Notifies the consumer that the stream had an error.
+            <para>
+            The Task returned from this method should be completed when the consumer is done processing the stream closure.
+            </para>
+            </summary>
+            <param name="ex">An Exception that describes the error that occured on the stream.</param>
+            <returns>A Task that is completed when the close has been accepted.</returns>
+        </member>
         <member name="T:Orleans.Streams.IStreamQueueBalancer">
             <summary>
             The stream queue balancer is responsible for load balancing queues across all other related queue balancers.  It
@@ -1405,6 +1691,38 @@
             Receive notifications about adapter queue responsibility changes. 
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Orleans.Providers.Streams.Common.PersistentStreamProvider`1">
+            <summary>
+            Persistent stream provider that uses an adapter for persistence
+            </summary>
+            <typeparam name="TAdapterFactory"></typeparam>
+        </member>
+        <member name="T:Orleans.Providers.IProvider">
+            <summary>
+            Base interface for all type-specific provider interfaces in Orleans
+            </summary>
+            <seealso cref="T:Orleans.Providers.IBootstrapProvider"/>
+            <seealso cref="T:Orleans.Storage.IStorageProvider"/>
+        </member>
+        <member name="M:Orleans.Providers.IProvider.Init(System.String,Orleans.Providers.IProviderRuntime,Orleans.Providers.IProviderConfiguration)">
+            <summary>
+            Initialization function called by Orleans Provider Manager when a new provider class instance  is created
+            </summary>
+            <param name="name">Name assigned for this provider</param>
+            <param name="providerRuntime">Callback for accessing system functions in the Provider Runtime</param>
+            <param name="config">Configuration metadata to be used for this provider instance</param>
+            <returns>Completion promise Task for the inttialization work for this provider</returns>
+        </member>
+        <member name="P:Orleans.Providers.IProvider.Name">
+            <summary>The name of this provider instance, as given to it in the config.</summary>
+        </member>
+        <member name="P:Orleans.Streams.IStreamProvider.IsRewindable">
+            <summary>
+            Determines whether this is a rewindable provider - supports creating rewindable streams 
+            (streams that allow subscribing from previous point in time).
+            </summary>
+            <returns>True if this is a rewindable provider, false otherwise.</returns>
         </member>
         <member name="T:Orleans.Streams.FilterPredicateWrapperData">
             <summary>
@@ -1551,6 +1869,17 @@
             Invoke the given async function from within a valid Orleans scheduler context.
             </summary>
             <param name="asyncFunc"></param>
+        </member>
+        <member name="M:Orleans.Streams.IStreamProviderRuntime.StartPullingAgents(System.String,Orleans.Streams.StreamQueueBalancerType,Orleans.Streams.IQueueAdapter,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Start the pulling agents for a given persistent stream provider.
+            </summary>
+            <param name="streamProviderName"></param>
+            <param name="balancerType"></param>
+            <param name="queueAdapter"></param>
+            <param name="getQueueMsgsTimerPeriod"></param>
+            <param name="initQueueTimeout"></param>
+            <returns></returns>
         </member>
         <member name="P:Orleans.Streams.IStreamProviderRuntime.InSilo">
             <summary>
@@ -1700,30 +2029,6 @@
             Marker interface to be implemented by any app bootstrap classes that want to be loaded and auto-run during silo startup
             </summary>
         </member>
-        <member name="T:Orleans.Providers.IProvider">
-            <summary>
-            Base interface for all type-specific provider interfaces in Orleans
-            </summary>
-            <seealso cref="T:Orleans.Providers.IBootstrapProvider"/>
-            <seealso cref="T:Orleans.Storage.IStorageProvider"/>
-        </member>
-        <member name="M:Orleans.Providers.IProvider.Init(System.String,Orleans.Providers.IProviderRuntime,Orleans.Providers.IProviderConfiguration)">
-            <summary>
-            Initialization function called by Orleans Provider Manager when a new provider class instance  is created
-            </summary>
-            <param name="name">Name assigned for this provider</param>
-            <param name="providerRuntime">Callback for accessing system functions in the Provider Runtime</param>
-            <param name="config">Configuration metadata to be used for this provider instance</param>
-            <returns>Completion promise Task for the inttialization work for this provider</returns>
-        </member>
-        <member name="P:Orleans.Providers.IProvider.Name">
-            <summary>The name of this provider instance, as given to it in the config.</summary>
-        </member>
-        <member name="T:Orleans.Providers.BootstrapProviderConstants">
-            <summary>
-            Some constant values used by bootstrap provider loader
-            </summary>
-        </member>
         <member name="T:Orleans.Providers.IStorageProviderRuntime">
             <summary>
             Provider-facing interface for manager of storage providers
@@ -1771,59 +2076,6 @@
             </para>
             </summary>
             <typeparam name="T">The type of object consumed by the observer.</typeparam>
-        </member>
-        <member name="T:Orleans.Streams.IAsyncObserver`1">
-            <summary>
-            This interface generalizes the standard .NET IObserver interface to allow asynchronous production of items.
-            <para>
-            Note that this interface is implemented by item consumers and invoked (used) by item producers.
-            This means that the producer endpoint of a stream implements this interface.
-            </para>
-            </summary>
-            <typeparam name="T">The type of object consumed by the observer.</typeparam>
-        </member>
-        <member name="M:Orleans.Streams.IAsyncObserver`1.OnNextAsync(`0,Orleans.Streams.StreamSequenceToken)">
-            <summary>
-            Passes the next item to the consumer.
-            <para>
-            The Task returned from this method should be completed when the item's processing has been
-            sufficiently processed by the consumer to meet any behavioral guarantees.
-            </para>
-            <para>
-            When the consumer is the (producer endpoint of) a stream, the Task is completed when the stream implementation
-            has accepted responsibility for the item and is assured of meeting its delivery guarantees.
-            For instance, a stream based on a durable queue would complete the Task when the item has been durably saved.
-            A stream that provides best-effort at most once delivery would return a Task that is already complete.
-            </para>
-            <para>
-            When the producer is the (consumer endpoint of) a stream, the Task should be completed by the consumer code
-            when it has accepted responsibility for the item. 
-            In particular, if the stream provider guarantees at-least-once delivery, then the item should not be considered
-            delivered until the Task returned by the consumer has been completed.
-            </para>
-            </summary>
-            <param name="item">The item to be passed.</param>
-            <param name="token">The stream sequence token of this item.</param>
-            <returns>A Task that is completed when the item has been accepted.</returns>
-        </member>
-        <member name="M:Orleans.Streams.IAsyncObserver`1.OnCompletedAsync">
-            <summary>
-            Notifies the consumer that the stream was completed.
-            <para>
-            The Task returned from this method should be completed when the consumer is done processing the stream closure.
-            </para>
-            </summary>
-            <returns>A Task that is completed when the stream-complete operation has been accepted.</returns>
-        </member>
-        <member name="M:Orleans.Streams.IAsyncObserver`1.OnErrorAsync(System.Exception)">
-            <summary>
-            Notifies the consumer that the stream had an error.
-            <para>
-            The Task returned from this method should be completed when the consumer is done processing the stream closure.
-            </para>
-            </summary>
-            <param name="ex">An Exception that describes the error that occured on the stream.</param>
-            <returns>A Task that is completed when the close has been accepted.</returns>
         </member>
         <member name="M:Orleans.Streams.IAsyncBatchObserver`1.OnNextBatchAsync(System.Collections.Generic.IEnumerable{`0},Orleans.Streams.StreamSequenceToken)">
             <summary>
@@ -1926,13 +2178,6 @@
             <summary>
             Adapter factory.  This should create an adapter from the stream provider configuration
             </summary>
-        </member>
-        <member name="P:Orleans.Streams.IStreamProvider.IsRewindable">
-            <summary>
-            Determines whether this is a rewindable provider - supports creating rewindable streams 
-            (streams that allow subscribing from previous point in time).
-            </summary>
-            <returns>True if this is a rewindable provider, false otherwise.</returns>
         </member>
         <member name="T:Orleans.Streams.StreamConsumerExtension">
             <summary>
@@ -2466,7 +2711,7 @@
         </member>
         <member name="M:Orleans.IReminderTable.RemoveRow(Orleans.Runtime.GrainReference,System.String,System.String)">
             <summary>
-            Remove a row from the table
+            Remove a row from the table.
             </summary>
             <param name="grainRef"></param>
             <param name="reminderName"></param>
@@ -3636,14 +3881,9 @@
             Client gateway interface for forwarding client requests to silos.
             </summary>
         </member>
-        <member name="M:Orleans.Runtime.IClientObserverRegistrar.RegisterClientObserver(Orleans.Runtime.GrainId,System.Guid)">
+        <member name="M:Orleans.Runtime.IClientObserverRegistrar.Start">
             <summary>
-            Registers a client observer object on this gateway.
-            </summary>
-        </member>
-        <member name="M:Orleans.Runtime.IClientObserverRegistrar.UnregisterClientObserver(Orleans.Runtime.GrainId)">
-            <summary>
-            Unregisters client observer object from all gateways.
+            Start this system target.
             </summary>
         </member>
         <member name="T:Orleans.Runtime.LogWriterBase">
@@ -3888,7 +4128,7 @@
         <member name="F:Orleans.ObserverSubscriptionManager`1.observers">
             <summary>
             The set of currently-subscribed observers.
-            This is implemented as a dictionary keyed by GrainID so that if the same obsever subscribes multiple times,
+            This is implemented as a HashSet of IGrainObserver so that if the same observer subscribes multiple times,
             it will still only get invoked once per notification.
             </summary>
         </member>
@@ -4152,6 +4392,28 @@
             <summary>
             </summary>
         </member>
+        <member name="M:Orleans.Runtime.Configuration.ClientConfiguration.RegisterStreamProvider``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given type of <typeparamref name="T"/> where <typeparamref name="T"/> is stream provider
+            </summary>
+            <typeparam name="T">Non-abstract type which implements <see cref="!:IStreamProvider"/> stream</typeparam>
+            <param name="providerName">Name of the stream provider</param>
+            <param name="properties">Properties that will be passed to stream provider upon initialization</param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.ClientConfiguration.RegisterStreamProvider(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given stream provider.
+            </summary>
+            <param name="providerTypeFullName">Full name of the stream provider type</param>
+            <param name="providerName">Name of the stream provider</param>
+            <param name="properties">Properties that will be passed to the stream provider upon initialization </param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.ClientConfiguration.AdjustConfiguration">
+            <summary>
+            This method may be called by the client host or test host to tweak a provider configuration after it has been already loaded.
+            Its is optional and should NOT be automaticaly called by the runtime.
+            </summary>
+        </member>
         <member name="M:Orleans.Runtime.Configuration.ClientConfiguration.StandardLoad">
             <summary>
             Loads the configuration from the standard paths, looking up the directory hierarchy
@@ -4270,6 +4532,54 @@
             <summary>
             The ReminderServiceType attribute controls the type of the reminder service implementation used by silos.
             </summary>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterBootstrapProvider``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given type of <typeparamref name="T"/> where <typeparamref name="T"/> is bootstrap provider
+            </summary>
+            <typeparam name="T">Non-abstract type which implements <see cref="T:Orleans.Providers.IBootstrapProvider"/> interface</typeparam>
+            <param name="providerName">Name of the bootstrap provider</param>
+            <param name="properties">Properties that will be passed to bootstrap provider upon initialization</param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterBootstrapProvider(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given bootstrap provider.
+            </summary>
+            <param name="providerTypeFullName">Full name of the bootstrap provider type</param>
+            <param name="providerName">Name of the bootstrap provider</param>
+            <param name="properties">Properties that will be passed to the bootstrap provider upon initialization </param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterStreamProvider``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given type of <typeparamref name="T"/> where <typeparamref name="T"/> is stream provider
+            </summary>
+            <typeparam name="T">Non-abstract type which implements <see cref="T:Orleans.Streams.IStreamProvider"/> stream</typeparam>
+            <param name="providerName">Name of the stream provider</param>
+            <param name="properties">Properties that will be passed to stream provider upon initialization</param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterStreamProvider(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given stream provider.
+            </summary>
+            <param name="providerTypeFullName">Full name of the stream provider type</param>
+            <param name="providerName">Name of the stream provider</param>
+            <param name="properties">Properties that will be passed to the stream provider upon initialization </param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterStorageProvider``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given type of <typeparamref name="T"/> where <typeparamref name="T"/> is storage provider
+            </summary>
+            <typeparam name="T">Non-abstract type which implements <see cref="T:Orleans.Storage.IStorageProvider"/> storage</typeparam>
+            <param name="providerName">Name of the storage provider</param>
+            <param name="properties">Properties that will be passed to storage provider upon initialization</param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.GlobalConfiguration.RegisterStorageProvider(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Registers a given storage provider.
+            </summary>
+            <param name="providerTypeFullName">Full name of the storage provider type</param>
+            <param name="providerName">Name of the storage provider</param>
+            <param name="properties">Properties that will be passed to the storage provider upon initialization </param>
         </member>
         <member name="P:Orleans.Runtime.Configuration.GlobalConfiguration.SeedNodes">
             <summary>
@@ -4700,6 +5010,12 @@
             Loads configuration from a given input text reader.
             </summary>
             <param name="input">The TextReader to use.</param>
+        </member>
+        <member name="M:Orleans.Runtime.Configuration.ClusterConfiguration.AdjustConfiguration">
+            <summary>
+            This method may be called by the silo host or test host to tweak a provider configuration after it has been already loaded.
+            Its is optional and should NOT be automaticaly called by the runtime.
+            </summary>
         </member>
         <member name="M:Orleans.Runtime.Configuration.ClusterConfiguration.GetConfigurationForNode(System.String)">
             <summary>
@@ -5782,7 +6098,12 @@
             This is the base class for all typed grain references.
             </summary>
         </member>
-        <member name="M:Orleans.Runtime.GrainReference.#ctor(Orleans.Runtime.GrainId,System.String,Orleans.Runtime.SiloAddress)">
+        <member name="F:Orleans.Runtime.GrainReference.SystemTargetSilo">
+            <summary>
+            Called from generated code.
+            </summary>
+        </member>
+        <member name="M:Orleans.Runtime.GrainReference.#ctor(Orleans.Runtime.GrainId,System.String,Orleans.Runtime.SiloAddress,Orleans.Runtime.GuidId)">
             <summary>
             Constructs a reference to the grain with the specified Id.
             </summary>
@@ -5800,6 +6121,16 @@
             </summary>
             <param name="grainId">The ID of the grain to refer to.</param>
         </member>
+        <member name="M:Orleans.Runtime.GrainReference.CreateObjectReference(Orleans.Runtime.IAddressable,Orleans.CodeGeneration.IGrainMethodInvoker)">
+            <summary>
+            Called from generated code.
+            </summary>
+        </member>
+        <member name="M:Orleans.Runtime.GrainReference.DeleteObjectReference(Orleans.Runtime.IAddressable)">
+            <summary>
+            Called from generated code.
+            </summary>
+        </member>
         <member name="M:Orleans.Runtime.GrainReference.Equals(System.Object)">
             <summary>
             Tests this reference for equality to another object.
@@ -5810,6 +6141,9 @@
         </member>
         <member name="M:Orleans.Runtime.GrainReference.GetHashCode">
             <summary> Calculates a hash code for a grain reference. </summary>
+        </member>
+        <member name="M:Orleans.Runtime.GrainReference.GetUniformHashCode">
+            <summary>Get a uniform hash code for this grain reference.</summary>
         </member>
         <member name="M:Orleans.Runtime.GrainReference.op_Equality(Orleans.Runtime.GrainReference,Orleans.Runtime.GrainReference)">
             <summary>
@@ -5864,16 +6198,6 @@
             <returns>GrainReference that is usable as the target type</returns>
             <exception cref="T:System.InvalidCastException">if the grain cannot be cast to the target type</exception>
         </member>
-        <member name="M:Orleans.Runtime.GrainReference.CreateObjectReference(Orleans.Runtime.IAddressable,Orleans.CodeGeneration.IGrainMethodInvoker)">
-            <summary>
-            Called from generated code.
-            </summary>
-        </member>
-        <member name="M:Orleans.Runtime.GrainReference.DeleteObjectReference(Orleans.Runtime.IAddressable)">
-            <summary>
-            Called from generated code.
-            </summary>
-        </member>
         <member name="M:Orleans.Runtime.GrainReference.SerializeGrainReference(System.Object,Orleans.Serialization.BinaryTokenStreamWriter,System.Type)">
             <summary> Serializer function for grain reference.</summary>
             <seealso cref="T:Orleans.Serialization.SerializationManager"/>
@@ -5886,19 +6210,11 @@
             <summary> Copier function for grain reference. </summary>
             <seealso cref="T:Orleans.Serialization.SerializationManager"/>
         </member>
-        <member name="M:Orleans.Runtime.GrainReference.GetUniformHashCode">
-            <summary>Get a uniform hash code for this grain reference.</summary>
-        </member>
         <member name="M:Orleans.Runtime.GrainReference.ToString">
             <summary>Returns a string representation of this reference.</summary>
         </member>
         <member name="M:Orleans.Runtime.GrainReference.ToKeyString">
             <summary> Get the key value for this grain, as a string. </summary>
-        </member>
-        <member name="P:Orleans.Runtime.GrainReference.SystemTargetSilo">
-            <summary>
-            Called from generated code.
-            </summary>
         </member>
         <member name="P:Orleans.Runtime.GrainReference.IsInitializedSystemTarget">
             <summary>
@@ -5995,6 +6311,10 @@
             <param name="s"></param>
             <param name="count"></param>
             <returns></returns>
+        </member>
+        <member name="M:Orleans.Runtime.Utils.BatchIEnumerable``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            </summary>
         </member>
     </members>
 </doc>

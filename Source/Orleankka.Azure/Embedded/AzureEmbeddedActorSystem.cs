@@ -1,12 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Orleankka.Azure.Embedded
+namespace Orleankka.Embedded
 {
-    class AzureEmbeddedActorSystem
+    using Cluster;
+
+    public class AzureEmbeddedActorSystem : EmbeddedActorSystem
     {
+        readonly AzureClusterActorSystem cluster;
+
+        internal AzureEmbeddedActorSystem(AppDomain domain, IActorSystem client, AzureClusterActorSystem cluster)
+            : base(domain, client, cluster)
+        {
+            this.cluster = cluster;
+        }
+
+        public void Run()
+        {
+            cluster.Run();
+        }
     }
 }

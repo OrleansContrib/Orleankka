@@ -1,9 +1,52 @@
 ﻿using System;
 using System.Linq;
 
-namespace Orleankka.Azure.Cluster
+using Microsoft.WindowsAzure.ServiceRuntime;
+
+using Orleans.Runtime.Host;
+using Orleans.Runtime.Configuration;
+
+namespace Orleankka.Cluster
 {
-    class AzureClusterActorSystem
+    public class AzureClusterActorSystem : MarshalByRefObject, IActorSystem
     {
+        readonly IDisposable configurator;
+        readonly ClusterConfiguration configuration;
+        AzureSilo host;
+
+        internal AzureClusterActorSystem(AppDomain domain, IDisposable configurator, ClusterConfiguration configuration)
+        {
+            this.configurator = configurator;
+            this.configuration = configuration;
+
+            host = new AzureSilo();
+            domain.SetData("ActorSystem.Current", this);
+        }
+
+        ActorRef IActorSystem.ActorOf(ActorPath path)
+        {
+            return ActorRef.Resolve(path);
+        }
+
+        internal void Start()
+        {
+            host.Start(RoleEnvironment.DeploymentId, RoleEnvironment.CurrentRoleInstance, configuration);
+        }
+
+        public void Run()
+        {
+            host.Run();
+        }
+
+        public void Dispose()
+        {
+            if (host == null)
+                return;
+
+            host.Stop();
+            host = null;
+
+            configurator.Dispose();
+        }
     }
 }

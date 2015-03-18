@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Orleans;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
@@ -68,23 +67,26 @@ namespace Orleankka.Client
 
         public IActorSystem Done()
         {
+            var system = new ClientActorSystem(configurator);
+            Configure(system);
+
+            ClientActorSystem.Initialize(Configuration);
+            return system;
+        }
+
+        internal void Configure(IActorSystem system)
+        {
             if (assemblies.Count == 0)
                 throw new InvalidOperationException("No actor assemblies were registered. Use Register(assembly) method to register assemblies which contain actor declarations");
-
-            var system = new ClientActorSystem(configurator);
             
             configurator.Configure(new ActorSystemConfiguration
             {
                 Instance   = system,
                 Assemblies = assemblies.Values.ToArray(),
-                Serializer = serializerType != null 
+                Serializer = serializerType != null
                                 ? Tuple.Create(serializerType, serializerProperties) 
                                 : null 
             });
-
-            GrainClient.Initialize(Configuration);
-
-            return system;
         }
     }
 
@@ -115,10 +117,7 @@ namespace Orleankka.Client
         public static ClientConfiguration LoadFromEmbeddedResource(this ClientConfiguration config, Assembly assembly, string fullResourcePath)
         {
             var result = new ClientConfiguration();
-
-            var loader = result.GetType().GetMethod("Load", BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { typeof(TextReader) }, null);
-            loader.Invoke(result, new object[] { assembly.LoadEmbeddedResource(fullResourcePath) });
-
+            result.Load(assembly.LoadEmbeddedResource(fullResourcePath));
             return result;
         }
     }

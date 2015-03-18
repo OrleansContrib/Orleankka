@@ -16,9 +16,10 @@ namespace Orleankka.Cluster
         /// <summary>
         /// Runs the bootstrapper passing the properties specified during actor system configuration.
         /// </summary>
+        /// <param name="system">The actor system</param>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        public virtual Task Run(IDictionary<string, string> properties)
+        public virtual Task Run(IActorSystem system, IDictionary<string, string> properties)
         {
             return TaskDone.Done;
         }
@@ -43,7 +44,9 @@ namespace Orleankka.Cluster
             Debug.Assert(type != null);
 
             var bootstrapper = (Bootstrapper)Activator.CreateInstance(type);
-            return bootstrapper.Run(config.Properties);
+            var system = (IActorSystem)AppDomain.CurrentDomain.GetData("ActorSystem.Current");
+            
+            return bootstrapper.Run(system, config.Properties);
         }
     }
 

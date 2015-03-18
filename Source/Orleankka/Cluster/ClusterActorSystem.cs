@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 
 using Orleans.Runtime.Host;
+using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
-    public sealed class ClusterActorSystem : MarshalByRefObject, IActorSystem
+    class ClusterActorSystem : MarshalByRefObject, IActorSystem
     {
-        readonly IActorSystemConfigurator configurator;
+        readonly IDisposable configurator;
         SiloHost host;
 
-        public ClusterActorSystem(IActorSystemConfigurator configurator, SiloHost host)
+        internal ClusterActorSystem(AppDomain domain, IDisposable configurator, ClusterConfiguration configuration)
         {
             this.configurator = configurator;
-            this.host = host;
+            host = new SiloHost(Dns.GetHostName(), configuration);
+            domain.SetData("ActorSystem.Current", this);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
             return ActorRef.Resolve(path);
+        }
+
+        public void Start()
+        {
+            host.LoadOrleansConfig();
+            host.InitializeOrleansSilo();
+            host.StartOrleansSilo();
         }
 
         public void Dispose()

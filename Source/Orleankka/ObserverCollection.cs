@@ -38,16 +38,6 @@ namespace Orleankka
     public class ObserverCollection : IObserverCollection
     {
         readonly HashSet<ObserverRef> observers = new HashSet<ObserverRef>();
-        readonly Func<ActorRef> sender;
-
-        public ObserverCollection(Actor actor)
-            : this(() => actor.Self)
-        {}
-
-        internal ObserverCollection(Func<ActorRef> sender)
-        {
-            this.sender = sender;
-        }
 
         void IObserverCollection.Add(ObserverRef observer)
         {

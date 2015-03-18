@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 
 using Orleans.Providers;
 using Orleans.Runtime.Configuration;
-using Orleans.Runtime.Host;
 
 namespace Orleankka.Cluster
 {
@@ -29,7 +27,7 @@ namespace Orleankka.Cluster
         
         readonly IActorSystemConfigurator configurator;
 
-        ClusterConfigurator() 
+        ClusterConfigurator()
             : this(new ActorSystemConfigurator())
         {}
 
@@ -95,13 +93,19 @@ namespace Orleankka.Cluster
 
         public IActorSystem Done()
         {
+            var system = new ClusterActorSystem(AppDomain.CurrentDomain, configurator, Configuration);
+            Configure(system);
+
+            system.Start();
+            return system;
+        }
+
+        internal void Configure(IActorSystem system)
+        {
             if (assemblies.Count == 0)
                 throw new InvalidOperationException("No actor assemblies were registered. Use Register(assembly) method to register assemblies which contain actor declarations");
 
             RegisterBootstrappers();
-
-            var host = new SiloHost(Dns.GetHostName(), Configuration);
-            var system = new ClusterActorSystem(configurator, host);
             
             configurator.Configure(new ActorSystemConfiguration
             {
@@ -114,12 +118,6 @@ namespace Orleankka.Cluster
                                 ? Tuple.Create(activatorType, activatorProperties) 
                                 : null 
             });
-
-            host.LoadOrleansConfig();
-            host.InitializeOrleansSilo();
-            host.StartOrleansSilo();
-
-            return system;
         }
 
         void RegisterBootstrappers()

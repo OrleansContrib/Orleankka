@@ -5,22 +5,18 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleankka.Client;
 
 namespace Orleankka.Fixtures
 {
     [TestFixture]
     public class ObserverCollectionFixture
     {
-        readonly IActorSystem system = ActorSystem.Instance;
         IObserverCollection collection;
-        ActorRef @ref;
 
         [SetUp]
         public void SetUp()
         {
-            @ref = system.ActorOf<TestObservableActor>("producer");
-            collection = new ObserverCollection(()=> @ref);
+            collection = new ObserverCollection();
         }
 
         [Test]

@@ -70,7 +70,7 @@ namespace Demo
         public Api()
         {
             timers = new TimerService(this);
-            observers = new ObserverCollection(this);
+            observers = new ObserverCollection();
             worker = ApiWorkerFactory.Create(()=> Id);
         }
 

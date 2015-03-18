@@ -1,0 +1,30 @@
+﻿<div class="container">
+    <h5>Notifications: </h5>
+    <div id="notifications"></div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.0.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+
+            var listener = $.connection.relay;
+            var maxViewPortSize = 20;
+
+            listener.client.receive = function (notifications) {
+
+                var viewport = $('#notifications');
+                var currentViewportSize = viewport.children().length;
+
+                var nextViewportSize = currentViewportSize + notifications.length;
+                if (nextViewportSize > maxViewPortSize)
+                    viewport.children().slice(maxViewPortSize - nextViewportSize).remove();
+
+                notifications.reverse().forEach(function (notification) {
+                    viewport.prepend('<div><strong>' + notification + '</strong></div>');
+                });
+            };
+            $.connection.hub.start();
+        });
+    </script>
+}

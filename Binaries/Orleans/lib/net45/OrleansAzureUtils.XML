@@ -25,11 +25,10 @@
             </summary>
             <returns>Enererable list of app directory locations</returns>
         </member>
-        <member name="M:Orleans.Runtime.Host.AzureConfigUtils.GetInstanceName(System.String,Microsoft.WindowsAzure.ServiceRuntime.RoleInstance)">
+        <member name="M:Orleans.Runtime.Host.AzureConfigUtils.GetInstanceName(Microsoft.WindowsAzure.ServiceRuntime.RoleInstance)">
             <summary>
             Get the instance named for the specified Azure role instance
             </summary>
-            <param name="deploymentId">Azure Deployment Id for this service</param>
             <param name="roleInstance">Azure role instance information</param>
             <returns>Instance name for this role</returns>
         </member>
@@ -162,6 +161,12 @@
             <summary>
             Constructor
             </summary>
+        </member>
+        <member name="M:Orleans.Runtime.Host.AzureSilo.Start">
+            <summary>
+            Initialize this Orleans silo for execution with the current Azure deploymentId and role instance
+            </summary>
+            <returns><c>true</c> is the silo startup was successfull</returns>
         </member>
         <member name="M:Orleans.Runtime.Host.AzureSilo.Start(System.String,Microsoft.WindowsAzure.ServiceRuntime.RoleInstance)">
             <summary>

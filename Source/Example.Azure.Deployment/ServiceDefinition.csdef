@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Example.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="Cluster" vmsize="Large">
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InternalEndpoint name="OrleansSiloEndpoint" protocol="tcp" port="11111" />
+      <InternalEndpoint name="OrleansProxyEndpoint" protocol="tcp" port="30000" />
+    </Endpoints>
+  </WorkerRole>
+  <WebRole name="Client" vmsize="Large">
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="Http" endpointName="Http" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="Http" protocol="http" port="80" />
+    </Endpoints>
+  </WebRole>
+</ServiceDefinition>

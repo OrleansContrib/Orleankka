@@ -9,12 +9,6 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void MessageHandlers()
-        {
-            // - Support specifying "method missiing" handler via prototype ???
-        }
-
-        [Test, Ignore]
         public void AutomaticDeactivation()
         {
             // - Add support for per-type idle deactivation timeouts
@@ -31,13 +25,6 @@ namespace Orleankka
         {
             // - Add DI container sample (Unity)
             // - Add ProtoBuf/Bond serialization sample
-            // - Add Azure CloudService sample
-        }
-
-        [Test, Ignore]
-        public void AzureSystem()
-        {
-            // - Finish actor system configuration
         }
 
         [Test, Ignore]
@@ -47,9 +34,9 @@ namespace Orleankka
         }
 
         [Test, Ignore]
-        public void MutableMessages()
+        public void MessageHandlers()
         {
-            // - Add support (deep-copy) for mutable (yay) messages
+            // - Support specifying "method missiing" handler via prototype ???
         }
     }
 }

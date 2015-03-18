@@ -7,7 +7,7 @@
     <ProjectGuid>{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orleankka.Azure</RootNamespace>
+    <RootNamespace>Orleankka</RootNamespace>
     <AssemblyName>Orleankka.Azure</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,12 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Unofficial.Microsoft.WindowsAzure.ServiceRuntime.2.5.0.0\lib\net40\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.StorageClient">
-      <HintPath>..\..\Binaries\Orleans\lib\net45\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Unofficial.Microsoft.WindowsAzure.ServiceRuntime.2.4.0.0\lib\net40\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Orleans">
       <HintPath>..\..\Binaries\Orleans\lib\net45\Orleans.dll</HintPath>
@@ -61,7 +58,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Dynamic" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Orleankka.Azure.Version.cs">
@@ -77,13 +73,16 @@
     <Compile Include="Cluster\AzureClusterConfigurator.cs" />
     <Compile Include="Embedded\AzureEmbeddedActorSystem.cs" />
     <Compile Include="Embedded\AzureEmbeddedConfigurator.cs" />
-    <Compile Include="Playground\AzurePlaygroundConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
+      <Project>{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
+      <Name>Orleankka.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
@@ -92,6 +91,5 @@
   <ItemGroup>
     <None Include="Packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

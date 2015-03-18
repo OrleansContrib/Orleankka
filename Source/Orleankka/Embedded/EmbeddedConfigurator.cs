@@ -20,11 +20,11 @@ namespace Orleankka.Embedded
 
         public EmbeddedConfigurator(IActorSystemConfigurator configurator, AppDomainSetup setup)
         {
-            domain  = AppDomain.CreateDomain("Playground", null, setup ?? AppDomain.CurrentDomain.SetupInformation);
+            domain  = AppDomain.CreateDomain("EmbeddedOrleans", null, setup ?? AppDomain.CurrentDomain.SetupInformation);
             client  = new ClientConfigurator(configurator);
             cluster = (ClusterConfigurator)domain.CreateInstanceAndUnwrap(
                         GetType().Assembly.FullName, typeof(ClusterConfigurator).FullName, false,
-                        BindingFlags.NonPublic | BindingFlags.Instance, null,
+                        BindingFlags.NonPublic | BindingFlags.Instance , null,
                         new object[0], null, null);
         }
 

@@ -58,7 +58,7 @@ var ReleasePath = @"{PackagePath}\Release";
 
     Merge();
     Pack(CoreProject);
-
+    
     Pack(TestKitProject, "core_version={Version(CoreProject)}");
     Pack(AzureProject,   "core_version={Version(CoreProject)}");
 }

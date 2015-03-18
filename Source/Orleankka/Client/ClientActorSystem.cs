@@ -2,14 +2,15 @@
 using System.Linq;
 
 using Orleans;
+using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    public sealed class ClientActorSystem : IActorSystem
+    sealed class ClientActorSystem : IActorSystem
     {
-        readonly IActorSystemConfigurator configurator;
+        readonly IDisposable configurator;
 
-        public ClientActorSystem(IActorSystemConfigurator configurator)
+        public ClientActorSystem(IDisposable configurator)
         {
             this.configurator = configurator;
         }
@@ -17,6 +18,11 @@ namespace Orleankka.Client
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
             return ActorRef.Resolve(path);
+        }
+
+        public static void Initialize(ClientConfiguration configuration)
+        {
+            GrainClient.Initialize(configuration);
         }
 
         public void Dispose()

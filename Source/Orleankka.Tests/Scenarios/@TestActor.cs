@@ -81,7 +81,7 @@ namespace Orleankka.Scenarios
 
         public TestActor()
         {
-            observers  = new ObserverCollection(this);
+            observers  = new ObserverCollection();
             activation = new ActivationService(this);
             reminders  = new ReminderService(this);
         }

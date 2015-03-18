@@ -87,7 +87,7 @@ type FuncActorBootstrap() =
       let expr = binary.UnPickle<Quotations.Expr<ActorConfig>>(bytes)
       expr.Compile()
 
-   override this.Run(properties : IDictionary<string, string>) =      
+   override this.Run(system, properties : IDictionary<string, string>) =      
       properties |> Seq.filter(fun p -> p.Key <> "<-::Type::->")
                  |> Seq.iter (fun p -> actorConfigs.Add(p.Key, compileExpr(p.Value)))
       TaskDone.Done

@@ -3,19 +3,22 @@
   <metadata>
     <id>Orleankka</id>
     <version>$version$</version>
-    <authors>Yevhen Bobrov</authors>
+    <authors>Yevhen Bobrov, Anton Moldovan</authors>
     <owners>Yevhen Bobrov</owners>
     <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
-    <description>Akka-style actor API for MSR Orleans. Features a uniform interface that doesn't require static codegen</description>
+    <description>Functional API for MSR Orleans. Features a uniform interface that doesn't require static codegen. Special support for F#</description>
     <tags>Orleans Akka distributed messaging actor concurrency CQRS Azure functional F#</tags>
+    <dependencies>
+        <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="2.0.0" />
+        <dependency id="WindowsAzure.Storage" version="4.2.0" />
+    </dependencies>    
   </metadata>
   <files>
     <file src="Output\Package\Merged\Orleankka.*" target="lib/net45" />
     <file src="Output\Package\Release\Orleans.*" target="lib/net45" />
     <file src="Output\Package\Release\OrleansProviders.*" target="lib/net45" />
     <file src="Output\Package\Release\OrleansRuntime.*" target="lib/net45" />
-    <file src="Output\Package\Release\Microsoft.WindowsAzure.StorageClient.dll" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.FSharp.dll" target="ext" />
     <file src="Output\Package\Release\Orleankka.FSharp.xml" target="ext" />
   </files>
