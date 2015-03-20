@@ -24,8 +24,6 @@ module Actor =
          return _response
       }
    
-   let inline (<!) (actorRef : ActorRef) (message : obj) = actorRef.Ask(message) |> Task.map (fun () -> ())
-   let inline (<?) (actorRef : ActorRef) (message : obj) = actorRef.Ask<'TResponse>(message)
-
-   let Empty = null
-   let Response (result : obj) = result
+   let inline (<!) (actorRef:ActorRef) (message:obj) = actorRef.Ask(message) |> Task.map(ignore)
+   let inline (<?) (actorRef:ActorRef) (message:obj) = actorRef.Ask<'TResponse>(message)
+   let inline (<*) (actorRef:ActorRef) (message:obj) = actorRef.Notify(message)

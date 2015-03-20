@@ -11,7 +11,7 @@ type Result<'T> =
    | Error of exn    
    | Successful of 'T
 
-let wait (task : Task<_>) = task.Wait()
+let inline wait (task : Task<_>) = task.Wait()
 
 let run (t: unit -> Task<_>) = 
    try
@@ -54,6 +54,8 @@ let inline returnM a =
    let s = TaskCompletionSource()
    s.SetResult a
    s.Task
+
+let inline whenAll f (tasks : Task<_> seq) = Task.WhenAll(tasks) |> map(f)
 
 /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
 let inline (>>=) m f = bind f m
