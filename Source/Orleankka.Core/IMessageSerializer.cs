@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
+using Orleans.Serialization;
+
 namespace Orleankka.Core
 {
     public interface IMessageSerializer
@@ -21,7 +23,7 @@ namespace Orleankka.Core
         object Deserialize(byte[] bytes);
     }
 
-    class DefaultMessageSerializer : IMessageSerializer
+    public class BinaryMessageSerializer : IMessageSerializer
     {
         public void Init(IDictionary<string, string> properties)
         {}
@@ -42,6 +44,23 @@ namespace Orleankka.Core
                 var formatter = new BinaryFormatter();
                 return formatter.Deserialize(stream);
             }
+        }
+    }
+
+    public class NativeSerializer : IMessageSerializer
+    {
+        public void Init(IDictionary<string, string> properties)
+        {}
+
+        public byte[] Serialize(object message)
+        {
+            return SerializationManager.SerializeToByteArray(message);
+        }
+
+        public object Deserialize(byte[] bytes)
+        {
+            var stream = new BinaryTokenStreamReader(bytes);
+            return SerializationManager.Deserialize(stream);
         }
     }
 }

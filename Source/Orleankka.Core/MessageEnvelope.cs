@@ -9,7 +9,7 @@ namespace Orleankka.Core
 
         public static void Reset()
         {
-            Serializer = new DefaultMessageSerializer();
+            Serializer = new BinaryMessageSerializer();
         }
 
         static MessageEnvelope()

@@ -15,12 +15,6 @@ namespace Orleankka
         }
 
         [Test, Ignore]
-        public void Serialization()
-        {
-            // - Add support for native Orleans serializer
-        }
-
-        [Test, Ignore]
         public void Samples()
         {
             // - Add DI container sample (Unity)

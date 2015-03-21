@@ -67,6 +67,5 @@
     <None Include="Packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Microsoft.Orleans.Templates.Interfaces.1.0.5\build\Microsoft.Orleans.Templates.Interfaces.targets" 
-          Condition="Exists('..\..\packages\Microsoft.Orleans.Templates.Interfaces.1.0.5\build\Microsoft.Orleans.Templates.Interfaces.targets')" />
+  <Import Project="..\..\packages\Microsoft.Orleans.Templates.Interfaces.1.0.5\build\Microsoft.Orleans.Templates.Interfaces.targets" Condition="Exists('..\..\packages\Microsoft.Orleans.Templates.Interfaces.1.0.5\build\Microsoft.Orleans.Templates.Interfaces.targets')" />
 </Project>
