@@ -12,6 +12,7 @@ using System.Diagnostics;
 const string CoreProject = "Orleankka";
 const string AzureProject = "Orleankka.Azure";
 const string TestKitProject = "Orleankka.TestKit";
+const string FSharpProject = "Orleankka.FSharp";
 
 const string RootPath = "$NakeScriptDirectory$";
 const string OutputPath = RootPath + @"\Output";
@@ -61,6 +62,7 @@ var ReleasePath = @"{PackagePath}\Release";
     
     Pack(TestKitProject, "core_version={Version(CoreProject)}");
     Pack(AzureProject,   "core_version={Version(CoreProject)}");
+    Pack(FSharpProject,  "core_version={Version(CoreProject)}");
 }
 
 void Merge()
@@ -94,9 +96,12 @@ void Pack(string project, string properties = null)
             break;
         case "testkit": 
             Push(TestKitProject); 
+            break;        
+        case "fsharp": 
+            Push(FSharpProject); 
             break;
         default:
-            throw new ArgumentException("Available values are: core, azure or testkit");   
+            throw new ArgumentException("Available values are: core, azure, testkit or fsharp");   
     }
 }
 

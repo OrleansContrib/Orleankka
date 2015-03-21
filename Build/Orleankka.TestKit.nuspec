@@ -14,8 +14,6 @@
     </dependencies>      
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.TestKit.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.xml" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.pdb" target="lib/net45" />    
+    <file src="Output\Package\Release\Orleankka.TestKit.*" target="lib/net45" />
   </files>
 </package>

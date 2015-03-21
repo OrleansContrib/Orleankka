@@ -14,13 +14,13 @@ namespace Orleankka.Cluster
         readonly ClusterConfiguration configuration;
         AzureSilo host;
 
-        internal AzureClusterActorSystem(AppDomain domain, IDisposable configurator, ClusterConfiguration configuration)
+        internal AzureClusterActorSystem(IDisposable configurator, ClusterConfiguration configuration)
         {
             this.configurator = configurator;
             this.configuration = configuration;
 
             host = new AzureSilo();
-            domain.SetData("ActorSystem.Current", this);
+            ClusterActorSystem.Current = this;
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)

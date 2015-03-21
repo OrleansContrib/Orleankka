@@ -5,8 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-using Orleankka;
 using Microsoft.WindowsAzure.ServiceRuntime;
+
+using Orleankka;
+using Orleankka.Cluster;
 
 namespace Example.Azure
 {
@@ -17,12 +19,12 @@ namespace Example.Azure
 
         public class Bootstrapper : Orleankka.Cluster.Bootstrapper
         {
-            public override Task Run(IActorSystem system, IDictionary<string, string> properties)
+            public override Task Run(IDictionary<string, string> properties)
             {
-                HubGateway.system = system;
+                system = ClusterActorSystem.Current;
 
                 var instanceEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["OrleansSiloEndpoint"];
-                HubGateway.ip = instanceEndpoint.IPEndpoint;
+                ip = instanceEndpoint.IPEndpoint;
 
                 var hub = GetLocalHub();
                 return hub.Tell(new InitHub());

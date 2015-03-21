@@ -93,7 +93,7 @@ namespace Orleankka.Cluster
 
         public IActorSystem Done()
         {
-            var system = new ClusterActorSystem(AppDomain.CurrentDomain, configurator, Configuration);
+            var system = new ClusterActorSystem(configurator, Configuration);
             Configure(system);
 
             system.Start();
@@ -122,21 +122,8 @@ namespace Orleankka.Cluster
 
         void RegisterBootstrappers()
         {
-            var category = Configuration.Globals.ProviderConfigurations.Find("Bootstrap");
-
-            if (category == null)
-            {
-                category = new ProviderCategoryConfiguration
-                {
-                    Name = "Bootstrap",
-                    Providers = new Dictionary<string, IProviderConfiguration>()
-                };
-
-                Configuration.Globals.ProviderConfigurations.Add("Bootstrap", category);
-            }
-
             foreach (var bootstrapper in bootstrappers)
-                bootstrapper.Register(category);
+                bootstrapper.Register(Configuration.Globals);
         }
     }
 

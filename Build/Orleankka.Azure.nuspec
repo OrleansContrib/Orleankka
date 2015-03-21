@@ -11,11 +11,11 @@
     <tags>Orleans Akka distributed messaging actor Azure cloud service configuration</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
-        <dependency id="Unofficial.Microsoft.WindowsAzure.ServiceRuntime" version="2.4.0.0" />
+        <dependency id="Microsoft.Orleans.OrleansAzureUtils" version="1.0.0.5" />
+        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.0.0.5" />
     </dependencies>
   </metadata>
   <files>
     <file src="Output\Package\Release\Orleankka.Azure.*" target="lib/net45" />
-    <file src="Output\Package\Release\OrleansAzureUtils.*" target="lib/net45" />
   </files>
 </package>

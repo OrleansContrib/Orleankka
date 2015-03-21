@@ -47,15 +47,13 @@
       <HintPath>..\..\packages\Unofficial.Microsoft.WindowsAzure.ServiceRuntime.2.4.0.0\lib\net40\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\Binaries\Orleans\lib\net45\Orleans.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
     </Reference>
     <Reference Include="OrleansAzureUtils">
-      <HintPath>..\..\Binaries\Orleans\lib\net45\OrleansAzureUtils.dll</HintPath>
+      <HintPath>..\..\Packages\Microsoft.Orleans.OrleansAzureUtils.1.0.5\lib\net45\OrleansAzureUtils.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\Binaries\Orleans\lib\net45\OrleansRuntime.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

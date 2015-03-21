@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Orleankka;
 using Orleankka.Cluster;
 
 namespace Demo
@@ -18,7 +17,7 @@ namespace Demo
         {
             static bool done;
 
-            public override async Task Run(IActorSystem system, IDictionary<string, string> properties)
+            public override async Task Run(IDictionary<string, string> properties)
             {
                 if (done) 
                     throw new InvalidOperationException("Already done");

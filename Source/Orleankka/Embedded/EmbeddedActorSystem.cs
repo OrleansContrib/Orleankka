@@ -14,8 +14,6 @@ namespace Orleankka.Embedded
             this.domain = domain;
             this.client = client;
             this.cluster = cluster;
-
-            domain.SetData("ActorSystem.Current", cluster);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)

@@ -58,7 +58,7 @@ namespace Orleankka.Cluster
 
         public AzureClusterActorSystem Done()
         {
-            var system = new AzureClusterActorSystem(AppDomain.CurrentDomain, azure.Configurator, Configuration);
+            var system = new AzureClusterActorSystem(azure.Configurator, Configuration);
             cluster.Configure(system);
 
             system.Start();
