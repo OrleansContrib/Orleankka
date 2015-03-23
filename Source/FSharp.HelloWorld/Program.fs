@@ -25,9 +25,9 @@ let main argv =
 
     let assembly = Assembly.GetExecutingAssembly()
    
-    use system = playgroundActorSystem()
-                |> register [|assembly|]
-                |> start
+    use system = playgroundConfigurator()
+                 |> register [|assembly|]
+                 |> start
                   
     let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 

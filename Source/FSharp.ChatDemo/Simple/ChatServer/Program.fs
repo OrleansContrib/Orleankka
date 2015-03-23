@@ -14,7 +14,7 @@ let main argv =
    let config = ClusterConfiguration().LoadFromEmbeddedResource(assembly, "Server.xml")
 
    use system = config 
-                |> initClusterActorSystem
+                |> clusterConfigurator
                 |> register [|assembly|]
                 |> start
 

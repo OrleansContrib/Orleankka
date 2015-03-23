@@ -17,7 +17,7 @@ let main argv =
    let config = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Client.xml")
    
    use system = config 
-                |> initClientActorSystem
+                |> clientConfigurator
                 |> register [|typedefof<ChatServer>.Assembly|]
                 |> start
 

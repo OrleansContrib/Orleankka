@@ -7,12 +7,12 @@ open Orleankka.Client
 open Orleankka.Embedded
 open Orleankka.Playground
 
-let inline playgroundActorSystem () = ActorSystem.Configure().Playground()
-let inline initClusterActorSystem config = ActorSystem.Configure().Cluster().From(config)
-let inline initClientActorSystem config = ActorSystem.Configure().Client().From(config)
+let inline playgroundConfigurator () = ActorSystem.Configure().Playground()
+let inline clusterConfigurator config = ActorSystem.Configure().Cluster().From(config)
+let inline clientConfigurator config = ActorSystem.Configure().Client().From(config)
 
 let inline register data silo =
-   (^silo : (member Register : ^data -> ^silo) (silo, data))
+   (^silo : (member Register : ^data -> ^configurator) (silo, data))
 
 let inline run<'T when 'T :> Bootstrapper> properties (silo : EmbeddedConfigurator) =
    silo.Run<'T>(properties)
