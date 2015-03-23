@@ -22,8 +22,8 @@ namespace Demo
             var facebook = system.ActorOf<Api>("facebook");
             var twitter  = system.ActorOf<Api>("twitter");
 
-            await facebook.Tell(new Subscribe(observer));
-            await twitter.Tell(new Subscribe(observer));
+            await facebook.Tell(new Subscribe(observer.Ref));
+            await twitter.Tell(new Subscribe(observer.Ref));
 
             observer.Subscribe(LogToConsole);
 

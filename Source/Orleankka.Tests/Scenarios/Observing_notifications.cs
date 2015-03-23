@@ -18,7 +18,7 @@ namespace Orleankka.Scenarios
 
             using (var observer = await Observer.Create())
             {
-                await actor.Tell(new Attach(observer));
+                await actor.Tell(new Attach(observer.Ref));
 
                 TextChanged @event = null;
 

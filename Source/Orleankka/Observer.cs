@@ -26,12 +26,13 @@ namespace Orleankka
             return new Observer(proxy);
         }
 
-        readonly ClientEndpoint endpoint;
-        readonly ObserverRef @ref;
+        readonly ClientEndpoint endpoint;        
+
+        public readonly ObserverRef Ref;
 
         protected Observer(ObserverRef @ref)
         {
-            this.@ref = @ref;
+            this.Ref = @ref;
         }
 
         Observer(ClientEndpoint endpoint) 
@@ -48,11 +49,6 @@ namespace Orleankka
         public virtual IDisposable Subscribe(IObserver<object> observer)
         {
             return endpoint.Subscribe(observer);
-        }
-
-        public static implicit operator ObserverRef(Observer arg)
-        {
-            return arg.@ref;
         }
     }
 

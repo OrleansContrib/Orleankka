@@ -48,7 +48,7 @@ namespace Example.Azure.Hubs
                 var id = HubGateway.HubId(address.Endpoint);
                 var hub = MvcApplication.System.ActorOf<Hub>(id);
 
-                await hub.Tell(new Subscribe {Observer = observer});
+                await hub.Tell(new Subscribe {Observer = observer.Ref});
             }
         }
 
