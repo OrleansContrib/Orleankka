@@ -1,6 +1,6 @@
 ﻿
 open Orleans.Runtime.Configuration
-open Orleankka.FSharp.System
+open Orleankka
 open Orleankka.Cluster
 open System.Reflection
 
@@ -13,10 +13,11 @@ let main argv =
 
    let config = ClusterConfiguration().LoadFromEmbeddedResource(assembly, "Server.xml")
 
-   use system = config 
-                |> clusterConfigurator
-                |> register [|assembly|]
-                |> start
+   use system = ActorSystem.Configure()
+                           .Cluster()
+                           .From(config) 
+                           .Register(assembly)
+                           .Done()
 
    printfn "Finished booting cluster...\n"
 

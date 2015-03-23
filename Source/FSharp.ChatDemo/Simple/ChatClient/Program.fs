@@ -16,10 +16,11 @@ let main argv =
 
    let config = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Client.xml")
    
-   use system = config 
-                |> clientConfigurator
-                |> register [|typedefof<ChatServer>.Assembly|]
-                |> start
+   use system = ActorSystem.Configure()
+                           .Client()
+                           .From(config)
+                           .Register(typedefof<ChatServer>.Assembly)
+                           .Done()
 
    client <- Observer.Create().Result
    let clientRef = Observer.op_Implicit(client)

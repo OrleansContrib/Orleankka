@@ -3,7 +3,7 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.System
+open Orleankka.Playground
 
 type Message = 
    | Greet of string
@@ -25,9 +25,10 @@ let main argv =
 
     let assembly = Assembly.GetExecutingAssembly()
    
-    use system = playgroundConfigurator()
-                 |> register [|assembly|]
-                 |> start
+    use system = ActorSystem.Configure()
+                            .Playground()
+                            .Register(assembly)
+                            .Done()
                   
     let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
