@@ -58,7 +58,6 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="System.fs" />
     <Compile Include="Task.fs" />
     <Compile Include="Actor.fs" />
     <Content Include="FSharp.Core.optdata">
