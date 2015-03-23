@@ -27,11 +27,11 @@ namespace Orleankka
         }
 
         readonly ClientEndpoint endpoint;
-        readonly ObserverRef @ref;
+        public readonly ObserverRef Ref;
 
         protected Observer(ObserverRef @ref)
         {
-            this.@ref = @ref;
+            this.Ref = @ref;
         }
 
         Observer(ClientEndpoint endpoint) 
@@ -52,7 +52,7 @@ namespace Orleankka
 
         public static implicit operator ObserverRef(Observer arg)
         {
-            return arg.@ref;
+            return arg.Ref;
         }
     }
 

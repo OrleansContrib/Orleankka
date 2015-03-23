@@ -22,8 +22,7 @@ let main argv =
                            .Register(typedefof<ChatServer>.Assembly)
                            .Done()
 
-   client <- Observer.Create().Result
-   let clientRef = Observer.op_Implicit(client)
+   client <- Observer.Create().Result   
 
    let server = system.ActorOf<ChatServer>("server")
 
@@ -37,14 +36,14 @@ let main argv =
    
    task {
       printfn "Connecting.... \n"      
-      let! response = server <? Join(userName, clientRef)
+      let! response = server <? Join(userName, client.Ref)
       printfn "Connected! \n"
       printfn "%s\n" response
       
       let textStream = Seq.initInfinite(fun _ -> Console.ReadLine())
       
       textStream 
-         |> Seq.find(function "quit" -> server <* Disconnect(userName, clientRef)
+         |> Seq.find(function "quit" -> server <* Disconnect(userName, client.Ref)
                                         true 
                               | text -> server <* Say(userName, text)
                                         false)
