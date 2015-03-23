@@ -90,7 +90,7 @@ namespace Orleankka.Fixtures
 
             public static implicit operator ObserverRef(TestObserver arg)
             {
-                return arg.observer;
+                return arg.observer.Ref;
             }
         }
     }
