@@ -26,4 +26,4 @@ module Actor =
    
    let inline (<!) (actorRef:ActorRef) (message:obj) = actorRef.Ask(message) |> Task.map(ignore)
    let inline (<?) (actorRef:ActorRef) (message:obj) = actorRef.Ask<'TResponse>(message)
-   let inline (<*) (actorRef:ActorRef) (message:obj) = actorRef.Notify(message)
+   let inline (<*) (ref:^ref) (message:obj) = (^ref : (member Notify : obj -> unit) (ref, message))
