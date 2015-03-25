@@ -5,10 +5,13 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Request_response
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test]
         public async void Client_to_actor()

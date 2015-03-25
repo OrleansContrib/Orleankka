@@ -66,21 +66,21 @@ namespace Orleankka.Client
 
         public IActorSystem Done()
         {
+            Configure();
+            
             var system = new ClientActorSystem(configurator);
-            Configure(system);
-
             ClientActorSystem.Initialize(Configuration);
+
             return system;
         }
 
-        internal void Configure(IActorSystem system)
+        internal void Configure()
         {
             if (assemblies.Count == 0)
                 throw new InvalidOperationException("No actor assemblies were registered. Use Register(assembly) method to register assemblies which contain actor declarations");
             
             configurator.Configure(new ActorSystemConfiguration
             {
-                Instance   = system,
                 Assemblies = assemblies.Values.ToArray(),
                 Serializer = serializerType != null
                                 ? Tuple.Create(serializerType, serializerProperties) 

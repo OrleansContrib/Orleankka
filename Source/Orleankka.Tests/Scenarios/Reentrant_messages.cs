@@ -6,10 +6,13 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Reentrant_messages
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test]
         public async void Reentrant_could_be_defined_via_attribute()

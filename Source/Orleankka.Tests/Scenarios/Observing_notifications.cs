@@ -6,10 +6,13 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Observing_notifications
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test]
         public async void Client_to_actor()

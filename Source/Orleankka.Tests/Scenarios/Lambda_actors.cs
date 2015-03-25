@@ -5,10 +5,13 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Lambda_actors
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test]
         public async void Handlers_could_be_defined_via_prototype()

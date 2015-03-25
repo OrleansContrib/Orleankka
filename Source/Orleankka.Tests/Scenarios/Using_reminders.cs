@@ -6,10 +6,13 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Using_reminders
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test, Explicit]
         public async void When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()

@@ -95,9 +95,11 @@
     <Compile Include="Scenarios\Unwrapping_exceptions.cs" />
     <Compile Include="Scenarios\Using_reminders.cs" />
     <Compile Include="Fixtures\ObserverCollectionFixture.cs" />
+    <Compile Include="Testing\JsonSerializer.cs" />
+    <Compile Include="Testing\TestActorSystem.cs" />
     <Compile Include="TODO.cs" />
     <Compile Include="TestingExtensions.cs" />
-    <Compile Include="Testing\Setup.cs" />
+    <Compile Include="Testing\RequiresSiloAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

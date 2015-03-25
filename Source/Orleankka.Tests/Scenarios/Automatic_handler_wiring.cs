@@ -7,10 +7,13 @@ using Orleans;
 
 namespace Orleankka.Scenarios
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class Automatic_handler_wiring
     {
-        static readonly IActorSystem system = ActorSystem.Instance;
+        readonly IActorSystem system = TestActorSystem.Instance;
 
         [Test]
         public async void Should_automtically_wire_any_public_handler_with_single_arg_named_On_or_Handle()

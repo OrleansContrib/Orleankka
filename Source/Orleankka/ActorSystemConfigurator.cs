@@ -19,12 +19,6 @@ namespace Orleankka
         {
             Requires.NotNull(configuration, "configuration");
 
-            if (ActorSystem.Instance != null)
-                throw new InvalidOperationException("An actor system is already configured");
-
-            if (configuration.Instance == null)
-                throw new InvalidOperationException("Cannot configure actor system to <null>");
-
             if (configuration.Assemblies == null || configuration.Assemblies.Length == 0)
                 throw new InvalidOperationException("No actor assemblies were specified to configure");
 
@@ -54,8 +48,6 @@ namespace Orleankka
                 activator.Init(configuration.Activator.Item2 ?? new Dictionary<string, string>());
                 ActorEndpoint.Activator = activator;
             }
-
-            ActorSystem.Instance = configuration.Instance;
         }
 
         void IDisposable.Dispose()
@@ -63,13 +55,11 @@ namespace Orleankka
             MessageEnvelope.Reset();
             ActorEndpoint.Reset();
             ActorAssembly.Reset();
-            ActorSystem.Reset();
         }
     }
 
     public class ActorSystemConfiguration
     {
-        public IActorSystem Instance;
         public Assembly[] Assemblies;
         public Tuple<Type, Dictionary<string, string>> Serializer;
         public Tuple<Type, Dictionary<string, string>> Activator;

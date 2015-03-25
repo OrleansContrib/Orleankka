@@ -21,13 +21,6 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
-        internal static IActorSystem Instance;
-
-        internal static void Reset()
-        {
-            Instance = null;
-        }
-
         public static ActorSystemConfigurator Configure()
         {
             return new ActorSystemConfigurator();

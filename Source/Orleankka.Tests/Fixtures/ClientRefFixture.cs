@@ -5,8 +5,6 @@ using NUnit.Framework;
 
 namespace Orleankka.Fixtures
 {
-    using Client;
-
     [TestFixture]
     public class ClientRefFixture
     {

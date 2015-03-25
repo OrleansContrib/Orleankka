@@ -12,6 +12,8 @@ using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
+    using Cluster;
+
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
@@ -64,7 +66,7 @@ namespace Orleankka.Core
 
         async Task Activate(ActorPath path)
         {
-            var system = ActorSystem.Instance;
+            var system = ClusterActorSystem.Current;
 
             actor = Activator.Activate(path.Type);
             actor.Initialize(path.Id, system, this, ActorPrototype.Of(path.Type));

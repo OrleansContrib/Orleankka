@@ -8,7 +8,10 @@ using NUnit.Framework;
 
 namespace Orleankka.Fixtures
 {
+    using Testing;
+
     [TestFixture]
+    [RequiresSilo]
     public class ObserverCollectionFixture
     {
         IObserverCollection collection;

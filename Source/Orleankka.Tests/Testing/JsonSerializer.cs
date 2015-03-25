@@ -1,46 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using Newtonsoft.Json;
-using NUnit.Framework;
 
-using Orleankka.Scenarios;
-using Orleankka.Testing;
-
-[assembly: Setup]
+using Orleankka.Core;
 
 namespace Orleankka.Testing
 {
-    using Core;
-    using Playground;
-
-    public class SetupAttribute : TestActionAttribute
-    {
-        IActorSystem system;
-
-        public override void BeforeTest(TestDetails details)
-        {
-            if (!details.IsSuite)
-                return;
-
-            system = ActorSystem.Configure()
-                .Playground()
-                .Register(typeof(TestActor).Assembly)
-                .Serializer<JsonSerializer>()
-                .Done();
-        }
-
-        public override void AfterTest(TestDetails details)
-        {
-            if (!details.IsSuite)
-                return;
-
-            system.Dispose();
-        }
-    }
-
     public class JsonSerializer : IMessageSerializer
     {
         public void Init(IDictionary<string, string> properties)
@@ -68,9 +36,9 @@ namespace Orleankka.Testing
         {
             public override bool CanConvert(Type objectType)
             {
-                return typeof(ActorRef)     == objectType 
-                    || typeof(ClientRef)    == objectType
-                    || typeof(ObserverRef)  == objectType;
+                return typeof(ActorRef)        == objectType 
+                       || typeof(ClientRef)    == objectType
+                       || typeof(ObserverRef)  == objectType;
             }
 
             public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
