@@ -28,6 +28,16 @@ namespace Orleankka.Embedded
                         new object[0], null, null);
         }
 
+        public ClusterConfiguration Cluster
+        {
+            get { return cluster.Configuration; }
+        }
+
+        public ClientConfiguration Client
+        {
+            get { return client.Configuration; }
+        }
+        
         public EmbeddedConfigurator From(ClusterConfiguration config)
         {
             Requires.NotNull(config, "config");

@@ -12,7 +12,7 @@ namespace Orleankka.Playground
     public sealed class PlaygroundConfigurator : EmbeddedConfigurator
     {
         internal PlaygroundConfigurator(IActorSystemConfigurator configurator, AppDomainSetup setup)
-            : base(configurator, null)
+            : base(configurator, setup)
         {}
 
         internal PlaygroundConfigurator Configure()
