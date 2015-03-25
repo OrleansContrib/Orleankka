@@ -27,17 +27,21 @@ namespace Orleankka
         }
 
         readonly ClientEndpoint endpoint;
-        public readonly ObserverRef Ref;
 
         protected Observer(ObserverRef @ref)
         {
-            this.Ref = @ref;
+            Ref = @ref;
         }
 
         Observer(ClientEndpoint endpoint) 
             : this(endpoint.Self)
         {
             this.endpoint = endpoint;
+        }
+
+        public ObserverRef Ref
+        {
+            get; private set;
         }
 
         public virtual void Dispose()
