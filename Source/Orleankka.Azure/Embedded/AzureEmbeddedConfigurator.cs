@@ -18,10 +18,10 @@ namespace Orleankka.Embedded
         readonly AzureClusterConfigurator cluster;
         readonly AppDomain domain;
 
-        public AzureEmbeddedConfigurator(AzureConfigurator azure, AppDomainSetup setup)
+        public AzureEmbeddedConfigurator(AppDomainSetup setup)
         {
             domain  = AppDomain.CreateDomain("EmbeddedOrleans", null, setup ?? AppDomain.CurrentDomain.SetupInformation);
-            client  = new AzureClientConfigurator(azure);
+            client  = new AzureClientConfigurator();
             cluster = (AzureClusterConfigurator)domain.CreateInstanceAndUnwrap(
                         GetType().Assembly.FullName, typeof(AzureClusterConfigurator).FullName, false,
                         BindingFlags.NonPublic | BindingFlags.Instance, null,
@@ -30,14 +30,12 @@ namespace Orleankka.Embedded
 
         public AzureEmbeddedConfigurator From(ClusterConfiguration config)
         {
-            Requires.NotNull(config, "config");
             cluster.From(config);
             return this;
         }
 
         public AzureEmbeddedConfigurator From(ClientConfiguration config)
         {
-            Requires.NotNull(config, "config");
             client.From(config);
             return this;
         }
@@ -63,7 +61,6 @@ namespace Orleankka.Embedded
 
         public AzureEmbeddedConfigurator Register(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, "assemblies");
             client.Register(assemblies);
             cluster.Register(assemblies);
             return this;
@@ -80,10 +77,9 @@ namespace Orleankka.Embedded
 
     public static class AzureEmbeddedConfiguratorExtensions
     {
-        public static AzureEmbeddedConfigurator Embedded(this AzureConfigurator configurator, AppDomainSetup setup = null)
+        public static AzureEmbeddedConfigurator Embedded(this IAzureConfigurator root, AppDomainSetup setup = null)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new AzureEmbeddedConfigurator(configurator, setup);
+            return new AzureEmbeddedConfigurator(setup);
         }
     }
 }

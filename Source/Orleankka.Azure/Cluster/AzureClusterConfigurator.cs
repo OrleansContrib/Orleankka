@@ -8,22 +8,14 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Cluster
 {
     using Core;
-    using Utility;
 
     public class AzureClusterConfigurator : MarshalByRefObject
     {
-        readonly AzureConfigurator azure;
         readonly ClusterConfigurator cluster;
 
-        internal AzureClusterConfigurator(AzureConfigurator azure)
+        internal AzureClusterConfigurator()
         {
-            this.azure = azure;
-            cluster = new ClusterConfigurator(azure.Configurator);
-        }
-
-        public ClusterConfiguration Configuration
-        {
-            get { return cluster.Configuration; }
+            cluster = new ClusterConfigurator();
         }
 
         public AzureClusterConfigurator From(ClusterConfiguration config)
@@ -58,20 +50,20 @@ namespace Orleankka.Cluster
 
         public AzureClusterActorSystem Done()
         {
-            var system = new AzureClusterActorSystem(azure.Configurator, Configuration);
             cluster.Configure();
 
+            var system = new AzureClusterActorSystem(cluster);
             system.Start();
+
             return system;
         }
     }
 
     public static class ClusterConfiguratorExtensions
     {
-        public static AzureClusterConfigurator Cluster(this AzureConfigurator configurator)
+        public static AzureClusterConfigurator Cluster(this IAzureConfigurator root)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new AzureClusterConfigurator(configurator);
+            return new AzureClusterConfigurator();
         }
     }
 }

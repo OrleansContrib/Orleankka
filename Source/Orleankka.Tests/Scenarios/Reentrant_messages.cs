@@ -8,12 +8,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Reentrant_messages
+    public class Reentrant_messages : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public async void Reentrant_could_be_defined_via_attribute()
         {

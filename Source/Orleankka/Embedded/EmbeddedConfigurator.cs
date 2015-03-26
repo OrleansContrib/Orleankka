@@ -10,7 +10,6 @@ namespace Orleankka.Embedded
     using Core;
     using Client;
     using Cluster;
-    using Utility;
 
     public class EmbeddedConfigurator
     {
@@ -18,36 +17,24 @@ namespace Orleankka.Embedded
         readonly ClusterConfigurator cluster;
         readonly AppDomain domain;
 
-        public EmbeddedConfigurator(IActorSystemConfigurator configurator, AppDomainSetup setup)
+        public EmbeddedConfigurator(AppDomainSetup setup)
         {
             domain  = AppDomain.CreateDomain("EmbeddedOrleans", null, setup ?? AppDomain.CurrentDomain.SetupInformation);
-            client  = new ClientConfigurator(configurator);
+            client  = new ClientConfigurator();
             cluster = (ClusterConfigurator)domain.CreateInstanceAndUnwrap(
                         GetType().Assembly.FullName, typeof(ClusterConfigurator).FullName, false,
                         BindingFlags.NonPublic | BindingFlags.Instance , null,
                         new object[0], null, null);
         }
 
-        public ClusterConfiguration Cluster
-        {
-            get { return cluster.Configuration; }
-        }
-
-        public ClientConfiguration Client
-        {
-            get { return client.Configuration; }
-        }
-        
         public EmbeddedConfigurator From(ClusterConfiguration config)
         {
-            Requires.NotNull(config, "config");
             cluster.From(config);
             return this;
         }
 
         public EmbeddedConfigurator From(ClientConfiguration config)
         {
-            Requires.NotNull(config, "config");
             client.From(config);
             return this;
         }
@@ -73,7 +60,6 @@ namespace Orleankka.Embedded
 
         public EmbeddedConfigurator Register(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, "assemblies");
             client.Register(assemblies);
             cluster.Register(assemblies);
             return this;
@@ -90,10 +76,9 @@ namespace Orleankka.Embedded
 
     public static class EmbeddedConfiguratorExtensions
     {
-        public static EmbeddedConfigurator Embedded(this ActorSystemConfigurator configurator, AppDomainSetup setup = null)
+        public static EmbeddedConfigurator Embedded(this IActorSystemConfigurator root, AppDomainSetup setup = null)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new EmbeddedConfigurator(configurator, setup);
+            return new EmbeddedConfigurator(setup);
         }
     }
 }

@@ -9,12 +9,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Passing_envelopes
+    public class Passing_envelopes : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public async void Unwrapping_and_dispatching_envelopes_is_done_by_application_code()
         {

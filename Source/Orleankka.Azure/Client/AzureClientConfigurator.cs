@@ -8,22 +8,14 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Client
 {
     using Core;
-    using Utility;
 
     public class AzureClientConfigurator
     {
-        readonly AzureConfigurator azure;
         readonly ClientConfigurator client;
 
-        internal AzureClientConfigurator(AzureConfigurator azure)
+        internal AzureClientConfigurator()
         {
-            this.azure = azure;
-            client = new ClientConfigurator(azure.Configurator);
-        }
-
-        public ClientConfiguration Configuration
-        {
-            get { return client.Configuration; }
+            client = new ClientConfigurator();
         }
 
         public AzureClientConfigurator From(ClientConfiguration config)
@@ -46,20 +38,20 @@ namespace Orleankka.Client
 
         public IActorSystem Done()
         {
-            var system = new AzureClientActorSystem(azure.Configurator);
             client.Configure();
 
-            AzureClientActorSystem.Initialize(Configuration);
+            var system = new AzureClientActorSystem(client);
+            AzureClientActorSystem.Initialize(client.Configuration);
+
             return system;
         }
     }
 
     public static class ClientConfiguratorExtensions
     {
-        public static AzureClientConfigurator Client(this AzureConfigurator configurator)
+        public static AzureClientConfigurator Client(this IAzureConfigurator root)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new AzureClientConfigurator(configurator);
+            return new AzureClientConfigurator();
         }
     }
 }

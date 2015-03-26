@@ -9,8 +9,7 @@ namespace Orleankka.Testing
 
     public class RequiresSiloAttribute : TestActionAttribute
     {
-        public bool Fresh                     {get; set;}
-        public int? GCTimeoutInMilliseconds   {get; set;}
+        public bool Fresh;
 
         public override void BeforeTest(TestDetails details)
         {
@@ -37,18 +36,13 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            var configurator = ActorSystem.Configure()
-                .Playground()
-                .Register(GetType().Assembly)
-                .Serializer<JsonSerializer>();
+            var system = ActorSystem.Configure()
+                                    .Playground()
+                                    .Register(GetType().Assembly)
+                                    .Serializer<JsonSerializer>()
+                                    .Done();
 
-            if (GCTimeoutInMilliseconds != null)
-            {
-                var timeout = TimeSpan.FromMilliseconds(GCTimeoutInMilliseconds.Value);
-                configurator.Cluster.Globals.Application.SetDefaultCollectionAgeLimit(timeout);
-            }
-
-            TestActorSystem.Instance = configurator.Done();
+            TestActorSystem.Instance = system;
         }
     }
 }

@@ -7,12 +7,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Unwrapping_exceptions
+    public class Unwrapping_exceptions : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public void Client_to_actor()
         {

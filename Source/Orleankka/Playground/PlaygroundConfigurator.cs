@@ -11,8 +11,8 @@ namespace Orleankka.Playground
 
     public sealed class PlaygroundConfigurator : EmbeddedConfigurator
     {
-        internal PlaygroundConfigurator(IActorSystemConfigurator configurator, AppDomainSetup setup)
-            : base(configurator, setup)
+        internal PlaygroundConfigurator(AppDomainSetup setup)
+            : base(setup)
         {}
 
         internal PlaygroundConfigurator Configure()
@@ -38,9 +38,9 @@ namespace Orleankka.Playground
 
     public static class PlaygroundConfiguratorExtensions
     {
-        public static PlaygroundConfigurator Playground(this ActorSystemConfigurator configurator, AppDomainSetup setup = null)
+        public static PlaygroundConfigurator Playground(this IActorSystemConfigurator root, AppDomainSetup setup = null)
         {
-            return new PlaygroundConfigurator(configurator, setup).Configure();
+            return new PlaygroundConfigurator(setup).Configure();
         }
     }
 }

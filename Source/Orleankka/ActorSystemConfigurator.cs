@@ -8,60 +8,73 @@ namespace Orleankka
     using Core;
     using Utility;
 
-    public interface IActorSystemConfigurator : IDisposable
-    {
-        void Configure(ActorSystemConfiguration configuration);
-    }
+    public interface IActorSystemConfigurator
+    {}
 
-    public class ActorSystemConfigurator : IActorSystemConfigurator
+    public abstract class ActorSystemConfigurator : MarshalByRefObject, IDisposable
     {
-        void IActorSystemConfigurator.Configure(ActorSystemConfiguration configuration)
+        readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
+         
+        Tuple<Type, Dictionary<string, string>> serializer;
+        Tuple<Type, Dictionary<string, string>> activator;
+
+        protected void RegisterSerializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
         {
-            Requires.NotNull(configuration, "configuration");
+            if (serializer != null)
+                throw new InvalidOperationException("Serializer has been already registered");
 
-            if (configuration.Assemblies == null || configuration.Assemblies.Length == 0)
-                throw new InvalidOperationException("No actor assemblies were specified to configure");
-
-            if (configuration.Serializer != null && configuration.Serializer.Item1 == null)
-                throw new InvalidOperationException("Serializer type cannot be a <null> reference");
-
-            if (configuration.Activator != null && configuration.Activator.Item1 == null)
-                throw new InvalidOperationException("Activator type cannot be a <null> reference");
-
-            DoConfigure(configuration);
+            serializer = Tuple.Create(typeof(T), properties);
         }
 
-        static void DoConfigure(ActorSystemConfiguration configuration)
-        {            
-            ActorAssembly.Register(configuration.Assemblies);
+        protected void RegisterActivator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        {
+            if (activator != null)
+                throw new InvalidOperationException("Activator has been already registered");
 
-            if (configuration.Serializer != null)
-            {
-                var serializer = (IMessageSerializer) Activator.CreateInstance(configuration.Serializer.Item1);
-                serializer.Init(configuration.Serializer.Item2 ?? new Dictionary<string, string>());
-                MessageEnvelope.Serializer = serializer;
-            }
+            activator = Tuple.Create(typeof(T), properties);
+        }
 
-            if (configuration.Activator != null)
+        protected void RegisterAssemblies(params Assembly[] assemblies)
+        {
+            Requires.NotNull(assemblies, "assemblies");
+
+            if (assemblies.Length == 0)
+                throw new ArgumentException("Assemblies length should be greater than 0", "assemblies");
+
+            foreach (var assembly in assemblies)
             {
-                var activator = (IActorActivator) Activator.CreateInstance(configuration.Activator.Item1);
-                activator.Init(configuration.Activator.Item2 ?? new Dictionary<string, string>());
-                ActorEndpoint.Activator = activator;
+                if (this.assemblies.Contains(assembly))
+                    throw new ArgumentException(
+                        string.Format("Assembly {0} has been already registered", assembly.FullName));
+
+                this.assemblies.Add(assembly);
             }
         }
 
-        void IDisposable.Dispose()
+        protected internal void Configure()
+        {
+            if (serializer != null)
+            {
+                var instance = (IMessageSerializer) Activator.CreateInstance(serializer.Item1);
+                instance.Init(serializer.Item2 ?? new Dictionary<string, string>());
+                MessageEnvelope.Serializer = instance;
+            }
+
+            if (activator != null)
+            {
+                var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
+                instance.Init(activator.Item2 ?? new Dictionary<string, string>());
+                ActorEndpoint.Activator = instance;
+            }
+
+            ActorAssembly.Register(assemblies);
+        }
+
+        public void Dispose()
         {
             MessageEnvelope.Reset();
             ActorEndpoint.Reset();
             ActorAssembly.Reset();
         }
-    }
-
-    public class ActorSystemConfiguration
-    {
-        public Assembly[] Assemblies;
-        public Tuple<Type, Dictionary<string, string>> Serializer;
-        public Tuple<Type, Dictionary<string, string>> Activator;
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
     <Compile Include="Meta.cs" />
+    <Compile Include="Testing\ActorSystemScenario.cs" />
     <Compile Include="Scenarios\Passing_envelopes.cs" />
     <Compile Include="Scenarios\Lambda_actors.cs" />
     <Compile Include="Scenarios\Reentrant_messages.cs" />

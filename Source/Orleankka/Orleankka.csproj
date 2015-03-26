@@ -60,6 +60,7 @@
     <Compile Include="ActorPrototype.cs" />
     <Compile Include="ActorPath.cs" />
     <Compile Include="ActorAttributes.cs" />
+    <Compile Include="AutomaticDeactivation.cs" />
     <Compile Include="ClientRef.cs" />
     <Compile Include="Core\ClientEndpoint.cs" />
     <Compile Include="Dispatcher.cs" />

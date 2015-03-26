@@ -8,12 +8,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Observing_notifications
+    public class Observing_notifications : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public async void Client_to_actor()
         {

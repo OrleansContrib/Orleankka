@@ -21,9 +21,9 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
-        public static ActorSystemConfigurator Configure()
+        public static IActorSystemConfigurator Configure()
         {
-            return new ActorSystemConfigurator();
+            return null;
         }
 
         protected ActorSystem()

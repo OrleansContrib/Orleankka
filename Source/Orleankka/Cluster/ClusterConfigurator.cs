@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
@@ -11,33 +10,17 @@ namespace Orleankka.Cluster
     using Core;
     using Utility;
 
-    public sealed class ClusterConfigurator : MarshalByRefObject
+    public sealed class ClusterConfigurator : ActorSystemConfigurator
     {
         readonly HashSet<BootstrapProviderConfiguration> bootstrappers =
              new HashSet<BootstrapProviderConfiguration>();
-        
-        readonly Dictionary<string, Assembly> assemblies = 
-             new Dictionary<string, Assembly>();
-        
-        Type serializerType;
-        Dictionary<string, string> serializerProperties;
 
-        Type activatorType;
-        Dictionary<string, string> activatorProperties;
-        
-        readonly IActorSystemConfigurator configurator;
-
-        ClusterConfigurator()
-            : this(new ActorSystemConfigurator())
-        {}
-
-        internal ClusterConfigurator(IActorSystemConfigurator configurator)
+        internal ClusterConfigurator()
         {
-            this.configurator = configurator;
             Configuration = new ClusterConfiguration();
         }
 
-        public ClusterConfiguration Configuration
+        internal ClusterConfiguration Configuration
         {
             get; private set;
         }
@@ -51,15 +34,13 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
         {
-            serializerType = typeof(T);
-            serializerProperties = properties;
+            RegisterSerializer<T>(properties);
             return this;
         }
         
         public ClusterConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
         {
-            activatorType = typeof(T);
-            activatorProperties = properties;
+            RegisterActivator<T>(properties);
             return this;
         }
 
@@ -74,20 +55,7 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator Register(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, "assemblies");
-
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", "assemblies");
-
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.ContainsKey(assembly.FullName))
-                    throw new ArgumentException(
-                        string.Format("Assembly {0} has been already registered", assembly.FullName));
-
-                this.assemblies.Add(assembly.FullName, assembly);
-            }
-
+            RegisterAssemblies(assemblies);
             return this;
         }
 
@@ -95,44 +63,26 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            var system = new ClusterActorSystem(configurator, Configuration);
+            var system = new ClusterActorSystem(this, Configuration);
             system.Start();
 
             return system;
         }
 
-        internal void Configure()
-        {
-            if (assemblies.Count == 0)
-                throw new InvalidOperationException("No actor assemblies were registered. Use Register(assembly) method to register assemblies which contain actor declarations");
-
-            RegisterBootstrappers();
-            
-            configurator.Configure(new ActorSystemConfiguration
-            {
-                Assemblies = assemblies.Values.ToArray(),
-                Serializer = serializerType != null 
-                                ? Tuple.Create(serializerType, serializerProperties) 
-                                : null,
-                Activator  = activatorType != null 
-                                ? Tuple.Create(activatorType, activatorProperties) 
-                                : null 
-            });
-        }
-
-        void RegisterBootstrappers()
+        internal new void Configure()
         {
             foreach (var bootstrapper in bootstrappers)
                 bootstrapper.Register(Configuration.Globals);
+
+            base.Configure();
         }
     }
 
     public static class ClusterConfiguratorExtensions
     {
-        public static ClusterConfigurator Cluster(this ActorSystemConfigurator configurator)
+        public static ClusterConfigurator Cluster(this IActorSystemConfigurator root)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new ClusterConfigurator(configurator);
+            return new ClusterConfigurator();
         }
 
         public static ClusterConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ClusterConfiguration config, string resourceName)

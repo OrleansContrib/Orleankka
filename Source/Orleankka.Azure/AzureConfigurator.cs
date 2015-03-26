@@ -3,24 +3,14 @@ using System.Linq;
 
 namespace Orleankka
 {
-    using Utility;
-
-    public class AzureConfigurator
-    {
-        internal readonly IActorSystemConfigurator Configurator;
-
-        internal AzureConfigurator(IActorSystemConfigurator configurator)
-        {
-            Configurator = configurator;
-        }
-    }
+    public interface IAzureConfigurator
+    {}
 
     public static class AzureConfiguratorExtensions
     {
-        public static AzureConfigurator Azure(this IActorSystemConfigurator configurator)
+        public static IAzureConfigurator Azure(this IActorSystemConfigurator root)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new AzureConfigurator(configurator);
+            return null;
         }
     }
 }

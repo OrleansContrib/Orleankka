@@ -10,23 +10,14 @@ namespace Orleankka.Client
     using Core;
     using Utility;
 
-    public sealed class ClientConfigurator
+    public sealed class ClientConfigurator : ActorSystemConfigurator
     {
-        readonly Dictionary<string, Assembly> assemblies = 
-             new Dictionary<string, Assembly>();
-        
-        Type serializerType;
-        Dictionary<string, string> serializerProperties;
-        
-        readonly IActorSystemConfigurator configurator;
-
-        internal ClientConfigurator(IActorSystemConfigurator configurator)
+        internal ClientConfigurator()
         {
-            this.configurator = configurator;
             Configuration = new ClientConfiguration();
         }
 
-        public ClientConfiguration Configuration
+        internal ClientConfiguration Configuration
         {
             get; private set;
         }
@@ -40,27 +31,13 @@ namespace Orleankka.Client
 
         public ClientConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
         {
-            serializerType = typeof(T);
-            serializerProperties = properties;
+            RegisterSerializer<T>(properties);
             return this;
         }
 
         public ClientConfigurator Register(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, "assemblies");
-
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", "assemblies");
-
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.ContainsKey(assembly.FullName))
-                    throw new ArgumentException(
-                        string.Format("Assembly {0} has been already registered", assembly.FullName));
-
-                this.assemblies.Add(assembly.FullName, assembly);
-            }
-
+            RegisterAssemblies(assemblies);
             return this;
         }
 
@@ -68,33 +45,18 @@ namespace Orleankka.Client
         {
             Configure();
             
-            var system = new ClientActorSystem(configurator);
+            var system = new ClientActorSystem(this);
             ClientActorSystem.Initialize(Configuration);
 
             return system;
-        }
-
-        internal void Configure()
-        {
-            if (assemblies.Count == 0)
-                throw new InvalidOperationException("No actor assemblies were registered. Use Register(assembly) method to register assemblies which contain actor declarations");
-            
-            configurator.Configure(new ActorSystemConfiguration
-            {
-                Assemblies = assemblies.Values.ToArray(),
-                Serializer = serializerType != null
-                                ? Tuple.Create(serializerType, serializerProperties) 
-                                : null 
-            });
         }
     }
 
     public static class ClientConfiguratorExtensions
     {
-        public static ClientConfigurator Client(this ActorSystemConfigurator configurator)
+        public static ClientConfigurator Client(this IActorSystemConfigurator root)
         {
-            Requires.NotNull(configurator, "configurator");
-            return new ClientConfigurator(configurator);
+            return new ClientConfigurator();
         }
 
         public static ClientConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ClientConfiguration config, string resourceName)

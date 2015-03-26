@@ -7,12 +7,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Type_codes
+    public class Type_codes : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public void Type_name_as_default_could_be_overwritten_with_type_code_attribute()
         {

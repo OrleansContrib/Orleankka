@@ -23,11 +23,9 @@ let main argv =
 
     printfn "Running demo. Booting cluster might take some time ...\n"
 
-    let assembly = Assembly.GetExecutingAssembly()
-   
     use system = ActorSystem.Configure()
                             .Playground()
-                            .Register(assembly)
+                            .Register(Assembly.GetExecutingAssembly())
                             .Done()
                   
     let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())

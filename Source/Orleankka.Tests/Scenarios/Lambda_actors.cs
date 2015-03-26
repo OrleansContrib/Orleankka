@@ -7,12 +7,9 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [TestFixture]
     [RequiresSilo]
-    public class Lambda_actors
+    public class Lambda_actors : ActorSystemScenario
     {
-        readonly IActorSystem system = TestActorSystem.Instance;
-
         [Test]
         public async void Handlers_could_be_defined_via_prototype()
         {
