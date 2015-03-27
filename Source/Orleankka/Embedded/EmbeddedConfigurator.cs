@@ -65,7 +65,7 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public IActorSystem Done()
+        public virtual IActorSystem Done()
         {
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();

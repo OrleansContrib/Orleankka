@@ -6,10 +6,7 @@ namespace Orleankka
 {
     public class AutomaticDeactivationAttribute : Attribute
     {
-        public string Idle
-        {
-            get; set;
-        }
+        public string Idle;
 
         static TimeSpan ParseTimeSpan(string input)
         {

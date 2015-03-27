@@ -10,7 +10,7 @@ namespace Orleankka.Scenarios
     using Testing;
 
     [RequiresSilo]
-    public class Automatic_handler_wiring : ActorSystemScenario
+    public class Default_handler_wiring : ActorSystemScenario
     {
         [Test]
         public async void Should_automtically_wire_any_public_handler_with_single_arg_named_On_or_Handle()

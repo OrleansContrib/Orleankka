@@ -15,7 +15,7 @@ namespace Orleankka.Core
         public static IActorEndpoint Proxy(ActorPath path)
         {
             var factory = factories[path.Type];
-            return (IActorEndpoint) factory(path.Id);
+            return (IActorEndpoint) factory(path.ToString());
         }
 
         public static void Reset()

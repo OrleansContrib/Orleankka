@@ -104,5 +104,12 @@ namespace Orleankka.Cluster
             result.Load(assembly.LoadEmbeddedResource(fullResourcePath));
             return result;
         }
+
+        public static ClusterConfiguration GCTimeout(this ClusterConfiguration config, TimeSpan idle)
+        {
+            Requires.NotNull(config, "config");
+            config.Globals.Application.SetDefaultCollectionAgeLimit(idle);
+            return config;
+        }
     }
 }

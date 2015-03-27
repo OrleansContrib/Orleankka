@@ -8,7 +8,7 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [RequiresSilo]
+    [RequiresSilo(Fresh = true, GCTimeoutInMinutes = 1)]
     public class Using_reminders : ActorSystemScenario
     {
         [Test, Explicit]
@@ -17,8 +17,8 @@ namespace Orleankka.Scenarios
             var actor = system.FreshActorOf<TestActor>();
             var hashcode = await actor.Ask<long>(new GetInstanceHashcode());
             
-            await actor.Tell(new SetReminder());
-            await Task.Delay(TimeSpan.FromSeconds(90));
+            await actor.Tell(new SetReminder{Period = TimeSpan.FromMinutes(1.5)});
+            await Task.Delay(TimeSpan.FromMinutes(2.0));
 
             Assert.True(await actor.Ask<bool>(new HasBeenReminded()));
             Assert.AreNotEqual(hashcode, await actor.Ask<long>(new GetInstanceHashcode()));

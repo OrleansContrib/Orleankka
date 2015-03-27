@@ -62,7 +62,9 @@ namespace Orleankka.Scenarios
     }
 
     public class SetReminder : Command
-    {}
+    {
+        public TimeSpan Period;
+    }
 
     public class HasBeenReminded : Query<bool>
     {}
@@ -121,7 +123,7 @@ namespace Orleankka.Scenarios
 
         public void Handle(SetReminder cmd)
         {
-            reminders.Register("test", TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+            reminders.Register("test", TimeSpan.Zero, cmd.Period);
             activation.DeactivateOnIdle();
         }
 

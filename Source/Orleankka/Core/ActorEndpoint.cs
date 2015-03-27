@@ -115,9 +115,7 @@ namespace Orleankka.Core
 
         static string IdentityOf(IGrain grain)
         {
-            string identity;
-            grain.GetPrimaryKeyLong(out identity);
-            return identity;
+            return (grain as IGrainWithStringKey).GetPrimaryKeyString();
         }
 
         internal static IActorEndpoint Proxy(ActorPath path)
