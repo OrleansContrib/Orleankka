@@ -84,7 +84,6 @@
     <Compile Include="Fixtures\ClientRefFixture.cs" />
     <Compile Include="Scenarios\%40TestActor.cs" />
     <Compile Include="Scenarios\%40TestInsideActor.cs" />
-    <Compile Include="Meta.cs" />
     <Compile Include="Scenarios\Keep_alive.cs" />
     <Compile Include="Testing\ActorSystemScenario.cs" />
     <Compile Include="Scenarios\Passing_envelopes.cs" />

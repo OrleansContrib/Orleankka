@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Orleans;
 using Orleankka;
 using Orleankka.TestKit;
+using Orleankka.TestKit.Meta;
 
 namespace Demo
 {

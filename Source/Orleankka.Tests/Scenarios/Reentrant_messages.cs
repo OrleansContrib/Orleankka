@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Meta;
     using Testing;
 
     [RequiresSilo]
@@ -15,16 +16,16 @@ namespace Orleankka.Scenarios
         public async void Reentrant_could_be_defined_via_attribute()
         {
             var actor = system.FreshActorOf<TestReentrantDefinedViaAttributeActor>();
-            Assert.That(await actor.Ask<bool>(new RegularMessage()), Is.False);
-            Assert.That(await actor.Ask<bool>(new ReentrantMessage()), Is.True);
+            Assert.That(await actor.Ask(new RegularMessage()), Is.False);
+            Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
         }
         
         [Test]
         public async void Reentrant_could_be_defined_via_prototype()
         {
             var actor = system.FreshActorOf<TestReentrantDefinedViaPrototypeActor>();
-            Assert.That(await actor.Ask<bool>(new RegularMessage()), Is.False);
-            Assert.That(await actor.Ask<bool>(new ReentrantMessage()), Is.True);
+            Assert.That(await actor.Ask(new RegularMessage()), Is.False);
+            Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
         }
 
         [Test]
@@ -34,22 +35,23 @@ namespace Orleankka.Scenarios
             Assert.Throws<InvalidOperationException>(async ()=> await actor.Tell("boo"));
         }
 
-        class RegularMessage
+        class RegularMessage : Query<bool>
         {}
 
-        class ReentrantMessage
+        class ReentrantMessage : Query<bool>
         {}
 
         abstract class TestReentrantActorBase : Actor
         {
-            public bool Handle(RegularMessage message)
+            protected internal override void Define()
             {
-                return CallContext.LogicalGetData("ReceiveReentrant") == message;
+                On((RegularMessage x)   => ReceivedReentrant(x));
+                On((ReentrantMessage x) => ReceivedReentrant(x));
             }
 
-            public bool Handle(ReentrantMessage message)
+            static bool ReceivedReentrant(object message)
             {
-                return CallContext.LogicalGetData("ReceiveReentrant") == message;
+                return CallContext.LogicalGetData("LastMessageReceivedReentrant") == message;
             }
         }
 
@@ -62,6 +64,8 @@ namespace Orleankka.Scenarios
             protected internal override void Define()
             {
                 Reentrant(x => x is ReentrantMessage);
+                
+                base.Define();
             }
         }
 

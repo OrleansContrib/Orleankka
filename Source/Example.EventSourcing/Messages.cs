@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Orleankka.Meta;
+
 namespace Example
 {
     public class CreateInventoryItem : Command

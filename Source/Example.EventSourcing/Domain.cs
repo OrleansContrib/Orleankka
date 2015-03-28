@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Orleankka.Meta;
+
 namespace Example
 {
     public class InventoryItem : EventSourcedActor
@@ -80,7 +82,12 @@ namespace Example
 
         public InventoryItemDetails Handle(GetInventoryItemDetails query)
         {
-            return new InventoryItemDetails {Name = name, Total = total, Active = active};
+            return new InventoryItemDetails
+            {
+                Name = name, 
+                Total = total, 
+                Active = active
+            };
         }
 
         void CheckIsActive()

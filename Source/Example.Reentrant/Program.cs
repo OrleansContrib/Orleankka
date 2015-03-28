@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleankka;
+using Orleankka.Meta;
 using Orleankka.Playground;
 
 namespace Example
@@ -53,7 +54,7 @@ namespace Example
             {
                 while (!cts.Token.IsCancellationRequested)
                 {
-                    reads.Add(await rwx.Ask<int>(new Read()));
+                    reads.Add(await rwx.Ask(new Read()));
                     indicator.Write(reads.Count);
                 }
             },

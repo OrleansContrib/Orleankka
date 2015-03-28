@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorRefMock.cs" />
+    <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
     <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />

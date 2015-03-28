@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Meta;
     using Testing;
 
     [RequiresSilo]
@@ -23,9 +24,9 @@ namespace Orleankka.Scenarios
                 TextChanged @event = null;
 
                 var done = new AutoResetEvent(false);
-                var subscription = observer.Subscribe(notification =>
+                var subscription = observer.Subscribe((TextChanged e) =>
                 {
-                    @event = (TextChanged) notification;
+                    @event = e;
                     done.Set();
                 });
 
@@ -53,14 +54,14 @@ namespace Orleankka.Scenarios
             await actor.Tell(new Attach(observer));
             await actor.Tell(new SetText("a-a"));
 
-            var received = await observer.Ask<TextChanged[]>(new ReceivedNotifications());
+            TextChanged[] received = await observer.Ask(new ReceivedNotifications());
             Assert.That(received.Length, Is.EqualTo(1));
             Assert.That(received[0].Text, Is.EqualTo("a-a"));
 
             await actor.Tell(new Detach(observer));
             await actor.Tell(new SetText("kaboom"));
 
-            received = await observer.Ask<TextChanged[]>(new ReceivedNotifications());
+            received = await observer.Ask(new ReceivedNotifications());
             Assert.That(received.Length, Is.EqualTo(1), "Nothing new has been received");
         }
     }

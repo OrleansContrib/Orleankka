@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Meta;
 using Orleankka.Playground;
 using Orleankka.Testing;
 
@@ -34,22 +35,22 @@ namespace Example
         {
             var item = system.ActorOf<InventoryItem>("12345");
 
-            await item.Send(new CreateInventoryItem {Name = "XBOX1"});
+            await item.Tell(new CreateInventoryItem {Name = "XBOX1"});
             await Print(item);
 
-            await item.Send(new CheckInInventoryItem {Quantity = 10});
+            await item.Tell(new CheckInInventoryItem {Quantity = 10});
             await Print(item);
 
-            await item.Send(new CheckOutInventoryItem {Quantity = 5});
+            await item.Tell(new CheckOutInventoryItem {Quantity = 5});
             await Print(item);
 
-            await item.Send(new DeactivateInventoryItem());
+            await item.Tell(new DeactivateInventoryItem());
             await Print(item);
         }
 
         static async Task Print(ActorRef item)
         {
-            var details = await item.Query(new GetInventoryItemDetails());
+            var details = await item.Ask(new GetInventoryItemDetails());
             Console.WriteLine("{0}: {1} {2}", details.Name, details.Total, details.Active ? "" : "(deactivated)");
         }
     }

@@ -51,7 +51,7 @@ namespace Orleankka.Core
         public Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope)
         {
             #if DEBUG
-                CallContext.LogicalSetData("ReceiveReentrant", envelope.Message);
+                CallContext.LogicalSetData("LastMessageReceivedReentrant", envelope.Message);
             #endif
 
             return Receive(envelope);

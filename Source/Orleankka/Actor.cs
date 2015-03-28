@@ -7,6 +7,7 @@ using Orleans;
 namespace Orleankka
 {
     using Core;
+    using Meta;
     using Utility;
 
     public abstract class Actor
@@ -94,6 +95,12 @@ namespace Orleankka
             Prototype.RegisterReentrant(evaluator);
         }
 
+        protected void Reentrant<T>(Func<T, bool> evaluator)
+        {
+            Requires.NotNull(evaluator, "evaluator");
+            Prototype.RegisterReentrant(x => evaluator((T)x));
+        }
+
         protected void Dispatch(object message)
         {
             Requires.NotNull(message, "message");
@@ -128,7 +135,19 @@ namespace Orleankka
             Prototype.RegisterHandler(handler.Method);
         }
 
+        protected void On<TResult>(Func<Query<TResult>, TResult> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
+        }
+
         protected void On<TRequest, TResult>(Func<TRequest, Task<TResult>> handler)
+        {
+            Requires.NotNull(handler, "handler");
+            Prototype.RegisterHandler(handler.Method);
+        }
+
+        protected void On<TResult>(Func<Query<TResult>, Task<TResult>> handler)
         {
             Requires.NotNull(handler, "handler");
             Prototype.RegisterHandler(handler.Method);

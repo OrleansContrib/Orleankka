@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Meta;
 using Orleankka.Services;
 
 namespace Demo
@@ -134,7 +135,7 @@ namespace Demo
         {
             var provider = System.ActorOf<Api>(api);
 
-            total += await provider.Query(new Search(query));
+            total += await provider.Ask(new Search(query));
             Log.Message(ConsoleColor.DarkGray, "[{0}] succesfully obtained results from {1} ...", Id, api);
 
             await storage.WriteTotalAsync(Id, total);

@@ -8,6 +8,7 @@ using Orleans;
 
 namespace Orleankka.Scenarios
 {
+    using Meta;
     using Testing;
     using Services;
 
@@ -25,9 +26,9 @@ namespace Orleankka.Scenarios
 
         protected internal override void Define()
         {
-            On<GetInstanceHashcode, int>(x => RuntimeHelpers.GetHashCode(this));
-            On<SetReminder>(x => reminders.Register("test", TimeSpan.Zero, x.Period));
-            On<HasBeenReminded, bool>(x => reminded);
+            On((HasBeenReminded x)     => reminded);
+            On((SetReminder x)         => reminders.Register("test", TimeSpan.Zero, x.Period));
+            On((GetInstanceHashcode x) => RuntimeHelpers.GetHashCode(this));
         }
 
         public override Task OnReminder(string id)
@@ -44,11 +45,11 @@ namespace Orleankka.Scenarios
         public async void When_just_activated()
         {
             var actor = system.FreshActorOf<T>();
-            var hashcode = await actor.Ask<long>(new GetInstanceHashcode());
+            var hashcode = await actor.Ask(new GetInstanceHashcode());
 
             await Task.Delay(TimeSpan.FromMinutes(1.5));
 
-            Assert.AreEqual(hashcode, await actor.Ask<long>(new GetInstanceHashcode()),
+            Assert.AreEqual(hashcode, await actor.Ask(new GetInstanceHashcode()),
                 "Should respect per-type keepalive timeout and not being GC'ed as per global keepalive timeout");
         }
 
@@ -63,13 +64,13 @@ namespace Orleankka.Scenarios
 
             var actor = system.FreshActorOf<T>();
 
-            var hashcode = await actor.Ask<long>(new GetInstanceHashcode());
+            var hashcode = await actor.Ask(new GetInstanceHashcode());
             await Task.Delay(TimeSpan.FromMinutes(1.5));
 
-            await actor.Ask<long>(new GetInstanceHashcode());
+            await actor.Ask(new GetInstanceHashcode());
             await Task.Delay(TimeSpan.FromMinutes(1.5));
 
-            Assert.AreEqual(hashcode, await actor.Ask<long>(new GetInstanceHashcode()),
+            Assert.AreEqual(hashcode, await actor.Ask(new GetInstanceHashcode()),
                 "Should prolong keepalive timeout after every external request using per-type specified timeout");
         }
 
@@ -84,16 +85,16 @@ namespace Orleankka.Scenarios
             // we wait again for 1.5 minutes to disprove previous assumption (that automatic prolongation is not working) 
 
             var actor = system.FreshActorOf<T>();
-            var hashcode = await actor.Ask<long>(new GetInstanceHashcode());
+            var hashcode = await actor.Ask(new GetInstanceHashcode());
 
-            await actor.Tell(new SetReminder { Period = TimeSpan.FromMinutes(1.5) });
+            await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});
             await Task.Delay(TimeSpan.FromMinutes(1.5));
             await Task.Delay(TimeSpan.FromMinutes(1.5));
 
-            Assert.AreEqual(hashcode, await actor.Ask<long>(new GetInstanceHashcode()),
+            Assert.AreEqual(hashcode, await actor.Ask(new GetInstanceHashcode()),
                 "Should prolong keepalive timeout after every external request using per-type specified timeout");
 
-            Assert.IsTrue(await actor.Ask<bool>(new HasBeenReminded()));
+            Assert.IsTrue(await actor.Ask(new HasBeenReminded()));
         }
     }
 

@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Meta;
     using Testing;
 
     [RequiresSilo]
@@ -17,7 +18,7 @@ namespace Orleankka.Scenarios
             
             await actor.Tell(new SetText("c-a"));
             
-            Assert.AreEqual("c-a", await actor.Ask<string>(new GetText()));
+            Assert.AreEqual("c-a", await actor.Ask(new GetText()));
         }
 
         class TestLambdaActor : Actor
@@ -26,9 +27,9 @@ namespace Orleankka.Scenarios
 
             protected internal override void Define()
             {
-                On<SetText>(req => text = req.Text);
+                On((SetText x) => text = x.Text);
 
-                On<GetText, string>(req =>
+                On((GetText x) =>
                 {
                     var other = System.ActorOf<AnotherTestLambdaActor>("123");
                     return other.Ask<string>(text);
@@ -40,7 +41,7 @@ namespace Orleankka.Scenarios
         {
             protected internal override void Define()
             {
-                On<string, string>(req => req);
+                On<string, string>(x => x);
             }
         }
     }

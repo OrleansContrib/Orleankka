@@ -5,6 +5,9 @@ using System.Web;
 
 using NUnit.Framework;
 
+using Orleankka.TestKit;
+using Orleankka.TestKit.Meta;
+
 namespace Demo
 {
     [TestFixture]

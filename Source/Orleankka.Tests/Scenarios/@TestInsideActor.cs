@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace Orleankka.Scenarios
 {
+    using Meta; 
+
     public class DoTell : Command
     {
         public readonly ActorRef Target;

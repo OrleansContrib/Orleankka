@@ -4,39 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Meta;
 
 namespace Example
 {
-    public interface Command
-    {}
-
-    public interface Query
-    {}
-
-    public interface Query<TResult> : Query
-    {}
-
-    public interface Event
-    {}
-
-    public static class RefExtensions
-    {
-        public static Task Send<TCommand>(this ActorRef @ref, TCommand cmd) where TCommand : Command
-        {
-            return @ref.Tell(cmd);
-        }
-
-        public static Task<TResult> Query<TResult>(this ActorRef @ref, Query<TResult> query)
-        {
-            return @ref.Ask<TResult>(query);
-        }
-
-        public static void Publish<TEvent>(this ObserverRef @ref, TEvent @event) where TEvent : Event
-        {
-            @ref.Notify(@event);
-        }
-    }
-
     public abstract class CqsActor : Actor
     {
         protected override void Define()

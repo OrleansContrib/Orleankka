@@ -2,20 +2,22 @@
 using System.Linq;
 
 using Orleankka;
+using Orleankka.Meta;
 
 namespace Example.Azure
 {
     [Serializable]
-    public class InitHub {}
+    public class InitHub : Command 
+    {}
 
     [Serializable]
-    public class Subscribe
+    public class Subscribe : Command
     {
         public ObserverRef Observer;
     }
 
     [Serializable]
-    public class PublishEvents
+    public class PublishEvents : Command
     {
         public Event[] Events;
     }
@@ -29,22 +31,20 @@ namespace Example.Azure
             observers = new ObserverCollection();
         }
 
-        public void Handle(InitHub req)
-        {}
-
-        public void Handle(Subscribe req)
+        protected override void Define()
         {
-            observers.Add(req.Observer);
-        }
-        
-        public void Handle(PublishEvents req)
-        {
-            var notifications = req
-                .Events
-                .Select(e => new Notification(e, DateTime.Now, HubGateway.LocalHubId()))
-                .ToArray();
+            On((InitHub x) => {});
+            
+            On((Subscribe x) => observers.Add(x.Observer));
+            
+            On((PublishEvents x) =>
+            {
+                var notifications = x.Events
+                    .Select(e => new Notification(e, DateTime.Now, HubGateway.LocalHubId()))
+                    .ToArray();
 
-            observers.Notify(notifications);
+                observers.Notify(notifications);                
+            });
         }
     }
 }

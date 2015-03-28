@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Scenarios
 {
+    using Meta;
     using Testing;
 
     [Explicit, Category("Nightly")]
@@ -16,13 +17,13 @@ namespace Orleankka.Scenarios
         public async void When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
         {
             var actor = system.FreshActorOf<TestActor>();
-            var hashcode = await actor.Ask<long>(new GetInstanceHashcode());
+            var hashcode = await actor.Ask(new GetInstanceHashcode());
             
-            await actor.Tell(new SetReminder{Period = TimeSpan.FromMinutes(1.5)});
+            await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});
             await Task.Delay(TimeSpan.FromMinutes(2.0));
 
             Assert.True(await actor.Ask<bool>(new HasBeenReminded()));
-            Assert.AreNotEqual(hashcode, await actor.Ask<long>(new GetInstanceHashcode()));
+            Assert.AreNotEqual(hashcode, await actor.Ask(new GetInstanceHashcode()));
         } 
     }
 }

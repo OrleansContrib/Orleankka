@@ -42,7 +42,7 @@ namespace Orleankka.Scenarios
 
             protected internal override void Define()
             {
-                Reentrant(envelope => ((TestEnvelope)envelope).Body is ReentrantMessage);
+                Reentrant((TestEnvelope x) => x.Body is ReentrantMessage);
             }
 
             public override Task<object> OnReceive(object message)
@@ -53,12 +53,12 @@ namespace Orleankka.Scenarios
 
             public bool Handle(RegularMessage message)
             {
-                return CallContext.LogicalGetData("ReceiveReentrant") == envelope;
+                return CallContext.LogicalGetData("ReceivedReentrant") == envelope;
             }
 
             public bool Handle(ReentrantMessage message)
             {
-                return CallContext.LogicalGetData("ReceiveReentrant") == envelope;
+                return CallContext.LogicalGetData("ReceivedReentrant") == envelope;
             }
         }
     }

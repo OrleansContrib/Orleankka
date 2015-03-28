@@ -31,7 +31,7 @@ namespace Demo
             {
                 var topic = system.ActorOf<Topic>(i.ToString());
 
-                await topic.Send(new CreateTopic("[" + i + "]", new Dictionary<ActorRef, TimeSpan>
+                await topic.Tell(new CreateTopic("[" + i + "]", new Dictionary<ActorRef, TimeSpan>
                 {
                     {facebook, TimeSpan.FromMinutes(1)},
                     {twitter, TimeSpan.FromMinutes(1)},

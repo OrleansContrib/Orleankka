@@ -4,10 +4,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka.Services;
 
 namespace Orleankka.Scenarios
 {
+    using Meta; 
+    using Services; 
+
     public class SetText : Command
     {
         public readonly string Text;
@@ -69,7 +71,7 @@ namespace Orleankka.Scenarios
     public class HasBeenReminded : Query<bool>
     {}
 
-    public class GetInstanceHashcode : Query<int>
+    public class GetInstanceHashcode : Query<long>
     {}
 
     public class TestActor : Actor

@@ -3,18 +3,19 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Meta;
 
 namespace Example
 {
     [Serializable]
-    public class Write
+    public class Write : Command
     {
         public int Value;
         public TimeSpan Delay;
     }
 
     [Serializable]
-    public class Read
+    public class Read : Query<int>
     {}
 
     [Reentrant(typeof(Read))]

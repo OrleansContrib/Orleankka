@@ -12,14 +12,19 @@ namespace Example.Native.Serialization
 
         protected override void Define()
         {
-            On<AddDirectReport>(async req =>
+            On<AddDirectReport>(async x =>
             {
-                reports.Add(req.Employee);
-                await req.Employee.Tell(new SetManager {Manager = Self});                
-                await req.Employee.Tell(new Greeting {From = Self, Text = "Welcome to my team!"});                
+                reports.Add(x.Employee);
+                
+                await x.Employee.Tell(new SetManager {Manager = Self});                
+                await x.Employee.Tell(new Greeting
+                {
+                    From = Self, 
+                    Text = "Welcome to my team!"
+                });                
             });
 
-            On<GetDirectReports, IEnumerable<ActorRef>>(req => reports);
+            On((GetDirectReports x) => reports.ToList());
         }
     }
 }

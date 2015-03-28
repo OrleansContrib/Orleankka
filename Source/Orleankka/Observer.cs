@@ -78,6 +78,13 @@ namespace Orleankka
             return client.Subscribe(new DelegateObserver(callback));
         }
 
+        public static IDisposable Subscribe<T>(this Observer client, Action<T> callback)
+        {
+            Requires.NotNull(callback, "callback");
+
+            return client.Subscribe(new DelegateObserver(x => callback((T)x)));
+        }
+
         class DelegateObserver : IObserver<object>
         {
             readonly Action<object> callback;

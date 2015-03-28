@@ -93,7 +93,6 @@
     <Compile Include="Api.cs" />
     <Compile Include="ApiWorker.cs" />
     <Compile Include="Client.cs" />
-    <Compile Include="Meta.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator.cs" />
