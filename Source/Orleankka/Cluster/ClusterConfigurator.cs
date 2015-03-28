@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Permissions;
 
 using Orleans.Runtime.Configuration;
 
@@ -75,6 +76,12 @@ namespace Orleankka.Cluster
                 bootstrapper.Register(Configuration.Globals);
 
             base.Configure();
+        }
+
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
+        public override object InitializeLifetimeService()
+        {
+            return null;
         }
     }
 
