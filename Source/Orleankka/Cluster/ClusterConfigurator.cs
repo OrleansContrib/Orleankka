@@ -105,7 +105,7 @@ namespace Orleankka.Cluster
             return result;
         }
 
-        public static ClusterConfiguration GCTimeout(this ClusterConfiguration config, TimeSpan idle)
+        public static ClusterConfiguration DefaultKeepAliveTimeout(this ClusterConfiguration config, TimeSpan idle)
         {
             Requires.NotNull(config, "config");
             config.Globals.Application.SetDefaultCollectionAgeLimit(idle);

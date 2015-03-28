@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Core;
     using Utility;
 
     [DebuggerDisplay("_{actor}")]
@@ -15,6 +16,7 @@ namespace Orleankka
         static readonly Dictionary<Type, ActorPrototype> cache =
                     new Dictionary<Type, ActorPrototype>();
 
+        readonly GC gc;
         readonly Reentrant reentrant;
         readonly Dispatcher dispatcher;
 
@@ -50,11 +52,22 @@ namespace Orleankka
 
         ActorPrototype(Type actor)
         {
+            gc = new GC(actor);
             reentrant = new Reentrant(actor);
             dispatcher = new Dispatcher(actor);
         }
 
-        public void RegisterReentrant(Func<object, bool> evaluator)
+        internal void SetKeepAlive(TimeSpan timeout)
+        {
+            gc.SetKeepAlive(timeout);
+        }
+
+        internal void KeepAlive(IActorEndpointActivationService endpoint)
+        {
+            gc.KeepAlive(endpoint);
+        }
+
+        internal void RegisterReentrant(Func<object, bool> evaluator)
         {
             AssertClosed();
             reentrant.Register(evaluator);
@@ -65,7 +78,7 @@ namespace Orleankka
             return reentrant.IsReentrant(message);
         }
 
-        public void RegisterHandler(MethodInfo method)
+        internal void RegisterHandler(MethodInfo method)
         {
             AssertClosed();
             dispatcher.Register(method);

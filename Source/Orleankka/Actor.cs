@@ -145,5 +145,10 @@ namespace Orleankka
             Requires.NotNull(handler, "handler");
             Prototype.RegisterHandler(handler.Method);
         }
+
+        protected void KeepAlive(TimeSpan timeout)
+        {
+            Prototype.SetKeepAlive(timeout);
+        }
     }
 }

@@ -8,10 +8,11 @@ namespace Orleankka.Scenarios
 {
     using Testing;
 
-    [RequiresSilo(Fresh = true, GCTimeoutInMinutes = 1)]
+    [Explicit, Category("Nightly")]
+    [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
     public class Using_reminders : ActorSystemScenario
     {
-        [Test, Explicit]
+        [Test]
         public async void When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
         {
             var actor = system.FreshActorOf<TestActor>();

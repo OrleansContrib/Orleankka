@@ -9,12 +9,6 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void AutomaticDeactivation()
-        {
-            // - Add support for per-type idle deactivation timeouts
-        }
-
-        [Test, Ignore]
         public void Samples()
         {
             // - Add DI container sample (Unity)

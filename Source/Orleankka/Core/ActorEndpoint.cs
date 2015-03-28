@@ -43,6 +43,8 @@ namespace Orleankka.Core
                 await Activate(ActorPath.Deserialize(envelope.Target));
 
             Debug.Assert(actor != null);
+            KeepAlive();
+
             return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
@@ -61,6 +63,8 @@ namespace Orleankka.Core
                 await Activate(ActorPath.Deserialize(IdentityOf(this)));
 
             Debug.Assert(actor != null);
+            KeepAlive();
+
             await actor.OnReminder(reminderName);
         }
 
@@ -72,6 +76,11 @@ namespace Orleankka.Core
             actor.Initialize(path.Id, system, this, ActorPrototype.Of(path.Type));
             
             await actor.OnActivate();
+        }
+
+        void KeepAlive()
+        {
+            actor.Prototype.KeepAlive(this);
         }
 
         #region Internals

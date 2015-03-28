@@ -11,10 +11,11 @@ namespace Orleankka.Testing
     using Cluster;
     using Playground;
 
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
         public bool Fresh;
-        public int GCTimeoutInMinutes = 1;
+        public int DefaultKeepAliveTimeoutInMinutes = 1;
 
         public override void BeforeTest(TestDetails details)
         {
@@ -44,7 +45,7 @@ namespace Orleankka.Testing
             TestActorSystem.Instance = ActorSystem.Configure()
                 .Playground()
                 .Tweak(cluster => cluster
-                    .GCTimeout(TimeSpan.FromMinutes(GCTimeoutInMinutes)))
+                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
                 .Register(GetType().Assembly)
                 .Serializer<JsonSerializer>()
                 .Done();
