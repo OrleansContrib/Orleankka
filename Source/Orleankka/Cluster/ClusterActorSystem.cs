@@ -9,20 +9,24 @@ namespace Orleankka.Cluster
 {
     public class ClusterActorSystem : MarshalByRefObject, IActorSystem
     {
+        static IActorSystem current;
+
         public static IActorSystem Current 
         {
             get
             {
-                var instance = AppDomain.CurrentDomain.GetData("ActorSystem.Current") as IActorSystem;
-                
-                if (instance == null)
+                if (current == null)
                     throw new InvalidOperationException("Cluster actor system hasn't been initialized");
 
-                return instance;
+                return current;
             }
+
             internal set
             {
-                AppDomain.CurrentDomain.SetData("ActorSystem.Current", value);
+                if (current != null)
+                    throw new InvalidOperationException("Cluster actor system has been already initialized");
+
+                current = value;
             }
         }
 
@@ -31,9 +35,9 @@ namespace Orleankka.Cluster
 
         internal ClusterActorSystem(IDisposable configurator, ClusterConfiguration configuration)
         {
+            Current = this;
             this.configurator = configurator;
             host = new SiloHost(Dns.GetHostName(), configuration);
-            Current = this;
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)

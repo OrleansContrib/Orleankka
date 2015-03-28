@@ -13,10 +13,9 @@ namespace Orleankka.Cluster
 
         internal AzureClusterActorSystem(ClusterConfigurator cluster)
         {
+            ClusterActorSystem.Current = this;
             this.cluster = cluster;
             host = new AzureSilo();
-            
-            ClusterActorSystem.Current = this;
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
