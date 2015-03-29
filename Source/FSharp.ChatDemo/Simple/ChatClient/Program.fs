@@ -29,8 +29,8 @@ let main argv =
    printfn "Enter your user name... \n"
    let userName = Console.ReadLine()     
    
-   use observer = client.Subscribe(fun message ->          
-      match (message :?> ClientMessage) with
+   use observer = client.Subscribe(fun message  ->          
+      match (message) with
       | NewMessage (userName, text) -> printfn "%s: %s\n" userName text
       | Notification text -> printfn "%s\n" text)   
    
