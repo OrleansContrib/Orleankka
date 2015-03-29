@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Orleankka.Fixtures
+namespace Orleankka.Checks
 {
     [TestFixture]
     public class ClientRefFixture

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Playground;
-using Orleankka.Testing;
+using Orleankka.Utility;
 
 namespace Example
 {

@@ -69,7 +69,7 @@ namespace Orleankka
                 .Cast<ActorTypeCodeAttribute>()
                 .SingleOrDefault();
 
-            return att != null ? att.Code : type.Name;
+            return att != null ? att.Code : type.FullName;
         }
     }
 
