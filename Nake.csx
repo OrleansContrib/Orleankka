@@ -6,6 +6,7 @@ using Nake.Run;
 using Nake.Log;
 
 using System.Linq;
+using System.Net;
 using System.Xml.Linq;
 using System.Diagnostics;
 
@@ -19,6 +20,8 @@ const string OutputPath = RootPath + @"\Output";
 
 var PackagePath = @"{OutputPath}\Package";
 var ReleasePath = @"{PackagePath}\Release";
+
+var AppVeyor = Var["APPVEYOR"] == "True";
 
 /// Builds sources in Debug mode
 [Task] void Default()
@@ -48,7 +51,13 @@ var ReleasePath = @"{PackagePath}\Release";
     Build("Debug", outDir);
 
     var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
-    Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe /framework:net-4.0 /noshadow /nologo {tests}");
+    var results = @"{outputPath}\nunit-test-results.xml";
+
+    Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
+        @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests}");
+
+    if (AppVeyor)
+        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
 }
 
 /// Builds official NuGet packages 
