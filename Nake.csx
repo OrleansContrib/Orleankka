@@ -4,6 +4,7 @@
 using Nake.FS;
 using Nake.Run;
 using Nake.Log;
+using Nake.Env;
 
 using System.Linq;
 using System.Net;
