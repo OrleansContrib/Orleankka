@@ -30,7 +30,6 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        [ActorTypeCode("oa")]
         public class TestActor : Actor
         {
             ObserverRef observer;
