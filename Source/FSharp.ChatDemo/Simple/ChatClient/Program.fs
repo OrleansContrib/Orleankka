@@ -11,10 +11,8 @@ let mutable client = null
 
 [<EntryPoint>]
 let main argv =    
-
-   let assembly = Assembly.GetExecutingAssembly()
-
-   let config = ClientConfiguration().LoadFromEmbeddedResource(assembly, "Client.xml")
+   
+   let config = ClientConfiguration().LoadFromEmbeddedResource(Assembly.GetExecutingAssembly(), "Client.xml")
    
    use system = ActorSystem.Configure()
                            .Client()
@@ -30,7 +28,7 @@ let main argv =
    let userName = Console.ReadLine()     
    
    use observer = client.Subscribe(fun message  ->          
-      match (message) with
+      match message with
       | NewMessage (userName, text) -> printfn "%s: %s\n" userName text
       | Notification text -> printfn "%s\n" text)   
    

@@ -1,6 +1,5 @@
 ﻿module Account
 
-open Orleankka
 open Orleankka.FSharp
 
 type AccountMessage = 
@@ -13,8 +12,8 @@ type Account() =
 
    let mutable balance = 0   
    
-   override this.Receive req reply = task {
-      match req with
+   override this.Receive message reply = task {
+      match message with
       | Deposit amount   -> balance <- balance + amount
       | Withdraw amount  -> balance <- balance - amount
       | Balance          -> reply balance
