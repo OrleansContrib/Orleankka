@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>195f95c3-accd-474a-8c71-2f6b89de1b52</ProjectGuid>
+    <ProjectGuid>2aa36c25-cb86-4d10-a2d1-0514715e0cb5</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Orleankka.FSharp</RootNamespace>
-    <AssemblyName>Orleankka.FSharp.HelloWorld</AssemblyName>
+    <RootNamespace>ChatClient</RootNamespace>
+    <AssemblyName>Orleankka.FSharp.Demo.Chat.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
-    <Name>HelloWorld</Name>
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <Name>Client</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Demo.FSharp.HelloWorld.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\ChatClient.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,22 +34,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Demo.FSharp.HelloWorld.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ChatClient.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Package|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Demo.FSharp.HelloWorld.XML</DocumentationFile>
-    <Prefer32Bit>true</Prefer32Bit>
-    <OutputPath>bin\Package\</OutputPath>
   </PropertyGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '11.0'">
@@ -66,8 +55,9 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="Program.fs" />
+    <EmbeddedResource Include="Client.xml" />
     <None Include="App.config" />
-    <None Include="Packages.config" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm">
@@ -109,15 +99,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Spatial">
-      <HintPath>..\..\packages\System.Spatial.5.6.3\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\FSharp.Demo.Chat.Server\Server.fsproj">
+      <Name>Server</Name>
+      <Project>{f34f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
@@ -130,6 +119,10 @@
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Reference Include="System.Spatial">
+      <HintPath>..\..\packages\System.Spatial.5.6.3\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

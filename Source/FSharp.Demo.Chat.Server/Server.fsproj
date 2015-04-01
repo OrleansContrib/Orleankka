@@ -8,11 +8,11 @@
     <ProjectGuid>f34f64e7-dc9a-4560-873a-74eb16d0d7f0</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ChatServer</RootNamespace>
-    <AssemblyName>ChatServer</AssemblyName>
+    <AssemblyName>Orleankka.FSharp.Demo.Chat.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ChatServer</Name>
+    <Name>Server</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,23 +62,23 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm">
-      <HintPath>..\..\..\..\packages\Microsoft.Data.Edm.5.6.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData">
-      <HintPath>..\..\..\..\packages\Microsoft.Data.OData.5.6.3\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.OData.5.6.3\lib\net40\Microsoft.Data.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client">
-      <HintPath>..\..\..\..\packages\Microsoft.Data.Services.Client.5.6.3\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.3\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
-      <HintPath>..\..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage">
-      <HintPath>..\..\..\..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
@@ -86,37 +86,37 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <ProjectReference Include="..\..\..\FSharp.Api\Orleankka.FSharp.fsproj">
+    <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Orleankka.Core\Orleankka.Core.csproj">
+    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Name>Orleankka.Core</Name>
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Orleankka\Orleankka.csproj">
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Name>Orleankka</Name>
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="System.Spatial">
-      <HintPath>..\..\..\..\packages\System.Spatial.5.6.3\lib\net40\System.Spatial.dll</HintPath>
+      <HintPath>..\..\packages\System.Spatial.5.6.3\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
