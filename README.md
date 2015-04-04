@@ -47,28 +47,32 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 
 ### Add-ons
 
-Additional goodies (provided by Orleankka):
+##### Goodies
 
-| Package | Link | Description
+| ID | Link | Description
 | ------- |:----:| ---------- |
-| Orleankka.FSharp | [[NuGet](https://www.nuget.org/packages/Orleankka.FSharp)] | Special api for F#
-| Orleankka.TestKit | [[NuGet](https://www.nuget.org/packages/Orleankka.TestKit)] | Unit testing kit
-| Orleankka.Azure | [[NuGet](https://www.nuget.org/packages/Orleankka.Azure)] | Fluent configuration for Azure
+| Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | Special api for F#
+| Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
+| Orleankka.Azure | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Azure.svg?style=flat)](https://www.nuget.org/packages/Orleankka.Azure/) | Fluent configuration for Azure
 
 ##### Serialization
 
-+ .NET binary [Built-in]
-+ Orleans native [Built-in]
-+ JSON [[NuGet](https://www.nuget.org/packages/Orleankka.Serialization.JSON)]
-+ Microsoft Bond [PLANNED]
-+ Google Protocol Buffers [PLANNED]
+| ID | Link | Description
+| ------- |:----:| ---------- |
+| .NET binary | [Built-in] | Default. Standard binary seriailization. See `BinarySerializer` 
+| Orleans native | [Built-in] | Orleans native codegened serialization. See `NativeSerializer` 
+| JSON | [[NuGet](https://www.nuget.org/packages/Orleankka.Serialization.JSON)] | Newtonsoft.JSON serialization
+| Bond | [PLANNED] | Microsoft Bond
+| ProtoBuf | [PLANNED] | Google Protocol Buffers
 
 ##### DI
 
-+ Service Locator [Built-in, via Bootstrapper]
-+ Unity   [PLANNED]
-+ NInject [PLANNED]
-+ AutoFac [PLANNED]
+| ID | Link | Description
+| ------- |:----:| ---------- |
+| Service Locator | [Built-in] | Via `Bootstrapper`. See example [here](Source/Demo.App) 
+| Unity   | [PLANNED] | Microsoft Unity IoC container
+| NInject | [PLANNED] | NInject IoC container
+| Autofac | [PLANNED] | Autofac IoC container
 
 ### How to install
 
