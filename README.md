@@ -65,7 +65,7 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 | Bond | [PLANNED] | Microsoft Bond
 | ProtoBuf | [PLANNED] | Google Protocol Buffers
 
-##### DI
+##### Dependency Injection
 
 | ID | Link | Description
 | ------- |:----:| ---------- |
