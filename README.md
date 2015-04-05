@@ -60,6 +60,14 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 + More examples
 + Reference documentation
 
+### How to install
+
+To install Orleankka via NuGet, run this command in NuGet package manager console:
+
+	PM> Install-Package Orleankka
+
+Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28C%23%29) ([F#](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28F%23%29)).
+
 ### Add-ons
 
 |  |  | [inside]
@@ -68,25 +76,25 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 | Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
 | Orleankka.Azure | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Azure.svg?style=flat)](https://www.nuget.org/packages/Orleankka.Azure/) | Fluent configuration for Azure
 
+### Examples
+
++ Event Sourcing [[basic]](Source/Example.EventSourcing)
++ Reentrant messages [[rw-x]](Source/Example.Reentrant)
++ Azure cloud service [[hub]](Source/Example.Azure.Cluster)
++ Testing actors in isolation [[kit]](Source/Demo.App.Tests/TopicFixture.cs)
++ (F#) "Hello, world!", "Chat", "eShop" [[see]](Source/)
+
 ##### Serialization
 
-+ .NET binary **[default]** 
-+ Orleans native (codegened) [[built-in]](https://github.com/yevhen/Orleankka/blob/master/Source/Example.Serialization.Native.App/Program.cs#L19)
-+ Newtonsoft.JSON [[sample]](https://github.com/yevhen/Orleankka/blob/master/Source/Orleankka.Tests/Utility/JsonSerializer.cs)
++ .NET binary [default] 
++ Orleans native (codegened) [[built-in]](Source/Example.Serialization.Native.App/Program.cs#L19)
++ Newtonsoft.JSON [[see]](Source/Orleankka.Tests/Utility/JsonSerializer.cs)
 
 ##### Dependency Injection
 
-+ Service Locator [[sample]](Source/Demo.App)
-+ Unity   [[sample]](Source/Example.DI.Unity) 
-+ NInject [[sample]](Source/Example.DI.NInject)
-
-### How to install
-
-To install Orleankka via NuGet, run this command in NuGet package manager console:
-
-	PM> Install-Package Orleankka
-
-Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28C%23%29) ([F#](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28F%23%29)).
++ Service Locator [[see]](Source/Demo.App)
++ Unity   [[see]](Source/Example.DI.Unity) 
++ NInject [[see]](Source/Example.DI.NInject)
 
 ### Documentation
 
