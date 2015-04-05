@@ -21,7 +21,7 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 - __No sacrifices__. Full feature parity with native Orleans api and more.
 - __Side-by-side execution__. Can mix uniform actors with native Orleans' grains.
 - __Simplicity__. For both simple and complex scenarios.
-- __Designed for testability__. Inversion of control and runtime independence - you drive the framework.  
+- __Designed for testability__. Inversion of control - you drive the framework.  
 - __Annoyance-free__. Eliminate noise induced by Orleans' native programming model.
 - __Low friction__. Within syntax limits of major programming languages (C#/F#).
 
