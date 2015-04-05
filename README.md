@@ -62,7 +62,7 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 
 ### Add-ons
 
-| ID | Link | Description
+|  |  | [inside]
 | ------- |:----:| ---------- |
 | Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | Special api for F#
 | Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
@@ -70,15 +70,15 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 
 ##### Serialization
 
-+ .NET binary [default] 
-+ Orleans native (codegened) [[built-in](https://github.com/yevhen/Orleankka/blob/master/Source/Example.Serialization.Native.App/Program.cs#L19)] 
-+ Newtonsoft.JSON [[sample](https://github.com/yevhen/Orleankka/blob/master/Source/Orleankka.Tests/Utility/JsonSerializer.cs)]
++ .NET binary **[default]** 
++ Orleans native (codegened) [[built-in]](https://github.com/yevhen/Orleankka/blob/master/Source/Example.Serialization.Native.App/Program.cs#L19)
++ Newtonsoft.JSON [[sample]](https://github.com/yevhen/Orleankka/blob/master/Source/Orleankka.Tests/Utility/JsonSerializer.cs)
 
 ##### Dependency Injection
 
-+ Service Locator [[sample](Source/Demo.App)]
-+ Unity   [[sample](Source/Example.DI.Unity)] 
-+ NInject [[sample](Source/Example.DI.NInject)]
++ Service Locator [[sample]](Source/Demo.App)
++ Unity   [[sample]](Source/Example.DI.Unity) 
++ NInject [[sample]](Source/Example.DI.NInject)
 
 ### How to install
 
