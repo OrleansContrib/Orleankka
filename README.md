@@ -6,7 +6,6 @@
 
 Orleankka is a complementary API for Microsoft Orleans framework. Orleankka's API is based on [message passing](http://en.wikipedia.org/wiki/Message_passing) style of communication. Orleankka was developed specifically for scenarios, where having a uniform communication interface would payoff in terms of reduced code repetition (DRY, SRP) and respectively, increased code clarity. The API was thoroughly crafted to be as convenient to use from both, imperative object-oriented languages, like C#, as well as from functional, such as F#.
 
-
 ### Why?
 
 Out-of-the box, Microsoft Orleans comes with static code generator and support for non-uniform custom interfaces, very similar to WCF. This approach fits nicely into an object-oriented paradigm and is good enough for majority of applications and use-cases.
@@ -19,35 +18,49 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 
 ### Goals
 
-- __No sacrifices__. Absolute feature parity with native Orleans api and more.
-- __Side-by-side execution__. Can mix Orleankka's uniform actors with native Orleans' grains.
+- __No sacrifices__. Full feature parity with native Orleans api and more.
+- __Side-by-side execution__. Can mix uniform actors with native Orleans' grains.
 - __Simplicity__. For both simple and complex scenarios.
-- __Designed for testability__. No need to introduce any synthetic classes to gain testability. 
-- __Annoyance-free__. Eliminate all noise and repetitiveness of Orleans' native programming model.
-- __Low friction__. Within a syntax limits of major programming languages (F#/C#).
+- __Designed for testability__. Inversion of control and runtime independence - you drive the framework.  
+- __Annoyance-free__. Eliminate noise induced by Orleans' native programming model.
+- __Low friction__. Within syntax limits of major programming languages (C#/F#).
 
 ### Features
 
-+ No static code generation
+##### Runtime
+
++ Dynamic proxy creation
 + Pluggable serialization protocols
-+ Usable from any CLR language (not only C#/VB)
-+ Proper support for F# (DU, Pattern Matching, Tasks)
-+ Dependency injection support (service locator, IoC containers)
-+ Simplified system configuration via fluent DSL (client, cluster, embedded, azure)
++ Dependency injection support
++ Simplified configuration via fluent DSL (client, cluster, azure, embedded)
++ Programmable from any .NET language
+
+##### Actors
+
++ Higher-order catch-all function (AOP)
++ Message handler auto-wiring
++ Reentrant messages
++ Automatic GC with configurable keep-alive timeouts
++ Runtime independence (isolated testing)
+
+##### Other
+
 + Convenient unit testing kit (stubs, mocks, expectations)
++ Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
++ Support of non-uniform and lambda-based message handlers (noise reduction for C#)
 + Reactive Extensions (RX) support (client-side observers)
 + Frictionless exception handling (automatic unwrapping of AggregateException)
-+ Higher-order catch-all function (AOP)
-+ Support for non-uniform message handlers (noise reduction for C#)
-+ Message handler auto-wiring (based on simple conventions)
-+ Lambda-based message handlers (C#)
-+ Reentrant messages
-+ Extensible actor prototypes [PLANNED]
-+ Automatic actor deactivation (configurable on per-type basis)
+
+### Roadmap
+
++ Extensible actor prototypes
++ Additional serialization formats (ProtoBuf, Bond?)
++ FSM support
++ Http endpoint
++ More examples
++ Reference documentation
 
 ### Add-ons
-
-##### Goodies
 
 | ID | Link | Description
 | ------- |:----:| ---------- |
@@ -57,22 +70,15 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 
 ##### Serialization
 
-| ID | Link | Description
-| ------- |:----:| ---------- |
-| .NET binary | [Built-in] | Default. Standard binary seriailization. See `BinarySerializer` 
-| Orleans native | [Built-in] | Orleans native codegened serialization. See `NativeSerializer` 
-| JSON | [[NuGet](https://www.nuget.org/packages/Orleankka.Serialization.JSON)] | Newtonsoft.JSON serialization
-| Bond | [PLANNED] | Microsoft Bond
-| ProtoBuf | [PLANNED] | Google Protocol Buffers
++ .NET binary [default] 
++ Orleans native (codegened) [[built-in](https://github.com/yevhen/Orleankka/blob/master/Source/Example.Serialization.Native.App/Program.cs#L19)] 
++ Newtonsoft.JSON [[sample](https://github.com/yevhen/Orleankka/blob/master/Source/Orleankka.Tests/Utility/JsonSerializer.cs)]
 
 ##### Dependency Injection
 
-| ID | Link | Description
-| ------- |:----:| ---------- |
-| Service Locator | [Built-in] | Via `Bootstrapper`. See example [here](Source/Demo.App) 
-| Unity   | [PLANNED] | Microsoft Unity IoC container
-| NInject | [PLANNED] | NInject IoC container
-| Autofac | [PLANNED] | Autofac IoC container
++ Service Locator [[sample](Source/Demo.App)]
++ Unity   [[sample](Source/Example.DI.Unity)] 
++ NInject [[sample](Source/Example.DI.NInject)]
 
 ### How to install
 
