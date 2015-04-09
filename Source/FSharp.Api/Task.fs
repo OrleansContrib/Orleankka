@@ -102,8 +102,8 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
    member this.TryWith(t:unit -> Task<'f>, catchFn:exn -> Task<'f>) =
       t().ContinueWith(fun (t:Task<'f>) -> 
             match t.IsFaulted with
-            | true  -> returnM(t.Result)
-            | false -> catchFn(t.Exception))
+            | false -> returnM(t.Result)
+            | true  -> catchFn(t.Exception))
          .Unwrap()
 
    member this.TryFinally(m, compensation) =
