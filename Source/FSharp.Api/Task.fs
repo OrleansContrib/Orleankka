@@ -7,7 +7,7 @@ open System.Threading
 open System.Threading.Tasks
 
 type Result<'T> = 
-   | Canceled   
+   | Canceled of exn
    | Error of exn    
    | Successful of 'T
 
@@ -18,10 +18,10 @@ let run (t: unit -> Task<_>) =
       let task = t()
       task.Result |> Result.Successful
    with 
-   | :? OperationCanceledException -> Result.Canceled
+   | :? OperationCanceledException as e -> Result.Canceled e
    | :? AggregateException as e ->
       match e.InnerException with
-      | :? TaskCanceledException -> Result.Canceled
+      | :? TaskCanceledException as e -> Result.Canceled e
       | _ -> Result.Error e
    | e -> Result.Error e
 
@@ -114,6 +114,12 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
    member this.While(guard, m) =
       if not(guard()) then this.Zero() else
             this.Bind(m(), fun () -> this.While(guard, m))
+
+   member this.TryWith(t, catchFn) = 
+      run(t) |> function
+      | Canceled ex  -> catchFn(ex)
+      | Error ex     -> catchFn(ex)
+      | Successful v -> returnM(v)
 
    member this.TryFinally(m, compensation) =
       try this.ReturnFrom m
