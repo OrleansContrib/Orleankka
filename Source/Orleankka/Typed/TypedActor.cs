@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace Orleankka.Typed
 {
     public class TypedActor : Actor
     {
+        static readonly Task<object> Done = Task.FromResult((object)null);
+
         public override Task<object> OnReceive(object message)
         {
             var invocation = message as Invocation;
@@ -18,24 +21,45 @@ namespace Orleankka.Typed
                 .GetMembers()
                 .Single(x => x.MetadataToken == invocation.Token);
 
-            if (member.MemberType == MemberTypes.Method)
-                return InvokeMethod(member as MethodInfo, invocation.Arguments);
-
-            throw new NotSupportedException("Yet");
+            return member.MemberType == MemberTypes.Method 
+                    ? InvokeMethod(member as MethodInfo, invocation.Arguments) 
+                    : InvokeMember(member, invocation.Arguments);
         }
 
-        async Task<object> InvokeMethod(MethodInfo method, object[] arguments)
+        Task<object> InvokeMethod(MethodInfo method, object[] arguments)
         {
             var result = method.Invoke(this, arguments);
 
             if (!typeof(Task).IsAssignableFrom(method.ReturnType))
-                return method.ReturnType == typeof(void) ? null : result;
+                return method.ReturnType != typeof(void) ? Task.FromResult(result) : Done;
 
-            if (method.ReturnType.GenericTypeArguments.Length != 0)
+            var task = (Task) result;
+            return task.ContinueWith(t =>
+            {
+                if (t.Status == TaskStatus.Faulted)
+                {
+                    Debug.Assert(t.Exception != null);
+                    throw t.Exception;
+                }
+
+                if (t.GetType() == typeof(Task))
+                    return (object)null;
+
+                return (object)((dynamic)task).Result;
+            });
+        }
+
+        Task<object> InvokeMember(MemberInfo member, object[] arguments)
+        {
+            if (member.MemberType == MemberTypes.Field)
                 throw new NotSupportedException("Yet");
-            
-            await (Task) result;
-            return null;
+
+            var property = (PropertyInfo) member;
+            if (arguments.Length == 0)
+                return Task.FromResult(property.GetValue(this));
+
+            property.SetValue(this, arguments[0]);
+            return Done;
         }
     }
 }

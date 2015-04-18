@@ -19,16 +19,36 @@ namespace Orleankka.Typed
         public Task Call(Expression<Action<TActor>> expr)
         {
             Requires.NotNull(expr, "expr");
-
-            var call = (MethodCallExpression) (expr.Body);
-            return @ref.Tell(new Invocation(call.Method, EvaluateArguments(call)));
+            return CallVoid(expr.Body);
         }
 
         public Task<TResult> Call<TResult>(Expression<Func<TActor, TResult>> expr)
         {
             Requires.NotNull(expr, "expr");
+            return CallResult<TResult>(expr.Body);
+        }
 
-            var call = (MethodCallExpression) (expr.Body);
+        public Task Call(Expression<Func<TActor, Task>> expr)
+        {
+            Requires.NotNull(expr, "expr");
+            return CallVoid(expr.Body);
+        }
+
+        public Task<TResult> Call<TResult>(Expression<Func<TActor, Task<TResult>>> expr)
+        {
+            Requires.NotNull(expr, "expr");
+            return CallResult<TResult>(expr.Body);
+        }
+
+        Task CallVoid(Expression expr)
+        {
+            var call = (MethodCallExpression) (expr);
+            return @ref.Tell(new Invocation(call.Method, EvaluateArguments(call)));
+        }
+
+        Task<TResult> CallResult<TResult>(Expression expr)
+        {
+            var call = (MethodCallExpression) (expr);
             return @ref.Ask<TResult>(new Invocation(call.Method, EvaluateArguments(call)));
         }
 
