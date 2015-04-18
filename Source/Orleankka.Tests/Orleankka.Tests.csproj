@@ -83,6 +83,7 @@
     <Compile Include="Checks\ActorRefFixture.cs" />
     <Compile Include="Checks\ClientRefFixture.cs" />
     <Compile Include="Features\Keep_alive.cs" />
+    <Compile Include="Features\Typed_actors.cs" />
     <Compile Include="Testing\TestActions.cs" />
     <Compile Include="Testing\TestActorSystem.cs" />
     <Compile Include="Features\Reentrant_messages.cs" />

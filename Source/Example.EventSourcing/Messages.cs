@@ -55,6 +55,7 @@ namespace Example
     public class GetInventoryItemDetails : Query<InventoryItemDetails>
     {}
 
+    [Serializable]
     public class InventoryItemDetails
     {
         public string Name;
