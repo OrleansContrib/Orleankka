@@ -14,32 +14,37 @@ namespace Orleankka.Features
 
         public class TestActor : TypedActor
         {
-            string text = "";
+            public string TextField = "";
+
+            public string TextProperty
+            {
+                get; set;
+            }
 
             public void SetText(string arg)
             {
-                text = arg;
+                TextField = arg;
             }
 
             public string GetText()
             {
-                return text;
+                return TextField;
             }
 
             public Task SetTextAsync(string arg)
             {
-                text = arg;
+                TextField = arg;
                 return TaskDone.Done;
             }
 
             public Task<string> GetTextAsync()
             {
-                return Task.FromResult(text);
+                return Task.FromResult(TextField);
             }
 
-            public string TextProperty
+            public void SetText(string arg1, string arg2)
             {
-                get; set;
+                TextField = arg1 ?? arg2;
             }
         }
 
@@ -73,6 +78,16 @@ namespace Orleankka.Features
                 await actor.Call(x => x.SetTextAsync("c-a"));
 
                 Assert.AreEqual("c-a", await actor.Call(x => x.GetTextAsync()));
+            }
+
+            [Test]
+            public async void Calling_overloaded_methods()
+            {
+                var actor = system.FreshTypedActorOf<TestActor>();
+
+                await actor.Call(x => x.SetText(null, "foo"));
+
+                Assert.AreEqual("foo", await actor.Call(x => x.GetText()));
             }
 
             [Test]
