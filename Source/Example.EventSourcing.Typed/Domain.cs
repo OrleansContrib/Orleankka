@@ -31,69 +31,79 @@ namespace Example
             On<InventoryItemDeactivated>(e => active = false);
         }
 
-        public IEnumerable<Event> Handle(CreateInventoryItem cmd)
+        public IEnumerable<Event> Create(string name)
         {
-            if (string.IsNullOrEmpty(cmd.Name))
+            if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Inventory item name cannot be null or empty");
 
-            if (name != null)
+            if (this.name != null)
                 throw new InvalidOperationException(
                     string.Format("Inventory item with id {0} has been already created", Id));
 
-            yield return new InventoryItemCreated {Name = cmd.Name};
+            yield return new InventoryItemCreated(name);
         }
 
-        public IEnumerable<Event> Handle(RenameInventoryItem cmd)
+        public IEnumerable<Event> Rename(string newName)
         {
             CheckIsActive();
 
-            if (string.IsNullOrEmpty(cmd.NewName))
+            if (string.IsNullOrEmpty(newName))
                 throw new ArgumentException("Inventory item name cannot be null or empty");
 
-            yield return new InventoryItemRenamed {OldName = name, NewName = cmd.NewName};
+            yield return new InventoryItemRenamed(this.name, newName);
         }
 
-        public IEnumerable<Event> Handle(CheckInInventoryItem cmd)
+        public IEnumerable<Event> CheckIn(int quantity)
         {
             CheckIsActive();
 
-            if (cmd.Quantity <= 0)
+            if (quantity <= 0)
                 throw new InvalidOperationException("must have a qty greater than 0 to add to inventory");
 
-            yield return new InventoryItemCheckedIn {Quantity = cmd.Quantity};
+            yield return new InventoryItemCheckedIn(quantity);
         }
 
-        public IEnumerable<Event> Handle(CheckOutInventoryItem cmd)
+        public IEnumerable<Event> CheckOut(int quantity)
         {
             CheckIsActive();
 
-            if (cmd.Quantity <= 0)
+            if (quantity <= 0)
                 throw new InvalidOperationException("can't remove negative qty from inventory");
 
-            yield return new InventoryItemCheckedOut {Quantity = cmd.Quantity };
+            yield return new InventoryItemCheckedOut(quantity);
         }
 
-        public IEnumerable<Event> Handle(DeactivateInventoryItem cmd)
+        public IEnumerable<Event> Deactivate()
         {
             CheckIsActive();
 
             yield return new InventoryItemDeactivated();
         }
 
-        public InventoryItemDetails Handle(GetInventoryItemDetails query)
+        public InventoryItemDetails Details()
         {
-            return new InventoryItemDetails
-            {
-                Name = name, 
-                Total = total, 
-                Active = active
-            };
+            return new InventoryItemDetails(name, total, active);
         }
 
         void CheckIsActive()
         {
             if (!active)
                 throw new InvalidOperationException(Id + " item is deactivated");
+        }
+    }
+
+    [Serializable]
+    public class InventoryItemDetails
+    {
+        public readonly string Name;
+        public readonly int Total;
+        public readonly bool Active;
+
+        public InventoryItemDetails(string name, int total, bool active)
+        {
+            Name = name;
+            Total = total;
+            Active = active;
         }
     }
 }

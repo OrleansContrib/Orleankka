@@ -4,13 +4,12 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Core;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
 namespace Example
 {
-    using Serialization.JSON;
-
     public static class Program
     {   
         public static void Main()
@@ -20,7 +19,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<JsonSerializer>()
+                .Serializer<NativeSerializer>()
                 .Done();
 
             Run(system).Wait();
@@ -36,13 +35,16 @@ namespace Example
         {
             var item = system.ActorOf<InventoryItem>("12345");
 
-            await item.Tell(new CreateInventoryItem {Name = "XBOX1"});
+            await item.Tell(new CreateInventoryItem("XBOX1"));
             await Print(item);
 
-            await item.Tell(new CheckInInventoryItem {Quantity = 10});
+            await item.Tell(new CheckInInventoryItem(10));
             await Print(item);
 
-            await item.Tell(new CheckOutInventoryItem {Quantity = 5});
+            await item.Tell(new CheckOutInventoryItem(5));
+            await Print(item);
+
+            await item.Tell(new RenameInventoryItem("XBOX360"));
             await Print(item);
 
             await item.Tell(new DeactivateInventoryItem());
@@ -52,7 +54,11 @@ namespace Example
         static async Task Print(ActorRef item)
         {
             var details = await item.Ask(new GetInventoryItemDetails());
-            Console.WriteLine("{0}: {1} {2}", details.Name, details.Total, details.Active ? "" : "(deactivated)");
+
+            Console.WriteLine("{0}: {1} {2}",
+                                details.Name,
+                                details.Total,
+                                details.Active ? "" : "(deactivated)");
         }
     }
 }

@@ -21,9 +21,14 @@ namespace Orleankka.Typed
                 .GetMembers()
                 .Single(x => x.MetadataToken == invocation.Token);
 
+            return OnInvoke(member, invocation.Arguments);
+        }
+
+        protected virtual Task<object> OnInvoke(MemberInfo member, object[] arguments)
+        {
             return member.MemberType == MemberTypes.Method
-                    ? Invoke((MethodInfo)member, invocation.Arguments)
-                    : Invoke(member, invocation.Arguments);
+                       ? Invoke((MethodInfo) member, arguments)
+                       : Invoke(member, arguments);
         }
 
         Task<object> Invoke(MethodInfo method, object[] arguments)
