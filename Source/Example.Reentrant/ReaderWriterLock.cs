@@ -24,7 +24,7 @@ namespace Example
         int value;
         ConsolePosition indicator;
 
-        public override Task OnActivate()
+        protected override Task OnActivate()
         {
             Console.Write("\nWrites: ");
             indicator = ConsolePosition.Current();

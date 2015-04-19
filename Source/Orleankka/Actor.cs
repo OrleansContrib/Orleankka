@@ -34,12 +34,12 @@ namespace Orleankka
             Prototype = prototype;
         }
 
-        public string Id
+        protected string Id
         {
             get; private set;
         }
 
-        public IActorSystem System
+        protected IActorSystem System
         {
             get; private set;
         }
@@ -54,7 +54,7 @@ namespace Orleankka
             get; set;
         }
 
-        public ActorRef Self
+        protected ActorRef Self
         {
             get
             {
@@ -68,17 +68,22 @@ namespace Orleankka
             }
         }
 
-        public virtual Task OnActivate()
+        protected internal virtual Task OnActivate()
         {
             return TaskDone.Done;
         }
 
-        public virtual Task<object> OnReceive(object message)
+        protected internal virtual Task OnDeactivate()
+        {
+            return TaskDone.Done;
+        }
+
+        protected internal virtual Task<object> OnReceive(object message)
         {
             return DispatchAsync(message);
         }
 
-        public virtual Task OnReminder(string id)
+        protected internal virtual Task OnReminder(string id)
         {
             var message = string.Format("Override {0}() method in class {1} to implement corresponding behavior", 
                                         "OnReminder", GetType());

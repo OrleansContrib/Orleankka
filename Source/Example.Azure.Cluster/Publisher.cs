@@ -23,7 +23,7 @@ namespace Example.Azure
         public void Handle(InitPublisher req)
         {}
 
-        public override Task OnActivate()
+        protected override Task OnActivate()
         {
             timers.Register("pub-pub", 
                 TimeSpan.FromSeconds(1), 

@@ -78,6 +78,14 @@ namespace Orleankka.Core
             await actor.OnActivate();
         }
 
+        public override Task OnDeactivateAsync()
+        {
+            if (actor != null)
+                actor.OnDeactivate();
+
+            return TaskDone.Done;
+        }
+
         void KeepAlive()
         {
             actor.Prototype.KeepAlive(this);

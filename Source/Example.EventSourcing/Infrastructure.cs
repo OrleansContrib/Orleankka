@@ -15,7 +15,7 @@ namespace Example
             Reentrant(req => req is Query);
         }
 
-        public override Task<object> OnReceive(object message)
+        protected override Task<object> OnReceive(object message)
         {
             var cmd = message as Command;
             if (cmd != null)

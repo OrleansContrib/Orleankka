@@ -10,7 +10,7 @@ namespace Orleankka.Typed
     {
         static readonly Task<object> Done = Task.FromResult((object)null);
 
-        public override Task<object> OnReceive(object message)
+        protected internal override Task<object> OnReceive(object message)
         {
             var invocation = message as Invocation;
         

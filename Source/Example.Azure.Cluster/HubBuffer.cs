@@ -28,7 +28,7 @@ namespace Example.Azure
             timers = new TimerService(this);
         }
 
-        public override Task OnActivate()
+        protected override Task OnActivate()
         {
             hub = HubGateway.GetLocalHub();
             

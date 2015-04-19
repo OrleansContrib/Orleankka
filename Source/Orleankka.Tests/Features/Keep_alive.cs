@@ -47,7 +47,7 @@ namespace Orleankka.Features
                 On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
             }
 
-            public override Task OnReminder(string id)
+            protected internal override Task OnReminder(string id)
             {
                 reminded = true;
                 return TaskDone.Done;
