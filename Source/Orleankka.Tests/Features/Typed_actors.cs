@@ -99,6 +99,16 @@ namespace Orleankka.Features
 
                 Assert.AreEqual("c-a", await actor.Get(x => x.TextProperty));
             }
+
+            [Test]
+            public async void Calling_fields()
+            {
+                var actor = system.FreshTypedActorOf<TestActor>();
+
+                await actor.Set(x => x.TextField, "foo");
+
+                Assert.AreEqual("foo", await actor.Get(x => x.TextField));
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Orleankka.Typed
         protected internal override Task<object> OnReceive(object message)
         {
             var invocation = message as Invocation;
-        
+
             if (invocation == null)
                 throw new ArgumentException("Only member invocations could be sent to a typed actors", "message");
 
@@ -21,19 +21,19 @@ namespace Orleankka.Typed
                 .GetMembers()
                 .Single(x => x.MetadataToken == invocation.Token);
 
-            return member.MemberType == MemberTypes.Method 
-                    ? InvokeMethod(member as MethodInfo, invocation.Arguments) 
-                    : InvokeMember(member, invocation.Arguments);
+            return member.MemberType == MemberTypes.Method
+                    ? Invoke((MethodInfo)member, invocation.Arguments)
+                    : Invoke(member, invocation.Arguments);
         }
 
-        Task<object> InvokeMethod(MethodInfo method, object[] arguments)
+        Task<object> Invoke(MethodInfo method, object[] arguments)
         {
             var result = method.Invoke(this, arguments);
 
             if (!typeof(Task).IsAssignableFrom(method.ReturnType))
                 return method.ReturnType != typeof(void) ? Task.FromResult(result) : Done;
 
-            var task = (Task) result;
+            var task = (Task)result;
             return task.ContinueWith(t =>
             {
                 if (t.Status == TaskStatus.Faulted)
@@ -49,12 +49,24 @@ namespace Orleankka.Typed
             });
         }
 
-        Task<object> InvokeMember(MemberInfo member, object[] arguments)
+        Task<object> Invoke(MemberInfo member, object[] arguments)
         {
-            if (member.MemberType == MemberTypes.Field)
-                throw new NotSupportedException("Yet");
+            return member.MemberType == MemberTypes.Field
+                    ? Invoke((FieldInfo)member, arguments)
+                    : Invoke((PropertyInfo)member, arguments);
+        }
 
-            var property = (PropertyInfo) member;
+        Task<object> Invoke(FieldInfo field, object[] arguments)
+        {
+            if (arguments.Length == 0)
+                return Task.FromResult(field.GetValue(this));
+
+            field.SetValue(this, arguments[0]);
+            return Done;
+        }
+
+        Task<object> Invoke(PropertyInfo property, object[] arguments)
+        {
             if (arguments.Length == 0)
                 return Task.FromResult(property.GetValue(this));
 
