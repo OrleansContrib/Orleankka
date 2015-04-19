@@ -50,11 +50,10 @@ namespace Orleankka.Cluster
 
         public AzureClusterActorSystem Done()
         {
-            cluster.Configure();
-
             var system = new AzureClusterActorSystem(cluster);
+            cluster.Configure();
+            
             system.Start();
-
             return system;
         }
     }

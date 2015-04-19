@@ -8,18 +8,13 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    class AzureClientActorSystem : IActorSystem
+    class AzureClientActorSystem : ActorSystem
     {
         readonly IDisposable configurator;
 
         public AzureClientActorSystem(IDisposable configurator)
         {
             this.configurator = configurator;
-        }
-
-        ActorRef IActorSystem.ActorOf(ActorPath path)
-        {
-            return ActorRef.Resolve(path);
         }
 
         public static void Initialize(ClientConfiguration configuration)
@@ -33,7 +28,7 @@ namespace Orleankka.Client
             AzureClient.Initialize(configuration);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             AzureClient.Uninitialize();
             configurator.Dispose();

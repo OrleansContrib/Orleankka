@@ -6,7 +6,7 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    sealed class ClientActorSystem : IActorSystem
+    sealed class ClientActorSystem : ActorSystem
     {
         readonly IDisposable configurator;
 
@@ -15,17 +15,12 @@ namespace Orleankka.Client
             this.configurator = configurator;
         }
 
-        ActorRef IActorSystem.ActorOf(ActorPath path)
-        {
-            return ActorRef.Resolve(path);
-        }
-
         public static void Initialize(ClientConfiguration configuration)
         {
             GrainClient.Initialize(configuration);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             GrainClient.Uninitialize();
             configurator.Dispose();

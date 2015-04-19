@@ -19,33 +19,45 @@ namespace Orleankka.Core
         }
 
         [SerializerMethod]
-        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
+        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type unused)
         {
             var envelope = (ResponseEnvelope)obj;
 
-            var bytes = envelope.Result != null
-                        ? MessageEnvelope.Serializer.Serialize(envelope.Result) 
-                        : new byte[0];
+            if (envelope.Result == null)
+            {
+                stream.Write(ResultToken.Null);
+                return;
+            }
 
-            SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
+            stream.Write(ResultToken.Some);
+            MessageEnvelope.Serializer.Serialize(envelope.Result, stream);
         }
 
         [DeserializerMethod]
-        internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
+        internal static object Deserialize(Type unused, BinaryTokenStreamReader stream)
         {
-            var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
-            
-            var message = bytes.Length != 0
-                          ? MessageEnvelope.Serializer.Deserialize(bytes)
-                          : null;
+            byte resultToken = stream.ReadByte();
 
-            return new ResponseEnvelope(message);
+            if (resultToken == ResultToken.Null)
+                return new ResponseEnvelope(null);
+
+            if (resultToken != ResultToken.Some)
+                throw new NotSupportedException();
+
+            var result = MessageEnvelope.Serializer.Deserialize(stream);
+            return new ResponseEnvelope(result);
         }
 
         [CopierMethod]
         internal static object DeepCopy(object original)
         {
             return original;
+        }
+
+        static class ResultToken
+        {
+            public const byte Null = 0;
+            public const byte Some = 1;
         }
     }
 }

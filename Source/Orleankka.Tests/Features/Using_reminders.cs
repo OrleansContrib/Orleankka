@@ -25,7 +25,7 @@ namespace Orleankka.Features
         {}
 
         [Serializable]
-        public class GetInstanceHashcode : Query<long>
+        public class GetInstanceHashcode : Query<int>
         {}
 
         public class TestActor : Actor
@@ -53,7 +53,7 @@ namespace Orleankka.Features
         }
 
         [TestFixture]
-        [Explicit, Category("Nightly")]
+        [Explicit, Category("Slow")]
         [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
         public class Using_reminders
         {

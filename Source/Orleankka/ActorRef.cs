@@ -15,24 +15,6 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
-        public static ActorRef Resolve(string path)
-        {
-            return Resolve(ActorPath.Parse(path));
-        }
-
-        public static ActorRef Resolve(ActorPath path)
-        {
-            if (path == ActorPath.Empty)
-                throw new ArgumentException("ActorPath is empty", "path");
-
-            return Deserialize(path);
-        }
-
-        public static ActorRef Deserialize(string path)
-        {
-            return Deserialize(ActorPath.Deserialize(path));
-        }
-
         public static ActorRef Deserialize(ActorPath path)
         {
             return new ActorRef(path, ActorEndpoint.Proxy(path));
@@ -56,7 +38,7 @@ namespace Orleankka
             get { return path; }
         }
 
-        public string Serialize()
+        public override string Serialize()
         {
             return Path.Serialize();
         }

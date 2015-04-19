@@ -2,12 +2,35 @@
 using System.Linq;
 
 using Orleankka;
+using Orleankka.Meta;
 
-namespace Example.Native.Serialization
+namespace Example.Serialization.JSON
 {
+    public class Promote
+    {
+        public long NewLevel;
+    }
+
+    public class GetLevel : Query<long>
+    {}
+
+    public class SetManager : Command
+    {
+        public ActorRef Manager;
+    }
+
+    public class GetManager : Query<ActorRef>
+    {}
+
+    public class Greeting : Command
+    {
+        public ActorRef From;
+        public string Text;
+    }
+
     public class Employee : Actor
     {
-        int level;
+        long level;
         ActorRef manager;
 
         protected override void Define()

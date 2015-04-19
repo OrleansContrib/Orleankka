@@ -48,7 +48,6 @@ namespace Orleankka.Testing
                 .Tweak(cluster => cluster
                     .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
                 .Register(GetType().Assembly)
-                .Serializer<JsonSerializer>()
                 .Done();
         }
     }

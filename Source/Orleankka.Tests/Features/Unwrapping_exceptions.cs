@@ -11,6 +11,7 @@ namespace Orleankka.Features
         using Meta;
         using Testing;
 
+        [Serializable]
         public class Throw : Command
         {
             public Exception Exception;

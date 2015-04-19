@@ -25,7 +25,7 @@ namespace Orleankka.Features
         {}
 
         [Serializable]
-        public class GetInstanceHashcode : Query<long>
+        public class GetInstanceHashcode : Query<int>
         {}
 
         public abstract class TestActor : Actor
@@ -135,12 +135,12 @@ namespace Orleankka.Features
             }
         }
 
-        [Explicit, Category("Nightly")]
+        [Explicit, Category("Slow")]
         class Defined_via_attribute
             : Tests<TestKeepAliveDefinedViaAttributeActor>
         {}
 
-        [Explicit, Category("Nightly")]
+        [Explicit, Category("Slow")]
         class Defined_via_prototype
             : Tests<TestKeepAliveDefinedViaPrototypeActor>
         {}

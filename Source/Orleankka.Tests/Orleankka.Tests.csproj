@@ -95,7 +95,6 @@
     <Compile Include="Features\Using_reminders.cs" />
     <Compile Include="Checks\ObserverCollectionFixture.cs" />
     <Compile Include="TODO.cs" />
-    <Compile Include="Utility\JsonSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

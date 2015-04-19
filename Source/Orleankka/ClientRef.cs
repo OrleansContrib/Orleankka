@@ -12,18 +12,12 @@ namespace Orleankka
     [DebuggerDisplay("{ToString()}")]
     public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>, ISerializable
     {
-        public static ClientRef Resolve(string path)
+        internal static bool Satisfies(string path)
         {
-            if (path == null)
-                throw new ArgumentNullException("path");
-
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException("An observer path cannot be empty or contain whitespace only", "path");
-
-            return Deserialize(path);
+            return path.StartsWith("GrainReference=");
         }
 
-        public static ClientRef Deserialize(string path)
+        public new static ClientRef Deserialize(string path)
         {
             return new ClientRef(path, ClientEndpoint.Proxy(path));
         }
@@ -47,7 +41,7 @@ namespace Orleankka
             get { return path; }
         }
 
-        public string Serialize()
+        public override string Serialize()
         {
             return Path;
         }

@@ -87,6 +87,7 @@
     <Compile Include="Core\ActorEndpoint.cs" />
     <Compile Include="Playground\PlaygroundConfigurator.cs" />
     <Compile Include="Reentrant.cs" />
+    <Compile Include="Ref.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\TimerService.cs" />

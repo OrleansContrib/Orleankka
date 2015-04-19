@@ -19,18 +19,16 @@ namespace Orleankka.Core
         }
 
         [SerializerMethod]
-        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type expected)
+        internal static void Serialize(object obj, BinaryTokenStreamWriter stream, Type unused)
         {
             var envelope = (NotificationEnvelope)obj;
-            var bytes = MessageEnvelope.Serializer.Serialize(envelope.Message);
-            SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
+            MessageEnvelope.Serializer.Serialize(envelope.Message, stream);            
         }
 
         [DeserializerMethod]
-        internal static object Deserialize(Type t, BinaryTokenStreamReader stream)
+        internal static object Deserialize(Type unused, BinaryTokenStreamReader stream)
         {
-            var bytes = (byte[])SerializationManager.DeserializeInner(typeof(byte[]), stream);
-            var message = MessageEnvelope.Serializer.Deserialize(bytes);
+            var message = MessageEnvelope.Serializer.Deserialize(stream);
             return new NotificationEnvelope(message);
         }
 

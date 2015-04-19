@@ -90,7 +90,9 @@ namespace Orleankka.Features
             class TestActor : Actor
             {
                 public void On(OnVoidMessage m)
-                {}
+                {
+                    
+                }
 
                 public Task On(OnAsyncVoidMessage m)
                 {

@@ -4,10 +4,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Core;
 using Orleankka.Playground;
 
-namespace Example.Native.Serialization
+namespace Example.Serialization.JSON
 {
     public static class Program
     {
@@ -16,7 +15,7 @@ namespace Example.Native.Serialization
             var system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
+                .Serializer<JsonSerializer>()
                 .Done();
 
             Run(system).Wait();

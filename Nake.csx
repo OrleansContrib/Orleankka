@@ -55,7 +55,8 @@ var AppVeyor = Var["APPVEYOR"] == "True";
     var results = @"{outDir}\nunit-test-results.xml";
 
     Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
-        @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests}");
+        @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
+        AppVeyor ? "/include:Slow" : "");
 
     if (AppVeyor)
         new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);

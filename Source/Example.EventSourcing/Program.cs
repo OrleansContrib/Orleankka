@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Playground;
-using Orleankka.Utility;
 
 namespace Example
 {
+    using Serialization.JSON;
+
     public static class Program
     {   
         public static void Main()

@@ -62,11 +62,10 @@ namespace Orleankka.Cluster
 
         public IActorSystem Done()
         {
+            var system = new ClusterActorSystem(this, Configuration);
             Configure();
 
-            var system = new ClusterActorSystem(this, Configuration);
             system.Start();
-
             return system;
         }
 

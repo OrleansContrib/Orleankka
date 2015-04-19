@@ -7,7 +7,7 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
-    public class ClusterActorSystem : MarshalByRefObject, IActorSystem
+    public class ClusterActorSystem : ActorSystem
     {
         static IActorSystem current;
 
@@ -40,11 +40,6 @@ namespace Orleankka.Cluster
             host = new SiloHost(Dns.GetHostName(), configuration);
         }
 
-        ActorRef IActorSystem.ActorOf(ActorPath path)
-        {
-            return ActorRef.Resolve(path);
-        }
-
         internal void Start()
         {
             host.LoadOrleansConfig();
@@ -52,7 +47,7 @@ namespace Orleankka.Cluster
             host.StartOrleansSilo();
         }
 
-        void IDisposable.Dispose()
+        public override void Dispose()
         {
             if (host == null)
                 return;

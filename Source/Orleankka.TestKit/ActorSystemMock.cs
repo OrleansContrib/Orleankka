@@ -39,6 +39,11 @@ namespace Orleankka.TestKit
             return stub;
         }
 
+        public ObserverRef ObserverOf(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {}
     }

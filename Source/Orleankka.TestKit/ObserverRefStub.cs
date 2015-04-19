@@ -7,5 +7,10 @@ namespace Orleankka.TestKit
     {
         public override void Notify(object message)
         {}
+
+        public override string Serialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

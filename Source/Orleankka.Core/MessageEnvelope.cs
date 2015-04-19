@@ -5,16 +5,16 @@ namespace Orleankka.Core
 {
     static class MessageEnvelope
     {
-        public static IMessageSerializer Serializer;
-
-        public static void Reset()
-        {
-            Serializer = new BinaryMessageSerializer();
-        }
+        internal static IMessageSerializer Serializer;
 
         static MessageEnvelope()
         {
             Reset();
+        }
+
+        internal static void Reset()
+        {
+            Serializer = new BinarySerializer();
         }
     }
 }

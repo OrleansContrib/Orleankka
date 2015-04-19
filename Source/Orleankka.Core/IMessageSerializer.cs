@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using Orleans.Serialization;
@@ -10,57 +11,58 @@ namespace Orleankka.Core
 {
     public interface IMessageSerializer
     {
-        void Init(IDictionary<string, string> properties);
+        void Init(Assembly[] assemblies, IDictionary<string, string> properties);
 
         /// <summary>
         /// Serializes message to byte[]
         /// </summary>
-        byte[] Serialize(object message);
+        void Serialize(object message, BinaryTokenStreamWriter stream);
 
         /// <summary>
         /// Deserializes byte[] back to message
         /// </summary>
-        object Deserialize(byte[] bytes);
+        object Deserialize(BinaryTokenStreamReader stream);
     }
 
-    public class BinaryMessageSerializer : IMessageSerializer
+    public class BinarySerializer : IMessageSerializer
     {
-        public void Init(IDictionary<string, string> properties)
+        void IMessageSerializer.Init(Assembly[] assemblies, IDictionary<string, string> properties)
         {}
 
-        public byte[] Serialize(object message)
+        void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)
         {
-            using (var stream = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                new BinaryFormatter().Serialize(stream, message);
-                return stream.ToArray();
+                new BinaryFormatter().Serialize(ms, message);
+                SerializationManager.SerializeInner(ms.ToArray(), stream, typeof(byte[]));
             }
         }
 
-        public object Deserialize(byte[] bytes)
+        object IMessageSerializer.Deserialize(BinaryTokenStreamReader stream)
         {
-            using (var stream = new MemoryStream(bytes))
+            var bytes = (byte[]) SerializationManager.DeserializeInner(typeof(byte[]), stream);
+
+            using (var ms = new MemoryStream(bytes))
             {
                 var formatter = new BinaryFormatter();
-                return formatter.Deserialize(stream);
+                return formatter.Deserialize(ms);
             }
         }
     }
 
     public class NativeSerializer : IMessageSerializer
     {
-        public void Init(IDictionary<string, string> properties)
+        void IMessageSerializer.Init(Assembly[] assemblies, IDictionary<string, string> properties)
         {}
 
-        public byte[] Serialize(object message)
+        void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)
         {
-            return SerializationManager.SerializeToByteArray(message);
+            SerializationManager.SerializeInner(message, stream, null);
         }
 
-        public object Deserialize(byte[] bytes)
+        object IMessageSerializer.Deserialize(BinaryTokenStreamReader stream)
         {
-            var stream = new BinaryTokenStreamReader(bytes);
-            return SerializationManager.Deserialize(stream);
+            return SerializationManager.DeserializeInner(null, stream);
         }
     }
 }

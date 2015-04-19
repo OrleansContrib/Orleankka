@@ -43,11 +43,10 @@ namespace Orleankka.Client
 
         public IActorSystem Done()
         {
+            var system = new ClientActorSystem(this);
             Configure();
             
-            var system = new ClientActorSystem(this);
             ClientActorSystem.Initialize(Configuration);
-
             return system;
         }
     }

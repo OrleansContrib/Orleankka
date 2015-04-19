@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Orleankka.Embedded
 {
-    public class EmbeddedActorSystem : IActorSystem
+    public class EmbeddedActorSystem : ActorSystem
     {
         AppDomain domain;
         readonly IActorSystem client;
@@ -16,12 +16,7 @@ namespace Orleankka.Embedded
             this.cluster = cluster;
         }
 
-        ActorRef IActorSystem.ActorOf(ActorPath path)
-        {
-            return client.ActorOf(path);
-        }
-
-        public void Dispose()
+        public override void Dispose()
         {
             if (domain == null)
                 return;

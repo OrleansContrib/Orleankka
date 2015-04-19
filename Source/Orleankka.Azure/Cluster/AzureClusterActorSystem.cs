@@ -6,7 +6,7 @@ using Orleans.Runtime.Host;
 
 namespace Orleankka.Cluster
 {
-    public class AzureClusterActorSystem : MarshalByRefObject, IActorSystem
+    public class AzureClusterActorSystem : ActorSystem
     {
         readonly ClusterConfigurator cluster;
         AzureSilo host;
@@ -16,11 +16,6 @@ namespace Orleankka.Cluster
             ClusterActorSystem.Current = this;
             this.cluster = cluster;
             host = new AzureSilo();
-        }
-
-        ActorRef IActorSystem.ActorOf(ActorPath path)
-        {
-            return ActorRef.Resolve(path);
         }
 
         internal void Start()
@@ -33,7 +28,7 @@ namespace Orleankka.Cluster
             host.Run();
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (host == null)
                 return;

@@ -56,7 +56,8 @@ namespace Orleankka
             if (serializer != null)
             {
                 var instance = (IMessageSerializer) Activator.CreateInstance(serializer.Item1);
-                instance.Init(serializer.Item2 ?? new Dictionary<string, string>());
+                instance.Init(assemblies.ToArray(), serializer.Item2 ?? new Dictionary<string, string>());
+                
                 MessageEnvelope.Serializer = instance;
             }
 
@@ -64,6 +65,7 @@ namespace Orleankka
             {
                 var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
                 instance.Init(activator.Item2 ?? new Dictionary<string, string>());
+
                 ActorEndpoint.Activator = instance;
             }
 
