@@ -1,5 +1,7 @@
 ﻿#r "System.Xml"
 #r "System.Xml.Linq"
+#r "System.IO.Compression"
+#r "System.IO.Compression.FileSystem"
 
 using Nake.FS;
 using Nake.Run;
@@ -10,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
 const string AzureProject = "Orleankka.Azure";
@@ -23,10 +26,12 @@ var PackagePath = @"{OutputPath}\Package";
 var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
+var GES = "EventStore-OSS-Win-v3.0.3";
 
-/// Builds sources in Debug mode
+/// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
 {
+    Install();
     Build();
 }
 
@@ -128,13 +133,19 @@ string Version(string project)
             .FileVersion;
 }
 
-/// Installs dependencies (packages) from NuGet 
+/// Installs dependencies (packages) 
 [Task] void Install()
+{
+    InstallPackages();
+    InstallBinaries();
+}
+
+void InstallPackages()
 {
     var packagesDir = @"{RootPath}\Packages";
 
     var configs = XElement
-        .Load(packagesDir + @"\repositories.config")
+        .Load(@"{packagesDir}\repositories.config")
         .Descendants("repository")
         .Select(x => x.Attribute("path").Value.Replace("..", RootPath)); 
 
@@ -143,4 +154,41 @@ string Version(string project)
 
     // install packages required for building/testing/publishing package
     Cmd(@"Tools\NuGet.exe install Build/Packages.config -o {packagesDir}");
+}
+
+void InstallBinaries()
+{
+    var packagesDir = @"{RootPath}\Packages";
+
+    if (!Directory.Exists(@"{packagesDir}\{GES}"))
+    {
+        Info("EventStore binaries were not found. Downloading ...");
+
+        new WebClient().DownloadFile(
+            "http://download.geteventstore.com/binaries/{GES}.zip", 
+            @"{packagesDir}\{GES}.zip"
+        );
+
+        Info("Success! Extracting ...");
+
+        ZipFile.ExtractToDirectory(@"{packagesDir}\{GES}.zip", @"{packagesDir}\{GES}");
+        File.Delete(@"{packagesDir}\{GES}.zip");
+
+        Info("Done!");
+    }
+}
+
+/// Runs software, on which samples are dependent
+[Task] void Run(string what = "ges")
+{
+    var packagesDir = @"{RootPath}\Packages";
+
+    switch (what)
+    {
+        case "ges":
+            Cmd(@"start {packagesDir}/{GES}/EventStore.ClusterNode.exe"); 
+            break;
+        default:
+            throw new ArgumentException("Available values are: ges, ...");   
+    }
 }
