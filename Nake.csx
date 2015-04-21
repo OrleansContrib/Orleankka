@@ -7,6 +7,7 @@ using Nake.FS;
 using Nake.Run;
 using Nake.Log;
 using Nake.Env;
+using Nake.App;
 
 using System.Linq;
 using System.Net;
@@ -59,12 +60,17 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
     var results = @"{outDir}\nunit-test-results.xml";
 
-    Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
-        @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
-        (AppVeyor ? "/include:Slow" : ""));
+    var succes = Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
+        			 @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
+        		     (AppVeyor ? "/include:Slow" : ""), 
+			       	 ignoreStdOutErrors: true, 
+			       	 ignoreExitCode: true) != 0;
 
     if (AppVeyor)
         new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
+
+    if (!succes)
+        Fail();
 }
 
 /// Builds official NuGet packages 
