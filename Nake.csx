@@ -60,17 +60,17 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
     var results = @"{outDir}\nunit-test-results.xml";
 
-    var succes = Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
-        			 @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
-        		     (AppVeyor ? "/include:Slow" : ""), 
-			       	 ignoreStdOutErrors: true, 
-			       	 ignoreExitCode: true) != 0;
-
-    if (AppVeyor)
-        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
-
-    if (!succes)
-        Fail();
+    try
+    {
+        Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
+            @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
+            (AppVeyor ? "/include:Slow" : ""));
+    }
+    finally
+    {    	
+	    if (AppVeyor)
+	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
+	}
 }
 
 /// Builds official NuGet packages 
