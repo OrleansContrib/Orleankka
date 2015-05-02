@@ -6,12 +6,12 @@ open Orleankka.FSharp.FuncActor
 open Account
 
 type ShopMessage =
-   | Sell of Account : ActorRef * Count : int
-   | CheckIn of Count : int
+   | Sell of Account:ActorRef<AccountMessage> * Count:int
+   | CheckIn of Count:int
    | Cash
    | Stock
 
-type private ShopState = { Price : int; Cash : int; Stock : int }
+type private ShopState = { Price:int; Cash:int; Stock:int }
 
 let ShopActor = actor {   
    init (fun shop -> { Price = 10; Cash = 0; Stock = 0 })

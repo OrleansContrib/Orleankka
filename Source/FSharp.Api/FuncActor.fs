@@ -24,7 +24,7 @@ type ActorContext(id : string, self : ActorRef) =
 type private Init = obj -> obj
 type private Receive = obj -> obj -> ActorContext -> Task<obj>
 
-type ActorConfig() = 
+type ActorConfig() =
    let mutable _name = ""
    let mutable _init = Unchecked.defaultof<Init>
    let mutable _receive = Unchecked.defaultof<Receive>
@@ -33,20 +33,22 @@ type ActorConfig() =
    member this.Init with get() = _init and internal set(value) = _init <- value
    member this.Receive with get() = _receive and internal set(value) = _receive <- value
 
+type ActorConfig<'TMessage>() = 
+   inherit ActorConfig()
 
 type ActorConfigurationBuilder() =
       
-   member this.Zero() = ActorConfig()
+   member this.Zero() = ActorConfig<'TMessage>()
 
    member this.Yield(()) = this.Zero()
 
    [<CustomOperation("init", MaintainsVariableSpace = true)>]
-   member this.Init(config : ActorConfig, init : 'TState -> 'TState) =
+   member this.Init(config : ActorConfig<'TMessage>, init : 'TState -> 'TState) =
       config.Init <- fun state -> init(Unchecked.defaultof<'TState>) :> obj
       config
 
    [<CustomOperation("receive", MaintainsVariableSpace = true)>]
-   member this.Receive(config : ActorConfig, receive : 'TState -> 'TMessage -> ActorContext -> Task<'TState>) =
+   member this.Receive(config : ActorConfig<'TMessage>, receive : 'TState -> 'TMessage -> ActorContext -> Task<'TState>) =
       config.Receive <- fun (state : obj) (msg : obj) context -> 
                            (receive (state :?> 'TState) (msg :?> 'TMessage) context)
                               .ContinueWith<obj>(fun (task : Task<'TState>) -> task.Result :> obj)
@@ -102,11 +104,12 @@ let private serializeConfig (config : ActorConfig) =
    config.Name, serialized
 
 
-let private fillActorConfig configExpr =
+let rec private fillActorConfig configExpr =
    match configExpr with
    | PropertyGet (_, p, _) -> let config = p.GetValue(null) :?> ActorConfig
                               config.Name <- p.Name
                               config
+   | Coerce (expr, _) -> fillActorConfig(expr) 
    | _ -> failwith "Can't parse ActorConfig expression."
 
 
@@ -126,5 +129,13 @@ let registerFuncActors (configsExpr : Expr<ActorConfig list>) (silo : EmbeddedCo
         |> System.run<FuncActorBootstrap> dict
 
 
-let spawn<'TState, 'TMessage> (system : IActorSystem) (config : ActorConfig) id =   
-   system.ActorOf(ActorPath.From(typedefof<FuncActor>, config.Name + ":" + id))
+type ActorRef<'TMessage>(ref) =
+   member this.Ref = ref
+
+let spawn (system : IActorSystem) (config : ActorConfig<'TMessage>) id =   
+   let actorRef = system.ActorOf(ActorPath.From(typedefof<FuncActor>, config.Name + ":" + id))
+   ActorRef<'TMessage>(actorRef)
+
+let inline (<!) (actorRef:ActorRef<'T>) (message:'T) = actorRef.Ref.Ask(message) |> Task.map(ignore)
+let inline (<?) (actorRef:ActorRef<'T>) (message:'T) = actorRef.Ref.Ask<'TResponse>(message)
+let inline (<*) (actorRef:ActorRef<'T>) (message:'T) = actorRef.Ref.Notify(message)
