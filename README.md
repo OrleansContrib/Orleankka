@@ -1,9 +1,5 @@
 ### Orleankka
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yevhen/Orleankka?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build status](https://ci.appveyor.com/api/projects/status/qtfih702sfxcsyt6?svg=true)](https://ci.appveyor.com/project/yevhen/orleankka)
-[![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/)
-
 Orleankka is a complementary API for Microsoft Orleans framework. Orleankka's API is based on [message passing](http://en.wikipedia.org/wiki/Message_passing) style of communication. Orleankka was developed specifically for scenarios, where having a uniform communication interface would payoff in terms of reduced code repetition (DRY, SRP) and respectively, increased code clarity. The API was thoroughly crafted to be as convenient to use from both, imperative object-oriented languages, like C#, as well as from functional, such as F#.
 
 ### Why?
@@ -61,7 +57,7 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 + More examples
 + Reference documentation
 
-### How to install
+### How to install [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/)
 
 To install Orleankka via NuGet, run this command in NuGet package manager console:
 
@@ -104,6 +100,10 @@ Complete documentation could be found on [wiki](https://github.com/yevhen/Orlean
 ## Contributing
 
 Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made. Add-ons, like new serialization protocols, DI container support, etc - are highly welcome!
+
+## Community
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yevhen/Orleankka?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## License
 
