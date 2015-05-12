@@ -50,6 +50,12 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Orleankka.Version.cs">
+      <Link>Properties\Orleankka.Version.cs</Link>
+    </Compile>
+    <Compile Include="..\Product.cs">
+      <Link>Properties\Product.cs</Link>
+    </Compile>
     <Compile Include="IActorEndpoint.cs" />
     <Compile Include="IMessageSerializer.cs" />
     <Compile Include="MessageEnvelope.cs" />
