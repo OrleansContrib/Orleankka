@@ -56,6 +56,11 @@ namespace Orleankka.Cluster
             system.Start();
             return system;
         }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
     }
 
     public static class ClusterConfiguratorExtensions
