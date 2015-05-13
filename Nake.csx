@@ -79,23 +79,10 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     Test(@"{PackagePath}\Debug");
     Build("Package", ReleasePath);
 
-    Merge();
-    Pack(CoreProject);
-    
+    Pack(CoreProject);    
     Pack(TestKitProject, "core_version={Version(CoreProject)}");
     Pack(AzureProject,   "core_version={Version(CoreProject)}");
     Pack(FSharpProject,  "core_version={Version(CoreProject)}");
-}
-
-void Merge()
-{
-    var mergeDir = @"{PackagePath}\Merged";
-    
-    if (!Directory.Exists(mergeDir))
-        Directory.CreateDirectory(mergeDir);
-
-    Cmd(@"Packages\ilmerge.2.14.1208\tools\ILMerge.exe /copyattrs /target:library /xmldocs /lib:{ReleasePath}" +
-        @" /out:{mergeDir}\Orleankka.dll Orleankka.dll Orleankka.Core.dll");
 }
 
 void Pack(string project, string properties = null)
