@@ -131,6 +131,8 @@ namespace Orleankka.Features
         {
             protected internal override void Define()
             {
+                base.Define();
+                
                 KeepAlive(TimeSpan.FromMinutes(KeepAliveTimeoutInMinutes));
             }
         }

@@ -33,7 +33,7 @@ namespace Orleankka.Features
             readonly IReminderService reminders;
             bool reminded;
 
-            protected TestActor()
+            public TestActor()
             {
                 reminders = new ReminderService(this);
             }
