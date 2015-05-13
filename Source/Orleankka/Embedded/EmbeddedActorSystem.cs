@@ -27,10 +27,5 @@ namespace Orleankka.Embedded
             AppDomain.Unload(domain);
             domain = null;
         }
-
-        public override object InitializeLifetimeService()
-        {
-            return null;
-        }
     }
 }

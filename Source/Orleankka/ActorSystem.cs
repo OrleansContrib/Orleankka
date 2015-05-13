@@ -37,6 +37,11 @@ namespace Orleankka
            return ActorRef.Deserialize(path);
         }
 
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+
         public abstract void Dispose();
     }
 

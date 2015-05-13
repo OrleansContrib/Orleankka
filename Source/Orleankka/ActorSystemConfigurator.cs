@@ -78,8 +78,7 @@ namespace Orleankka
             ActorEndpoint.Reset();
             ActorAssembly.Reset();
         }
-
-
+        
         public override object InitializeLifetimeService()
         {
             return null;
