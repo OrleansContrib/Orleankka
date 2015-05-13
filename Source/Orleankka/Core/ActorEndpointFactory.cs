@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
@@ -14,8 +15,14 @@ namespace Orleankka.Core
 
         public static IActorEndpoint Proxy(ActorPath path)
         {
-            var factory = factories[path.Type];
-            return (IActorEndpoint) factory(path.ToString());
+            var factory = default(Func<string, object>);
+
+            if (!factories.TryGetValue(path.Type, out factory))
+            {
+                throw new InvalidOperationException(String.Format("Type: '{0}' is not registered as an Actor or Worker", path.Type));
+            }
+
+            return (IActorEndpoint)factory(path.ToString());
         }
 
         public static void Reset()
@@ -25,14 +32,14 @@ namespace Orleankka.Core
 
         public static void Register(Type type)
         {
-            var actor  = type.GetCustomAttribute<ActorAttribute>();
+            var actor = type.GetCustomAttribute<ActorAttribute>();
             var worker = type.GetCustomAttribute<WorkerAttribute>();
 
             if (actor != null && worker != null)
                 throw new InvalidOperationException("A type cannot be configured to be both Actor and Worker: " + type);
 
-            factories.Add(type, worker != null 
-                                    ? GetWorkerFactory() 
+            factories.Add(type, worker != null
+                                    ? GetWorkerFactory()
                                     : GetActorFactory(actor));
         }
 
