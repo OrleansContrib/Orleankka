@@ -90,8 +90,9 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 ##### Dependency Injection
 
 + Service Locator [[see]](Source/Demo.App)
-+ Unity   [[see]](Source/Example.DI.Unity) 
-+ NInject [[see]](Source/Example.DI.NInject)
++ Autofac [[see]](Source/Example.DependencyInjection.Autofac)
++ Unity   [[see]]() 
++ NInject [[see]]()
 
 ### Documentation
 
