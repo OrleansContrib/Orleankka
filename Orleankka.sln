@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka", "Source\Orleankka\Orleankka.csproj", "{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
@@ -75,6 +75,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES", "Source\Example.EventSourcing.Persistence.GES\GES.csproj", "{E23D9F8D-8EC8-0000-0000-000000000000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.DependencyInjection.Autofac", "Example.DependencyInjection.Autofac\Example.DependencyInjection.Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,6 +217,12 @@ Global
 		{E23D9F8D-8EC8-0000-0000-000000000000}.Package|Any CPU.Build.0 = Package|Any CPU
 		{E23D9F8D-8EC8-0000-0000-000000000000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E23D9F8D-8EC8-0000-0000-000000000000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Package|Any CPU.Build.0 = Release|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -247,5 +255,6 @@ Global
 		{4CC254D3-4742-45E7-8CF8-5E14DC228771} = {C5B9656C-A921-41BC-93BC-B98D45F4A704}
 		{AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC} = {C5B9656C-A921-41BC-93BC-B98D45F4A704}
 		{E23D9F8D-8EC8-0000-0000-000000000000} = {AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC}
+		{24A1F10E-D8A4-4241-915F-0D224AEFF022} = {85E741A4-D6F4-44C2-955B-F2FE10C0ECA5}
 	EndGlobalSection
 EndGlobal

@@ -6,7 +6,7 @@ namespace Orleankka.Core
 {
     public interface IActorActivator
     {
-        void Init(IDictionary<string, string> properties);
+        void Init(IDictionary<string, object> properties);
 
         /// <summary>
         /// The activation function, which creates actual instances of <see cref="Actor"/>
@@ -16,12 +16,12 @@ namespace Orleankka.Core
 
     class DefaultActorActivator : IActorActivator
     {
-        public void Init(IDictionary<string, string> properties)
+        public void Init(IDictionary<string, object> properties)
         {}
 
         public Actor Activate(Type type)
         {
-            return (Actor) Activator.CreateInstance(type);
+            return (Actor) Activator.CreateInstance(type, true);
         }
     }
 }

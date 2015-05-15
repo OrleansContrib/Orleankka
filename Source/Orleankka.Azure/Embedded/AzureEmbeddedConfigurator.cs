@@ -47,7 +47,7 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public AzureEmbeddedConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        public AzureEmbeddedConfigurator Activator<T>(Dictionary<string, object> properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);
             return this;

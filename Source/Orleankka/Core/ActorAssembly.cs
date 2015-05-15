@@ -14,13 +14,13 @@ namespace Orleankka.Core
             ActorEndpointDynamicFactory.Reset();
         }
 
-        public static void Register(IEnumerable<Assembly> assemblies)
+        public static void Register(IEnumerable<Assembly> assemblies, IActorActivator actorActivator)
         {
             foreach (var assembly in assemblies)
-                Register(assembly);
+                Register(assembly, actorActivator);
         }
 
-        public static void Register(Assembly assembly)
+        public static void Register(Assembly assembly, IActorActivator actorActivator)
         {
             var actors = assembly
                 .GetTypes()
@@ -31,7 +31,7 @@ namespace Orleankka.Core
             foreach (var type in actors)
             {
                 ActorTypeCode.Register(type);
-                ActorPrototype.Register(type);
+                ActorPrototype.Register(type, actorActivator);
                 ActorEndpointDynamicFactory.Register(type);
             }
         }

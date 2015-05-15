@@ -46,7 +46,7 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        public EmbeddedConfigurator Activator<T>(Dictionary<string, object> properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);
             return this;
