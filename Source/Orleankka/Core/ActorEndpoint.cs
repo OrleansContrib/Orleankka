@@ -80,10 +80,9 @@ namespace Orleankka.Core
 
         public override Task OnDeactivateAsync()
         {
-            if (actor != null)
-                actor.OnDeactivate();
-
-            return TaskDone.Done;
+            return actor != null
+                    ? actor.OnDeactivate()
+                    : base.OnDeactivateAsync();
         }
 
         void KeepAlive()

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleankka.Core.Static;
-
 namespace Orleankka.Core
 {
+    using Static; 
+    using Utility; 
+
     static class ActorEndpointDynamicFactory
     {
         readonly static Dictionary<Type, Func<string, object>> factories =
@@ -14,8 +15,13 @@ namespace Orleankka.Core
 
         public static IActorEndpoint Proxy(ActorPath path)
         {
-            var factory = factories[path.Type];
-            return (IActorEndpoint) factory(path.ToString());
+            var factory = factories.Find(path.Type);
+
+            if (factory == null)
+               throw new InvalidOperationException(
+                   string.Format("Type: '{0}' is not registered as an Actor or Worker", path.Type));
+
+            return (IActorEndpoint)factory(path.ToString());
         }
 
         public static void Reset()
