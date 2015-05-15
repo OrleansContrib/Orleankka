@@ -5,33 +5,27 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Core;
-using Orleankka.Meta;
 using Orleankka.Playground;
-using Autofac;
 
-namespace Example.DependencyInjection.Autofac
+namespace Example
 {
+    using Properties; 
+
     class Program
     {
         public static void Main()
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var configureAction = new Action<ContainerBuilder>(builder =>
+            var configuration = new Dictionary<string, string>
             {
-                builder.RegisterType<SomeService>().AsImplementedInterfaces().SingleInstance();
-                builder.RegisterType<InventoryItem>();
-            });
+                {"ConnectionString", Settings.Default.ConnectionString}
+            };
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Activator<AutofacActorActivator>(new Dictionary<string, object>
-                {
-                    {AutofacActorActivator.ContainerBuilderActionPropertyKey, configureAction}
-                })
+                .Activator<Activator>(configuration)
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
                 .Done();
 
             Run(system).Wait();
@@ -45,32 +39,11 @@ namespace Example.DependencyInjection.Autofac
 
         static async Task Run(IActorSystem system)
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var a = system.ActorOf<DIActor>("A-123");
+            var b = system.ActorOf<DIActor>("B-456");
 
-            await item.Tell(new CreateInventoryItem("XBOX1"));
-            await Print(item);
-
-            await item.Tell(new CheckInInventoryItem(10));
-            await Print(item);
-
-            await item.Tell(new CheckOutInventoryItem(5));
-            await Print(item);
-
-            await item.Tell(new RenameInventoryItem("XBOX360"));
-            await Print(item);
-
-            await item.Tell(new DeactivateInventoryItem());
-            await Print(item);
-        }
-
-        static async Task Print(ActorRef item)
-        {
-            var details = await item.Ask(new GetInventoryItemDetails());
-
-            Console.WriteLine("{0}: {1} {2}",
-                                details.Name,
-                                details.Total,
-                                details.Active ? "" : "(deactivated)");
+            await a.Tell("Hello");
+            await b.Tell("Bueno");
         }
     }
 }

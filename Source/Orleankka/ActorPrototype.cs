@@ -22,21 +22,11 @@ namespace Orleankka
 
         bool closed;
 
-        internal static void Register(Type actor, IActorActivator actorActivator)
+        internal static void Register(Type actor)
         {
             var prototype = new ActorPrototype(actor);
 
-            var instance = default(Actor);
-
-            if (actorActivator == null)
-            {
-                instance = (Actor)Activator.CreateInstance(actor, nonPublic: true);
-            }
-            else
-            {
-                instance = actorActivator.Activate(actor);
-            }
-
+            var instance = (Actor) Activator.CreateInstance(actor, nonPublic: true);
             instance.Prototype = prototype;
             instance.Define();
 

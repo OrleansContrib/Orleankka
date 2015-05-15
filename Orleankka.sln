@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka", "Source\Orleankka\Orleankka.csproj", "{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
@@ -76,7 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES", "Source\Example.EventSourcing.Persistence.GES\GES.csproj", "{E23D9F8D-8EC8-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.DependencyInjection.Autofac", "Source\Example.DependencyInjection.Autofac\Example.DependencyInjection.Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac", "Source\Example.DependencyInjection.Autofac\Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

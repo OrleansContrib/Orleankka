@@ -7,7 +7,7 @@
     <ProjectGuid>{24A1F10E-D8A4-4241-915F-0D224AEFF022}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.DependencyInjection.Autofac</RootNamespace>
+    <RootNamespace>Example</RootNamespace>
     <AssemblyName>Example.DependencyInjection.Autofac</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -74,17 +74,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacActorActivator.cs" />
-    <Compile Include="Domain.cs" />
-    <Compile Include="Services.cs" />
-    <Compile Include="Infrastructure.cs" />
-    <Compile Include="Messages.cs" />
+    <Compile Include="Activator.cs" />
+    <Compile Include="Actor.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="Packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">

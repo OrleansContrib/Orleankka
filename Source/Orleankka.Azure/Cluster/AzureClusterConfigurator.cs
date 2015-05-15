@@ -30,7 +30,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Activator<T>(Dictionary<string, object> properties = null) where T : IActorActivator
+        public AzureClusterConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);
             return this;
