@@ -76,7 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES", "Source\Example.EventSourcing.Persistence.GES\GES.csproj", "{E23D9F8D-8EC8-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.DependencyInjection.Autofac", "Example.DependencyInjection.Autofac\Example.DependencyInjection.Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.DependencyInjection.Autofac", "Source\Example.DependencyInjection.Autofac\Example.DependencyInjection.Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
