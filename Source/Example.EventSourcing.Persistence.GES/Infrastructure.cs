@@ -137,7 +137,7 @@ namespace Example
             {
                 await ES.Connection.AppendToStreamAsync(stream, version, serialized);
             }
-            catch (WrongExpectedVersionException e)
+            catch (WrongExpectedVersionException)
             {
                 Console.WriteLine("Concurrency conflict on stream '{0}' detected", StreamName());
                 Console.WriteLine("Probably, second activation of actor '{0}' has been created", Self);

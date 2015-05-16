@@ -38,7 +38,7 @@ namespace Orleankka.Cluster
             return this;
         }
         
-        public ClusterConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        public ClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             RegisterActivator<T>(properties);
             return this;

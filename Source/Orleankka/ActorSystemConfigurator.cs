@@ -16,7 +16,7 @@ namespace Orleankka
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
          
         Tuple<Type, Dictionary<string, string>> serializer;
-        Tuple<Type, Dictionary<string, string>> activator;
+        Tuple<Type, object> activator;
 
         protected void RegisterSerializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
         {
@@ -26,7 +26,7 @@ namespace Orleankka
             serializer = Tuple.Create(typeof(T), properties);
         }
 
-        protected void RegisterActivator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        protected void RegisterActivator<T>(object properties) where T : IActorActivator
         {
             if (activator != null)
                 throw new InvalidOperationException("Activator has been already registered");
@@ -64,7 +64,7 @@ namespace Orleankka
             if (activator != null)
             {
                 var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
-                instance.Init(activator.Item2 ?? new Dictionary<string, string>());
+                instance.Init(activator.Item2);
 
                 ActorEndpoint.Activator = instance;
             }

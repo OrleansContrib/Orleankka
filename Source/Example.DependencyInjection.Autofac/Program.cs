@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using Autofac;
 
 using Orleankka;
 using Orleankka.Playground;
@@ -17,14 +18,20 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var configuration = new Dictionary<string, string>
+            var setup = new Action<ContainerBuilder>(builder =>
             {
-                {"ConnectionString", Settings.Default.ConnectionString}
-            };
+                builder.RegisterType<SomeService>()
+                       .AsImplementedInterfaces()
+                       .WithParameter("connectionString", Settings.Default.ConnectionString)
+                       .SingleInstance();
 
-            var system = ActorSystem.Configure()
+                builder.RegisterType<DIActor>();
+            });
+
+            var system = ActorSystem
+                .Configure()
                 .Playground()
-                .Activator<Activator>(configuration)
+                .Activator<AutofacActorActivator>(setup)
                 .Register(Assembly.GetExecutingAssembly())
                 .Done();
 

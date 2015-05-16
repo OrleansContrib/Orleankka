@@ -1,27 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Orleankka.Core
 {
     public interface IActorActivator
     {
-        void Init(IDictionary<string, string> properties);
+        void Init(object properties);
 
-        /// <summary>
-        /// The activation function, which creates actual instances of <see cref="Actor"/>
-        /// </summary>
         Actor Activate(Type type);
+    }
+
+    public abstract class DefaultActorActivator<TProperties> : IActorActivator
+    {
+        void IActorActivator.Init(object properties)
+        {
+            Init((TProperties) properties);
+        }
+
+        public abstract void Init(TProperties properties);
+        public abstract Actor Activate(Type type);
     }
 
     class DefaultActorActivator : IActorActivator
     {
-        public void Init(IDictionary<string, string> properties)
+        public void Init(object properties)
         {}
 
         public Actor Activate(Type type)
         {
-            return (Actor) Activator.CreateInstance(type);
+            return (Actor) Activator.CreateInstance(type, nonPublic: true);
         }
     }
 }
