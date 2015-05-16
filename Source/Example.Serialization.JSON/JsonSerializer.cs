@@ -18,7 +18,7 @@ namespace Example.Serialization.JSON
     {
         JsonSerializerSettings settings;
 
-        void IMessageSerializer.Init(Assembly[] assemblies, IDictionary<string, string> properties)
+        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
         {
             settings = new JsonSerializerSettings
             {

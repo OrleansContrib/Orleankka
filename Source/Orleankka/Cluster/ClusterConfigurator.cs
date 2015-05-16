@@ -32,7 +32,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        public ClusterConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             RegisterSerializer<T>(properties);
             return this;

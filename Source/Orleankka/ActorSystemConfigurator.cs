@@ -15,10 +15,10 @@ namespace Orleankka
     {
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
          
-        Tuple<Type, Dictionary<string, string>> serializer;
+        Tuple<Type, object> serializer;
         Tuple<Type, object> activator;
 
-        protected void RegisterSerializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        protected void RegisterSerializer<T>(object properties = null) where T : IMessageSerializer
         {
             if (serializer != null)
                 throw new InvalidOperationException("Serializer has been already registered");

@@ -8,7 +8,7 @@ using Autofac;
 
 namespace Example
 {
-    public sealed class AutofacActorActivator : DefaultActorActivator<Action<ContainerBuilder>>
+    public sealed class AutofacActorActivator : ActorActivator<Action<ContainerBuilder>>
     {
         IContainer container;
 

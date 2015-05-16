@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +10,7 @@ namespace Orleankka.Core
 {
     public interface IMessageSerializer
     {
-        void Init(Assembly[] assemblies, IDictionary<string, string> properties);
+        void Init(Assembly[] assemblies, object properties);
 
         /// <summary>
         /// Serializes message to byte[]
@@ -24,9 +23,21 @@ namespace Orleankka.Core
         object Deserialize(BinaryTokenStreamReader stream);
     }
 
-    public class BinarySerializer : IMessageSerializer
+    public abstract class MessageSerializer<TProperties> : IMessageSerializer
     {
-        void IMessageSerializer.Init(Assembly[] assemblies, IDictionary<string, string> properties)
+        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
+        {
+            Init(assemblies, (TProperties)properties);
+        }
+
+        public abstract void Init(Assembly[] assemblies, TProperties properties);
+        public abstract void Serialize(object message, BinaryTokenStreamWriter stream);
+        public abstract object Deserialize(BinaryTokenStreamReader stream);
+    }
+
+    public sealed class BinarySerializer : IMessageSerializer
+    {
+        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
         {}
 
         void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)
@@ -50,9 +61,9 @@ namespace Orleankka.Core
         }
     }
 
-    public class NativeSerializer : IMessageSerializer
+    public sealed class NativeSerializer : IMessageSerializer
     {
-        void IMessageSerializer.Init(Assembly[] assemblies, IDictionary<string, string> properties)
+        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
         {}
 
         void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)

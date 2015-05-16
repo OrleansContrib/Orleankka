@@ -39,7 +39,7 @@ namespace Orleankka.Embedded
             return this;
         }
     
-        public EmbeddedConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        public EmbeddedConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             client.Serializer<T>(properties);
             cluster.Serializer<T>(properties);

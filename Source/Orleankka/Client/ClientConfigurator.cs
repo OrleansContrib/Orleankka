@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -29,7 +28,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        public ClientConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             RegisterSerializer<T>(properties);
             return this;

@@ -10,7 +10,7 @@ namespace Orleankka.Core
         Actor Activate(Type type);
     }
 
-    public abstract class DefaultActorActivator<TProperties> : IActorActivator
+    public abstract class ActorActivator<TProperties> : IActorActivator
     {
         void IActorActivator.Init(object properties)
         {
