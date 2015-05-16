@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -10,27 +13,39 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
-    public abstract class Bootstrapper
+    public interface IBootstrapper
     {
         /// <summary>
         /// Runs the bootstrapper passing the properties specified during actor system configuration.
         /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        public virtual Task Run(IDictionary<string, string> properties)
+        Task Run(object properties);
+    }
+
+    public abstract class Bootstrapper<TProperties> : IBootstrapper
+    {
+        Task IBootstrapper.Run(object properties)
         {
-            return TaskDone.Done;
+            return Run((TProperties) properties);
         }
+
+        /// <summary>
+        /// Runs the bootstrapper passing the properties specified during actor system configuration.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns>The promise</returns>
+        public abstract Task Run(TProperties properties);
     }
 
     class BootstrapProvider : IBootstrapProvider
     {
         internal const string TypeKey = "<-::Type::->";
+        internal const string PropertiesKey = "<-::Properties::->";
 
         public string Name
         {
-            get;
-            private set;
+            get; private set;
         }
 
         Task IProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
@@ -40,21 +55,41 @@ namespace Orleankka.Cluster
             var type = Type.GetType(config.Properties[TypeKey]);
             Debug.Assert(type != null);
 
-            var bootstrapper = (Bootstrapper)Activator.CreateInstance(type);
-            return bootstrapper.Run(config.Properties);
+            var bootstrapper = (IBootstrapper)Activator.CreateInstance(type);
+            return bootstrapper.Run(Deserialize(config.Properties[PropertiesKey]));
+        }
+
+        static object Deserialize(string s)
+        {
+            var bytes = Convert.FromBase64String(s);
+
+            using (var ms = new MemoryStream(bytes))
+            {
+                var formatter = new BinaryFormatter();
+                return formatter.Deserialize(ms);
+            }
         }
     }
 
     class BootstrapProviderConfiguration : IEquatable<BootstrapProviderConfiguration>
     {
         readonly Type type;
-        readonly Dictionary<string, string> properties;
+        readonly Dictionary<string, string> properties = new Dictionary<string, string>();
 
-        public BootstrapProviderConfiguration(Type type, Dictionary<string, string> properties)
+        public BootstrapProviderConfiguration(Type type, object properties)
         {
             this.type = type;
-            this.properties = properties ?? new Dictionary<string, string>();
             this.properties.Add(BootstrapProvider.TypeKey, type.AssemblyQualifiedName);
+            this.properties.Add(BootstrapProvider.PropertiesKey, Serialize(properties));
+        }
+
+        static string Serialize(object obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                new BinaryFormatter().Serialize(ms, obj);
+                return Convert.ToBase64String(ms.ToArray());
+            }
         }
 
         public bool Equals(BootstrapProviderConfiguration other)

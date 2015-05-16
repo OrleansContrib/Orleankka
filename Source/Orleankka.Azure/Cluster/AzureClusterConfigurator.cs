@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -24,7 +23,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        public AzureClusterConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             cluster.Serializer<T>(properties);
             return this;
@@ -36,7 +35,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Run<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
+        public AzureClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
             return this;

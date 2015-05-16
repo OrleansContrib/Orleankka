@@ -17,9 +17,9 @@ namespace Example.Azure
         static IActorSystem system;
         static IPEndPoint ip;
 
-        public class Bootstrapper : Orleankka.Cluster.Bootstrapper
+        public class Bootstrapper : IBootstrapper
         {
-            public override Task Run(IDictionary<string, string> properties)
+            public Task Run(object properties)
             {
                 system = ClusterActorSystem.Current;
 

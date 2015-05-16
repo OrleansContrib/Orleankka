@@ -184,9 +184,9 @@ namespace Example
             get; private set;
         }
 
-        public class Bootstrap : Bootstrapper
+        public class Bootstrap : IBootstrapper
         {
-            public override async Task Run(IDictionary<string, string> properties)
+            public async Task Run(object properties)
             {
                 Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
                 await Connection.ConnectAsync();

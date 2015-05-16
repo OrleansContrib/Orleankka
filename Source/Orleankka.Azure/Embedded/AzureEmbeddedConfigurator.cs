@@ -10,7 +10,6 @@ namespace Orleankka.Embedded
     using Core;
     using Client;
     using Cluster;
-    using Utility;
 
     public class AzureEmbeddedConfigurator
     {
@@ -39,21 +38,21 @@ namespace Orleankka.Embedded
             client.From(config);
             return this;
         }
-    
-        public AzureEmbeddedConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+
+        public AzureEmbeddedConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             client.Serializer<T>(properties);
             cluster.Serializer<T>(properties);
             return this;
         }
 
-        public AzureEmbeddedConfigurator Activator<T>(Dictionary<string, string> properties = null) where T : IActorActivator
+        public AzureEmbeddedConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);
             return this;
         }
 
-        public AzureEmbeddedConfigurator Run<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
+        public AzureEmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
             return this;

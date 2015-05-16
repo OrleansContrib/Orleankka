@@ -13,7 +13,7 @@ namespace Demo
             get; private set;
         }
 
-        public class Bootstrap : Bootstrapper
+        public class Bootstrap : Bootstrapper<IDictionary<string, string>>
         {
             static bool done;
 

@@ -52,7 +52,7 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator Run<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
+        public EmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
             return this;

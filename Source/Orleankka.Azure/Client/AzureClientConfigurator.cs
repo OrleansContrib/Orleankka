@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -24,7 +23,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        public AzureClientConfigurator Serializer<T>(Dictionary<string, string> properties = null) where T : IMessageSerializer
+        public AzureClientConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             client.Serializer<T>(properties);
             return this;

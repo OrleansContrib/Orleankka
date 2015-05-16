@@ -44,7 +44,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Run<T>(Dictionary<string, string> properties = null) where T : Bootstrapper
+        public ClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             if (!bootstrappers.Add(new BootstrapProviderConfiguration(typeof(T), properties)))
                 throw new ArgumentException(
