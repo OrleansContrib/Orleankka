@@ -19,6 +19,10 @@ namespace Orleankka.Features
         {
             public TimeSpan Period;
         }
+        
+        [Serializable]
+        public class Deactivate : Command
+        {}
 
         [Serializable]
         public class HasBeenReminded : Query<bool>
@@ -31,11 +35,14 @@ namespace Orleankka.Features
         public class TestActor : Actor
         {
             readonly IReminderService reminders;
+            readonly IActivationService activation;
+            
             bool reminded;
 
             public TestActor()
             {
                 reminders = new ReminderService(this);
+                activation = new ActivationService(this);
             }
 
             protected internal override void Define()
@@ -43,6 +50,7 @@ namespace Orleankka.Features
                 On((HasBeenReminded x)      => reminded);
                 On((SetReminder x)          => reminders.Register("test", TimeSpan.Zero, x.Period));
                 On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
+                On((Deactivate x)           => activation.DeactivateOnIdle());
             }
 
             protected internal override Task OnReminder(string id)
@@ -72,6 +80,7 @@ namespace Orleankka.Features
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});
+                await actor.Tell(new Deactivate());
                 await Task.Delay(TimeSpan.FromMinutes(2.0));
 
                 Assert.True(await actor.Ask<bool>(new HasBeenReminded()));
