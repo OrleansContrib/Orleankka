@@ -43,10 +43,10 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.7\lib\net45\Orleans.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.7\lib\net45\OrleansRuntime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

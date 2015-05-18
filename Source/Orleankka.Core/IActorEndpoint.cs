@@ -22,7 +22,6 @@ namespace Orleankka.Core
         ///   FOR INTERNAL USE ONLY!
         ///   Actor with Placement.Random
         /// </summary>
-        [ExtendedPrimaryKey]
         public interface IA0 : IActorEndpoint
         {}
 
@@ -30,7 +29,6 @@ namespace Orleankka.Core
         ///   FOR INTERNAL USE ONLY!
         ///   Actor with Placement.PreferLocal
         /// </summary>
-        [ExtendedPrimaryKey]
         public interface IA1 : IActorEndpoint
         {}
 
@@ -38,7 +36,6 @@ namespace Orleankka.Core
         ///   FOR INTERNAL USE ONLY!
         ///   Actor with Placement.DistributeEvenly
         /// </summary>
-        [ExtendedPrimaryKey]
         public interface IA2 : IActorEndpoint
         {}
 
@@ -46,7 +43,6 @@ namespace Orleankka.Core
         ///   FOR INTERNAL USE ONLY!
         ///   Worker
         /// </summary>
-        [ExtendedPrimaryKey]
         public interface IW : IActorEndpoint
         {}
     }
