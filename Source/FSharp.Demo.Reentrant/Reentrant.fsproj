@@ -54,11 +54,17 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="ReaderWriterLock.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
+      <Name>Orleankka.FSharp</Name>
+      <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="Microsoft.Data.Edm">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
