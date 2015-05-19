@@ -78,6 +78,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES", "Source\Example.Event
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac", "Source\Example.DependencyInjection.Autofac\Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reentrant", "Source\FSharp.Demo.Reentrant\Reentrant.fsproj", "{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,12 @@ Global
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Package|Any CPU.Build.0 = Release|Any CPU
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Package|Any CPU.Build.0 = Release|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,5 +264,6 @@ Global
 		{AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC} = {C5B9656C-A921-41BC-93BC-B98D45F4A704}
 		{E23D9F8D-8EC8-0000-0000-000000000000} = {AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC}
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022} = {85E741A4-D6F4-44C2-955B-F2FE10C0ECA5}
+		{91C90DE4-ED46-4E9B-8FC2-BC109BEE4AFC} = {4513B5BF-FDEA-45FB-8C88-E9C9F9FEAC94}
 	EndGlobalSection
 EndGlobal
