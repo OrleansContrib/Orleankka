@@ -15,6 +15,10 @@ type Account() =
    override this.Receive message reply = task {
       match message with
       | Deposit amount   -> balance <- balance + amount
-      | Withdraw amount  -> balance <- balance - amount
+
+      | Withdraw amount -> 
+         if balance >= amount then balance <- balance - amount         
+         else invalidOp "Amount may not be larger than account balance. \n"
+
       | Balance          -> reply balance
    }
