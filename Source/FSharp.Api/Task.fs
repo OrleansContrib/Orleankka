@@ -100,17 +100,12 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
             this.Bind(m(), fun () -> this.While(guard, m))
 
    member this.TryWith(body:unit -> Task<_>, catchFn:exn -> Task<_>) =  
-      try    
+      try
          body()
-          .ContinueWith(fun (t:Task<_>) -> 
-          
+          .ContinueWith(fun (t:Task<_>) ->
              match t.IsFaulted with
              | false -> returnM(t.Result)
-             | true  -> 
-               if t.Exception.InnerExceptions.Count > 1 
-                  then catchFn(t.Exception)
-               else catchFn(t.Exception.InnerException))
-          
+             | true  -> catchFn(t.Exception.GetBaseException()))
           .Unwrap()
       with e -> catchFn(e)
 

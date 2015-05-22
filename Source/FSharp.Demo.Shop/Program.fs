@@ -22,7 +22,6 @@ let main argv =
     let account = system.ActorOf<Account>("Antya")
    
     task {
-
         let! stock = shop <? Stock
         printfn "Shop has %i items in stock \n" stock
 
@@ -37,6 +36,11 @@ let main argv =
 
         let! stock = shop <? Stock
         printfn "Now shop has %i items in stock \n" stock
+
+        try
+           printfn "Let's sell 100 items to user \n"
+           do! shop <! Sell(account, 100)
+        with :? InvalidOperationException as e -> printf "[Exception]: %s \n" e.Message
 
         printfn "Let's sell 2 items to user \n"
         do! shop <! Sell(account, 2)      
