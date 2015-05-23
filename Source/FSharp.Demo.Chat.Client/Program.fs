@@ -12,6 +12,9 @@ let mutable client = null
 [<EntryPoint>]
 let main argv =    
    
+   printfn "Please wait until Chat Server has completed boot and then press enter. \n"
+   Console.ReadLine() |> ignore
+
    let config = ClientConfiguration().LoadFromEmbeddedResource(Assembly.GetExecutingAssembly(), "Client.xml")
    
    use system = ActorSystem.Configure()

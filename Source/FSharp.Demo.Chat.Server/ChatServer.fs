@@ -13,7 +13,7 @@ type ServerMessage =
    | Join of Username:string * Client:ObserverRef
    | Say of Username:string * Text:string   
    | Disconnect of Username:string * Client:ObserverRef
-
+   
 
 type ChatServer() = 
    inherit Actor<ServerMessage>()
