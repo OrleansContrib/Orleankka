@@ -52,8 +52,8 @@
       <HintPath>..\..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
@@ -89,9 +89,9 @@
     <EmbeddedResource Include="Client.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSharp.Demo.Chat.Server\Server.csproj">
-      <Project>{410163DE-D8D9-485F-94B3-72287B29B315}</Project>
-      <Name>Server</Name>
+    <ProjectReference Include="..\Example.Chat.Server\Example.Chat.Server.csproj">
+      <Project>{410163de-d8d9-485f-94b3-72287b29b315}</Project>
+      <Name>Example.Chat.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
