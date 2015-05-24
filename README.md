@@ -1,10 +1,8 @@
 ### Orleankka
 
-Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, routing, FSM, etc. 
+Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, routing, FSM, etc. The API was thoroughly crafted to be as convenient to use from both, imperative object-oriented languages, like C#, as well as from functional, such as F#. 
 
-The API was thoroughly crafted to be as convenient to use from both, imperative object-oriented languages, like C#, as well as from functional, such as F#. 
-
-Orleankka is not just a translation layer on top of Orleans. Besides improved language support, Orleannka fixes a lot of other small-to-medium annoyances, constraints and some of the major limitations, present in current Orleans programming model.
+Orleankka is not just a translation layer on top of Orleans. Besides improved language support, Orleannka brings several new important features and fixes a lot of small-to-medium annoyances, constraints and some of the major limitations, present in current Orleans programming model.
 
 > References: [video](https://www.youtube.com/watch?v=07Up88bpl20), [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
 
@@ -55,16 +53,23 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 
 ##### C#
 
-+ Event Sourcing [[basic]](Source/Example.EventSourcing)
++ "WebScan" [[demo]](Source/Demo.App)
++ TestKit [[demo]](Source/Demo.App.Tests)
++ Event Sourcing 
+	+ Idiomatic (CQRS, message-passing) [[see]](Source/Example.EventSourcing.Idiomatic)
+	+ With typed actors  [[see]](Source/Example.EventSourcing.Type)
+	+ Persistence: GetEventStore [[see]](Example.EventSourcing.Persistence.GES)
+	+ Persistence: Streamstone [PLANNED] [[see]]()
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
-+ Testing actors in isolation [[kit]](Source/Demo.App.Tests/TopicFixture.cs)
 
-##### F# Demo
+##### F#
 
-+ Hello, world! [[see]](Source/) 
-+ Chat  [[see]](Source/)
-+ eCommerce [[see]](Source/)
++ Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
++ Chat  [[demo]](Source/FSharp.Demo.Chat.Server)
++ eCommerce [[demo]](Source/FSharp.Demo.Shop)
++ Worker actors [[see]](Source/FSharp.Demo.Worker)
++ Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
 
 ##### Serialization
 
