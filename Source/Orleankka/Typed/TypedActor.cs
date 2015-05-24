@@ -19,7 +19,9 @@ namespace Orleankka.Typed
 
             var member = GetType()
                 .GetMembers()
-                .Single(x => x.MetadataToken == invocation.Token);
+                .Single(x => 
+                    x.Module.MetadataToken == invocation.ModuleToken && 
+                    x.MetadataToken == invocation.MemberToken);
 
             return OnInvoke(member, invocation.Arguments);
         }
