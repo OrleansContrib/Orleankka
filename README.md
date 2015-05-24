@@ -38,7 +38,8 @@ Orleankka is an attempt to fix that problem in a generic way. It turned out that
 + Reentrant messages
 + Automatic GC with configurable keep-alive timeouts
 + Runtime independence (isolated testing)
-+ **New!** Typed actors 
++ Typed actors (C#-only)
++ **New!** Streams
 
 ##### Other
 
