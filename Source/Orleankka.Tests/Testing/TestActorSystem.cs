@@ -18,10 +18,5 @@ namespace Orleankka.Testing
         {
             return new TypedActorRef<TActor>(system.FreshActorOf<TActor>());
         }
-
-        public static TypedActorRef<TActor> Typed<TActor>(this ActorRef @ref) where TActor : TypedActor
-        {
-            return new TypedActorRef<TActor>(@ref);
-        }
     }
 }

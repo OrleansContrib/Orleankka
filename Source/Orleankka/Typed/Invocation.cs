@@ -8,10 +8,8 @@ namespace Orleankka.Typed
     {
         static readonly object[] NoArguments = new object[0];
 
-        [NonSerialized]
-        public readonly MemberInfo Member;
-
-        public int Token            { get; set; }
+        public int ModuleToken      { get; set; }
+        public int MemberToken      { get; set; }
         public object[] Arguments   { get; set; }
 
         public Invocation()
@@ -26,8 +24,8 @@ namespace Orleankka.Typed
         public Invocation(MemberInfo member, object[] arguments) 
             : this()
         {
-            Member = member;
-            Token  = member.MetadataToken;
+            ModuleToken = member.Module.MetadataToken;
+            MemberToken = member.MetadataToken;
             Arguments = arguments;
         }
     }

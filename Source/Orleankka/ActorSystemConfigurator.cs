@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Orleans.Runtime.Configuration;
+
 namespace Orleankka
 {
     using Core;
@@ -51,8 +53,14 @@ namespace Orleankka
             }
         }
 
-        protected internal void Configure()
+        protected internal void Configure(IDictionary<string, ProviderCategoryConfiguration> providerConfigurations)
         {
+            if (providerConfigurations.ContainsKey("Stream"))
+            {
+                var providers = providerConfigurations["Stream"];
+                StreamPath.Register(providers.Providers.Values);
+            }
+
             if (serializer != null)
             {
                 var instance = (IMessageSerializer) Activator.CreateInstance(serializer.Item1);
@@ -74,6 +82,7 @@ namespace Orleankka
 
         public void Dispose()
         {
+            StreamPath.Reset();
             MessageEnvelope.Reset();
             ActorEndpoint.Reset();
             ActorAssembly.Reset();
