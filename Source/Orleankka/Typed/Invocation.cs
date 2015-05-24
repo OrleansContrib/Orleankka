@@ -4,13 +4,12 @@ using System.Reflection;
 namespace Orleankka.Typed
 {
     [Serializable]
-    public sealed class Invocation
+    sealed class Invocation
     {
         static readonly object[] NoArguments = new object[0];
 
-        public int ModuleToken      { get; set; }
-        public int MemberToken      { get; set; }
-        public object[] Arguments   { get; set; }
+        public string Member       { get; set; }
+        public object[] Arguments  { get; set; }
 
         public Invocation()
         {
@@ -24,8 +23,7 @@ namespace Orleankka.Typed
         public Invocation(MemberInfo member, object[] arguments) 
             : this()
         {
-            ModuleToken = member.Module.MetadataToken;
-            MemberToken = member.MetadataToken;
+            Member = member.Name;
             Arguments = arguments;
         }
     }
