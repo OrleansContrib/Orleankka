@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Example.Chat.Server;
 using Orleankka;
-using Server;
 
-namespace CSharp.Demo.Chat.Client
+namespace Example.Chat.Client
 {
     public class ChatClient
     {

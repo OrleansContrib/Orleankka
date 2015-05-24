@@ -1,7 +1,7 @@
 ﻿using System;
 using Orleankka;
 
-namespace Server
+namespace Example.Chat.Server
 {
     [Serializable]
     public class NotificationMessage

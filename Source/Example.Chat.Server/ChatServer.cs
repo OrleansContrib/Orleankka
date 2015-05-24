@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Orleankka;
 
-namespace Server
+namespace Example.Chat.Server
 {
     public class ChatServer : Actor
     {

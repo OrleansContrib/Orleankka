@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Example.Chat.Server;
 using Orleankka;
 using Orleankka.Client;
 using Orleans.Runtime.Configuration;
-using Server;
 
-namespace CSharp.Demo.Chat.Client
+namespace Example.Chat.Client
 {
     internal class Program
     {
