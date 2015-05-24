@@ -9,13 +9,6 @@ namespace Orleankka
     public class TodoFixture
     {
         [Test, Ignore]
-        public void Samples()
-        {
-            // - Add DI container sample (Unity)
-            // - Add ProtoBuf/Bond serialization sample
-        }
-
-        [Test, Ignore]
         public void ActorPrototype()
         {
             // - Prototype extensibility?

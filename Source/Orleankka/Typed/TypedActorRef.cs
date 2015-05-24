@@ -83,11 +83,5 @@ namespace Orleankka.Typed
             Requires.NotNull(system, "system");
             return new TypedActorRef<TActor>(system.ActorOf<TActor>(id));
         }
-
-        public static TypedActorRef<TActor> Typed<TActor>(this ActorRef @ref) where TActor : TypedActor
-        {
-            Requires.NotNull(@ref, "ref");
-            return new TypedActorRef<TActor>(@ref);
-        }
     }
 }

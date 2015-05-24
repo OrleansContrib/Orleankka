@@ -31,11 +31,6 @@ namespace Orleankka.Features
                 TextField = arg;
             }
 
-            public void SetText(string arg1, string arg2)
-            {
-                TextField = arg1 ?? arg2;
-            }
-
             public Task SetTextReturnsTask(string arg)
             {
                 TextField = arg;
@@ -100,16 +95,6 @@ namespace Orleankka.Features
                 await actor.Call(x => x.SetTextAsync("c-a"));
 
                 Assert.AreEqual("c-a", await actor.Call(x => x.GetTextAsync()));
-            }
-
-            [Test]
-            public async void Calling_overloaded_methods()
-            {
-                var actor = system.FreshTypedActorOf<TestActor>();
-
-                await actor.Call(x => x.SetText(null, "foo"));
-
-                Assert.AreEqual("foo", await actor.Call(x => x.GetText()));
             }
 
             [Test]

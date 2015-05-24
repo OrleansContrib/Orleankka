@@ -1,62 +1,37 @@
 ### Orleankka
 
-Orleankka is a complementary API for Microsoft Orleans framework. Orleankka's API is based on [message passing](http://en.wikipedia.org/wiki/Message_passing) style of communication. Orleankka was developed specifically for scenarios, where having a uniform communication interface would payoff in terms of reduced code repetition (DRY, SRP) and respectively, increased code clarity. The API was thoroughly crafted to be as convenient to use from both, imperative object-oriented languages, like C#, as well as from functional, such as F#.
+Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, re-routing, FSM, etc. 
 
-### Why?
-
-Out-of-the box, Microsoft Orleans comes with static code generator and support for non-uniform custom interfaces, very similar to WCF. This approach fits nicely into an object-oriented paradigm and is good enough for majority of applications and use-cases.
-
-Unfortunately, it doesn't play well when combined with [Event Sourcing](https://msdn.microsoft.com/en-us/library/dn589792.aspx) approach to state persistence. An interplay between non-uniform and uniform interface leads to code duplication and is generally error-prone. That can be remedied by introduction of a catch-all function, where all requests received by an actor could be intercepted (AOP). Sadly, but such highly useful higher-order function is not exposed by the framework.   
-
-Orleankka is an attempt to fix that problem in a generic way. It turned out that introduction of uniform communication interface, also fixed a lot of other small-to-medium annoyances, constraints and even some of the major limitations, present in current Orleans programming model.
+Orleankka is not just a translation layer on top of Orleans. Besides improved language support, Orleannka brings several new important features and fixes a lot of small-to-medium annoyances, constraints and some of the major limitations, currently present in Orleans' programming model.
 
 > References: [video](https://www.youtube.com/watch?v=07Up88bpl20), [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
-
-### Goals
-
-- __No sacrifices__. Full feature parity with native Orleans api and more.
-- __Side-by-side execution__. Can mix uniform actors with native Orleans' grains.
-- __Simplicity__. For both simple and complex scenarios.
-- __Designed for testability__. Inversion of control - you drive the framework.  
-- __Annoyance-free__. Eliminate noise induced by Orleans' native programming model.
-- __Low friction__. Within syntax limits of major programming languages (C#/F#).
 
 ### Features
 
 ##### Runtime
 
-+ Dynamic proxy creation
 + Pluggable serialization protocols
 + Dependency injection support
 + Simplified configuration via fluent DSL (client, cluster, azure, embedded)
 + Programmable from any .NET language
-
++ **New!** Streams
+ 
 ##### Actors
 
-+ Higher-order catch-all function (AOP)
-+ Message handler auto-wiring
-+ Reentrant messages
++ Message interception via higher-order catch-all function (AOP)
 + Automatic GC with configurable keep-alive timeouts
 + Runtime independence (isolated testing)
-+ Typed actors (C#-only)
-+ **New!** Streams
++ Reentrant messages
++ Typed actors (C#)
++ Lambda-based message handlers (C#)
++ Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
 
 ##### Other
 
 + Convenient unit testing kit (stubs, mocks, expectations)
-+ Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
-+ Support of non-uniform and lambda-based message handlers (noise reduction for C#)
-+ Reactive Extensions (RX) support (client-side observers)
-+ Frictionless exception handling (automatic unwrapping of AggregateException)
-
-### Roadmap
-
-+ Extensible actor prototypes
-+ Additional serialization formats (ProtoBuf, Bond?)
-+ FSM support
-+ Http endpoint
-+ More examples
-+ Reference documentation
++ Push-based notifications with observers
++ Reactive Extensions (RX) support (client-side observers only)
++ Improved exception handling
 
 ### How to install [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/)
 
@@ -76,24 +51,36 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 
 ### Examples
 
-+ Event Sourcing [[basic]](Source/Example.EventSourcing)
+##### C&#35;
+
++ "WebScan" [[demo]](Source/Demo.App)
++ TestKit [[demo]](Source/Demo.App.Tests)
++ Event Sourcing 
+	+ Idiomatic (CQRS, message-passing) [[see]](Source/Example.EventSourcing.Idiomatic)
+	+ With typed actors  [[see]](Source/Example.EventSourcing.Type)
+	+ Persistence: GetEventStore [[see]](Example.EventSourcing.Persistence.GES)
+	+ Persistence: Streamstone [PLANNED] [[see]]()
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
-+ Testing actors in isolation [[kit]](Source/Demo.App.Tests/TopicFixture.cs)
-+ (F#) "Hello, world!", "Chat", "eShop" [[see]](Source/)
+
+##### F&#35;
+
++ Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
++ Chat  [[demo]](Source/FSharp.Demo.Chat.Server)
++ eCommerce [[demo]](Source/FSharp.Demo.Shop)
++ Worker actors [[see]](Source/FSharp.Demo.Worker)
++ Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
 
 ##### Serialization
 
-+ .NET binary [default] 
-+ Orleans native (codegened) [[built-in]](Source/Example.Serialization.Native.App/Program.cs#L19)
-+ Newtonsoft.JSON [[see]](Source/Orleankka.Tests/Utility/JsonSerializer.cs)
++ .NET binary [default]
++ Orleans native (codegened) [[built-in]](Source/Example.Serialization.Native)
++ Newtonsoft.JSON [[see]](Source/Example.Serialization.JSON)
 
 ##### Dependency Injection
 
 + Service Locator [[see]](Source/Demo.App)
 + Autofac [[see]](Source/Example.DependencyInjection.Autofac)
-+ Unity   [[see]]() 
-+ NInject [[see]]()
 
 ### Documentation
 
@@ -101,7 +88,7 @@ Complete documentation could be found on [wiki](https://github.com/yevhen/Orlean
 
 ## Contributing
 
-Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made. Add-ons, like new serialization protocols, DI container support, etc - are highly welcome!
+Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made. Add-ons, like new serialization or communication protocols, DI container support, FSM, etc - are highly welcomed!
 
 ## Community
 
