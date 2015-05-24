@@ -36,22 +36,26 @@ namespace Orleankka.Typed
             var result = method.Invoke(this, arguments);
 
             if (!typeof(Task).IsAssignableFrom(method.ReturnType))
-                return method.ReturnType != typeof(void) ? Task.FromResult(result) : Done;
+                return method.ReturnType != typeof(void) 
+                        ? Task.FromResult(result) 
+                        : Done;
 
-            var task = (Task)result;
-            return task.ContinueWith(t =>
+            return ((Task)result).ContinueWith((task, state) =>
             {
-                if (t.Status == TaskStatus.Faulted)
+                if (task.Status == TaskStatus.Faulted)
                 {
-                    Debug.Assert(t.Exception != null);
-                    throw t.Exception;
+                    Debug.Assert(task.Exception != null);
+                    throw task.Exception;
                 }
 
-                if (t.GetType() == typeof(Task))
-                    return (object)null;
+                var returnType = (Type)state;
+                var returnsResult = returnType != typeof(Task);
 
-                return (object)((dynamic)task).Result;
-            });
+                return returnsResult 
+                        ? (object) ((dynamic) task).Result 
+                        : (object) null;
+            },
+            method.ReturnType);
         }
 
         Task<object> Invoke(MemberInfo member, object[] arguments)
