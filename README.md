@@ -51,7 +51,7 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 
 ### Examples
 
-##### C#
+##### C&#35;
 
 + "WebScan" [[demo]](Source/Demo.App)
 + TestKit [[demo]](Source/Demo.App.Tests)
@@ -63,7 +63,7 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
 
-##### F#
+##### F&#35;
 
 + Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
 + Chat  [[demo]](Source/FSharp.Demo.Chat.Server)
