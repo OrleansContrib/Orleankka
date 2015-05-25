@@ -6,22 +6,36 @@ using Orleankka.Typed;
 
 namespace Example.Chat.TypedActor.Client
 {
-    public class ChatClient
+    public class ChatClient : IDisposable
     {
+        private IDisposable _observer;
+        protected Observer Client;
+        protected TypedActorRef<ChatServer> Server;
+
         public ChatClient()
         {
         }
 
-        public ChatClient(TypedActorRef<ChatServer> server, ObserverRef clientRef, string userName)
+        public ChatClient(TypedActorRef<ChatServer> server, string userName)
         {
             Server = server;
-            ClientRef = clientRef;
             UserName = userName;
         }
 
-        public TypedActorRef<ChatServer> Server { get; set; }
-        public ObserverRef ClientRef { get; set; }
         public string UserName { get; set; }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public async Task Start()
+        {
+            Client = await Observer.Create();
+
+            _observer = Client.Subscribe(o => Handle((dynamic) o));
+        }
 
         public void Handle(NewMessage message)
         {
@@ -35,17 +49,25 @@ namespace Example.Chat.TypedActor.Client
 
         public async Task Join()
         {
-            await Server.Call(c => c.Join(UserName, ClientRef));
+            await Server.Call(c => c.Join(UserName, Client.Ref));
         }
 
         public async Task Disconnect()
         {
-            await Server.Call(c => c.Disconnect(UserName, ClientRef));
+            await Server.Call(c => c.Disconnect(UserName, Client.Ref));
         }
 
         public async Task Say(string text)
         {
             await Server.Call(c => c.Say(UserName, text));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_observer != null) _observer.Dispose();
+            }
         }
     }
 }
