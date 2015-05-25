@@ -3,7 +3,6 @@
 <OrleansConfiguration xmlns="urn:orleans">
   <Globals>
     <SeedNode Address="localhost" Port="11111" />
-    
   </Globals>
   <Defaults>
     <Networking Address="localhost" Port="11111" />
