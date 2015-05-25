@@ -120,6 +120,7 @@
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="packages.config" />
+    <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm">
