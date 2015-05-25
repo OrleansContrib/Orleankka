@@ -6,7 +6,9 @@ using NUnit.Framework;
 using Orleankka.Cluster;
 using Orleankka.Playground;
 using Orleankka.Testing;
-using Orleankka.Utility;
+
+using Orleans.Providers.Streams.SimpleMessageStream;
+using Orleans.Storage;
 
 [assembly: TeardownSilo]
 
@@ -45,8 +47,13 @@ namespace Orleankka.Testing
 
             TestActorSystem.Instance = ActorSystem.Configure()
                 .Playground()
-                .Tweak(cluster => cluster
-                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
+                .TweakCluster(cfg =>
+                {
+                    cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes));
+                    cfg.Globals.RegisterStorageProvider<MemoryStorage>("PubSubStore");
+                    cfg.Globals.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
+                })
+                .TweakClient(cfg => cfg.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS"))
                 .Register(GetType().Assembly)
                 .Done();
         }

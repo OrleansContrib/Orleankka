@@ -1,25 +1,60 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Orleankka.Utility;
+
 namespace Orleankka.Typed
 {
-    public class TypedActor : Actor
+    public abstract class TypedActor : Actor
     {
         static readonly Task<object> Done = Task.FromResult((object)null);
+
+        static readonly Dictionary<Type, Dictionary<string, MemberInfo>> cache =
+                    new Dictionary<Type, Dictionary<string, MemberInfo>>();
+
+        protected internal override void Define()
+        {
+            if (GetType().IsAbstract)
+                return;
+
+            var members = new Dictionary<string, MemberInfo>();
+            
+            foreach (var member in GetType().GetMembers())
+            {
+                if (members.ContainsKey(member.Name))
+                {
+                    var message = "Typed actors have bind-by-name semantics." + 
+                                  "Public members with the same name are not allowed:\n" + 
+                                  string.Format("Type: {0}, Member: {1}", GetType(), member.Name);
+
+                    throw new InvalidOperationException(message);
+                }
+
+                members.Add(member.Name, member);
+            }
+
+            cache.Add(GetType(), members);
+        }
 
         protected internal override Task<object> OnReceive(object message)
         {
             var invocation = message as Invocation;
-
             if (invocation == null)
-                throw new ArgumentException("Only member invocations could be sent to a typed actors", "message");
+                throw new InvalidOperationException("Only member invocations could be sent to a typed actors");
 
-            var member = GetType()
-                .GetMembers()
-                .Single(x => x.MetadataToken == invocation.Token);
+            var members = cache.Find(GetType());
+            var member = members != null 
+                ? members.Find(invocation.Member) 
+                : null;
+
+            if (member == null)
+                throw new InvalidOperationException(
+                    string.Format("Can't find member registration for typed actor {0}." +
+                                  "Make sure that you've registered assembly containing this type", GetType()));
 
             return OnInvoke(member, invocation.Arguments);
         }
