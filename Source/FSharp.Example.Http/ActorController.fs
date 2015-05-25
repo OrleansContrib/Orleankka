@@ -1,19 +1,15 @@
 ﻿module Controller
 
-open Orleankka
 open Orleankka.FSharp
 open Rop
 
-open System
 open System.Net
 open System.Web.Http
-open System.Net.Http
-open System.Threading.Tasks
 open System.ComponentModel.DataAnnotations
 
 [<CLIMutable>]
 type ActorMsg = {
-   Message : string
+   [<Required>] Message : string
 }
 
 type ActorController(router:ActorRouter.Router) =
@@ -23,7 +19,7 @@ type ActorController(router:ActorRouter.Router) =
    [<Route("api/{actor}/{id}")>]
    member this.Post(actor:string, id:string, [<FromBody>] msg:ActorMsg) = task {         
          
-         if (box msg = null) || String.IsNullOrEmpty(msg.Message)
+         if not this.ModelState.IsValid
             then raise(HttpResponseException(HttpStatusCode.BadRequest))         
 
          match router.Dispatch(actor, id, msg.Message) with

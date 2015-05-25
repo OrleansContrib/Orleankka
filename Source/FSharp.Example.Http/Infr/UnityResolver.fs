@@ -10,13 +10,11 @@ type UnityResolver(container:IUnityContainer) =
       member this.BeginScope() = 
          this :> IDependencyScope
       
-      member this.Dispose() = container.Dispose() 
+      member this.Dispose() = ()
                
       member this.GetService(serviceType:Type) = 
-         try            
-            if container.IsRegistered(serviceType)
-               then container.Resolve(serviceType)
-            else null
+         try          
+            container.Resolve(serviceType)
          with
          | :? ResolutionFailedException -> null
          

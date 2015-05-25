@@ -1,4 +1,4 @@
-module HttpDemo.AssemblyInfo
+module Http.AssemblyInfo
 open System.Reflection
 open System.Runtime.CompilerServices
 
