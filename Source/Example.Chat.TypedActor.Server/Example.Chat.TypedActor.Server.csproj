@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9992A9B4-3439-43C7-A86D-68D6697B58C2}</ProjectGuid>
+    <ProjectGuid>{355B546C-C246-4CEE-A302-7D453A81D3AC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.Chat.Client</RootNamespace>
-    <AssemblyName>Example.Chat.Client</AssemblyName>
+    <RootNamespace>Example.Chat.TypedActor.Server</RootNamespace>
+    <AssemblyName>Example.Chat.TypedActor.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -77,7 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatClient.cs" />
+    <Compile Include="ChatServer.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,21 +87,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Client.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Example.Chat.Server\Example.Chat.Server.csproj">
-      <Project>{410163de-d8d9-485f-94b3-72287b29b315}</Project>
-      <Name>Example.Chat.Server</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
-      <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Project>{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Server.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

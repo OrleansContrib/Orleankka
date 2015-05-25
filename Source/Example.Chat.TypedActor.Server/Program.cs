@@ -4,7 +4,7 @@ using Orleankka;
 using Orleankka.Cluster;
 using Orleans.Runtime.Configuration;
 
-namespace Example.Chat.Server
+namespace Example.Chat.TypedActor.Server
 {
     internal class Program
     {

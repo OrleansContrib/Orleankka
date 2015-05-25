@@ -39,7 +39,7 @@ namespace Orleankka.TestKit
             return stub;
         }
 
-        public ObserverRef ObserverOf(string path)
+        StreamRef IActorSystem.StreamOf(StreamPath path)
         {
             throw new NotImplementedException();
         }

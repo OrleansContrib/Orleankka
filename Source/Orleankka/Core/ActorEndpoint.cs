@@ -74,7 +74,7 @@ namespace Orleankka.Core
 
             actor = Activator.Activate(path.Type);
             actor.Initialize(path.Id, system, this, ActorPrototype.Of(path.Type));
-            
+
             await actor.OnActivate();
         }
 

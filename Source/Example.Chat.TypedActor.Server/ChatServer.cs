@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Orleankka;
+using Orleans;
 
-namespace Example.Chat.Server
+namespace Example.Chat.TypedActor.Server
 {
-    public class ChatServer : Actor
+    public class ChatServer : Orleankka.Typed.TypedActor
     {
         public ChatServer()
         {
@@ -22,19 +23,19 @@ namespace Example.Chat.Server
             }
         }
 
-        public Task<object> Handle(JoinMessage message)
+        public Task Join(string username, ObserverRef client)
         {
             IObserverCollection clients;
-            if (Users.TryGetValue(message.Username, out clients))
+            if (Users.TryGetValue(username, out clients))
             {
-                clients.Add(message.Client);
+                clients.Add(client);
             }
             else
             {
                 IObserverCollection newClientsCollection = new ObserverCollection();
-                newClientsCollection.Add(message.Client);
-                Users.Add(message.Username, newClientsCollection);
-                message.Client.Notify(new NotificationMessage
+                newClientsCollection.Add(client);
+                Users.Add(username, newClientsCollection);
+                client.Notify(new NotificationMessage
                 {
                     Text = "Hello and welcome to Orleankka chat example"
                 });
@@ -43,39 +44,37 @@ namespace Example.Chat.Server
 
             NotifyClients(new NotificationMessage
             {
-                Text = string.Format("User: {0} connected...", message.Username)
+                Text = string.Format("User: {0} connected...", username)
             }, Users.Values);
 
-
-            return Task.FromResult(new object());
+            return TaskDone.Done;
         }
 
-        public Task<object> Handle(SayMessage message)
+        public Task Say(string username, string text)
         {
             NotifyClients(new NewMessage
             {
-                Username = message.Username,
-                Text = message.Text
+                Username = username,
+                Text = text
             }, Users.Values);
-
-            return Task.FromResult(new object());
+            return TaskDone.Done;
         }
 
-        public Task<object> Handle(DisconnectMessage message)
+        public Task Disconnect(string username, ObserverRef client)
         {
             IObserverCollection clients;
-            if (Users.TryGetValue(message.Username, out clients))
+            if (Users.TryGetValue(username, out clients))
             {
                 if (clients.Count() == 1)
                 {
-                    Users.Remove(message.Username);
+                    Users.Remove(username);
                 }
                 else
                 {
-                    clients.Remove(message.Client);
+                    clients.Remove(client);
                 }
             }
-            return Task.FromResult(new object());
+            return TaskDone.Done;
         }
     }
 }
