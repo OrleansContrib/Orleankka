@@ -24,38 +24,41 @@ namespace Example.Chat.TypedActor.Client
                 .Register(typeof (ChatServer).Assembly)
                 .Done();
 
-            var client = Observer.Create().Result;
 
-            var server = system.TypedActorOf<ChatServer>("server");
+            var task = Task.Run(async () => await RunChatClient(system));
+            task.Wait();
+        }
+
+        private static async Task RunChatClient(IActorSystem system)
+        {
+            //Get Chat room with name "Orleankka Chat Room"
+
+            var chatRoom = system.TypedActorOf<ChatServer>("Orleankka Chat Room");
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
 
-            var chatClient = new ChatClient(server, client.Ref, userName);
-
-            var observer = client.Subscribe(o => chatClient.Handle((dynamic) o));
-
-            var task = Task.Run(async () => await RunChatClient(chatClient));
-            task.Wait();
-        }
-
-        private static async Task RunChatClient(ChatClient chatClient)
-        {
-            Console.WriteLine("Connecting....");
-            await chatClient.Join();
-
-            Console.WriteLine("Connected!");
-
-            while (true)
+            using (var chatClient = new ChatClient(chatRoom, userName))
             {
-                var command = Console.ReadLine();
+                await chatClient.Start();
 
-                if (command == "quit")
+                Console.WriteLine("Connecting....");
+
+                await chatClient.Join();
+
+                Console.WriteLine("Connected!");
+
+                while (true)
                 {
-                    await chatClient.Disconnect();
-                    break;
+                    var command = Console.ReadLine();
+
+                    if (command == "quit")
+                    {
+                        await chatClient.Disconnect();
+                        break;
+                    }
+                    await chatClient.Say(command);
                 }
-                await chatClient.Say(command);
             }
         }
     }
