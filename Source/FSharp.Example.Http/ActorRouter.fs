@@ -1,11 +1,13 @@
 ﻿module ActorRouter
 
 open Orleankka
-open Rop
-
 open System
 open System.Collections.Generic
 open Newtonsoft.Json
+
+type Result<'TSuccess,'TFailure> = 
+    | Success of 'TSuccess
+    | Failure of 'TFailure
 
 let private createKey (actor:string, id:string) =
    (actor + "/" + id).ToLowerInvariant()

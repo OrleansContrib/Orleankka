@@ -1,8 +1,7 @@
 ﻿module Controller
 
+open ActorRouter
 open Orleankka.FSharp
-open Rop
-
 open System.Net
 open System.Web.Http
 open System.ComponentModel.DataAnnotations

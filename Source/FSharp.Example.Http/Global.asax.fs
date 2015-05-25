@@ -2,18 +2,30 @@ namespace Http
 
 open Orleankka
 open Orleankka.Playground
+open Controller
 
 open System
 open System.Web.Http
+open System.Web.Http.Dispatcher
+open System.Web.Http.Controllers
+open System.Net.Http
 open System.Reflection
-open Microsoft.Practices.Unity
 open Newtonsoft.Json
+
+type CompositionRoot(router) =   
+   interface IHttpControllerActivator with
+
+      member this.Create(request:HttpRequestMessage, controllerDescriptor:HttpControllerDescriptor, controllerType:Type) = 
+         if controllerType = typedefof<ActorController>
+            then new ActorController(router) :> IHttpController
+         else null
+
 
 type Global() =
    inherit System.Web.HttpApplication() 
 
-   static member RegisterWebApi(config: HttpConfiguration) =
-      
+   static member RegisterWebApi(config: HttpConfiguration) =      
+
       let system = ActorSystem.Configure()
                               .Playground()
                               .Register(Assembly.GetExecutingAssembly())
@@ -26,12 +38,10 @@ type Global() =
                    |> Seq.map ActorRouter.mapToPath
                    |> ActorRouter.create JsonConvert.DeserializeObject
 
-      config.MapHttpAttributeRoutes()
+      // configure controller activator
+      config.Services.Replace(typedefof<IHttpControllerActivator>, CompositionRoot(router))
 
-      // configure unity container
-      let container = new UnityContainer()
-      container.RegisterInstance<ActorRouter.Router>(router) |> ignore
-      config.DependencyResolver <- new Resolver.UnityResolver(container)
+      config.MapHttpAttributeRoutes()
       
       // configure serialization for json     
       let jsonFormatter = config.Formatters.JsonFormatter
