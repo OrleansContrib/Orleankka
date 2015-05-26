@@ -6,8 +6,27 @@ open System
 open System.Threading
 open System.Threading.Tasks
 
+/// Task result
+type Result<'T> = 
+   /// Task was canceled
+   | Canceled
+   /// Unhandled exception in task
+   | Error of exn
+   /// Task completed successfully
+   | Successful of 'T
 
-let inline wait (task : Task<_>) = task.Wait()
+let run (t:unit -> Task<_>) = 
+   try     
+      t().Result |> Result.Successful
+   with
+   | :? OperationCanceledException -> Result.Canceled
+   | :? AggregateException as e -> 
+      match e.InnerException with
+      | :? TaskCanceledException -> Result.Canceled
+      | _ -> Result.Error e
+   | e -> Result.Error e
+
+let inline wait (task:Task<_>) = task.Wait()
 
 let toAsync (t: Task<'T>): Async<'T> =
    let abegin (cb: AsyncCallback, state: obj) : IAsyncResult = 
