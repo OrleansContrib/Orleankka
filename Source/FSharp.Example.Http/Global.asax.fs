@@ -1,5 +1,6 @@
 namespace Http
 
+open ActorRouter
 open Orleankka
 open Orleankka.Playground
 open Controller
@@ -9,6 +10,7 @@ open System.Web.Http
 open System.Web.Http.Dispatcher
 open System.Web.Http.Controllers
 open System.Net.Http
+open System.Net.Http.Headers
 open System.Reflection
 open Newtonsoft.Json
 
@@ -45,6 +47,9 @@ type Global() =
       
       // configure serialization for json     
       let jsonFormatter = config.Formatters.JsonFormatter
+      jsonFormatter.SupportedMediaTypes.Clear() |> ignore
+      jsonFormatter.SupportedMediaTypes.Add(MediaTypeHeaderValue(MediaType.VndActorJson));
+      jsonFormatter.SupportedMediaTypes.Add(MediaTypeHeaderValue(MediaType.VndTypedActorJson));
       config.Formatters.Clear()
       config.Formatters.Add(jsonFormatter)
       config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()

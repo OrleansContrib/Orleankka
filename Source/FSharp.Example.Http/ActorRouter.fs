@@ -6,16 +6,23 @@ open System.Collections.Generic
 open Newtonsoft.Json
 
 type Result<'TSuccess,'TFailure> = 
-    | Success of 'TSuccess
-    | Failure of 'TFailure
+   | Success of 'TSuccess
+   | Failure of 'TFailure
 
-let private createKey (actor:string, id:string) =
+type MediaType =
+   | VndActor
+   | VndTypedActor
+   with 
+   static member VndActorJson = "orleankka/vnd.actor+json"
+   static member VndTypedActorJson = "orleankka/vnd.typed.actor+json"
+
+let private createKey (actor, id) =
    (actor + "/" + id).ToLowerInvariant()
 
 
 type Router(deserialize:string*Type -> obj, paths:IDictionary<string,Type*ActorRef>) =
    
-   member this.Dispatch(actor:string, id:string, msg:string) =
+   member this.Dispatch(actor, id, msg) =
       let key = createKey(actor, id) 
       match paths.TryGetValue(key) with
       
