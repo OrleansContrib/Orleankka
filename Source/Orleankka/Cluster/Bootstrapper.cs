@@ -78,7 +78,8 @@ namespace Orleankka.Cluster
         {
             this.type = type;
             this.properties.Add(BootstrapProvider.TypeKey, type.AssemblyQualifiedName);
-            this.properties.Add(BootstrapProvider.PropertiesKey, Serialize(properties));
+            if (properties != null)
+                this.properties.Add(BootstrapProvider.PropertiesKey, Serialize(properties));
         }
 
         static string Serialize(object obj)
