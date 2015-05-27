@@ -21,7 +21,7 @@ let main argv =
     let shop = system.ActorOf<Shop>("Amazon")
     let account = system.ActorOf<Account>("Antya")
    
-    task {
+    let job() = task {
         let! stock = shop <? Stock
         printfn "Shop has %i items in stock \n" stock
 
@@ -51,9 +51,8 @@ let main argv =
         let! balance = account <? Balance
         printfn "And account balance is %i \n" balance
     }
-    |> Task.wait
 
-    Console.ReadLine() |> ignore
+    Task.run(job) |> ignore
 
-    printfn "%A" argv
+    Console.ReadLine() |> ignore    
     0

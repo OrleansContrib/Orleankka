@@ -32,7 +32,7 @@ let main argv =
       | NewMessage (userName, text) -> printfn "%s: %s\n" userName text
       | Notification text -> printfn "%s\n" text)   
    
-   task {
+   let job() = task {
       printfn "Connecting.... \n"      
       let! response = server <? Join(userName, client.Ref)
       printfn "Connected! \n"
@@ -46,7 +46,8 @@ let main argv =
                               | text -> server <* Say(userName, text)
                                         false)
          |> ignore       
-   } 
-   |> Task.wait   
+   }
+   
+   Task.run(job) |> ignore
    
    0
