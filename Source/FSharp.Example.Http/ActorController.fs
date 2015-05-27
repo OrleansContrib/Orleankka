@@ -15,13 +15,15 @@ type ActorController(router:ActorRouter.Router) =
    inherit ApiController()
 
    [<HttpPost>]
-   [<Route("api/{actor}/{id}")>]
-   member this.Post(actor:string, id:string, [<FromBody>] msg:ActorMsg) = task {         
+   [<Route("api/{actor}/{id}/{messagetype}")>]
+   member this.Post(actor:string, id:string, messagetype:string, [<FromBody>] msg:ActorMsg) = task {         
 
       if not this.ModelState.IsValid
          then raise(HttpResponseException(HttpStatusCode.BadRequest))         
 
-      match router.Dispatch(actor, id, msg.Message) with
+      let path = ActorRouter.createPath(actor, id, messagetype)
+
+      match router.Dispatch(path, msg.Message) with
       | Success t -> return! t            
       | Failure f -> return f :> obj
    }
