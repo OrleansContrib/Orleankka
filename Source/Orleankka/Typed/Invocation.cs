@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Orleankka.Typed
 {
     [Serializable]
-    sealed class Invocation
+    public sealed class Invocation
     {
         static readonly object[] NoArguments = new object[0];
 
