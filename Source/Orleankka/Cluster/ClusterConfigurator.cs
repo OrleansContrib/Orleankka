@@ -68,12 +68,12 @@ namespace Orleankka.Cluster
             return system;
         }
 
-        internal new void Configure()
+        internal void Configure()
         {
             foreach (var bootstrapper in bootstrappers)
                 bootstrapper.Register(Configuration.Globals);
 
-            base.Configure();
+            Configure(Configuration.Globals.ProviderConfigurations);
         }
 
         public override object InitializeLifetimeService()

@@ -6,8 +6,27 @@ open System
 open System.Threading
 open System.Threading.Tasks
 
+/// Task result
+type Result<'T> = 
+   /// Task was canceled
+   | Canceled
+   /// Unhandled exception in task
+   | Error of exn
+   /// Task completed successfully
+   | Successful of 'T
 
-let inline wait (task : Task<_>) = task.Wait()
+let run (t:unit -> Task<_>) = 
+   try     
+      t().Result |> Result.Successful
+   with
+   | :? OperationCanceledException -> Result.Canceled
+   | :? AggregateException as e -> 
+      match e.InnerException with
+      | :? TaskCanceledException -> Result.Canceled
+      | _ -> Result.Error e
+   | e -> Result.Error e
+
+let inline wait (task:Task<_>) = task.Wait()
 
 let toAsync (t: Task<'T>): Async<'T> =
    let abegin (cb: AsyncCallback, state: obj) : IAsyncResult = 
@@ -99,12 +118,15 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
       if not(guard()) then this.Zero() else
             this.Bind(m(), fun () -> this.While(guard, m))
 
-   member this.TryWith(t:unit -> Task<_>, catchFn:exn -> Task<_>) =
-      t().ContinueWith(fun (t:Task<_>) -> 
-            match t.IsFaulted with
-            | false -> returnM(t.Result)
-            | true  -> catchFn(t.Exception))
-         .Unwrap()
+   member this.TryWith(body:unit -> Task<_>, catchFn:exn -> Task<_>) =  
+      try
+         body()
+          .ContinueWith(fun (t:Task<_>) ->
+             match t.IsFaulted with
+             | false -> returnM(t.Result)
+             | true  -> catchFn(t.Exception.GetBaseException()))
+          .Unwrap()
+      with e -> catchFn(e)
 
    member this.TryFinally(m, compensation) =
       try this.ReturnFrom m

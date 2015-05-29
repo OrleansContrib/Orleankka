@@ -28,17 +28,17 @@ namespace Orleankka.Playground
                 GlobalConfiguration.LivenessProviderType.MembershipTableGrain;
 
             cluster.Globals.ReminderServiceType =
-                GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;   
+                GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
         }
 
-        public PlaygroundConfigurator Tweak(Action<ClientConfiguration> tweak)
+        public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)
         {
             Requires.NotNull(tweak, "tweak");
             tweak(client);
             return this;
         }
 
-        public PlaygroundConfigurator Tweak(Action<ClusterConfiguration> tweak)
+        public PlaygroundConfigurator TweakCluster(Action<ClusterConfiguration> tweak)
         {
             Requires.NotNull(tweak, "tweak");
             tweak(cluster);
