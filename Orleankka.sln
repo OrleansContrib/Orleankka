@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka", "Source\Orleankka\Orleankka.csproj", "{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
@@ -77,6 +77,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES", "Source\Example.EventSourcing.Persistence.GES\GES.csproj", "{E23D9F8D-8EC8-0000-0000-000000000000}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac", "Source\Example.DependencyInjection.Autofac\Autofac.csproj", "{24A1F10E-D8A4-4241-915F-0D224AEFF022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streamstone", "Source\Example.EventSourcing.Persistence.Streamstone\Streamstone.csproj", "{33BE1D68-F30D-4FA8-AC96-B035B38AE191}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -223,6 +225,12 @@ Global
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Package|Any CPU.Build.0 = Release|Any CPU
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Package|Any CPU.Build.0 = Release|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,5 +264,6 @@ Global
 		{AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC} = {C5B9656C-A921-41BC-93BC-B98D45F4A704}
 		{E23D9F8D-8EC8-0000-0000-000000000000} = {AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC}
 		{24A1F10E-D8A4-4241-915F-0D224AEFF022} = {85E741A4-D6F4-44C2-955B-F2FE10C0ECA5}
+		{33BE1D68-F30D-4FA8-AC96-B035B38AE191} = {AD0D4C26-B7CC-4A26-B681-6FA3D95B5FAC}
 	EndGlobalSection
 EndGlobal
