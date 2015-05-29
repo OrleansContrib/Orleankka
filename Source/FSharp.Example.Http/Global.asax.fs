@@ -37,8 +37,8 @@ type Global() =
 
       // configure actor routing
       let router = [(testActor, typedefof<Actors.HelloMessage>)]
-                   |> Seq.collect ActorRouter.mapToPaths
-                   |> ActorRouter.create JsonConvert.DeserializeObject
+                   |> Seq.collect Router.MapHttpRoute
+                   |> Router.Create JsonConvert.DeserializeObject
 
       // configure controller activator
       config.Services.Replace(typedefof<IHttpControllerActivator>, CompositionRoot(router))

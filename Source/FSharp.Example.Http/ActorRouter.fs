@@ -11,6 +11,7 @@ type Result<'TSuccess,'TFailure> =
    | Success of 'TSuccess
    | Failure of 'TFailure
 
+
 type MediaType =
    | VndActor
    | VndTypedActor
@@ -18,52 +19,72 @@ type MediaType =
    static member VndActorJson = "orleankka/vnd.actor+json"
    static member VndTypedActorJson = "orleankka/vnd.typed.actor+json"
 
-type RouterPath = {
+
+type MessageType =
+   | General of Type
+   | DU of Type
+   | Typed of Type
+   with 
+   static member CreateDU(caseName, msg) = sprintf "Case: %s %s" caseName msg
+   static member CreateTyped(memberName, msg) = sprintf "Member: %s %s" memberName msg
+
+
+type HttpRoute = {
    Path : string
-   MsgType : Type
+   MsgType : MessageType
    Actor : ActorRef
-}
+} with
+  static member CreatePath(actor, id, msgType) = (sprintf "%s/%s/%s" actor id msgType).ToLowerInvariant()
+  
+  static member MapGeneral(actor:ActorRef, msgType:Type) =
+     { Path = HttpRoute.CreatePath(actor.Path.Type.Name, actor.Path.Id, msgType.Name)
+       MsgType = msgType |> General
+       Actor = actor }
+  
+  static member MapDU(actor:ActorRef, msgType) = 
+     FSharpType.GetUnionCases(msgType) |> Array.map(fun c -> 
+     { Path = HttpRoute.CreatePath(actor.Path.Type.Name, actor.Path.Id, c.Name)
+       MsgType = msgType.DeclaringType |> DU
+       Actor = actor })
 
-let internal createPath (actor, id, msgType) =
-   (sprintf "%s/%s/%s" actor id msgType).ToLowerInvariant()
+  static member MapTyped(actor:TypedActorRef<'TActor>) = 
+     typeof<'TActor>.GetMembers() |> Array.map(fun m ->
+     { Path = HttpRoute.CreatePath(actor.Ref.Path.Type.Name, actor.Ref.Path.Id, m.Name)
+       MsgType = typeof<Invocation> |> Typed
+       Actor = actor.Ref })           
 
-let internal mapToPath (actor:ActorRef, msgType:Type) =
-   { Path = createPath(actor.Path.Type.Name, actor.Path.Id, msgType.Name)
-     MsgType = msgType
-     Actor = actor }   
 
-let internal mapDUToPath (actor:ActorRef, msgType) =   
-   FSharpType.GetUnionCases(msgType) |> Array.map(fun c -> 
-   { Path = createPath(actor.Path.Type.Name, actor.Path.Id, c.Name)
-     MsgType = msgType.DeclaringType
-     Actor = actor })
-      
-let internal mapToPaths (actor:ActorRef, msgType:Type) =   
-   match FSharpType.IsUnion(msgType) with   
-   | true  -> mapDUToPath(actor, msgType)
-   | false -> [| mapToPath(actor,msgType) |]
-
-let internal mapTypedToPath (actor:TypedActorRef<'TActor>) = 
-   typeof<'TActor>.GetMembers() |> Array.map(fun m ->
-   { Path = createPath(actor.Ref.Path.Type.Name, actor.Ref.Path.Id, m.Name)
-     MsgType = typeof<Invocation>
-     Actor = actor.Ref })   
-
-type Router(deserialize:string*Type -> obj, paths:IDictionary<string,RouterPath>) =
+type Router(deserialize:string*Type -> obj, routes:IDictionary<string,HttpRoute>) =
    
+   let getCaseName (path:string) = path
+   let getMemberName (path:string) = path
+
    member this.Dispatch(key, msg) =      
-      match paths.TryGetValue(key) with
-      
-      | (true,routerPath) ->          
-         let message = deserialize(msg, routerPath.MsgType)
-         Success (routerPath.Actor.Ask(message))      
-      
-      | _  -> Failure "error"
+      match routes.TryGetValue(key) with      
+      | (true, route) ->
+         let message = match route.MsgType with
+                       | General msgType -> deserialize(msg, msgType)
+                       
+                       | DU msgType -> 
+                          let caseName = msg |> getCaseName
+                          let duMsg = MessageType.CreateDU(caseName, msg)
+                          deserialize(duMsg, msgType)
 
-   static member MapToPaths(actor:ActorRef, msgType:Type) = mapToPaths(actor, msgType)
+                       | Typed msgType ->
+                          let caseName = msg |> getMemberName
+                          let typedMsg = MessageType.CreateTyped(caseName, msg)
+                          deserialize(msg, msgType)
 
-   static member MapToPaths(actor:TypedActorRef<'TActor>) = mapTypedToPath(actor)
-   
-let create deserialize (paths:RouterPath seq) =       
-   let dic = paths |> Seq.map(fun p -> (p.Path,p)) |> dict
-   Router(deserialize, dic)
+         route.Actor.Ask(message) |> Success
+      | _  -> Failure "error"   
+
+   static member Create deserialize (paths:HttpRoute seq) =       
+      let dic = paths |> Seq.map(fun p -> (p.Path,p)) |> dict
+      Router(deserialize, dic)
+
+   static member MapHttpRoute(actor:ActorRef, msgType:Type) =
+      match FSharpType.IsUnion(msgType) with   
+      | true  -> HttpRoute.MapDU(actor, msgType)
+      | false -> [| HttpRoute.MapGeneral(actor, msgType) |]
+
+   static member MapHttpRoute(actor:TypedActorRef<'TActor>) = HttpRoute.MapTyped(actor)
