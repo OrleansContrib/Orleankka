@@ -53,7 +53,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
 }
 
 /// Runs unit tests 
-[Step] void Test(string outDir = OutputPath)
+[Step] void Test(string outDir = OutputPath, bool slow = false)
 {
     Build("Debug", outDir);
 
@@ -64,7 +64,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     {
         Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
             @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
-            (AppVeyor ? "/include:Slow" : ""));
+            (AppVeyor||slow ? "/include:Slow" : ""));
     }
     finally
     {    	
