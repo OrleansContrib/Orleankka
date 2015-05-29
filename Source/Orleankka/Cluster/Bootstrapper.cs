@@ -59,6 +59,9 @@ namespace Orleankka.Cluster
 
         static object Deserialize(string s)
         {
+            if (s == null)
+                return null;
+
             var bytes = Convert.FromBase64String(s);
 
             using (var ms = new MemoryStream(bytes))
@@ -83,6 +86,9 @@ namespace Orleankka.Cluster
 
         static string Serialize(object obj)
         {
+            if (obj == null)
+                return null;
+
             using (var ms = new MemoryStream())
             {
                 new BinaryFormatter().Serialize(ms, obj);
