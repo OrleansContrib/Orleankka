@@ -14,18 +14,20 @@ namespace Example
 {
     public static class Program
     {
-        public static void Main()
+        static bool resume;
+        static IActorSystem system;
+
+        public static void Main(string[] args)
         {
+            resume = args.Length == 1 && args[0] == "resume";
+
             Console.WriteLine("Make sure you've started Azure storage emulator!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
-            var client = account.CreateCloudTableClient();
+            SetupTable(account);
 
-            var table = client.GetTableReference("ssexample");
-            table.CreateIfNotExists();
-
-            var system = ActorSystem.Configure()
+            system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
                 .Serializer<NativeSerializer>()
@@ -38,7 +40,7 @@ namespace Example
 
             try
             {
-                Run(system).Wait();
+                (resume ? Resume() : Run()).Wait();
             }
             catch (AggregateException e)
             {
@@ -53,7 +55,19 @@ namespace Example
             Environment.Exit(0);
         }
 
-        static async Task Run(IActorSystem system)
+        static void SetupTable(CloudStorageAccount account)
+        {
+            var table = account
+                .CreateCloudTableClient()
+                .GetTableReference("ssexample");
+
+            if (!resume)
+                table.DeleteIfExists();
+
+            table.CreateIfNotExists();
+        }
+
+        static async Task Run()
         {
             var item = system.ActorOf<InventoryItem>("12345");
 
@@ -65,11 +79,22 @@ namespace Example
 
             await item.Tell(new CheckOutInventoryItem(5));
             await Print(item);
-
+            
             await item.Tell(new RenameInventoryItem("XBOX360"));
             await Print(item);
+        }
 
-            await item.Tell(new DeactivateInventoryItem());
+        static async Task Resume()
+        {
+            var item = system.ActorOf<InventoryItem>("12345");
+
+            await item.Tell(new CheckInInventoryItem(100));
+            await Print(item);
+
+            await item.Tell(new CheckOutInventoryItem(50));
+            await Print(item);
+
+            await item.Tell(new CheckOutInventoryItem(45));
             await Print(item);
         }
 

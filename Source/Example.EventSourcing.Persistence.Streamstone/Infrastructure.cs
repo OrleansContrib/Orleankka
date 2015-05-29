@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
 using Orleankka.Services;
 
-using Newtonsoft.Json;
-using Microsoft.WindowsAzure.Storage;
-
-using Orleans;
-
 using Streamstone;
+
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+
+using Newtonsoft.Json;
 
 namespace Example
 {
@@ -70,33 +68,30 @@ namespace Example
             Formatting = Formatting.None
         };
 
-        int version = -1;
-
+        Stream stream;
+        
         protected override async Task OnActivate()
         {
-            version = 0;
+            var partition = new Partition(SS.Table, StreamName());
 
-            var streamName = StreamName();
-
-            var streamOpenResult = Stream.TryOpen(SS.Table, new Partition(streamName));
-
-
-            if (streamOpenResult.Found)
+            var existent = Stream.TryOpen(partition);
+            if (!existent.Found)
             {
-                var stream = streamOpenResult.Stream;
-                var slice = default(StreamSlice<EventEntity>);
-                var nextSliceStart = 1;
-
-                do
-                {
-                    slice = await Stream.ReadAsync<EventEntity>(SS.Table, streamName, nextSliceStart, sliceSize: 10);
-
-                    nextSliceStart = slice.NextEventNumber;
-
-                    Replay(slice.Events);
-                }
-                while (!slice.IsEndOfStream);
+                stream = new Stream(partition);
+                return;
             }
+
+            stream = existent.Stream;
+            StreamSlice<EventEntity> slice;
+            var nextSliceStart = 1;
+
+            do
+            {
+                slice = await Stream.ReadAsync<EventEntity>(partition, nextSliceStart);
+                nextSliceStart = slice.NextEventNumber;
+                Replay(slice.Events);
+            }
+            while (!slice.IsEndOfStream);
         }
 
         string StreamName()
@@ -106,13 +101,13 @@ namespace Example
 
         void Replay(IEnumerable<EventEntity> events)
         {
-            var deserialized = events.Select(x => DeserializeEvent(x)).ToArray();
+            var deserialized = events.Select(DeserializeEvent).ToArray();
             Apply(deserialized);
         }
 
         protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = DispatchResult<IEnumerable<Orleankka.Meta.Event>>(cmd).ToArray();
+            var events = DispatchResult<IEnumerable<object>>(cmd).ToArray();
             
             await Store(events);
             Apply(events);
@@ -120,46 +115,27 @@ namespace Example
             return events;
         }
 
-        void Apply(IEnumerable<Orleankka.Meta.Event> events)
+        void Apply(IEnumerable<object> events)
         {
             foreach (var @event in events)
-                Apply(@event);
+                Dispatch(@event);
         }
 
-        void Apply(object @event)
-        {
-            Dispatch(@event);
-            version++;
-        }
-
-        async Task Store(ICollection<Orleankka.Meta.Event> events)
+        async Task Store(ICollection<object> events)
         {            
             if (events.Count == 0)
                 return;
-
-            var streamName = StreamName();
-            var stream = default(Stream);
-
-            var streamOpenResult = Stream.TryOpen(SS.Table, new Partition(streamName));
-
-            if (streamOpenResult.Found)
-            {
-                stream = streamOpenResult.Stream;
-            }
-            else
-            {
-                stream = Stream.Provision(SS.Table, new Partition(streamName));
-            }
 
             var serialized = events.Select(ToEvent).ToArray();
             
             try
             {
-                await Stream.WriteAsync(SS.Table, stream,  serialized);
+                var result = await Stream.WriteAsync(stream,  serialized);
+                stream = result.Stream;
             }
             catch (ConcurrencyConflictException)
             {
-                Console.WriteLine("Concurrency conflict on stream '{0}' detected", streamName);
+                Console.WriteLine("Concurrency conflict on stream '{0}' detected", StreamName());
                 Console.WriteLine("Probably, second activation of actor '{0}' has been created", Self);
                 Console.WriteLine("Deactivating duplicate activation '{0}' ... ", Self);
 
@@ -168,12 +144,14 @@ namespace Example
             }
         }
 
-        static Orleankka.Meta.Event DeserializeEvent(EventEntity @event)
+        static object DeserializeEvent(EventEntity @event)
         {
             var eventType = Type.GetType(@event.Type);
-            Debug.Assert(eventType != null, "Couldn't load type '{0}'. Are you missing an assembly reference?", @event.Type);
+            
+            Debug.Assert(eventType != null, 
+                "Couldn't load type '{0}'. Are you missing an assembly reference?", @event.Type);
 
-            return (Orleankka.Meta.Event) JsonConvert.DeserializeObject(@event.Data, eventType, SerializerSettings);
+            return JsonConvert.DeserializeObject(@event.Data, eventType, SerializerSettings);
         }
 
         static Streamstone.Event ToEvent(object @event)
@@ -190,16 +168,16 @@ namespace Example
             return new Streamstone.Event(eventId, data.Props());
         }
 
-        protected override Task<object> HandleQuery(Query query)
-        {
-            return Task.FromResult(DispatchResult(query));
-        }
-
         class EventEntity
         {
             public string Id   { get; set; }
             public string Type { get; set; }
             public string Data { get; set; }
+        }
+
+        protected override Task<object> HandleQuery(Query query)
+        {
+            return Task.FromResult(DispatchResult(query));
         }
     }
 
