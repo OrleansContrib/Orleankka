@@ -8,19 +8,32 @@ using Orleankka.Core;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
+using Microsoft.WindowsAzure.Storage;
+
 namespace Example
 {
     public static class Program
     {
         public static void Main()
         {
+            Console.WriteLine("Make sure you've started Azure storage emulator!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
+
+            var account = CloudStorageAccount.DevelopmentStorageAccount;
+            var client = account.CreateCloudTableClient();
+
+            var table = client.GetTableReference("ssexample");
+            table.CreateIfNotExists();
 
             var system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
                 .Serializer<NativeSerializer>()
-                .Run<SS.Bootstrap>(new Props())
+                .Run<SS.Bootstrap>(new SS.Properties
+                {
+                    StorageAccount = account.ToString(true),
+                    TableName = "ssexample"
+                })
                 .Done();
 
             try
@@ -68,11 +81,6 @@ namespace Example
                                 details.Name,
                                 details.Total,
                                 details.Active ? "" : "(deactivated)");
-        }
-
-        [Serializable]
-        public class Props
-        {
         }
     }
 }

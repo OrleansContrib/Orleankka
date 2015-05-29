@@ -14,6 +14,9 @@ using Orleankka.Services;
 
 using Newtonsoft.Json;
 using Microsoft.WindowsAzure.Storage;
+
+using Orleans;
+
 using Streamstone;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -194,10 +197,9 @@ namespace Example
 
         class EventEntity
         {
-            public string Id { get; set; }
+            public string Id   { get; set; }
             public string Type { get; set; }
             public string Data { get; set; }
-            public int Version { get; set; }
         }
     }
 
@@ -208,16 +210,21 @@ namespace Example
             get; private set;
         }
 
-        public class Bootstrap : IBootstrapper
+        public class Bootstrap : Bootstrapper<Properties>
         {
-            public async Task Run(object properties)
+            public override Task Run(Properties properties)
             {
-                var tableClient = CloudStorageAccount.DevelopmentStorageAccount.CreateCloudTableClient();
-                Table = tableClient.GetTableReference("orleankkaexample");
-
-                await Table.DeleteIfExistsAsync();
-                await Table.CreateIfNotExistsAsync();
+                var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
+                Table = client.GetTableReference(properties.TableName);
+                return TaskDone.Done;
             }
+        }
+
+        [Serializable]
+        public class Properties
+        {
+            public string StorageAccount;
+            public string TableName;
         }
     }
 }
