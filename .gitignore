@@ -40,3 +40,5 @@ _ReSharper*
 
 #ignore codegen stuff
 orleans.codegen.cs
+
+.vs/
