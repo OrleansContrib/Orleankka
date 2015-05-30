@@ -57,7 +57,7 @@ namespace Demo
         {}
     }
 
-    public class Api : Actor
+    public class Api : UntypedActor
     {
         const int FailureThreshold = 3;
 

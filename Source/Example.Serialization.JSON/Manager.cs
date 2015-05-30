@@ -17,7 +17,7 @@ namespace Example.Serialization.JSON
     public class GetDirectReports : Query<IEnumerable<ActorRef>>
     {}
 
-    public class Manager : Actor
+    public class Manager : UntypedActor
     {
         readonly List<ActorRef> reports = new List<ActorRef>();
 

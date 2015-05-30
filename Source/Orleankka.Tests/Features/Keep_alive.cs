@@ -28,7 +28,7 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<int>
         {}
 
-        public abstract class TestActor : Actor
+        public abstract class TestActor : UntypedActor
         {
             protected const int KeepAliveTimeoutInMinutes = 2;
 

@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace Example
 {
-    public abstract class CqsActor : Actor
+    public abstract class CqsActor : UntypedActor
     {
         protected override void Define()
         {

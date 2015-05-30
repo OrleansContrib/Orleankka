@@ -87,7 +87,7 @@ namespace Orleankka.Features
             {}
 
             [UsedImplicitly]
-            class TestActor : Actor
+            class TestActor : UntypedActor
             {
                 public void On(OnVoidMessage m)
                 {

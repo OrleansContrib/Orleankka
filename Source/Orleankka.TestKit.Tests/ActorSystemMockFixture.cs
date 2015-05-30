@@ -31,8 +31,8 @@ namespace Orleankka.TestKit
             Assert.NotNull(stub);
             Assert.IsInstanceOf<ActorRefStub>(stub);
         }
-        
-        class TestActor : Actor
+
+        class TestActor : UntypedActor
         {}
     }
 }

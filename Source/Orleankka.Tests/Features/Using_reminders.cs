@@ -32,7 +32,7 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<int>
         {}
 
-        public class TestActor : Actor
+        public class TestActor : UntypedActor
         {
             readonly IReminderService reminders;
             readonly IActivationService activation;

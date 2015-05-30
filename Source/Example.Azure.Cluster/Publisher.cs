@@ -10,7 +10,7 @@ namespace Example.Azure
     [Serializable]
     public class InitPublisher {}
 
-    public class Publisher : Actor
+    public class Publisher : UntypedActor
     {
         static readonly Random rand = new Random();
         readonly ITimerService timers;

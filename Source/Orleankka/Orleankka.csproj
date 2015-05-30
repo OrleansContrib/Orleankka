@@ -98,6 +98,7 @@
     <Compile Include="Typed\Invocation.cs" />
     <Compile Include="Typed\TypedActor.cs" />
     <Compile Include="Typed\TypedActorRef.cs" />
+    <Compile Include="UntypedActor.cs" />
     <Compile Include="Utility\Annotations.cs" />
     <Compile Include="Utility\AssemblyExtensions.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />

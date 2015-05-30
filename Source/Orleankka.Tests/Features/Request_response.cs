@@ -21,7 +21,7 @@ namespace Orleankka.Features
         public class GetText : Query<string>
         {}
 
-        public class TestActor : Actor
+        public class TestActor : UntypedActor
         {
             string text = "";
 
@@ -50,7 +50,7 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : Actor
+        public class TestInsideActor : UntypedActor
         {
             public async Task Handle(DoTell cmd)
             {

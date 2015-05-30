@@ -28,7 +28,7 @@ namespace Example.Serialization.JSON
         public string Text;
     }
 
-    public class Employee : Actor
+    public class Employee : UntypedActor
     {
         long level;
         ActorRef manager;

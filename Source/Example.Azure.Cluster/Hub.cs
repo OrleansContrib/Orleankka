@@ -22,7 +22,7 @@ namespace Example.Azure
         public Event[] Events;
     }
 
-    public class Hub : Actor
+    public class Hub : UntypedActor
     {
         readonly IObserverCollection observers;
 

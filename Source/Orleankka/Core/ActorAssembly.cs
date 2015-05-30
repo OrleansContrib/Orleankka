@@ -20,7 +20,7 @@ namespace Orleankka.Core
                 Register(assembly);
         }
 
-        public static void Register(Assembly assembly)
+        static void Register(Assembly assembly)
         {
             var actors = assembly
                 .GetTypes()

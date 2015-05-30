@@ -9,12 +9,19 @@ using Orleankka.Utility;
 
 namespace Orleankka.Typed
 {
-    public abstract class TypedActor : Actor
+    public abstract class TypedActor : Actor<TypedActorPrototype>
     {
         static readonly Task<object> Done = Task.FromResult((object)null);
 
         static readonly Dictionary<Type, Dictionary<string, MemberInfo>> cache =
                     new Dictionary<Type, Dictionary<string, MemberInfo>>();
+
+        protected TypedActor()
+        {}
+
+        protected TypedActor(string id, IActorSystem system)
+            : base(id, system)
+        {}
 
         protected internal override void Define()
         {
@@ -117,5 +124,12 @@ namespace Orleankka.Typed
             property.SetValue(this, arguments[0]);
             return Done;
         }
+    }
+
+    public class TypedActorPrototype : ActorPrototype
+    {
+        public TypedActorPrototype(Type actor)
+            : base(actor)
+        {}
     }
 }

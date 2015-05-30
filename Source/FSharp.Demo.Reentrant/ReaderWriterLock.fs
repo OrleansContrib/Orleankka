@@ -12,7 +12,7 @@ type ReadWriterActor() as this =
 
    let mutable _state = 0
 
-   do this.Reentrant(function 
+   do this.Reentrant(function
       | Write value -> false 
       | Read        -> true)
       
