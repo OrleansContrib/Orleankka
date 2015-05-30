@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Orleans;
 
-namespace Orleankka.Features
+namespace Orleankka.Features.Typed_actors
 {
-    namespace Typed_actors
+    namespace Invoking_members
     {
         using Typed;
         using Testing;
 
-        public class TestActor : TypedActor
+        class TestActor : TypedActor
         {
             public string TextField = "";
 
@@ -57,7 +57,7 @@ namespace Orleankka.Features
 
         [TestFixture]
         [RequiresSilo]
-        public class Typed_actors
+        public class Tests
         {
             IActorSystem system;
 
@@ -73,7 +73,7 @@ namespace Orleankka.Features
                 var actor = system.FreshTypedActorOf<TestActor>();
 
                 await actor.Call(x => x.SetText("c-a"));
-                
+
                 Assert.AreEqual("c-a", await actor.Call(x => x.GetText()));
             }
 
@@ -98,7 +98,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Calling_properties()
+            public async void Getting_setting_properties()
             {
                 var actor = system.FreshTypedActorOf<TestActor>();
 
@@ -108,7 +108,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Calling_fields()
+            public async void Getting_setting_fields()
             {
                 var actor = system.FreshTypedActorOf<TestActor>();
 

@@ -9,8 +9,8 @@ namespace Orleankka
 
     class Reentrant
     {
-        HashSet<Type> messages = new HashSet<Type>();
-        Func<object, bool> evaluator;
+        readonly HashSet<Type> messages = new HashSet<Type>();
+        Func<object, bool> evaluator = message => false;
 
         public Reentrant(Type actor)
         {
@@ -24,27 +24,16 @@ namespace Orleankka
 
                 messages.Add(attribute.Message);
             }
-
-            evaluator = message => messages.Contains(message.GetType());
         }
 
         public void Register(Func<object, bool> evaluator)
         {
-            if (messages == null)
-                throw new InvalidOperationException(
-                    "Reentrant message evaluator has been already set");
-
-            if (messages.Count > 0)
-                throw new InvalidOperationException(
-                    "Either declarative or imperative definition of reentrant messages can be used at a time");
-
             this.evaluator = evaluator;
-            messages = null;
         }
 
         public bool IsReentrant(object message)
         {
-            return evaluator(message);
+            return messages.Contains(message.GetType()) || evaluator(message);
         }
     }
 

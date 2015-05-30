@@ -9,15 +9,11 @@ namespace Orleankka.Typed
 {
     public sealed class TypedActorRef<TActor> where TActor : TypedActor
     {
+        readonly ActorRef @ref;
+
         internal TypedActorRef(ActorRef @ref)
         {
-            this.Ref = @ref;
-        }
-
-        public ActorRef Ref
-        {
-            get;
-            private set;
+            this.@ref = @ref;
         }
 
         public Task Call(Expression<Action<TActor>> expr)
@@ -47,13 +43,13 @@ namespace Orleankka.Typed
         Task CallVoid(Expression expr)
         {
             var call = (MethodCallExpression) (expr);
-            return Ref.Tell(new Invocation(call.Method, EvaluateArguments(call)));
+            return @ref.Tell(new Invocation(call.Method, EvaluateArguments(call)));
         }
 
         Task<TResult> CallResult<TResult>(Expression expr)
         {
             var call = (MethodCallExpression) (expr);
-            return Ref.Ask<TResult>(new Invocation(call.Method, EvaluateArguments(call)));
+            return @ref.Ask<TResult>(new Invocation(call.Method, EvaluateArguments(call)));
         }
 
         static object[] EvaluateArguments(MethodCallExpression expression)
@@ -68,7 +64,7 @@ namespace Orleankka.Typed
             Requires.NotNull(expr, "expr");
 
             var access = (MemberExpression)(expr.Body);
-            return Ref.Ask<TValue>(new Invocation(access.Member));
+            return @ref.Ask<TValue>(new Invocation(access.Member));
         }
 
         public Task Set<TValue>(Expression<Func<TActor, TValue>> expr, TValue value)
@@ -76,7 +72,7 @@ namespace Orleankka.Typed
             Requires.NotNull(expr, "expr");
 
             var access = (MemberExpression)(expr.Body);
-            return Ref.Tell(new Invocation(access.Member, new object[] { value }));
+            return @ref.Tell(new Invocation(access.Member, new object[] {value}));
         }
     }
 

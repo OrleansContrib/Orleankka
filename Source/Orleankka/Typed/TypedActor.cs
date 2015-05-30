@@ -41,8 +41,17 @@ namespace Orleankka.Typed
         readonly Dictionary<string, MemberInfo> members = 
              new Dictionary<string, MemberInfo>();
 
+        readonly HashSet<string> reentrant =
+             new HashSet<string>();
+
         public TypedActorPrototype(Type actor)
             : base(actor)
+        {
+            RegisterMembers(actor);
+            RegisterReentrant();
+        }
+
+        void RegisterMembers(Type actor)
         {
             foreach (var member in actor.GetMembers())
             {
@@ -57,6 +66,19 @@ namespace Orleankka.Typed
 
                 members.Add(member.Name, member);
             }
+        }
+
+        void RegisterReentrant()
+        {
+            foreach (var member in members.Values)
+            {
+                if (member.GetCustomAttribute<ReentrantAttribute>(inherit: true) == null)
+                    continue;
+
+                reentrant.Add(member.Name);
+            }
+
+            RegisterReentrant(x => reentrant.Contains(((Invocation)x).Member));
         }
 
         public MemberInfo Member(string name)

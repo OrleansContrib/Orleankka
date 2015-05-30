@@ -87,7 +87,8 @@
     <Compile Include="Checks\ClientRefFixture.cs" />
     <Compile Include="Features\Keep_alive.cs" />
     <Compile Include="Features\Stream_references.cs" />
-    <Compile Include="Features\Typed_actors.cs" />
+    <Compile Include="Features\Typed_actors\Reentrant_invocations.cs" />
+    <Compile Include="Features\Typed_actors\Invoking_members.cs" />
     <Compile Include="Testing\TestActions.cs" />
     <Compile Include="Testing\TestActorSystem.cs" />
     <Compile Include="Features\Reentrant_messages.cs" />
