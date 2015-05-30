@@ -89,15 +89,15 @@
     </Reference>
     <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.7\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.8\lib\net45\Orleans.dll</HintPath>
     </Reference>
     <Reference Include="OrleansAzureUtils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansAzureUtils.1.0.7\lib\net45\OrleansAzureUtils.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansAzureUtils.1.0.8\lib\net45\OrleansAzureUtils.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.7\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.8\lib\net45\OrleansRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>

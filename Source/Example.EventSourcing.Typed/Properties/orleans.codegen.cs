@@ -27,7 +27,7 @@ namespace Example.EventSourcing.TypedSerializers
     using System.Runtime.InteropServices;
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemCreatedSerialization
@@ -74,7 +74,7 @@ namespace Example.EventSourcing.TypedSerializers
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemCheckedInSerialization
@@ -121,7 +121,7 @@ namespace Example.EventSourcing.TypedSerializers
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemCheckedOutSerialization
@@ -168,7 +168,7 @@ namespace Example.EventSourcing.TypedSerializers
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemRenamedSerialization
@@ -224,7 +224,7 @@ namespace Example.EventSourcing.TypedSerializers
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemDeactivatedSerialization
@@ -260,7 +260,7 @@ namespace Example.EventSourcing.TypedSerializers
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.8.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Example_InventoryItemDetailsSerialization
