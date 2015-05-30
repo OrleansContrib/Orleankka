@@ -27,7 +27,7 @@ namespace Orleankka
             var instance  = CreateInstance(actor);
             var prototype = CreatePrototype(instance);
             
-            instance._ = prototype;
+            instance.Proto = prototype;
             instance.Define();
 
             cache.Add(actor, prototype.Close());

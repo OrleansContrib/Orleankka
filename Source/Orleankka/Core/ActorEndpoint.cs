@@ -87,7 +87,7 @@ namespace Orleankka.Core
 
         void KeepAlive()
         {
-            actor._.KeepAlive(this);
+            actor.Proto.KeepAlive(this);
         }
 
         #region Internals

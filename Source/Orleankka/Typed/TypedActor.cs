@@ -11,11 +11,6 @@ namespace Orleankka.Typed
 {
     public abstract class TypedActor : Actor<TypedActorPrototype>
     {
-        static readonly Task<object> Done = Task.FromResult((object)null);
-
-        static readonly Dictionary<Type, Dictionary<string, MemberInfo>> cache =
-                    new Dictionary<Type, Dictionary<string, MemberInfo>>();
-
         protected TypedActor()
         {}
 
@@ -23,19 +18,38 @@ namespace Orleankka.Typed
             : base(id, system)
         {}
 
-        protected internal override void Define()
+        protected internal override Task<object> OnReceive(object message)
         {
-            if (GetType().IsAbstract)
-                return;
+            var invocation = message as Invocation;
+            if (invocation == null)
+                throw new InvalidOperationException("Only member invocations could be sent to a typed actors");
 
-            var members = new Dictionary<string, MemberInfo>();
-            
-            foreach (var member in GetType().GetMembers())
+            var member = _.Member(invocation.Member);
+            return OnInvoke(member, invocation.Arguments);
+        }
+
+        protected virtual Task<object> OnInvoke(MemberInfo member, object[] arguments)
+        {
+            return TypedActorPrototype.Invoke(this, member, arguments);
+        }
+    }
+
+    public class TypedActorPrototype : ActorPrototype
+    {
+        static readonly Task<object> Done = Task.FromResult((object)null);
+
+        readonly Dictionary<string, MemberInfo> members = 
+             new Dictionary<string, MemberInfo>();
+
+        public TypedActorPrototype(Type actor)
+            : base(actor)
+        {
+            foreach (var member in actor.GetMembers())
             {
                 if (members.ContainsKey(member.Name))
                 {
-                    var message = "Typed actors have bind-by-name semantics." + 
-                                  "Public members with the same name are not allowed:\n" + 
+                    var message = "Typed actors have bind-by-name semantics." +
+                                  "Public members with the same name are not allowed:\n" +
                                   string.Format("Type: {0}, Member: {1}", GetType(), member.Name);
 
                     throw new InvalidOperationException(message);
@@ -43,43 +57,34 @@ namespace Orleankka.Typed
 
                 members.Add(member.Name, member);
             }
-
-            cache.Add(GetType(), members);
         }
 
-        protected internal override Task<object> OnReceive(object message)
+        public MemberInfo Member(string name)
         {
-            var invocation = message as Invocation;
-            if (invocation == null)
-                throw new InvalidOperationException("Only member invocations could be sent to a typed actors");
-
-            var members = cache.Find(GetType());
-            var member = members != null 
-                ? members.Find(invocation.Member) 
-                : null;
+            var member = members.Find(name);
 
             if (member == null)
                 throw new InvalidOperationException(
                     string.Format("Can't find member registration for typed actor {0}." +
                                   "Make sure that you've registered assembly containing this type", GetType()));
-
-            return OnInvoke(member, invocation.Arguments);
+            
+            return member;
         }
 
-        protected virtual Task<object> OnInvoke(MemberInfo member, object[] arguments)
+        public static Task<object> Invoke(TypedActor target, MemberInfo member, object[] arguments)
         {
             return member.MemberType == MemberTypes.Method
-                       ? Invoke((MethodInfo) member, arguments)
-                       : Invoke(member, arguments);
+                       ? DoInvoke(target, (MethodInfo)member, arguments)
+                       : DoInvoke(target, member, arguments);
         }
 
-        Task<object> Invoke(MethodInfo method, object[] arguments)
+        static Task<object> DoInvoke(TypedActor target, MethodInfo method, object[] arguments)
         {
-            var result = method.Invoke(this, arguments);
+            var result = method.Invoke(target, arguments);
 
             if (!typeof(Task).IsAssignableFrom(method.ReturnType))
-                return method.ReturnType != typeof(void) 
-                        ? Task.FromResult(result) 
+                return method.ReturnType != typeof(void)
+                        ? Task.FromResult(result)
                         : Done;
 
             return ((Task)result).ContinueWith((task, state) =>
@@ -93,43 +98,36 @@ namespace Orleankka.Typed
                 var returnType = (Type)state;
                 var returnsResult = returnType != typeof(Task);
 
-                return returnsResult 
-                        ? (object) ((dynamic) task).Result 
-                        : (object) null;
+                return returnsResult
+                        ? (object)((dynamic)task).Result
+                        : (object)null;
             },
             method.ReturnType);
         }
 
-        Task<object> Invoke(MemberInfo member, object[] arguments)
+        static Task<object> DoInvoke(TypedActor target, MemberInfo member, object[] arguments)
         {
             return member.MemberType == MemberTypes.Field
-                    ? Invoke((FieldInfo)member, arguments)
-                    : Invoke((PropertyInfo)member, arguments);
+                    ? DoInvoke(target, (FieldInfo)member, arguments)
+                    : DoInvoke(target, (PropertyInfo)member, arguments);
         }
 
-        Task<object> Invoke(FieldInfo field, object[] arguments)
+        static Task<object> DoInvoke(TypedActor target, FieldInfo field, object[] arguments)
         {
             if (arguments.Length == 0)
-                return Task.FromResult(field.GetValue(this));
+                return Task.FromResult(field.GetValue(target));
 
-            field.SetValue(this, arguments[0]);
+            field.SetValue(target, arguments[0]);
             return Done;
         }
 
-        Task<object> Invoke(PropertyInfo property, object[] arguments)
+        static Task<object> DoInvoke(TypedActor target, PropertyInfo property, object[] arguments)
         {
             if (arguments.Length == 0)
-                return Task.FromResult(property.GetValue(this));
+                return Task.FromResult(property.GetValue(target));
 
-            property.SetValue(this, arguments[0]);
+            property.SetValue(target, arguments[0]);
             return Done;
         }
-    }
-
-    public class TypedActorPrototype : ActorPrototype
-    {
-        public TypedActorPrototype(Type actor)
-            : base(actor)
-        {}
     }
 }
