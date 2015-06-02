@@ -1,1 +1,1 @@
-<%@ Application Inherits="Http.Global" %>
+<%@ Application Inherits="Orleankka.Http.Global" %>
