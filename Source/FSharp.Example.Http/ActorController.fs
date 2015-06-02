@@ -1,30 +1,25 @@
-﻿module Controller
+﻿namespace Orleankka.Http
 
-open ActorRouter
 open Orleankka.FSharp
+open System
 open System.Net
 open System.Web.Http
 open System.ComponentModel.DataAnnotations
 
-[<CLIMutable>]
-type ActorMsg = {
-   [<Required>] Message : string
-}
-
-type ActorController(router:Router) =
+type ActorController(router:ActorRouter.Router) =
    inherit ApiController()
 
    [<HttpPost>]
-   [<Route("api/{actor}/{id}/{messagetype}")>]
-   member this.Post(actor:string, id:string, messagetype:string, [<FromBody>] msg:ActorMsg) = task {
+   [<Route("api/{actor}/{id}/{messagename}")>]
+   member this.Post(actor:string, id:string, messagename:string, [<FromBody>] msgBody) = task {
 
       if not this.ModelState.IsValid
          then raise(HttpResponseException(HttpStatusCode.BadRequest))
 
-      let path = HttpRoute.CreatePath(actor, id, messagetype)
+      let httpPath = HttpRoute.createHttpPath(actor, id, messagename)
 
-      match router.Dispatch(path, msg.Message) with
-      | Success t -> return! t            
-      | Failure f -> return f :> obj
+      match router.Dispatch(httpPath, msgBody) with
+      | Some r -> return! r
+      | None   -> ArgumentException() |> raise
    }
       

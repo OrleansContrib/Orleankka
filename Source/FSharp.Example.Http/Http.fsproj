@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{F2A71F9B-5D33-465A-A702-920D77279786}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <RootNamespace>Http</RootNamespace>
+    <RootNamespace>Orlenakka.Http</RootNamespace>
     <AssemblyName>Http</AssemblyName>
     <UseIISExpress>true</UseIISExpress>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -111,7 +111,7 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="ActorRouter.fs" />
+    <Compile Include="Infrastructure.fs" />
     <Compile Include="TestActor.fs" />
     <Compile Include="ActorController.fs" />
     <Compile Include="Global.asax.fs">

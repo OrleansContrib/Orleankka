@@ -17,7 +17,7 @@ let main argv =
    use system = ActorSystem.Configure()
                            .Client()
                            .From(config)
-                           .Register(typedefof<ChatServer>.Assembly)
+                           .Register(typeof<ChatServer>.Assembly)
                            .Done()
 
    client <- Observer.Create().Result   
