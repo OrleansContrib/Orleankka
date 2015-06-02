@@ -12,16 +12,8 @@ module MediaType =
    | Actor
    | TypedActor
  
- let contentTypeActor = "orleankka/vnd.actor+json"
- let contentTypeTypedActor = "orleankka/vnd.typed.actor+json"
+ let contentTypeActor = "orleankka/vnd.actor+json"    
 
- let parseMediaType (contentType:string) =
-   if contentType.Equals(contentTypeActor, StringComparison.InvariantCultureIgnoreCase) 
-      then Actor |> Some
-   else if contentType.Equals(contentTypeTypedActor, StringComparison.InvariantCultureIgnoreCase)
-      then TypedActor |> Some
-   else None
-   
 
 module MessageType =
 

@@ -45,8 +45,7 @@ type Global() =
       // configure serialization for json     
       let jsonFormatter = config.Formatters.JsonFormatter
       jsonFormatter.SupportedMediaTypes.Clear() |> ignore
-      jsonFormatter.SupportedMediaTypes.Add(MediaTypeHeaderValue(MediaType.contentTypeActor));
-      jsonFormatter.SupportedMediaTypes.Add(MediaTypeHeaderValue(MediaType.contentTypeTypedActor));
+      jsonFormatter.SupportedMediaTypes.Add(MediaTypeHeaderValue(MediaType.contentTypeActor));      
       config.Formatters.Clear()
       config.Formatters.Add(jsonFormatter)
       config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
