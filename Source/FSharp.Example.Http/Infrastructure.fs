@@ -30,9 +30,9 @@ module MessageType =
    | DU of msgType:Type
    | Typed
 
- let mapToDU(caseName, msgBody) = sprintf "Case: %s %s" caseName msgBody
+ let mapToDU(caseName, msgBody) = sprintf "{ 'Case': '%s', 'Fields': [%s] }" caseName msgBody
  
- let mapToTyped(memberName, msgBody) = sprintf "Member: %s %s" memberName msgBody
+ let mapToTyped(memberName, msgBody) = sprintf "{ Member: %s %s }" memberName msgBody
  
 
 module HttpRoute =
@@ -45,7 +45,7 @@ module HttpRoute =
    ActorRef : ActorRef
  }
 
- let createHttpPath(actorName, id, msgName) = (sprintf "%s/%s/%s" actorName id msgName).ToLowerInvariant()
+ let createHttpPath(actorName, id, msgName) = (sprintf "%s/%s/%s" actorName id msgName)
 
  let create (msgType:MessageType, actorPath:ActorPath) = 
    let actorRef = ActorRef.Deserialize(actorPath)
@@ -72,11 +72,11 @@ module ActorRouter =
 
  open MessageType
  open HttpRoute 
+ open System.Linq
 
  type Router(deserialize:string*Type -> obj, routes:IDictionary<string,Route>) =   
-   
-   let getCaseName (path:string) = path
-   let getMemberName (path:string) = path
+      
+   let getMessageName (path:string) = path.Split('/').Last()
 
    member this.Dispatch(httpPath, msg) =            
       match routes.TryGetValue(httpPath) with      
@@ -84,15 +84,15 @@ module ActorRouter =
          let message = match route.MsgType with
                        | Class t -> deserialize(msg, t)
                        
-                       | DU t -> let caseName = msg |> getCaseName
+                       | DU t -> let caseName = httpPath |> getMessageName
                                  let duMsg = MessageType.mapToDU(caseName, msg)
                                  deserialize(duMsg, t)
 
-                       | Typed -> let memberName = msg |> getMemberName
+                       | Typed -> let memberName = httpPath |> getMessageName
                                   let typedMsg = MessageType.mapToTyped(memberName, msg)
                                   deserialize(typedMsg, typeof<Invocation>)
 
-         route.ActorRef.Ask(message) |> Some
+         route.ActorRef.Ask<obj>(message) |> Some
       | _  -> None
 
  let create deserialize (paths:Route seq) =

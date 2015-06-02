@@ -38,7 +38,7 @@ type Global() =
                    |> ActorRouter.create JsonConvert.DeserializeObject
 
       // configure controller activator
-      config.Services.Replace(typedefof<IHttpControllerActivator>, CompositionRoot(router))
+      config.Services.Replace(typeof<IHttpControllerActivator>, CompositionRoot(router))
 
       config.MapHttpAttributeRoutes()
       
