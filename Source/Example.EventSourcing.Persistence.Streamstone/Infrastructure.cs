@@ -126,11 +126,11 @@ namespace Example
             if (events.Count == 0)
                 return;
 
-            var serialized = events.Select(ToEvent).ToArray();
+            var serialized = events.Select(ToEventData).ToArray();
             
             try
             {
-                var result = await Stream.WriteAsync(stream,  serialized);
+                var result = await Stream.WriteAsync(stream, serialized);
                 stream = result.Stream;
             }
             catch (ConcurrencyConflictException)
@@ -154,20 +154,20 @@ namespace Example
             return JsonConvert.DeserializeObject(@event.Data, eventType, SerializerSettings);
         }
 
-        static Streamstone.Event ToEvent(object @event)
+        static EventData ToEventData(object @event)
         {
-            var eventId = Guid.NewGuid().ToString("D");
+            var id = Guid.NewGuid().ToString("D");
 
-            var data = new EventEntity
+            var properties = new EventEntity
             {
-                Id = eventId,
+                Id = id,
                 Type = @event.GetType().FullName,
                 Data = JsonConvert.SerializeObject(@event, SerializerSettings)
             };
 
-            return new Streamstone.Event(eventId, data.Props());
+            return new EventData(EventId.From(id), EventProperties.From(properties));
         }
-
+        
         class EventEntity
         {
             public string Id   { get; set; }
