@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Streams;
 
 namespace Orleankka
 {
-    public class StreamRef
+    public class StreamRef : IAsyncObservable<object>
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
@@ -20,11 +19,6 @@ namespace Orleankka
         StreamRef(IAsyncStream<object> endpoint)
         {
             this.endpoint = endpoint;
-        }
-
-        public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer)
-        {
-            return endpoint.SubscribeAsync(observer);
         }
 
         public virtual Task OnNextAsync(object item, StreamSequenceToken token = null)
@@ -45,6 +39,16 @@ namespace Orleankka
         public virtual Task OnErrorAsync(Exception ex)
         {
             return endpoint.OnErrorAsync(ex);
+        }
+
+        public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer)
+        {
+            return endpoint.SubscribeAsync(observer);
+        }
+
+        public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer, StreamSequenceToken token, StreamFilterPredicate filterFunc = null, object filterData = null)
+        {
+            return endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
         }
     }
 }
