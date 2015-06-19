@@ -14,7 +14,7 @@ namespace Example.Chat.TypedActor.Server
             var assembly = Assembly.GetExecutingAssembly();
 
             var config = new ClusterConfiguration().LoadFromEmbeddedResource<Program>("Server.xml");
-
+            
             var system = ActorSystem.Configure()
                 .Cluster()
                 .From(config)
@@ -22,8 +22,9 @@ namespace Example.Chat.TypedActor.Server
                 .Done();
 
             Console.WriteLine("Finished booting cluster...");
-
             Console.ReadLine();
+            
+            system.Dispose();
         }
     }
 }
