@@ -87,7 +87,7 @@
     <EmbeddedResource Include="Client.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Chat.TypedActor.Server\Example.Chat.TypedActor.Server.csproj">
+    <ProjectReference Include="..\Example.Chat.Server\Server.csproj">
       <Project>{355b546c-c246-4cee-a302-7d453a81d3ac}</Project>
       <Name>Example.Chat.TypedActor.Server</Name>
     </ProjectReference>

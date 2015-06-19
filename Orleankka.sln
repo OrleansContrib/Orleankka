@@ -86,9 +86,9 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Http", "Source\FSharp.Examp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{19BDCEE0-4209-481B-A87B-9ECA53910422}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Chat.TypedActor.Client", "Source\Example.Chat.TypedActor.Client\Example.Chat.TypedActor.Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Source\Example.Chat.Client\Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Chat.TypedActor.Server", "Source\Example.Chat.TypedActor.Server\Example.Chat.TypedActor.Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Source\Example.Chat.Server\Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
