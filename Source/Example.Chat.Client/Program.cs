@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Example.Chat.TypedActor.Server;
+
 using Orleankka;
 using Orleankka.Client;
 using Orleankka.Typed;
+
 using Orleans.Runtime.Configuration;
 
-namespace Example.Chat.TypedActor.Client
+namespace Example
 {
     internal class Program
     {
@@ -15,15 +17,13 @@ namespace Example.Chat.TypedActor.Client
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration().LoadFromEmbeddedResource(typeof (Program),
-                "Client.xml");
+            var config = new ClientConfiguration().LoadFromEmbeddedResource(typeof(Program), "Client.xml");
 
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
                 .Register(typeof (ChatServer).Assembly)
                 .Done();
-
 
             var task = Task.Run(async () => await RunChatClient(system));
             task.Wait();

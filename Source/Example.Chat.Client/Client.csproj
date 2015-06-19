@@ -7,8 +7,8 @@
     <ProjectGuid>{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.Chat.TypedActor.Client</RootNamespace>
-    <AssemblyName>Example.Chat.TypedActor.Client</AssemblyName>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example.Chat.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -89,7 +89,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Example.Chat.Server\Server.csproj">
       <Project>{355b546c-c246-4cee-a302-7d453a81d3ac}</Project>
-      <Name>Example.Chat.TypedActor.Server</Name>
+      <Name>Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 
-namespace Example.Chat.TypedActor.Server
+namespace Example
 {
     [Serializable]
     public class NotificationMessage

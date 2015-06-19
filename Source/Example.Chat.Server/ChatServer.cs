@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Orleankka;
-using Orleans;
 
-namespace Example.Chat.TypedActor.Server
+using Orleans;
+using Orleankka;
+
+namespace Example
 {
     public class ChatServer : Orleankka.Typed.TypedActor
     {

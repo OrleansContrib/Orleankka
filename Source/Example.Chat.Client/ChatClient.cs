@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Example.Chat.TypedActor.Server;
+
 using Orleankka;
 using Orleankka.Typed;
 
-namespace Example.Chat.TypedActor.Client
+namespace Example
 {
     public class ChatClient : IDisposable
     {

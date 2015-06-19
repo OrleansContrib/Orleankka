@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+
 using Orleankka;
 using Orleankka.Cluster;
+
 using Orleans.Runtime.Configuration;
 
-namespace Example.Chat.TypedActor.Server
+namespace Example
 {
     internal class Program
     {
