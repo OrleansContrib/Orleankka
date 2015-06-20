@@ -36,17 +36,17 @@ namespace Orleankka.Features
                 subscription = await stream.SubscribeAsync(observer);
             }
 
-            public List<object> Received
+            public List<string> Received
             {
                 get { return observer.Received; }
             }
         }
 
-        class TestStreamObserver : IAsyncObserver<object>
+        class TestStreamObserver : IAsyncObserver<string>
         {
-            public readonly List<object> Received = new List<object>();
+            public readonly List<string> Received = new List<string>();
 
-            public Task OnNextAsync(object item, StreamSequenceToken token = null)
+            public Task OnNextAsync(string item, StreamSequenceToken token = null)
             {
                 Received.Add(item);
                 return TaskDone.Done;

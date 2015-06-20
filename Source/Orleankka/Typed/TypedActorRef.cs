@@ -20,6 +20,11 @@ namespace Orleankka.Typed
             private set;
         }
 
+        public ActorPath Path
+        {
+            get { return @ref.Path; }
+        }
+
         public Task Call(Expression<Action<TActor>> expr)
         {
             Requires.NotNull(expr, "expr");
