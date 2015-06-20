@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}</ProjectGuid>
+    <ProjectGuid>{355B546C-C246-4CEE-A302-7D453A81D3AC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Example</RootNamespace>
-    <AssemblyName>Example.Chat.Client</AssemblyName>
+    <AssemblyName>Example.Streams.Chat.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -61,7 +61,6 @@
     </Reference>
     <Reference Include="OrleansProviders">
       <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders.1.0.8\lib\net45\OrleansProviders.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
       <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.8\lib\net45\OrleansRuntime.dll</HintPath>
@@ -79,7 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatClient.cs" />
+    <Compile Include="ChatUser.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,21 +88,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Client.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Example.Chat.Server\Chat.Server.csproj">
-      <Project>{355b546c-c246-4cee-a302-7d453a81d3ac}</Project>
-      <Name>Chat.Server</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
-      <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Project>{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Server.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
