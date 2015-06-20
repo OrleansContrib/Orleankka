@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Client;
-using Orleankka.Typed;
-
 using Orleans.Runtime.Configuration;
 
 namespace Example
@@ -22,7 +20,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof (ChatServer).Assembly)
+                .Register(typeof(ChatUser).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));
@@ -31,34 +29,25 @@ namespace Example
 
         private static async Task RunChatClient(IActorSystem system)
         {
-            //Get Chat room with name "Orleankka Chat Room"
-
-            var chatRoom = system.TypedActorOf<ChatServer>("Orleankka Chat Room");
+            const string room = "Orleankka";
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
+            
+            var client = new ChatClient(system, userName, room);
+            await client.Join();
 
-            using (var chatClient = new ChatClient(chatRoom, userName))
+            while (true)
             {
-                await chatClient.Start();
+                var message = Console.ReadLine();
 
-                Console.WriteLine("Connecting....");
-
-                await chatClient.Join();
-
-                Console.WriteLine("Connected!");
-
-                while (true)
+                if (message == "quit")
                 {
-                    var command = Console.ReadLine();
-
-                    if (command == "quit")
-                    {
-                        await chatClient.Disconnect();
-                        break;
-                    }
-                    await chatClient.Say(command);
+                    await client.Leave();
+                    break;
                 }
+
+                await client.Say(message);
             }
         }
     }

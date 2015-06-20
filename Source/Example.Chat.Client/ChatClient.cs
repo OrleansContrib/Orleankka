@@ -5,70 +5,57 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Typed;
 
+using Orleans;
+using Orleans.Streams;
+using Orleans.Providers.Streams.SimpleMessageStream;
+
 namespace Example
 {
-    public class ChatClient : IDisposable
+    class ChatClient
     {
-        private IDisposable _observer;
-        protected Observer Client;
-        protected TypedActorRef<ChatServer> Server;
+        readonly TypedActorRef<ChatUser> user;
+        readonly StreamRef room;
 
-        public ChatClient()
+        StreamSubscriptionHandle<object> subscription;
+
+        public ChatClient(IActorSystem system, string user, string room)
         {
-        }
-
-        public ChatClient(TypedActorRef<ChatServer> server, string userName)
-        {
-            Server = server;
-            UserName = userName;
-        }
-
-        public string UserName { get; set; }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public async Task Start()
-        {
-            Client = await Observer.Create();
-
-            _observer = Client.Subscribe(o => Handle((dynamic) o));
-        }
-
-        public void Handle(NewMessage message)
-        {
-            Console.WriteLine("{0}: {1}", message.Username, message.Text);
-        }
-
-        public void Handle(NotificationMessage message)
-        {
-            Console.WriteLine("{0}", message.Text);
+            this.user = system.TypedActorOf<ChatUser>(user);
+            this.room = system.StreamOf<SimpleMessageStreamProvider>(room);
         }
 
         public async Task Join()
         {
-            await Server.Call(c => c.Join(UserName, Client.Ref));
-        }
-
-        public async Task Disconnect()
-        {
-            await Server.Call(c => c.Disconnect(UserName, Client.Ref));
-        }
-
-        public async Task Say(string text)
-        {
-            await Server.Call(c => c.Say(UserName, text));
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
+            subscription = await room.SubscribeAsync<ChatRoomMessage>((msg, token) =>
             {
-                if (_observer != null) _observer.Dispose();
-            }
+                if (msg.User != UserName)
+                    Console.WriteLine(msg.Text);
+
+                return TaskDone.Done;
+            });
+
+            await user.Call(x => x.Join(RoomName));
+        }
+
+        public async Task Leave()
+        {
+            await subscription.UnsubscribeAsync();
+            await user.Call(x => x.Leave(RoomName));
+        }
+
+        public async Task Say(string message)
+        {
+            await user.Call(x => x.Say(RoomName, message));
+        }
+
+        string UserName
+        {
+            get { return user.Path.Id; }
+        }        
+        
+        string RoomName
+        {
+            get { return room.Path.Id; }
         }
     }
 }

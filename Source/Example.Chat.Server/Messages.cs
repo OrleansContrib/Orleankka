@@ -4,15 +4,9 @@ using System.Linq;
 namespace Example
 {
     [Serializable]
-    public class NotificationMessage
+    public class ChatRoomMessage
     {
-        public string Text { get; set; }
-    }
-
-    [Serializable]
-    public class NewMessage
-    {
-        public string Username { get; set; }
-        public string Text { get; set; }
+        public string User;
+        public string Text;
     }
 }

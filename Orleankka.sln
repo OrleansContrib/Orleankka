@@ -84,11 +84,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{CF
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Http", "Source\FSharp.Example.Http\Http.fsproj", "{73FEF340-A1FC-46FC-886B-E55B63B19BBD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{19BDCEE0-4209-481B-A87B-9ECA53910422}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Streams", "Streams", "{19BDCEE0-4209-481B-A87B-9ECA53910422}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Source\Example.Chat.Client\Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client", "Source\Example.Chat.Client\Chat.Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Source\Example.Chat.Server\Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Server", "Source\Example.Chat.Server\Chat.Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

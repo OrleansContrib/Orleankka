@@ -11,14 +11,21 @@ namespace Orleankka
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
-            return new StreamRef(path.Proxy());
+            return new StreamRef(path, path.Proxy());
         }
 
+        readonly StreamPath path;
         readonly IAsyncStream<object> endpoint;
 
-        StreamRef(IAsyncStream<object> endpoint)
+        StreamRef(StreamPath path, IAsyncStream<object> endpoint)
         {
+            this.path = path;
             this.endpoint = endpoint;
+        }
+
+        public StreamPath Path
+        {
+            get { return path; }
         }
 
         public virtual Task OnNextAsync(object item, StreamSequenceToken token = null)
