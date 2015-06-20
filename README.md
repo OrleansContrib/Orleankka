@@ -58,8 +58,8 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 + Event Sourcing 
 	+ Idiomatic (CQRS, message-passing) [[see]](Source/Example.EventSourcing.Idiomatic)
 	+ With typed actors  [[see]](Source/Example.EventSourcing.Type)
-	+ Persistence: GetEventStore [[see]](Example.EventSourcing.Persistence.GES)
-	+ Persistence: Streamstone [PLANNED] [[see]]()
+	+ Persistence: GetEventStore [[see]](Source/Example.EventSourcing.Persistence.GES)
+	+ Persistence: Streamstone [[see]](Source/Example.EventSourcing.Persistence.Streamstone)
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
 
