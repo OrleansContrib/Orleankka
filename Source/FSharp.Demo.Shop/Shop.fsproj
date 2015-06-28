@@ -8,7 +8,7 @@
     <ProjectGuid>{0f80861a-cfdf-4df0-a0b7-086a1f12448d}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
-    <AssemblyName>Orleankka.FSharp.Demo.Shop</AssemblyName>
+    <AssemblyName>FSharp.Demo.Shop</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>

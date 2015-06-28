@@ -54,9 +54,9 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HelloWorld", "Source\FSharp
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Shop", "Source\FSharp.Demo.Shop\Shop.fsproj", "{0F80861A-CFDF-4DF0-A0B7-086A1F12448D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Server", "Source\FSharp.Demo.Chat.Server\Server.fsproj", "{F34F64E7-DC9A-4560-873A-74EB16D0D7F0}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Server", "Source\FSharp.Example.Observers.Chat.Server\Server.fsproj", "{F34F64E7-DC9A-4560-873A-74EB16D0D7F0}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Client", "Source\FSharp.Demo.Chat.Client\Client.fsproj", "{2AA36C25-CB86-4D10-A2D1-0514715E0CB5}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Client", "Source\FSharp.Example.Observers.Chat.Client\Client.fsproj", "{2AA36C25-CB86-4D10-A2D1-0514715E0CB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native", "Source\Example.Serialization.Native\Native.csproj", "{25B4B260-092A-4FEE-ABF4-A6D27CB4A159}"
 EndProject
