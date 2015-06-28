@@ -5,7 +5,7 @@ using Orleankka;
 
 namespace Example
 {
-    public class DIActor : UntypedActor
+    public class DIActor : Actor
     {
         readonly ISomeService service;
 

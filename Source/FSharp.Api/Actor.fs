@@ -10,7 +10,7 @@ module Actor =
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
-      inherit UntypedActor()
+      inherit Actor()
       
       let mutable _response = null
       

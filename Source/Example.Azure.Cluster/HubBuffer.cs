@@ -16,7 +16,7 @@ namespace Example.Azure
     }
 
     [Worker, Reentrant(typeof(PublishEvent))]
-    public class HubBuffer : UntypedActor
+    public class HubBuffer : Actor
     {
         readonly TimeSpan flushPeriod = TimeSpan.FromSeconds(1);        
         readonly Queue<Event> buffer = new Queue<Event>();

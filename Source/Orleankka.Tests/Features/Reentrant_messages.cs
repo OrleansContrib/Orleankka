@@ -20,7 +20,7 @@ namespace Orleankka.Features
         class ReentrantMessage : Query<bool>
         {}
 
-        abstract class TestActor : UntypedActor
+        abstract class TestActor : Actor
         {
             protected internal override void Define()
             {

@@ -120,7 +120,7 @@ namespace Orleankka.TestKit
                 Is.EqualTo(222));
         }
 
-        class TestActor : UntypedActor
+        class TestActor : Actor
         {}
 
         class TestCommand

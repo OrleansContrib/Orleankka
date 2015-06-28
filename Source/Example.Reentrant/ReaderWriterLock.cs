@@ -19,7 +19,7 @@ namespace Example
     {}
 
     [Reentrant(typeof(Read))]
-    public class ReaderWriterLock : UntypedActor
+    public class ReaderWriterLock : Actor
     {
         int value;
         ConsolePosition indicator;

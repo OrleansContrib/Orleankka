@@ -30,7 +30,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        public class TestProducerActor : UntypedActor
+        public class TestProducerActor : Actor
         {
             public Task Handle(Produce cmd)
             {
@@ -39,7 +39,7 @@ namespace Orleankka.Features
             }
         }
 
-        public class TestConsumerActor : UntypedActor
+        public class TestConsumerActor : Actor
         {
             readonly TestStreamObserver observer = new TestStreamObserver();
             StreamSubscriptionHandle<object> subscription;

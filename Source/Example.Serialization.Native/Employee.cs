@@ -33,7 +33,7 @@ namespace Example.Serialization.Native
         public string Text;
     }
 
-    public class Employee : UntypedActor
+    public class Employee : Actor
     {
         int level;
         ActorRef manager;

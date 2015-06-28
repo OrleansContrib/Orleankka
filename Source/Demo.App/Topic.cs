@@ -23,7 +23,7 @@ namespace Demo
     }
 
     [Actor(Placement = Placement.DistributeEvenly)]
-    public class Topic : UntypedActor
+    public class Topic : Actor
     {
         readonly ITimerService timers;
         readonly IReminderService reminders;

@@ -30,7 +30,7 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        public class TestActor : UntypedActor
+        public class TestActor : Actor
         {
             ObserverRef observer;
 
@@ -45,7 +45,7 @@ namespace Orleankka.Features
         public class ReceivedNotifications : Query<Notification[]>
         {}
 
-        public class TestInsideActor : UntypedActor
+        public class TestInsideActor : Actor
         {
             readonly List<Notification> notifications = new List<Notification>();
 

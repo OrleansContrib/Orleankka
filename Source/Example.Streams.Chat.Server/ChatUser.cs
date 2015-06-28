@@ -7,7 +7,7 @@ using Orleankka;
 
 namespace Example
 {
-    public partial class ChatUser : UntypedActor
+    public partial class ChatUser : Actor
     {
         protected override void Define()
         {

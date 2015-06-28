@@ -31,7 +31,7 @@ namespace Orleankka
             Id = id;
             System = system;
             Endpoint = endpoint;
-            Proto = prototype;
+            _ = prototype;
         }
 
         protected string Id
@@ -49,14 +49,14 @@ namespace Orleankka
             get; private set;
         }
 
-        protected internal abstract ActorPrototype Proto
+        protected internal ActorPrototype _
         {
             get; set;
         }
 
-        protected internal abstract Type Prototype
+        protected internal virtual Type Prototype
         {
-            get;
+            get { return typeof(ActorPrototype); }
         }
 
         protected ActorRef Self
@@ -65,7 +65,7 @@ namespace Orleankka
             {
                 if (self == null)
                 {
-                        var path = ActorPath.From(GetType(), Id);
+                    var path = ActorPath.From(GetType(), Id);
                     self = System.ActorOf(path);
                 }
 
@@ -94,32 +94,9 @@ namespace Orleankka
             throw new NotImplementedException(message);
         }
 
-        protected internal abstract Task<object> OnReceive(object message);
-    }
-
-    public abstract class Actor<TPrototype> : Actor where TPrototype : ActorPrototype
-    {
-        protected Actor()
-        {}
-
-        protected Actor(string id, IActorSystem system)
-            : base(id, system)
-        {}
-
-        protected internal override Type Prototype
+        protected internal virtual Task<object> OnReceive(object message)
         {
-            get { return typeof(TPrototype); }
-        }
-
-        protected TPrototype _
-        {
-            get; private set;
-        }
-
-        protected internal override ActorPrototype Proto
-        {
-            get { return _; }
-            set { _ = (TPrototype) value; }
+            return DispatchAsync(message);
         }
 
         protected void Reentrant(Func<object, bool> evaluator)
@@ -196,10 +173,25 @@ namespace Orleankka
         {
             _.SetKeepAlive(timeout);
         }
+    }
 
-        protected internal override Task<object> OnReceive(object message)
+    public abstract class Actor<TPrototype> : Actor where TPrototype : ActorPrototype
+    {
+        protected Actor()
+        {}
+
+        protected Actor(string id, IActorSystem system)
+            : base(id, system)
+        {}
+
+        protected internal override Type Prototype
         {
-            return DispatchAsync(message);
+            get { return typeof(TPrototype); }
+        }
+
+        protected new TPrototype _
+        {
+            get { return (TPrototype) base._; }
         }
     }
 }
