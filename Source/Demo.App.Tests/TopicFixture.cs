@@ -39,7 +39,7 @@ namespace Demo
                 {twitter,  TimeSpan.FromMinutes(5)},
             };
             
-            topic = new Topic("42", System, Timers, Reminders, new TopicStorageMock());
+            topic = new Topic("42", Runtime, new TopicStorageMock());
         }
 
         [Test]

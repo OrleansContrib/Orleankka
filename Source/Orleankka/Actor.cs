@@ -1,14 +1,15 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Orleans;
 
 namespace Orleankka
 {
-    using Core;
     using Meta;
     using Utility;
+    using Services;
     
     public abstract class Actor
     {
@@ -17,20 +18,19 @@ namespace Orleankka
         protected Actor()
         {}
 
-        protected Actor(string id, IActorSystem system)
+        protected Actor(string id, IActorRuntime runtime)
         {
-            Requires.NotNull(system, "system");
+            Requires.NotNull(runtime, "runtime");
             Requires.NotNullOrWhitespace(id, "id");
 
             Id = id;
-            System = system;
+            Runtime = runtime;
         }
 
-        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint, ActorPrototype prototype)
+        internal void Initialize(string id, IActorRuntime runtime, ActorPrototype prototype)
         {
             Id = id;
-            System = system;
-            Endpoint = endpoint;
+            Runtime = runtime;
             _ = prototype;
         }
 
@@ -39,14 +39,33 @@ namespace Orleankka
             get; private set;
         }
 
-        protected IActorSystem System
+        private IActorRuntime Runtime
         {
-            get; private set;
+            get; set;
         }
 
-        internal ActorEndpoint Endpoint
+        protected IActorSystem System
         {
-            get; private set;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.System; }
+        }
+
+        protected IActivationService Activation
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Activation; }
+        }
+
+        protected IReminderService Reminders
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Reminders; }
+        }
+
+        protected ITimerService Timers
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Timers; }
         }
 
         protected internal ActorPrototype _
@@ -180,8 +199,8 @@ namespace Orleankka
         protected Actor()
         {}
 
-        protected Actor(string id, IActorSystem system)
-            : base(id, system)
+        protected Actor(string id, IActorRuntime runtime)
+            : base(id, runtime)
         {}
 
         protected internal override Type Prototype

@@ -17,11 +17,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpoint : Grain,
-        IRemindable,
-        IActorEndpointActivationService,
-        IActorEndpointReminderService,
-        IActorEndpointTimerService
+    public abstract class ActorEndpoint : Grain, IRemindable
     {
         internal static IActorActivator Activator;
 
@@ -72,8 +68,11 @@ namespace Orleankka.Core
         {
             var system = ClusterActorSystem.Current;
 
-            actor = Activator.Activate(path.Type);
-            actor.Initialize(path.Id, system, this, ActorPrototype.Of(path.Type));
+            var runtime = new ActorRuntime(system, this);
+            var prototype = ActorPrototype.Of(path.Type);
+
+            actor = Activator.Activate(path.Type, path.Id, runtime);
+            actor.Initialize(path.Id, runtime, prototype);
 
             await actor.OnActivate();
         }
@@ -92,39 +91,39 @@ namespace Orleankka.Core
 
         #region Internals
 
-        void IActorEndpointActivationService.DeactivateOnIdle()
+        internal new void DeactivateOnIdle()
         {
-            DeactivateOnIdle();
+            base.DeactivateOnIdle();
         }
 
-        void IActorEndpointActivationService.DelayDeactivation(TimeSpan timeSpan)
+        internal new void DelayDeactivation(TimeSpan timeSpan)
         {
-            DelayDeactivation(timeSpan);
+            base.DelayDeactivation(timeSpan);
         }
 
-        Task<IGrainReminder> IActorEndpointReminderService.GetReminder(string reminderName)
+        internal new Task<IGrainReminder> GetReminder(string reminderName)
         {
-            return GetReminder(reminderName);
+            return base.GetReminder(reminderName);
         }
 
-        Task<List<IGrainReminder>> IActorEndpointReminderService.GetReminders()
+        internal new Task<List<IGrainReminder>> GetReminders()
         {
-            return GetReminders();
+            return base.GetReminders();
         }
 
-        Task<IGrainReminder> IActorEndpointReminderService.RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+        internal new Task<IGrainReminder> RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
         {
-            return RegisterOrUpdateReminder(reminderName, dueTime, period);
+            return base.RegisterOrUpdateReminder(reminderName, dueTime, period);
         }
 
-        Task IActorEndpointReminderService.UnregisterReminder(IGrainReminder reminder)
+        internal new Task UnregisterReminder(IGrainReminder reminder)
         {
-            return UnregisterReminder(reminder);
+            return base.UnregisterReminder(reminder);
         }
 
-        IDisposable IActorEndpointTimerService.RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+        internal new IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
         {
-            return RegisterTimer(asyncCallback, state, dueTime, period);
+            return base.RegisterTimer(asyncCallback, state, dueTime, period);
         }
 
         #endregion

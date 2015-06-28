@@ -57,6 +57,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="ActorRuntime.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPrototype.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Cluster\ClusterConfigurator.cs" />
     <Compile Include="Core\ActorAssembly.cs" />
     <Compile Include="Core\ActorEndpointFactory.cs" />
-    <Compile Include="Core\ActorEndpointServices.cs" />
     <Compile Include="Core\IActorActivator.cs" />
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />

@@ -9,7 +9,6 @@ using Orleans;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
-using Orleankka.Services;
 
 using Streamstone;
 
@@ -46,13 +45,6 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
-        readonly IActivationService activation;
-
-        protected EventSourcedActor()
-        {
-            activation = new ActivationService(this);
-        }
-
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.None,
@@ -139,7 +131,7 @@ namespace Example
                 Console.WriteLine("Probably, second activation of actor '{0}' has been created", Self);
                 Console.WriteLine("Deactivating duplicate activation '{0}' ... ", Self);
 
-                activation.DeactivateOnIdle();
+                Activation.DeactivateOnIdle();
                 throw new InvalidOperationException("Duplicate activation of actor '" + Self + "' detected");
             }
         }
@@ -190,7 +182,7 @@ namespace Example
 
         public class Bootstrap : Bootstrapper<Properties>
         {
-            public override Task Run(Properties properties)
+            protected override Task Run(Properties properties)
             {
                 var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
                 Table = client.GetTableReference(properties.TableName);

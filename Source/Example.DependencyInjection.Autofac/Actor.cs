@@ -9,10 +9,10 @@ namespace Example
     {
         readonly ISomeService service;
 
-        DIActor()
+        DIActor() 
         {}
 
-        public DIActor(ISomeService service)
+        public DIActor(string id, IActorRuntime runtime, ISomeService service) : base(id, runtime)
         {
             this.service = service;
         }

@@ -6,23 +6,6 @@ namespace Orleankka
     namespace Annotations
     {
         /// <summary>
-        /// Indicates that the value of the marked element could be <c>null</c> sometimes,
-        /// so the check for <c>null</c> is necessary before its usage
-        /// </summary>
-        /// <example><code>
-        /// [CanBeNull] public object Test() { return null; }
-        /// public void UseTest() {
-        ///   var p = Test();
-        ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
-        /// }
-        /// </code></example>
-        [AttributeUsage(
-          AttributeTargets.Method | AttributeTargets.Parameter |
-          AttributeTargets.Property | AttributeTargets.Delegate |
-          AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-        public sealed class CanBeNullAttribute : Attribute { }
-
-        /// <summary>
         /// Indicates that the value of the marked element could never be <c>null</c>
         /// </summary>
         /// <example><code>
@@ -62,22 +45,19 @@ namespace Orleankka
         public sealed class UsedImplicitlyAttribute : Attribute
         {
             public UsedImplicitlyAttribute()
-                : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
-
-            public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)
-                : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
+                : this(ImplicitUseKindFlags.Default) {}
 
             public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)
                 : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
             public UsedImplicitlyAttribute(
-              ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
+              ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags = ImplicitUseTargetFlags.Default)
             {
                 UseKindFlags = useKindFlags;
                 TargetFlags = targetFlags;
             }
 
-            public ImplicitUseKindFlags UseKindFlags { get; private set; }
+            public ImplicitUseKindFlags UseKindFlags  { get; private set; }
             public ImplicitUseTargetFlags TargetFlags { get; private set; }
         }
 
@@ -90,23 +70,20 @@ namespace Orleankka
         public sealed class MeansImplicitUseAttribute : Attribute
         {
             public MeansImplicitUseAttribute()
-                : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
-
-            public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)
-                : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
+                : this(ImplicitUseKindFlags.Default) {}
 
             public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)
                 : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
             public MeansImplicitUseAttribute(
-              ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
+              ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags = ImplicitUseTargetFlags.Default)
             {
                 UseKindFlags = useKindFlags;
                 TargetFlags = targetFlags;
             }
 
-            [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
-            [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
+            [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags   { get; private set; }
+            [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags  { get; private set; }
         }
 
         [Flags]
@@ -122,8 +99,6 @@ namespace Orleankka
             /// That means any unused constructor parameters won't be reported as such.
             /// </summary>
             InstantiatedWithFixedConstructorSignature = 4,
-            /// <summary>Indicates implicit instantiation of a type</summary>
-            InstantiatedNoFixedConstructorSignature = 8,
         }
 
         /// <summary>
@@ -158,15 +133,5 @@ namespace Orleankka
             [NotNull]
             public string Comment { get; private set; }
         }
-
-        /// <summary>
-        /// Tells code analysis engine if the parameter is completely handled
-        /// when the invoked method is on stack. If the parameter is a delegate,
-        /// indicates that delegate is executed while the method is executed.
-        /// If the parameter is an enumerable, indicates that it is enumerated
-        /// while the method is executed
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
-        public sealed class InstantHandleAttribute : Attribute { }
     }
 }

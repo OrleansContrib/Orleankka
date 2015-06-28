@@ -11,7 +11,6 @@ namespace Orleankka.Features
     namespace Keep_alive
     {
         using Meta;
-        using Services;
         using Testing;
 
         [Serializable]
@@ -32,18 +31,12 @@ namespace Orleankka.Features
         {
             protected const int KeepAliveTimeoutInMinutes = 2;
 
-            readonly IReminderService reminders;
             bool reminded;
-
-            protected TestActor()
-            {
-                reminders = new ReminderService(this);
-            }
 
             protected internal override void Define()
             {
                 On((HasBeenReminded x)      => reminded);
-                On((SetReminder x)          => reminders.Register("test", TimeSpan.Zero, x.Period));
+                On((SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period));
                 On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
             }
 

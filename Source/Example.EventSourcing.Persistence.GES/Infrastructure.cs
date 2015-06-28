@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
-using Orleankka.Services;
 
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
@@ -45,13 +44,6 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
-        readonly IActivationService activation;
-
-        protected EventSourcedActor()
-        {
-            activation = new ActivationService(this);
-        }
-
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
@@ -143,7 +135,7 @@ namespace Example
                 Console.WriteLine("Probably, second activation of actor '{0}' has been created", Self);
                 Console.WriteLine("Deactivating duplicate activation '{0}' ... ", Self);
 
-                activation.DeactivateOnIdle();
+                Activation.DeactivateOnIdle();
                 throw new InvalidOperationException("Duplicate activation of actor '" + Self + "' detected");
             }
         }

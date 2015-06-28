@@ -12,7 +12,6 @@ namespace Orleankka.Features
     {
         using Meta;
         using Testing;
-        using Services;
 
         [Serializable]
         public class SetReminder : Command
@@ -34,23 +33,14 @@ namespace Orleankka.Features
 
         public class TestActor : Actor
         {
-            readonly IReminderService reminders;
-            readonly IActivationService activation;
-            
             bool reminded;
-
-            public TestActor()
-            {
-                reminders = new ReminderService(this);
-                activation = new ActivationService(this);
-            }
 
             protected internal override void Define()
             {
                 On((HasBeenReminded x)      => reminded);
-                On((SetReminder x)          => reminders.Register("test", TimeSpan.Zero, x.Period));
+                On((SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period));
                 On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
-                On((Deactivate x)           => activation.DeactivateOnIdle());
+                On((Deactivate x)           => Activation.DeactivateOnIdle());
             }
 
             protected internal override Task OnReminder(string id)

@@ -212,6 +212,7 @@ namespace Orleankka
         /// <summary>
         /// Subscribe a consumer to this observable.
         /// </summary>
+        /// <param name="observable">An observable</param>
         /// <param name="observer">The asynchronous observer to subscribe.</param>
         /// <returns>A promise for a StreamSubscriptionHandle that represents the subscription.
         /// The consumer may unsubscribe by using this handle.
@@ -226,6 +227,7 @@ namespace Orleankka
         /// <summary>
         /// Subscribe a consumer to this observable.
         /// </summary>
+        /// <param name="observable">An observable</param>
         /// <param name="observer">The asynchronous observer to subscribe.</param>
         /// <param name="token">The stream sequence to be used as an offset to start the subscription from.</param>
         /// <param name="filterFunc">Filter to be applied for this subscription</param>

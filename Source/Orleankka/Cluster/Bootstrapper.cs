@@ -33,7 +33,7 @@ namespace Orleankka.Cluster
         /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        public abstract Task Run(TProperties properties);
+        protected abstract Task Run(TProperties properties);
     }
 
     class BootstrapProvider : IBootstrapProvider

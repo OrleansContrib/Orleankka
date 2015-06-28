@@ -12,9 +12,6 @@ namespace Example
         string name;
         bool active;
 
-        public InventoryItem()
-        {}
-
         protected override void Define()
         {
             base.Define();

@@ -5,6 +5,7 @@ using Orleankka.Meta;
 
 namespace Example
 {
+    [Serializable]
     public abstract class ChatUserCommand : Command 
     {}
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Orleans;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -35,9 +34,6 @@ namespace Orleankka
         {
             return null;
         }
-
-        protected ActorSystem()
-        {}
 
         public ActorRef ActorOf(ActorPath path)
         {

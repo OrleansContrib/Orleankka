@@ -72,7 +72,7 @@ namespace Orleankka
             gc.SetKeepAlive(timeout);
         }
 
-        internal void KeepAlive(IActorEndpointActivationService endpoint)
+        internal void KeepAlive(ActorEndpoint endpoint)
         {
             gc.KeepAlive(endpoint);
         }
