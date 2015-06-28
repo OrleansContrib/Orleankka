@@ -13,32 +13,46 @@ namespace Orleankka.Features
 {
     namespace Stream_references
     {
-        using Typed;
+        using Meta;
         using Testing;
 
-        public class TestProducerActor : TypedActor
+        [Serializable]
+        public class Produce : Command
         {
-            public Task Produce(string e)
+            public string Event;
+        }
+
+        [Serializable]
+        public class Subscribe : Command
+        {}
+
+        [Serializable]
+        public class Received : Query<List<string>>
+        {}
+
+        public class TestProducerActor : UntypedActor
+        {
+            public Task Handle(Produce cmd)
             {
                 var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
-                return stream.OnNextAsync(e);
+                return stream.OnNextAsync(cmd.Event);
             }
         }
 
-        public class TestConsumerActor : TypedActor
+        public class TestConsumerActor : UntypedActor
         {
             readonly TestStreamObserver observer = new TestStreamObserver();
             StreamSubscriptionHandle<object> subscription;
 
-            public async Task Subscribe()
+            protected internal override void Define()
             {
-                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
-                subscription = await stream.SubscribeAsync(observer);
-            }
+                On(async (Subscribe x) =>
+                {
+                    var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
+                    subscription = await stream.SubscribeAsync(observer);
+                });
 
-            public List<string> Received
-            {
-                get { return observer.Received; }
+                On((Received x) => observer.Received);
             }
         }
 
@@ -93,14 +107,14 @@ namespace Orleankka.Features
             [Test]
             public async void Actor_to_stream()
             {
-                var producer = system.TypedActorOf<TestProducerActor>("p");
-                var consumer = system.TypedActorOf<TestConsumerActor>("c");
+                var producer = system.ActorOf<TestProducerActor>("p");
+                var consumer = system.ActorOf<TestConsumerActor>("c");
 
-                await consumer.Call(x => x.Subscribe());
-                await producer.Call(x => x.Produce("event"));
+                await consumer.Tell(new Subscribe());
+                await producer.Tell(new Produce {Event = "event"});
 
                 await Task.Delay(100);
-                var received = await consumer.Get(x => x.Received);
+                var received = await consumer.Ask(new Received());
                 
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("event"));

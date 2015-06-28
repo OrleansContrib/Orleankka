@@ -2,28 +2,18 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka;
-using Orleankka.Typed;
-
 using Orleans.Providers.Streams.SimpleMessageStream;
+using Orleankka;
 
 namespace Example
 {
-    public class ChatUser : TypedActor
+    public partial class ChatUser : UntypedActor
     {
-        public async void Join(string room)
+        protected override void Define()
         {
-            await Send(room, string.Format("{0} joined the room {1} ...", Id, room));
-        }
-
-        public async Task Leave(string room)
-        {
-            await Send(room, string.Format("{0} left the room {1}!", Id, room));
-        }
-
-        public Task Say(string room, string message)
-        {
-            return Send(room, string.Format("{0} said: {1}", Id, message));
+            On(async (Join x)   => await Send(x.Room, string.Format("{0} joined the room {1} ...", Id, x.Room)));
+            On(async (Leave x)  => await Send(x.Room, string.Format("{0} left the room {1}!", Id, x.Room)));
+            On(async (Say x)    => await Send(x.Room, string.Format("{0} said: {1}", Id, x.Message)));
         }
 
         Task Send(string room, string message)
