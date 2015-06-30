@@ -7,7 +7,6 @@ using Orleans.Streams;
 using Orleans.Providers.Streams.SimpleMessageStream;
 
 using Orleankka;
-using Orleankka.Meta;
 
 namespace Example
 {
@@ -34,18 +33,18 @@ namespace Example
                 return TaskDone.Done;
             });
 
-            await user.Tell<ChatUserCommand>(new Join {Room = RoomName});
+            await user.Tell(new Join {Room = RoomName});
         }
 
         public async Task Leave()
         {
             await subscription.UnsubscribeAsync();
-            await user.Tell<ChatUserCommand>(new Leave {Room = RoomName});
+            await user.Tell(new Leave {Room = RoomName});
         }
 
         public async Task Say(string message)
         {
-            await user.Tell<ChatUserCommand>(new Say {Room = RoomName, Message = message});
+            await user.Tell(new Say {Room = RoomName, Message = message});
         }
 
         string UserName

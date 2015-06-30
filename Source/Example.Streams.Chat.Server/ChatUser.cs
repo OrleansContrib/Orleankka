@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Providers.Streams.SimpleMessageStream;
+
 using Orleankka;
 
 namespace Example

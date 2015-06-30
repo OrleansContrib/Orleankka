@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Linq;
 
+using Orleankka;
+
 namespace Example
 {
     [Serializable]
     public class Join
     {
-        public string Room;
+        public string User;
+        public ObserverRef Client;
     }
 
     [Serializable]
     public class Leave
     {
-        public string Room;
+        public string User;
     }
 
     [Serializable]
     public class Say
     {
-        public string Room;
+        public string User;
         public string Message;
     }
 
