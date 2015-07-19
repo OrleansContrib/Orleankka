@@ -65,7 +65,7 @@ namespace Example.Azure.Controllers
             foreach (var i in Enumerable.Range(1, publishers))
             {
                 var activation = MvcApplication.System.ActorOf<Publisher>(i.ToString());
-                activations.Add(activation.Tell(new InitPublisher()));
+                activations.Add(activation.Tell(new Publisher.Init()));
             }
 
             return Task.WhenAll(activations.ToArray());

@@ -6,24 +6,25 @@ using Orleankka.Meta;
 
 namespace Example.Azure
 {
-    [Serializable]
-    public class InitHub : Command 
-    {}
-
-    [Serializable]
-    public class Subscribe : Command
+    [Actor(Placement = Placement.PreferLocal)]
+    public class Hub : Actor
     {
-        public ObserverRef Observer;
-    }
+        [Serializable]
+        public class Init : Command 
+        {}
 
-    [Serializable]
-    public class PublishEvents : Command
-    {
-        public Event[] Events;
-    }
+        [Serializable]
+        public class Subscribe : Command
+        {
+            public ObserverRef Observer;
+        }
 
-    public class Hub : UntypedActor
-    {
+        [Serializable]
+        public class Publish : Command
+        {
+            public Event[] Events;
+        }
+
         readonly IObserverCollection observers;
 
         public Hub()
@@ -33,11 +34,11 @@ namespace Example.Azure
 
         protected override void Define()
         {
-            On((InitHub x) => {});
+            On((Init x) => {});
             
             On((Subscribe x) => observers.Add(x.Observer));
             
-            On((PublishEvents x) =>
+            On((Publish x) =>
             {
                 var notifications = x.Events
                     .Select(e => new Notification(e, DateTime.Now, HubGateway.LocalHubId()))

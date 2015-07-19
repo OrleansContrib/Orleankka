@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -8,25 +7,38 @@ using PowerAssert;
 using NUnit.Framework;
 using JetBrains.Annotations;
 
-using Orleankka.Meta;
 using Orleankka.TestKit;
 
 namespace Demo
 {
     public abstract class ActorFixture
     {
-        protected ActorSystemMock System;
-        protected TimerServiceMock Timers;
-        protected ReminderServiceMock Reminders;
-        protected ObserverCollectionMock Observers;
+        protected ActorRuntimeMock Runtime;
 
         [SetUp]
         public virtual void SetUp()
         {
-            System = new ActorSystemMock();
-            Timers = new TimerServiceMock();
-            Reminders = new ReminderServiceMock();
-            Observers = new ObserverCollectionMock();
+            Runtime = new ActorRuntimeMock();
+        }
+
+        protected ActorSystemMock System
+        {
+            get { return Runtime.System; }
+        }
+
+        protected TimerServiceMock Timers
+        {
+            get { return Runtime.Timers; }
+        }
+
+        protected ReminderServiceMock Reminders
+        {
+            get { return Runtime.Reminders; }
+        }
+
+        protected ActivationServiceMock Activation
+        {
+            get { return Runtime.Activation; }
         }
 
         protected static void IsFalse([InstantHandle] Expression<Func<bool>> expression, string message = null)

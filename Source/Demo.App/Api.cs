@@ -6,7 +6,6 @@ using System.Web;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Services;
 
 namespace Demo
 {
@@ -57,11 +56,10 @@ namespace Demo
         {}
     }
 
-    public class Api : UntypedActor
+    public class Api : Actor
     {
         const int FailureThreshold = 3;
 
-        readonly ITimerService timers;
         readonly IObserverCollection observers;
         readonly Func<IApiWorker> worker;
 
@@ -70,20 +68,17 @@ namespace Demo
 
         public Api()
         {
-            timers = new TimerService(this);
             observers = new ObserverCollection();
             worker = ApiWorkerFactory.Create(()=> Id);
         }
 
         public Api(
             string id, 
-            IActorSystem system, 
-            ITimerService timers, 
+            IActorRuntime runtime, 
             IObserverCollection observers, 
             IApiWorker worker)
-            : base(id, system)
+            : base(id, runtime)
         {
-            this.timers = timers;
             this.observers = observers;
             this.worker = ()=> worker;
         }
@@ -141,7 +136,7 @@ namespace Demo
             var due = TimeSpan.FromSeconds(1);
             var period = TimeSpan.FromSeconds(1);
 
-            timers.Register("check", due, period, CheckAvailability);
+            Timers.Register("check", due, period, CheckAvailability);
         }
 
         public async Task CheckAvailability()
@@ -149,7 +144,7 @@ namespace Demo
             try
             {
                 await worker().Search("test");
-                timers.Unregister("check");
+                Timers.Unregister("check");
 
                 Unlock();
                 NotifyAvailable();

@@ -17,7 +17,7 @@ namespace Demo
         {
             static bool done;
 
-            public override async Task Run(IDictionary<string, string> properties)
+            protected override async Task Run(IDictionary<string, string> properties)
             {
                 if (done) 
                     throw new InvalidOperationException("Already done");

@@ -34,29 +34,21 @@ namespace Orleankka.Services
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly Func<IActorEndpointActivationService> service;
+        readonly ActorEndpoint endpoint;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActivationService"/> class.
-        /// </summary>
-        /// <param name="actor">The dynamic actor which requires activation services.</param>
-        public ActivationService(Actor actor)
-            : this(() => actor.Endpoint)
-        {}
-
-        ActivationService(Func<IActorEndpointActivationService> service)
+        internal ActivationService(ActorEndpoint endpoint)
         {
-            this.service = service;
+            this.endpoint = endpoint;
         }
 
         void IActivationService.DeactivateOnIdle()
         {
-            service().DeactivateOnIdle();
+            endpoint.DeactivateOnIdle();
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            service().DelayDeactivation(period);
+            endpoint.DelayDeactivation(period);
         } 
     }
 }

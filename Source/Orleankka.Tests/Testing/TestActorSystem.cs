@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Orleankka.Typed;
-
 namespace Orleankka.Testing
 {
     public static class TestActorSystem
@@ -12,11 +10,6 @@ namespace Orleankka.Testing
         public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : Actor
         {
             return system.ActorOf<TActor>(Guid.NewGuid().ToString());
-        }
-
-        public static TypedActorRef<TActor> FreshTypedActorOf<TActor>(this IActorSystem system) where TActor : TypedActor
-        {
-            return new TypedActorRef<TActor>(system.FreshActorOf<TActor>());
         }
     }
 }

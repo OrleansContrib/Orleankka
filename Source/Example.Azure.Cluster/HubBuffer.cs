@@ -5,34 +5,28 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleankka;
-using Orleankka.Services;
 
 namespace Example.Azure
 {
-    [Serializable]
-    public class PublishEvent
+    [Worker, Reentrant(typeof(Publish))]
+    public class HubBuffer : Actor
     {
-        public Event Event;
-    }
+        [Serializable]
+        public class Publish
+        {
+            public Event Event;
+        }
 
-    [Worker, Reentrant(typeof(PublishEvent))]
-    public class HubBuffer : UntypedActor
-    {
         readonly TimeSpan flushPeriod = TimeSpan.FromSeconds(1);        
         readonly Queue<Event> buffer = new Queue<Event>();
-        readonly ITimerService timers;
+        
         ActorRef hub;
-
-        public HubBuffer()
-        {
-            timers = new TimerService(this);
-        }
 
         protected override Task OnActivate()
         {
             hub = HubGateway.GetLocalHub();
             
-            timers.Register("flush", flushPeriod, flushPeriod, Flush);
+            Timers.Register("flush", flushPeriod, flushPeriod, Flush);
             
             return base.OnActivate();
         }
@@ -45,10 +39,10 @@ namespace Example.Azure
             var events = buffer.ToArray();
             buffer.Clear();
 
-            return hub.Tell(new PublishEvents{Events = events});
+            return hub.Tell(new Hub.Publish{Events = events});
         }
 
-        public void Handle(PublishEvent req)
+        public void Handle(Publish req)
         {
             buffer.Enqueue(req.Event);
         }

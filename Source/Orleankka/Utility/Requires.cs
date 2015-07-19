@@ -15,13 +15,6 @@ namespace Orleankka.Utility
         }
 
         [AssertionMethod]
-        public static void NotNullOrEmpty(string argument, [InvokerParameterName] string argumentName)
-        {
-            if (string.IsNullOrEmpty(argument))
-                throw new ArgumentNullException(argument, argumentName);
-        }
-
-        [AssertionMethod]
         public static void NotNullOrWhitespace(string argument, [InvokerParameterName] string argumentName)
         {
             if (argument == null)

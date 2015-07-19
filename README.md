@@ -14,7 +14,6 @@ Orleankka is not just a translation layer on top of Orleans. Besides improved la
 + Dependency injection support
 + Simplified configuration via fluent DSL (client, cluster, azure, embedded)
 + Programmable from any .NET language
-+ **New!** Streams
  
 ##### Actors
 
@@ -22,7 +21,6 @@ Orleankka is not just a translation layer on top of Orleans. Besides improved la
 + Automatic GC with configurable keep-alive timeouts
 + Runtime independence (isolated testing)
 + Reentrant messages
-+ Typed actors (C#)
 + Lambda-based message handlers (C#)
 + Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
 
@@ -56,10 +54,9 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 + "WebScan" [[demo]](Source/Demo.App)
 + TestKit [[demo]](Source/Demo.App.Tests)
 + Event Sourcing 
-	+ Idiomatic (CQRS, message-passing) [[see]](Source/Example.EventSourcing.Idiomatic)
-	+ With typed actors  [[see]](Source/Example.EventSourcing.Type)
-	+ Persistence: GetEventStore [[see]](Example.EventSourcing.Persistence.GES)
-	+ Persistence: Streamstone [PLANNED] [[see]]()
+	+ Idiomatic (CQRS) [[see]](Source/Example.EventSourcing.Idiomatic)
+	+ Persistence: GetEventStore [[see]](Source/Example.EventSourcing.Persistence.GES)
+	+ Persistence: Streamstone [[see]](Source/Example.EventSourcing.Persistence.Streamstone)
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
 

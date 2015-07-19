@@ -3,29 +3,22 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Services;
 
 namespace Example.Azure
 {
-    [Serializable]
-    public class InitPublisher {}
-
-    public class Publisher : UntypedActor
+    public class Publisher : Actor
     {
         static readonly Random rand = new Random();
-        readonly ITimerService timers;
 
-        public Publisher()
-        {
-            timers = new TimerService(this);
-        }
+        [Serializable]
+        public class Init {}
 
-        public void Handle(InitPublisher req)
+        public void Handle(Init req)
         {}
 
         protected override Task OnActivate()
         {
-            timers.Register("pub-pub", 
+            Timers.Register("pub-pub", 
                 TimeSpan.FromSeconds(1), 
                 TimeSpan.FromSeconds(rand.Next(3, 10)), 
                 () => HubGateway.Publish(Event()));

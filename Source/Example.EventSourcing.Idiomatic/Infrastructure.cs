@@ -8,7 +8,7 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    public abstract class CqsActor : UntypedActor
+    public abstract class CqsActor : Actor
     {
         protected override void Define()
         {
@@ -34,14 +34,14 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
-        protected override Task<object> HandleCommand(Command cmd)
+        protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = DispatchResult<IEnumerable<Event>>(cmd).ToArray();
+            var events = (await DispatchAsync<IEnumerable<Event>>(cmd)).ToArray();
 
             foreach (var @event in events)
                 Dispatch(@event);
 
-            return Task.FromResult((object)events);
+            return (object) events;
         }
 
         protected override Task<object> HandleQuery(Query query)

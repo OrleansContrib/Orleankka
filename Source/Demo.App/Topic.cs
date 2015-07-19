@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Services;
 
 namespace Demo
 {
@@ -23,10 +22,8 @@ namespace Demo
     }
 
     [Actor(Placement = Placement.DistributeEvenly)]
-    public class Topic : UntypedActor
+    public class Topic : Actor
     {
-        readonly ITimerService timers;
-        readonly IReminderService reminders;
         readonly ITopicStorage storage;
 
         const int MaxRetries = 3;
@@ -38,21 +35,11 @@ namespace Demo
 
         public Topic()
         {
-            timers = new TimerService(this);
-            reminders = new ReminderService(this);
             storage = ServiceLocator.TopicStorage;
         }
 
-        public Topic(
-            string id, 
-            IActorSystem system, 
-            ITimerService timers, 
-            IReminderService reminders, 
-            ITopicStorage storage)
-            : base(id, system)
+        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) : base(id, runtime)
         {
-            this.timers = timers;
-            this.reminders = reminders;
             this.storage = storage;
         }
 
@@ -66,7 +53,7 @@ namespace Demo
             query = cmd.Query;
 
             foreach (var entry in cmd.Schedule)
-                await reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
+                await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
         protected override async Task OnReminder(string api)
@@ -90,7 +77,7 @@ namespace Demo
         public void ScheduleRetries(string api)
         {
             retrying.Add(api, 0);
-            timers.Register(api, RetryPeriod, RetryPeriod, api, RetrySearch);
+            Timers.Register(api, RetryPeriod, RetryPeriod, api, RetrySearch);
         }
 
         public async Task RetrySearch(object state)
@@ -127,7 +114,7 @@ namespace Demo
 
         void CancelRetries(string api)
         {
-            timers.Unregister(api);
+            Timers.Unregister(api);
             retrying.Remove(api);
         }
 
@@ -143,7 +130,7 @@ namespace Demo
 
         void DisableSearch(string api)
         {
-            reminders.Unregister(api);
+            Reminders.Unregister(api);
         }
     }
 }

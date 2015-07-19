@@ -38,7 +38,7 @@ namespace Orleankka
             this.timeout = timeout;
         }
 
-        public void KeepAlive(IActorEndpointActivationService endpoint)
+        public void KeepAlive(ActorEndpoint endpoint)
         {
             if (timeout == TimeSpan.Zero)
                 return;

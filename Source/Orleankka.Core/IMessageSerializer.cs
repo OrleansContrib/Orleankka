@@ -35,12 +35,14 @@ namespace Orleankka.Core
         public abstract object Deserialize(BinaryTokenStreamReader stream);
     }
 
-    public sealed class BinarySerializer : IMessageSerializer
+    public abstract class MessageSerializer : MessageSerializer<object>
     {
-        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
-        {}
+        public override void Init(Assembly[] assemblies, object properties) {}
+    }
 
-        void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)
+    public sealed class BinarySerializer : MessageSerializer
+    {
+        public override void Serialize(object message, BinaryTokenStreamWriter stream)
         {
             using (var ms = new MemoryStream())
             {
@@ -49,7 +51,7 @@ namespace Orleankka.Core
             }
         }
 
-        object IMessageSerializer.Deserialize(BinaryTokenStreamReader stream)
+        public override object Deserialize(BinaryTokenStreamReader stream)
         {
             var bytes = (byte[]) SerializationManager.DeserializeInner(typeof(byte[]), stream);
 
@@ -61,17 +63,14 @@ namespace Orleankka.Core
         }
     }
 
-    public sealed class NativeSerializer : IMessageSerializer
+    public sealed class NativeSerializer : MessageSerializer
     {
-        void IMessageSerializer.Init(Assembly[] assemblies, object properties)
-        {}
-
-        void IMessageSerializer.Serialize(object message, BinaryTokenStreamWriter stream)
+        public override void Serialize(object message, BinaryTokenStreamWriter stream)
         {
             SerializationManager.SerializeInner(message, stream, null);
         }
 
-        object IMessageSerializer.Deserialize(BinaryTokenStreamReader stream)
+        public override object Deserialize(BinaryTokenStreamReader stream)
         {
             return SerializationManager.DeserializeInner(null, stream);
         }

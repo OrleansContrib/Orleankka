@@ -57,6 +57,7 @@
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorExtensions.cs" />
     <Compile Include="ActorRefMock.cs" />
+    <Compile Include="ActorRuntimeMock.cs" />
     <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
     <Compile Include="ActorRefStub.cs" />

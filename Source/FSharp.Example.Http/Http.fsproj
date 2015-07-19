@@ -12,7 +12,7 @@
     <OutputType>Library</OutputType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RootNamespace>Orlenakka.Http</RootNamespace>
-    <AssemblyName>Http</AssemblyName>
+    <AssemblyName>FSharp.Example.Http</AssemblyName>
     <UseIISExpress>true</UseIISExpress>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />

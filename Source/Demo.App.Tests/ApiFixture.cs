@@ -17,6 +17,7 @@ namespace Demo
 
         Api api;
         MockApiWorker worker;
+        ObserverCollectionMock observers;
 
         [SetUp]
         public override void SetUp()
@@ -24,8 +25,9 @@ namespace Demo
             base.SetUp();
             
             worker = new MockApiWorker();
+            observers = new ObserverCollectionMock();
 
-            api = new Api("facebook", System, Timers, Observers, worker);
+            api = new Api("facebook", Runtime, observers, worker);
         }
 
         [Test]
@@ -37,8 +39,8 @@ namespace Demo
             Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
             Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
             
-            IsTrue(()=> Observers.Events().Count() == 1);
-            IsTrue(()=> Observers.FirstEvent<AvailabilityChanged>().Available == false);
+            IsTrue(()=> observers.Events().Count() == 1);
+            IsTrue(()=> observers.FirstEvent<AvailabilityChanged>().Available == false);
             IsTrue(()=> Timers.Count() == 1);
 
             var timer = Timer("check");

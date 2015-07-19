@@ -1,14 +1,15 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Orleans;
 
 namespace Orleankka
 {
-    using Core;
     using Meta;
     using Utility;
+    using Services;
     
     public abstract class Actor
     {
@@ -17,21 +18,20 @@ namespace Orleankka
         protected Actor()
         {}
 
-        protected Actor(string id, IActorSystem system)
+        protected Actor(string id, IActorRuntime runtime)
         {
-            Requires.NotNull(system, "system");
+            Requires.NotNull(runtime, "runtime");
             Requires.NotNullOrWhitespace(id, "id");
 
             Id = id;
-            System = system;
+            Runtime = runtime;
         }
 
-        internal void Initialize(string id, IActorSystem system, ActorEndpoint endpoint, ActorPrototype prototype)
+        internal void Initialize(string id, IActorRuntime runtime, ActorPrototype prototype)
         {
             Id = id;
-            System = system;
-            Endpoint = endpoint;
-            Proto = prototype;
+            Runtime = runtime;
+            _ = prototype;
         }
 
         protected string Id
@@ -39,24 +39,43 @@ namespace Orleankka
             get; private set;
         }
 
-        protected IActorSystem System
-        {
-            get; private set;
-        }
-
-        internal ActorEndpoint Endpoint
-        {
-            get; private set;
-        }
-
-        protected internal abstract ActorPrototype Proto
+        private IActorRuntime Runtime
         {
             get; set;
         }
 
-        protected internal abstract Type Prototype
+        protected IActorSystem System
         {
-            get;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.System; }
+        }
+
+        protected IActivationService Activation
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Activation; }
+        }
+
+        protected IReminderService Reminders
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Reminders; }
+        }
+
+        protected ITimerService Timers
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Runtime.Timers; }
+        }
+
+        protected internal ActorPrototype _
+        {
+            get; set;
+        }
+
+        protected internal virtual Type Prototype
+        {
+            get { return typeof(ActorPrototype); }
         }
 
         protected ActorRef Self
@@ -65,7 +84,7 @@ namespace Orleankka
             {
                 if (self == null)
                 {
-                        var path = ActorPath.From(GetType(), Id);
+                    var path = ActorPath.From(GetType(), Id);
                     self = System.ActorOf(path);
                 }
 
@@ -94,32 +113,9 @@ namespace Orleankka
             throw new NotImplementedException(message);
         }
 
-        protected internal abstract Task<object> OnReceive(object message);
-    }
-
-    public abstract class Actor<TPrototype> : Actor where TPrototype : ActorPrototype
-    {
-        protected Actor()
-        {}
-
-        protected Actor(string id, IActorSystem system)
-            : base(id, system)
-        {}
-
-        protected internal override Type Prototype
+        protected internal virtual Task<object> OnReceive(object message)
         {
-            get { return typeof(TPrototype); }
-        }
-
-        protected TPrototype _
-        {
-            get; private set;
-        }
-
-        protected internal override ActorPrototype Proto
-        {
-            get { return _; }
-            set { _ = (TPrototype) value; }
+            return DispatchAsync(message);
         }
 
         protected void Reentrant(Func<object, bool> evaluator)
@@ -196,10 +192,25 @@ namespace Orleankka
         {
             _.SetKeepAlive(timeout);
         }
+    }
 
-        protected internal override Task<object> OnReceive(object message)
+    public abstract class Actor<TPrototype> : Actor where TPrototype : ActorPrototype
+    {
+        protected Actor()
+        {}
+
+        protected Actor(string id, IActorRuntime runtime)
+            : base(id, runtime)
+        {}
+
+        protected internal override Type Prototype
         {
-            return DispatchAsync(message);
+            get { return typeof(TPrototype); }
+        }
+
+        protected new TPrototype _
+        {
+            get { return (TPrototype) base._; }
         }
     }
 }

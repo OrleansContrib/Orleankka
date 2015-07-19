@@ -54,47 +54,39 @@ namespace Orleankka.Services
     /// <summary>
     /// Default runtime-bound implementation of <see cref="IReminderService"/>
     /// </summary>
-    public class ReminderService : IReminderService
+    class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly Func<IActorEndpointReminderService> service;
+        readonly ActorEndpoint endpoint;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReminderService"/> class.
-        /// </summary>
-        /// <param name="actor">The dynamic actor which requires reminder services.</param>
-        public ReminderService(Actor actor)
-            : this(() => actor.Endpoint)
-        {}
-
-        ReminderService(Func<IActorEndpointReminderService> service)
+        internal ReminderService(ActorEndpoint endpoint)
         {
-            this.service = service;
+            this.endpoint = endpoint;
         }
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            reminders[id] = await service().RegisterOrUpdateReminder(id, due, period);
+            reminders[id] = await endpoint.RegisterOrUpdateReminder(id, due, period);
         }
 
         async Task IReminderService.Unregister(string id)
         {
-            var reminder = reminders.Find(id) ?? await service().GetReminder(id);
+            var reminder = reminders.Find(id) ?? await endpoint.GetReminder(id);
             
             if (reminder != null)
-                await service().UnregisterReminder(reminder);
+                await endpoint.UnregisterReminder(reminder);
 
             reminders.Remove(id);
         }
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            return reminders.ContainsKey(id) || (await service().GetReminder(id)) != null;
+            return reminders.ContainsKey(id) || (await endpoint.GetReminder(id)) != null;
         }
 
         async Task<IEnumerable<string>> IReminderService.Registered()
         {
-            return (await service().GetReminders()).Select(x => x.ReminderName);
+            return (await endpoint.GetReminders()).Select(x => x.ReminderName);
         }
     }
 }

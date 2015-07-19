@@ -7,7 +7,7 @@ namespace Orleankka.Core
     {
         void Init(object properties);
 
-        Actor Activate(Type type);
+        Actor Activate(Type type, string id, IActorRuntime runtime);
     }
 
     public abstract class ActorActivator<TProperties> : IActorActivator
@@ -18,15 +18,17 @@ namespace Orleankka.Core
         }
 
         public abstract void Init(TProperties properties);
-        public abstract Actor Activate(Type type);
+        public abstract Actor Activate(Type type, string id, IActorRuntime runtime);
     }
 
-    class DefaultActorActivator : IActorActivator
+    public abstract class ActorActivator : ActorActivator<object>
     {
-        public void Init(object properties)
-        {}
+        public override void Init(object properties) {}
+    }
 
-        public Actor Activate(Type type)
+    class DefaultActorActivator : ActorActivator
+    {
+        public override Actor Activate(Type type, string id, IActorRuntime runtime)
         {
             return (Actor) Activator.CreateInstance(type, nonPublic: true);
         }

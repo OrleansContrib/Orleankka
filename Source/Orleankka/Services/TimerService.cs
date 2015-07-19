@@ -90,32 +90,24 @@ namespace Orleankka.Services
     /// <summary>
     /// Default Orleans bound implementation of <see cref="ITimerService"/>
     /// </summary>
-    public class TimerService : ITimerService
+    class TimerService : ITimerService
     {
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly Func<IActorEndpointTimerService> service;
+        readonly ActorEndpoint endpoint;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimerService"/> class.
-        /// </summary>
-        /// <param name="actor">The actor which requires timer services.</param>
-        public TimerService(Actor actor)
-            : this(() => actor.Endpoint)
-        {}
-
-        TimerService(Func<IActorEndpointTimerService> service)
+        internal TimerService(ActorEndpoint endpoint)
         {
-            this.service = service;
+            this.endpoint = endpoint;
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, service().RegisterTimer(s => callback(), null, due, period));
+            timers.Add(id, endpoint.RegisterTimer(s => callback(), null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, service().RegisterTimer(s => callback((TState)s), state, due, period));
+            timers.Add(id, endpoint.RegisterTimer(s => callback((TState)s), state, due, period));
         }
 
         void ITimerService.Unregister(string id)

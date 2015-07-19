@@ -8,18 +8,6 @@ namespace Orleankka.Utility
 {
     static class TaskExtensions
     {
-        public static async Task UnwrapExceptions(this Task task)
-        {
-            try
-            {
-                await task;
-            }
-            catch (AggregateException e)
-            {
-                throw e.OriginalExceptionPreservingStackTrace();
-            }
-        }
-
         public static async Task<T> UnwrapExceptions<T>(this Task<T> task)
         {
             try
@@ -32,7 +20,7 @@ namespace Orleankka.Utility
             }
         }
 
-        public static Exception OriginalExceptionPreservingStackTrace(this AggregateException e)
+        static Exception OriginalExceptionPreservingStackTrace(this AggregateException e)
         {
             return PreserveStackTrace(OriginalException(e));
         }

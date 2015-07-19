@@ -29,7 +29,7 @@ namespace Orleankka.TestKit
             Assert.AreEqual(default(object), await stub.Ask<object>(new object()));
         }
 
-        class TestActor : UntypedActor
+        class TestActor : Actor
         {}
     }
 }

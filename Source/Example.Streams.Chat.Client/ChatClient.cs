@@ -2,25 +2,24 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka;
-using Orleankka.Typed;
-
 using Orleans;
 using Orleans.Streams;
 using Orleans.Providers.Streams.SimpleMessageStream;
+
+using Orleankka;
 
 namespace Example
 {
     class ChatClient
     {
-        readonly TypedActorRef<ChatUser> user;
+        readonly ActorRef user;
         readonly StreamRef room;
 
         StreamSubscriptionHandle<object> subscription;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
-            this.user = system.TypedActorOf<ChatUser>(user);
+            this.user = system.ActorOf<ChatUser>(user);
             this.room = system.StreamOf<SimpleMessageStreamProvider>(room);
         }
 
@@ -34,18 +33,18 @@ namespace Example
                 return TaskDone.Done;
             });
 
-            await user.Call(x => x.Join(RoomName));
+            await user.Tell(new Join {Room = RoomName});
         }
 
         public async Task Leave()
         {
             await subscription.UnsubscribeAsync();
-            await user.Call(x => x.Leave(RoomName));
+            await user.Tell(new Leave {Room = RoomName});
         }
 
         public async Task Say(string message)
         {
-            await user.Call(x => x.Say(RoomName, message));
+            await user.Tell(new Say {Room = RoomName, Message = message});
         }
 
         string UserName

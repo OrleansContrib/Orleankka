@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -27,14 +26,14 @@ namespace Example.Azure
                 ip = instanceEndpoint.IPEndpoint;
 
                 var hub = GetLocalHub();
-                return hub.Tell(new InitHub());
+                return hub.Tell(new Hub.Init());
             }
         }
 
         public static Task Publish(Event e)
         {
             var buffer = system.ActorOf<HubBuffer>("any");
-            return buffer.Tell(new PublishEvent{Event = e});
+            return buffer.Tell(new HubBuffer.Publish {Event = e});
         }
 
         static ActorRef GetHub(IPEndPoint endpoint)

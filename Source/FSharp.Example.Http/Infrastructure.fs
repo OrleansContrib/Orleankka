@@ -1,26 +1,19 @@
 ﻿namespace Orleankka.Http
 
 open Orleankka
-open Orleankka.Typed
 open System
 open System.Collections.Generic
 open Microsoft.FSharp.Reflection
 
 module MediaType = 
 
- type MediaType =
-   | Actor
-   | TypedActor
- 
  let contentTypeActor = "orleankka/vnd.actor+json"    
-
 
 module MessageType =
 
  type MessageType =   
    | Class of msgType:Type
    | DU of msgType:Type
-   | Typed
 
  let mapToDU(caseName, msgBody) = sprintf "{ 'Case': '%s', 'Fields': [%s] }" caseName msgBody
  
@@ -53,13 +46,6 @@ module HttpRoute =
                   MsgType = msgType
                   ActorRef = actorRef })
 
-   | Typed -> actorPath.Type.GetMembers()
-              |> Array.map(fun membeR ->               
-                 { HttpPath = createHttpPath(actorPath.Type.Name, actorPath.Id, membeR.Name)
-                   MsgType = msgType
-                   ActorRef = actorRef })   
-
-
 module ActorRouter =
 
  open MessageType
@@ -79,10 +65,6 @@ module ActorRouter =
                        | DU t -> let caseName = httpPath |> getMessageName
                                  let duMsg = MessageType.mapToDU(caseName, msg)
                                  deserialize(duMsg, t)
-
-                       | Typed -> let memberName = httpPath |> getMessageName
-                                  let typedMsg = MessageType.mapToTyped(memberName, msg)
-                                  deserialize(typedMsg, typeof<Invocation>)
 
          route.ActorRef.Ask<obj>(message) |> Some
       | _  -> None
