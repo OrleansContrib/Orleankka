@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka", "Source\Orleankka\Orleankka.csproj", "{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
@@ -91,6 +91,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Server", "Source\Example.Observers.Chat.Server\Chat.Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client", "Source\Example.Observers.Chat.Client\Chat.Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E3C60BC5-939B-4DAA-A477-4C779F57375E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp.Tests", "Source\FSharp.Api.Tests\Orleankka.FSharp.Tests.fsproj", "{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -267,6 +271,12 @@ Global
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Package|Any CPU.Build.0 = Release|Any CPU
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Package|Any CPU.Build.0 = Release|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -307,5 +317,7 @@ Global
 		{A0E9475F-5076-4456-AA89-ECCB53BC3D8C} = {C9B497F6-87DA-40EF-933C-A572A7603991}
 		{355B546C-C246-4CEE-A302-7D453A81D3A2} = {A0E9475F-5076-4456-AA89-ECCB53BC3D8C}
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2} = {A0E9475F-5076-4456-AA89-ECCB53BC3D8C}
+		{E3C60BC5-939B-4DAA-A477-4C779F57375E} = {A2A2E93C-20F7-4021-AEC2-B00BD22AADDE}
+		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B} = {E3C60BC5-939B-4DAA-A477-4C779F57375E}
 	EndGlobalSection
 EndGlobal
