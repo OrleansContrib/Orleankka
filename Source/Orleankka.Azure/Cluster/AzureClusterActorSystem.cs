@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.WindowsAzure.ServiceRuntime;
 using Orleans.Runtime.Host;
 
 namespace Orleankka.Cluster
@@ -20,7 +19,7 @@ namespace Orleankka.Cluster
 
         internal void Start()
         {
-            host.Start(RoleEnvironment.DeploymentId, RoleEnvironment.CurrentRoleInstance, cluster.Configuration);
+            host.Start(cluster.Configuration);
         }
 
         public void Run()
