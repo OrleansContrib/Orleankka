@@ -1,11 +1,29 @@
 ﻿
-in order to start, you need to send request:
+type HelloMessage =
+   | Hi of string
+   | WhatIsYourName
+   | GiveMeMoney of currency:string * amount:double
 
-[POST] http://localhost:48213/api/testactor/http_test
-Content-Type: application/json
+in order to start, you need to send a request:
 
-Body:
+1)  [POST] http://localhost:48213/api/TestActor/http_test/Hi
 
-{
-    message: '{"Case": "WhatIsYourName" }'
-}
+	Content-Type: orleankka/vnd.actor+json
+
+	Body:
+	"'Super Man'"
+
+
+2)  [POST] http://localhost:48213/api/TestActor/http_test/WhatIsYourName
+
+	Content-Type: orleankka/vnd.actor+json
+
+	Body:
+
+
+3)  [POST] http://localhost:48213/api/TestActor/http_test/GiveMeMoney
+
+    Content-Type: orleankka/vnd.actor+json
+
+	Body:
+	"'USD', '4.5'"

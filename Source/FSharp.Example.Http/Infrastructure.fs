@@ -32,7 +32,7 @@ module HttpRoute =
 
  let createHttpPath(actorName, id, msgName) = (sprintf "%s/%s/%s" actorName id msgName)
 
- let create (msgType:MessageType, actorPath:ActorPath) = 
+ let create (msgType, actorPath:ActorPath) = 
    let actorRef = ActorRef.Deserialize(actorPath)
    match msgType with   
    
