@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Orleans;
+
 namespace Orleankka.Core
 {
     using Static; 
@@ -44,25 +46,33 @@ namespace Orleankka.Core
 
         static Func<string, object> GetWorkerFactory()
         {
-            return WFactory.GetGrain;
+            var factory = GrainFactory();
+            return id => factory.GetGrain<IW>(id);
         }
 
         static Func<string, object> GetActorFactory(ActorAttribute actor)
         {
+            var factory = GrainFactory();
+
             if (actor == null)
                 actor = new ActorAttribute();
 
             switch (actor.Placement)
             {
                 case Placement.Random:
-                    return A0Factory.GetGrain;
+                    return id => factory.GetGrain<IA0>(id);;
                 case Placement.PreferLocal:
-                    return A1Factory.GetGrain;
+                    return id => factory.GetGrain<IA1>(id);;
                 case Placement.DistributeEvenly:
-                    return A2Factory.GetGrain;
+                    return id => factory.GetGrain<IA2>(id);;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        static IGrainFactory GrainFactory()
+        {
+            return (IGrainFactory) Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
         }
     }
 }

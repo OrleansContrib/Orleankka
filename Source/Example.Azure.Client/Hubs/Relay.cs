@@ -7,6 +7,8 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
 using Orleankka;
+
+using Orleans;
 using Orleans.Runtime;
 
 namespace Example.Azure.Hubs
@@ -34,7 +36,7 @@ namespace Example.Azure.Hubs
 
         static async Task Subscribe()
         {
-            var orleans = ManagementGrainFactory.GetGrain(0);
+            var orleans = GrainClient.GrainFactory.GetGrain<IManagementGrain>(0);
             var hosts = await orleans.GetHosts(true);
 
             foreach (var silo in hosts)
