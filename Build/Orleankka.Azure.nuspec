@@ -11,8 +11,7 @@
     <tags>Orleans Akka distributed messaging actor Azure cloud service configuration</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
-        <dependency id="Microsoft.Orleans.OrleansAzureUtils" version="1.0.0.5" />
-        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.0.0.5" />
+        <dependency id="Microsoft.Orleans.OrleansAzureUtils" version="1.0.0.9" />
     </dependencies>
   </metadata>
   <files>

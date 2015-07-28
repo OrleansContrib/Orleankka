@@ -47,13 +47,8 @@ namespace Orleankka.Testing
 
             TestActorSystem.Instance = ActorSystem.Configure()
                 .Playground()
-                .TweakCluster(cfg =>
-                {
-                    cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes));
-                    cfg.Globals.RegisterStorageProvider<MemoryStorage>("PubSubStore");
-                    cfg.Globals.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
-                })
-                .TweakClient(cfg => cfg.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS"))
+                .TweakCluster(cfg => cfg
+                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
                 .Register(GetType().Assembly)
                 .Done();
         }
