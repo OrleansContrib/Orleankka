@@ -11,7 +11,7 @@ namespace Orleankka
     using Utility;
 
     [DebuggerDisplay("_{actor}")]
-    public class ActorPrototype
+    class ActorPrototype
     {
         static readonly Dictionary<Type, ActorPrototype> cache =
                     new Dictionary<Type, ActorPrototype>();
@@ -25,9 +25,9 @@ namespace Orleankka
         internal static void Register(Type actor)
         {
             var instance  = CreateInstance(actor);
-            var prototype = CreatePrototype(instance);
+            var prototype = CreatePrototype(actor);
             
-            instance._ = prototype;
+            instance.Prototype = prototype;
             instance.Define();
 
             cache.Add(actor, prototype.Close());
@@ -38,9 +38,9 @@ namespace Orleankka
             return (Actor) Activator.CreateInstance(actor, nonPublic: true);
         }
 
-        static ActorPrototype CreatePrototype(Actor actor)
+        static ActorPrototype CreatePrototype(Type actor)
         {
-            return (ActorPrototype) Activator.CreateInstance(actor.Prototype, new object[]{actor.GetType()});
+            return new ActorPrototype(actor);
         }
 
         ActorPrototype Close()
@@ -57,10 +57,10 @@ namespace Orleankka
         internal static ActorPrototype Of(Type actor)
         {
             ActorPrototype prototype = cache.Find(actor);
-            return prototype ?? CreatePrototype(CreateInstance(actor));
+            return prototype ?? CreatePrototype(actor);
         }
 
-        public ActorPrototype(Type actor)
+        ActorPrototype(Type actor)
         {
             gc = new GC(actor);
             reentrant = new Reentrant(actor);

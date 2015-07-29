@@ -31,7 +31,7 @@ namespace Orleankka
         {
             Id = id;
             Runtime = runtime;
-            _ = prototype;
+            Prototype = prototype;
         }
 
         protected string Id
@@ -40,6 +40,11 @@ namespace Orleankka
         }
 
         private IActorRuntime Runtime
+        {
+            get; set;
+        }
+
+        internal ActorPrototype Prototype
         {
             get; set;
         }
@@ -66,16 +71,6 @@ namespace Orleankka
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get { return Runtime.Timers; }
-        }
-
-        protected internal ActorPrototype _
-        {
-            get; set;
-        }
-
-        protected internal virtual Type Prototype
-        {
-            get { return typeof(ActorPrototype); }
         }
 
         protected ActorRef Self
@@ -121,7 +116,7 @@ namespace Orleankka
         protected void Dispatch(object message)
         {
             Requires.NotNull(message, "message");
-            _.Dispatch(this, message);
+            Prototype.Dispatch(this, message);
         }
 
         protected TResult DispatchResult<TResult>(object message)
@@ -132,7 +127,7 @@ namespace Orleankka
         protected object DispatchResult(object message)
         {
             Requires.NotNull(message, "message");
-            return _.DispatchResult(this, message);
+            return Prototype.DispatchResult(this, message);
         }
 
         protected async Task<TResult> DispatchAsync<TResult>(object message)
@@ -143,63 +138,43 @@ namespace Orleankka
         protected Task<object> DispatchAsync(object message)
         {
             Requires.NotNull(message, "message");
-            return _.DispatchAsync(this, message);
+            return Prototype.DispatchAsync(this, message);
         }
 
         protected void On<TRequest, TResult>(Func<TRequest, TResult> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
+            Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TResult>(Func<Query<TResult>, TResult> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
+            Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest, TResult>(Func<TRequest, Task<TResult>> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
+            Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TResult>(Func<Query<TResult>, Task<TResult>> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
+            Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest>(Action<TRequest> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
+            Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest>(Func<TRequest, Task> handler)
         {
             Requires.NotNull(handler, "handler");
-            _.RegisterHandler(handler.Method);
-        }
-    }
-
-    public abstract class Actor<TPrototype> : Actor where TPrototype : ActorPrototype
-    {
-        protected Actor()
-        {}
-
-        protected Actor(string id, IActorRuntime runtime)
-            : base(id, runtime)
-        {}
-
-        protected internal override Type Prototype
-        {
-            get { return typeof(TPrototype); }
-        }
-
-        protected new TPrototype _
-        {
-            get { return (TPrototype) base._; }
+            Prototype.RegisterHandler(handler.Method);
         }
     }
 }
