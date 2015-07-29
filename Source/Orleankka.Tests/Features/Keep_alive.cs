@@ -27,9 +27,10 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<int>
         {}
 
-        public abstract class TestActor : Actor
+        [KeepAlive(Minutes = KeepAliveTimeoutInMinutes)]
+        public class TestActor : Actor
         {
-            protected const int KeepAliveTimeoutInMinutes = 2;
+            const int KeepAliveTimeoutInMinutes = 2;
 
             bool reminded;
 
@@ -49,7 +50,7 @@ namespace Orleankka.Features
 
         [TestFixture]
         [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
-        abstract class Tests<T> where T : Actor
+        abstract class Tests
         {
             IActorSystem system;
 
@@ -62,7 +63,7 @@ namespace Orleankka.Features
             [Test]
             public async void When_just_activated()
             {
-                var actor = system.FreshActorOf<T>();
+                var actor = system.FreshActorOf<TestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await Task.Delay(TimeSpan.FromMinutes(1.5));
@@ -80,7 +81,7 @@ namespace Orleankka.Features
                 // if automatic keepalive prolongation doesn't work, an actor will still be alive for at least minute, as per global keepalive timeout
                 // we wait again for 1.5 minutes to disprove previous assumption (that automatic prolongation is not working) 
 
-                var actor = system.FreshActorOf<T>();
+                var actor = system.FreshActorOf<TestActor>();
 
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
                 await Task.Delay(TimeSpan.FromMinutes(1.5));
@@ -102,7 +103,7 @@ namespace Orleankka.Features
                 // if automatic keepalive prolongation doesn't work, an actor will still be alive for at least minute, as per global keepalive timeout
                 // we wait again for 1.5 minutes to disprove previous assumption (that automatic prolongation is not working) 
 
-                var actor = system.FreshActorOf<T>();
+                var actor = system.FreshActorOf<TestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});
@@ -115,29 +116,5 @@ namespace Orleankka.Features
                 Assert.IsTrue(await actor.Ask(new HasBeenReminded()));
             }
         }
-
-        [KeepAlive(Minutes = KeepAliveTimeoutInMinutes)]
-        class TestKeepAliveDefinedViaAttributeActor : TestActor
-        {}
-
-        class TestKeepAliveDefinedViaPrototypeActor : TestActor
-        {
-            protected internal override void Define()
-            {
-                base.Define();
-                
-                KeepAlive(TimeSpan.FromMinutes(KeepAliveTimeoutInMinutes));
-            }
-        }
-
-        [Explicit, Category("Slow")]
-        class Defined_via_attribute
-            : Tests<TestKeepAliveDefinedViaAttributeActor>
-        {}
-
-        [Explicit, Category("Slow")]
-        class Defined_via_prototype
-            : Tests<TestKeepAliveDefinedViaPrototypeActor>
-        {}
     }
 }
