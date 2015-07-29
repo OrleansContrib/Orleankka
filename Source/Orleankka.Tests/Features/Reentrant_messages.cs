@@ -10,7 +10,6 @@ namespace Orleankka.Features
     {
         using Meta;
         using Testing;
-        using Annotations;
 
         [Serializable]
         class RegularMessage : Query<bool>
@@ -20,7 +19,8 @@ namespace Orleankka.Features
         class ReentrantMessage : Query<bool>
         {}
 
-        abstract class TestActor : Actor
+        [Reentrant(typeof(ReentrantMessage))]
+        class TestActor : Actor
         {
             protected internal override void Define()
             {
@@ -49,48 +49,9 @@ namespace Orleankka.Features
             [Test]
             public async void Could_be_defined_via_attribute()
             {
-                var actor = system.FreshActorOf<TestReentrantDefinedViaAttributeActor>();
+                var actor = system.FreshActorOf<TestActor>();
                 Assert.That(await actor.Ask(new RegularMessage()), Is.False);
                 Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
-            }
-
-            [Test]
-            public async void Could_be_defined_via_prototype()
-            {
-                var actor = system.FreshActorOf<TestReentrantDefinedViaPrototypeActor>();
-                Assert.That(await actor.Ask(new RegularMessage()), Is.False);
-                Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
-            }
-
-            [Test]
-            public void Cannot_be_defined_outside_of_prototype_definition()
-            {
-                var actor = system.FreshActorOf<TestReentrantDefinedOutsideOfPrototypeActor>();
-                Assert.Throws<InvalidOperationException>(async () => await actor.Tell("boo"));
-            }
-
-            [Reentrant(typeof(ReentrantMessage))]
-            [UsedImplicitly]
-            class TestReentrantDefinedViaAttributeActor : TestActor
-            {}
-
-            [UsedImplicitly]
-            class TestReentrantDefinedViaPrototypeActor : TestActor
-            {
-                protected internal override void Define()
-                {
-                    Reentrant(x => x is ReentrantMessage);
-                    base.Define();
-                }
-            }
-
-            [UsedImplicitly]
-            class TestReentrantDefinedOutsideOfPrototypeActor : TestActor
-            {
-                public void Handle(string message)
-                {
-                    Reentrant(x => x is ReentrantMessage);
-                }
             }
         }
     }

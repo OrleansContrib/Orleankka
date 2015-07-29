@@ -118,12 +118,6 @@ namespace Orleankka
             return DispatchAsync(message);
         }
 
-        protected void Reentrant(Func<object, bool> evaluator)
-        {
-            Requires.NotNull(evaluator, "evaluator");
-            _.RegisterReentrant(evaluator);
-        }
-
         protected void Dispatch(object message)
         {
             Requires.NotNull(message, "message");
@@ -186,11 +180,6 @@ namespace Orleankka
         {
             Requires.NotNull(handler, "handler");
             _.RegisterHandler(handler.Method);
-        }
-
-        protected void KeepAlive(TimeSpan timeout)
-        {
-            _.SetKeepAlive(timeout);
         }
     }
 

@@ -21,11 +21,6 @@ namespace Example
 {
     public abstract class CqsActor : Actor
     {
-        protected override void Define()
-        {
-            Reentrant(req => req is Query);
-        }
-
         protected override Task<object> OnReceive(object message)
         {
             var cmd = message as Command;

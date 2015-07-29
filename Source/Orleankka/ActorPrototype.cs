@@ -67,20 +67,10 @@ namespace Orleankka
             dispatcher = new Dispatcher(actor);
         }
 
-        internal void SetKeepAlive(TimeSpan timeout)
-        {
-            gc.SetKeepAlive(timeout);
-        }
 
         internal void KeepAlive(ActorEndpoint endpoint)
         {
             gc.KeepAlive(endpoint);
-        }
-
-        internal void RegisterReentrant(Func<object, bool> evaluator)
-        {
-            AssertClosed();
-            reentrant.Register(evaluator);
         }
 
         internal bool IsReentrant(object message)

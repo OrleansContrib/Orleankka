@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Orleankka;
 using Orleankka.Meta;
 
 namespace Example
 {
+    [Reentrant(typeof(GetInventoryItemDetails))]
     public class InventoryItem : EventSourcedActor
     {
         int total;
