@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{355B546C-C246-4CEE-A302-7D453A81D3A2}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{355B546C-C246-5CEE-A302-7D453A81D3A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Example</RootNamespace>
-    <AssemblyName>Example.Observers.Chat.Server</AssemblyName>
+    <AssemblyName>Example.Observers.Chat.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,35 +31,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.9\lib\net45\Orleans.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OrleansProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders.1.0.9\lib\net45\OrleansProviders.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.9\lib\net45\OrleansRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatRoom.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IChatRoom.cs" />
+    <Compile Include="Messages.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Example.Observers.Chat.Interfaces\Chat.Interfaces.csproj">
-      <Project>{355b546c-c246-5cee-a302-7d453a81d3a2}</Project>
-      <Name>Chat.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
@@ -68,11 +51,6 @@
       <Project>{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Server.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

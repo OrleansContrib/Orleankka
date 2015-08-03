@@ -15,12 +15,13 @@ namespace Example
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration().LoadFromEmbeddedResource(typeof(Program), "Client.xml");
+            var config = new ClientConfiguration()
+                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
 
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(ChatRoom).Assembly)
+                .Register(typeof(IChatRoom).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

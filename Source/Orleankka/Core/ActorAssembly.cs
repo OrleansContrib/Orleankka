@@ -11,6 +11,7 @@ namespace Orleankka.Core
         {
             ActorTypeCode.Reset();
             ActorPrototype.Reset();
+            ActorInterface.Reset();
             ActorEndpointDynamicFactory.Reset();
         }
 
@@ -32,6 +33,7 @@ namespace Orleankka.Core
             {
                 ActorTypeCode.Register(type);
                 ActorPrototype.Register(type);
+                ActorInterface.Register(type);
                 ActorEndpointDynamicFactory.Register(type);
             }
         }

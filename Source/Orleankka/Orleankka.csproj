@@ -62,6 +62,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="ActorInterface.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />

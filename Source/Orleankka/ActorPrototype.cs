@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -10,14 +9,12 @@ namespace Orleankka
     using Core;
     using Utility;
 
-    [DebuggerDisplay("_{actor}")]
     class ActorPrototype
     {
         static readonly Dictionary<Type, ActorPrototype> cache =
                     new Dictionary<Type, ActorPrototype>();
 
         readonly GC gc;
-        readonly Reentrant reentrant;
         readonly Dispatcher dispatcher;
 
         bool closed;
@@ -63,19 +60,12 @@ namespace Orleankka
         ActorPrototype(Type actor)
         {
             gc = new GC(actor);
-            reentrant = new Reentrant(actor);
             dispatcher = new Dispatcher(actor);
         }
-
 
         internal void KeepAlive(ActorEndpoint endpoint)
         {
             gc.KeepAlive(endpoint);
-        }
-
-        internal bool IsReentrant(object message)
-        {
-            return reentrant.IsReentrant(message);
         }
 
         internal void RegisterHandler(MethodInfo method)

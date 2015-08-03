@@ -15,7 +15,7 @@ namespace Example
         public ChatClient(IActorSystem system, string user, string room)
         {
             this.user = user;
-            this.room = system.ActorOf<ChatRoom>(room);
+            this.room = system.ActorOf<IChatRoom>(room);
         }
 
         public async Task Join()

@@ -68,7 +68,7 @@ namespace Orleankka
 
         Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
         {
-            return ActorPrototype.Of(Path.Type).IsReentrant(message) 
+            return ActorInterface.Of(Path.Type).IsReentrant(message) 
                        ? (Func<RequestEnvelope, Task<ResponseEnvelope>>) endpoint.ReceiveReentrant 
                        : endpoint.Receive;
         }
