@@ -135,18 +135,8 @@ string Version(string project)
 
 void InstallPackages()
 {
-    var packagesDir = @"{RootPath}\Packages";
-
-    var configs = XElement
-        .Load(@"{packagesDir}\repositories.config")
-        .Descendants("repository")
-        .Select(x => x.Attribute("path").Value.Replace("..", RootPath)); 
-
-    foreach (var config in configs)
-        Cmd(@"Tools\NuGet.exe install {config} -o {packagesDir}");
-
-    // install packages required for building/testing/publishing package
-    Cmd(@"Tools\NuGet.exe install Build/Packages.config -o {packagesDir}");
+    Cmd(@"Tools\NuGet.exe restore {CoreProject}.sln");
+    Cmd(@"Tools\NuGet.exe install Build/Packages.config -o {RootPath}\Packages");
 }
 
 void InstallBinaries()
