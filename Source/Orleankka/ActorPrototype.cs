@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -21,13 +20,18 @@ namespace Orleankka
 
         internal static void Register(Type actor)
         {
-            var instance  = CreateInstance(actor);
+            cache.Add(actor, Define(actor));
+        }
+
+        internal static ActorPrototype Define(Type actor)
+        {
+            var instance = CreateInstance(actor);
             var prototype = CreatePrototype(actor);
-            
+
             instance.Prototype = prototype;
             instance.Define();
 
-            cache.Add(actor, prototype.Close());
+            return prototype.Close();
         }
 
         static Actor CreateInstance(Type actor)
@@ -53,7 +57,7 @@ namespace Orleankka
 
         internal static ActorPrototype Of(Type actor)
         {
-            ActorPrototype prototype = cache.Find(actor);
+            var prototype = cache.Find(actor);
             return prototype ?? CreatePrototype(actor);
         }
 

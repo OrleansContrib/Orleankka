@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
 {
@@ -28,7 +26,7 @@ namespace Orleankka.TestKit
 
         public static void Define(this Actor actor)
         {
-            actor.Define();
+            actor.Prototype = ActorPrototype.Define(actor.GetType());
         }
     }
 }
