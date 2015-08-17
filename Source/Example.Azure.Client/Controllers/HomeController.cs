@@ -13,6 +13,8 @@ namespace Example.Azure.Controllers
 {
     using Hubs;
 
+    using Microsoft.WindowsAzure.ServiceRuntime;
+
     public class HomeController : Controller
     {
         [HttpGet]
@@ -45,6 +47,10 @@ namespace Example.Azure.Controllers
         {
             var config = new ClientConfiguration()
                 .LoadFromEmbeddedResource<Startup>("Orleans.xml");
+
+            config.DeploymentId = RoleEnvironment.DeploymentId;
+            config.DataConnectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
+            config.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
 
             MvcApplication.System = ActorSystem.Configure().Azure()
                 .Client()
