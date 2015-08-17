@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Example.Observers.Chat.Interfaces\Chat.Interfaces.csproj">
-      <Project>{355b546c-c246-5cee-a302-7d453a81d3a2}</Project>
+      <Project>{355B546C-C246-5CEE-A302-7D453A81D3A2}</Project>
       <Name>Chat.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
