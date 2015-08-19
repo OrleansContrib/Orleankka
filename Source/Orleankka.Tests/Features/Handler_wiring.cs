@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -29,6 +28,18 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<TestActor>();
 
+                Assert.That(await actor.Ask<object>(new OnLambdaVoidMessage()), Is.Null);
+                Assert.That(await actor.Ask<object>(new OnAssemblyLambdaVoidMessage()), Is.Null);
+
+                Assert.That(await actor.Ask<object>(new OnLambdaAsyncVoidMessage()), Is.Null);
+                Assert.That(await actor.Ask<object>(new OnAssemblyLambdaAsyncVoidMessage()), Is.Null);
+
+                Assert.That(await actor.Ask<string>(new OnLambdaResultMessage()), Is.EqualTo("42"));
+                Assert.That(await actor.Ask<string>(new OnAssemblyLambdaResultMessage()), Is.EqualTo("42"));
+
+                Assert.That(await actor.Ask<string>(new OnLambdaAsyncResultMessage()), Is.EqualTo("42"));
+                Assert.That(await actor.Ask<string>(new OnAssemblyLambdaAsyncResultMessage()), Is.EqualTo("42"));
+
                 Assert.That(await actor.Ask<object>(new OnVoidMessage()), Is.Null);
                 Assert.That(await actor.Ask<object>(new OnAsyncVoidMessage()), Is.Null);
                 Assert.That(await actor.Ask<string>(new OnResultMessage()), Is.EqualTo("42"));
@@ -45,6 +56,38 @@ namespace Orleankka.Features
                 Assert.Throws<Dispatcher.HandlerNotFoundException>(
                     async () => await actor.Tell(new NonSingleArgumentHandlerMessage()));
             }
+
+            [Serializable]
+            class OnLambdaVoidMessage
+            {}
+
+            [Serializable]
+            class OnAssemblyLambdaVoidMessage
+            {}
+
+            [Serializable]
+            class OnLambdaAsyncVoidMessage
+            {}
+
+            [Serializable]
+            class OnAssemblyLambdaAsyncVoidMessage
+            {}
+
+            [Serializable]
+            class OnLambdaResultMessage
+            {}
+
+            [Serializable]
+            class OnAssemblyLambdaResultMessage
+            {}
+
+            [Serializable]
+            class OnLambdaAsyncResultMessage
+            {}
+
+            [Serializable]
+            class OnAssemblyLambdaAsyncResultMessage
+            {}
 
             [Serializable]
             class OnVoidMessage
@@ -89,6 +132,35 @@ namespace Orleankka.Features
             [UsedImplicitly]
             class TestActor : Actor
             {
+                int value = 40;
+
+                protected internal override void Define()
+                {
+                    On((OnLambdaVoidMessage m) => { value++; });
+                    On((OnAssemblyLambdaVoidMessage m) => {});
+
+                    On(async (OnLambdaAsyncVoidMessage m) =>
+                    {
+                        await Task.Delay(1);
+                        value++;
+                    });
+                    On(async (OnAssemblyLambdaAsyncVoidMessage m) => await Task.Delay(1));
+
+                    On((OnLambdaResultMessage m) => value.ToString());
+                    On((OnAssemblyLambdaResultMessage m) => "42");
+
+                    On(async (OnLambdaAsyncResultMessage m) =>
+                    {
+                        await Task.Delay(1);
+                        return value.ToString();
+                    });
+                    On(async (OnAssemblyLambdaAsyncResultMessage m) =>
+                    {
+                        await Task.Delay(1);
+                        return "42";
+                    });
+                }
+
                 public void On(OnVoidMessage m)
                 {
                     
