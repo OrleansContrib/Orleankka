@@ -48,7 +48,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
 {    
     Clean(outDir);
 
-    Exec(@"$ProgramFiles(x86)$\MSBuild\12.0\Bin\MSBuild.exe", 
+    Exec(@"$ProgramFiles(x86)$\MSBuild\14.0\Bin\MSBuild.exe", 
           "{CoreProject}.sln /p:Configuration={config};OutDir={outDir};ReferencePath={outDir}");
 }
 
