@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -49,8 +48,9 @@ namespace Orleankka.Features
         }
 
         [TestFixture]
+        [Explicit, Category("Slow")]
         [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
-        abstract class Tests
+        public class Tests
         {
             IActorSystem system;
 

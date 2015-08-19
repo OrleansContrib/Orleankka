@@ -64,7 +64,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     {
         Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
             @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
-            (AppVeyor||slow ? "/include:Slow" : ""));
+            (AppVeyor||slow ? "/include:Always,Slow" : ""));
     }
     finally
     {    	

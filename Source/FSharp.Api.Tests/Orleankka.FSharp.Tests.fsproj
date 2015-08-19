@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="TaskBuilderTests.fs" />
     <Compile Include="TaskBuilderWithTokenTests.fs" />
+    <Compile Include="AssemblyInfo.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -64,8 +65,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
