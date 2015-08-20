@@ -85,7 +85,7 @@ Complete documentation could be found on [wiki](https://github.com/yevhen/Orlean
 
 ## Known issues
 
-Integration tests (those using real actor system) won't work with XUnit
+Integration tests (those using real actor system) won't work with XUnit visual studio runner due to inability to disable shadow copy https://github.com/xunit/visualstudio.xunit/pull/9
 
 ## Contributing
 
