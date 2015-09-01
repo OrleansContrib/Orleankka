@@ -19,6 +19,11 @@ namespace Orleankka.TestKit
             return actor.OnReceive(message);
         }
 
+        public static async Task<object> Dispatch(this Actor actor, object message)
+        {
+            return await actor.Prototype.DispatchAsync(actor, message);
+        }
+
         public static Task OnReminder(this Actor actor, string id)
         {
             return actor.OnReminder(id);
