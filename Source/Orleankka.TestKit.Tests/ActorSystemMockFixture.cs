@@ -13,7 +13,12 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUpTest()
         {
-            system = new ActorSystemMock();           
+            system = new ActorSystemMock();    
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            system.Dispose();
         }
 
         [Test]
@@ -30,6 +35,24 @@ namespace Orleankka.TestKit
 
             Assert.NotNull(stub);
             Assert.IsInstanceOf<ActorRefStub>(stub);
+        }
+
+        [Test]
+        public void Serialize_actor_ref()
+        {
+            var stub = system.ActorOf<TestActor>("actor_ref");
+
+            Assert.DoesNotThrow(() => stub.Serialize());
+           
+        }
+
+        [Test]
+        public void Serialize_actor_ref_mock()
+        {
+            var stub = system.MockActorOf<TestActor>("actor_ref_mock");
+
+            Assert.DoesNotThrow(() => stub.Serialize());
+
         }
 
         class TestActor : Actor

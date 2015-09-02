@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
+using Orleankka.Core;
 
 namespace Orleankka.TestKit
 {
@@ -11,6 +14,16 @@ namespace Orleankka.TestKit
 
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
             new Dictionary<ActorPath, ActorRefStub>();
+
+        public ActorSystemMock()
+        {
+            ActorAssembly.Register(new[] {Assembly.GetCallingAssembly()});
+        }
+
+        public ActorSystemMock(params Assembly[] assemblies)
+        {
+            ActorAssembly.Register(assemblies);
+        }
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
@@ -45,6 +58,8 @@ namespace Orleankka.TestKit
         }
 
         public void Dispose()
-        {}
+        {
+            ActorAssembly.Reset();
+        }
     }
 }
