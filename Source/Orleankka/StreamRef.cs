@@ -57,5 +57,10 @@ namespace Orleankka
         {
             return endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
         }
+
+        public virtual Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
+        {
+            return endpoint.GetAllSubscriptionHandles();
+        }
     }
 }
