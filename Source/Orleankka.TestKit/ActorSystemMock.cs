@@ -25,18 +25,7 @@ namespace Orleankka.TestKit
             ActorAssembly.Register(assemblies);
         }
 
-        public ActorRefMock MockActorOf<TActor>(string id)
-        {
-            var path = ActorPath.From(typeof(TActor), id);
-
-            if (expected.ContainsKey(path))
-                return expected[path];
-
-            var mock = new ActorRefMock(path);
-            expected.Add(path, mock);
-
-            return mock;
-        }
+        #region IActorSystem Members
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
@@ -54,12 +43,27 @@ namespace Orleankka.TestKit
 
         StreamRef IActorSystem.StreamOf(StreamPath path)
         {
-            throw new NotImplementedException();
+            return new StreamRefStub(path);
         }
 
         public void Dispose()
         {
             ActorAssembly.Reset();
+        }
+
+        #endregion
+
+        public ActorRefMock MockActorOf<TActor>(string id)
+        {
+            var path = ActorPath.From(typeof(TActor), id);
+
+            if (expected.ContainsKey(path))
+                return expected[path];
+
+            var mock = new ActorRefMock(path);
+            expected.Add(path, mock);
+
+            return mock;
         }
     }
 }

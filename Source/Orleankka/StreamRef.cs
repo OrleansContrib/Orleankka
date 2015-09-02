@@ -17,6 +17,11 @@ namespace Orleankka
         readonly StreamPath path;
         readonly IAsyncStream<object> endpoint;
 
+        protected internal StreamRef(StreamPath path)
+        {
+            this.path = path;
+        }
+
         StreamRef(StreamPath path, IAsyncStream<object> endpoint)
         {
             this.path = path;

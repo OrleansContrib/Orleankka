@@ -57,6 +57,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StreamRefStubFixture.cs" />
     <Compile Include="ActorRefStubFixture.cs" />
     <Compile Include="ActorRefMockFixture.cs" />
     <Compile Include="ActorSystemMockFixture.cs" />
