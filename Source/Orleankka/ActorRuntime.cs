@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Orleankka
+﻿namespace Orleankka
 {
     using Core;
     using Services;
@@ -24,9 +21,9 @@ namespace Orleankka
             Activation  = new ActivationService(endpoint);
         }
 
-        public IActorSystem System              { get; private set; }
-        public ITimerService Timers             { get; private set; }
-        public IReminderService Reminders       { get; private set; }
-        public IActivationService Activation    { get; private set; }
+        public IActorSystem System              { get; }
+        public ITimerService Timers             { get; }
+        public IReminderService Reminders       { get; }
+        public IActivationService Activation    { get; }
     }
 }
