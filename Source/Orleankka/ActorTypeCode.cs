@@ -4,8 +4,6 @@ using System.Linq;
 
 namespace Orleankka
 {
-    using Utility;
-
     static class ActorTypeCode
     {
         static readonly Dictionary<string, Type> codeMap =
@@ -16,7 +14,7 @@ namespace Orleankka
 
         public static void Register(Type type)
         {
-            string code = CodeOf(type);
+            var code = CodeOf(type);
 
             if (codeMap.ContainsKey(code))
             {
@@ -24,10 +22,10 @@ namespace Orleankka
 
                 if (existing != type)
                     throw new ArgumentException(
-                        string.Format("The type {0} has been already registered under the code {1}. Use ActorTypeCode attribute to provide unique code for {2}",
-                                      existing.FullName, code, type.FullName));
+                        $"The type {existing.FullName} has been already registered under the code {code}. " +
+                        $"Use ActorTypeCode attribute to provide unique code for {type.FullName}");
 
-                throw new ArgumentException(string.Format("The type {0} has been already registered", type));
+                throw new ArgumentException($"The type {type} has been already registered");
             }
 
             codeMap.Add(code, type);
@@ -40,7 +38,8 @@ namespace Orleankka
                 
             if (!codeMap.TryGetValue(code, out type))
                 throw new InvalidOperationException(
-                    String.Format("Unable to map type code '{0}' to the corresponding runtime type. Make sure that you've registered the assembly containing this type", code));
+                    $"Unable to map type code '{code}' to the corresponding runtime type. " +
+                     "Make sure that you've registered the assembly containing this type");
 
             return type;
         }
@@ -51,7 +50,8 @@ namespace Orleankka
 
             if (!typeMap.TryGetValue(type, out code))
                 throw new InvalidOperationException(
-                    String.Format("Unable to map type '{0}' to the corresponding type code. Make sure that you've registered the assembly containing this type", type));
+                    $"Unable to map type '{type}' to the corresponding type code. " +
+                     "Make sure that you've registered the assembly containing this type");
 
             return code;
         }
@@ -70,22 +70,6 @@ namespace Orleankka
                 .SingleOrDefault();
 
             return att != null ? att.Code : type.FullName;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class ActorTypeCodeAttribute : Attribute
-    {
-        internal readonly string Code;
-
-        public ActorTypeCodeAttribute(string code)
-        {
-            Requires.NotNullOrWhitespace(code, "code");
-
-            if (code.Contains(ActorPath.Separator[0]))
-                throw new ArgumentException("Actor type code cannot contain path separator: " + code);
-
-            Code = code;
         }
     }
 }
