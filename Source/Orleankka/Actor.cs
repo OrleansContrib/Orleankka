@@ -1,16 +1,14 @@
 using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
+using Orleankka.Meta;
+using Orleankka.Services;
+using Orleankka.Utility;
 
 using Orleans;
 
 namespace Orleankka
 {
-    using Meta;
-    using Utility;
-    using Services;
-
     public interface IActor
     {}
 
@@ -23,8 +21,8 @@ namespace Orleankka
 
         protected Actor(string id, IActorRuntime runtime)
         {
-            Requires.NotNull(runtime, "runtime");
-            Requires.NotNullOrWhitespace(id, "id");
+            Requires.NotNull(runtime, nameof(runtime));
+            Requires.NotNullOrWhitespace(id, nameof(id));
 
             Id = id;
             Runtime = runtime;
@@ -52,29 +50,10 @@ namespace Orleankka
             get; set;
         }
 
-        protected IActorSystem System
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Runtime.System; }
-        }
-
-        protected IActivationService Activation
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Runtime.Activation; }
-        }
-
-        protected IReminderService Reminders
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Runtime.Reminders; }
-        }
-
-        protected ITimerService Timers
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Runtime.Timers; }
-        }
+        protected IActorSystem System           => Runtime.System;
+        protected IActivationService Activation => Runtime.Activation;
+        protected IReminderService Reminders    => Runtime.Reminders;
+        protected ITimerService Timers          => Runtime.Timers;
 
         protected ActorRef Self
         {
@@ -105,8 +84,7 @@ namespace Orleankka
 
         protected internal virtual Task OnReminder(string id)
         {
-            var message = string.Format("Override {0}() method in class {1} to implement corresponding behavior", 
-                                        "OnReminder", GetType());
+            var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
 
             throw new NotImplementedException(message);
         }
@@ -118,7 +96,7 @@ namespace Orleankka
 
         protected void Dispatch(object message)
         {
-            Requires.NotNull(message, "message");
+            Requires.NotNull(message, nameof(message));
             Prototype.Dispatch(this, message);
         }
 
@@ -129,7 +107,7 @@ namespace Orleankka
 
         protected object DispatchResult(object message)
         {
-            Requires.NotNull(message, "message");
+            Requires.NotNull(message, nameof(message));
             return Prototype.DispatchResult(this, message);
         }
 
@@ -140,43 +118,43 @@ namespace Orleankka
 
         protected Task<object> DispatchAsync(object message)
         {
-            Requires.NotNull(message, "message");
+            Requires.NotNull(message, nameof(message));
             return Prototype.DispatchAsync(this, message);
         }
 
         protected void On<TRequest, TResult>(Func<TRequest, TResult> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TResult>(Func<Query<TResult>, TResult> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest, TResult>(Func<TRequest, Task<TResult>> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TResult>(Func<Query<TResult>, Task<TResult>> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest>(Action<TRequest> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
 
         protected void On<TRequest>(Func<TRequest, Task> handler)
         {
-            Requires.NotNull(handler, "handler");
+            Requires.NotNull(handler, nameof(handler));
             Prototype.RegisterHandler(handler.Method);
         }
     }
