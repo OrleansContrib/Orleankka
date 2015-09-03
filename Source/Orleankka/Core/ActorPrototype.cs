@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
-    using Core;
     using Utility;
 
     class ActorPrototype

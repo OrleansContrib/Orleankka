@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 
+using Orleankka.Core;
+
 namespace Orleankka
 {
     [DebuggerDisplay("{ToString()}")]

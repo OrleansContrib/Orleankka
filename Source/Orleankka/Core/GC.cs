@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
-    using Core;
-
     class GC
     {
         readonly TimeSpan timeout = TimeSpan.Zero;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
     static class ActorTypeCode
     {

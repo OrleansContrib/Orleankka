@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Orleankka.Core;
+
 namespace Orleankka.TestKit
 {
     public static class ActorExtensions

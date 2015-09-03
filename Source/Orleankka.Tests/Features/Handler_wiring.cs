@@ -8,6 +8,7 @@ namespace Orleankka.Features
 {
     namespace Handler_wiring
     {
+        using Core;
         using Testing;
         using Annotations;
 

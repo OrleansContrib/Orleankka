@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
     class Reentrant
     {

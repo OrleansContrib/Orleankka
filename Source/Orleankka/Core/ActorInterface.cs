@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Orleankka
+namespace Orleankka.Core
 {
     using Utility;
 
