@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +11,24 @@ namespace Orleankka.TestKit
 {
     public class StreamRefStub : StreamRef, IStreamIdentity
     {
-        private readonly IList<StreamSubscriptionHandle<object>> subscriptionHandles = new List<StreamSubscriptionHandle<object>>();
+        private static readonly IDictionary<StreamRefStub, IList<StreamSubscriptionHandle<object>>> subscriptionHandles =
+            new ConcurrentDictionary<StreamRefStub, IList<StreamSubscriptionHandle<object>>>();
 
         public StreamRefStub(StreamPath path)
             : base(path)
-        {}
-
-        IEnumerable<StubStreamSubscriptionHandle<object>> StreamSubscriptionHandles
         {
-            get { return subscriptionHandles.OfType<StubStreamSubscriptionHandle<object>>(); }
+            if (!subscriptionHandles.ContainsKey(this))
+                subscriptionHandles.Add(this, new List<StreamSubscriptionHandle<object>>());
+        }
+
+        IEnumerable<StubStreamSubscriptionHandle<object>> StubStreamSubscriptionHandles
+        {
+            get { return subscriptionHandles[this].OfType<StubStreamSubscriptionHandle<object>>(); }
+        }
+
+        IList<StreamSubscriptionHandle<object>> StreamSubscriptionHandles
+        {
+            get { return subscriptionHandles[this]; }
         }
 
         #region IStreamIdentity Members
@@ -35,27 +45,39 @@ namespace Orleankka.TestKit
 
         #endregion
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 13;
+                hash = (hash * 7) + Namespace.GetHashCode();
+                hash = (hash * 7) + Guid.GetHashCode();
+
+                return hash;
+            }
+        }
+
         public override async Task OnCompletedAsync()
         {
-            foreach (var streamSubscriptionHandle in StreamSubscriptionHandles)
+            foreach (var streamSubscriptionHandle in StubStreamSubscriptionHandles)
                 await streamSubscriptionHandle.Observer.OnCompletedAsync();
         }
 
         public override async Task OnNextBatchAsync(IEnumerable<object> batch, StreamSequenceToken token = null)
         {
-            foreach (var streamSubscriptionHandle in StreamSubscriptionHandles)
+            foreach (var streamSubscriptionHandle in StubStreamSubscriptionHandles)
                 await streamSubscriptionHandle.Observer.OnNextAsync(batch, token);
         }
 
         public override async Task OnErrorAsync(Exception ex)
         {
-            foreach (var streamSubscriptionHandle in StreamSubscriptionHandles)
+            foreach (var streamSubscriptionHandle in StubStreamSubscriptionHandles)
                 await streamSubscriptionHandle.Observer.OnErrorAsync(ex);
         }
 
         public override async Task OnNextAsync(object item, StreamSequenceToken token = null)
         {
-            foreach (var streamSubscriptionHandle in StreamSubscriptionHandles)
+            foreach (var streamSubscriptionHandle in StubStreamSubscriptionHandles)
                 await streamSubscriptionHandle.Observer.OnNextAsync(item, token);
         }
 
@@ -70,21 +92,49 @@ namespace Orleankka.TestKit
 
         public override Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
         {
-            return Task.FromResult(subscriptionHandles);
+            return Task.FromResult(StreamSubscriptionHandles);
         }
 
         public override Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer)
         {
             var streamSubscriptionHandle = new StubStreamSubscriptionHandle<object>(Guid.NewGuid(), this, observer);
 
-            subscriptionHandles.Add(streamSubscriptionHandle);
+            StreamSubscriptionHandles.Add(streamSubscriptionHandle);
 
             return Task.FromResult(streamSubscriptionHandle as StreamSubscriptionHandle<object>);
         }
 
         void Unsubscribe(Guid handleId)
         {
-            subscriptionHandles.Remove(StreamSubscriptionHandles.First(a => a.HandleId == handleId));
+            var streamSubscriptionHandle = StubStreamSubscriptionHandles.First(a => a.HandleId == handleId);
+
+            StreamSubscriptionHandles.Remove(streamSubscriptionHandle);
+        }
+
+        bool Equals(StreamRefStub other)
+        {
+            return Namespace == other.Namespace && Guid == other.Guid;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != typeof(StreamRefStub))
+                return false;
+            return Equals((StreamRefStub) obj);
+        }
+
+        public static bool operator ==(StreamRefStub left, StreamRefStub right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(StreamRefStub left, StreamRefStub right)
+        {
+            return !Equals(left, right);
         }
 
         #region Nested type: StubStreamSubscriptionHandle
