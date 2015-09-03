@@ -36,13 +36,13 @@ module HttpRoute =
    let actorRef = ActorRef.Deserialize(actorPath)
    match msgType with   
    
-   | Class t -> [| { HttpPath = createHttpPath(actorPath.Type.Name, actorPath.Id, t.Name)
+   | Class t -> [| { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, t.Name)
                      MsgType = msgType
                      ActorRef = actorRef } |]
                        
    | DU t -> FSharpType.GetUnionCases(t) 
              |> Array.map(fun case ->                
-                { HttpPath = createHttpPath(actorPath.Type.Name, actorPath.Id, case.Name)
+                { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, case.Name)
                   MsgType = msgType
                   ActorRef = actorRef })
 

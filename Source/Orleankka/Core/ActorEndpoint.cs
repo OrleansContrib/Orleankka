@@ -12,6 +12,7 @@ using Orleans.Runtime;
 namespace Orleankka.Core
 {
     using Cluster;
+    using Endpoints;
 
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
@@ -68,9 +69,9 @@ namespace Orleankka.Core
             var system = ClusterActorSystem.Current;
 
             var runtime = new ActorRuntime(system, this);
-            var prototype = ActorPrototype.Of(path.Type);
+            actor = Activator.Activate(path, runtime);
 
-            actor = Activator.Activate(path.Type, path.Id, runtime);
+            var prototype = ActorPrototype.Of(path);
             actor.Initialize(path.Id, runtime, prototype);
 
             await actor.OnActivate();
@@ -134,7 +135,7 @@ namespace Orleankka.Core
 
         internal static IActorEndpoint Proxy(ActorPath path)
         {
-            return ActorEndpointDynamicFactory.Proxy(path);
+            return ActorEndpointFactory.Proxy(path);
         }
     }
 

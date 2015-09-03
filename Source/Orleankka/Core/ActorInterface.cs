@@ -7,14 +7,14 @@ namespace Orleankka.Core
 
     class ActorInterface
     {
-        static readonly Dictionary<Type, ActorInterface> cache =
-                    new Dictionary<Type, ActorInterface>();
+        static readonly Dictionary<ActorType, ActorInterface> cache =
+                    new Dictionary<ActorType, ActorInterface>();
 
         readonly Reentrant reentrant;
 
-        internal static void Register(Type actor)
+        internal static void Register(ActorType actor)
         {
-            cache.Add(actor, new ActorInterface(actor));
+            cache.Add(actor, new ActorInterface(actor.Interface));
         }
 
         internal static void Reset()
@@ -22,10 +22,16 @@ namespace Orleankka.Core
             cache.Clear();
         }
 
-        internal static ActorInterface Of(Type actor)
+        internal static ActorInterface Of(ActorPath path)
         {
-            var prototype = cache.Find(actor);
-            return prototype ?? new ActorInterface(actor);
+            var @interface = cache.Find(path.Type);
+
+            if (@interface == null)
+                throw new InvalidOperationException(
+                    $"Can't find interface for path '{path}'." +
+                     "Make sure you've registered assembly containing this type");
+
+            return @interface;
         }
 
         ActorInterface(Type actor)

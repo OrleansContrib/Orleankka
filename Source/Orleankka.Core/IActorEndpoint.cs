@@ -5,17 +5,17 @@ using Orleans.Concurrency;
 
 namespace Orleankka.Core
 {
-    /// <summary> 
-    /// FOR INTERNAL USE ONLY!
-    /// </summary>
-    public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-    {
-        Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
-        [AlwaysInterleave] Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope);
-    }
-
     namespace Endpoints
     {
+        /// <summary> 
+        /// FOR INTERNAL USE ONLY!
+        /// </summary>
+        public interface IActorEndpoint : IGrainWithStringKey, IRemindable
+        {
+            Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
+            [AlwaysInterleave] Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope);
+        }
+
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
         ///   Grain endpoint with Placement.Random

@@ -65,7 +65,7 @@
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorPrototype.cs" />
-    <Compile Include="Core\ActorTypeCode.cs" />
+    <Compile Include="Core\ActorType.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
@@ -84,7 +84,6 @@
     <Compile Include="Cluster\Bootstrapper.cs" />
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
-    <Compile Include="Core\ActorAssembly.cs" />
     <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorActivator.cs" />
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />

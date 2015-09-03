@@ -9,17 +9,17 @@ namespace Orleankka.Core
 
     class ActorPrototype
     {
-        static readonly Dictionary<Type, ActorPrototype> cache =
-                    new Dictionary<Type, ActorPrototype>();
+        static readonly Dictionary<ActorType, ActorPrototype> cache =
+                    new Dictionary<ActorType, ActorPrototype>();
 
         readonly GC gc;
         readonly Dispatcher dispatcher;
 
         bool closed;
 
-        internal static void Register(Type actor)
+        internal static void Register(ActorType type)
         {
-            cache.Add(actor, Define(actor));
+            cache.Add(type, Define(type.Implementation));
         }
 
         internal static ActorPrototype Define(Type actor)
@@ -54,10 +54,16 @@ namespace Orleankka.Core
             cache.Clear();
         }
 
-        internal static ActorPrototype Of(Type actor)
+        internal static ActorPrototype Of(ActorPath path)
         {
-            var prototype = cache.Find(actor);
-            return prototype ?? CreatePrototype(actor);
+            var prototype = cache.Find(path.Type);
+
+            if (prototype == null)
+                throw new InvalidOperationException(
+                    $"Can't find implementation for path '{path}'." +
+                     "Make sure you've registered assembly containing this type");
+
+            return prototype;
         }
 
         ActorPrototype(Type actor)

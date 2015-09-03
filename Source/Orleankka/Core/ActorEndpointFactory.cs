@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 
 using Orleans;
 
 namespace Orleankka.Core
 {
-    using Endpoints; 
-    using Utility; 
+    using Endpoints;
+    using Utility;
 
-    static class ActorEndpointDynamicFactory
+    static class ActorEndpointFactory
     {
-        readonly static Dictionary<Type, Func<string, object>> factories =
-                    new Dictionary<Type, Func<string, object>>();
+        readonly static Dictionary<ActorType, Func<string, object>> factories =
+                    new Dictionary<ActorType, Func<string, object>>();
 
         public static IActorEndpoint Proxy(ActorPath path)
         {
@@ -21,9 +20,10 @@ namespace Orleankka.Core
 
             if (factory == null)
                throw new InvalidOperationException(
-                   string.Format("Type: '{0}' is not registered as an Actor or Worker", path.Type));
+                   $"Path '{path}' is not registered as an Actor or Worker." +
+                   "Make sure you've registered assembly containing this type");
 
-            return (IActorEndpoint)factory(path.ToString());
+            return (IActorEndpoint)factory(path.Serialize());
         }
 
         public static void Reset()
@@ -31,33 +31,33 @@ namespace Orleankka.Core
             factories.Clear();
         }
 
-        public static void Register(Type type)
+        public static void Register(ActorType type)
         {
-            var actor  = type.GetCustomAttribute<ActorAttribute>();
-            var worker = type.GetCustomAttribute<WorkerAttribute>();
+            var isActor  = type.Interface.GetCustomAttribute<ActorAttribute>()  != null;
+            var isWorker = type.Interface.GetCustomAttribute<WorkerAttribute>() != null;
 
-            if (actor != null && worker != null)
-                throw new InvalidOperationException("A type cannot be configured to be both Actor and Worker: " + type);
+            if (isActor && isWorker)
+                throw new InvalidOperationException(
+                    $"A type cannot be configured to be both Actor and Worker: {type}");
 
-            factories.Add(type, worker != null 
-                                    ? GetWorkerFactory() 
-                                    : GetActorFactory(actor));
+            factories.Add(type, isWorker ? GetWorkerFactory()  : GetActorFactory(type));
         }
 
         static Func<string, object> GetWorkerFactory()
         {
             var factory = GrainFactory();
+
             return id => factory.GetGrain<IW>(id);
         }
 
-        static Func<string, object> GetActorFactory(ActorAttribute actor)
+        static Func<string, object> GetActorFactory(ActorType type)
         {
             var factory = GrainFactory();
 
-            if (actor == null)
-                actor = new ActorAttribute();
+            var attribute = type.Interface.GetCustomAttribute<ActorAttribute>()
+                            ?? new ActorAttribute();
 
-            switch (actor.Placement)
+            switch (attribute.Placement)
             {
                 case Placement.Random:
                     return id => factory.GetGrain<IA0>(id);;

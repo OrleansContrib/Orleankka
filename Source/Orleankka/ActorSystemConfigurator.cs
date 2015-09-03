@@ -38,16 +38,15 @@ namespace Orleankka
 
         protected void RegisterAssemblies(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, "assemblies");
+            Requires.NotNull(assemblies, nameof(assemblies));
 
             if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", "assemblies");
+                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
 
             foreach (var assembly in assemblies)
             {
                 if (this.assemblies.Contains(assembly))
-                    throw new ArgumentException(
-                        string.Format("Assembly {0} has been already registered", assembly.FullName));
+                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
 
                 this.assemblies.Add(assembly);
             }
@@ -77,7 +76,7 @@ namespace Orleankka
                 ActorEndpoint.Activator = instance;
             }
 
-            ActorAssembly.Register(assemblies);
+            ActorType.Register(assemblies);
         }
 
         public void Dispose()
@@ -85,7 +84,7 @@ namespace Orleankka
             StreamPath.Reset();
             MessageEnvelope.Reset();
             ActorEndpoint.Reset();
-            ActorAssembly.Reset();
+            ActorType.Reset();
         }
         
         public override object InitializeLifetimeService()

@@ -1,15 +1,15 @@
 using System;
 using System.Threading.Tasks;
 
-using Orleankka.Core;
-using Orleankka.Meta;
-using Orleankka.Services;
-using Orleankka.Utility;
-
 using Orleans;
 
 namespace Orleankka
 {
+    using Core;
+    using Meta;
+    using Services;
+    using Utility;
+
     public interface IActor
     {}
 

@@ -59,6 +59,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Checks\ActorPathFixture.cs" />
     <Compile Include="Checks\ActorRefFixture.cs" />
     <Compile Include="Checks\ClientRefFixture.cs" />
     <Compile Include="Features\Keep_alive.cs" />

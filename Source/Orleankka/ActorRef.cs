@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -9,8 +8,9 @@ using Orleans;
 namespace Orleankka
 {
     using Core;
+    using Core.Endpoints;
     using Utility;
-    
+
     [Serializable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
@@ -33,10 +33,7 @@ namespace Orleankka
             this.endpoint = endpoint;
         }
 
-        public ActorPath Path
-        {
-            get { return path; }
-        }
+        public ActorPath Path => path;
 
         public override string Serialize()
         {
@@ -45,7 +42,7 @@ namespace Orleankka
 
         public virtual Task Tell(object message)
         {
-            Requires.NotNull(message, "message");
+            Requires.NotNull(message, nameof(message));
 
             return Receive(message)(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
@@ -53,7 +50,7 @@ namespace Orleankka
 
         public virtual async Task<TResult> Ask<TResult>(object message)
         {
-            Requires.NotNull(message, "message");
+            Requires.NotNull(message, nameof(message));
 
             var response = await Receive(message)(new RequestEnvelope(Serialize(), message))
                     .UnwrapExceptions();
@@ -68,9 +65,12 @@ namespace Orleankka
 
         Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
         {
-            return ActorInterface.Of(Path.Type).IsReentrant(message) 
-                       ? (Func<RequestEnvelope, Task<ResponseEnvelope>>) endpoint.ReceiveReentrant 
-                       : endpoint.Receive;
+            var @interface = ActorInterface.Of(Path);
+
+            if (@interface.IsReentrant(message))
+                return endpoint.ReceiveReentrant;
+
+            return endpoint.Receive;
         }
 
         public bool Equals(ActorRef other)

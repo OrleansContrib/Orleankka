@@ -32,4 +32,12 @@ namespace Orleankka.Core
             return (Actor) Activator.CreateInstance(type, nonPublic: true);
         }
     }
+
+    static class ActorActivatorExntensions
+    {
+        public static Actor Activate(this IActorActivator activator, ActorPath path, IActorRuntime runtime)
+        {
+            return activator.Activate(path.Type.Implementation, path.Id, runtime);
+        }
+    }
 }
