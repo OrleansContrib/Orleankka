@@ -7,7 +7,7 @@ using Orleans;
 
 namespace Orleankka.Core
 {
-    using Static; 
+    using Endpoints; 
     using Utility; 
 
     static class ActorEndpointDynamicFactory

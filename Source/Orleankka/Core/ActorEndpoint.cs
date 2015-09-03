@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
@@ -139,18 +138,18 @@ namespace Orleankka.Core
         }
     }
 
-    namespace Static
+    namespace Endpoints
     {
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Actor with Placement.Random
+        ///   Grain endpoint with Placement.Random
         /// </summary>
         public class A0 : ActorEndpoint, IA0
         {}
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Actor with Placement.PreferLocal
+        ///   Grain endpoint with Placement.PreferLocal
         /// </summary>
         [PreferLocalPlacement]
         public class A1 : ActorEndpoint, IA1
@@ -158,7 +157,7 @@ namespace Orleankka.Core
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Actor with Placement.DistributeEvenly
+        ///   Grain endpoint with Placement.DistributeEvenly
         /// </summary>
         [ActivationCountBasedPlacement]
         public class A2 : ActorEndpoint, IA2
@@ -166,7 +165,7 @@ namespace Orleankka.Core
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Worker
+        ///   Worker grain endpoint
         /// </summary>
         [StatelessWorker]
         public class W : ActorEndpoint, IW
