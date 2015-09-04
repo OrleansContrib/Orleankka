@@ -56,7 +56,7 @@ namespace Orleankka.Core
 
             if (uniformHandlers.ContainsKey(message))
                 throw new InvalidOperationException(
-                    string.Format("Handler for {0} has been already defined by {1}", message, actor));
+                    $"Handler for {message} has been already defined by {actor}");
 
             uniformHandlers.Add(message, handler);
         }
@@ -89,34 +89,46 @@ namespace Orleankka.Core
             replyHandlers.Add(message, handler);
         }
 
-        public void Dispatch(Actor target, object message)
+        public void Dispatch(Actor target, object message, Action<object> fallback)
         {
             var handler = voidHandlers.Find(message.GetType());
 
-            if (handler == null)
+            if (handler != null)
+            {
+                handler(target, message);
+                return;
+            }
+
+            if (fallback == null)
                 throw new HandlerNotFoundException(message.GetType());
 
-            handler(target, message);
+            fallback(message);
         }
 
-        public object DispatchResult(Actor target, object message)
+        public object DispatchResult(Actor target, object message, Func<object, object> fallback)
         {
             var handler = replyHandlers.Find(message.GetType());
 
-            if (handler == null)
+            if (handler != null)
+                return handler(target, message);
+
+            if (fallback == null)
                 throw new HandlerNotFoundException(message.GetType());
 
-            return handler(target, message);
+            return fallback(message);
         }
 
-        public Task<object> DispatchAsync(Actor target, object message)
+        public Task<object> DispatchAsync(Actor target, object message, Func<object, Task<object>> fallback)
         {
             var handler = uniformHandlers.Find(message.GetType());
 
-            if (handler == null)
+            if (handler != null)
+                return handler(target, message);
+
+            if (fallback == null)
                 throw new HandlerNotFoundException(message.GetType());
 
-            return handler(target, message);
+            return fallback(message);
         }
 
         [Serializable]

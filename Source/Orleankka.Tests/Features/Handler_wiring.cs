@@ -58,6 +58,22 @@ namespace Orleankka.Features
                     async () => await actor.Tell(new NonSingleArgumentHandlerMessage()));
             }
 
+            [Test]
+            public void Calls_fallback_when_handler_not_found()
+            {
+                var actor = new TestActor {Prototype = ActorPrototype.Define(typeof(TestActor))};
+
+                var unknownMessage = new UnknownMessage();
+                object bouncedMessage = null;
+
+                Assert.DoesNotThrow(() => actor.Dispatch(unknownMessage, message => bouncedMessage = message));
+                Assert.That(bouncedMessage, Is.SameAs(unknownMessage));
+            }
+
+            [Serializable]
+            class UnknownMessage
+            {}
+
             [Serializable]
             class OnLambdaVoidMessage
             {}
@@ -205,6 +221,11 @@ namespace Orleankka.Features
 
                 public void Handle(NonSingleArgumentHandlerMessage m, int i)
                 {}
+
+                public new void Dispatch(object message, Action<object> fallback)
+                {
+                    base.Dispatch(message, fallback);
+                }
             }
         }
     }

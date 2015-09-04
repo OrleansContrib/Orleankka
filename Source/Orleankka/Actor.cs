@@ -95,32 +95,32 @@ namespace Orleankka
             return DispatchAsync(message);
         }
 
-        protected void Dispatch(object message)
+        protected void Dispatch(object message, Action<object> fallback = null)
         {
             Requires.NotNull(message, nameof(message));
-            Prototype.Dispatch(this, message);
+            Prototype.Dispatch(this, message, fallback);
         }
 
-        protected TResult DispatchResult<TResult>(object message)
+        protected TResult DispatchResult<TResult>(object message, Func<object, object> fallback = null)
         {
-            return (TResult)DispatchResult(message);
+            return (TResult)DispatchResult(message, fallback);
         }
 
-        protected object DispatchResult(object message)
-        {
-            Requires.NotNull(message, nameof(message));
-            return Prototype.DispatchResult(this, message);
-        }
-
-        protected async Task<TResult> DispatchAsync<TResult>(object message)
-        {
-            return (TResult)await DispatchAsync(message);
-        }
-
-        protected Task<object> DispatchAsync(object message)
+        protected object DispatchResult(object message, Func<object, object> fallback = null)
         {
             Requires.NotNull(message, nameof(message));
-            return Prototype.DispatchAsync(this, message);
+            return Prototype.DispatchResult(this, message, fallback);
+        }
+
+        protected async Task<TResult> DispatchAsync<TResult>(object message, Func<object, Task<object>> fallback = null)
+        {
+            return (TResult)await DispatchAsync(message, fallback);
+        }
+
+        protected Task<object> DispatchAsync(object message, Func<object, Task<object>> fallback = null)
+        {
+            Requires.NotNull(message, nameof(message));
+            return Prototype.DispatchAsync(this, message, fallback);
         }
 
         protected void On<TRequest, TResult>(Func<TRequest, TResult> handler)

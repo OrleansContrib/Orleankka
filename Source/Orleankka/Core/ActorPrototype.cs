@@ -89,19 +89,19 @@ namespace Orleankka.Core
                 throw new InvalidOperationException("Actor prototype can only be defined within Define() method");
         }
 
-        internal void Dispatch(Actor target, object message)
+        internal void Dispatch(Actor target, object message, Action<object> fallback)
         {
-            dispatcher.Dispatch(target, message);
+            dispatcher.Dispatch(target, message, fallback);
         }
         
-        internal object DispatchResult(Actor target, object message)
+        internal object DispatchResult(Actor target, object message, Func<object, object> fallback)
         {
-            return dispatcher.DispatchResult(target, message);
+            return dispatcher.DispatchResult(target, message, fallback);
         }
         
-        internal Task<object> DispatchAsync(Actor target, object message)
+        internal Task<object> DispatchAsync(Actor target, object message, Func<object, Task<object>> fallback)
         {
-            return dispatcher.DispatchAsync(target, message);
+            return dispatcher.DispatchAsync(target, message, fallback);
         }
     }
 }
