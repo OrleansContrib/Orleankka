@@ -32,10 +32,11 @@ namespace Orleankka.TestKit
             return actor.OnReminder(id);
         }
 
-        public static void Define(this Actor actor)
+        public static Actor Define(this Actor actor)
         {
             Requires.NotNull(actor, nameof(actor));
             actor.Prototype = ActorPrototype.Define(actor.GetType());
+            return actor;
         }
 
         public static void Dispatch(this Actor actor, object message, Action<object> fallback)
