@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
+using Orleankka.Core;
 
 namespace Orleankka.TestKit
 {
@@ -12,18 +15,17 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
             new Dictionary<ActorPath, ActorRefStub>();
 
-        public ActorRefMock MockActorOf<TActor>(string id)
+        public ActorSystemMock()
         {
-            var path = ActorPath.From(typeof(TActor), id);
-
-            if (expected.ContainsKey(path))
-                return expected[path];
-
-            var mock = new ActorRefMock(path);
-            expected.Add(path, mock);
-
-            return mock;
+            ActorAssembly.Register(new[] {Assembly.GetCallingAssembly()});
         }
+
+        public ActorSystemMock(params Assembly[] assemblies)
+        {
+            ActorAssembly.Register(assemblies);
+        }
+
+        #region IActorSystem Members
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
@@ -41,10 +43,27 @@ namespace Orleankka.TestKit
 
         StreamRef IActorSystem.StreamOf(StreamPath path)
         {
-            throw new NotImplementedException();
+            return new StreamRefStub(path);
         }
 
         public void Dispose()
-        {}
+        {
+            ActorAssembly.Reset();
+        }
+
+        #endregion
+
+        public ActorRefMock MockActorOf<TActor>(string id)
+        {
+            var path = ActorPath.From(typeof(TActor), id);
+
+            if (expected.ContainsKey(path))
+                return expected[path];
+
+            var mock = new ActorRefMock(path);
+            expected.Add(path, mock);
+
+            return mock;
+        }
     }
 }

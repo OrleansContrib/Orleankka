@@ -3,6 +3,8 @@ using System.Linq;
 
 using NUnit.Framework;
 
+using Orleans.Providers.Streams.SimpleMessageStream;
+
 namespace Orleankka.TestKit
 {
     [TestFixture]
@@ -13,7 +15,13 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUpTest()
         {
-            system = new ActorSystemMock();           
+            system = new ActorSystemMock();
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            system.Dispose();
         }
 
         [Test]
@@ -32,7 +40,34 @@ namespace Orleankka.TestKit
             Assert.IsInstanceOf<ActorRefStub>(stub);
         }
 
+        [Test]
+        public void Returns_stream_ref()
+        {
+            var stub = system.StreamOf<SimpleMessageStreamProvider>("stream-id");
+
+            Assert.NotNull(stub);
+            Assert.IsInstanceOf<StreamRefStub>(stub);
+        }
+
+        [Test]
+        public void Serialize_actor_ref()
+        {
+            var stub = system.ActorOf<TestActor>("actor_ref");
+
+            Assert.DoesNotThrow(() => stub.Serialize());
+
+        }
+
+        [Test]
+        public void Serialize_actor_ref_mock()
+        {
+            var stub = system.MockActorOf<TestActor>("actor_ref_mock");
+
+            Assert.DoesNotThrow(() => stub.Serialize());
+
+        }
+
         class TestActor : Actor
-        {}
+        { }
     }
 }

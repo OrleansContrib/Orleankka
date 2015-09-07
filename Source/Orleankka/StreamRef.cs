@@ -17,6 +17,11 @@ namespace Orleankka
         readonly StreamPath path;
         readonly IAsyncStream<object> endpoint;
 
+        protected internal StreamRef(StreamPath path)
+        {
+            this.path = path;
+        }
+
         StreamRef(StreamPath path, IAsyncStream<object> endpoint)
         {
             this.path = path;
@@ -56,6 +61,11 @@ namespace Orleankka
         public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer, StreamSequenceToken token, StreamFilterPredicate filterFunc = null, object filterData = null)
         {
             return endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
+        }
+
+        public virtual Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
+        {
+            return endpoint.GetAllSubscriptionHandles();
         }
     }
 }
