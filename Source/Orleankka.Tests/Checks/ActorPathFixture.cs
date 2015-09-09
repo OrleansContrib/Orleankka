@@ -10,7 +10,7 @@ namespace Orleankka.Checks
         {
             var path = ActorPath.From(typeof(T), "42");
 
-            Assert.AreEqual("T/42", path.Serialize());
+            Assert.AreEqual("T:42", path.Serialize());
         }
 
         [ActorTypeCode("T")]

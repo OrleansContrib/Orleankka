@@ -25,8 +25,8 @@ namespace Orleankka.Features
             var actor1 = system.ActorOf<TypeCode1.TestActor>("id");
             var actor2 = system.ActorOf<TypeCode2.TestActor>("id");
 
-            Assert.That(actor1.Path, Is.EqualTo(ActorPath.Parse("T1/id")));
-            Assert.That(actor2.Path, Is.EqualTo(ActorPath.Parse("T2/id")));
+            Assert.That(actor1.Path, Is.EqualTo(ActorPath.Parse("T1:id")));
+            Assert.That(actor2.Path, Is.EqualTo(ActorPath.Parse("T2:id")));
         }
     }
 

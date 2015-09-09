@@ -9,7 +9,7 @@ namespace Orleankka
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
-        public static readonly string[] Separator = { "/" };
+        public static readonly string[] Separator = { ":" };
 
         public static ActorPath From(Type type, string id)
         {
