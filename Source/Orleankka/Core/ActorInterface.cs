@@ -24,8 +24,9 @@ namespace Orleankka.Core
 
         internal static ActorInterface Of(ActorPath path)
         {
-            var @interface = cache.Find(path.Type);
+            var type = ActorType.Registered(path.Code);
 
+            var @interface = cache.Find(type);
             if (@interface == null)
                 throw new InvalidOperationException(
                     $"Can't find interface for path '{path}'." +

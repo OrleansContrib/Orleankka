@@ -20,20 +20,21 @@ namespace Orleankka
             return new ActorRef(path, ActorEndpoint.Proxy(path));
         }
 
-        readonly ActorPath path;
         readonly IActorEndpoint endpoint;
+        readonly ActorInterface @interface;
 
         protected internal ActorRef(ActorPath path)
         {
-            this.path = path;
+            Path = path;
         }
 
         ActorRef(ActorPath path, IActorEndpoint endpoint) : this(path)
         {
             this.endpoint = endpoint;
+            @interface = ActorInterface.Of(path);
         }
 
-        public ActorPath Path => path;
+        public ActorPath Path { get; }
 
         public override string Serialize()
         {
@@ -65,8 +66,6 @@ namespace Orleankka
 
         Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
         {
-            var @interface = ActorInterface.Of(Path);
-
             if (@interface.IsReentrant(message))
                 return endpoint.ReceiveReentrant;
 
@@ -76,12 +75,12 @@ namespace Orleankka
         public bool Equals(ActorRef other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || path.Equals(other.path));
+                    || Path.Equals(other.Path));
         }
 
         public bool Equals(ActorPath other)
         {
-            return path.Equals(other);
+            return Path.Equals(other);
         }
 
         public override bool Equals(object obj)
@@ -92,7 +91,7 @@ namespace Orleankka
 
         public override int GetHashCode()
         {
-            return path.GetHashCode();
+            return Path.GetHashCode();
         }
 
         public static bool operator ==(ActorRef left, ActorRef right)
@@ -114,14 +113,15 @@ namespace Orleankka
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path.Serialize(), typeof(string));
+            info.AddValue("path", Path.Serialize(), typeof(string));
         }
 
         public ActorRef(SerializationInfo info, StreamingContext context)
         {
             var value = (string) info.GetValue("path", typeof(string));
-            path = ActorPath.Deserialize(value);
-            endpoint = ActorEndpoint.Proxy(path);
+            Path = ActorPath.Deserialize(value);
+            endpoint = ActorEndpoint.Proxy(Path);
+            @interface = ActorInterface.Of(Path);
         }
 
         #endregion

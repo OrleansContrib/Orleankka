@@ -56,8 +56,9 @@ namespace Orleankka.Core
 
         internal static ActorPrototype Of(ActorPath path)
         {
-            var prototype = cache.Find(path.Type);
+            var type = ActorType.Registered(path.Code);
 
+            var prototype = cache.Find(type);
             if (prototype == null)
                 throw new InvalidOperationException(
                     $"Can't find implementation for path '{path}'." +

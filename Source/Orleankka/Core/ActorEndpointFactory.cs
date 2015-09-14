@@ -16,8 +16,9 @@ namespace Orleankka.Core
 
         public static IActorEndpoint Proxy(ActorPath path)
         {
-            var factory = factories.Find(path.Type);
+            var type = ActorType.Registered(path.Code);
 
+            var factory = factories.Find(type);
             if (factory == null)
                throw new InvalidOperationException(
                    $"Path '{path}' is not registered as an Actor or Worker." +

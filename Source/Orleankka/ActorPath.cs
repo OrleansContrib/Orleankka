@@ -16,13 +16,21 @@ namespace Orleankka
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
+            return From(ActorType.Of(type).Code, id);
+        }
+
+        public static ActorPath From(string code, string id)
+        {
+            if (code == null)
+                throw new ArgumentNullException(nameof(code));
+
             if (id == null)
                 throw new ArgumentNullException(nameof(id));
 
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", nameof(id));
 
-            return new ActorPath(ActorType.Of(type), id);
+            return new ActorPath(code, id);
         }
 
         public static ActorPath Parse(string path)
@@ -37,7 +45,7 @@ namespace Orleankka
             var code = parts[0];
             var id = parts[1];
 
-            return new ActorPath(ActorType.Registered(code), id);
+            return new ActorPath(code, id);
         }
 
         public static ActorPath Deserialize(string path)
@@ -47,30 +55,26 @@ namespace Orleankka
             var code = parts[0];
             var id = parts[1];
 
-            return new ActorPath(ActorType.Registered(code), id);
+            return new ActorPath(code, id);
         }
 
-        readonly ActorType type;
-        readonly string id;
+        public readonly string Code;
+        public readonly string Id;
 
-        ActorPath(ActorType type, string id)
+        ActorPath(string code, string id)
         {
-            this.type = type;
-            this.id = id;
+            Code = code;
+            Id = id;
         }
-
-        public string Id => id;
-        public string Code => type.Code;
-        internal ActorType Type => type;
 
         public string Serialize()
         {
-            return $"{Code}{Separator[0]}{id}";
+            return $"{Code}{Separator[0]}{Id}";
         }
 
         public bool Equals(ActorPath other)
         {
-            return type == other.type && string.Equals(id, other.id);
+            return Code == other.Code && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -82,8 +86,8 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((type?.GetHashCode() ?? 0) * 397) ^
-                        (id?.GetHashCode() ?? 0);
+                return ((Code?.GetHashCode() ?? 0) * 397) ^
+                        (Id?.GetHashCode() ?? 0);
             }
         }
 

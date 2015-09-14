@@ -37,7 +37,9 @@ namespace Orleankka.Core
     {
         public static Actor Activate(this IActorActivator activator, ActorPath path, IActorRuntime runtime)
         {
-            return activator.Activate(path.Type.Implementation, path.Id, runtime);
+            var type = ActorType.Registered(path.Code);
+
+            return activator.Activate(type.Implementation, path.Id, runtime);
         }
     }
 }
