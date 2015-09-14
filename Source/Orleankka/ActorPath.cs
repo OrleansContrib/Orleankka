@@ -4,28 +4,40 @@ using System.Diagnostics;
 namespace Orleankka
 {
     using Core;
-
+    using Utility;
+     
     [DebuggerDisplay("{ToString()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = { ":" };
 
+        public static ActorPath Registered(Type type, string id)
+        {
+            Requires.NotNull(type, nameof(type));
+
+            var code = ActorType
+                .Registered(type)
+                .Code;
+
+            return From(code, id);
+        }
+
         public static ActorPath From(Type type, string id)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Requires.NotNull(type, nameof(type));
 
-            return From(ActorType.Of(type).Code, id);
+            var code = ActorType
+                .From(type)
+                .Code;
+
+            return From(code, id);
         }
 
         public static ActorPath From(string code, string id)
         {
-            if (code == null)
-                throw new ArgumentNullException(nameof(code));
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id));
+            Requires.NotNull(code, nameof(code));
+            Requires.NotNull(id, nameof(id));
 
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", nameof(id));
@@ -35,8 +47,7 @@ namespace Orleankka
 
         public static ActorPath Parse(string path)
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            Requires.NotNull(path, nameof(path));
 
             var parts = path.Split(Separator, 2, StringSplitOptions.None);
             if (parts.Length != 2)

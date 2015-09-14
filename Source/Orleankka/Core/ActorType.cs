@@ -45,7 +45,7 @@ namespace Orleankka.Core
 
         static ActorType RegisterThis(Type actor)
         {
-            var type = ActorType.Of(actor);
+            var type = ActorType.From(actor);
             var registered = codes.Find(type.Code);
 
             if (registered != null)
@@ -110,7 +110,7 @@ namespace Orleankka.Core
             return result;
         }
 
-        public static ActorType Of(Type type)
+        public static ActorType From(Type type)
         {
             var customAttribute = type
                 .GetCustomAttributes(typeof(ActorTypeCodeAttribute), false)

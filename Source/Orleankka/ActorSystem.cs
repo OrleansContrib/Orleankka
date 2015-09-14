@@ -11,6 +11,14 @@ namespace Orleankka
     public interface IActorSystem : IDisposable
     {
         /// <summary>
+        /// Acquires the actor reference for the given id and type of the actor.
+        /// The type could be either an interface or implementation class.
+        /// </summary>
+        /// <param name="type">The type of the actor</param>
+        /// <param name="id">The id</param>
+        ActorRef ActorOf(Type type, string id);
+
+        /// <summary>
         /// Acquires the actor reference for the given actor path.
         /// </summary>
         /// <param name="path">The path of the actor</param>
@@ -35,10 +43,15 @@ namespace Orleankka
             return null;
         }
 
+        public ActorRef ActorOf(Type type, string id)
+        {
+            return ActorOf(ActorPath.Registered(type, id));
+        }
+
         public ActorRef ActorOf(ActorPath path)
         {
             if (path == ActorPath.Empty)
-                throw new ArgumentException("Actor path is empty", "path");
+                throw new ArgumentException("Actor path is empty", nameof(path));
 
            return ActorRef.Deserialize(path);
         }
@@ -46,7 +59,7 @@ namespace Orleankka
         public StreamRef StreamOf(StreamPath path)
         {
             if (path == StreamPath.Empty)
-                throw new ArgumentException("Stream path is empty", "path");
+                throw new ArgumentException("Stream path is empty", nameof(path));
 
             return StreamRef.Deserialize(path);
         }
@@ -66,6 +79,7 @@ namespace Orleankka
     {
         /// <summary>
         /// Acquires the actor reference for the given id and type of the actor.
+        /// The type could be either an interface or implementation class.
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
@@ -73,7 +87,7 @@ namespace Orleankka
         /// <returns>An actor reference</returns>
         public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
         {
-            return system.ActorOf(ActorPath.From(typeof(TActor), id));
+            return system.ActorOf(typeof(TActor), id);
         }
         
         /// <summary>

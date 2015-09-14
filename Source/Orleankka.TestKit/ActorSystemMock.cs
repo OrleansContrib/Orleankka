@@ -7,10 +7,10 @@ namespace Orleankka.TestKit
     public class ActorSystemMock : IActorSystem
     {
         readonly Dictionary<ActorPath, ActorRefMock> expected =
-            new Dictionary<ActorPath, ActorRefMock>();
+             new Dictionary<ActorPath, ActorRefMock>();
 
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
-            new Dictionary<ActorPath, ActorRefStub>();
+             new Dictionary<ActorPath, ActorRefStub>();
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
@@ -23,6 +23,12 @@ namespace Orleankka.TestKit
             expected.Add(path, mock);
 
             return mock;
+        }
+
+        ActorRef IActorSystem.ActorOf(Type type, string id)
+        {
+            var path = ActorPath.From(type, id);
+            return (this as IActorSystem).ActorOf(path);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)

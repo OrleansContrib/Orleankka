@@ -56,19 +56,7 @@ namespace Orleankka
         protected IReminderService Reminders    => Runtime.Reminders;
         protected ITimerService Timers          => Runtime.Timers;
 
-        protected ActorRef Self
-        {
-            get
-            {
-                if (self == null)
-                {
-                    var path = ActorPath.From(GetType(), Id);
-                    self = System.ActorOf(path);
-                }
-
-                return self;
-            }
-        }
+        protected ActorRef Self => self ?? (self = System.ActorOf(GetType(), Id));
 
         protected internal virtual void Define()
         {}
