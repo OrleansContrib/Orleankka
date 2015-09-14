@@ -109,8 +109,14 @@ void Pack(string project, string properties = null)
         case "fsharp": 
             Push(FSharpProject); 
             break;
+        case "all":
+            Push(CoreProject); 
+            Push(AzureProject); 
+            Push(TestKitProject); 
+            Push(FSharpProject);  
+            break;      
         default:
-            throw new ArgumentException("Available values are: core, azure, testkit or fsharp");   
+            throw new ArgumentException("Available values are: core, azure, testkit, fsharp or all");   
     }
 }
 
