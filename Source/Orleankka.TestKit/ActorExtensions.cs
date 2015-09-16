@@ -32,7 +32,7 @@ namespace Orleankka.TestKit
             return actor.OnReminder(id);
         }
 
-        public static Actor Define(this Actor actor)
+        public static TActor Define<TActor>(this TActor actor) where TActor : Actor
         {
             Requires.NotNull(actor, nameof(actor));
             actor.Prototype = ActorPrototype.Define(actor.GetType());
