@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using System.Web;
+using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 using Orleankka;
 using Orleankka.Meta;
@@ -108,28 +107,16 @@ namespace Demo
                     throw new ApiUnavailableException(Id);
 
                 Lock();
+                Notify();
 
-                NotifyUnavailable();
                 ScheduleAvailabilityCheck();
-
                 throw new ApiUnavailableException(Id);
             }
         }
 
-        bool HasReachedFailureThreshold()
-        {
-            return failures == FailureThreshold;
-        }
-
-        void IncrementFailureCounter()
-        {
-            failures++;
-        }
-
-        void ResetFailureCounter()
-        {
-            failures = 0;
-        }
+        bool HasReachedFailureThreshold()   => failures == FailureThreshold;
+        void IncrementFailureCounter()      => failures++;
+        void ResetFailureCounter()          => failures = 0;
 
         void ScheduleAvailabilityCheck()
         {
@@ -147,30 +134,14 @@ namespace Demo
                 Timers.Unregister("check");
 
                 Unlock();
-                NotifyAvailable();
+                Notify();
             }
             catch (HttpException)
             {}
         }
 
-        void Lock()
-        {
-            available = false;            
-        }
-
-        void Unlock()
-        {
-            available = true;
-        }
-
-        void NotifyAvailable()
-        {
-            observers.Notify(new AvailabilityChanged(Self, true));
-        }
-
-        void NotifyUnavailable()
-        {
-            observers.Notify(new AvailabilityChanged(Self, false));
-        }
+        void Lock()   => available = false;
+        void Unlock() => available = true;
+        void Notify() => observers.Notify(new AvailabilityChanged(Self, available));
     }
 }
