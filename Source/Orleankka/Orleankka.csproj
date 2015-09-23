@@ -46,6 +46,9 @@
       <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.9\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OrleansAzureUtils">
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansAzureUtils.1.0.9\lib\net45\OrleansAzureUtils.dll</HintPath>
+    </Reference>
     <Reference Include="OrleansProviders">
       <HintPath>..\..\Packages\Microsoft.Orleans.OrleansProviders.1.0.9\lib\net45\OrleansProviders.dll</HintPath>
     </Reference>

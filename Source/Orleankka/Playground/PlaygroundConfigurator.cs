@@ -7,6 +7,8 @@ using Orleans.Storage;
 
 namespace Orleankka.Playground
 {
+    using System.Collections.Generic;
+
     using Client;
     using Cluster;
     using Embedded;
@@ -32,7 +34,6 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            cluster.Globals.RegisterStorageProvider<MemoryStorage>("PubSubStore");
             cluster.Globals.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
 
             client.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
@@ -40,16 +41,53 @@ namespace Orleankka.Playground
 
         public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)
         {
-            Requires.NotNull(tweak, "tweak");
+            Requires.NotNull(tweak, nameof(tweak));
             tweak(client);
             return this;
         }
 
         public PlaygroundConfigurator TweakCluster(Action<ClusterConfiguration> tweak)
         {
-            Requires.NotNull(tweak, "tweak");
+            Requires.NotNull(tweak, nameof(tweak));
             tweak(cluster);
             return this;
+        }
+
+        public PlaygroundConfigurator UseInMemoryPubSubStore()
+        {
+            CheckPubSubStorageProviderAlreadyRegistered();
+            RegisterPubSubStorageProvider<MemoryStorage>();
+            return this;
+        }
+
+        public PlaygroundConfigurator UseAzureTablePubSubStore()
+        {
+            var properties = new Dictionary<string, string>()
+            {
+                {"DataConnectionString", "UseDevelopmentStorage=true"},
+                {"UseJsonFormat", "true"},
+                {"TableName", "PubSubData"}
+            };
+
+            CheckPubSubStorageProviderAlreadyRegistered();
+            RegisterPubSubStorageProvider<AzureTableStorage>(properties);
+            return this;
+        }
+
+        void CheckPubSubStorageProviderAlreadyRegistered()
+        {
+            var registered = cluster
+                .Globals
+                .GetAllProviderConfigurations()
+                .Any(p => p.Name == "PubSubStore");
+
+           if (registered)
+                throw new InvalidOperationException("PubSub storage provider has been already registered");
+        }
+
+        void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
+        {
+            cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
         }
 
         public override IActorSystem Done()

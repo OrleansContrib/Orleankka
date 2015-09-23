@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans.Streams;
@@ -26,6 +25,11 @@ namespace Orleankka
         public StreamPath Path
         {
             get { return path; }
+        }
+
+        public string Namespace
+        {
+            get { return endpoint.Namespace; }
         }
 
         public virtual Task OnNextAsync(object item, StreamSequenceToken token = null)
@@ -56,6 +60,11 @@ namespace Orleankka
         public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer, StreamSequenceToken token, StreamFilterPredicate filterFunc = null, object filterData = null)
         {
             return endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
+        }
+
+        public Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
+        {
+            return endpoint.GetAllSubscriptionHandles();
         }
     }
 }
