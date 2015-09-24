@@ -21,25 +21,10 @@ namespace Demo
             Runtime = new ActorRuntimeMock();
         }
 
-        protected ActorSystemMock System
-        {
-            get { return Runtime.System; }
-        }
-
-        protected TimerServiceMock Timers
-        {
-            get { return Runtime.Timers; }
-        }
-
-        protected ReminderServiceMock Reminders
-        {
-            get { return Runtime.Reminders; }
-        }
-
-        protected ActivationServiceMock Activation
-        {
-            get { return Runtime.Activation; }
-        }
+        protected ActorSystemMock System => Runtime.System;
+        protected TimerServiceMock Timers => Runtime.Timers;
+        protected ReminderServiceMock Reminders => Runtime.Reminders;
+        protected ActivationServiceMock Activation => Runtime.Activation;
 
         protected static void IsFalse([InstantHandle] Expression<Func<bool>> expression, string message = null)
         {
@@ -82,6 +67,10 @@ namespace Demo
         static string RemoveHeadline(string error)
         {
             var lines = error.Split(new[] {"\n"}, StringSplitOptions.None).ToList();
+
+            if (lines.Count == 1)
+                return error;
+
             lines[0] = "";
             return string.Join("\n", lines);
         }

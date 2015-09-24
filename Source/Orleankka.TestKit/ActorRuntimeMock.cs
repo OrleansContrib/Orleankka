@@ -1,35 +1,26 @@
-﻿using System;
-using System.Linq;
-
+﻿using Orleankka.Core;
 using Orleankka.Services;
 
 namespace Orleankka.TestKit
 {
     public class ActorRuntimeMock : IActorRuntime
     {
-        public readonly ActorSystemMock System = new ActorSystemMock();
-        public readonly TimerServiceMock Timers = new TimerServiceMock();
-        public readonly ReminderServiceMock Reminders = new ReminderServiceMock();
-        public readonly ActivationServiceMock Activation = new ActivationServiceMock();
-
-        IActorSystem IActorRuntime.System
+        public ActorRuntimeMock(IMessageSerializer serializer = null)
         {
-            get { return System; }
+            System      = new ActorSystemMock(serializer);
+            Timers      = new TimerServiceMock();
+            Reminders   = new ReminderServiceMock();
+            Activation  = new ActivationServiceMock();
         }
 
-        ITimerService IActorRuntime.Timers
-        {
-            get { return Timers; }
-        }
+        public readonly ActorSystemMock System;
+        public readonly TimerServiceMock Timers;
+        public readonly ReminderServiceMock Reminders;
+        public readonly ActivationServiceMock Activation;
 
-        IReminderService IActorRuntime.Reminders
-        {
-            get { return Reminders; }
-        }
-
-        IActivationService IActorRuntime.Activation
-        {
-            get { return Activation; }
-        }
+        IActorSystem IActorRuntime.System => System;
+        ITimerService IActorRuntime.Timers => Timers;
+        IReminderService IActorRuntime.Reminders => Reminders;
+        IActivationService IActorRuntime.Activation => Activation;
     }
 }
