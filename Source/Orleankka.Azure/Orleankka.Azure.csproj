@@ -74,6 +74,7 @@
     <Compile Include="Cluster\AzureClusterConfigurator.cs" />
     <Compile Include="Embedded\AzureEmbeddedActorSystem.cs" />
     <Compile Include="Embedded\AzureEmbeddedConfigurator.cs" />
+    <Compile Include="Playground\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

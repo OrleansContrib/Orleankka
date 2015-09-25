@@ -55,38 +55,20 @@ namespace Orleankka.Playground
 
         public PlaygroundConfigurator UseInMemoryPubSubStore()
         {
-            CheckPubSubStorageProviderAlreadyRegistered();
             RegisterPubSubStorageProvider<MemoryStorage>();
             return this;
         }
 
-        public PlaygroundConfigurator UseAzureTablePubSubStore()
+        internal void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
         {
-            var properties = new Dictionary<string, string>()
-            {
-                {"DataConnectionString", "UseDevelopmentStorage=true"},
-                {"UseJsonFormat", "true"},
-                {"TableName", "PubSubData"}
-            };
-
-            CheckPubSubStorageProviderAlreadyRegistered();
-            RegisterPubSubStorageProvider<AzureTableStorage>(properties);
-            return this;
-        }
-
-        void CheckPubSubStorageProviderAlreadyRegistered()
-        {
-            var registered = cluster
-                .Globals
+            var registered = cluster.Globals
                 .GetAllProviderConfigurations()
                 .Any(p => p.Name == "PubSubStore");
 
-           if (registered)
-                throw new InvalidOperationException("PubSub storage provider has been already registered");
-        }
+            if (registered)
+                throw new InvalidOperationException(
+                    "PubSub storage provider has been already registered");
 
-        void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
-        {
             cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
         }
 
