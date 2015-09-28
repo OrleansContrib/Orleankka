@@ -32,7 +32,7 @@ namespace Orleankka.Features
             readonly TestStreamObserver observer = new TestStreamObserver();
             StreamRef Stream() => System.StreamOf<SimpleMessageStreamProvider>("42");
 
-            protected internal override async Task OnActivate()
+            public override async Task OnActivate()
             {
                 var subscriptions = await Stream().GetAllSubscriptionHandles();
 

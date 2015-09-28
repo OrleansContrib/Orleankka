@@ -30,30 +30,26 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        public class TestProducerActor : Actor
+        class TestProducerActor : Actor
         {
-            public Task Handle(Produce cmd)
+            Task On(Produce cmd)
             {
                 var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
                 return stream.OnNextAsync(cmd.Event);
             }
         }
 
-        public class TestConsumerActor : Actor
+        class TestConsumerActor : Actor
         {
             readonly TestStreamObserver observer = new TestStreamObserver();
-            StreamSubscriptionHandle<object> subscription;
 
-            protected internal override void Define()
+            Task On(Subscribe x)
             {
-                On(async (Subscribe x) =>
-                {
-                    var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
-                    subscription = await stream.SubscribeAsync(observer);
-                });
-
-                On((Received x) => observer.Received);
+                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
+                return stream.SubscribeAsync(observer);
             }
+
+            List<string> On(Received x) => observer.Received;
         }
 
         class TestStreamObserver : IAsyncObserver<string>
@@ -66,15 +62,8 @@ namespace Orleankka.Features
                 return TaskDone.Done;
             }
 
-            public Task OnCompletedAsync()
-            {
-                return TaskDone.Done;
-            }
-
-            public Task OnErrorAsync(Exception ex)
-            {
-                return TaskDone.Done;
-            }
+            public Task OnCompletedAsync() => TaskDone.Done;
+            public Task OnErrorAsync(Exception ex) => TaskDone.Done;
         }
 
         [TestFixture]

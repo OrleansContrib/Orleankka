@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
@@ -33,18 +32,35 @@ namespace Example.Serialization.Native
         public string Text;
     }
 
+    [ActorTypeCode("employee")]
     public class Employee : Actor
     {
         int level;
         ActorRef manager;
 
-        protected override void Define()
+        void On(Promote x)
         {
-            On((Promote x)      => level = x.NewLevel);
-            On((GetLevel x)     => level);
-            On((SetManager x)   => manager = x.Manager);
-            On((GetManager x)   => manager);
-            On((Greeting x)     => Console.WriteLine("{0}: {1} said: {2}", Self, x.From, x.Text));
+            level = x.NewLevel;
+        }
+
+        long On(GetLevel x)
+        {
+            return level;
+        }
+
+        void On(SetManager x)
+        {
+            manager = x.Manager;
+        }
+
+        ActorRef On(GetManager x)
+        {
+            return manager;
+        }
+
+        void On(Greeting x)
+        {
+            Console.WriteLine("{0}: {1} said: {2}", Self, x.From, x.Text);
         }
     }
 }

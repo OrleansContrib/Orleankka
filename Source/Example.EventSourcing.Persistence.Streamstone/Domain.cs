@@ -14,22 +14,31 @@ namespace Example
         string name;
         bool active;
 
-        protected override void Define()
+        public void On(InventoryItemCreated e)
         {
-            base.Define();
-
-            On<InventoryItemCreated>(e =>
-            {
-                name = e.Name;
-                active = true;
-            });
-
-            On<InventoryItemRenamed>(e => name = e.NewName);
-            On<InventoryItemCheckedIn>(e => total += e.Quantity);
-            On<InventoryItemCheckedOut>(e => total -= e.Quantity);
-            On<InventoryItemDeactivated>(e => active = false);
+            name = e.Name;
+            active = true;
         }
 
+        public void On(InventoryItemRenamed e)
+        {
+            name = e.NewName;
+        }
+
+        public void On(InventoryItemCheckedIn e)
+        {
+            total += e.Quantity;
+        }
+
+        public void On(InventoryItemCheckedOut e)
+        {
+            total -= e.Quantity;
+        }
+
+        public void On(InventoryItemDeactivated e)
+        {
+            active = false;
+        }
         public IEnumerable<Event> Handle(CreateInventoryItem cmd)
         {
             if (string.IsNullOrEmpty(cmd.Name))

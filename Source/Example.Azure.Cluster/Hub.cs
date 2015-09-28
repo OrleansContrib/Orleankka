@@ -32,20 +32,17 @@ namespace Example.Azure
             observers = new ObserverCollection();
         }
 
-        protected override void Define()
-        {
-            On((Init x) => {});
-            
-            On((Subscribe x) => observers.Add(x.Observer));
-            
-            On((Publish x) =>
-            {
-                var notifications = x.Events
-                    .Select(e => new Notification(e, DateTime.Now, HubGateway.LocalHubId()))
-                    .ToArray();
+        public void On(Init x) {}
 
-                observers.Notify(notifications);                
-            });
+        public void On(Subscribe x) => observers.Add(x.Observer);
+
+        public void On(Publish x)
+        {
+            var notifications = x.Events
+                .Select(e => new Notification(e, DateTime.Now, HubGateway.LocalHubId()))
+                .ToArray();
+
+            observers.Notify(notifications);                
         }
     }
 }

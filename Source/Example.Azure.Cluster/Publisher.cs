@@ -16,7 +16,7 @@ namespace Example.Azure
         public void Handle(Init req)
         {}
 
-        protected override Task OnActivate()
+        public override Task OnActivate()
         {
             Timers.Register("pub-pub", 
                 TimeSpan.FromSeconds(1), 

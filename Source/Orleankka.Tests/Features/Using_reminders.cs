@@ -30,19 +30,16 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<int>
         {}
 
-        public class TestActor : Actor
+        class TestActor : Actor
         {
             bool reminded;
 
-            protected internal override void Define()
-            {
-                On((HasBeenReminded x)      => reminded);
-                On((SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period));
-                On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
-                On((Deactivate x)           => Activation.DeactivateOnIdle());
-            }
+            bool On(HasBeenReminded x)      => reminded;
+            void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
+            void On(Deactivate x)           => Activation.DeactivateOnIdle();
+            void On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
 
-            protected internal override Task OnReminder(string id)
+            public override Task OnReminder(string id)
             {
                 reminded = true;
                 return TaskDone.Done;

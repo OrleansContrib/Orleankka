@@ -42,7 +42,7 @@ namespace Demo
             this.storage = storage;
         }
 
-        protected override async Task OnActivate()
+        public override async Task OnActivate()
         {
             total = await storage.ReadTotalAsync(Id);
         }
@@ -55,7 +55,7 @@ namespace Demo
                 await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
-        protected override async Task OnReminder(string api)
+        public override async Task OnReminder(string api)
         {
             try
             {

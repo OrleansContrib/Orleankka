@@ -22,16 +22,11 @@ namespace Orleankka.Features
         [Reentrant(typeof(ReentrantMessage))]
         class TestActor : Actor
         {
-            protected internal override void Define()
-            {
-                On((RegularMessage x) => ReceivedReentrant(x));
-                On((ReentrantMessage x) => ReceivedReentrant(x));
-            }
+            bool On(RegularMessage x)   => ReceivedReentrant(x);
+            bool On(ReentrantMessage x) => ReceivedReentrant(x);
 
-            static bool ReceivedReentrant(object message)
-            {
-                return CallContext.LogicalGetData("LastMessageReceivedReentrant") == message;
-            }
+            static bool ReceivedReentrant(object message) => 
+                CallContext.LogicalGetData("LastMessageReceivedReentrant") == message;
         }
 
         [TestFixture]
