@@ -24,14 +24,8 @@ namespace Orleankka.Core
 
         internal static ActorPrototype Define(Type actor)
         {
-            var instance = CreateInstance(actor);
             var prototype = CreatePrototype(actor);
             return prototype.Close();
-        }
-
-        static Actor CreateInstance(Type actor)
-        {
-            return (Actor) Activator.CreateInstance(actor, nonPublic: true);
         }
 
         static ActorPrototype CreatePrototype(Type actor)
