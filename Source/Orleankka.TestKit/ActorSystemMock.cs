@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
+
+using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
+    using Core;
+
     public class ActorSystemMock : IActorSystem
     {
         readonly Dictionary<ActorPath, ActorRefMock> expected =
@@ -12,6 +16,13 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefStub> unexpected =
              new Dictionary<ActorPath, ActorRefStub>();
 
+        readonly IMessageSerializer serializer;
+
+        public ActorSystemMock(IMessageSerializer serializer = null)
+        {
+            this.serializer = serializer ?? new BinarySerializer();
+        }
+
         public ActorRefMock MockActorOf<TActor>(string id)
         {
             var path = ActorPath.From(typeof(TActor), id);
@@ -19,7 +30,7 @@ namespace Orleankka.TestKit
             if (expected.ContainsKey(path))
                 return expected[path];
 
-            var mock = new ActorRefMock(path);
+            var mock = new ActorRefMock(path, serializer);
             expected.Add(path, mock);
 
             return mock;

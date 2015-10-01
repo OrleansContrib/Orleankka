@@ -21,7 +21,6 @@ Orleankka is not just a translation layer on top of Orleans. Besides improved la
 + Automatic GC with configurable keep-alive timeouts
 + Runtime independence (isolated testing)
 + Reentrant messages
-+ Lambda-based message handlers (C#)
 + Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
 
 ##### Other

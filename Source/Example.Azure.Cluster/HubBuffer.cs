@@ -22,7 +22,7 @@ namespace Example.Azure
         
         ActorRef hub;
 
-        protected override Task OnActivate()
+        public override Task OnActivate()
         {
             hub = HubGateway.GetLocalHub();
             

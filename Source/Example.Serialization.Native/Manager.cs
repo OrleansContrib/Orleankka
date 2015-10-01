@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
 
 namespace Example.Serialization.Native
 {
+    using System.Threading.Tasks;
+
     [Serializable]
     public class AddDirectReport : Command
     {
@@ -17,25 +18,26 @@ namespace Example.Serialization.Native
     public class GetDirectReports : Query<IEnumerable<ActorRef>>
     {}
 
+    [ActorTypeCode("manager")]
     public class Manager : Actor
     {
         readonly List<ActorRef> reports = new List<ActorRef>();
 
-        protected override void Define()
+        async Task On(AddDirectReport x)
         {
-            On<AddDirectReport>(async x =>
-            {
-                reports.Add(x.Employee);
-                
-                await x.Employee.Tell(new SetManager {Manager = Self});                
-                await x.Employee.Tell(new Greeting
-                {
-                    From = Self, 
-                    Text = "Welcome to my team!"
-                });                
-            });
+            reports.Add(x.Employee);
 
-            On((GetDirectReports x) => reports.ToList());
+            await x.Employee.Tell(new SetManager {Manager = Self});
+            await x.Employee.Tell(new Greeting
+            {
+                From = Self,
+                Text = "Welcome to my team!"
+            });
+        }
+
+        IEnumerable<ActorRef> On(GetDirectReports x)
+        {
+            return reports.AsReadOnly();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Example
 {
     public abstract class CqsActor : Actor
     {
-        protected override Task<object> OnReceive(object message)
+        public override Task<object> OnReceive(object message)
         {
             var cmd = message as Command;
             if (cmd != null)
@@ -31,17 +31,17 @@ namespace Example
     {
         protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = (await DispatchAsync<IEnumerable<Event>>(cmd)).ToArray();
+            var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
 
             foreach (var @event in events)
-                Dispatch(@event);
+                ((dynamic)this).On((dynamic)@event);
 
             return (object) events;
         }
 
         protected override Task<object> HandleQuery(Query query)
         {
-            return Task.FromResult(DispatchResult(query));
+            return Dispatch(query);
         }
     }
 }

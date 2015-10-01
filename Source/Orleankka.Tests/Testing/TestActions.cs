@@ -7,9 +7,6 @@ using Orleankka.Cluster;
 using Orleankka.Playground;
 using Orleankka.Testing;
 
-using Orleans.Providers.Streams.SimpleMessageStream;
-using Orleans.Storage;
-
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
@@ -47,6 +44,7 @@ namespace Orleankka.Testing
 
             TestActorSystem.Instance = ActorSystem.Configure()
                 .Playground()
+                .UseInMemoryPubSubStore()
                 .TweakCluster(cfg => cfg
                     .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
                 .Register(GetType().Assembly)

@@ -11,12 +11,9 @@ namespace Example
 {
     public class ChatUser : Actor
     {
-        protected override void Define()
-        {
-            On(async (Join x)   => await Send(x.Room, string.Format("{0} joined the room {1} ...", Id, x.Room)));
-            On(async (Leave x)  => await Send(x.Room, string.Format("{0} left the room {1}!", Id, x.Room)));
-            On(async (Say x)    => await Send(x.Room, string.Format("{0} said: {1}", Id, x.Message)));
-        }
+        Task On(Join x)   => Send(x.Room, $"{Id} joined the room {x.Room} ...");
+        Task On(Leave x)  => Send(x.Room, $"{Id} left the room {x.Room}!");
+        Task On(Say x)    => Send(x.Room, $"{Id} said: {x.Message}");
 
         Task Send(string room, string message)
         {
@@ -29,9 +26,6 @@ namespace Example
             });
         }
 
-        StreamRef GetStream(string room)
-        {
-            return System.StreamOf<SimpleMessageStreamProvider>(room);
-        }
+        StreamRef GetStream(string room) => System.StreamOf<SimpleMessageStreamProvider>(room);
     }
 }

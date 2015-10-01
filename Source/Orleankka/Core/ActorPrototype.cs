@@ -24,18 +24,8 @@ namespace Orleankka.Core
 
         internal static ActorPrototype Define(Type actor)
         {
-            var instance = CreateInstance(actor);
             var prototype = CreatePrototype(actor);
-
-            instance.Prototype = prototype;
-            instance.Define();
-
             return prototype.Close();
-        }
-
-        static Actor CreateInstance(Type actor)
-        {
-            return (Actor) Activator.CreateInstance(actor, nonPublic: true);
         }
 
         static ActorPrototype CreatePrototype(Type actor)
@@ -90,19 +80,9 @@ namespace Orleankka.Core
                 throw new InvalidOperationException("Actor prototype can only be defined within Define() method");
         }
 
-        internal void Dispatch(Actor target, object message, Action<object> fallback)
+        internal Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {
-            dispatcher.Dispatch(target, message, fallback);
-        }
-        
-        internal object DispatchResult(Actor target, object message, Func<object, object> fallback)
-        {
-            return dispatcher.DispatchResult(target, message, fallback);
-        }
-        
-        internal Task<object> DispatchAsync(Actor target, object message, Func<object, Task<object>> fallback)
-        {
-            return dispatcher.DispatchAsync(target, message, fallback);
+            return dispatcher.Dispatch(target, message, fallback);
         }
     }
 }

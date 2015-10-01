@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
@@ -35,10 +34,6 @@ namespace Orleankka.Core
 
         public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
         {
-            if (actor == null)
-                await Activate(ActorPath.Deserialize(envelope.Target));
-
-            Debug.Assert(actor != null);
             KeepAlive();
 
             return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
@@ -55,13 +50,21 @@ namespace Orleankka.Core
 
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
         {
-            if (actor == null)
-                await Activate(ActorPath.Deserialize(IdentityOf(this)));
-
-            Debug.Assert(actor != null);
             KeepAlive();
 
             await actor.OnReminder(reminderName);
+        }
+
+        public override Task OnActivateAsync()
+        {
+            return Activate(ActorPath.Deserialize(IdentityOf(this)));
+        }
+
+        public override Task OnDeactivateAsync()
+        {
+            return actor != null
+                    ? actor.OnDeactivate()
+                    : base.OnDeactivateAsync();
         }
 
         async Task Activate(ActorPath path)
@@ -75,13 +78,6 @@ namespace Orleankka.Core
             actor.Initialize(path.Id, runtime, prototype);
 
             await actor.OnActivate();
-        }
-
-        public override Task OnDeactivateAsync()
-        {
-            return actor != null
-                    ? actor.OnDeactivate()
-                    : base.OnDeactivateAsync();
         }
 
         void KeepAlive()

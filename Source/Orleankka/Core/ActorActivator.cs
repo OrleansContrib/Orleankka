@@ -29,7 +29,15 @@ namespace Orleankka.Core
     {
         public override Actor Activate(Type type, string id, IActorRuntime runtime)
         {
-            return (Actor) Activator.CreateInstance(type, nonPublic: true);
+            try
+            {
+                return (Actor) Activator.CreateInstance(type, nonPublic: true);
+            }
+            catch (MissingMethodException)
+            {
+                throw new InvalidOperationException(
+                    $"No parameterless constructor defined for {type} type");
+            }
         }
     }
 

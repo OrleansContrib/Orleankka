@@ -8,6 +8,8 @@ using Orleans.Streams;
 
 namespace Orleankka
 {
+    using Utility;
+
     public struct StreamPath : IEquatable<StreamPath>
     {
         static readonly ICollection<IProviderConfiguration> providers =
@@ -38,14 +40,9 @@ namespace Orleankka
 
         public static StreamPath From(Type type, string id)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-
-            if (id == null)
-                throw new ArgumentNullException("id");
-
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("A stream id cannot be empty or contain whitespace only", "id");
+            Requires.NotNull(type, nameof(type));
+            Requires.NotNull(id, nameof(id));
+            Requires.NotNullOrWhitespace(id, nameof(id));
 
             return new StreamPath(type, id);
         }
@@ -61,8 +58,7 @@ namespace Orleankka
                 return provider.GetStream<object>(Guid.Empty, Id);
             }
 
-            var message = string.Format("Can't find stream provider of specified stream type: {0}", Type);
-            throw new InvalidOperationException(message);
+            throw new InvalidOperationException($"Can't find stream provider of specified stream type: {Type}");
         }
 
         public bool Equals(StreamPath other)
@@ -79,18 +75,11 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((Type != null ? Type.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+                return ((Type?.GetHashCode() ?? 0) * 397) ^ (Id?.GetHashCode() ?? 0);
             }
         }
 
-        public static bool operator ==(StreamPath left, StreamPath right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(StreamPath left, StreamPath right)
-        {
-            return !left.Equals(right);
-        }
+        public static bool operator ==(StreamPath left, StreamPath right) => left.Equals(right);
+        public static bool operator !=(StreamPath left, StreamPath right) => !left.Equals(right);
     }
 }

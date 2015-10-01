@@ -1,45 +1,40 @@
 ﻿using System;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
 
 namespace Example.Serialization.JSON
 {
-    public class Promote
+    class GetLevel : Query<long> {}
+    class Promote  : Command
     {
         public long NewLevel;
     }
 
-    public class GetLevel : Query<long>
-    {}
-
-    public class SetManager : Command
+    class GetManager : Query<ActorRef> {}
+    class SetManager : Command
     {
         public ActorRef Manager;
     }
 
-    public class GetManager : Query<ActorRef>
-    {}
-
-    public class Greeting : Command
+    class Greeting : Command
     {
         public ActorRef From;
         public string Text;
     }
 
-    public class Employee : Actor
+    [ActorTypeCode("employee")]
+    class Employee : Actor
     {
         long level;
         ActorRef manager;
 
-        protected override void Define()
-        {
-            On((Promote x)      => level = x.NewLevel);
-            On((GetLevel x)     => level);
-            On((SetManager x)   => manager = x.Manager);
-            On((GetManager x)   => manager);
-            On((Greeting x)     => Console.WriteLine("{0}: {1} said: {2}", Self, x.From, x.Text));
-        }
+        void On(Promote x)  		=> level = x.NewLevel;
+        long On(GetLevel x) 		=> level;
+
+        void On(SetManager x)     	=> manager = x.Manager;
+        ActorRef On(GetManager x) 	=> manager;
+
+        void On(Greeting x) 		=> Console.WriteLine($"{x.From} said to {Self}: '{x.Text}'");
     }
 }

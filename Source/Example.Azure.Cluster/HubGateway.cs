@@ -11,6 +11,7 @@ using Orleankka.Cluster;
 
 namespace Example.Azure
 {
+
     public class HubGateway
     {
         static IActorSystem system;

@@ -11,17 +11,11 @@ namespace Orleankka.Core
 {
     using Utility;
 
-    class Dispatcher
+    public class Dispatcher
     {
         static readonly string[] conventions = {"On", "Handle", "Answer", "Apply"};
 
-        readonly Dictionary<Type, Action<object, object>> voidHandlers =
-             new Dictionary<Type, Action<object, object>>();
-
-        readonly Dictionary<Type, Func<object, object, object>> replyHandlers =
-             new Dictionary<Type, Func<object, object, object>>();
-
-        readonly Dictionary<Type, Func<object, object, Task<object>>> uniformHandlers =
+        readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
         readonly Type actor;        
@@ -30,9 +24,8 @@ namespace Orleankka.Core
         {
             this.actor = actor;
 
-            var methods = actor.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+            var methods = actor.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                    .Where(m =>
-                          m.IsPublic &&
                           m.GetParameters().Length == 1 &&
                           !m.GetParameters()[0].IsOut &&
                           !m.GetParameters()[0].IsRetval &&
@@ -45,82 +38,19 @@ namespace Orleankka.Core
 
         public void Register(MethodInfo method)
         {
-            RegisterUniform(method);
-            RegisterNonUniform(method);
-        }
-
-        void RegisterUniform(MethodInfo method)
-        {
             var message = method.GetParameters()[0].ParameterType;
             var handler = Bind.Uniform.Handler(method, actor);
 
-            if (uniformHandlers.ContainsKey(message))
+            if (handlers.ContainsKey(message))
                 throw new InvalidOperationException(
                     $"Handler for {message} has been already defined by {actor}");
 
-            uniformHandlers.Add(message, handler);
+            handlers.Add(message, handler);
         }
 
-        void RegisterNonUniform(MethodInfo method)
+        public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {
-            if (typeof(Task).IsAssignableFrom(method.ReturnType))
-                return;
-
-            if (method.ReturnType == typeof(void))
-            {
-                RegisterVoid(method);
-                return;
-            }
-            
-            RegisterReply(method);
-        }
-
-        void RegisterVoid(MethodInfo method)
-        {
-            var message = method.GetParameters()[0].ParameterType;
-            var handler = Bind.NonUniform.VoidHandler(method, actor);
-            voidHandlers.Add(message, handler);
-        }
-
-        void RegisterReply(MethodInfo method)
-        {
-            var message = method.GetParameters()[0].ParameterType;
-            var handler = Bind.NonUniform.ReplyHandler(method, actor);
-            replyHandlers.Add(message, handler);
-        }
-
-        public void Dispatch(Actor target, object message, Action<object> fallback)
-        {
-            var handler = voidHandlers.Find(message.GetType());
-
-            if (handler != null)
-            {
-                handler(target, message);
-                return;
-            }
-
-            if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
-
-            fallback(message);
-        }
-
-        public object DispatchResult(Actor target, object message, Func<object, object> fallback)
-        {
-            var handler = replyHandlers.Find(message.GetType());
-
-            if (handler != null)
-                return handler(target, message);
-
-            if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
-
-            return fallback(message);
-        }
-
-        public Task<object> DispatchAsync(Actor target, object message, Func<object, Task<object>> fallback)
-        {
-            var handler = uniformHandlers.Find(message.GetType());
+            var handler = handlers.Find(message.GetType());
 
             if (handler != null)
                 return handler(target, message);
@@ -134,7 +64,9 @@ namespace Orleankka.Core
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException
         {
-            const string description = "Can't find handler for '{0}'.\r\nCheck that handler method is public, has single arg and named 'On' or 'Handle'";
+            const string description = "Can't find handler for '{0}'.\r\n" +
+                                       "Check that handler method has single argument and " +
+                                       "named 'On', 'Handle', 'Answer' or 'Apply'";
 
             internal HandlerNotFoundException(Type message)
                 : base(string.Format(description, message))
@@ -149,7 +81,7 @@ namespace Orleankka.Core
         {
             static readonly Task<object> Done = Task.FromResult((object)null);
 
-            public static class NonUniform
+            static class NonUniform
             {
                 public static Action<object, object> VoidHandler(MethodInfo method, Type actor)
                 {

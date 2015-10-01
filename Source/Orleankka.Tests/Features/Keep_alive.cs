@@ -33,14 +33,11 @@ namespace Orleankka.Features
 
             bool reminded;
 
-            protected internal override void Define()
-            {
-                On((HasBeenReminded x)      => reminded);
-                On((SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period));
-                On((GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this));
-            }
+            bool On(HasBeenReminded x)      => reminded;
+            Task On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
+            void On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
 
-            protected internal override Task OnReminder(string id)
+            public override Task OnReminder(string id)
             {
                 reminded = true;
                 return TaskDone.Done;

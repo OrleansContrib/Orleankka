@@ -34,12 +34,9 @@ namespace Orleankka.Features
         {
             ObserverRef observer;
 
-            protected internal override void Define()
-            {
-                On((Attach x)   => observer = x.Observer);
-                On((Publish x)  => observer.Notify(new Notification {Text = x.Text}));
-            }
-        }
+            void On(Attach x)   => observer = x.Observer;
+            void On(Publish x)  => observer.Notify(new Notification {Text = x.Text});
+    }
 
         [Serializable]
         public class ReceivedNotifications : Query<Notification[]>
@@ -49,11 +46,8 @@ namespace Orleankka.Features
         {
             readonly List<Notification> notifications = new List<Notification>();
 
-            protected internal override void Define()
-            {
-                On((Notification x) => notifications.Add(x));
-                On((ReceivedNotifications x) => notifications.ToArray());
-            }
+            void On(Notification x)                    => notifications.Add(x);
+            Notification[] On(ReceivedNotifications x) => notifications.ToArray();
         }
 
         [TestFixture]

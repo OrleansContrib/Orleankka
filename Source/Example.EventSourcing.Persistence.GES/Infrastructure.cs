@@ -20,7 +20,7 @@ namespace Example
 {
     public abstract class CqsActor : Actor
     {
-        protected override Task<object> OnReceive(object message)
+        public override Task<object> OnReceive(object message)
         {
             var cmd = message as Command;
             if (cmd != null)
@@ -55,7 +55,7 @@ namespace Example
 
         int version = ExpectedVersion.NoStream;
 
-        protected override async Task OnActivate()
+        public override async Task OnActivate()
         {
             var stream = StreamName();
 
@@ -92,7 +92,7 @@ namespace Example
 
         protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = DispatchResult<IEnumerable<Event>>(cmd).ToArray();
+            var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
             
             await Store(events);
             Apply(events);
@@ -108,7 +108,7 @@ namespace Example
 
         void Apply(object @event)
         {
-            Dispatch(@event);
+            ((dynamic)this).On((dynamic)@event);
             version++;
         }
 
@@ -160,7 +160,7 @@ namespace Example
 
         protected override Task<object> HandleQuery(Query query)
         {
-            return Task.FromResult(DispatchResult(query));
+            return Dispatch(query);
         }
     }
 

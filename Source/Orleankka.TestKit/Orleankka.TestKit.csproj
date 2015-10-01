@@ -42,8 +42,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.8\lib\net45\Orleans.dll</HintPath>
+    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -58,6 +59,7 @@
     <Compile Include="ActorExtensions.cs" />
     <Compile Include="ActorRefMock.cs" />
     <Compile Include="ActorRuntimeMock.cs" />
+    <Compile Include="OrleansSerialization.cs" />
     <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
     <Compile Include="ActorRefStub.cs" />

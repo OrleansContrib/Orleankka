@@ -25,21 +25,9 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Auto_wires_any_public_method_named_On_or_Handle_which_has_single_argument()
+            public async void Auto_wires_any_method_named_On_or_Handle_which_has_single_argument()
             {
                 var actor = system.FreshActorOf<TestActor>();
-
-                Assert.That(await actor.Ask<object>(new OnLambdaVoidMessage()), Is.Null);
-                Assert.That(await actor.Ask<object>(new OnAssemblyLambdaVoidMessage()), Is.Null);
-
-                Assert.That(await actor.Ask<object>(new OnLambdaAsyncVoidMessage()), Is.Null);
-                Assert.That(await actor.Ask<object>(new OnAssemblyLambdaAsyncVoidMessage()), Is.Null);
-
-                Assert.That(await actor.Ask<string>(new OnLambdaResultMessage()), Is.EqualTo("42"));
-                Assert.That(await actor.Ask<string>(new OnAssemblyLambdaResultMessage()), Is.EqualTo("42"));
-
-                Assert.That(await actor.Ask<string>(new OnLambdaAsyncResultMessage()), Is.EqualTo("42"));
-                Assert.That(await actor.Ask<string>(new OnAssemblyLambdaAsyncResultMessage()), Is.EqualTo("42"));
 
                 Assert.That(await actor.Ask<object>(new OnVoidMessage()), Is.Null);
                 Assert.That(await actor.Ask<object>(new OnAsyncVoidMessage()), Is.Null);
@@ -51,7 +39,7 @@ namespace Orleankka.Features
                 Assert.That(await actor.Ask<string>(new HandleResultMessage()), Is.EqualTo("42"));
                 Assert.That(await actor.Ask<string>(new HandleAsyncResultMessage()), Is.EqualTo("42"));
 
-                Assert.Throws<Dispatcher.HandlerNotFoundException>(
+                Assert.DoesNotThrow(
                     async () => await actor.Tell(new NonPublicHandlerMessage()));
 
                 Assert.Throws<Dispatcher.HandlerNotFoundException>(
@@ -72,38 +60,6 @@ namespace Orleankka.Features
 
             [Serializable]
             class UnknownMessage
-            {}
-
-            [Serializable]
-            class OnLambdaVoidMessage
-            {}
-
-            [Serializable]
-            class OnAssemblyLambdaVoidMessage
-            {}
-
-            [Serializable]
-            class OnLambdaAsyncVoidMessage
-            {}
-
-            [Serializable]
-            class OnAssemblyLambdaAsyncVoidMessage
-            {}
-
-            [Serializable]
-            class OnLambdaResultMessage
-            {}
-
-            [Serializable]
-            class OnAssemblyLambdaResultMessage
-            {}
-
-            [Serializable]
-            class OnLambdaAsyncResultMessage
-            {}
-
-            [Serializable]
-            class OnAssemblyLambdaAsyncResultMessage
             {}
 
             [Serializable]
@@ -149,82 +105,26 @@ namespace Orleankka.Features
             [UsedImplicitly]
             class TestActor : Actor
             {
-                int value = 40;
+                public void On(OnVoidMessage m){}
+                public Task On(OnAsyncVoidMessage m) => TaskDone.Done;
+                public string On(OnResultMessage m) => "42";
+                public Task<string> On(OnAsyncResultMessage m) => Task.FromResult("42");
 
-                protected internal override void Define()
+                public void Handle(HandleVoidMessage m){}
+                public Task Handle(HandleAsyncVoidMessage m) => TaskDone.Done;
+                public string Handle(HandleResultMessage m) => "42";
+                public Task<string> Handle(HandleAsyncResultMessage m) => Task.FromResult("42");
+
+                void On(NonPublicHandlerMessage m){}
+                public void Handle(NonSingleArgumentHandlerMessage m, int i){}
+
+                public void Dispatch(object message, Action<object> fallback)
                 {
-                    On((OnLambdaVoidMessage m) => { value++; });
-                    On((OnAssemblyLambdaVoidMessage m) => {});
-
-                    On(async (OnLambdaAsyncVoidMessage m) =>
+                    base.Dispatch(message, m =>
                     {
-                        await Task.Delay(1);
-                        value++;
+                        fallback(m);
+                        return null;
                     });
-                    On(async (OnAssemblyLambdaAsyncVoidMessage m) => await Task.Delay(1));
-
-                    On((OnLambdaResultMessage m) => value.ToString());
-                    On((OnAssemblyLambdaResultMessage m) => "42");
-
-                    On(async (OnLambdaAsyncResultMessage m) =>
-                    {
-                        await Task.Delay(1);
-                        return value.ToString();
-                    });
-                    On(async (OnAssemblyLambdaAsyncResultMessage m) =>
-                    {
-                        await Task.Delay(1);
-                        return "42";
-                    });
-                }
-
-                public void On(OnVoidMessage m)
-                {
-                    
-                }
-
-                public Task On(OnAsyncVoidMessage m)
-                {
-                    return TaskDone.Done;
-                }
-
-                public string On(OnResultMessage m)
-                {
-                    return "42";
-                }
-
-                public Task<string> On(OnAsyncResultMessage m)
-                {
-                    return Task.FromResult("42");
-                }
-
-                public void Handle(HandleVoidMessage m)
-                {}
-
-                public Task Handle(HandleAsyncVoidMessage m)
-                {
-                    return TaskDone.Done;
-                }
-
-                public string Handle(HandleResultMessage m)
-                {
-                    return "42";
-                }
-
-                public Task<string> Handle(HandleAsyncResultMessage m)
-                {
-                    return Task.FromResult("42");
-                }
-
-                void On(NonPublicHandlerMessage m)
-                {}
-
-                public void Handle(NonSingleArgumentHandlerMessage m, int i)
-                {}
-
-                public new void Dispatch(object message, Action<object> fallback)
-                {
-                    base.Dispatch(message, fallback);
                 }
             }
         }
