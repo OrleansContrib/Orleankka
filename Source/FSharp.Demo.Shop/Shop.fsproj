@@ -70,7 +70,7 @@
     <Compile Include="Shop.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
-    <None Include="Packages.config" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -78,18 +78,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.9\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.9\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.10\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>

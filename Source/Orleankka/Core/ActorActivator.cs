@@ -33,7 +33,7 @@ namespace Orleankka.Core
             {
                 return (Actor) Activator.CreateInstance(type, nonPublic: true);
             }
-            catch (MissingMethodException e)
+            catch (MissingMethodException)
             {
                 throw new InvalidOperationException(
                     $"No parameterless constructor defined for {type} type");
