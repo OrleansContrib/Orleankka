@@ -23,19 +23,17 @@ namespace Orleankka.Features
         {}
 
         [Serializable]
-        public class GetInstanceHashcode : Query<int>
+        public class GetInstanceHashcode : Query<long>
         {}
 
-        [KeepAlive(Minutes = KeepAliveTimeoutInMinutes)]
+        [KeepAlive(Minutes = 2)]
         public class TestActor : Actor
         {
-            const int KeepAliveTimeoutInMinutes = 2;
-
             bool reminded;
 
             bool On(HasBeenReminded x)      => reminded;
             Task On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
-            void On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
+            long On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
 
             public override Task OnReminder(string id)
             {
