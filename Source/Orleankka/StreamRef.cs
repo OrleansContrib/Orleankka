@@ -10,7 +10,7 @@ namespace Orleankka
 {
     [Serializable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : IAsyncObservable<object>
+    public class StreamRef : IAsyncObservable<object>, IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
