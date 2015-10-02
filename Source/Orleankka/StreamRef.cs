@@ -14,23 +14,18 @@ namespace Orleankka
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
-            return new StreamRef(path, path.Proxy());
+            return new StreamRef(path);
         }
 
-        readonly IAsyncStream<object> endpoint;
+        IAsyncStream<object> endpoint;
 
         protected internal StreamRef(StreamPath path)
         {
             Path = path;
         }
 
-        StreamRef(StreamPath path, IAsyncStream<object> endpoint)
-        {
-            Path = path;
-            this.endpoint = endpoint;
-        }
-
         public StreamPath Path { get; }
+        public IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy()); 
 
         public string Serialize()
         {
@@ -39,37 +34,37 @@ namespace Orleankka
 
         public virtual Task OnNextAsync(object item, StreamSequenceToken token = null)
         {
-            return endpoint.OnNextAsync(item, token);
+            return Endpoint.OnNextAsync(item, token);
         }
 
         public virtual Task OnNextBatchAsync(IEnumerable<object> batch, StreamSequenceToken token = null)
         {
-            return endpoint.OnNextBatchAsync(batch, token);
+            return Endpoint.OnNextBatchAsync(batch, token);
         }
 
         public virtual Task OnCompletedAsync()
         {
-            return endpoint.OnCompletedAsync();
+            return Endpoint.OnCompletedAsync();
         }
 
         public virtual Task OnErrorAsync(Exception ex)
         {
-            return endpoint.OnErrorAsync(ex);
+            return Endpoint.OnErrorAsync(ex);
         }
 
         public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer)
         {
-            return endpoint.SubscribeAsync(observer);
+            return Endpoint.SubscribeAsync(observer);
         }
 
         public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer, StreamSequenceToken token, StreamFilterPredicate filterFunc = null, object filterData = null)
         {
-            return endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
+            return Endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
         }
 
         public Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
         {
-            return endpoint.GetAllSubscriptionHandles();
+            return Endpoint.GetAllSubscriptionHandles();
         }
 
         public bool Equals(StreamRef other)
@@ -100,14 +95,13 @@ namespace Orleankka
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", Path.Serialize(), typeof(string));
+            info.AddValue("path", Serialize(), typeof(string));
         }
 
         public StreamRef(SerializationInfo info, StreamingContext context)
         {
             var value = (string)info.GetValue("path", typeof(string));
             Path = StreamPath.Deserialize(value);
-            endpoint = Path.Proxy();
         }
 
         #endregion
