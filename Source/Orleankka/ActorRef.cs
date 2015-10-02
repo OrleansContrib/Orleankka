@@ -89,25 +89,12 @@ namespace Orleankka
                     || obj.GetType() == GetType() && Equals((ActorRef) obj));
         }
 
-        public override int GetHashCode()
-        {
-            return Path.GetHashCode();
-        }
+        public override int GetHashCode() => Path.GetHashCode();
 
-        public static bool operator ==(ActorRef left, ActorRef right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(ActorRef left, ActorRef right) => Equals(left, right);
+        public static bool operator !=(ActorRef left, ActorRef right) => !Equals(left, right);
 
-        public static bool operator !=(ActorRef left, ActorRef right)
-        {
-            return !Equals(left, right);
-        }
-
-        public override string ToString()
-        {
-            return Path.ToString();
-        }
+        public override string ToString() => Path.ToString();
 
         #region Default Binary Serialization
 

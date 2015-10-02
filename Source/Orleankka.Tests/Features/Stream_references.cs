@@ -22,7 +22,9 @@ namespace Orleankka.Features
 
         [Serializable]
         public class Subscribe : Command
-        {}
+        {
+            public StreamRef Stream;
+        }
 
         [Serializable]
         public class Received : Query<List<string>>
@@ -41,11 +43,7 @@ namespace Orleankka.Features
         {
             readonly TestStreamObserver observer = new TestStreamObserver();
 
-            Task On(Subscribe x)
-            {
-                var stream = System.StreamOf("sms", "123");
-                return stream.SubscribeAsync(observer);
-            }
+            Task On(Subscribe x) => x.Stream.SubscribeAsync(observer);
 
             List<string> On(Received x) => observer.Received;
         }
@@ -94,10 +92,12 @@ namespace Orleankka.Features
             [Test]
             public async void Actor_to_stream()
             {
+                var stream = system.StreamOf("sms", "123");
+
                 var producer = system.ActorOf<TestProducerActor>("p");
                 var consumer = system.ActorOf<TestConsumerActor>("c");
 
-                await consumer.Tell(new Subscribe());
+                await consumer.Tell(new Subscribe {Stream = stream});
                 await producer.Tell(new Produce {Event = "event"});
 
                 await Task.Delay(100);

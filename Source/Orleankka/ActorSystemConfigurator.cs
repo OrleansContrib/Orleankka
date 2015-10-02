@@ -54,12 +54,6 @@ namespace Orleankka
 
         protected internal void Configure(IDictionary<string, ProviderCategoryConfiguration> providerConfigurations)
         {
-            if (providerConfigurations.ContainsKey("Stream"))
-            {
-                var providers = providerConfigurations["Stream"];
-                StreamPath.Register(providers.Providers.Values);
-            }
-
             if (serializer != null)
             {
                 var instance = (IMessageSerializer) Activator.CreateInstance(serializer.Item1);
@@ -81,7 +75,6 @@ namespace Orleankka
 
         public void Dispose()
         {
-            StreamPath.Reset();
             MessageEnvelope.Reset();
             ActorEndpoint.Reset();
             ActorType.Reset();

@@ -1,42 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 using Orleans;
-using Orleans.Providers;
 using Orleans.Streams;
 
 namespace Orleankka
 {
     using Utility;
 
+    [Serializable]
+    [DebuggerDisplay("{ToString()}")]
     public struct StreamPath : IEquatable<StreamPath>
     {
-        static readonly ICollection<IProviderConfiguration> providers =
-                     new LinkedList<IProviderConfiguration>();
-
-        internal static void Register(IEnumerable<IProviderConfiguration> providers)
-        {
-            Debug.Assert(StreamPath.providers.Count == 0);
-            foreach (var each in providers)
-                StreamPath.providers.Add(each);
-        }
-
-        internal static void Reset()
-        {
-            providers.Clear();
-        }
-
         public static readonly StreamPath Empty = new StreamPath();
-        
-        public readonly string Provider;
-        public readonly string Id;
-
-        StreamPath(string provider, string id)
-        {
-            Provider = provider;
-            Id = id;
-        }
+        public static readonly string[] Separator = {":"};
 
         public static StreamPath From(string provider, string id)
         {
@@ -47,10 +24,48 @@ namespace Orleankka
             return new StreamPath(provider, id);
         }
 
+        public static StreamPath Parse(string path)
+        {
+            Requires.NotNull(path, nameof(path));
+
+            var parts = path.Split(Separator, 2, StringSplitOptions.None);
+            if (parts.Length != 2)
+                throw new ArgumentException("Invalid stream path: " + path);
+
+            var provider = parts[0];
+            var id = parts[1];
+
+            return new StreamPath(provider, id);
+        }
+
+        public static StreamPath Deserialize(string path)
+        {
+            var parts = path.Split(Separator, 2, StringSplitOptions.None);
+
+            var provider = parts[0];
+            var id = parts[1];
+
+            return new StreamPath(provider, id);
+        }
+
+        public readonly string Provider;
+        public readonly string Id;
+
+        StreamPath(string provider, string id)
+        {
+            Provider = provider;
+            Id = id;
+        }
+
         internal IAsyncStream<object> Proxy()
         {
             var provider = GrainClient.GetStreamProvider(Provider);
             return provider.GetStream<object>(Guid.Empty, Id);
+        }
+
+        public string Serialize()
+        {
+            return $"{Provider}{Separator[0]}{Id}";
         }
 
         public bool Equals(StreamPath other)
@@ -73,5 +88,7 @@ namespace Orleankka
 
         public static bool operator ==(StreamPath left, StreamPath right) => left.Equals(right);
         public static bool operator !=(StreamPath left, StreamPath right) => !left.Equals(right);
+
+        public override string ToString() => Serialize();
     }
 }
