@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Reflection;
 
+using Orleankka.Utility;
+
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
@@ -11,6 +13,9 @@ namespace Orleankka.Cluster
     public class AzureClusterConfigurator : MarshalByRefObject
     {
         readonly ClusterConfigurator cluster;
+
+        private string deploymentId;
+        private string connectionString;
 
         internal AzureClusterConfigurator()
         {
@@ -51,14 +56,30 @@ namespace Orleankka.Cluster
         {
             var system = new AzureClusterActorSystem(cluster);
             cluster.Configure();
-            
-            system.Start();
+
+            system.Start(deploymentId, connectionString);
             return system;
         }
 
         public override object InitializeLifetimeService()
         {
             return null;
+        }
+
+        public AzureClusterConfigurator WithDeploymentId(string deploymentId)
+        {
+            Requires.NotNullOrWhitespace(deploymentId, nameof(deploymentId));
+
+            this.deploymentId = deploymentId;
+            return this;
+        }
+
+        public AzureClusterConfigurator WithConnectionString(string connectionString)
+        {
+            Requires.NotNullOrWhitespace(connectionString, nameof(connectionString));
+
+            this.connectionString = connectionString;
+            return this;
         }
     }
 
