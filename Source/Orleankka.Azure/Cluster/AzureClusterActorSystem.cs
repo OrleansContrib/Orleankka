@@ -17,9 +17,9 @@ namespace Orleankka.Cluster
             host = new AzureSilo();
         }
 
-        internal void Start()
+        internal void Start(string deploymentId = null, string connectionString = null)
         {
-            host.Start(cluster.Configuration);
+            host.Start(cluster.Configuration, deploymentId, connectionString);
         }
 
         public void Run()
