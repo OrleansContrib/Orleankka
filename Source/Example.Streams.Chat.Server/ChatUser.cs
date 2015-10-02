@@ -1,9 +1,5 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Orleans;
-using Orleans.Providers.Streams.SimpleMessageStream;
 
 using Orleankka;
 
@@ -26,6 +22,6 @@ namespace Example
             });
         }
 
-        StreamRef GetStream(string room) => System.StreamOf<SimpleMessageStreamProvider>(room);
+        StreamRef GetStream(string room) => System.StreamOf("sms", room);
     }
 }

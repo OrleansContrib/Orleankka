@@ -6,7 +6,6 @@ using NUnit.Framework;
 
 using Orleans;
 using Orleans.Streams;
-using Orleans.Providers.Streams.SimpleMessageStream;
 
 namespace Orleankka.Features
 {
@@ -30,7 +29,7 @@ namespace Orleankka.Features
         public class TestConsumerActor : Actor
         {
             readonly TestStreamObserver observer = new TestStreamObserver();
-            StreamRef Stream() => System.StreamOf<SimpleMessageStreamProvider>("42");
+            StreamRef Stream() => System.StreamOf("sms", "42");
 
             public override async Task OnActivate()
             {
@@ -85,7 +84,7 @@ namespace Orleankka.Features
                 var consumer = system.ActorOf<TestConsumerActor>("cons");
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf<SimpleMessageStreamProvider>("42");
+                var stream = system.StreamOf("sms", "42");
                 await stream.OnNextAsync("e-123");
                 await Task.Delay(100);
 

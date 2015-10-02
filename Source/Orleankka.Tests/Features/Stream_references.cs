@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
 
 using Orleans;
 using Orleans.Streams;
-using Orleans.Providers.Streams.SimpleMessageStream;
 
 namespace Orleankka.Features
 {
@@ -34,7 +32,7 @@ namespace Orleankka.Features
         {
             Task On(Produce cmd)
             {
-                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
+                var stream = System.StreamOf("sms", "123");
                 return stream.OnNextAsync(cmd.Event);
             }
         }
@@ -45,7 +43,7 @@ namespace Orleankka.Features
 
             Task On(Subscribe x)
             {
-                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
+                var stream = System.StreamOf("sms", "123");
                 return stream.SubscribeAsync(observer);
             }
 
@@ -81,7 +79,7 @@ namespace Orleankka.Features
             [Test]
             public async void Client_to_stream()
             {
-                var stream = system.StreamOf<SimpleMessageStreamProvider>("123");
+                var stream = system.StreamOf("sms", "123");
                 
                 var observer = new TestStreamObserver();
                 await stream.SubscribeAsync(observer);

@@ -6,7 +6,7 @@
       <Provider Type="Orleans.Storage.MemoryStorage" Name="PubSubStore" />
     </StorageProviders>
     <StreamProviders>
-      <Provider Type="Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider" Name="SMS"/>
+      <Provider Type="Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider" Name="sms"/>
     </StreamProviders>
     <SeedNode Address="localhost" Port="11111" />
   </Globals>

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-
-using Orleans.Streams;
 
 namespace Orleankka
 {
@@ -104,13 +101,13 @@ namespace Orleankka
         /// <summary>
         /// Acquires the stream reference for the given id and type of the stream.
         /// </summary>
-        /// <typeparam name="TStream">The type of the stream</typeparam>
         /// <param name="system">The reference to actor system</param>
+        /// <param name="provider">The name of the stream provider</param>
         /// <param name="id">The id</param>
         /// <returns>A stream reference</returns>
-        public static StreamRef StreamOf<TStream>(this IActorSystem system, string id) where TStream : IStreamProvider
+        public static StreamRef StreamOf(this IActorSystem system, string provider, string id)
         {
-            return system.StreamOf(StreamPath.From(typeof(TStream), id));
+            return system.StreamOf(StreamPath.From(provider, id));
         }
     }
 }

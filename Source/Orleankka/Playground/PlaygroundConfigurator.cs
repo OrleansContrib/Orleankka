@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 
-using Orleans.Providers.Streams.SimpleMessageStream;
-using Orleans.Runtime.Configuration;
 using Orleans.Storage;
+using Orleans.Runtime.Configuration;
+using Orleans.Providers.Streams.SimpleMessageStream;
 
 namespace Orleankka.Playground
 {
@@ -34,9 +34,9 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            cluster.Globals.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
+            cluster.Globals.RegisterStreamProvider<SimpleMessageStreamProvider>("sms");
 
-            client.RegisterStreamProvider<SimpleMessageStreamProvider>("SMS");
+            client.RegisterStreamProvider<SimpleMessageStreamProvider>("sms");
         }
 
         public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)

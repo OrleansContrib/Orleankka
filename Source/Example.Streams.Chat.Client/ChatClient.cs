@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Streams;
-using Orleans.Providers.Streams.SimpleMessageStream;
 
 using Orleankka;
 
@@ -20,7 +18,7 @@ namespace Example
         public ChatClient(IActorSystem system, string user, string room)
         {
             this.user = system.ActorOf<ChatUser>(user);
-            this.room = system.StreamOf<SimpleMessageStreamProvider>(room);
+            this.room = system.StreamOf("sms", room);
         }
 
         public async Task Join()

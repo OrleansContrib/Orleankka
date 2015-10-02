@@ -29,41 +29,33 @@ namespace Orleankka
 
         public static readonly StreamPath Empty = new StreamPath();
         
-        public readonly Type Type;
+        public readonly string Provider;
         public readonly string Id;
 
-        StreamPath(Type type, string id)
+        StreamPath(string provider, string id)
         {
-            Type = type;
+            Provider = provider;
             Id = id;
         }
 
-        public static StreamPath From(Type type, string id)
+        public static StreamPath From(string provider, string id)
         {
-            Requires.NotNull(type, nameof(type));
+            Requires.NotNull(provider, nameof(provider));
             Requires.NotNull(id, nameof(id));
             Requires.NotNullOrWhitespace(id, nameof(id));
 
-            return new StreamPath(type, id);
+            return new StreamPath(provider, id);
         }
 
         internal IAsyncStream<object> Proxy()
         {
-            foreach (var each in providers)
-            {
-                if (each.Type != Type.FullName)
-                    continue;
-
-                var provider = GrainClient.GetStreamProvider(each.Name);
-                return provider.GetStream<object>(Guid.Empty, Id);
-            }
-
-            throw new InvalidOperationException($"Can't find stream provider of specified stream type: {Type}");
+            var provider = GrainClient.GetStreamProvider(Provider);
+            return provider.GetStream<object>(Guid.Empty, Id);
         }
 
         public bool Equals(StreamPath other)
         {
-            return Type == other.Type && string.Equals(Id, other.Id);
+            return Provider == other.Provider && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -75,7 +67,7 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((Type?.GetHashCode() ?? 0) * 397) ^ (Id?.GetHashCode() ?? 0);
+                return ((Provider?.GetHashCode() ?? 0) * 397) ^ (Id?.GetHashCode() ?? 0);
             }
         }
 
