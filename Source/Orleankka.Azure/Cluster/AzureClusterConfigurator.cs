@@ -66,7 +66,7 @@ namespace Orleankka.Cluster
             return null;
         }
 
-        public AzureClusterConfigurator WithDeploymentId(string deploymentId)
+        public AzureClusterConfigurator DeploymentId(string deploymentId)
         {
             Requires.NotNullOrWhitespace(deploymentId, nameof(deploymentId));
 
@@ -74,7 +74,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator WithConnectionString(string connectionString)
+        public AzureClusterConfigurator ConnectionString(string connectionString)
         {
             Requires.NotNullOrWhitespace(connectionString, nameof(connectionString));
 
