@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -47,6 +48,55 @@ namespace Orleankka
             var handle = await Endpoint.SubscribeAsync(observer);
 
             return new StreamSubscription(handle);
+        }
+
+        public virtual async Task Subscribe(Actor actor)
+        {
+            Requires.NotNull(actor, nameof(actor));
+
+            var handles = await GetAllSubscriptionHandles();
+            if (handles.Count == 1)
+                return;
+
+            Debug.Assert(handles.Count == 0,
+                "We should keep only one active subscription per-stream per-actor");
+
+            var observer = new Observer((item, token) => actor.OnReceive(item));
+            await Endpoint.SubscribeAsync(observer);
+        }
+
+        public async Task Unsubscribe(Actor actor)
+        {
+            Requires.NotNull(actor, nameof(actor));
+
+            var handles = await GetAllSubscriptionHandles();
+            if (handles.Count == 0)
+                return;
+
+            Debug.Assert(handles.Count == 1, 
+                "We should keep only one active subscription per-stream per-actor");
+
+            await handles[0].UnsubscribeAsync();
+        }
+
+        public async Task Resume(Actor actor)
+        {
+            Requires.NotNull(actor, nameof(actor));
+
+            var handles = await GetAllSubscriptionHandles();
+            if (handles.Count == 0)
+                return;
+
+            Debug.Assert(handles.Count == 1,
+                "We should keep only one active subscription per-stream per-actor");
+
+            var observer = new Observer((item, token) => actor.OnReceive(item));
+            await handles[0].ResumeAsync(observer);
+        }
+
+        internal Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
+        {
+            return Endpoint.GetAllSubscriptionHandles();
         }
 
         public bool Equals(StreamRef other)
