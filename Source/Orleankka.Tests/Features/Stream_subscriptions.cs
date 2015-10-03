@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
-using Orleans.Streams;
-
 namespace Orleankka.Features
 {
     namespace Stream_subscriptions
@@ -28,41 +25,13 @@ namespace Orleankka.Features
 
         public class TestConsumerActor : Actor
         {
-            readonly TestStreamObserver observer = new TestStreamObserver();
-            StreamRef Stream() => System.StreamOf("sms", "42");
+            readonly List<string> received = new List<string>();
 
-            public override async Task OnActivate()
-            {
-                var subscriptions = await Stream().GetAllSubscriptionHandles();
+            async Task On(Subscribe x)   => await System.StreamOf("sms", "42")
+                 .Subscribe<string>(item => received.Add(item));
 
-                if (subscriptions.Count != 0)
-                    await subscriptions[0].ResumeAsync(observer);
-            }
-
-            public async Task On(Subscribe x)   => await Stream().SubscribeAsync(observer);
-            public List<string> On(Received x)  => observer.Received;
-            public void On(Deactivate x)        => Activation.DeactivateOnIdle();
-        }
-
-        class TestStreamObserver : IAsyncObserver<string>
-        {
-            public readonly List<string> Received = new List<string>();
-
-            public Task OnNextAsync(string item, StreamSequenceToken token = null)
-            {
-                Received.Add(item);
-                return TaskDone.Done;
-            }
-
-            public Task OnCompletedAsync()
-            {
-                return TaskDone.Done;
-            }
-
-            public Task OnErrorAsync(Exception ex)
-            {
-                return TaskDone.Done;
-            }
+            List<string> On(Received x)  => received;
+            void On(Deactivate x)        => Activation.DeactivateOnIdle();
         }
 
         [TestFixture]
@@ -85,7 +54,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe());
 
                 var stream = system.StreamOf("sms", "42");
-                await stream.OnNextAsync("e-123");
+                await stream.Push("e-123");
                 await Task.Delay(100);
 
                 var received = await consumer.Ask(new Received());
@@ -95,7 +64,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Deactivate());
                 await Task.Delay(TimeSpan.FromSeconds(61));
 
-                await stream.OnNextAsync("e-456");
+                await stream.Push("e-456");
                 await Task.Delay(1000);
 
                 received = await consumer.Ask(new Received());

@@ -15,13 +15,13 @@ namespace Example
         {
             Console.WriteLine("[server]: " + message);
 
-            return GetStream(room).OnNextAsync(new ChatRoomMessage
+            var stream = System.StreamOf("sms", room);
+
+            return stream.Push(new ChatRoomMessage
             {
                 User = Id,
                 Text = message
             });
         }
-
-        StreamRef GetStream(string room) => System.StreamOf("sms", room);
     }
 }

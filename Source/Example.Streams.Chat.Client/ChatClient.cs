@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Orleans;
-using Orleans.Streams;
-
 using Orleankka;
 
 namespace Example
@@ -13,7 +10,7 @@ namespace Example
         readonly ActorRef user;
         readonly StreamRef room;
 
-        StreamSubscriptionHandle<object> subscription;
+        StreamSubscription subscription;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
@@ -23,12 +20,10 @@ namespace Example
 
         public async Task Join()
         {
-            subscription = await room.SubscribeAsync<ChatRoomMessage>((msg, token) =>
+            subscription = await room.Subscribe<ChatRoomMessage>(message =>
             {
-                if (msg.User != UserName)
-                    Console.WriteLine(msg.Text);
-
-                return TaskDone.Done;
+                if (message.User != UserName)
+                    Console.WriteLine(message.Text);
             });
 
             await user.Tell(new Join {Room = RoomName});
@@ -36,7 +31,7 @@ namespace Example
 
         public async Task Leave()
         {
-            await subscription.UnsubscribeAsync();
+            await subscription.Unsubscribe();
             await user.Tell(new Leave {Room = RoomName});
         }
 
@@ -45,14 +40,7 @@ namespace Example
             await user.Tell(new Say {Room = RoomName, Message = message});
         }
 
-        string UserName
-        {
-            get { return user.Path.Id; }
-        }        
-        
-        string RoomName
-        {
-            get { return room.Path.Id; }
-        }
+        string UserName => user.Path.Id;
+        string RoomName => room.Path.Id;
     }
 }

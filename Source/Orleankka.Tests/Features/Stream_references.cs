@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
-using Orleans.Streams;
-
 namespace Orleankka.Features
 {
     namespace Stream_references
@@ -35,31 +32,18 @@ namespace Orleankka.Features
             Task On(Produce cmd)
             {
                 var stream = System.StreamOf("sms", "123");
-                return stream.OnNextAsync(cmd.Event);
+                return stream.Push(cmd.Event);
             }
         }
 
         class TestConsumerActor : Actor
         {
-            readonly TestStreamObserver observer = new TestStreamObserver();
+            readonly List<string> received = new List<string>();
 
-            Task On(Subscribe x) => x.Stream.SubscribeAsync(observer);
+            Task On(Subscribe x) => x.Stream.Subscribe<string>(
+                item => received.Add(item));
 
-            List<string> On(Received x) => observer.Received;
-        }
-
-        class TestStreamObserver : IAsyncObserver<string>
-        {
-            public readonly List<string> Received = new List<string>();
-
-            public Task OnNextAsync(string item, StreamSequenceToken token = null)
-            {
-                Received.Add(item);
-                return TaskDone.Done;
-            }
-
-            public Task OnCompletedAsync() => TaskDone.Done;
-            public Task OnErrorAsync(Exception ex) => TaskDone.Done;
+            List<string> On(Received x) => received;
         }
 
         [TestFixture]
@@ -78,15 +62,16 @@ namespace Orleankka.Features
             public async void Client_to_stream()
             {
                 var stream = system.StreamOf("sms", "123");
-                
-                var observer = new TestStreamObserver();
-                await stream.SubscribeAsync(observer);
 
-                await stream.OnNextAsync("event");
+                var received = new List<string>();
+                await stream.Subscribe<string>(
+                    item => received.Add(item));
+
+                await stream.Push("event");
                 await Task.Delay(100);
 
-                Assert.That(observer.Received.Count, Is.EqualTo(1));
-                Assert.That(observer.Received[0], Is.EqualTo("event"));
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("event"));
             }
 
             [Test]

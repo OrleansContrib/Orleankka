@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Streams;
 
 namespace Orleankka
 {
+    using Utility;
+
     [Serializable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : IAsyncObservable<object>, IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
+    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
@@ -25,46 +27,26 @@ namespace Orleankka
         }
 
         public StreamPath Path { get; }
-        public IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy()); 
+        IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy());
 
         public string Serialize()
         {
             return Path.Serialize();
         }
 
-        public virtual Task OnNextAsync(object item, StreamSequenceToken token = null)
+        public virtual Task Push(object item)
         {
-            return Endpoint.OnNextAsync(item, token);
+            return Endpoint.OnNextAsync(item);
         }
 
-        public virtual Task OnNextBatchAsync(IEnumerable<object> batch, StreamSequenceToken token = null)
+        public virtual async Task<StreamSubscription> Subscribe(Func<StreamPath, object, Task> callback)
         {
-            return Endpoint.OnNextBatchAsync(batch, token);
-        }
+            Requires.NotNull(callback, nameof(callback));
 
-        public virtual Task OnCompletedAsync()
-        {
-            return Endpoint.OnCompletedAsync();
-        }
+            var observer = new Observer((item, token) => callback(Path, item));
+            var handle = await Endpoint.SubscribeAsync(observer);
 
-        public virtual Task OnErrorAsync(Exception ex)
-        {
-            return Endpoint.OnErrorAsync(ex);
-        }
-
-        public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer)
-        {
-            return Endpoint.SubscribeAsync(observer);
-        }
-
-        public virtual Task<StreamSubscriptionHandle<object>> SubscribeAsync(IAsyncObserver<object> observer, StreamSequenceToken token, StreamFilterPredicate filterFunc = null, object filterData = null)
-        {
-            return Endpoint.SubscribeAsync(observer, token, filterFunc, filterData);
-        }
-
-        public Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
-        {
-            return Endpoint.GetAllSubscriptionHandles();
+            return new StreamSubscription(handle);
         }
 
         public bool Equals(StreamRef other)
@@ -105,5 +87,21 @@ namespace Orleankka
         }
 
         #endregion
+
+        class Observer : IAsyncObserver<object>
+        {
+            readonly Func<object, StreamSequenceToken, Task> callback;
+
+            public Observer(Func<object, StreamSequenceToken, Task> callback)
+            {
+                this.callback = callback;
+            }
+
+            public Task OnNextAsync(object item, StreamSequenceToken token = null) 
+                => callback(item, token);
+
+            public Task OnCompletedAsync()           => TaskDone.Done;
+            public Task OnErrorAsync(Exception ex)   => TaskDone.Done;
+        }
     }
 }
