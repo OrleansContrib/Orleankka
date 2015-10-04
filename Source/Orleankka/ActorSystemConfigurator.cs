@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleans.Runtime.Configuration;
-
 namespace Orleankka
 {
     using Core;
@@ -52,7 +50,7 @@ namespace Orleankka
             }
         }
 
-        protected internal void Configure(IDictionary<string, ProviderCategoryConfiguration> providerConfigurations)
+        protected void Configure()
         {
             if (serializer != null)
             {

@@ -19,9 +19,9 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        [StreamSubscription(Stream = "a", Actor = "#")]
-        [StreamSubscription(Stream = "b", Actor = "#")]
-        public class TestActor : Actor
+        [StreamSubscription(Source = "sms:a", Target = "#")]
+        [StreamSubscription(Source = "sms:b", Target = "#")]
+        public class TestFixedIdsActor : Actor
         {
             readonly List<string> received = new List<string>();
 
@@ -45,9 +45,9 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Subscribing_to_multiple_streams_with_fixed_names()
+            public async void Fixed_ids()
             {
-                var consumer = system.ActorOf<TestActor>("#");
+                var consumer = system.ActorOf<TestFixedIdsActor>("#");
 
                 var a = system.StreamOf("sms", "a");
                 var b = system.StreamOf("sms", "b");

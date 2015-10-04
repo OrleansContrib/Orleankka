@@ -38,7 +38,7 @@ namespace Orleankka.Client
         public IActorSystem Done()
         {
             var system = new AzureClientActorSystem(client);
-            client.Configure(client.Configuration.ProviderConfigurations);
+            client.Configure();
             
             AzureClientActorSystem.Initialize(client.Configuration);
             return system;

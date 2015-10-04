@@ -67,6 +67,7 @@
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorPrototype.cs" />
     <Compile Include="Core\ActorType.cs" />
+    <Compile Include="Core\StreamProvider.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
@@ -119,8 +120,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.xml" />
-    <EmbeddedResource Include="Playground\Cluster.xml" />
+    <EmbeddedResource Include="Playground\Client.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Playground\Cluster.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
