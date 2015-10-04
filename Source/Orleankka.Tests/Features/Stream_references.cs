@@ -12,13 +12,14 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        public class Produce : Command
+        class Produce : Command
         {
+            public StreamRef Stream;
             public Item Item;
         }
 
         [Serializable]
-        public class Item
+        class Item
         {
             public readonly string Text;
 
@@ -29,28 +30,24 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        public class Subscribe : Command
+        class Subscribe : Command
         {
             public StreamRef Stream;
         }
 
         [Serializable]
-        public class Unsubscribe : Command
+        class Unsubscribe : Command
         {
             public StreamRef Stream;
         }
 
         [Serializable]
-        public class Received : Query<List<Item>>
+        class Received : Query<List<Item>>
         {}
 
         class TestProducerActor : Actor
         {
-            Task On(Produce cmd)
-            {
-                var stream = System.StreamOf("sms", "123");
-                return stream.Push(cmd.Item);
-            }
+            Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
         class TestConsumerActor : Actor
@@ -109,7 +106,7 @@ namespace Orleankka.Features
                 var consumer = system.ActorOf<TestConsumerActor>("c");
 
                 await consumer.Tell(new Subscribe {Stream = stream});
-                await producer.Tell(new Produce {Item = new Item("foo")});
+                await producer.Tell(new Produce {Stream = stream, Item = new Item("foo")});
 
                 await Task.Delay(100);
                 var received = await consumer.Ask(new Received());
@@ -120,7 +117,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Unsubscribe {Stream = stream}); ;
                 received.Clear();
 
-                await producer.Tell(new Produce {Item = new Item("bar")});
+                await producer.Tell(new Produce {Stream = stream, Item = new Item("bar")});
                 await Task.Delay(100);
 
                 Assert.That(received.Count, Is.EqualTo(0));

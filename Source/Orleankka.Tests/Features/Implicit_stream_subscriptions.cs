@@ -12,16 +12,14 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        public class Deactivate : Command
+        class Received : Query<List<string>>
         {}
 
         [Serializable]
-        public class Received : Query<List<string>>
+        class Deactivate : Command
         {}
 
-        [StreamSubscription(Source = "sms:a", Target = "#")]
-        [StreamSubscription(Source = "sms:b", Target = "#")]
-        public class TestFixedIdsActor : Actor
+        abstract class TestConsumerActorBase : Actor
         {
             readonly List<string> received = new List<string>();
 
@@ -30,6 +28,31 @@ namespace Orleankka.Features
 
             void On(Deactivate x) => Activation.DeactivateOnIdle();
         }
+
+        [Serializable]
+        class Produce : Command
+        {
+            public StreamRef Stream;
+            public string Item;
+        }
+
+        class TestProducerActor : Actor
+        {
+            Task On(Produce x) => x.Stream.Push(x.Item);
+        }
+
+        [StreamSubscription(Source = "sms:cs", Target = "#")]
+        class TestClientToStreamConsumerActor : TestConsumerActorBase
+        {}
+
+        [StreamSubscription(Source = "sms:as", Target = "#")]
+        class TestActorToStreamConsumerActor : TestConsumerActorBase
+        {}
+
+        [StreamSubscription(Source = "sms:a", Target = "#")]
+        [StreamSubscription(Source = "sms:b", Target = "#")]
+        class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
+        {}
 
         [TestFixture]
         [Explicit, Category("Slow")]
@@ -45,10 +68,35 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Fixed_ids()
+            public async void Client_to_stream()
             {
-                var consumer = system.ActorOf<TestFixedIdsActor>("#");
+                var stream = system.StreamOf("sms", "cs");
 
+                await stream.Push("e");
+                await Task.Delay(100);
+
+                var consumer = system.ActorOf<TestClientToStreamConsumerActor>("#");
+                var received = await consumer.Ask(new Received());
+                Assert.That(received, Is.EquivalentTo(new[] {"e"}));
+            }
+
+            [Test]
+            public async void Actor_to_stream()
+            {
+                var stream = system.StreamOf("sms", "as");
+                var producer = system.ActorOf<TestProducerActor>("foo");
+
+                await producer.Tell(new Produce {Stream = stream, Item = "e"});
+                await Task.Delay(100);
+
+                var consumer = system.ActorOf<TestActorToStreamConsumerActor>("#");
+                var received = await consumer.Ask(new Received());
+                Assert.That(received, Is.EquivalentTo(new[] {"e"}));
+            }
+
+            [Test]
+            public async void Multistream_subscription_with_fixed_ids()
+            {
                 var a = system.StreamOf("sms", "a");
                 var b = system.StreamOf("sms", "b");
 
@@ -56,9 +104,9 @@ namespace Orleankka.Features
                 await b.Push("b-456");
                 await Task.Delay(100);
 
+                var consumer = system.ActorOf<TestMultistreamSubscriptionWithFixedIdsActor>("#");
                 var received = await consumer.Ask(new Received());
-                Assert.That(received,
-                    Is.EquivalentTo(new[] {"a-123", "b-456"}));
+                Assert.That(received, Is.EquivalentTo(new[] {"a-123", "b-456"}));
             }
         }
     }

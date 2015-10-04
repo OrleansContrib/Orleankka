@@ -41,6 +41,7 @@ namespace Orleankka.Core
             ActorPrototype.Register(type);
 
             ActorEndpointFactory.Register(type);
+            StreamProvider.Register(type);
         }
 
         static ActorType RegisterThis(Type actor)
@@ -67,6 +68,7 @@ namespace Orleankka.Core
             ActorPrototype.Reset();
 
             ActorEndpointFactory.Reset();
+            StreamProvider.Reset();
         }
 
         static void ResetThis()

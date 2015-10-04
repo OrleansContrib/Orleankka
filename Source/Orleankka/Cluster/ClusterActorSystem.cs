@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 
 using Orleans.Runtime.Host;
@@ -15,7 +14,7 @@ namespace Orleankka.Cluster
         {
             get
             {
-                if (current == null)
+                if (!Initialized)
                     throw new InvalidOperationException("Cluster actor system hasn't been initialized");
 
                 return current;
@@ -23,19 +22,18 @@ namespace Orleankka.Cluster
 
             internal set
             {
-                if (current != null)
-                    throw new InvalidOperationException("Cluster actor system has been already initialized");
-
                 current = value;
             }
         }
+
+        public static bool Initialized => current != null;
 
         readonly IDisposable configurator;
         SiloHost host;
 
         internal ClusterActorSystem(IDisposable configurator, ClusterConfiguration configuration)
         {
-            Current = this;
+            current = this;
             this.configurator = configurator;
             host = new SiloHost(Dns.GetHostName(), configuration);
         }
@@ -58,6 +56,7 @@ namespace Orleankka.Cluster
             host = null;
 
             configurator.Dispose();
+            current = null;
         }
     }
 }

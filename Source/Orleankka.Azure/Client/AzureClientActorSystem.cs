@@ -11,6 +11,8 @@ namespace Orleankka.Client
 
         public AzureClientActorSystem(IDisposable configurator)
         {
+            ClientActorSystem.Current = this;
+
             this.configurator = configurator;
         }
 
