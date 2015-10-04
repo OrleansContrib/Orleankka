@@ -67,7 +67,11 @@
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorPrototype.cs" />
     <Compile Include="Core\ActorType.cs" />
+    <Compile Include="Core\Stream.cs" />
+    <Compile Include="Core\StreamCache.cs" />
     <Compile Include="Core\StreamProvider.cs" />
+    <Compile Include="Core\StreamProviderConfiguration.cs" />
+    <Compile Include="Core\StreamSubscriptionSpecification.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
