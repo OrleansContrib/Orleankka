@@ -48,4 +48,11 @@ namespace Orleankka
         public double Minutes;
         public double Hours;
     }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class StreamSubscriptionAttribute : Attribute
+    {
+        public string Stream;
+        public string Actor;
+    }
 }
