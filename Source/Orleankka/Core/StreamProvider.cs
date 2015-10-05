@@ -59,7 +59,6 @@ namespace Orleankka.Core
 
         internal const string TypeKey = "<-::Type::->";
 
-        readonly StreamCache streams = new StreamCache();
         List<StreamSubscriptionSpecification> specifications;
         IStreamProviderImpl provider;
         IActorSystem system;
@@ -91,20 +90,17 @@ namespace Orleankka.Core
 
         public IAsyncStream<T> GetStream<T>(Guid unused, string id)
         {
-            return streams.GetOrAdd(id, () =>
-            {
-                var recipients = specifications
-                    .Where(x => x.Matches(id))
-                    .Select(x => x.Target(system, id))
-                    .ToArray();
+            var recipients = specifications
+                .Where(x => x.Matches(id))
+                .Select(x => x.Target(system, id))
+                .ToArray();
 
-                Func<T, Task> fan = item => TaskDone.Done;
+            Func<T, Task> fan = item => TaskDone.Done;
 
-                if (recipients.Length != 0)
-                    fan = item => Task.WhenAll(recipients.Select(x => x.Tell(item)));
+            if (recipients.Length != 0)
+                fan = item => Task.WhenAll(recipients.Select(x => x.Tell(item)));
 
-                return new Stream<T>(provider.GetStream<T>(unused, id), fan);
-            });
+            return new Stream<T>(provider.GetStream<T>(unused, id), fan);
         }
     }
 }
