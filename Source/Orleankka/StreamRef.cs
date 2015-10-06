@@ -13,27 +13,23 @@ namespace Orleankka
 
     [Serializable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
+    public class StreamRef : Ref, IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
         public static StreamRef Deserialize(StreamPath path)
         {            
             return new StreamRef(path);
         }
 
-        IAsyncStream<object> endpoint;
-
         protected internal StreamRef(StreamPath path)
         {
             Path = path;
         }
 
-        public StreamPath Path { get; }
+        IAsyncStream<object> endpoint;
         IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy());
 
-        public string Serialize()
-        {
-            return Path.Serialize();
-        }
+        public StreamPath Path { get; }
+        public override string Serialize() => Path.Serialize();
 
         public virtual Task Push(object item)
         {
@@ -105,17 +101,13 @@ namespace Orleankka
                     || Path.Equals(other.Path));
         }
 
-        public bool Equals(StreamPath other)
-        {
-            return Path.Equals(other);
-        }
-
         public override bool Equals(object obj)
         {
             return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj)
                     || obj.GetType() == GetType() && Equals((StreamRef)obj));
         }
 
+        public bool Equals(StreamPath other) => Path.Equals(other);
         public override int GetHashCode() => Path.GetHashCode();
 
         public static bool operator ==(StreamRef left, StreamRef right) => Equals(left, right);

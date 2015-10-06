@@ -2,6 +2,8 @@
 
 namespace Orleankka
 {
+    using Utility;
+
     /// <summary>
     /// Serves as factory for acquiring actor references.
     /// </summary>
@@ -96,6 +98,18 @@ namespace Orleankka
         public static ActorRef ActorOf(this IActorSystem system, string path)
         {
             return system.ActorOf(ActorPath.Parse(path));
+        }
+
+        /// <summary>
+        /// Acquires the typed actor reference for the given id and type of the actor.
+        /// The type could be either an interface or implementation class.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The id</param>
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        {
+            return new ActorRef<TActor>(ActorOf<TActor>(system, id));
         }
 
         /// <summary>

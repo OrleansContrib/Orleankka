@@ -63,6 +63,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="ActorMessage.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorPrototype.cs" />

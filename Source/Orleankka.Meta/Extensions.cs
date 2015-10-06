@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Orleankka.Meta
@@ -9,7 +12,17 @@ namespace Orleankka.Meta
             return @ref.Tell(cmd);
         }
 
+        public static Task Tell<TActor>(this ActorRef<TActor> @ref, Command<TActor> cmd) where TActor : IActor
+        {
+            return @ref.Tell(cmd);
+        }
+
         public static Task<TResult> Ask<TResult>(this ActorRef @ref, Query<TResult> query)
+        {
+            return @ref.Ask<TResult>(query);
+        }
+
+        public static Task<TResult> Ask<TActor, TResult>(this ActorRef<TActor> @ref, Query<TActor, TResult> query) where TActor : IActor
         {
             return @ref.Ask<TResult>(query);
         }
