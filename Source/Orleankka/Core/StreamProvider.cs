@@ -92,7 +92,7 @@ namespace Orleankka.Core
         {
             var recipients = specifications
                 .Where(x => x.Matches(id))
-                .Select(x => x.Target(system, id))
+                .Select(x => x.Target(system.ActorOf, id))
                 .ToArray();
 
             Func<T, Task> fan = item => TaskDone.Done;
