@@ -77,15 +77,15 @@ namespace Orleankka.Checks
         {
             public static async Task<TestObserver> Create()
             {
-                var observer = await Observer.Create();
+                var observer = await ClientObserver.Create();
                 return new TestObserver(observer);
             }
 
             public readonly List<object> Notifications = new List<object>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
-            readonly Observer observer;
+            readonly ClientObserver observer;
 
-            TestObserver(Observer observer)
+            TestObserver(ClientObserver observer)
             {
                 this.observer = observer;
                 observer.Subscribe(message =>

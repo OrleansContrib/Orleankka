@@ -14,26 +14,26 @@ namespace Orleankka
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    public class Observer : IObservable<object>, IDisposable
+    public class ClientObserver : IObservable<object>, IDisposable
     {
         /// <summary>
-        /// Creates new <see cref="Observer"/>
+        /// Creates new <see cref="ClientObserver"/>
         /// </summary>
-        /// <returns>New instance of <see cref="Observer"/></returns>
-        public static async Task<Observer> Create()
+        /// <returns>New instance of <see cref="ClientObserver"/></returns>
+        public static async Task<ClientObserver> Create()
         {
             var proxy = await ClientEndpoint.Create();
-            return new Observer(proxy);
+            return new ClientObserver(proxy);
         }
 
         readonly ClientEndpoint endpoint;
 
-        protected Observer(ObserverRef @ref)
+        protected ClientObserver(ObserverRef @ref)
         {
             Ref = @ref;
         }
 
-        Observer(ClientEndpoint endpoint) 
+        ClientObserver(ClientEndpoint endpoint) 
             : this(endpoint.Self)
         {
             this.endpoint = endpoint;
@@ -54,7 +54,7 @@ namespace Orleankka
             return endpoint.Subscribe(observer);
         }
 
-        public static implicit operator ObserverRef(Observer arg)
+        public static implicit operator ObserverRef(ClientObserver arg)
         {
             return arg.Ref;
         }
@@ -71,14 +71,14 @@ namespace Orleankka
         /// </returns>
         /// <param name="client">The instance of client observable proxy</param>
         /// <param name="callback">The callback delegate that is to receive notifications</param>
-        public static IDisposable Subscribe(this Observer client, Action<object> callback)
+        public static IDisposable Subscribe(this ClientObserver client, Action<object> callback)
         {
             Requires.NotNull(callback, "callback");
 
             return client.Subscribe(new DelegateObserver(callback));
         }
 
-        public static IDisposable Subscribe<T>(this Observer client, Action<T> callback)
+        public static IDisposable Subscribe<T>(this ClientObserver client, Action<T> callback)
         {
             Requires.NotNull(callback, "callback");
 

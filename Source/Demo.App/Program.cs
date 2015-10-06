@@ -25,7 +25,7 @@ namespace Demo
                 .Register(typeof(Api).Assembly)
                 .Done();
 
-            client = new Client(system, Observer.Create().Result);
+            client = new Client(system, ClientObserver.Create().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");

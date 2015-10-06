@@ -18,14 +18,14 @@ namespace Example.Azure.Hubs
 
     public class HubClient
     {
-        static Observer observer;
+        static ClientObserver observer;
         static IHubConnectionContext<dynamic> clients;
 
         public static void Initialize()
         {
             clients = GlobalHost.ConnectionManager.GetHubContext<Relay>().Clients;
             
-            observer = Task.Run(() => Observer.Create()).Result;
+            observer = Task.Run(() => ClientObserver.Create()).Result;
             observer.Subscribe(On);
 
             Task.Run(() => Subscribe())

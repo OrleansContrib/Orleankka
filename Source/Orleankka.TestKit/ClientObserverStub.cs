@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Orleankka.TestKit
 {
-    public class ObserverStub : Observer
+    public class ClientObserverStub : ClientObserver
     {
-        protected ObserverStub()
+        protected ClientObserverStub()
             : base(new ObserverRefStub())
         {}
 
