@@ -146,6 +146,9 @@ namespace Orleankka
 
         public override string ToString() => Path.ToString();
 
+        public static implicit operator ActorRef(ActorRef<TActor> arg) => arg.@ref;
+        public static implicit operator ActorRef<TActor>(ActorRef arg) => new ActorRef<TActor>(arg);
+
         #region Default Binary Serialization
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

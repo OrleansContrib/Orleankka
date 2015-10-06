@@ -28,14 +28,14 @@ namespace Example.Serialization.JSON
 
         static async Task Run(IActorSystem system)
         {
-            var e0 = system.ActorOf<Employee>("E0");
-            var e1 = system.ActorOf<Employee>("E1");
-            var e2 = system.ActorOf<Employee>("E2");
-            var e3 = system.ActorOf<Employee>("E3");
-            var e4 = system.ActorOf<Employee>("E4");
+            var e0 = system.TypedActorOf<Employee>("E0");
+            var e1 = system.TypedActorOf<Employee>("E1");
+            var e2 = system.TypedActorOf<Employee>("E2");
+            var e3 = system.TypedActorOf<Employee>("E3");
+            var e4 = system.TypedActorOf<Employee>("E4");
 
-            var m0 = system.ActorOf<Manager>("M0");
-            var m1 = system.ActorOf<Manager>("M1");
+            var m0 = system.TypedActorOf<Manager>("M0");
+            var m1 = system.TypedActorOf<Manager>("M1");
 
             await m0.Tell(new AddDirectReport {Employee = e0});
             await m0.Tell(new AddDirectReport {Employee = e1});

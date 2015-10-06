@@ -15,10 +15,8 @@ namespace Orleankka
     [DebuggerDisplay("s->{ToString()}")]
     public class StreamRef : Ref, IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
-        public static StreamRef Deserialize(StreamPath path)
-        {            
-            return new StreamRef(path);
-        }
+        public static StreamRef Deserialize(string path) => Deserialize(StreamPath.Deserialize(path));
+        public static StreamRef Deserialize(StreamPath path) => new StreamRef(path);
 
         protected internal StreamRef(StreamPath path)
         {
