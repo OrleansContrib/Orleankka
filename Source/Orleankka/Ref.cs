@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace Orleankka
@@ -16,24 +15,32 @@ namespace Orleankka
 
         internal static void Reset() => deserializers.Clear();
 
-        internal static void Register(ActorType type)
+        internal static void Register(ActorType actor)
         {
-            var @ref = typeof(ActorRef<>).MakeGenericType(type.Implementation);
-
+            var @ref = ConstructRefType(actor);
             var constructor = CompileConstructor(@ref);
+            RegisterDeserializer(@ref, constructor);
+        }
 
-            deserializers.Add(@ref, path => constructor(ActorRef.Deserialize(path)));
+        static Type ConstructRefType(ActorType actor)
+        {
+            return typeof(ActorRef<>).MakeGenericType(actor.Implementation);
         }
 
         static Func<ActorRef, Ref> CompileConstructor(Type type)
         {
             var constructor = type.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)[0];
-            Debug.Assert(constructor != null);
 
-            var param = Expression.Parameter(typeof(ActorRef), "@ref");
-            var lambda = Expression.Lambda<Func<ActorRef, Ref>>(Expression.New(constructor, param), param);
+            var parameter = Expression.Parameter(typeof(ActorRef), "@ref");
+            var @new      = Expression.New(constructor, parameter);
+            var invoker   = Expression.Lambda<Func<ActorRef, Ref>>(@new, parameter);
 
-            return lambda.Compile();
+            return invoker.Compile();
+        }
+
+        static void RegisterDeserializer(Type @ref, Func<ActorRef, Ref> constructor)
+        {
+            deserializers.Add(@ref, path => constructor(ActorRef.Deserialize(path)));
         }
 
         public static Ref Deserialize(string path, Type type)
