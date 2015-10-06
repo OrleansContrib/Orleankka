@@ -5,8 +5,8 @@ using System.Web;
 
 using NUnit.Framework;
 
+using Orleankka.Meta;
 using Orleankka.TestKit;
-using Orleankka.TestKit.Meta;
 
 namespace Demo
 {

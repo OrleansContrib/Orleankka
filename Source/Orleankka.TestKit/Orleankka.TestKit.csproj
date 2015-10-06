@@ -60,7 +60,6 @@
     <Compile Include="ActorRefMock.cs" />
     <Compile Include="ActorRuntimeMock.cs" />
     <Compile Include="OrleansSerialization.cs" />
-    <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />

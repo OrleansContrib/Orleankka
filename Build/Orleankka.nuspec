@@ -18,6 +18,9 @@
     <file src="Output\Package\Release\Orleankka.dll" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.xml" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.Core.dll" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.Core.xml" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.Core.pdb" target="lib/net45" />

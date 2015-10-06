@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestKit", "TestKit", "{C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}"
 EndProject
@@ -95,6 +95,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Interfaces", "Source\Example.Observers.Chat.Interfaces\Chat.Interfaces.csproj", "{355B546C-C246-5CEE-A302-7D453A81D3A2}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Http.Suave", "Source\FSharp.Example.Suave\Http.Suave.fsproj", "{83254524-8297-4C24-9571-8FF9312ECBA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Meta", "Source\Orleankka.Meta\Orleankka.Meta.csproj", "{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.TestKit.Meta", "Source\Orleankka.TestKit.Meta\Orleankka.TestKit.Meta.csproj", "{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -283,6 +287,18 @@ Global
 		{83254524-8297-4C24-9571-8FF9312ECBA3}.Package|Any CPU.Build.0 = Release|Any CPU
 		{83254524-8297-4C24-9571-8FF9312ECBA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83254524-8297-4C24-9571-8FF9312ECBA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.Build.0 = Package|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.Build.0 = Package|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -325,5 +341,6 @@ Global
 		{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B} = {A2A2E93C-20F7-4021-AEC2-B00BD22AADDE}
 		{355B546C-C246-5CEE-A302-7D453A81D3A2} = {A0E9475F-5076-4456-AA89-ECCB53BC3D8C}
 		{83254524-8297-4C24-9571-8FF9312ECBA3} = {CFAFA4BC-6B02-4FFB-BCC4-1965FBBC68E7}
+		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5} = {C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}
 	EndGlobalSection
 EndGlobal
