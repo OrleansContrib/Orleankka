@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-
-using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
@@ -13,8 +10,8 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefMock> expected =
              new Dictionary<ActorPath, ActorRefMock>();
 
-        readonly Dictionary<ActorPath, ActorRefStub> unexpected =
-             new Dictionary<ActorPath, ActorRefStub>();
+        readonly Dictionary<ActorPath, ActorRefMock> unexpected =
+             new Dictionary<ActorPath, ActorRefMock>();
 
         readonly IMessageSerializer serializer;
 
@@ -50,10 +47,10 @@ namespace Orleankka.TestKit
             if (unexpected.ContainsKey(path))
                 return unexpected[path];
 
-            var stub = new ActorRefStub(path);
-            unexpected.Add(path, stub);
+            var mock = new ActorRefMock(path);
+            unexpected.Add(path, mock);
 
-            return stub;
+            return mock;
         }
 
         StreamRef IActorSystem.StreamOf(StreamPath path)

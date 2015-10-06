@@ -62,7 +62,6 @@
     <Compile Include="OrleansSerialization.cs" />
     <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
-    <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ActorSystemMock.cs" />
