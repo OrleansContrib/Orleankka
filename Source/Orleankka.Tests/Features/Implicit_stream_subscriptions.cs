@@ -54,6 +54,10 @@ namespace Orleankka.Features
         class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
         {}
 
+        [StreamSubscription(Source = "sms:INV-([0-9]+)", Target = "#")]
+        class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
+        {}
+
         [TestFixture]
         [Explicit, Category("Slow")]
         [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
@@ -95,18 +99,18 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Multistream_subscription_with_fixed_ids()
+            public async void Multistream_subscription_based_on_regex_matching()
             {
-                var a = system.StreamOf("sms", "a");
-                var b = system.StreamOf("sms", "b");
+                var s1 = system.StreamOf("sms", "INV-001");
+                var s2 = system.StreamOf("sms", "INV-002");
 
-                await a.Push("a-123");
-                await b.Push("b-456");
+                await s1.Push("001");
+                await s2.Push("002");
                 await Task.Delay(100);
 
-                var consumer = system.ActorOf<TestMultistreamSubscriptionWithFixedIdsActor>("#");
+                var consumer = system.ActorOf<TestMultistreamRegexBasedSubscriptionActor>("#");
                 var received = await consumer.Ask(new Received());
-                Assert.That(received, Is.EquivalentTo(new[] {"a-123", "b-456"}));
+                Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
         }
     }
