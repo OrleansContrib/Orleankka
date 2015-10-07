@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -59,6 +60,9 @@ namespace Orleankka.Core
 
         internal const string TypeKey = "<-::Type::->";
 
+        readonly ConditionalWeakTable<object, object> streams = 
+             new ConditionalWeakTable<object, object>();
+
         List<StreamSubscriptionSpecification> specifications;
         IStreamProviderImpl provider;
         IActorSystem system;
@@ -90,17 +94,22 @@ namespace Orleankka.Core
 
         public IAsyncStream<T> GetStream<T>(Guid unused, string id)
         {
-            var recipients = specifications
-                .Where(x => x.Matches(id))
-                .Select(x => x.Target(system.ActorOf, id))
-                .ToArray();
+            var stream = provider.GetStream<T>(unused, id);
 
-            Func<T, Task> fan = item => TaskDone.Done;
+            return (IAsyncStream<T>) streams.GetValue(stream, _ =>
+            {
+                var recipients = specifications
+                    .Where(x => x.Matches(id))
+                    .Select(x => x.Target(system.ActorOf, id))
+                    .ToArray();
 
-            if (recipients.Length != 0)
-                fan = item => Task.WhenAll(recipients.Select(x => x.Tell(item)));
+                Func<T, Task> fan = item => TaskDone.Done;
 
-            return new Stream<T>(provider.GetStream<T>(unused, id), fan);
+                if (recipients.Length != 0)
+                    fan = item => Task.WhenAll(recipients.Select(x => x.Tell(item)));
+
+                return new Stream<T>(stream, fan);
+            });
         }
     }
 }
