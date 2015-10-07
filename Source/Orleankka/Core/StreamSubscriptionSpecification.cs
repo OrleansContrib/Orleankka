@@ -20,9 +20,9 @@ namespace Orleankka.Core
             return source == stream;
         }
 
-        public ActorRef Target(Func<Type, string, ActorRef> actorOf, string stream)
+        public ActorRef Target(IActorSystem system, string stream)
         {
-            return actorOf(actor, target);
+            return system.ActorOf(actor, target);
         }
     }
 }
