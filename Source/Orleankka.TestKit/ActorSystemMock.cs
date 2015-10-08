@@ -70,6 +70,12 @@ namespace Orleankka.TestKit
             return mock;
         }
 
+        public void Reset()
+        {
+            actors.Clear();
+            streams.Clear();
+        }
+
         public void Dispose()
         {}
     }

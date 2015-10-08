@@ -10,30 +10,30 @@ namespace Orleankka.TestKit
 
     public class TimerServiceMock : ITimerService, IEnumerable<RecordedTimer>
     {
-        readonly Dictionary<string, RecordedTimer> recorded = new Dictionary<string, RecordedTimer>();
+        readonly Dictionary<string, RecordedTimer> timers = new Dictionary<string, RecordedTimer>();
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            recorded.Add(id, new RecordedTimer(id, due, period, callback));
+            timers.Add(id, new RecordedTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            recorded.Add(id, new RecordedTimer<TState>(id, due, period, callback, state));
+            timers.Add(id, new RecordedTimer<TState>(id, due, period, callback, state));
         }
 
-        void ITimerService.Unregister(string id) => recorded.Remove(id);
-        bool ITimerService.IsRegistered(string id) => recorded.ContainsKey(id);
+        void ITimerService.Unregister(string id) => timers.Remove(id);
+        bool ITimerService.IsRegistered(string id) => timers.ContainsKey(id);
 
-        IEnumerable<string> ITimerService.Registered() => recorded.Keys;
+        IEnumerable<string> ITimerService.Registered() => timers.Keys;
 
-        public IEnumerator<RecordedTimer> GetEnumerator() => recorded.Values.GetEnumerator();
+        public IEnumerator<RecordedTimer> GetEnumerator() => timers.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public RecordedTimer this[int index] => recorded.Values.ElementAt(index);
-        public RecordedTimer this[string id] => recorded[id];
+        public RecordedTimer this[int index] => timers.Values.ElementAt(index);
+        public RecordedTimer this[string id] => timers[id];
 
-        public void Clear() => recorded.Clear();
+        public void Reset() => timers.Clear();
     }
 
     public class RecordedTimer

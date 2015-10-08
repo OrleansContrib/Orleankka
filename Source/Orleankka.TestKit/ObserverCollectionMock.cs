@@ -1,41 +1,42 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Orleankka.TestKit
 {
     public class ObserverCollectionMock : IObserverCollection
     {
-        public readonly List<object> RecordedNotifications = new List<object>();
-        public readonly List<ObserverRef> RecordedSubscriptions = new List<ObserverRef>();
+        readonly List<object> messages = new List<object>();
+        readonly List<ObserverRef> subscriptions = new List<ObserverRef>();
+
+        public IEnumerable<object> RecordedMessages => messages;
+        public IEnumerable<ObserverRef> RecordedSubscriptions => subscriptions;
 
         void IObserverCollection.Notify(object message)
         {
-            RecordedNotifications.Add(message);
+            messages.Add(message);
         }
 
         void IObserverCollection.Add(ObserverRef observer)
         {
-            if (RecordedSubscriptions.Any(x => x == observer))
+            if (subscriptions.Any(x => x == observer))
                 return;
 
-            RecordedSubscriptions.Add(observer);
+            subscriptions.Add(observer);
         }
 
         void IObserverCollection.Remove(ObserverRef observer)
         {
-            RecordedSubscriptions.Remove(observer);
+            subscriptions.Remove(observer);
         }
 
-        public IEnumerator<ObserverRef> GetEnumerator()
-        {
-            return RecordedSubscriptions.GetEnumerator();
-        }
+        public IEnumerator<ObserverRef> GetEnumerator() => subscriptions.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public void Reset()
         {
-            return GetEnumerator();
+            messages.Clear();
+            subscriptions.Clear();
         }
     }
 }

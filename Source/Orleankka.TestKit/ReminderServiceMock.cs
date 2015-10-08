@@ -12,30 +12,30 @@ namespace Orleankka.TestKit
 
     public class ReminderServiceMock : IReminderService, IEnumerable<RecordedReminder>
     {
-        readonly Dictionary<string, RecordedReminder> recorded = new Dictionary<string, RecordedReminder>();
+        readonly Dictionary<string, RecordedReminder> reminders = new Dictionary<string, RecordedReminder>();
 
         Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            recorded.Add(id, new RecordedReminder(id, due, period));
+            reminders.Add(id, new RecordedReminder(id, due, period));
             return TaskDone.Done;
         }
 
         Task IReminderService.Unregister(string id)
         {
-            recorded.Remove(id);
+            reminders.Remove(id);
             return TaskDone.Done;
         }
 
-        Task<bool> IReminderService.IsRegistered(string id) => Task.FromResult(recorded.ContainsKey(id));
-        Task<IEnumerable<string>> IReminderService.Registered() => Task.FromResult(recorded.Keys.AsEnumerable());
+        Task<bool> IReminderService.IsRegistered(string id) => Task.FromResult(reminders.ContainsKey(id));
+        Task<IEnumerable<string>> IReminderService.Registered() => Task.FromResult(reminders.Keys.AsEnumerable());
 
-        public IEnumerator<RecordedReminder> GetEnumerator() => recorded.Values.GetEnumerator();
+        public IEnumerator<RecordedReminder> GetEnumerator() => reminders.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public RecordedReminder this[int index] => recorded.Values.ElementAt(index);
-        public RecordedReminder this[string id] => recorded[id];
+        public RecordedReminder this[int index] => reminders.Values.ElementAt(index);
+        public RecordedReminder this[string id] => reminders[id];
 
-        public void Clear() => recorded.Clear();
+        public void Reset() => reminders.Clear();
     }
 
     public class RecordedReminder

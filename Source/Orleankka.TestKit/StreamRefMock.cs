@@ -20,11 +20,11 @@ namespace Orleankka.TestKit
         readonly IMessageSerializer serializer;
         readonly List<IExpectation> expectations = new List<IExpectation>();
 
-        public readonly List<RecordedItem> Pushed = 
-                    new List<RecordedItem>();
+        readonly List<RecordedItem> items = new List<RecordedItem>();
+        public IEnumerable<RecordedItem> RecordedItems => items;  
 
-        public readonly List<StreamSubscriptionMock> Subscriptions = 
-                    new List<StreamSubscriptionMock>();
+        readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
+        public IEnumerable<StreamSubscriptionMock> RecordedSubscriptions => subscriptions;
 
         public Actor Subscribed { get; private set; }
         public Actor Resumed    { get; private set; }
@@ -49,7 +49,7 @@ namespace Orleankka.TestKit
             var expectation = Match(message);
             var expected = expectation != null;
 
-            Pushed.Add(new RecordedItem(expected, message));
+            items.Add(new RecordedItem(expected, message));
 
             if (expected)
                 expectation.Apply();
@@ -65,7 +65,7 @@ namespace Orleankka.TestKit
         Task<StreamSubscription> Create(object callback)
         {
             var mock = new StreamSubscriptionMock(callback);
-            Subscriptions.Add(mock);
+            subscriptions.Add(mock);
 
             return Task.FromResult<StreamSubscription>(mock);
         }
@@ -92,6 +92,13 @@ namespace Orleankka.TestKit
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
         object Reserialize(object message) => OrleansSerialization.Reserialize(serializer, message);
+
+        public new void Reset()
+        {
+            items.Clear();
+            subscriptions.Clear();
+            expectations.Clear();
+        }
     }
 
     public class RecordedItem

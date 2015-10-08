@@ -25,19 +25,14 @@ namespace Orleankka.Meta
             return mock.ExpectAsk(match);
         }
 
-        public static void Reset(this ActorRefMock mock)
-        {
-            mock.Received.Clear();
-        }
-
         public static IEnumerable<Command> Commands(this ActorRefMock mock)
         {
-            return mock.Received.Select(x => x.Message).Cast<Command>();
+            return mock.RecordedMessages.Select(x => x.Message).Cast<Command>();
         }
 
         public static IEnumerable<Query> Queries(this ActorRefMock mock)
         {
-            return mock.Received.Select(x => x.Message).Cast<Query>();
+            return mock.RecordedMessages.Select(x => x.Message).Cast<Query>();
         }
 
         public static bool DidNotReceiveAnyCommands(this ActorRefMock mock)
@@ -62,7 +57,7 @@ namespace Orleankka.Meta
 
         public static IEnumerable<Event> Events(this ObserverCollectionMock mock)
         {
-            return mock.RecordedNotifications.Cast<Event>();
+            return mock.RecordedMessages.Cast<Event>();
         }
 
         public static TEvent FirstEvent<TEvent>(this ObserverCollectionMock mock) where TEvent : Event
