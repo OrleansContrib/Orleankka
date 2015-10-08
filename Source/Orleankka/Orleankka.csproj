@@ -72,7 +72,6 @@
     <Compile Include="Core\StreamProvider.cs" />
     <Compile Include="Core\StreamProviderConfiguration.cs" />
     <Compile Include="Core\StreamSubscriptionSpecification.cs" />
-    <Compile Include="StreamExtensions.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
     <Compile Include="ActorAttributes.cs" />

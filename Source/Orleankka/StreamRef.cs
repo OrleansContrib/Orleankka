@@ -34,14 +34,81 @@ namespace Orleankka
             return Endpoint.OnNextAsync(item);
         }
 
-        public virtual async Task<StreamSubscription> Subscribe(Func<StreamPath, object, Task> callback)
+        /// <summary>
+        /// Subscribe a consumer to this stream reference using weakly-typed delegate.
+        /// </summary>
+        /// <param name="callback">Callback delegate.</param>
+        /// <returns>
+        /// A promise for a StreamSubscription that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// </returns>
+        public virtual async Task<StreamSubscription> Subscribe(Func<object, Task> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 
-            var observer = new Observer((item, token) => callback(Path, item));
+            var observer = new Observer((item, token) => callback(item));
             var handle = await Endpoint.SubscribeAsync(observer);
 
             return new StreamSubscription(handle);
+        }
+
+        /// <summary>
+        /// Subscribe a consumer to this stream reference using strongly-typed delegate.
+        /// </summary>
+        /// <typeparam name="T">The type of the items produced by the stream.</typeparam>
+        /// <param name="callback">Strongly-typed version of callback delegate.</param>
+        /// <returns>
+        /// A promise for a StreamSubscription that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// </returns>
+        public virtual Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback)
+        {
+            Requires.NotNull(callback, nameof(callback));
+
+            return Subscribe(item => callback((T)item));
+        }
+
+        /// <summary>
+        /// Subscribe a consumer to this stream reference using weakly-typed delegate.
+        /// </summary>
+        /// <param name="callback">Callback delegate.</param>
+        /// <returns>
+        /// A promise for a StreamSubscription that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// </returns>
+        public virtual Task<StreamSubscription> Subscribe(Action<object> callback)
+        {
+            Requires.NotNull(callback, nameof(callback));
+
+            return Subscribe(item =>
+            {
+                callback(item);
+                return TaskDone.Done;
+            });
+        }
+        
+        /// <summary>
+        /// Subscribe a consumer to this stream reference using strongly-typed delegate.
+        /// </summary>
+        /// <typeparam name="T">The type of the items produced by the stream.</typeparam>
+        /// <param name="callback">Strongly-typed version of callback delegate.</param>
+        /// <returns>
+        /// A promise for a StreamSubscription that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// </returns>
+        public virtual Task<StreamSubscription> Subscribe<T>(Action<T> callback)
+        {
+            Requires.NotNull(callback, nameof(callback));
+
+            return Subscribe(item =>
+            {
+                callback((T)item);
+                return TaskDone.Done;
+            });
         }
 
         public virtual async Task Subscribe(Actor actor)
@@ -59,7 +126,7 @@ namespace Orleankka
             await Endpoint.SubscribeAsync(observer);
         }
 
-        public async Task Unsubscribe(Actor actor)
+        public virtual async Task Unsubscribe(Actor actor)
         {
             Requires.NotNull(actor, nameof(actor));
 
@@ -73,7 +140,7 @@ namespace Orleankka
             await handles[0].UnsubscribeAsync();
         }
 
-        public async Task Resume(Actor actor)
+        public virtual async Task Resume(Actor actor)
         {
             Requires.NotNull(actor, nameof(actor));
 

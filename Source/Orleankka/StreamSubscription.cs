@@ -10,11 +10,11 @@ namespace Orleankka
     {
         readonly StreamSubscriptionHandle<object> handle;
 
-        public StreamSubscription(StreamSubscriptionHandle<object> handle)
+        protected internal StreamSubscription(StreamSubscriptionHandle<object> handle)
         {
             this.handle = handle;
         }
 
-        public Task Unsubscribe() => handle.UnsubscribeAsync();
+        public virtual Task Unsubscribe() => handle.UnsubscribeAsync();
     }
 }

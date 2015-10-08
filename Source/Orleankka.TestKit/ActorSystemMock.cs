@@ -7,30 +7,23 @@ namespace Orleankka.TestKit
 
     public class ActorSystemMock : IActorSystem
     {
-        readonly Dictionary<ActorPath, ActorRefMock> expected =
+        readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
 
-        readonly Dictionary<ActorPath, ActorRefMock> unexpected =
-             new Dictionary<ActorPath, ActorRefMock>();
+        readonly Dictionary<StreamPath, StreamRefMock> streams =
+             new Dictionary<StreamPath, StreamRefMock>();
 
         readonly IMessageSerializer serializer;
 
         public ActorSystemMock(IMessageSerializer serializer = null)
         {
-            this.serializer = serializer ?? new BinarySerializer();
+            this.serializer = serializer ?? MessageEnvelope.Serializer;
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
             var path = ActorPath.From(typeof(TActor), id);
-
-            if (expected.ContainsKey(path))
-                return expected[path];
-
-            var mock = new ActorRefMock(path, serializer);
-            expected.Add(path, mock);
-
-            return mock;
+            return GetOrCreateMock(path);
         }
 
         ActorRef IActorSystem.ActorOf(Type type, string id)
@@ -41,21 +34,40 @@ namespace Orleankka.TestKit
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
         {
-            if (expected.ContainsKey(path))
-                return expected[path];
+            return GetOrCreateMock(path);
+        }
 
-            if (unexpected.ContainsKey(path))
-                return unexpected[path];
+        ActorRefMock GetOrCreateMock(ActorPath path)
+        {
+            if (actors.ContainsKey(path))
+                return actors[path];
 
-            var mock = new ActorRefMock(path);
-            unexpected.Add(path, mock);
+            var mock = new ActorRefMock(path, serializer);
+            actors.Add(path, mock);
 
             return mock;
         }
 
+        public StreamRefMock MockStreamOf(string provider, string id)
+        {
+            var path = StreamPath.From(provider, id);
+            return GetOrCreateMock(path);
+        }
+
         StreamRef IActorSystem.StreamOf(StreamPath path)
         {
-            throw new NotImplementedException();
+            return GetOrCreateMock(path);
+        }
+
+        StreamRefMock GetOrCreateMock(StreamPath path)
+        {
+            if (streams.ContainsKey(path))
+                return streams[path];
+
+            var mock = new StreamRefMock(path, serializer);
+            streams.Add(path, mock);
+
+            return mock;
         }
 
         public void Dispose()

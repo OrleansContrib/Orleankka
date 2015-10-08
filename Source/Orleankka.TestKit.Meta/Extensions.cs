@@ -9,7 +9,7 @@ namespace Orleankka.Meta
 
     public static class Extensions
     {
-        public static CommandExpectation<TCommand> ExpectCommand<TCommand>(
+        public static TellExpectation<TCommand> ExpectCommand<TCommand>(
             this ActorRefMock mock,
             Expression<Func<TCommand, bool>> match = null)
             where TCommand : Command
@@ -17,7 +17,7 @@ namespace Orleankka.Meta
             return mock.ExpectTell(match);
         }
 
-        public static QueryExpectation<TQuery> ExpectQuery<TQuery>(
+        public static AskExpectation<TQuery> ExpectQuery<TQuery>(
             this ActorRefMock mock,
             Expression<Func<TQuery, bool>> match = null)
             where TQuery : Query

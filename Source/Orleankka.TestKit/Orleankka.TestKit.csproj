@@ -57,6 +57,8 @@
     </Compile>
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorExtensions.cs" />
+    <Compile Include="StreamSubscriptionMock.cs" />
+    <Compile Include="StreamRefMock.cs" />
     <Compile Include="ActorRefMock.cs" />
     <Compile Include="ActorRuntimeMock.cs" />
     <Compile Include="OrleansSerialization.cs" />

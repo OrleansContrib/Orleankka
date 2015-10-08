@@ -28,16 +28,16 @@ namespace Orleankka.TestKit
             this.serializer = serializer;
         }
 
-        public CommandExpectation<TCommand> ExpectTell<TCommand>(Expression<Func<TCommand, bool>> match = null)
+        public TellExpectation<TMessage> ExpectTell<TMessage>(Expression<Func<TMessage, bool>> match = null)
         {
-            var expectation = new CommandExpectation<TCommand>(match ?? (_ => true));
+            var expectation = new TellExpectation<TMessage>(match ?? (_ => true));
             expectations.Add(expectation);
             return expectation;
         }
 
-        public QueryExpectation<TQuery> ExpectAsk<TQuery>(Expression<Func<TQuery, bool>> match = null)
+        public AskExpectation<TMessage> ExpectAsk<TMessage>(Expression<Func<TMessage, bool>> match = null)
         {
-            var expectation = new QueryExpectation<TQuery>(match ?? (_ => true));
+            var expectation = new AskExpectation<TMessage>(match ?? (_ => true));
             expectations.Add(expectation);
             return expectation;
         }

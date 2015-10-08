@@ -68,13 +68,13 @@ namespace Orleankka.TestKit
         IExpectation Times(int times);
     }
 
-    public sealed class CommandExpectation<TCommand> : IRepeatExpectation
+    public sealed class TellExpectation<TMessage> : IRepeatExpectation
     {
-        Expectation<TCommand> expectation;
-        readonly Expression<Func<TCommand, bool>> expression;
+        Expectation<TMessage> expectation;
+        readonly Expression<Func<TMessage, bool>> expression;
         Exception exception;
 
-        internal CommandExpectation(Expression<Func<TCommand, bool>> expression)
+        internal TellExpectation(Expression<Func<TMessage, bool>> expression)
         {
             this.expression = expression;
         }
@@ -92,9 +92,9 @@ namespace Orleankka.TestKit
             return this;
         }
 
-        Expectation<TCommand> Create(int times = int.MaxValue)
+        Expectation<TMessage> Create(int times = int.MaxValue)
         {
-            return new Expectation<TCommand>(expression, null, exception, times);
+            return new Expectation<TMessage>(expression, null, exception, times);
         }
 
         bool IExpectation.Match(object message)
@@ -114,14 +114,14 @@ namespace Orleankka.TestKit
         }
     }
 
-    public sealed class QueryExpectation<TQuery> : IRepeatExpectation
+    public sealed class AskExpectation<TMessage> : IRepeatExpectation
     {
-        Expectation<TQuery> expectation;
-        readonly Expression<Func<TQuery, bool>> expression;
+        Expectation<TMessage> expectation;
+        readonly Expression<Func<TMessage, bool>> expression;
         Exception exception;
         object result;
 
-        internal QueryExpectation(Expression<Func<TQuery, bool>> expression)
+        internal AskExpectation(Expression<Func<TMessage, bool>> expression)
         {
             this.expression = expression;
         }
@@ -146,9 +146,9 @@ namespace Orleankka.TestKit
             return this;
         }
 
-        Expectation<TQuery> Create(int times = int.MaxValue)
+        Expectation<TMessage> Create(int times = int.MaxValue)
         {
-            return new Expectation<TQuery>(expression, result, exception, times);
+            return new Expectation<TMessage>(expression, result, exception, times);
         }
 
         bool IExpectation.Match(object message)
@@ -163,6 +163,52 @@ namespace Orleankka.TestKit
         {
             if (expectation == null)
                 throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
+
+            return expectation.Apply();
+        }
+    }
+
+    public sealed class PushExpectation<TItem> : IRepeatExpectation
+    {
+        Expectation<TItem> expectation;
+        readonly Expression<Func<TItem, bool>> expression;
+        Exception exception;
+
+        internal PushExpectation(Expression<Func<TItem, bool>> expression)
+        {
+            this.expression = expression;
+        }
+
+        public IRepeatExpectation Throw(Exception exception)
+        {
+            this.exception = exception;
+            expectation = Create();
+            return this;
+        }
+
+        IExpectation IRepeatExpectation.Times(int times)
+        {
+            expectation = Create(times);
+            return this;
+        }
+
+        Expectation<TItem> Create(int times = int.MaxValue)
+        {
+            return new Expectation<TItem>(expression, null, exception, times);
+        }
+
+        bool IExpectation.Match(object message)
+        {
+            if (expectation == null)
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
+
+            return expectation.Match(message);
+        }
+
+        object IExpectation.Apply()
+        {
+            if (expectation == null)
+                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
 
             return expectation.Apply();
         }
