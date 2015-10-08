@@ -4,63 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Services;
-
 namespace Orleankka.TestKit
 {
+    using Services;
+
     public class TimerServiceMock : ITimerService, IEnumerable<RecordedTimer>
     {
-        readonly List<RecordedTimer> recorded = new List<RecordedTimer>();
+        readonly Dictionary<string, RecordedTimer> recorded = new Dictionary<string, RecordedTimer>();
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            recorded.Add(new RecordedTimer(id, due, period, callback));
+            recorded.Add(id, new RecordedTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            recorded.Add(new RecordedTimer<TState>(id, due, period, callback, state));
+            recorded.Add(id, new RecordedTimer<TState>(id, due, period, callback, state));
         }
 
-        void ITimerService.Unregister(string id)
-        {
-            recorded.RemoveAll(x => x.Id == id);
-        }
+        void ITimerService.Unregister(string id) => recorded.Remove(id);
+        bool ITimerService.IsRegistered(string id) => recorded.ContainsKey(id);
 
-        bool ITimerService.IsRegistered(string id)
-        {
-            return recorded.Exists(x => x.Id == id);
-        }
+        IEnumerable<string> ITimerService.Registered() => recorded.Keys;
 
-        IEnumerable<string> ITimerService.Registered()
-        {
-            return recorded.Select(x => x.Id);
-        }
+        public IEnumerator<RecordedTimer> GetEnumerator() => recorded.Values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<RecordedTimer> GetEnumerator()
-        {
-            return recorded.GetEnumerator();
-        }
+        public RecordedTimer this[int index] => recorded.Values.ElementAt(index);
+        public RecordedTimer this[string id] => recorded[id];
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public RecordedTimer this[int index]
-        {
-            get { return recorded.ElementAt(index); }
-        }
-
-        public RecordedTimer this[string id]
-        {
-            get { return recorded.SingleOrDefault(x => x.Id == id); }
-        }
-
-        public void Clear()
-        {
-            recorded.Clear();
-        }
+        public void Clear() => recorded.Clear();
     }
 
     public class RecordedTimer
