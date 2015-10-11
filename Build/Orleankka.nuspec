@@ -24,5 +24,7 @@
     <file src="Output\Package\Release\Orleankka.Core.dll" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.Core.xml" target="lib/net45" />
     <file src="Output\Package\Release\Orleankka.Core.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\OrleansManager.dll" target="lib/net45" />
+    <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net45" />
   </files>
 </package>

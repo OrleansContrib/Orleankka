@@ -35,7 +35,7 @@ namespace Orleankka.Client
             this.configurator = configurator;
         }
 
-        public static void Initialize(ClientConfiguration configuration)
+        public void Initialize(ClientConfiguration configuration)
         {
             GrainClient.Initialize(configuration);
         }

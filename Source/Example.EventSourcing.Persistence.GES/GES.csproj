@@ -96,6 +96,10 @@
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97E4FE27-27FD-499B-8737-0F293807C297}</Project>
+      <Name>Orleans.Internals</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

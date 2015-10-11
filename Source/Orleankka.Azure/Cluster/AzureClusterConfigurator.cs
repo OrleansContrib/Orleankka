@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
+using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
@@ -41,6 +43,12 @@ namespace Orleankka.Cluster
         public AzureClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
+            return this;
+        }
+
+        public AzureClusterConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        {
+            cluster.Register<T>(name, properties);
             return this;
         }
 

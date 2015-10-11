@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -80,12 +81,13 @@ namespace Orleankka
         }
 
         public bool Equals(ActorPath other) => Path.Equals(other);
-        public override int GetHashCode() => Path.GetHashCode();
+        public override int GetHashCode()   => Path.GetHashCode();
+        public override string ToString()   => Path.ToString();
 
         public static bool operator ==(ActorRef left, ActorRef right) => Equals(left, right);
         public static bool operator !=(ActorRef left, ActorRef right) => !Equals(left, right);
 
-        public override string ToString() => Path.ToString();
+        public static implicit operator GrainReference(ActorRef arg) => (GrainReference) arg.endpoint;
 
         #region Default Binary Serialization
 
@@ -139,15 +141,15 @@ namespace Orleankka
         }
 
         public bool Equals(ActorPath other) => Path.Equals(other);
-        public override int GetHashCode() => Path.GetHashCode();
+        public override string ToString()   => Path.ToString();
+        public override int GetHashCode()   => Path.GetHashCode();
 
         public static bool operator ==(ActorRef<TActor> left, ActorRef<TActor> right) => Equals(left, right);
         public static bool operator !=(ActorRef<TActor> left, ActorRef<TActor> right) => !Equals(left, right);
 
-        public override string ToString() => Path.ToString();
-
         public static implicit operator ActorRef(ActorRef<TActor> arg) => arg.@ref;
         public static implicit operator ActorRef<TActor>(ActorRef arg) => new ActorRef<TActor>(arg);
+        public static implicit operator GrainReference(ActorRef<TActor> arg) => arg.@ref;
 
         #region Default Binary Serialization
 

@@ -100,6 +100,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Meta", "Source\Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.TestKit.Meta", "Source\Orleankka.TestKit.Meta\Orleankka.TestKit.Meta.csproj", "{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Internals", "Source\Orleans.Internals\Orleans.Internals.csproj", "{97E4FE27-27FD-499B-8737-0F293807C297}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -299,6 +301,12 @@ Global
 		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.Build.0 = Package|Any CPU
 		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.Build.0 = Release|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Orleans.Storage;
 using Orleans.Runtime.Configuration;
 using Orleans.Providers.Streams.SimpleMessageStream;
+using Orleans.Streams;
 
 namespace Orleankka.Playground
 {
@@ -67,6 +69,18 @@ namespace Orleankka.Playground
                     "PubSub storage provider has been already registered");
 
             cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
+        }
+
+        public new PlaygroundConfigurator Register(params Assembly[] assemblies)
+        {
+            base.Register(assemblies);
+            return this;
+        }
+
+        public new PlaygroundConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        {
+            base.Register<T>(name, properties);
+            return this;
         }
 
         public override IActorSystem Done()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using Orleans.Streams;
@@ -85,6 +86,8 @@ namespace Orleankka.Cluster
 
         internal new void Configure()
         {
+            BootstrapStreamSubscriptionHook();
+
             foreach (var each in streamProviders)
                 each.Register(Configuration);
 
@@ -92,6 +95,18 @@ namespace Orleankka.Cluster
                 each.Register(Configuration.Globals);
 
             base.Configure();
+        }
+
+        void BootstrapStreamSubscriptionHook()
+        {
+            const string id = "stream-subscription-boot";
+
+            var properties = new Dictionary<string, string>();
+            properties["providers"] = string.Join(";", streamProviders
+                .Where(x => x.IsPersistentStreamProvider())
+                .Select(x => x.Name));
+              
+            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
         public override object InitializeLifetimeService()

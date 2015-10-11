@@ -60,7 +60,7 @@ namespace Orleankka.Client
             var system = new ClientActorSystem(this);
             Configure();
             
-            ClientActorSystem.Initialize(Configuration);
+            system.Initialize(Configuration);
             return system;
         }
 

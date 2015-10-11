@@ -69,8 +69,9 @@
     <Compile Include="Core\ActorPrototype.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Core\Stream.cs" />
-    <Compile Include="Core\StreamProvider.cs" />
     <Compile Include="Core\StreamProviderConfiguration.cs" />
+    <Compile Include="Core\StreamSubscriptionBootstrapper.cs" />
+    <Compile Include="Core\StreamSubscriptionMatcher.cs" />
     <Compile Include="Core\StreamSubscriptionSpecification.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
@@ -119,6 +120,10 @@
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
+      <Name>Orleans.Internals</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
