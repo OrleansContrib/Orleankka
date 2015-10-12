@@ -38,17 +38,19 @@ namespace Orleankka
         /// Subscribe a consumer to this stream reference using weakly-typed delegate.
         /// </summary>
         /// <param name="callback">Callback delegate.</param>
+        /// <param name="filter">Optional items filter.</param>
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
         /// The subscription remains active for as long as it is not explicitely unsubscribed.
         /// </returns>
-        public virtual async Task<StreamSubscription> Subscribe(Func<object, Task> callback)
+        public virtual async Task<StreamSubscription> Subscribe(Func<object, Task> callback, StreamFilter filter = null)
         {
             Requires.NotNull(callback, nameof(callback));
 
             var observer = new Observer((item, token) => callback(item));
-            var handle = await Endpoint.SubscribeAsync(observer);
+            var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate) null;
+            var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter);
 
             return new StreamSubscription(handle);
         }
@@ -58,28 +60,30 @@ namespace Orleankka
         /// </summary>
         /// <typeparam name="T">The type of the items produced by the stream.</typeparam>
         /// <param name="callback">Strongly-typed version of callback delegate.</param>
+        /// <param name="filter">Optional items filter.</param>
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
         /// The subscription remains active for as long as it is not explicitely unsubscribed.
         /// </returns>
-        public virtual Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback)
+        public virtual Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback, StreamFilter filter = null)
         {
             Requires.NotNull(callback, nameof(callback));
 
-            return Subscribe(item => callback((T)item));
+            return Subscribe(item => callback((T)item), filter);
         }
 
         /// <summary>
         /// Subscribe a consumer to this stream reference using weakly-typed delegate.
         /// </summary>
         /// <param name="callback">Callback delegate.</param>
+        /// <param name="filter">Optional items filter.</param>
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
         /// The subscription remains active for as long as it is not explicitely unsubscribed.
         /// </returns>
-        public virtual Task<StreamSubscription> Subscribe(Action<object> callback)
+        public virtual Task<StreamSubscription> Subscribe(Action<object> callback, StreamFilter filter = null)
         {
             Requires.NotNull(callback, nameof(callback));
 
@@ -87,20 +91,22 @@ namespace Orleankka
             {
                 callback(item);
                 return TaskDone.Done;
-            });
+            },
+            filter);
         }
-        
+
         /// <summary>
         /// Subscribe a consumer to this stream reference using strongly-typed delegate.
         /// </summary>
         /// <typeparam name="T">The type of the items produced by the stream.</typeparam>
         /// <param name="callback">Strongly-typed version of callback delegate.</param>
+        /// <param name="filter">Optional items filter.</param>
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
         /// The subscription remains active for as long as it is not explicitely unsubscribed.
         /// </returns>
-        public virtual Task<StreamSubscription> Subscribe<T>(Action<T> callback)
+        public virtual Task<StreamSubscription> Subscribe<T>(Action<T> callback, StreamFilter filter = null)
         {
             Requires.NotNull(callback, nameof(callback));
 
@@ -108,7 +114,8 @@ namespace Orleankka
             {
                 callback((T)item);
                 return TaskDone.Done;
-            });
+            }, 
+            filter);
         }
 
         public virtual async Task Subscribe(Actor actor)

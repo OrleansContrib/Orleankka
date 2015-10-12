@@ -75,6 +75,7 @@
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionSpecification.cs" />
+    <Compile Include="StreamFilter.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
     <Compile Include="ActorAttributes.cs" />

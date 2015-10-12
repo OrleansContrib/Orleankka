@@ -57,14 +57,14 @@ namespace Orleankka.TestKit
             return TaskDone.Done;
         }
 
-        public override Task<StreamSubscription> Subscribe(Func<object, Task> callback) => Create(callback);
-        public override Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback) => Create(callback);
-        public override Task<StreamSubscription> Subscribe(Action<object> callback) => Create(callback);
-        public override Task<StreamSubscription> Subscribe<T>(Action<T> callback) => Create(callback);
+        public override Task<StreamSubscription> Subscribe(Func<object, Task> callback, StreamFilter filter = null) => Create(callback, filter);
+        public override Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback, StreamFilter filter = null) => Create(callback, filter);
+        public override Task<StreamSubscription> Subscribe(Action<object> callback, StreamFilter filter = null) => Create(callback, filter);
+        public override Task<StreamSubscription> Subscribe<T>(Action<T> callback, StreamFilter filter = null) => Create(callback, filter);
 
-        Task<StreamSubscription> Create(object callback)
+        Task<StreamSubscription> Create(object callback, StreamFilter filter)
         {
-            var mock = new StreamSubscriptionMock(callback);
+            var mock = new StreamSubscriptionMock(callback, filter);
             subscriptions.Add(mock);
 
             return Task.FromResult<StreamSubscription>(mock);

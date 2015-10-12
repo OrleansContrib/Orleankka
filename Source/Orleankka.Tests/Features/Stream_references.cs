@@ -27,6 +27,8 @@ namespace Orleankka.Features
             {
                 Text = text;
             }
+
+            public static bool DropAll(object item) => false;
         }
 
         [Serializable]
@@ -115,6 +117,22 @@ namespace Orleankka.Features
                 received.Clear();
 
                 await producer.Tell(new Produce {Stream = stream, Item = new Item("bar")});
+                await Task.Delay(Timeout);
+
+                Assert.That(received.Count, Is.EqualTo(0));
+            }
+
+            [Test]
+            public async void Filtering_items()
+            {
+                var stream = system.StreamOf(Provider, $"{Provider}-fff");
+
+                var received = new List<Item>();
+                await stream.Subscribe<Item>(
+                    callback: item => received.Add(item),
+                    filter: new StreamFilter(Item.DropAll));
+
+                await stream.Push(new Item("foo"));
                 await Task.Delay(Timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
