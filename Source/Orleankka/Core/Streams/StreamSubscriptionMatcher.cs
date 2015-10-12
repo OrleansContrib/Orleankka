@@ -5,17 +5,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Orleankka.Client;
+using Orleankka.Cluster;
+using Orleankka.Utility;
+
 using Orleans;
-using Orleans.Streams;
-using Orleans.Providers;
 using Orleans.Internals;
+using Orleans.Providers;
+using Orleans.Streams;
 
-namespace Orleankka.Core
+namespace Orleankka.Core.Streams
 {
-    using Client;
-    using Cluster;
-    using Utility;
-
     class StreamSubscriptionMatcher : IStreamProviderImpl
     {
         static readonly Dictionary<string, List<StreamSubscriptionSpecification>> configuration = 
@@ -27,7 +27,7 @@ namespace Orleankka.Core
         {
             foreach (var specification in StreamSubscriptionSpecification.From(type))
             {
-                var specifications = configuration.Find(specification.Provider);
+                var specifications = DictionaryExtensions.Find(configuration, specification.Provider);
 
                 if (specifications == null)
                 {
@@ -39,20 +39,20 @@ namespace Orleankka.Core
             }
         }
 
-        public static ActorRef[] Match(IActorSystem system, StreamIdentity stream)
+        public static StreamConsumer[] Match(IActorSystem system, StreamIdentity stream)
         {
-            var specifications = configuration.Find(stream.Provider)
+            var specifications = DictionaryExtensions.Find(configuration, stream.Provider)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
             return Match(system, stream.Id, specifications);
         }
 
-        static ActorRef[] Match(IActorSystem system, string stream, IEnumerable<StreamSubscriptionSpecification> specifications)
+        static StreamConsumer[] Match(IActorSystem system, string stream, IEnumerable<StreamSubscriptionSpecification> specifications)
         {
             return specifications
                     .Select(s => s.Match(stream))
                     .Where(m => !m.Equals(StreamSubscriptionMatch.None))
-                    .Select(m => system.ActorOf(m.ActorType, m.ActorId))
+                    .Select(m => m.Consumer(system))
                     .ToArray();
         }
 
@@ -73,7 +73,7 @@ namespace Orleankka.Core
                 ? ClusterActorSystem.Current 
                 : ClientActorSystem.Current;
 
-            specifications = configuration.Find(name)
+            specifications = DictionaryExtensions.Find(configuration, name)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
             var type = Type.GetType(pc.Properties[TypeKey]);
@@ -101,7 +101,7 @@ namespace Orleankka.Core
                 Func<T, Task> fan = item => TaskDone.Done;
 
                 if (recipients.Length > 0)
-                    fan = item => Task.WhenAll(recipients.Select(x => x.Tell(item)));
+                    fan = item => Task.WhenAll(recipients.Select(x => x.Receive(item)));
 
                 return new Stream<T>(stream, fan);
             });

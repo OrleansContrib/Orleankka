@@ -9,6 +9,7 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Cluster
 {
     using Core;
+    using Core.Streams;
     using Utility;
 
     public sealed class ClusterConfigurator : ActorSystemConfigurator

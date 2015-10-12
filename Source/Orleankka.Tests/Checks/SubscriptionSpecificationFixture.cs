@@ -2,7 +2,7 @@
 
 namespace Orleankka.Checks
 {
-    using Core;
+    using Core.Streams;
 
     [TestFixture]
     public class SubscriptionSpecificationFixture

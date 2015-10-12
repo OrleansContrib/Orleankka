@@ -6,6 +6,7 @@ using System.Reflection;
 namespace Orleankka.Core
 {
     using Utility;
+    using Streams;
 
     class ActorType : IEquatable<ActorType>
     {

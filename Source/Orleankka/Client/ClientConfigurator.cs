@@ -8,6 +8,7 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Client
 {
     using Core;
+    using Core.Streams;
     using Utility;
 
     public sealed class ClientConfigurator : ActorSystemConfigurator
