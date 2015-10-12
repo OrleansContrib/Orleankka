@@ -52,7 +52,7 @@ namespace Orleankka.Core
             return specifications
                     .Select(s => s.Match(stream))
                     .Where(m => !m.Equals(StreamSubscriptionMatch.None))
-                    .Select(m => system.ActorOf(m.Actor, m.Id))
+                    .Select(m => system.ActorOf(m.ActorType, m.ActorId))
                     .ToArray();
         }
 

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using Orleans.Streams;
+
 namespace Orleankka.Core
 {
-    class StreamSubscriptionSpecification
+    abstract class StreamSubscriptionSpecification
     {
         internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType type)
         {
@@ -30,8 +32,14 @@ namespace Orleankka.Core
             var provider = parts[0];
             var source   = parts[1];
             var target   = attribute.Target;
-            
-            return new StreamSubscriptionSpecification(provider, source, target, actor);
+
+            var isRegex  = source.StartsWith("/") && 
+                           source.EndsWith("/");
+            if (!isRegex)
+                return new MatchExact(provider, source, target, actor);
+
+            var pattern = source.Substring(1, source.Length - 2);
+            return new MatchPattern(provider, pattern, target, actor);
         }
 
         static Exception InvalidSpecification(Type actor, string error)
@@ -41,37 +49,61 @@ namespace Orleankka.Core
         }
 
         public readonly string Provider;
+        readonly string source;
         readonly string target;
         readonly Type actor;
-
-        readonly Regex matcher;
-        readonly Regex generator;
 
         StreamSubscriptionSpecification(string provider, string source, string target, Type actor)
         {
             Provider = provider;
-
+            this.source = source;
             this.target = target;
             this.actor  = actor;
-
-            matcher   = new Regex(source, RegexOptions.Compiled);
-            generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
         }
 
-        public StreamSubscriptionMatch Match(string stream)
+        public abstract StreamSubscriptionMatch Match(string stream);
+
+        class MatchExact : StreamSubscriptionSpecification
         {
-            var match = matcher.Match(stream);
+            public MatchExact(string provider, string source, string target, Type actor)
+                : base(provider, source, target, actor)
+            {}
 
-            if (!match.Success)
-                return StreamSubscriptionMatch.None;
-
-            var id = generator.Replace(target, m =>
+            public override StreamSubscriptionMatch Match(string stream)
             {
-                var placeholder = m.Value.Substring(1, m.Value.Length - 2);
-                return match.Groups[placeholder].Value;
-            });
+                return stream == source 
+                    ? new StreamSubscriptionMatch(actor, target) 
+                    : StreamSubscriptionMatch.None;
+            }
+        }
 
-            return new StreamSubscriptionMatch(actor, id);
+        class MatchPattern : StreamSubscriptionSpecification
+        {
+            readonly Regex matcher;
+            readonly Regex generator;
+
+            public MatchPattern(string provider, string source, string target, Type actor)
+                : base(provider, source, target, actor)
+            {
+                matcher = new Regex(source, RegexOptions.Compiled);
+                generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
+            }
+
+            public override StreamSubscriptionMatch Match(string stream)
+            {
+                var match = matcher.Match(stream);
+
+                if (!match.Success)
+                    return StreamSubscriptionMatch.None;
+
+                var id = generator.Replace(target, m =>
+                {
+                    var placeholder = m.Value.Substring(1, m.Value.Length - 2);
+                    return match.Groups[placeholder].Value;
+                });
+
+                return new StreamSubscriptionMatch(actor, id);
+            }
         }
     }
 
@@ -79,13 +111,13 @@ namespace Orleankka.Core
     {
         public static readonly StreamSubscriptionMatch None = new StreamSubscriptionMatch();
 
-        public readonly Type Actor;
-        public readonly string Id;
+        public readonly Type ActorType;
+        public readonly string ActorId;
 
-        public StreamSubscriptionMatch(Type actor, string id)
+        public StreamSubscriptionMatch(Type actorType, string actorId)
         {
-            Id = id;
-            Actor = actor;
+            ActorId = actorId;
+            ActorType = actorType;
         }
     }
 }

@@ -82,16 +82,16 @@ namespace Orleankka.Features
             [Test]
             public async void Multistream_subscription_with_fixed_ids()
             {
-                var a = system.StreamOf(Provider, "fa");
-                var b = system.StreamOf(Provider, "fb");
+                var a = system.StreamOf(Provider, "a");
+                var b = system.StreamOf(Provider, "b");
 
-                await a.Push("fa-001");
-                await b.Push("fb-001");
+                await a.Push("a-001");
+                await b.Push("b-001");
                 await Task.Delay(Timeout);
 
                 var consumer = system.ActorOf<TMultistreamSubscriptionWithFixedIdsActor>("#");
                 var received = await consumer.Ask(new Received());
-                Assert.That(received, Is.EquivalentTo(new[] {"fa-001", "fb-001"}));
+                Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
 
             [Test]
@@ -123,12 +123,12 @@ namespace Orleankka.Features
             class TestActorToStreamConsumerActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "sms:fa", Target = "#")]
-            [StreamSubscription(Source = "sms:fb", Target = "#")]
+            [StreamSubscription(Source = "sms:a", Target = "#")]
+            [StreamSubscription(Source = "sms:b", Target = "#")]
             class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "sms:INV-([0-9]+)", Target = "#")]
+            [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#")]
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
@@ -154,12 +154,12 @@ namespace Orleankka.Features
             class TestActorToStreamConsumerActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "aqp:fa", Target = "#")]
-            [StreamSubscription(Source = "aqp:fb", Target = "#")]
+            [StreamSubscription(Source = "aqp:a", Target = "#")]
+            [StreamSubscription(Source = "aqp:b", Target = "#")]
             class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "aqp:INV-([0-9]+)", Target = "#")]
+            [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#")]
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 

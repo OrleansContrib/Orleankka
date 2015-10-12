@@ -155,7 +155,7 @@ namespace Orleankka.Features
             class Tests : Tests<TestConsumerActor, TestSubscriptionHandlesActor>
             {
                 protected override string Provider  => "aqp";
-                protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(1000);
+                protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);
             }
         }
     }
