@@ -13,7 +13,9 @@ namespace Orleankka.Features
 
         [Serializable]
         public class Subscribe : Command
-        {}
+        {
+            public StreamFilter Filter;
+        }
 
         [Serializable]
         public class Deactivate : Command
@@ -27,7 +29,7 @@ namespace Orleankka.Features
         {
             readonly List<string> received = new List<string>();
 
-            Task On(Subscribe x) => Stream().Subscribe(this);
+            Task On(Subscribe x) => Stream().Subscribe(this, x.Filter);
             void On(Deactivate x) => Activation.DeactivateOnIdle();
 
             void On(string x) => received.Add(x);
@@ -113,6 +115,33 @@ namespace Orleankka.Features
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(1));
+            }
+
+            static bool DropAll(object item) => false;
+
+            [Test]
+            public async void Filtering_items()
+            {
+                var consumer = system.ActorOf<TConsumer>("fff");
+
+                var filter = new StreamFilter(DropAll);
+                await consumer.Tell(new Subscribe {Filter = filter});
+
+                var stream = system.StreamOf(Provider, $"{Provider}-filtered");
+                await stream.Push("e-123");
+                await Task.Delay(Timeout);
+
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(0));
+
+                await consumer.Tell(new Deactivate());
+                await Task.Delay(TimeSpan.FromSeconds(61));
+
+                await stream.Push("e-456");
+                await Task.Delay(Timeout);
+
+                received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(0));
             }
 
             protected abstract string Provider  { get; }

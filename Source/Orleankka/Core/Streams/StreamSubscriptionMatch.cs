@@ -9,17 +9,19 @@ namespace Orleankka.Core.Streams
 
         public readonly Type ActorType;
         public readonly string ActorId;
+        public readonly Func<object, bool> Filter;
 
-        public StreamSubscriptionMatch(Type actorType, string actorId)
+        public StreamSubscriptionMatch(Type actorType, string actorId, Func<object, bool> filter)
         {
-            ActorId = actorId;
             ActorType = actorType;
+            ActorId = actorId;
+            Filter = filter;
         }
 
         public StreamConsumer Consumer(IActorSystem system)
         {
             var actor = system.ActorOf(ActorType, ActorId);
-            return new StreamConsumer(actor);
+            return new StreamConsumer(actor, Filter);
         }
     }
 }

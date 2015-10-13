@@ -54,5 +54,6 @@ namespace Orleankka
     {
         public string Source;
         public string Target;
+        public string Filter;
     }
 }

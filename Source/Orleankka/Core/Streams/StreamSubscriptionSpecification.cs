@@ -23,6 +23,9 @@ namespace Orleankka.Core.Streams
             if (string.IsNullOrWhiteSpace(attribute.Target))
                 throw InvalidSpecification(actor, "has null or whitespace only value of Target");
 
+            if (attribute.Filter != null && string.IsNullOrWhiteSpace(attribute.Filter))
+                throw InvalidSpecification(actor, "has whitespace only value of Filter");
+
             var parts = attribute.Source.Split(new[] {":"}, 2, StringSplitOptions.None);
             if (parts.Length != 2)
                 throw InvalidSpecification(actor, $"has invalid Source specification: {attribute.Source}");
@@ -30,14 +33,15 @@ namespace Orleankka.Core.Streams
             var provider = parts[0];
             var source   = parts[1];
             var target   = attribute.Target;
+            var filter   = attribute.Filter;
 
             var isRegex  = source.StartsWith("/") && 
                            source.EndsWith("/");
             if (!isRegex)
-                return new MatchExact(provider, source, target, actor);
+                return new MatchExact(provider, source, target, actor, filter);
 
             var pattern = source.Substring(1, source.Length - 2);
-            return new MatchPattern(provider, pattern, target, actor);
+            return new MatchPattern(provider, pattern, target, actor, filter);
         }
 
         static Exception InvalidSpecification(Type actor, string error)
@@ -50,27 +54,40 @@ namespace Orleankka.Core.Streams
         readonly string source;
         readonly string target;
         readonly Type actor;
+        readonly Func<object, bool> filter;
 
-        StreamSubscriptionSpecification(string provider, string source, string target, Type actor)
+        StreamSubscriptionSpecification(string provider, string source, string target, Type actor, string filter)
         {
             Provider = provider;
             this.source = source;
             this.target = target;
             this.actor  = actor;
+            this.filter = Build(filter, actor);
+        }
+
+        static Func<object, bool> Build(string filter, Type actor)
+        {
+            if (filter == null)
+                return item => true;
+
+            var methodName = filter;
+            var method = actor.GetMethod(methodName);
+
+            return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
         }
 
         public abstract StreamSubscriptionMatch Match(string stream);
 
         class MatchExact : StreamSubscriptionSpecification
         {
-            public MatchExact(string provider, string source, string target, Type actor)
-                : base(provider, source, target, actor)
+            public MatchExact(string provider, string source, string target, Type actor, string filter)
+                : base(provider, source, target, actor, filter)
             {}
 
             public override StreamSubscriptionMatch Match(string stream)
             {
                 return stream == source 
-                    ? new StreamSubscriptionMatch(actor, target) 
+                    ? new StreamSubscriptionMatch(actor, target, filter) 
                     : StreamSubscriptionMatch.None;
             }
         }
@@ -80,8 +97,8 @@ namespace Orleankka.Core.Streams
             readonly Regex matcher;
             readonly Regex generator;
 
-            public MatchPattern(string provider, string source, string target, Type actor)
-                : base(provider, source, target, actor)
+            public MatchPattern(string provider, string source, string target, Type actor, string filter)
+                : base(provider, source, target, actor, filter)
             {
                 matcher = new Regex(source, RegexOptions.Compiled);
                 generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
@@ -100,7 +117,7 @@ namespace Orleankka.Core.Streams
                     return match.Groups[placeholder].Value;
                 });
 
-                return new StreamSubscriptionMatch(actor, id);
+                return new StreamSubscriptionMatch(actor, id, filter);
             }
         }
     }

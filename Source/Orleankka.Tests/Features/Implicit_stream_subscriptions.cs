@@ -41,11 +41,12 @@ namespace Orleankka.Features
             Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
-        abstract class Tests<TClientToStreamConsumerActor, TActorToStreamConsumerActor, TMultistreamSubscriptionWithFixedIdsActor, TMultistreamRegexBasedSubscriptionActor>
+        abstract class Tests<TClientToStreamConsumerActor, TActorToStreamConsumerActor, TMultistreamSubscriptionWithFixedIdsActor, TMultistreamRegexBasedSubscriptionActor, TFilteredSubscriptionActor>
             where TClientToStreamConsumerActor : IActor
             where TActorToStreamConsumerActor : IActor
             where TMultistreamSubscriptionWithFixedIdsActor : IActor
             where TMultistreamRegexBasedSubscriptionActor : IActor
+            where TFilteredSubscriptionActor : IActor
         {
             IActorSystem system;
 
@@ -109,6 +110,20 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
+            [Test]
+            public async void Filtering_items()
+            {
+                var stream = system.StreamOf(Provider, "filtered");
+
+                await stream.Push("f-001");
+                await stream.Push("f-002");
+                await Task.Delay(Timeout);
+
+                var consumer = system.ActorOf<TFilteredSubscriptionActor>("#");
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(0));
+            }
+
             protected abstract string Provider  { get; }
             protected abstract TimeSpan Timeout { get; }
         }
@@ -132,12 +147,19 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
+            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "Select")]
+            class TestFilteredSubscriptionActor : TestConsumerActorBase
+            {
+                public static bool Select(object item) => false;
+            }
+
             [TestFixture, RequiresSilo(Fresh = true)]
             class Tests : Tests<
                 TestClientToStreamConsumerActor, 
                 TestActorToStreamConsumerActor, 
                 TestMultistreamSubscriptionWithFixedIdsActor, 
-                TestMultistreamRegexBasedSubscriptionActor>
+                TestMultistreamRegexBasedSubscriptionActor, 
+                TestFilteredSubscriptionActor>
             {
                 protected override string Provider  => "sms";
                 protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(100);
@@ -163,12 +185,19 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
+            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "Select")]
+            class TestFilteredSubscriptionActor : TestConsumerActorBase
+            {
+                public static bool Select(object item) => false;
+            }
+
             [TestFixture, RequiresSilo(Fresh = true), Category("Slow"), Explicit]
             class Tests : Tests<
                TestClientToStreamConsumerActor,
                TestActorToStreamConsumerActor,
                TestMultistreamSubscriptionWithFixedIdsActor,
-               TestMultistreamRegexBasedSubscriptionActor>
+               TestMultistreamRegexBasedSubscriptionActor, 
+               TestFilteredSubscriptionActor>
             {
                 protected override string Provider  => "aqp";
                 protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);

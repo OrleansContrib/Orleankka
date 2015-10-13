@@ -118,7 +118,7 @@ namespace Orleankka
             filter);
         }
 
-        public virtual async Task Subscribe(Actor actor)
+        public virtual async Task Subscribe(Actor actor, StreamFilter filter = null)
         {
             Requires.NotNull(actor, nameof(actor));
 
@@ -130,7 +130,8 @@ namespace Orleankka
                 "We should keep only one active subscription per-stream per-actor");
 
             var observer = new Observer((item, token) => actor.OnReceive(item));
-            await Endpoint.SubscribeAsync(observer);
+            var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate)null;
+            await Endpoint.SubscribeAsync(observer, null, predicate, filter);
         }
 
         public virtual async Task Unsubscribe(Actor actor)

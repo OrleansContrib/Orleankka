@@ -26,8 +26,9 @@ namespace Orleankka.TestKit
         readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
         public IEnumerable<StreamSubscriptionMock> RecordedSubscriptions => subscriptions;
 
-        public Actor Subscribed { get; private set; }
-        public Actor Resumed    { get; private set; }
+        public StreamFilter Filter { get; private set; }
+        public Actor Subscribed    { get; private set; }
+        public Actor Resumed       { get; private set; }
 
         public StreamRefMock(StreamPath path, IMessageSerializer serializer = null)
             : base(path)
@@ -70,9 +71,10 @@ namespace Orleankka.TestKit
             return Task.FromResult<StreamSubscription>(mock);
         }
 
-        public override Task Subscribe(Actor actor)
+        public override Task Subscribe(Actor actor, StreamFilter filter = null)
         {
             Subscribed = actor;
+            Filter = filter;
             return TaskDone.Done;
         }
 
