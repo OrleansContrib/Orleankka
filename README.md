@@ -17,11 +17,19 @@ Orleankka is not just a translation layer on top of Orleans. Besides improved la
  
 ##### Actors
 
++ Typed actors for strong type-safety and IntelliSense support
 + Message interception via higher-order catch-all function (AOP)
 + Automatic GC with configurable keep-alive timeouts
 + Runtime independence (isolated testing)
 + Reentrant messages
 + Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
+
+##### Streams
+
+- Greatly simplified and more convenient api (actor subscriptions)
+- Declarative regex-based subscriptions (great for CQRS/ES projections)
+- Content-based filtering with static functions (both imperative and declarative)
+- Support of all built-in and custom stream providers
 
 ##### Other
 
@@ -58,6 +66,8 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 	+ Persistence: Streamstone [[see]](Source/Example.EventSourcing.Persistence.Streamstone)
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Azure cloud service [[hub]](Source/Example.Azure.Cluster)
++ Client-side observers [[chat]](Source/Example.Observers.Chat.Client)
++ Streams [[chat]](Source/Example.Streams.Chat.Server)
 
 ##### F&#35;
 
