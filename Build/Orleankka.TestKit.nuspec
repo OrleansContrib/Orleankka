@@ -11,9 +11,14 @@
     <tags>Orleans Akka distributed messaging actor concurrency CQRS unit testing mock</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
-    </dependencies>      
+    </dependencies>  
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.TestKit.*" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.xml" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.xml" target="lib/net45" />
   </files>
 </package>

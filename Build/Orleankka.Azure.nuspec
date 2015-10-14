@@ -15,6 +15,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.Azure.*" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Azure.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Azure.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.Azure.xml" target="lib/net45" />
   </files>
 </package>
