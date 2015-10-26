@@ -27,7 +27,7 @@ namespace Orleankka.Features
         {}
 
         [Serializable]
-        public class GetInstanceHashcode : Query<int>
+        public class GetInstanceHashcode : Query<long>
         {}
 
         class TestActor : Actor
@@ -37,7 +37,7 @@ namespace Orleankka.Features
             bool On(HasBeenReminded x)      => reminded;
             void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
             void On(Deactivate x)           => Activation.DeactivateOnIdle();
-            void On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
+            long On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
 
             public override Task OnReminder(string id)
             {

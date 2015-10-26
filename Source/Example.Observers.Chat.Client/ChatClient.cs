@@ -10,7 +10,7 @@ namespace Example
     {
         readonly string user;
         readonly ActorRef room;
-        Observer client;
+        ClientObserver client;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
@@ -20,7 +20,7 @@ namespace Example
 
         public async Task Join()
         {
-            client = await Observer.Create();
+            client = await ClientObserver.Create();
             client.Subscribe((ChatRoomMessage msg) =>
             {
                 if (msg.User != user)

@@ -63,7 +63,7 @@ namespace Example.Serialization.JSON
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
-                return Ref.Deserialize((string)reader.Value); 
+                return Ref.Deserialize((string)reader.Value, objectType); 
             }
         }
     }

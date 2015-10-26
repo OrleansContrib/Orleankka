@@ -53,7 +53,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorRefStubFixture.cs" />
     <Compile Include="ActorRefMockFixture.cs" />
     <Compile Include="ActorSystemMockFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +69,10 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
+      <Name>Orleans.Internals</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -24,16 +24,29 @@ namespace Orleankka.Core
         {
             this.actor = actor;
 
-            var methods = actor.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                   .Where(m =>
-                          m.GetParameters().Length == 1 &&
-                          !m.GetParameters()[0].IsOut &&
-                          !m.GetParameters()[0].IsRetval &&
-                          !m.IsGenericMethod && !m.ContainsGenericParameters &&
-                          conventions.Contains(m.Name));
+            foreach (var method in GetMethods(actor))
+                Register(method);
+        }
+
+        static IEnumerable<MethodInfo> GetMethods(Type actor)
+        {
+            if (actor == typeof(Actor))
+                yield break;
+
+            var methods = actor
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(m => 
+                        m.GetParameters().Length == 1 && 
+                        !m.GetParameters()[0].IsOut &&
+                        !m.GetParameters()[0].IsRetval &&
+                        !m.IsGenericMethod && !m.ContainsGenericParameters &&
+                        conventions.Contains(m.Name));
 
             foreach (var method in methods)
-                Register(method);
+                yield return method;
+
+            foreach (var method in GetMethods(actor.BaseType))
+                yield return method;
         }
 
         public void Register(MethodInfo method)

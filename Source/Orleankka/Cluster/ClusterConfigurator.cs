@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
     using Core;
+    using Core.Streams;
     using Utility;
 
     public sealed class ClusterConfigurator : ActorSystemConfigurator
     {
-        readonly HashSet<BootstrapProviderConfiguration> bootstrappers =
+        readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
              new HashSet<BootstrapProviderConfiguration>();
+
+        readonly HashSet<StreamProviderConfiguration> streamProviders =
+             new HashSet<StreamProviderConfiguration>();
 
         internal ClusterConfigurator()
         {
@@ -27,7 +32,7 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator From(ClusterConfiguration config)
         {
-            Requires.NotNull(config, "config");
+            Requires.NotNull(config, nameof(config));
             Configuration = config;
             return this;
         }
@@ -46,9 +51,21 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
-            if (!bootstrappers.Add(new BootstrapProviderConfiguration(typeof(T), properties)))
-                throw new ArgumentException(
-                    string.Format("Bootstrapper of the type {0} has been already registered", typeof(T)));
+            var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
+
+            if (!bootstrapProviders.Add(configuration))
+                throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
+
+            return this;
+        }
+
+        public ClusterConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        {
+            Requires.NotNullOrWhitespace(name, nameof(name));
+
+            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
+            if (!streamProviders.Add(configuration))
+                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
 
             return this;
         }
@@ -68,12 +85,29 @@ namespace Orleankka.Cluster
             return system;
         }
 
-        internal void Configure()
+        internal new void Configure()
         {
-            foreach (var bootstrapper in bootstrappers)
-                bootstrapper.Register(Configuration.Globals);
+            BootstrapStreamSubscriptionHook();
 
-            Configure(Configuration.Globals.ProviderConfigurations);
+            foreach (var each in streamProviders)
+                each.Register(Configuration);
+
+            foreach (var each in bootstrapProviders)
+                each.Register(Configuration.Globals);
+
+            base.Configure();
+        }
+
+        void BootstrapStreamSubscriptionHook()
+        {
+            const string id = "stream-subscription-boot";
+
+            var properties = new Dictionary<string, string>();
+            properties["providers"] = string.Join(";", streamProviders
+                .Where(x => x.IsPersistentStreamProvider())
+                .Select(x => x.Name));
+              
+            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
         public override object InitializeLifetimeService()
@@ -99,7 +133,7 @@ namespace Orleankka.Cluster
             if (namespaceScope.Namespace == null)
                 throw new ArgumentException("Resource assembly and scope cannot be determined from type '0' since it has no namespace.\nUse overload that takes Assembly and string path to provide full path of the embedded resource");
 
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, string.Format("{0}.{1}", namespaceScope.Namespace, resourceName));
+            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, $"{namespaceScope.Namespace}.{resourceName}");
         }
 
         public static ClusterConfiguration LoadFromEmbeddedResource(this ClusterConfiguration config, Assembly assembly, string fullResourcePath)
@@ -111,7 +145,7 @@ namespace Orleankka.Cluster
 
         public static ClusterConfiguration DefaultKeepAliveTimeout(this ClusterConfiguration config, TimeSpan idle)
         {
-            Requires.NotNull(config, "config");
+            Requires.NotNull(config, nameof(config));
             config.Globals.Application.SetDefaultCollectionAgeLimit(idle);
             return config;
         }

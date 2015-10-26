@@ -35,12 +35,12 @@ namespace Orleankka
             Prototype = prototype;
         }
 
-        protected string Id
+        public string Id
         {
             get; private set;
         }
 
-        private IActorRuntime Runtime
+        public IActorRuntime Runtime
         {
             get; set;
         }
@@ -50,12 +50,12 @@ namespace Orleankka
             get; set;
         }
 
-        protected ActorRef Self => self ?? (self = System.ActorOf(GetType(), Id));
+        public ActorRef Self => self ?? (self = System.ActorOf(GetType(), Id));
 
-        protected IActorSystem System           => Runtime.System;
-        protected IActivationService Activation => Runtime.Activation;
-        protected IReminderService Reminders    => Runtime.Reminders;
-        protected ITimerService Timers          => Runtime.Timers;
+        public IActorSystem System           => Runtime.System;
+        public IActivationService Activation => Runtime.Activation;
+        public IReminderService Reminders    => Runtime.Reminders;
+        public ITimerService Timers          => Runtime.Timers;
 
         public virtual Task OnActivate()    => TaskDone.Done;
         public virtual Task OnDeactivate()  => TaskDone.Done;

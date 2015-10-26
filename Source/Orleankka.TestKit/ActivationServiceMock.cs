@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Orleankka.Services;
 
 namespace Orleankka.TestKit
 {
+    using Services;
+
     public class ActivationServiceMock : IActivationService
     {
-        public readonly List<RecordedDeactivationRequest> RecordedRequests = new List<RecordedDeactivationRequest>();
+        readonly List<RecordedDeactivationRequest> requests = new List<RecordedDeactivationRequest>();
 
         void IActivationService.DeactivateOnIdle()
         {
-            RecordedRequests.Add(new DeactivateOnIdle());
+            requests.Add(new DeactivateOnIdle());
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            RecordedRequests.Add(new DelayDeactivation(period));
+            requests.Add(new DelayDeactivation(period));
         }
+
+        public IEnumerable<RecordedDeactivationRequest> RecordedRequests => requests;
+        public void Reset() => requests.Clear();
     }
 
     public abstract class RecordedDeactivationRequest

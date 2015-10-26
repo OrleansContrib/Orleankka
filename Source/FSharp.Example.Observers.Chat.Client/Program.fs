@@ -22,7 +22,7 @@ let main argv =
                            .Register(typeof<ChatServer>.Assembly)
                            .Done()
 
-   client <- Observer.Create().Result   
+   client <- ClientObserver.Create().Result   
 
    let server = system.ActorOf<ChatServer>("server")
 

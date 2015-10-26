@@ -6,6 +6,7 @@ using System.Reflection;
 namespace Orleankka.Core
 {
     using Utility;
+    using Streams;
 
     class ActorType : IEquatable<ActorType>
     {
@@ -39,8 +40,10 @@ namespace Orleankka.Core
 
             ActorInterface.Register(type);
             ActorPrototype.Register(type);
-
             ActorEndpointFactory.Register(type);
+
+            Ref.Register(type);
+            StreamSubscriptionMatcher.Register(type);
         }
 
         static ActorType RegisterThis(Type actor)
@@ -65,8 +68,10 @@ namespace Orleankka.Core
 
             ActorInterface.Reset();
             ActorPrototype.Reset();
-
             ActorEndpointFactory.Reset();
+
+            Ref.Reset();
+            StreamSubscriptionMatcher.Reset();
         }
 
         static void ResetThis()

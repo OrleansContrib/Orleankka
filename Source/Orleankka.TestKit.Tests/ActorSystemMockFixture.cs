@@ -24,12 +24,22 @@ namespace Orleankka.TestKit
         }
 
         [Test]
-        public void Returns_actor_stub_when_no_actor_mock_was_previosly_set_up()
+        public void Returns_new_actor_mock_even_if_no_actor_mock_was_previosly_set_up()
         {
-            var stub = system.ActorOf<TestActor>("unexpected-id");
+            var mock = system.ActorOf<TestActor>("unexpected-id");
+            Assert.IsInstanceOf<ActorRefMock>(mock);
+        }
 
-            Assert.NotNull(stub);
-            Assert.IsInstanceOf<ActorRefStub>(stub);
+        [Test]
+        public void Returns_same_actor_mock_instance_for_unexpected_calls()
+        {
+            var mock1 = system.ActorOf<TestActor>("unexpected-id");
+            var mock2 = system.ActorOf<TestActor>("unexpected-id");
+
+            Assert.IsInstanceOf<ActorRefMock>(mock1);
+            Assert.IsInstanceOf<ActorRefMock>(mock2);
+
+            Assert.AreSame(mock1, mock2);
         }
 
         class TestActor : Actor

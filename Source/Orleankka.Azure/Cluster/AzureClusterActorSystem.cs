@@ -1,23 +1,27 @@
-﻿using System;
-using System.Linq;
-
-using Orleans.Runtime.Host;
+﻿using Orleans.Runtime.Host;
 
 namespace Orleankka.Cluster
 {
     public class AzureClusterActorSystem : ActorSystem
     {
         readonly ClusterConfigurator cluster;
+        readonly string deploymentId;
+        readonly string connectionString;
+
         AzureSilo host;
 
-        internal AzureClusterActorSystem(ClusterConfigurator cluster)
+        internal AzureClusterActorSystem(ClusterConfigurator cluster, string deploymentId, string connectionString)
         {
             ClusterActorSystem.Current = this;
+
             this.cluster = cluster;
+            this.deploymentId = deploymentId;
+            this.connectionString = connectionString;
+
             host = new AzureSilo();
         }
 
-        internal void Start(string deploymentId = null, string connectionString = null)
+        internal void Start()
         {
             host.Start(cluster.Configuration, deploymentId, connectionString);
         }

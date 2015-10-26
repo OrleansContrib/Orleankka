@@ -19,8 +19,7 @@ namespace Orleankka.TestKit
 
         readonly IMessageSerializer serializer;
         readonly List<IExpectation> expectations = new List<IExpectation>();
-
-        public readonly List<RecordedMessage> Received = new List<RecordedMessage>();
+        readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
         public ActorRefMock(ActorPath path, IMessageSerializer serializer = null)
             : base(path)
@@ -28,16 +27,16 @@ namespace Orleankka.TestKit
             this.serializer = serializer;
         }
 
-        public CommandExpectation<TCommand> ExpectTell<TCommand>(Expression<Func<TCommand, bool>> match = null)
+        public TellExpectation<TMessage> ExpectTell<TMessage>(Expression<Func<TMessage, bool>> match = null)
         {
-            var expectation = new CommandExpectation<TCommand>(match ?? (_ => true));
+            var expectation = new TellExpectation<TMessage>(match ?? (_ => true));
             expectations.Add(expectation);
             return expectation;
         }
 
-        public QueryExpectation<TQuery> ExpectAsk<TQuery>(Expression<Func<TQuery, bool>> match = null)
+        public AskExpectation<TMessage> ExpectAsk<TMessage>(Expression<Func<TMessage, bool>> match = null)
         {
-            var expectation = new QueryExpectation<TQuery>(match ?? (_ => true));
+            var expectation = new AskExpectation<TMessage>(match ?? (_ => true));
             expectations.Add(expectation);
             return expectation;
         }
@@ -49,7 +48,7 @@ namespace Orleankka.TestKit
             var expectation = Match(message);
             var expected = expectation != null;
 
-            Received.Add(new RecordedMessage(expected, message, typeof(DoNotExpectResult)));
+            messages.Add(new RecordedMessage(expected, message, typeof(DoNotExpectResult)));
 
             if (expected)
                 expectation.Apply();
@@ -64,7 +63,7 @@ namespace Orleankka.TestKit
             var expectation = Match(message);
             var expected = expectation != null;
 
-            Received.Add(new RecordedMessage(expected, message, typeof(TResult)));
+            messages.Add(new RecordedMessage(expected, message, typeof(TResult)));
 
             return expected 
                        ? Task.FromResult((TResult) expectation.Apply()) 
@@ -73,6 +72,14 @@ namespace Orleankka.TestKit
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
         object Reserialize(object message) => OrleansSerialization.Reserialize(serializer, message);
+
+        public new void Reset()
+        {
+            expectations.Clear();
+            messages.Clear();
+        }
+
+        public IEnumerable<RecordedMessage> RecordedMessages => messages;
     }
 
     public class RecordedMessage

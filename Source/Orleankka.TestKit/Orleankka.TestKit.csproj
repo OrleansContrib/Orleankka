@@ -57,16 +57,16 @@
     </Compile>
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="ActorExtensions.cs" />
+    <Compile Include="StreamSubscriptionMock.cs" />
+    <Compile Include="StreamRefMock.cs" />
     <Compile Include="ActorRefMock.cs" />
     <Compile Include="ActorRuntimeMock.cs" />
     <Compile Include="OrleansSerialization.cs" />
-    <Compile Include="Meta.cs" />
     <Compile Include="ObserverRefStub.cs" />
-    <Compile Include="ActorRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ActorSystemMock.cs" />
-    <Compile Include="ObserverStub.cs" />
+    <Compile Include="ClientObserverStub.cs" />
     <Compile Include="ObserverCollectionMock.cs" />
     <Compile Include="ReminderServiceMock.cs" />
     <Compile Include="TimerServiceMock.cs" />
@@ -83,6 +83,10 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97E4FE27-27FD-499B-8737-0F293807C297}</Project>
+      <Name>Orleans.Internals</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,16 +1,21 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 
+using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
     using Core;
+    using Core.Streams;
     using Utility;
 
     public sealed class ClientConfigurator : ActorSystemConfigurator
     {
+        readonly HashSet<StreamProviderConfiguration> streamProviders =
+             new HashSet<StreamProviderConfiguration>();
+
         internal ClientConfigurator()
         {
             Configuration = new ClientConfiguration();
@@ -23,7 +28,7 @@ namespace Orleankka.Client
 
         public ClientConfigurator From(ClientConfiguration config)
         {
-            Requires.NotNull(config, "config");
+            Requires.NotNull(config, nameof(config));
             Configuration = config;
             return this;
         }
@@ -31,6 +36,17 @@ namespace Orleankka.Client
         public ClientConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
         {
             RegisterSerializer<T>(properties);
+            return this;
+        }
+
+        public ClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
+        {
+            Requires.NotNullOrWhitespace(name, nameof(name));
+            
+            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
+            if (!streamProviders.Add(configuration))
+                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
+
             return this;
         }
 
@@ -43,10 +59,18 @@ namespace Orleankka.Client
         public IActorSystem Done()
         {
             var system = new ClientActorSystem(this);
-            Configure(Configuration.ProviderConfigurations);
+            Configure();
             
-            ClientActorSystem.Initialize(Configuration);
+            system.Initialize(Configuration);
             return system;
+        }
+
+        internal new void Configure()
+        {
+            foreach (var each in streamProviders)
+                each.Register(Configuration);
+
+            base.Configure();
         }
     }
 
@@ -70,7 +94,7 @@ namespace Orleankka.Client
                     "Resource assembly and scope cannot be determined from type '0' since it has no namespace.\nUse overload that takes Assembly and string path to provide full path of the embedded resource");
             }
 
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, String.Format("{0}.{1}", namespaceScope.Namespace, resourceName));
+            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, $"{namespaceScope.Namespace}.{resourceName}");
         }
 
         public static ClientConfiguration LoadFromEmbeddedResource(this ClientConfiguration config, Assembly assembly, string fullResourcePath)

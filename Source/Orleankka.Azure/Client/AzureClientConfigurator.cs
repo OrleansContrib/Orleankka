@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
+using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
@@ -29,6 +29,12 @@ namespace Orleankka.Client
             return this;
         }
 
+        public AzureClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
+        {
+            client.Register<T>(name, properties);
+            return this;
+        }
+
         public AzureClientConfigurator Register(params Assembly[] assemblies)
         {
             client.Register(assemblies);
@@ -38,8 +44,8 @@ namespace Orleankka.Client
         public IActorSystem Done()
         {
             var system = new AzureClientActorSystem(client);
-            client.Configure(client.Configuration.ProviderConfigurations);
-            
+            client.Configure();
+
             AzureClientActorSystem.Initialize(client.Configuration);
             return system;
         }

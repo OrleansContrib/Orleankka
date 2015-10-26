@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
-using Orleans;
-using Orleans.Streams;
-using Orleans.Providers.Streams.SimpleMessageStream;
 
 namespace Orleankka.Features
 {
@@ -17,96 +12,159 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        public class Produce : Command
+        class Produce : Command
         {
-            public string Event;
+            public StreamRef Stream;
+            public Item Item;
         }
 
         [Serializable]
-        public class Subscribe : Command
-        {}
+        class Item
+        {
+            public readonly string Text;
+
+            public Item(string text)
+            {
+                Text = text;
+            }
+
+            public static bool DropAll(object item) => false;
+        }
 
         [Serializable]
-        public class Received : Query<List<string>>
+        class Subscribe : Command
+        {
+            public StreamRef Stream;
+        }
+
+        [Serializable]
+        class Unsubscribe : Command
+        {
+            public StreamRef Stream;
+        }
+
+        [Serializable]
+        class Received : Query<List<Item>>
         {}
 
-        class TestProducerActor : Actor
+        abstract class TestProducerActorBase : Actor
         {
-            Task On(Produce cmd)
-            {
-                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
-                return stream.OnNextAsync(cmd.Event);
-            }
+            Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
-        class TestConsumerActor : Actor
+        abstract class TestConsumerActorBase : Actor
         {
-            readonly TestStreamObserver observer = new TestStreamObserver();
+            readonly List<Item> received = new List<Item>();
 
-            Task On(Subscribe x)
-            {
-                var stream = System.StreamOf<SimpleMessageStreamProvider>("123");
-                return stream.SubscribeAsync(observer);
-            }
+            Task On(Subscribe x) => x.Stream.Subscribe(this);
+            Task On(Unsubscribe x) => x.Stream.Unsubscribe(this);
 
-            List<string> On(Received x) => observer.Received;
+            void On(Item x) => received.Add(x);
+            List<Item> On(Received x) => received;
         }
 
-        class TestStreamObserver : IAsyncObserver<string>
-        {
-            public readonly List<string> Received = new List<string>();
-
-            public Task OnNextAsync(string item, StreamSequenceToken token = null)
-            {
-                Received.Add(item);
-                return TaskDone.Done;
-            }
-
-            public Task OnCompletedAsync() => TaskDone.Done;
-            public Task OnErrorAsync(Exception ex) => TaskDone.Done;
-        }
-
-        [TestFixture]
-        [RequiresSilo]
-        public class Tests
+        abstract class Tests<TProducer, TConsumer> 
+            where TProducer : TestProducerActorBase 
+            where TConsumer : TestConsumerActorBase
         {
             IActorSystem system;
 
             [SetUp]
-            public void SetUp()
-            {
-                system = TestActorSystem.Instance;
-            }
+            public void SetUp() => system = TestActorSystem.Instance;
 
             [Test]
             public async void Client_to_stream()
             {
-                var stream = system.StreamOf<SimpleMessageStreamProvider>("123");
-                
-                var observer = new TestStreamObserver();
-                await stream.SubscribeAsync(observer);
+                var stream = system.StreamOf(Provider, $"{Provider}-123");
 
-                await stream.OnNextAsync("event");
-                await Task.Delay(100);
+                var received = new List<Item>();
+                var subscription = await stream.Subscribe<Item>(
+                    item => received.Add(item));
 
-                Assert.That(observer.Received.Count, Is.EqualTo(1));
-                Assert.That(observer.Received[0], Is.EqualTo("event"));
+                await stream.Push(new Item("foo"));
+                await Task.Delay(Timeout);
+
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0].Text, Is.EqualTo("foo"));
+
+                await subscription.Unsubscribe();
+                received.Clear();
+
+                await stream.Push("bar");
+                await Task.Delay(Timeout);
+
+                Assert.That(received.Count, Is.EqualTo(0));
             }
 
             [Test]
             public async void Actor_to_stream()
             {
-                var producer = system.ActorOf<TestProducerActor>("p");
-                var consumer = system.ActorOf<TestConsumerActor>("c");
+                var stream = system.StreamOf(Provider, $"{Provider}-123");
 
-                await consumer.Tell(new Subscribe());
-                await producer.Tell(new Produce {Event = "event"});
+                var producer = system.ActorOf<TProducer>("p");
+                var consumer = system.ActorOf<TConsumer>("c");
 
-                await Task.Delay(100);
+                await consumer.Tell(new Subscribe {Stream = stream});
+                await producer.Tell(new Produce {Stream = stream, Item = new Item("foo")});
+
+                await Task.Delay(Timeout);
                 var received = await consumer.Ask(new Received());
-                
+
                 Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0], Is.EqualTo("event"));
+                Assert.That(received[0].Text, Is.EqualTo("foo"));
+
+                await consumer.Tell(new Unsubscribe {Stream = stream});
+                received.Clear();
+
+                await producer.Tell(new Produce {Stream = stream, Item = new Item("bar")});
+                await Task.Delay(Timeout);
+
+                Assert.That(received.Count, Is.EqualTo(0));
+            }
+
+            [Test]
+            public async void Filtering_items()
+            {
+                var stream = system.StreamOf(Provider, $"{Provider}-fff");
+
+                var received = new List<Item>();
+                await stream.Subscribe<Item>(
+                    callback: item => received.Add(item),
+                    filter: new StreamFilter(Item.DropAll));
+
+                await stream.Push(new Item("foo"));
+                await Task.Delay(Timeout);
+
+                Assert.That(received.Count, Is.EqualTo(0));
+            }
+
+            protected abstract string Provider  { get; }
+            protected abstract TimeSpan Timeout { get; }
+        }
+
+        namespace SimpleMessageStreamProviderVerification
+        {
+            class TestProducerActor : TestProducerActorBase {}
+            class TestConsumerActor : TestConsumerActorBase {}
+
+            [TestFixture, RequiresSilo]
+            class Tests : Tests<TestProducerActor, TestConsumerActor>
+            {
+                protected override string Provider  => "sms";
+                protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(100);
+            }
+        }
+
+        namespace AzureQueueStreamProviderVerification
+        {
+            class TestProducerActor : TestProducerActorBase { }
+            class TestConsumerActor : TestConsumerActorBase { }
+
+            [TestFixture, RequiresSilo, Category("Slow"), Explicit]
+            class Tests : Tests<TestProducerActor, TestConsumerActor>
+            {
+                protected override string Provider  => "aqp";
+                protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);
             }
         }
     }

@@ -67,7 +67,7 @@ namespace Orleankka.Core
                     : base.OnDeactivateAsync();
         }
 
-        async Task Activate(ActorPath path)
+        Task Activate(ActorPath path)
         {
             var system = ClusterActorSystem.Current;
 
@@ -77,7 +77,7 @@ namespace Orleankka.Core
             var prototype = ActorPrototype.Of(path);
             actor.Initialize(path.Id, runtime, prototype);
 
-            await actor.OnActivate();
+            return actor.OnActivate();
         }
 
         void KeepAlive()

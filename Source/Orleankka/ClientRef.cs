@@ -12,22 +12,13 @@ namespace Orleankka
     [DebuggerDisplay("{ToString()}")]
     public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>, ISerializable
     {
-        internal static bool Satisfies(string path)
-        {
-            return path.StartsWith("GrainReference=");
-        }
+        public static ClientRef Deserialize(string path) => new ClientRef(path, ClientEndpoint.Proxy(path));
 
-        public new static ClientRef Deserialize(string path)
-        {
-            return new ClientRef(path, ClientEndpoint.Proxy(path));
-        }
-
-        readonly string path;
         readonly IClientEndpoint endpoint;
 
         protected internal ClientRef(string path)
         {
-            this.path = path;
+            Path = path;
         }
 
         ClientRef(string path, IClientEndpoint endpoint)
@@ -36,32 +27,19 @@ namespace Orleankka
             this.endpoint = endpoint;
         }
 
-        public string Path
-        {
-            get { return path; }
-        }
-
-        public override string Serialize()
-        {
-            return Path;
-        }
+        public string Path { get; }
+        public override string Serialize() => Path;
 
         public override void Notify(object message)
         {
-            Requires.NotNull(message, "message");
-
+            Requires.NotNull(message, nameof(message));
             endpoint.Receive(new NotificationEnvelope(message));
         }
 
         public bool Equals(ClientRef other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || Equals(path, other.path));
-        }
-
-        public bool Equals(string other)
-        {
-            return path.Equals(other);
+                    || Equals(Path, other.Path));
         }
 
         public override bool Equals(object obj)
@@ -70,37 +48,25 @@ namespace Orleankka
                     || obj.GetType() == GetType() && Equals((ClientRef)obj));
         }
 
-        public override int GetHashCode()
-        {
-            return path.GetHashCode();
-        }
+        public bool Equals(string other)  => Path.Equals(other);
+        public override int GetHashCode() => Path.GetHashCode();
 
-        public static bool operator ==(ClientRef left, ClientRef right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(ClientRef left, ClientRef right) => Equals(left, right);
+        public static bool operator !=(ClientRef left, ClientRef right) => !Equals(left, right);
 
-        public static bool operator !=(ClientRef left, ClientRef right)
-        {
-            return !Equals(left, right);
-        }
-
-        public override string ToString()
-        {
-            return Path;
-        }
+        public override string ToString() => Path;
 
         #region Default Binary Serialization
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path, typeof(string));
+            info.AddValue("path", Path, typeof(string));
         }
 
         public ClientRef(SerializationInfo info, StreamingContext context)
         {
-            path = (string)info.GetValue("path", typeof(string));
-            endpoint = ClientEndpoint.Proxy(path);
+            Path = (string)info.GetValue("path", typeof(string));
+            endpoint = ClientEndpoint.Proxy(Path);
         }
 
         #endregion

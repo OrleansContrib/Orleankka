@@ -1,7 +1,8 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 
+using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Embedded
@@ -54,6 +55,13 @@ namespace Orleankka.Embedded
         public EmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
+            return this;
+        }
+
+        public EmbeddedConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        {
+            cluster.Register<T>(name, properties);
+            client.Register<T>(name, properties);
             return this;
         }
 

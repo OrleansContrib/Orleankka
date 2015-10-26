@@ -6,11 +6,12 @@ namespace Orleankka
     using Core;
     using Utility;
      
+    [Serializable]
     [DebuggerDisplay("{ToString()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
         public static readonly ActorPath Empty = new ActorPath();
-        public static readonly string[] Separator = { ":" };
+        public static readonly string[] Separator = {":"};
 
         public static ActorPath Registered(Type type, string id)
         {
@@ -102,19 +103,9 @@ namespace Orleankka
             }
         }
 
-        public static bool operator ==(ActorPath left, ActorPath right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(ActorPath left, ActorPath right) => Equals(left, right);
+        public static bool operator !=(ActorPath left, ActorPath right) => !Equals(left, right);
 
-        public static bool operator !=(ActorPath left, ActorPath right)
-        {
-            return !Equals(left, right);
-        }
-
-        public override string ToString()
-        {
-            return Serialize();
-        }
+        public override string ToString() => Serialize();
     }
 }

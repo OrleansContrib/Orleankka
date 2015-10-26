@@ -112,6 +112,14 @@
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
+      <Project>{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
+      <Name>Orleankka.Meta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.TestKit.Meta\Orleankka.TestKit.Meta.csproj">
+      <Project>{4220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
+      <Name>Orleankka.TestKit.Meta</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka.TestKit\Orleankka.TestKit.csproj">
       <Project>{0eec0553-0b9a-4e51-94bf-694dc7164b92}</Project>
       <Name>Orleankka.TestKit</Name>
@@ -119,6 +127,10 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
+      <Name>Orleans.Internals</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

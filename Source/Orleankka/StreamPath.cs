@@ -1,69 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 using Orleans;
-using Orleans.Providers;
+using Orleans.Internals;
 using Orleans.Streams;
 
 namespace Orleankka
 {
     using Utility;
 
+    [Serializable]
+    [DebuggerDisplay("{ToString()}")]
     public struct StreamPath : IEquatable<StreamPath>
     {
-        static readonly ICollection<IProviderConfiguration> providers =
-                     new LinkedList<IProviderConfiguration>();
-
-        internal static void Register(IEnumerable<IProviderConfiguration> providers)
-        {
-            Debug.Assert(StreamPath.providers.Count == 0);
-            foreach (var each in providers)
-                StreamPath.providers.Add(each);
-        }
-
-        internal static void Reset()
-        {
-            providers.Clear();
-        }
-
         public static readonly StreamPath Empty = new StreamPath();
-        
-        public readonly Type Type;
-        public readonly string Id;
+        public static readonly string[] Separator = {":"};
 
-        StreamPath(Type type, string id)
+        public static StreamPath From(string provider, string id)
         {
-            Type = type;
-            Id = id;
-        }
-
-        public static StreamPath From(Type type, string id)
-        {
-            Requires.NotNull(type, nameof(type));
+            Requires.NotNull(provider, nameof(provider));
             Requires.NotNull(id, nameof(id));
             Requires.NotNullOrWhitespace(id, nameof(id));
 
-            return new StreamPath(type, id);
+            return new StreamPath(provider, id);
+        }
+
+        public static StreamPath Parse(string path)
+        {
+            Requires.NotNull(path, nameof(path));
+
+            var parts = path.Split(Separator, 2, StringSplitOptions.None);
+            if (parts.Length != 2)
+                throw new ArgumentException("Invalid stream path: " + path);
+
+            var provider = parts[0];
+            var id = parts[1];
+
+            return new StreamPath(provider, id);
+        }
+
+        public static StreamPath Deserialize(string path)
+        {
+            var parts = path.Split(Separator, 2, StringSplitOptions.None);
+
+            var provider = parts[0];
+            var id = parts[1];
+
+            return new StreamPath(provider, id);
+        }
+
+        public readonly string Provider;
+        public readonly string Id;
+
+        internal StreamPath(StreamIdentity stream)
+            : this(stream.Provider, stream.Id)
+        {}
+
+        StreamPath(string provider, string id)
+        {
+            Provider = provider;
+            Id = id;
         }
 
         internal IAsyncStream<object> Proxy()
         {
-            foreach (var each in providers)
-            {
-                if (each.Type != Type.FullName)
-                    continue;
+            var provider = GrainClient.GetStreamProvider(Provider);
+            return provider.GetStream<object>(Guid.Empty, Id);
+        }
 
-                var provider = GrainClient.GetStreamProvider(each.Name);
-                return provider.GetStream<object>(Guid.Empty, Id);
-            }
-
-            throw new InvalidOperationException($"Can't find stream provider of specified stream type: {Type}");
+        public string Serialize()
+        {
+            return $"{Provider}{Separator[0]}{Id}";
         }
 
         public bool Equals(StreamPath other)
         {
-            return Type == other.Type && string.Equals(Id, other.Id);
+            return Provider == other.Provider && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -75,11 +87,13 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((Type?.GetHashCode() ?? 0) * 397) ^ (Id?.GetHashCode() ?? 0);
+                return ((Provider?.GetHashCode() ?? 0) * 397) ^ (Id?.GetHashCode() ?? 0);
             }
         }
 
         public static bool operator ==(StreamPath left, StreamPath right) => left.Equals(right);
         public static bool operator !=(StreamPath left, StreamPath right) => !left.Equals(right);
+
+        public override string ToString() => Serialize();
     }
 }
