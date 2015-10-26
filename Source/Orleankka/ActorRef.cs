@@ -41,8 +41,8 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return Receive(message)(new RequestEnvelope(Serialize(), message))
-                .UnwrapExceptions();
+            return ReceiveVoid(message)(new RequestEnvelope(Serialize(), message))
+                        .UnwrapExceptions();
         }
 
         public virtual async Task<TResult> Ask<TResult>(object message)
@@ -66,6 +66,14 @@ namespace Orleankka
                 return endpoint.ReceiveReentrant;
 
             return endpoint.Receive;
+        }
+
+        Func<RequestEnvelope, Task> ReceiveVoid(object message)
+        {
+            if (@interface.IsReentrant(message))
+                return endpoint.ReceiveReentrantVoid;
+
+            return endpoint.ReceiveVoid;
         }
 
         public bool Equals(ActorRef other)

@@ -48,6 +48,22 @@ namespace Orleankka.Core
             return Receive(envelope);
         }
 
+        public Task ReceiveVoid(RequestEnvelope envelope)
+        {
+            KeepAlive();
+
+            return actor.OnReceive(envelope.Message);
+        }
+
+        public Task ReceiveReentrantVoid(RequestEnvelope envelope)
+        {
+            #if DEBUG
+                CallContext.LogicalSetData("LastMessageReceivedReentrantVoid", envelope.Message);
+            #endif
+
+            return ReceiveVoid(envelope);
+        }
+
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
         {
             KeepAlive();

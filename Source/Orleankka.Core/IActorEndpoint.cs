@@ -14,6 +14,9 @@ namespace Orleankka.Core
         {
             Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
             [AlwaysInterleave] Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope);
+
+            Task ReceiveVoid(RequestEnvelope envelope);
+            [AlwaysInterleave] Task ReceiveReentrantVoid(RequestEnvelope envelope);
         }
 
         /// <summary>
