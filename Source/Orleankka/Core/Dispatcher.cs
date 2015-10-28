@@ -30,23 +30,32 @@ namespace Orleankka.Core
 
         static IEnumerable<MethodInfo> GetMethods(Type actor)
         {
-            if (actor == typeof(Actor))
-                yield break;
+            while (true)
+            {
+                Debug.Assert(actor != null);
 
-            var methods = actor
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Where(m => 
-                        m.GetParameters().Length == 1 && 
-                        !m.GetParameters()[0].IsOut &&
-                        !m.GetParameters()[0].IsRetval &&
-                        !m.IsGenericMethod && !m.ContainsGenericParameters &&
-                        conventions.Contains(m.Name));
+                if (actor == typeof(Actor))
+                    yield break;
 
-            foreach (var method in methods)
-                yield return method;
+                const BindingFlags scope = BindingFlags.Instance |
+                                           BindingFlags.Public |
+                                           BindingFlags.NonPublic |
+                                           BindingFlags.DeclaredOnly;
 
-            foreach (var method in GetMethods(actor.BaseType))
-                yield return method;
+                var methods = actor
+                    .GetMethods(scope)
+                    .Where(m =>
+                            m.GetParameters().Length == 1 &&
+                            !m.GetParameters()[0].IsOut &&
+                            !m.GetParameters()[0].IsRetval &&
+                            !m.IsGenericMethod && !m.ContainsGenericParameters &&
+                            conventions.Contains(m.Name));
+
+                foreach (var method in methods)
+                    yield return method;
+
+                actor = actor.BaseType;
+            }
         }
 
         public void Register(MethodInfo method)
