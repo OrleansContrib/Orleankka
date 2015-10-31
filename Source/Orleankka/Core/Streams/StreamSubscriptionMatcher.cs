@@ -39,7 +39,7 @@ namespace Orleankka.Core.Streams
             }
         }
 
-        public static StreamConsumer[] Match(IActorSystem system, StreamIdentity stream)
+        public static StreamSubscriptionMatch[] Match(IActorSystem system, StreamIdentity stream)
         {
             var specifications = DictionaryExtensions.Find(configuration, stream.Provider)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
@@ -47,12 +47,11 @@ namespace Orleankka.Core.Streams
             return Match(system, stream.Id, specifications);
         }
 
-        static StreamConsumer[] Match(IActorSystem system, string stream, IEnumerable<StreamSubscriptionSpecification> specifications)
+        static StreamSubscriptionMatch[] Match(IActorSystem system, string stream, IEnumerable<StreamSubscriptionSpecification> specifications)
         {
             return specifications
-                    .Select(s => s.Match(stream))
-                    .Where(m => !m.Equals(StreamSubscriptionMatch.None))
-                    .Select(m => m.Consumer(system))
+                    .Select(s => s.Match(system, stream))
+                    .Where(m => m != StreamSubscriptionMatch.None)
                     .ToArray();
         }
 

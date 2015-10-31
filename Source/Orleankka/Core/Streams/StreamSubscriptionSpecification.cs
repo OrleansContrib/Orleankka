@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Orleankka.Core.Streams
 {
@@ -53,30 +54,61 @@ namespace Orleankka.Core.Streams
         public readonly string Provider;
         readonly string source;
         readonly string target;
-        readonly Type actor;
+
         readonly Func<object, bool> filter;
+        readonly Func<IActorSystem, string, Func<object, Task>> receiver;
 
         StreamSubscriptionSpecification(string provider, string source, string target, Type actor, string filter)
         {
-            Provider = provider;
+            Provider    = provider;
             this.source = source;
             this.target = target;
-            this.actor  = actor;
-            this.filter = Build(filter, actor);
+
+            this.filter = BuildFilter(filter, actor);
+            receiver    = BuildReceiver(target, actor);
         }
 
-        static Func<object, bool> Build(string filter, Type actor)
+        static Func<object, bool> BuildFilter(string filter, Type actor)
         {
             if (filter == null)
                 return item => true;
 
-            var methodName = filter;
-            var method = actor.GetMethod(methodName);
+            if (!filter.EndsWith("()"))
+                throw new InvalidOperationException("Filter string value is missing '()' function designator");
 
-            return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
+            var method = GetStaticMethod(filter, actor);
+            if (method == null)
+                throw new InvalidOperationException("Filter function should be a static method");
+
+            return (Func<object, bool>)method.CreateDelegate(typeof(Func<object, bool>));
         }
 
-        public abstract StreamSubscriptionMatch Match(string stream);
+        static Func<IActorSystem, string, Func<object, Task>> BuildReceiver(string target, Type actor)
+        {
+            if (!target.EndsWith("()"))
+            {
+                return (system, id) =>
+                {
+                    var receiver = system.ActorOf(actor, id);
+                    return receiver.Tell;
+                };
+            }
+
+            var method = GetStaticMethod(target, actor);
+            if (method == null)
+                throw new InvalidOperationException("Target function should be a static method");
+
+            var selector = (Func<object, string>)method.CreateDelegate(typeof(Func<object, string>));
+            return (system, id) => (item => system.ActorOf(actor, selector(item)).Tell(item));
+        }
+
+        static MethodInfo GetStaticMethod(string methodString, Type type)
+        {
+            var methodName = methodString.Remove(methodString.Length - 2, 2);
+            return type.GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+        }
+
+        public abstract StreamSubscriptionMatch Match(IActorSystem system, string stream);
 
         class MatchExact : StreamSubscriptionSpecification
         {
@@ -84,11 +116,11 @@ namespace Orleankka.Core.Streams
                 : base(provider, source, target, actor, filter)
             {}
 
-            public override StreamSubscriptionMatch Match(string stream)
+            public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
             {
                 return stream == source 
-                    ? new StreamSubscriptionMatch(actor, target, filter) 
-                    : StreamSubscriptionMatch.None;
+                        ? new StreamSubscriptionMatch(x => receiver(system, target)(x), filter) 
+                        : StreamSubscriptionMatch.None;
             }
         }
 
@@ -104,7 +136,7 @@ namespace Orleankka.Core.Streams
                 generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
             }
 
-            public override StreamSubscriptionMatch Match(string stream)
+            public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
             {
                 var match = matcher.Match(stream);
 
@@ -117,7 +149,7 @@ namespace Orleankka.Core.Streams
                     return match.Groups[placeholder].Value;
                 });
 
-                return new StreamSubscriptionMatch(actor, id, filter);
+                return new StreamSubscriptionMatch(x => receiver(system, id)(x), filter);
             }
         }
     }
