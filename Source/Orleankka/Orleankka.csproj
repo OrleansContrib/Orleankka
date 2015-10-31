@@ -69,10 +69,9 @@
     <Compile Include="Core\ActorPrototype.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Core\Stream.cs" />
-    <Compile Include="Core\Streams\StreamConsumer.cs" />
+    <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamProviderConfiguration.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionSpecification.cs" />
     <Compile Include="StreamFilter.cs" />

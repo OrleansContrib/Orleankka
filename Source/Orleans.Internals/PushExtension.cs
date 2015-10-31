@@ -10,10 +10,12 @@ namespace Orleans.Internals
     [Serializable]
     class PushExtension : GrainReference, IStreamConsumerExtension
     {
+        static readonly GrainReference Mock = FromGrainId(GrainId.NewId());
+
         readonly Func<object, Task> handler;
 
         public PushExtension(StreamPubSubMatch match) 
-            : base(match.Reference)
+            : base(Mock)
         {
             handler = match.Handler;
         }

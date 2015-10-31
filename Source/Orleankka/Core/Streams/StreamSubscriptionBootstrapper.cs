@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleankka.Cluster;
-
 using Orleans;
 using Orleans.Internals;
 using Orleans.Providers;
@@ -12,6 +10,8 @@ using Orleans.Storage;
 
 namespace Orleankka.Core.Streams
 {
+    using Cluster;
+
     /// <remarks>
     /// This is done as storage provider due to initialization order inside Silo.DoStart()
     /// </remarks>
@@ -25,7 +25,7 @@ namespace Orleankka.Core.Streams
             StreamPubSubWrapper.Hook(providers, stream => 
                 StreamSubscriptionMatcher
                     .Match(system, stream)
-                    .Select(x => new StreamPubSubMatch(x.Reference, x.Receive))
+                    .Select(x => new StreamPubSubMatch(x.Receive))
                     .ToArray());
 
             return TaskDone.Done;

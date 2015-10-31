@@ -1,27 +1,26 @@
-using System;
-using System.Linq;
+﻿using System;
+using System.Threading.Tasks;
+
+using Orleans;
 
 namespace Orleankka.Core.Streams
 {
-    struct StreamSubscriptionMatch
+    class StreamSubscriptionMatch
     {
         public static readonly StreamSubscriptionMatch None = new StreamSubscriptionMatch();
 
-        public readonly Type ActorType;
-        public readonly string ActorId;
+        StreamSubscriptionMatch()
+        {}
+
+        public readonly Func<object, Task> Receiver;
         public readonly Func<object, bool> Filter;
 
-        public StreamSubscriptionMatch(Type actorType, string actorId, Func<object, bool> filter)
+        public StreamSubscriptionMatch(Func<object, Task> receiver, Func<object, bool> filter)
         {
-            ActorType = actorType;
-            ActorId = actorId;
+            Receiver = receiver;
             Filter = filter;
         }
 
-        public StreamConsumer Consumer(IActorSystem system)
-        {
-            var actor = system.ActorOf(ActorType, ActorId);
-            return new StreamConsumer(actor, Filter);
-        }
+        public Task Receive(object item) => Filter(item) ? Receiver(item) : TaskDone.Done;
     }
 }

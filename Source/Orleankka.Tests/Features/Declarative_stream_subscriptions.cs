@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,11 +42,18 @@ namespace Orleankka.Features
             Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
-        abstract class Tests<TClientToStreamConsumerActor, TActorToStreamConsumerActor, TMultistreamSubscriptionWithFixedIdsActor, TMultistreamRegexBasedSubscriptionActor, TFilteredSubscriptionActor>
+        abstract class Tests
+            <TClientToStreamConsumerActor, 
+             TActorToStreamConsumerActor, 
+             TMultistreamSubscriptionWithFixedIdsActor, 
+             TMultistreamRegexBasedSubscriptionActor, 
+             TDynamicTargetSelectorActor, 
+             TFilteredSubscriptionActor>
             where TClientToStreamConsumerActor : IActor
             where TActorToStreamConsumerActor : IActor
             where TMultistreamSubscriptionWithFixedIdsActor : IActor
             where TMultistreamRegexBasedSubscriptionActor : IActor
+            where TDynamicTargetSelectorActor : IActor
             where TFilteredSubscriptionActor : IActor
         {
             IActorSystem system;
@@ -124,6 +132,22 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
+            [Test]
+            public async void Dynamic_target_selection()
+            {
+                var stream = system.StreamOf(Provider, "dynamic-target");
+
+                await stream.Push("red");
+                await stream.Push("blue");
+                await Task.Delay(Timeout);
+
+                var consumer1 = system.ActorOf<TDynamicTargetSelectorActor>("red-pill");
+                var consumer2 = system.ActorOf<TDynamicTargetSelectorActor>("blue-pill");
+
+                Assert.That((await consumer1.Ask(new Received()))[0], Is.EqualTo("red"));
+                Assert.That((await consumer2.Ask(new Received()))[0], Is.EqualTo("blue"));
+            }
+
             protected abstract string Provider  { get; }
             protected abstract TimeSpan Timeout { get; }
         }
@@ -147,19 +171,26 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "Select")]
+            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "Select()")]
             class TestFilteredSubscriptionActor : TestConsumerActorBase
             {
                 public static bool Select(object item) => false;
             }
 
+            [StreamSubscription(Source = "sms:dynamic-target", Target = "ComputeTarget()")]
+            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            {
+                public static string ComputeTarget(object item) => $"{item}-pill";
+            }
+
             [TestFixture, RequiresSilo(Fresh = true)]
-            class Tests : Tests<
-                TestClientToStreamConsumerActor, 
-                TestActorToStreamConsumerActor, 
-                TestMultistreamSubscriptionWithFixedIdsActor, 
-                TestMultistreamRegexBasedSubscriptionActor, 
-                TestFilteredSubscriptionActor>
+            class Tests : Tests
+                <TestClientToStreamConsumerActor, 
+                 TestActorToStreamConsumerActor, 
+                 TestMultistreamSubscriptionWithFixedIdsActor, 
+                 TestMultistreamRegexBasedSubscriptionActor, 
+                 TestDynamicTargetSelectorActor,
+                 TestFilteredSubscriptionActor>
             {
                 protected override string Provider  => "sms";
                 protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(100);
@@ -185,19 +216,26 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "Select")]
+            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "Select()")]
             class TestFilteredSubscriptionActor : TestConsumerActorBase
             {
                 public static bool Select(object item) => false;
             }
 
+            [StreamSubscription(Source = "aqp:dynamic-target", Target = "ComputeTarget()")]
+            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            {
+                public static string ComputeTarget(object item) => $"{item}-pill";
+            }
+
             [TestFixture, RequiresSilo(Fresh = true), Category("Slow"), Explicit]
-            class Tests : Tests<
-               TestClientToStreamConsumerActor,
-               TestActorToStreamConsumerActor,
-               TestMultistreamSubscriptionWithFixedIdsActor,
-               TestMultistreamRegexBasedSubscriptionActor, 
-               TestFilteredSubscriptionActor>
+            class Tests : Tests
+                <TestClientToStreamConsumerActor,
+                 TestActorToStreamConsumerActor,
+                 TestMultistreamSubscriptionWithFixedIdsActor,
+                 TestMultistreamRegexBasedSubscriptionActor, 
+                 TestDynamicTargetSelectorActor,
+                 TestFilteredSubscriptionActor>
             {
                 protected override string Provider  => "aqp";
                 protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);
