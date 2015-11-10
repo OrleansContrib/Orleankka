@@ -113,7 +113,6 @@
     <Compile Include="Features\Unwrapping_exceptions.cs" />
     <Compile Include="Features\Using_reminders.cs" />
     <Compile Include="Checks\ObserverCollectionFixture.cs" />
-    <Compile Include="TODO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

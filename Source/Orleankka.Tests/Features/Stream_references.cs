@@ -63,26 +63,33 @@ namespace Orleankka.Features
             List<Item> On(Received x) => received;
         }
 
-        abstract class Tests<TProducer, TConsumer> 
+        class TestCases<TProducer, TConsumer> 
             where TProducer : TestProducerActorBase 
             where TConsumer : TestConsumerActorBase
         {
             IActorSystem system;
 
-            [SetUp]
+            readonly string provider;
+            readonly TimeSpan timeout;
+
+            public TestCases(string provider, TimeSpan timeout)
+            {
+                this.provider = provider;
+                this.timeout = timeout;
+            }
+
             public void SetUp() => system = TestActorSystem.Instance;
 
-            [Test]
-            public async void Client_to_stream()
+            public async Task Client_to_stream()
             {
-                var stream = system.StreamOf(Provider, $"{Provider}-123");
+                var stream = system.StreamOf(provider, $"{provider}-123");
 
                 var received = new List<Item>();
                 var subscription = await stream.Subscribe<Item>(
                     item => received.Add(item));
 
                 await stream.Push(new Item("foo"));
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0].Text, Is.EqualTo("foo"));
@@ -91,15 +98,14 @@ namespace Orleankka.Features
                 received.Clear();
 
                 await stream.Push("bar");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            [Test]
-            public async void Actor_to_stream()
+            public async Task Actor_to_stream()
             {
-                var stream = system.StreamOf(Provider, $"{Provider}-123");
+                var stream = system.StreamOf(provider, $"{provider}-123");
 
                 var producer = system.ActorOf<TProducer>("p");
                 var consumer = system.ActorOf<TConsumer>("c");
@@ -107,7 +113,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe {Stream = stream});
                 await producer.Tell(new Produce {Stream = stream, Item = new Item("foo")});
 
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
                 var received = await consumer.Ask(new Received());
 
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -117,15 +123,14 @@ namespace Orleankka.Features
                 received.Clear();
 
                 await producer.Tell(new Produce {Stream = stream, Item = new Item("bar")});
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            [Test]
-            public async void Filtering_items()
+            public async Task Filtering_items()
             {
-                var stream = system.StreamOf(Provider, $"{Provider}-fff");
+                var stream = system.StreamOf(provider, $"{provider}-fff");
 
                 var received = new List<Item>();
                 await stream.Subscribe<Item>(
@@ -133,13 +138,10 @@ namespace Orleankka.Features
                     filter: new StreamFilter(Item.DropAll));
 
                 await stream.Push(new Item("foo"));
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
             }
-
-            protected abstract string Provider  { get; }
-            protected abstract TimeSpan Timeout { get; }
         }
 
         namespace SimpleMessageStreamProviderVerification
@@ -148,10 +150,20 @@ namespace Orleankka.Features
             class TestConsumerActor : TestConsumerActorBase {}
 
             [TestFixture, RequiresSilo]
-            class Tests : Tests<TestProducerActor, TestConsumerActor>
+            class Tests
             {
-                protected override string Provider  => "sms";
-                protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(100);
+                TestCases<TestProducerActor, TestConsumerActor> verify;
+
+                [SetUp]
+                public void SetUp()
+                {
+                    verify = new TestCases<TestProducerActor, TestConsumerActor>(provider: "sms", timeout: TimeSpan.FromMilliseconds(100));
+                    verify.SetUp();
+                }
+
+                [Test] public async Task Client_to_stream() => await verify.Client_to_stream();
+                [Test] public async Task Actor_to_stream()  => await verify.Actor_to_stream();
+                [Test] public async Task Filtering_items()  => await verify.Filtering_items();
             }
         }
 
@@ -160,11 +172,23 @@ namespace Orleankka.Features
             class TestProducerActor : TestProducerActorBase { }
             class TestConsumerActor : TestConsumerActorBase { }
 
-            [TestFixture, RequiresSilo, Category("Slow"), Explicit]
-            class Tests : Tests<TestProducerActor, TestConsumerActor>
+            [TestFixture]
+            [RequiresSilo(Fresh = true, EnableAzureQueueStreamProvider = true)]
+            [Category("Slow"), Explicit]
+            class Tests
             {
-                protected override string Provider  => "aqp";
-                protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);
+                TestCases<TestProducerActor, TestConsumerActor> verify;
+
+                [SetUp]
+                public void SetUp()
+                {
+                    verify = new TestCases<TestProducerActor, TestConsumerActor>(provider: "aqp", timeout: TimeSpan.FromSeconds(5));
+                    verify.SetUp();
+                }
+
+                [Test] public async Task Client_to_stream() => await verify.Client_to_stream();
+                [Test] public async Task Actor_to_stream()  => await verify.Actor_to_stream();
+                [Test] public async Task Filtering_items()  => await verify.Filtering_items();
             }
         }
     }

@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using NUnit.Framework;
 
 using Orleankka.Cluster;
 using Orleankka.Playground;
 using Orleankka.Testing;
-
 using Orleans.Providers.Streams.AzureQueue;
 
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
         public bool Fresh;
         public int DefaultKeepAliveTimeoutInMinutes = 1;
+        public bool EnableAzureQueueStreamProvider = false;
 
         public override void BeforeTest(TestDetails details)
         {
@@ -45,18 +44,23 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            TestActorSystem.Instance = ActorSystem.Configure()
+            var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
                 .TweakCluster(cfg => cfg
                     .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
-                .Register(GetType().Assembly)
-                .Register<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
+                .Register(GetType().Assembly);
+
+            if (EnableAzureQueueStreamProvider)
+            {
+                system.Register<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
                 {
                     {"DataConnectionString", "UseDevelopmentStorage=true"},
                     {"DeploymentId", "test"},
-                })
-                .Done();
+                });
+            }
+
+            TestActorSystem.Instance = system.Done();
         }
     }
 
