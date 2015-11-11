@@ -43,18 +43,16 @@ namespace Orleankka.Features
 
         class TestCases
         {
-            IActorSystem system;
-
             readonly string provider;
             readonly TimeSpan timeout;
+            readonly IActorSystem system;
 
             public TestCases(string provider, TimeSpan timeout)
             {
                 this.provider = provider;
                 this.timeout = timeout;
+                system = TestActorSystem.Instance;
             }
-
-            public void SetUp() => system = TestActorSystem.Instance;
 
             public async Task Client_to_stream<T>() where T : IActor
             {
@@ -172,21 +170,15 @@ namespace Orleankka.Features
             [TestFixture, RequiresSilo]
             public class Tests
             {
-                TestCases verify;
+                static TestCases Verify() =>
+                   new TestCases("sms", TimeSpan.FromMilliseconds(100));
 
-                [SetUp]
-                public void SetUp()
-                {
-                    verify = new TestCases(provider: "sms", timeout: TimeSpan.FromMilliseconds(100));
-                    verify.SetUp();
-                }
-
-                [Test] public async Task Client_to_stream()                                 => await verify.Client_to_stream<TestClientToStreamConsumerActor>();
-                [Test] public async Task Actor_to_stream()                                  => await verify.Actor_to_stream<TestActorToStreamConsumerActor>();
-                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await verify.Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
-                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await verify.Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Filtering_items()                                  => await verify.Filtering_items<TestFilteredSubscriptionActor>();
-                [Test] public async Task Dynamic_target_selection()                         => await verify.Dynamic_target_selection<TestDynamicTargetSelectorActor>();
+                [Test] public async Task Client_to_stream()                                 => await Verify().Client_to_stream<TestClientToStreamConsumerActor>();
+                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
+                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
+                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
+                [Test] public async Task Filtering_items()                                  => await Verify().Filtering_items<TestFilteredSubscriptionActor>();
+                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
             }
         }
 
@@ -226,22 +218,16 @@ namespace Orleankka.Features
             [Category("Slow"), Explicit]
             public class Tests
             {
-                TestCases verify;
+               static TestCases Verify() =>
+                  new TestCases("aqp", TimeSpan.FromSeconds(5));
 
-                [SetUp]
-                public void SetUp()
-                {
-                    verify = new TestCases(provider: "aqp", timeout: TimeSpan.FromSeconds(5));
-                    verify.SetUp();
-                }
-
-                [Test] public async Task Client_to_stream()                                 => await verify.Client_to_stream<TestClientToStreamConsumerActor>();
-                [Test] public async Task Actor_to_stream()                                  => await verify.Actor_to_stream<TestActorToStreamConsumerActor>();
-                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await verify.Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
-                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await verify.Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Filtering_items()                                  => await verify.Filtering_items<TestFilteredSubscriptionActor>();
-                [Test] public async Task Dynamic_target_selection()                         => await verify.Dynamic_target_selection<TestDynamicTargetSelectorActor>();
-            }
+                [Test] public async Task Client_to_stream()                                 => await Verify().Client_to_stream<TestClientToStreamConsumerActor>();
+                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
+                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
+                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
+                [Test] public async Task Filtering_items()                                  => await Verify().Filtering_items<TestFilteredSubscriptionActor>();
+                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
+             }
         }
     }
 }

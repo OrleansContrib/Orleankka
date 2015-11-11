@@ -67,18 +67,16 @@ namespace Orleankka.Features
             where TProducer : TestProducerActorBase 
             where TConsumer : TestConsumerActorBase
         {
-            IActorSystem system;
-
             readonly string provider;
             readonly TimeSpan timeout;
+            readonly IActorSystem system;
 
             public TestCases(string provider, TimeSpan timeout)
             {
                 this.provider = provider;
                 this.timeout = timeout;
+                system = TestActorSystem.Instance;
             }
-
-            public void SetUp() => system = TestActorSystem.Instance;
 
             public async Task Client_to_stream()
             {
@@ -152,18 +150,12 @@ namespace Orleankka.Features
             [TestFixture, RequiresSilo]
             class Tests
             {
-                TestCases<TestProducerActor, TestConsumerActor> verify;
+                static TestCases<TestProducerActor, TestConsumerActor> Verify() =>
+                   new TestCases<TestProducerActor, TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
-                [SetUp]
-                public void SetUp()
-                {
-                    verify = new TestCases<TestProducerActor, TestConsumerActor>(provider: "sms", timeout: TimeSpan.FromMilliseconds(100));
-                    verify.SetUp();
-                }
-
-                [Test] public async Task Client_to_stream() => await verify.Client_to_stream();
-                [Test] public async Task Actor_to_stream()  => await verify.Actor_to_stream();
-                [Test] public async Task Filtering_items()  => await verify.Filtering_items();
+                [Test] public async Task Client_to_stream() => await Verify().Client_to_stream();
+                [Test] public async Task Actor_to_stream()  => await Verify().Actor_to_stream();
+                [Test] public async Task Filtering_items()  => await Verify().Filtering_items();
             }
         }
 
@@ -177,18 +169,12 @@ namespace Orleankka.Features
             [Category("Slow"), Explicit]
             class Tests
             {
-                TestCases<TestProducerActor, TestConsumerActor> verify;
+                static TestCases<TestProducerActor, TestConsumerActor> Verify() =>
+                   new TestCases<TestProducerActor, TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
-                [SetUp]
-                public void SetUp()
-                {
-                    verify = new TestCases<TestProducerActor, TestConsumerActor>(provider: "aqp", timeout: TimeSpan.FromSeconds(5));
-                    verify.SetUp();
-                }
-
-                [Test] public async Task Client_to_stream() => await verify.Client_to_stream();
-                [Test] public async Task Actor_to_stream()  => await verify.Actor_to_stream();
-                [Test] public async Task Filtering_items()  => await verify.Filtering_items();
+                [Test] public async Task Client_to_stream() => await Verify().Client_to_stream();
+                [Test] public async Task Actor_to_stream()  => await Verify().Actor_to_stream();
+                [Test] public async Task Filtering_items()  => await Verify().Filtering_items();
             }
         }
     }

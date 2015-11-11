@@ -41,50 +41,27 @@ namespace Orleankka.Features
             protected abstract string Provider { get; }
         }
 
-        abstract class TestSubscriptionHandlesActorBase : Actor
+        class TestCases<TConsumer> where TConsumer : IActor
         {
-            public override Task OnActivate() => Stream().Subscribe(this);
-            async Task<int> On(string x) => (await Stream().GetAllSubscriptionHandles()).Count;
+            readonly string provider;
+            readonly TimeSpan timeout;
+            readonly IActorSystem system;
 
-            StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-subs");
-            protected abstract string Provider { get; }
-        }
-
-        abstract class Tests<TConsumer, TSubscriptions>
-            where TConsumer : TestConsumerActorBase
-            where TSubscriptions : TestSubscriptionHandlesActorBase
-        {
-            IActorSystem system;
-
-            [SetUp]
-            public void SetUp() => system = TestActorSystem.Instance;
-
-            [Test]
-            public async void Get_all_subscription_handles()
+            public TestCases(string provider, TimeSpan timeout)
             {
-                var a1 = system.ActorOf<TSubscriptions>("123");
-                var a2 = system.ActorOf<TSubscriptions>("456");
-
-                Assert.That((await a1.Ask<int>("count")), Is.EqualTo(1),
-                            "Should return handles registered only by the current actor");
-
-                Assert.That((await a2.Ask<int>("count")), Is.EqualTo(1),
-                            "Should return handles registered only by the current actor");
-
-                var stream = system.StreamOf(Provider, $"{Provider}-subs");
-                Assert.That((await stream.GetAllSubscriptionHandles()).Count, Is.EqualTo(0),
-                            "Should not return all registered handles when requested from the client side");
+                this.provider = provider;
+                this.timeout = timeout;
+                system = TestActorSystem.Instance;
             }
 
-            [Test]
-            public async void Resuming_on_reactivation()
+            public async Task Resuming_on_reactivation()
             {
                 var consumer = system.ActorOf<TConsumer>("cons");
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf(Provider, $"{Provider}-42");
+                var stream = system.StreamOf(provider, $"{provider}-42");
                 await stream.Push("e-123");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -94,24 +71,23 @@ namespace Orleankka.Features
                 await Task.Delay(TimeSpan.FromSeconds(61));
 
                 await stream.Push("e-456");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("e-456"));
             }
 
-            [Test]
-            public async void Subscription_is_idempotent()
+            public async Task Subscription_is_idempotent()
             {
                 var consumer = system.ActorOf<TConsumer>("idempotent");
 
                 await consumer.Tell(new Subscribe());
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf(Provider, $"{Provider}-42");
+                var stream = system.StreamOf(provider, $"{provider}-42");
                 await stream.Push("e-123");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -119,17 +95,16 @@ namespace Orleankka.Features
 
             static bool DropAll(object item) => false;
 
-            [Test]
-            public async void Filtering_items()
+            public async Task Filtering_items()
             {
                 var consumer = system.ActorOf<TConsumer>("fff");
 
                 var filter = new StreamFilter(DropAll);
                 await consumer.Tell(new Subscribe {Filter = filter});
 
-                var stream = system.StreamOf(Provider, $"{Provider}-filtered");
+                var stream = system.StreamOf(provider, $"{provider}-filtered");
                 await stream.Push("e-123");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(0));
@@ -138,14 +113,11 @@ namespace Orleankka.Features
                 await Task.Delay(TimeSpan.FromSeconds(61));
 
                 await stream.Push("e-456");
-                await Task.Delay(Timeout);
+                await Task.Delay(timeout);
 
                 received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(0));
             }
-
-            protected abstract string Provider  { get; }
-            protected abstract TimeSpan Timeout { get; }
         }
 
         namespace SimpleMessageStreamProviderVerification
@@ -155,16 +127,15 @@ namespace Orleankka.Features
                 protected override string Provider => "sms";
             }
 
-            class TestSubscriptionHandlesActor : TestSubscriptionHandlesActorBase
-            {
-                protected override string Provider => "sms";
-            }
-
             [TestFixture, RequiresSilo]
-            class Tests : Tests<TestConsumerActor, TestSubscriptionHandlesActor>
+            class Tests
             {
-                protected override string Provider  => "sms";
-                protected override TimeSpan Timeout => TimeSpan.FromMilliseconds(100);
+                static TestCases<TestConsumerActor> Verify() => 
+                   new TestCases<TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
+
+                [Test] public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
+                [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
+                [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
             }
         }
 
@@ -175,16 +146,17 @@ namespace Orleankka.Features
                 protected override string Provider => "aqp";
             }
 
-            class TestSubscriptionHandlesActor : TestSubscriptionHandlesActorBase
+            [TestFixture]
+            [RequiresSilo(Fresh = true, EnableAzureQueueStreamProvider = true)]
+            [Category("Slow"), Explicit]
+            class Tests
             {
-                protected override string Provider => "aqp";
-            }
+                static TestCases<TestConsumerActor> Verify() => 
+                   new TestCases<TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
-            [TestFixture, RequiresSilo, Category("Slow"), Explicit]
-            class Tests : Tests<TestConsumerActor, TestSubscriptionHandlesActor>
-            {
-                protected override string Provider  => "aqp";
-                protected override TimeSpan Timeout => TimeSpan.FromSeconds(5);
+                [Test] public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
+                [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
+                [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
             }
         }
     }
