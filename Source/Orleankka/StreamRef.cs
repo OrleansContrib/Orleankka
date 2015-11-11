@@ -31,7 +31,7 @@ namespace Orleankka
 
         public virtual Task Push(object item)
         {
-            return Endpoint.OnNextAsync(item);
+            return Endpoint.OnNextAsync(item).UnwrapExceptions();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Orleankka
 
             var observer = new Observer((item, token) => callback(item));
             var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate) null;
-            var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter);
+            var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter).UnwrapExceptions();
 
             return new StreamSubscription(handle);
         }
@@ -131,7 +131,8 @@ namespace Orleankka
 
             var observer = new Observer((item, token) => actor.OnReceive(item));
             var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate)null;
-            await Endpoint.SubscribeAsync(observer, null, predicate, filter);
+
+            await Endpoint.SubscribeAsync(observer, null, predicate, filter).UnwrapExceptions();
         }
 
         public virtual async Task Unsubscribe(Actor actor)
@@ -145,7 +146,7 @@ namespace Orleankka
             Debug.Assert(handles.Count == 1, 
                 "We should keep only one active subscription per-stream per-actor");
 
-            await handles[0].UnsubscribeAsync();
+            await handles[0].UnsubscribeAsync().UnwrapExceptions();
         }
 
         public virtual async Task Resume(Actor actor)
@@ -160,12 +161,12 @@ namespace Orleankka
                 "We should keep only one active subscription per-stream per-actor");
 
             var observer = new Observer((item, token) => actor.OnReceive(item));
-            await handles[0].ResumeAsync(observer);
+            await handles[0].ResumeAsync(observer).UnwrapExceptions();
         }
 
         internal Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
         {
-            return Endpoint.GetAllSubscriptionHandles();
+            return Endpoint.GetAllSubscriptionHandles().UnwrapExceptions();
         }
 
         public bool Equals(StreamRef other)
