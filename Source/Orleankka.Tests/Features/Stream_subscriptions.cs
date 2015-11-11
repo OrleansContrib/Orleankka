@@ -93,8 +93,6 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(1));
             }
 
-            static bool DropAll(object item) => false;
-
             public async Task Filtering_items()
             {
                 var consumer = system.ActorOf<TConsumer>("fff");
@@ -108,16 +106,9 @@ namespace Orleankka.Features
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(0));
-
-                await consumer.Tell(new Deactivate());
-                await Task.Delay(TimeSpan.FromSeconds(61));
-
-                await stream.Push("e-456");
-                await Task.Delay(timeout);
-
-                received = await consumer.Ask(new Received());
-                Assert.That(received.Count, Is.EqualTo(0));
             }
+
+            static bool DropAll(object item) => false;
         }
 
         namespace SimpleMessageStreamProviderVerification
@@ -133,7 +124,8 @@ namespace Orleankka.Features
                 static TestCases<TestConsumerActor> Verify() => 
                    new TestCases<TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
-                [Test] public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
+                [Test, Category("Slow"), Explicit]
+                       public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
                 [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
             }
@@ -154,7 +146,8 @@ namespace Orleankka.Features
                 static TestCases<TestConsumerActor> Verify() => 
                    new TestCases<TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
-                [Test] public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
+                [Test, Category("Slow"), Explicit]
+                       public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
                 [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
             }
