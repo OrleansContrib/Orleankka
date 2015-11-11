@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Orleankka.Core
@@ -15,34 +14,11 @@ namespace Orleankka.Core
         readonly GC gc;
         readonly Dispatcher dispatcher;
 
-        bool closed;
+        internal static void Register(ActorType type) => cache.Add(type, Define(type.Implementation));
+        internal static void Reset()                  => cache.Clear();
 
-        internal static void Register(ActorType type)
-        {
-            cache.Add(type, Define(type.Implementation));
-        }
-
-        internal static ActorPrototype Define(Type actor)
-        {
-            var prototype = CreatePrototype(actor);
-            return prototype.Close();
-        }
-
-        static ActorPrototype CreatePrototype(Type actor)
-        {
-            return new ActorPrototype(actor);
-        }
-
-        ActorPrototype Close()
-        {
-            closed = true;
-            return this;
-        }
-
-        internal static void Reset()
-        {
-            cache.Clear();
-        }
+        internal static ActorPrototype Define(Type actor) => CreatePrototype(actor);
+        static ActorPrototype CreatePrototype(Type actor) => new ActorPrototype(actor);
 
         internal static ActorPrototype Of(ActorPath path)
         {
@@ -63,26 +39,10 @@ namespace Orleankka.Core
             dispatcher = new Dispatcher(actor);
         }
 
-        internal void KeepAlive(ActorEndpoint endpoint)
-        {
-            gc.KeepAlive(endpoint);
-        }
+        internal void KeepAlive(ActorEndpoint endpoint) 
+            => gc.KeepAlive(endpoint);
 
-        internal void RegisterHandler(MethodInfo method)
-        {
-            AssertClosed();
-            dispatcher.Register(method);
-        }
-
-        void AssertClosed()
-        {
-            if (closed)
-                throw new InvalidOperationException("Actor prototype can only be defined within Define() method");
-        }
-
-        internal Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
-        {
-            return dispatcher.Dispatch(target, message, fallback);
-        }
+        internal Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback) 
+            => dispatcher.Dispatch(target, message, fallback);
     }
 }
