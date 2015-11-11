@@ -71,6 +71,12 @@ namespace Orleankka.Core.Streams
         static Func<object, bool> BuildFilter(string filter, Type actor)
         {
             if (filter == null)
+            {
+                var prototype = ActorPrototype.Of(actor);
+                return item => prototype.DeclaresHandlerFor(item.GetType());
+            }
+
+            if (filter == "*")
                 return item => true;
 
             if (!filter.EndsWith("()"))

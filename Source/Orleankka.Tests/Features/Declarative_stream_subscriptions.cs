@@ -21,7 +21,7 @@ namespace Orleankka.Features
 
         abstract class TestConsumerActorBase : Actor
         {
-            readonly List<string> received = new List<string>();
+            protected readonly List<string> received = new List<string>();
 
             void On(string x) => received.Add(x);
             List<string> On(Received x) => received;
@@ -107,7 +107,36 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
-            public async Task Filtering_items<T>() where T : IActor
+            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActor
+            {
+                var stream = system.StreamOf(provider, "declared-auto");
+                Assert.DoesNotThrow(async ()=> await stream.Push(123),
+                    "Should not throw handler not found exception");
+
+                await stream.Push("e-123");
+                await Task.Delay(timeout);
+
+                var consumer = system.ActorOf<T>("#");
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("e-123"));
+            }
+
+            public async Task Select_all_filter<T>() where T : IActor
+            {
+                var stream = system.StreamOf(provider, "select-all");
+
+                await stream.Push(42);
+                await Task.Delay(timeout);
+
+                var consumer = system.ActorOf<T>("#");
+                var received = await consumer.Ask(new Received());
+
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("42"));
+            }
+
+            public async Task Explicit_filter<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "filtered");
 
@@ -155,10 +184,29 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "Select()")]
-            class TestFilteredSubscriptionActor : TestConsumerActorBase
+            [StreamSubscription(Source = "sms:declared-auto", Target = "#")]
+            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            {}
+
+            [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
+            class TestSelectAllFilterActor : TestConsumerActorBase
             {
-                public static bool Select(object item) => false;
+                public override Task<object> OnReceive(object message)
+                {
+                    if (message is int)
+                    {
+                        received.Add(message.ToString());
+                        return Task.FromResult<object>(null);
+                    }
+
+                    return base.OnReceive(message);
+                }
+            }
+
+            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
+            class TestExplicitFilterActor : TestConsumerActorBase
+            {
+                public static bool SelectItem(object item) => false;
             }
 
             [StreamSubscription(Source = "sms:dynamic-target", Target = "ComputeTarget()")]
@@ -177,7 +225,9 @@ namespace Orleankka.Features
                 [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
                 [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
                 [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Filtering_items()                                  => await Verify().Filtering_items<TestFilteredSubscriptionActor>();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<TestDeclaredHandlerOnlyAutomaticFilterActor>();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<TestSelectAllFilterActor>();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<TestExplicitFilterActor>();
                 [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
             }
         }
@@ -201,10 +251,29 @@ namespace Orleankka.Features
             class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
             {}
 
-            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "Select()")]
-            class TestFilteredSubscriptionActor : TestConsumerActorBase
+            [StreamSubscription(Source = "aqp:declared-auto", Target = "#")]
+            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            {}
+
+            [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
+            class TestSelectAllFilterActor : TestConsumerActorBase
             {
-                public static bool Select(object item) => false;
+                public override Task<object> OnReceive(object message)
+                {
+                    if (message is int)
+                    {
+                        received.Add(message.ToString());
+                        return Task.FromResult<object>(null);
+                    }
+
+                    return base.OnReceive(message);
+                }
+            }
+
+            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
+            class TestExplicitFilterActor : TestConsumerActorBase
+            {
+                public static bool SelectItem(object item) => false;
             }
 
             [StreamSubscription(Source = "aqp:dynamic-target", Target = "ComputeTarget()")]
@@ -225,7 +294,9 @@ namespace Orleankka.Features
                 [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
                 [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
                 [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Filtering_items()                                  => await Verify().Filtering_items<TestFilteredSubscriptionActor>();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<TestDeclaredHandlerOnlyAutomaticFilterActor>();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<TestSelectAllFilterActor>();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<TestExplicitFilterActor>();
                 [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
              }
         }

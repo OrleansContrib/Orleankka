@@ -35,7 +35,7 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            Register<SimpleMessageStreamProvider>("sms");
+            Register<SimpleMessageStreamProvider>("sms", new Dictionary<string, string> {{"FireAndForgetDelivery", "false"}});
         }
 
         public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)

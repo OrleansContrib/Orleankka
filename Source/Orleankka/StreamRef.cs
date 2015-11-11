@@ -49,7 +49,7 @@ namespace Orleankka
             Requires.NotNull(callback, nameof(callback));
 
             var observer = new Observer((item, token) => callback(item));
-            var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate) null;
+            var predicate = filter != null ? StreamFilter.Internal.Predicate : (StreamFilterPredicate) null;
             var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter).UnwrapExceptions();
 
             return new StreamSubscription(handle);
@@ -130,9 +130,10 @@ namespace Orleankka
                 "We should keep only one active subscription per-stream per-actor");
 
             var observer = new Observer((item, token) => actor.OnReceive(item));
-            var predicate = filter != null ? StreamFilter.Predicate : (StreamFilterPredicate)null;
 
-            await Endpoint.SubscribeAsync(observer, null, predicate, filter).UnwrapExceptions();
+            await Endpoint
+                    .SubscribeAsync(observer, null, StreamFilter.Internal.Predicate, filter ?? new StreamFilter(actor))
+                    .UnwrapExceptions();
         }
 
         public virtual async Task Unsubscribe(Actor actor)

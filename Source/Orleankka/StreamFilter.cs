@@ -7,13 +7,17 @@ using Orleans.Streams;
 
 namespace Orleankka
 {
+    using Core;
     using Utility;
 
     [Serializable]
     public class StreamFilter : ISerializable, IEquatable<StreamFilter>
     {
-        readonly string methodName;
+        public static readonly StreamFilter ReceiveAll = new StreamFilter(ReceiveAllCallback);
+        static bool ReceiveAllCallback(object item) => true;
+
         readonly string className;
+        readonly string methodName;
 
         [NonSerialized]
         readonly Func<object, bool> filter;
@@ -32,25 +36,44 @@ namespace Orleankka
             methodName = method.Name;
         }
 
+        internal StreamFilter(Actor actor)
+        {
+            className = actor.Prototype.Code;
+            filter = DeclaredHandlerOnlyFilter(className);
+        }
+
         protected StreamFilter(SerializationInfo info, StreamingContext context)
         {
-            methodName = info.GetString("MethodName");
             className = info.GetString("ClassName");
+            methodName = info.GetString("MethodName");
 
+            filter = methodName != null 
+                ? CallbackMethodFilter(className, methodName) 
+                : DeclaredHandlerOnlyFilter(className);
+        }
+
+        static Func<object, bool> CallbackMethodFilter(string className, string methodName)
+        {
             var type = Type.GetType(className);
             Debug.Assert(type != null);
 
-            var method = type.GetMethod(methodName, BindingFlags.Public | 
-                                                    BindingFlags.NonPublic |  
+            var method = type.GetMethod(methodName, BindingFlags.Public |
+                                                    BindingFlags.NonPublic |
                                                     BindingFlags.Static);
 
-            filter = (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
+            return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
+        }
+
+        static Func<object, bool> DeclaredHandlerOnlyFilter(string actorCode)
+        {
+            var actor = ActorPrototype.Of(actorCode);
+            return x => actor.DeclaresHandlerFor(x.GetType());
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("MethodName", methodName);
             info.AddValue("ClassName", className);
+            info.AddValue("MethodName", methodName);
         }
 
         bool ShouldReceive(object item)
@@ -58,10 +81,13 @@ namespace Orleankka
             return filter(item);
         }
 
-        public static bool Predicate(IStreamIdentity stream, object filterData, object item)
+        internal class Internal
         {
-            var filter = (StreamFilter)filterData;
-            return filter.ShouldReceive(item);
+            public static bool Predicate(IStreamIdentity stream, object filterData, object item)
+            {
+                var filter = (StreamFilter) filterData;
+                return filter.ShouldReceive(item);
+            }
         }
 
         public bool Equals(StreamFilter other)

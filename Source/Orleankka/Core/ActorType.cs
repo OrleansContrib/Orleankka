@@ -155,5 +155,10 @@ namespace Orleankka.Core
         {
             return !Equals(left, right);
         }
+
+        public override string ToString()
+        {
+            return Code;
+        }
     }
 }

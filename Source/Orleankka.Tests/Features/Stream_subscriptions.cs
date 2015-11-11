@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleankka.Core;
+
 namespace Orleankka.Features
 {
     namespace Stream_subscriptions
@@ -24,7 +26,7 @@ namespace Orleankka.Features
         [Serializable]
         public class Received : Query<List<string>>
         {}
-
+        
         abstract class TestConsumerActorBase : Actor
         {
             readonly List<string> received = new List<string>();
@@ -93,12 +95,37 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(1));
             }
 
-            public async Task Filtering_items()
+            public async Task Declared_handler_only_automatic_item_filtering()
+            {
+                var consumer = system.ActorOf<TConsumer>("declared-only");
+                await consumer.Tell(new Subscribe());
+
+                var stream = system.StreamOf(provider, $"{provider}-42");
+                Assert.DoesNotThrow(async ()=> await stream.Push(123), 
+                    "Should not throw handler not found exception");
+                await stream.Push("e-123");
+                await Task.Delay(timeout);
+
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("e-123"));
+            }
+
+            public async Task Select_all_filter()
+            {
+                var consumer = system.ActorOf<TConsumer>("select-all");
+                await consumer.Tell(new Subscribe {Filter = StreamFilter.ReceiveAll});
+
+                var stream = system.StreamOf(provider, $"{provider}-42");
+                Assert.Throws<Dispatcher.HandlerNotFoundException>(async () => await stream.Push(123));
+            }
+
+            public async Task Explicit_filter()
             {
                 var consumer = system.ActorOf<TConsumer>("fff");
 
                 var filter = new StreamFilter(DropAll);
-                await consumer.Tell(new Subscribe {Filter = filter});
+                await consumer.Tell(new Subscribe { Filter = filter });
 
                 var stream = system.StreamOf(provider, $"{provider}-filtered");
                 await stream.Push("e-123");
@@ -113,11 +140,6 @@ namespace Orleankka.Features
 
         namespace SimpleMessageStreamProviderVerification
         {
-            class TestConsumerActor : TestConsumerActorBase
-            {
-                protected override string Provider => "sms";
-            }
-
             [TestFixture, RequiresSilo]
             class Tests
             {
@@ -125,9 +147,16 @@ namespace Orleankka.Features
                    new TestCases<TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
                 [Test, Category("Slow"), Explicit]
-                       public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
-                [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
+                public async Task Resuming_on_reactivation()                                => await Verify().Resuming_on_reactivation();
+                [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
+            }
+
+            class TestConsumerActor : TestConsumerActorBase
+            {
+                protected override string Provider => "sms";
             }
         }
 
@@ -146,10 +175,11 @@ namespace Orleankka.Features
                 static TestCases<TestConsumerActor> Verify() => 
                    new TestCases<TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
-                [Test, Category("Slow"), Explicit]
-                       public async Task Resuming_on_reactivation()     => await Verify().Resuming_on_reactivation();
-                [Test] public async Task Subscription_is_idempotent()   => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Filtering_items()              => await Verify().Filtering_items();
+                [Test] public async Task Resuming_on_reactivation()                         => await Verify().Resuming_on_reactivation();
+                [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
             }
         }
     }

@@ -70,6 +70,11 @@ namespace Orleankka.Core
             handlers.Add(message, handler);
         }
 
+        public bool HasRegisteredHandler(Type message)
+        {
+            return handlers.Find(message) != null;
+        }
+
         public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {
             var handler = handlers.Find(message.GetType());
