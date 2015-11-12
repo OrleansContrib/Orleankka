@@ -2,8 +2,6 @@
 
 namespace Orleankka
 {
-    using Utility;
-
     /// <summary>
     /// Serves as factory for acquiring actor references.
     /// </summary>

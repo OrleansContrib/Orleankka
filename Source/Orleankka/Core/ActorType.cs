@@ -161,4 +161,12 @@ namespace Orleankka.Core
             return Code;
         }
     }
+
+    static class ActorTypeActorSystemExtensions
+    {
+        internal static ActorRef ActorOf(this IActorSystem system, ActorType type, string id)
+        {
+            return system.ActorOf(ActorPath.From(type.Code, id));
+        }
+    }
 }

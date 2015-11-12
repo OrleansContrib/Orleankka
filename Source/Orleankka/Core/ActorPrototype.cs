@@ -22,9 +22,8 @@ namespace Orleankka.Core
         internal static ActorPrototype Define(ActorType type) => CreatePrototype(type);
         static ActorPrototype CreatePrototype(ActorType type) => new ActorPrototype(type);
 
-        internal static ActorPrototype Of(ActorPath path) => Of(path.Code);
         internal static ActorPrototype Of(string code)    => Of(ActorType.Registered(code));
-        internal static ActorPrototype Of(Type type)      => Of(ActorType.Registered(type));
+        internal static ActorPrototype Of(ActorPath path) => Of(path.Code);
         internal static ActorPrototype Of(ActorType type)
         {
             var prototype = cache.Find(type);

@@ -41,6 +41,17 @@ namespace Orleankka.Features
 
             StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
             protected abstract string Provider { get; }
+
+            public override Task<object> OnReceive(object message)
+            {
+                if (message is int)
+                {
+                    received.Add(message.ToString());
+                    return Task.FromResult<object>(null);
+                }
+
+                return base.OnReceive(message);
+            }
         }
 
         class TestCases<TConsumer> where TConsumer : IActor
@@ -117,7 +128,12 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe {Filter = StreamFilter.ReceiveAll});
 
                 var stream = system.StreamOf(provider, $"{provider}-42");
-                Assert.Throws<Dispatcher.HandlerNotFoundException>(async () => await stream.Push(123));
+                await stream.Push(123);
+                await Task.Delay(timeout);
+
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("123"));
             }
 
             public async Task Explicit_filter()

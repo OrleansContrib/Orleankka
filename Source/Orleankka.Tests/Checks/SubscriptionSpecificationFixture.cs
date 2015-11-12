@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleankka.Core;
-
 using Orleans;
+using Orleankka.Core;
+using Orleankka.Testing;
 
 namespace Orleankka.Checks
 {
     using Core.Streams;
 
-    [TestFixture]
+    [TestFixture, RequiresSilo]
     public class SubscriptionSpecificationFixture
     {
         [Test]
@@ -31,7 +31,8 @@ namespace Orleankka.Checks
                 Target = target
             };
 
-            var specification = StreamSubscriptionSpecification.From(typeof(Actor), attribute);
+            var type = ActorType.From(typeof(TestActor));
+            var specification = StreamSubscriptionSpecification.From(type, attribute);
             var match = specification.Match(system, streamId);
 
             if (match == StreamSubscriptionMatch.None)
@@ -44,7 +45,7 @@ namespace Orleankka.Checks
             match.Receiver(message);
 
             Assert.That(system.RequestedRef, Is.Not.Null);
-            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.From(typeof(Actor), actorId)));
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.From(typeof(TestActor), actorId)));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
@@ -61,7 +62,8 @@ namespace Orleankka.Checks
                 Target = target
             };
 
-            var specification = StreamSubscriptionSpecification.From(typeof(Actor), attribute);
+            var type = ActorType.From(typeof(TestActor));
+            var specification = StreamSubscriptionSpecification.From(type, attribute);
             var match = specification.Match(system, streamId);
 
             if (match == StreamSubscriptionMatch.None)
@@ -74,7 +76,7 @@ namespace Orleankka.Checks
             match.Receiver(message);
 
             Assert.That(system.RequestedRef, Is.Not.Null);
-            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.From(typeof(Actor), actorId)));
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.From(typeof(TestActor), actorId)));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
@@ -94,6 +96,8 @@ namespace Orleankka.Checks
             Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.From(typeof(DynamicTargetSelectorActor), "bar")));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
+
+        class TestActor : Actor {}
 
         [StreamSubscription(Source = "sms:foo", Target = "ComputeSubscriptionTarget()")]
         class DynamicTargetSelectorActor : Actor
