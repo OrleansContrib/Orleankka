@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 using Orleans.Streams;
 
@@ -11,7 +10,7 @@ namespace Orleankka
     using Utility;
 
     [Serializable]
-    public class StreamFilter : ISerializable, IEquatable<StreamFilter>
+    public class StreamFilter : IEquatable<StreamFilter>
     {
         public static readonly StreamFilter ReceiveAll = new StreamFilter(ReceiveAllCallback);
         static bool ReceiveAllCallback(object item) => true;
@@ -19,8 +18,7 @@ namespace Orleankka
         readonly string className;
         readonly string methodName;
 
-        [NonSerialized]
-        readonly Func<object, bool> filter;
+        [NonSerialized] Func<object, bool> filter;
 
         public StreamFilter(Func<object, bool> filter)
         {
@@ -42,15 +40,9 @@ namespace Orleankka
             filter = DeclaredHandlerOnlyFilter(className);
         }
 
-        protected StreamFilter(SerializationInfo info, StreamingContext context)
-        {
-            className = info.GetString("ClassName");
-            methodName = info.GetString("MethodName");
-
-            filter = methodName != null 
-                ? CallbackMethodFilter(className, methodName) 
-                : DeclaredHandlerOnlyFilter(className);
-        }
+        Func<object, bool> Filter => filter ?? (filter = methodName != null
+                                                ? CallbackMethodFilter(className, methodName)
+                                                : DeclaredHandlerOnlyFilter(className));
 
         static Func<object, bool> CallbackMethodFilter(string className, string methodName)
         {
@@ -70,22 +62,16 @@ namespace Orleankka
             return x => actor.DeclaresHandlerFor(x.GetType());
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("ClassName", className);
-            info.AddValue("MethodName", methodName);
-        }
-
         bool ShouldReceive(object item)
         {
-            return filter(item);
+            return Filter(item);
         }
 
         internal class Internal
         {
             public static bool Predicate(IStreamIdentity stream, object filterData, object item)
             {
-                var filter = (StreamFilter) filterData;
+                var filter = (StreamFilter)filterData;
                 return filter.ShouldReceive(item);
             }
         }

@@ -1,7 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
@@ -14,8 +14,8 @@ namespace Orleankka.Core
         {
             var endpoint = new ClientEndpoint();
 
-            var proxy = await ClientEndpointFactory
-                .CreateObjectReference(endpoint);
+            var proxy = await GrainClient.GrainFactory
+                .CreateObjectReference<IClientEndpoint>(endpoint);
 
             return endpoint.Initialize(proxy);
         }
@@ -39,15 +39,15 @@ namespace Orleankka.Core
 
         public void Dispose()
         {
-            ClientEndpointFactory.DeleteObjectReference(proxy);
+            GrainClient.GrainFactory.DeleteObjectReference<IClientEndpoint>(proxy);
         }
 
         public IDisposable Subscribe(IObserver<object> observer)
         {
-            Requires.NotNull(observer, "observer");
+            Requires.NotNull(observer, nameof(observer));
 
             if (this.observer != null)
-                throw new ArgumentException("Susbscription has already been registered", "observer");
+                throw new ArgumentException("Susbscription has already been registered", nameof(observer));
 
             this.observer = observer;
 
@@ -56,10 +56,7 @@ namespace Orleankka.Core
 
         public void Receive(NotificationEnvelope envelope)
         {
-            if (observer == null)
-                return;
-
-            observer.OnNext(envelope.Message);
+            observer?.OnNext(envelope.Message);
         }
 
         class DisposableSubscription : IDisposable
@@ -84,7 +81,7 @@ namespace Orleankka.Core
 
         internal static IClientEndpoint Proxy(string path)
         {
-            return ClientEndpointFactory.Cast(GrainReference.FromKeyString(path));
+            return GrainReference.FromKeyString(path).AsReference<IClientEndpoint>();
         }
     }
 }

@@ -44,17 +44,26 @@ namespace Orleankka.Core
     {
         public override void Serialize(object message, BinaryTokenStreamWriter stream)
         {
+            SerializationManager.SerializeInner(Serialize(message), stream, typeof(byte[]));
+        }
+
+        internal static byte[] Serialize(object message)
+        {
             using (var ms = new MemoryStream())
             {
                 new BinaryFormatter().Serialize(ms, message);
-                SerializationManager.SerializeInner(ms.ToArray(), stream, typeof(byte[]));
+                return ms.ToArray();
             }
         }
 
         public override object Deserialize(BinaryTokenStreamReader stream)
         {
             var bytes = (byte[]) SerializationManager.DeserializeInner(typeof(byte[]), stream);
+            return Deserialize(bytes);
+        }
 
+        internal static object Deserialize(byte[] bytes)
+        {
             using (var ms = new MemoryStream(bytes))
             {
                 var formatter = new BinaryFormatter();

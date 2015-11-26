@@ -20,7 +20,7 @@ namespace Orleans.Internals
             handler = match.Handler;
         }
 
-        public async Task<StreamSequenceToken> DeliverBatch(GuidId subscriptionId, Immutable<IBatchContainer> batch, StreamSequenceToken prevToken)
+        public async Task<StreamHandshakeToken> DeliverBatch(GuidId subscriptionId, Immutable<IBatchContainer> batch, StreamHandshakeToken handshakeToken)
         {
             foreach (var each in batch.Value.GetEvents<object>())
                 await handler(each.Item1);
@@ -28,15 +28,13 @@ namespace Orleans.Internals
             return null;
         }
 
-        public async Task<StreamSequenceToken> DeliverItem(GuidId subscriptionId, Immutable<object> item, StreamSequenceToken currentToken, StreamSequenceToken prevToken)
+        public async Task<StreamHandshakeToken> DeliverItem(GuidId subscriptionId, Immutable<object> item, StreamSequenceToken currentToken, StreamHandshakeToken handshakeToken)
         {
-            await handler(item);
+            await handler(item.Value);
             return null;
         }
 
-        public Task<StreamSequenceToken> GetSequenceToken(GuidId subscriptionId) 
-            => Task.FromResult((StreamSequenceToken)null);
-
+        public Task<StreamHandshakeToken> GetSequenceToken(GuidId subscriptionId) => Task.FromResult((StreamHandshakeToken)null);
         public Task CompleteStream(GuidId subscriptionId) => TaskDone.Done;
         public Task ErrorInStream(GuidId subscriptionId, Exception exc) => TaskDone.Done;
     }

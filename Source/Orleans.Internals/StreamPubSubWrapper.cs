@@ -58,7 +58,7 @@ namespace Orleans.Internals
             {
                 matches = (from StreamPubSubMatch m in matcher(new StreamIdentity(streamId))
                            let subId = GuidId.GetNewGuidId()
-                           select new PubSubSubscriptionState(subId, streamId, new PushExtension(m), null))
+                           select new PubSubSubscriptionState(subId, streamId, new PushExtension(m)))
                           .ToArray();
             }
 

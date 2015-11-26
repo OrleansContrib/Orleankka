@@ -45,8 +45,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
+    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.0-beta1\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

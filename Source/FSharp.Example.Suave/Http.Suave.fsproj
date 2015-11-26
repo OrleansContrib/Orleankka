@@ -75,11 +75,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.0-beta1\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.10\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.0-beta1\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Suave">

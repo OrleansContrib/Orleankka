@@ -6,7 +6,7 @@ open System.Reflection
 [<assembly: AssemblyProduct("Orleankka")>]
 [<assembly: AssemblyCopyright("Copyright © Anton Moldovan, Yevhen Bobrov 2015")>]
 
-[<assembly: AssemblyVersion("0.10.10.0")>]
-[<assembly: AssemblyFileVersion("0.10.10.0")>]
+[<assembly: AssemblyVersion("0.11.0")>]
+[<assembly: AssemblyInformationalVersion("0.11.0-beta1")>]
 
 ()

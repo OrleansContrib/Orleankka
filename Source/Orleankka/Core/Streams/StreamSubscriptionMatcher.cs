@@ -87,7 +87,7 @@ namespace Orleankka.Core.Streams
         public bool IsRewindable => provider.IsRewindable;
 
         public Task Start() => provider.Start();
-        public Task Stop() => provider.Stop();
+        public Task Close() => provider.Close();
 
         public IAsyncStream<T> GetStream<T>(Guid unused, string id)
         {

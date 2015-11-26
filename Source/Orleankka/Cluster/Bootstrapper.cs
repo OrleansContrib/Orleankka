@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 
@@ -69,6 +70,8 @@ namespace Orleankka.Cluster
                 return formatter.Deserialize(ms);
             }
         }
+
+        public Task Close() => TaskDone.Done;
     }
 
     class BootstrapProviderConfiguration : IEquatable<BootstrapProviderConfiguration>

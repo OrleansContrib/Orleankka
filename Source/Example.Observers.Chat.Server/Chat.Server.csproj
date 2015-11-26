@@ -32,16 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
+    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.0-beta1\lib\net45\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OrleansProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders.1.0.10\lib\net45\OrleansProviders.dll</HintPath>
+    <Reference Include="OrleansProviders, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders.1.1.0-beta1\lib\net45\OrleansProviders.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.10\lib\net45\OrleansRuntime.dll</HintPath>
+    <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.0-beta1\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
