@@ -14,6 +14,7 @@ namespace Example
     {   
         public static void Main()
         {
+            Console.WriteLine("Make sure you've started local GES node using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var system = ActorSystem.Configure()

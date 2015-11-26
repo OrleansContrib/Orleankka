@@ -21,7 +21,7 @@ namespace Example
         {
             resume = args.Length == 1 && args[0] == "resume";
 
-            Console.WriteLine("Make sure you've started Azure storage emulator!");
+            Console.WriteLine("Make sure you've started Azure storage emulator using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
