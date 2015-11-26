@@ -98,7 +98,6 @@
     <Compile Include="Domain.cs" />
     <Compile Include="Infrastructure.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\orleans.codegen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -127,6 +126,9 @@
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

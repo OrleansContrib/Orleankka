@@ -78,7 +78,6 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="AutofacActorActivator.cs" />
-    <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
