@@ -19,6 +19,7 @@ const string CoreProject = "Orleankka";
 const string AzureProject = "Orleankka.Azure";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
+const string Beta = "";
 
 const string RootPath = "$NakeScriptDirectory$";
 const string OutputPath = RootPath + @"\Output";
@@ -128,9 +129,14 @@ void Push(string project)
 
 string Version(string project)
 {
-    return FileVersionInfo
+    var result = FileVersionInfo
             .GetVersionInfo(@"{ReleasePath}\{project}.dll")
             .FileVersion;
+
+    if (Beta != "")
+        result = result.Substring(0, result.LastIndexOf(".")) + "-{Beta}";
+
+    return result;
 }
 
 /// Installs dependencies (packages) 
