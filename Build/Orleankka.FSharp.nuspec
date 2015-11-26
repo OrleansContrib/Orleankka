@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Orleankka.Fsharp</id>
-    <version>$version$</version>
+    <version>$version$-beta1</version>
     <authors>Yevhen Bobrov, Anton Moldovan</authors>
     <owners>Yevhen Bobrov</owners>
     <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
