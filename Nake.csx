@@ -167,17 +167,46 @@ void InstallBinaries()
     }
 }
 
-/// Runs software, on which samples are dependent
-[Task] void Run(string what = "ges")
+/// Runs 3rd party software, on which samples are dependent upon
+[Task] void Run(string what = "all")
 {
-    var packagesDir = @"{RootPath}\Packages";
-
     switch (what)
     {
+        case "all":
+            RunAzure();
+            RunGES();
+            break;            
         case "ges":
-            Cmd(@"start {packagesDir}/{GES}/EventStore.ClusterNode.exe"); 
+            RunGES();
             break;
+        case "azure":
+            RunAzure(); 
+            break;            
         default:
-            throw new ArgumentException("Available values are: ges, ...");   
+            throw new ArgumentException("Available values are: all, ges, azure ...");
     }
+}
+
+void RunGES() 
+{
+    if (IsRunning("EventStore.ClusterNode"))
+        return;
+
+    Info("Starting local GES node ...");
+    Exec(@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
+}
+
+void RunAzure()
+{
+    if (IsRunning("AzureStorageEmulator"))
+        return;
+
+    Info("Starting storage emulator ...");
+    Exec(@"C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe", "start");
+}
+
+bool IsRunning(string processName)
+{
+    var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
+    return (processes.Any(p => p == processName));
 }
