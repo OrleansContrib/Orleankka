@@ -88,8 +88,8 @@
       <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.0-beta1\lib\net45\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Streamstone, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Streamstone.0.9.3.0\lib\net45\Streamstone.dll</HintPath>
+    <Reference Include="Streamstone, Version=0.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Streamstone.0.9.5.0\lib\net45\Streamstone.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
