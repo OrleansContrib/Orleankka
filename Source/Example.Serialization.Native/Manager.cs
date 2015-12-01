@@ -35,9 +35,6 @@ namespace Example.Serialization.Native
             });
         }
 
-        IEnumerable<ActorRef> On(GetDirectReports x)
-        {
-            return reports.AsReadOnly();
-        }
+        IEnumerable<ActorRef> On(GetDirectReports x) => reports.AsReadOnly();
     }
 }

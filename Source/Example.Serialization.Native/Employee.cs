@@ -35,32 +35,15 @@ namespace Example.Serialization.Native
     [ActorTypeCode("employee")]
     public class Employee : Actor
     {
-        int level;
+        long level;
         ActorRef manager;
 
-        void On(Promote x)
-        {
-            level = x.NewLevel;
-        }
+        void On(Promote x)  => level = x.NewLevel;
+        long On(GetLevel x) => level;
 
-        long On(GetLevel x)
-        {
-            return level;
-        }
+        void On(SetManager x)     => manager = x.Manager;
+        ActorRef On(GetManager x) => manager;
 
-        void On(SetManager x)
-        {
-            manager = x.Manager;
-        }
-
-        ActorRef On(GetManager x)
-        {
-            return manager;
-        }
-
-        void On(Greeting x)
-        {
-            Console.WriteLine("{0}: {1} said: {2}", Self, x.From, x.Text);
-        }
+        void On(Greeting x) => Console.WriteLine($"{x.From} said to {Self}: '{x.Text}'");
     }
 }

@@ -29,12 +29,12 @@ namespace Example.Serialization.JSON
         long level;
         ActorRef<Manager> manager;
 
-        void On(Promote x)  		        => level = x.NewLevel;
-        long On(GetLevel x) 		        => level;
+        void On(Promote x)  => level = x.NewLevel;
+        long On(GetLevel x) => level;
 
-        void On(SetManager x)     	        => manager = x.Manager;
-        ActorRef<Manager> On(GetManager x) 	=> manager;
+        void On(SetManager x) => manager = x.Manager;
+        ActorRef<Manager> On(GetManager x) => manager;
 
-        void On(Greeting x) 		        => Console.WriteLine($"{x.From} said to {Self}: '{x.Text}'");
+        void On(Greeting x) => Console.WriteLine($"{x.From} said to {Self}: '{x.Text}'");
     }
 }
