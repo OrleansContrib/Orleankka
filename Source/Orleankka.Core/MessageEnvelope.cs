@@ -14,7 +14,7 @@ namespace Orleankka.Core
 
         internal static void Reset()
         {
-            Serializer = new BinarySerializer();
+            Serializer = new NativeSerializer();
         }
     }
 }
