@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using Orleans.Serialization;
 
@@ -36,6 +38,32 @@ namespace Orleankka.Core
     public abstract class MessageSerializer : MessageSerializer<object>
     {
         public override void Init(Assembly[] assemblies, object properties) {}
+    }
+
+    public sealed class BinarySerializer : MessageSerializer
+    {
+        public override void Serialize(object message, BinaryTokenStreamWriter stream)
+        {
+            byte[] bytes;
+            using (var ms = new MemoryStream())
+            {
+                new BinaryFormatter().Serialize(ms, message);
+                bytes = ms.ToArray();
+            }
+
+            SerializationManager.SerializeInner(bytes, stream, typeof(byte[]));
+        }
+
+        public override object Deserialize(BinaryTokenStreamReader stream)
+        {
+            var bytes = (byte[]) SerializationManager.DeserializeInner(typeof(byte[]), stream);
+            
+            using (var ms = new MemoryStream(bytes))
+            {
+                var formatter = new BinaryFormatter();
+                return formatter.Deserialize(ms);
+            }
+        }
     }
 
     public sealed class NativeSerializer : MessageSerializer
