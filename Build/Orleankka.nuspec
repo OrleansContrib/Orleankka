@@ -10,10 +10,10 @@
     <description>Functional API for MSR Orleans. Features a uniform interface that doesn't require static codegen</description>
     <tags>Orleans distributed messaging actor concurrency CQRS</tags>
     <dependencies>
-        <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.1.0-beta1" />
-        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.1.0-beta1" />
-        <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.1.0-beta1" />
-        <dependency id="Microsoft.Framework.DependencyInjection.Abstractions" version="1.0.0-beta8" />        
+        <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.1.0-beta2" />
+        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.1.0-beta2" />
+        <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.1.0-beta2" />
+        <dependency id="Newtonsoft.Json" version="6.0.8" />
     </dependencies>    
   </metadata>
   <files>

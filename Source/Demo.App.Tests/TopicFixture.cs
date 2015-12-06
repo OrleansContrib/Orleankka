@@ -10,6 +10,8 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleankka.TestKit;
 
+using Orleans.Serialization;
+
 namespace Demo
 {
     [TestFixture]
@@ -24,6 +26,12 @@ namespace Demo
 
         ActorRefMock facebook;
         ActorRefMock twitter;
+
+        [TestFixtureSetUp]
+        public void FixtureSetUp()
+        {
+            SerializationManager.InitializeForTesting();
+        }
         
         [SetUp]
         public override void SetUp()

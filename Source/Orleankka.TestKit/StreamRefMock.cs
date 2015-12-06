@@ -14,7 +14,7 @@ namespace Orleankka.TestKit
     {
         static StreamRefMock()
         {
-            OrleansSerialization.Hack();
+            OrleansSerialization.Initialize();
         }
 
         readonly IMessageSerializer serializer;
