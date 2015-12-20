@@ -89,6 +89,7 @@
     <Compile Include="ClientObserverStub.cs" />
     <Compile Include="ObserverCollectionMock.cs" />
     <Compile Include="ReminderServiceMock.cs" />
+    <Compile Include="StreamSubscriptionValidator.cs" />
     <Compile Include="TimerServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
