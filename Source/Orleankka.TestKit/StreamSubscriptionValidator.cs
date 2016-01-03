@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
 {
-    public static class StreamSubscriptionValidator
+    public static class StreamSubscriptionValidator<T> where T : Actor
     {
-        public static async Task<bool> MatchesIdOf<T>(
-            this string fromStream,
-            string targetId,
-            object messageToRecieve) where T:Actor
+        public static async Task<bool> SubscribesToMessagesFrom(
+            string fromStream,
+            string targetId)
         {
             Core.ActorType.Reset();
             Core.ActorType.Register(new[] { typeof(T).Assembly });
@@ -22,20 +21,23 @@ namespace Orleankka.TestKit
             var actorType = Core.ActorType.From(typeof(T));
 
             var specs = StreamSubscriptionSpecification.From(actorType);
-            var spec = specs.ElementAt(0);
-            var match = spec.Match(system, fromStream);
-            if (match == StreamSubscriptionMatch.None)
+
+            var matched =
+                specs
+                .Select(s=> s.Match(system, fromStream))
+                .Where(m => m  != StreamSubscriptionMatch.None)
+                .ToArray();
+            if (!matched.Any())
                 return false;
-            //if (match.Filter(messageToRecieve))
-            //    return false;
+
+
             var recievedBy = system.MockActorOf<T>(targetId);
-            await match.Receiver(messageToRecieve);
-
+            foreach (var match in matched)
+            {
+                await match.Receiver("");
+            }
             return recievedBy.RecordedMessages.Any();
-
         }
-
-
     }
-    
+
 }
