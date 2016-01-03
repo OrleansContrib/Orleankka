@@ -10,7 +10,7 @@ namespace Orleankka.TestKit
 {
     public static class StreamSubscriptionValidator<T> where T : Actor
     {
-        public static async Task<bool> SubscribesToMessagesFrom(
+        public static async Task<bool> AreMatched(
             string fromStream,
             string targetId)
         {
