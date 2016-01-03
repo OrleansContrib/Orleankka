@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
 {
-
-    //[StreamSubscription(Source = "sms:/TEST-(.*)/", Target = "#")]
     [StreamSubscription(Source = "sms:/TEST-(?<id>.*)/", Target = "{id}-test")]
+    [StreamSubscription(Source = "sms:/SECOND-(.*)/", Target = "second")]
     public class Subscriber : Actor
     {
         public void Handler(int t)
@@ -18,32 +17,23 @@ namespace Orleankka.TestKit
         }
     }
 
+
     [TestFixture]
     public class StreamSubscriptionChecker
     {
         [Test]
-        public async Task Resturns_target_id_when_matched()
+        [TestCase("sms:TEST-123", "123-test", true)]
+        [TestCase("sms:TEST-123", "222-test", false)]
+        [TestCase("sms:SECOND-123", "second", true)]
+        [TestCase("sms:SECOND-123", "other", false)]
+        public async Task Returns_true_if_target_id_matches_specification(string stream, string target, bool result)
         {
-            var recieves = await 
-                "sms:TEST-123".MatchesIdOf<Subscriber>(
-                                    "123-test",
-                                    "message");
-            Assert.That(recieves, Is.True);
-
-            /* alway fail
-            var ignoresInts = await "sms:TEST-123".MatchesIdOf<Subscriber>(
-                "123-test",
-                10);
-
-            Assert.That(ignoresInts, Is.False);
-            */
-
-            var ignoredDueToidMismatch = await "sms:TEST-123".MatchesIdOf<Subscriber>(
-                "222-test",
-                "message");
-            Assert.That(ignoredDueToidMismatch, Is.False);
-
+            var recieves = await
+                           StreamSubscriptionValidator<Subscriber>.SubscribesToMessagesFrom
+                                (stream, target);
+            Assert.That(recieves, Is.EqualTo(result));
         }
+
 
     }
 }
