@@ -29,7 +29,7 @@ namespace Orleankka.TestKit
         public async Task Returns_true_if_target_id_matches_specification(string stream, string target, bool result)
         {
             var recieves = await
-                           StreamSubscriptionValidator<Subscriber>.SubscribesToMessagesFrom
+                           StreamSubscriptionValidator<Subscriber>.AreMatched
                                 (stream, target);
             Assert.That(recieves, Is.EqualTo(result));
         }
