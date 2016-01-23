@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
     <AssemblyName>Orleankka.FSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Orleankka.FSharp</Name>
     <TargetFrameworkProfile />

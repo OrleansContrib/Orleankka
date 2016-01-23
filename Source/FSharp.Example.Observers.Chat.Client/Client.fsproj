@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ChatClient</RootNamespace>
     <AssemblyName>FSharp.Example.Observers.Chat.Client</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Client</Name>
