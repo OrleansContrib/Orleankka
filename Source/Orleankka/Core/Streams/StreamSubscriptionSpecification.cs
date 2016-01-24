@@ -9,27 +9,37 @@ namespace Orleankka.Core.Streams
 {
     abstract class StreamSubscriptionSpecification
     {
-        internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType type)
+        internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType actor)
         {
-            return type.Implementation
-                       .GetCustomAttributes<StreamSubscriptionAttribute>(inherit: true)
-                       .Select(a => From(type, a));
+            return From(actor, ActorPrototype.Of(actor));
         }
 
-        internal static StreamSubscriptionSpecification From(ActorType type, StreamSubscriptionAttribute attribute)
+        internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType actor, ActorPrototype prototype)
+        {
+            return actor.Implementation
+                       .GetCustomAttributes<StreamSubscriptionAttribute>(inherit: true)
+                       .Select(a => From(actor, prototype, a));
+        }
+
+        internal static StreamSubscriptionSpecification From(ActorType actor, StreamSubscriptionAttribute attribute)
+        {
+            return From(actor, ActorPrototype.Of(actor), attribute);
+        }
+
+        internal static StreamSubscriptionSpecification From(ActorType actor, ActorPrototype prototype, StreamSubscriptionAttribute attribute)
         {
             if (string.IsNullOrWhiteSpace(attribute.Source))
-                throw InvalidSpecification(type, "has null or whitespace only value of Source");
+                throw InvalidSpecification(actor, "has null or whitespace only value of Source");
 
             if (string.IsNullOrWhiteSpace(attribute.Target))
-                throw InvalidSpecification(type, "has null or whitespace only value of Target");
+                throw InvalidSpecification(actor, "has null or whitespace only value of Target");
 
             if (attribute.Filter != null && string.IsNullOrWhiteSpace(attribute.Filter))
-                throw InvalidSpecification(type, "has whitespace only value of Filter");
+                throw InvalidSpecification(actor, "has whitespace only value of Filter");
 
             var parts = attribute.Source.Split(new[] {":"}, 2, StringSplitOptions.None);
             if (parts.Length != 2)
-                throw InvalidSpecification(type, $"has invalid Source specification: {attribute.Source}");
+                throw InvalidSpecification(actor, $"has invalid Source specification: {attribute.Source}");
 
             var provider = parts[0];
             var source   = parts[1];
@@ -39,10 +49,10 @@ namespace Orleankka.Core.Streams
             var isRegex  = source.StartsWith("/") && 
                            source.EndsWith("/");
             if (!isRegex)
-                return new MatchExact(provider, source, target, type, filter);
+                return new MatchExact(provider, source, target, actor, prototype, filter);
 
             var pattern = source.Substring(1, source.Length - 2);
-            return new MatchPattern(provider, pattern, target, type, filter);
+            return new MatchPattern(provider, pattern, target, actor, prototype, filter);
         }
 
         static Exception InvalidSpecification(ActorType type, string error)
@@ -58,23 +68,20 @@ namespace Orleankka.Core.Streams
         readonly Func<object, bool> filter;
         readonly Func<IActorSystem, string, Func<object, Task>> receiver;
 
-        StreamSubscriptionSpecification(string provider, string source, string target, ActorType actor, string filter)
+        StreamSubscriptionSpecification(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
         {
             Provider    = provider;
             this.source = source;
             this.target = target;
 
-            this.filter = BuildFilter(filter, actor);
+            this.filter = BuildFilter(filter, actor, prototype);
             receiver    = BuildReceiver(target, actor);
         }
 
-        static Func<object, bool> BuildFilter(string filter, ActorType type)
+        static Func<object, bool> BuildFilter(string filter, ActorType actor, ActorPrototype prototype)
         {
             if (filter == null)
-            {
-                var prototype = ActorPrototype.Of(type);
                 return item => prototype.DeclaresHandlerFor(item.GetType());
-            }
 
             if (filter == "*")
                 return item => true;
@@ -82,7 +89,7 @@ namespace Orleankka.Core.Streams
             if (!filter.EndsWith("()"))
                 throw new InvalidOperationException("Filter string value is missing '()' function designator");
 
-            var method = GetStaticMethod(filter, type.Implementation);
+            var method = GetStaticMethod(filter, actor.Implementation);
             if (method == null)
                 throw new InvalidOperationException("Filter function should be a static method");
 
@@ -118,14 +125,14 @@ namespace Orleankka.Core.Streams
 
         class MatchExact : StreamSubscriptionSpecification
         {
-            public MatchExact(string provider, string source, string target, ActorType actor, string filter)
-                : base(provider, source, target, actor, filter)
+            public MatchExact(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
+                : base(provider, source, target, actor, prototype, filter)
             {}
 
             public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
             {
                 return stream == source 
-                        ? new StreamSubscriptionMatch(x => receiver(system, target)(x), filter) 
+                        ? new StreamSubscriptionMatch(target, x => receiver(system, target)(x), filter) 
                         : StreamSubscriptionMatch.None;
             }
         }
@@ -135,8 +142,8 @@ namespace Orleankka.Core.Streams
             readonly Regex matcher;
             readonly Regex generator;
 
-            public MatchPattern(string provider, string source, string target, ActorType actor, string filter)
-                : base(provider, source, target, actor, filter)
+            public MatchPattern(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
+                : base(provider, source, target, actor, prototype, filter)
             {
                 matcher = new Regex(source, RegexOptions.Compiled);
                 generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
@@ -155,7 +162,7 @@ namespace Orleankka.Core.Streams
                     return match.Groups[placeholder].Value;
                 });
 
-                return new StreamSubscriptionMatch(x => receiver(system, id)(x), filter);
+                return new StreamSubscriptionMatch(id, x => receiver(system, id)(x), filter);
             }
         }
     }

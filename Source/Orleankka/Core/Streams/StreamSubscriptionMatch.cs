@@ -12,11 +12,13 @@ namespace Orleankka.Core.Streams
         StreamSubscriptionMatch()
         {}
 
+        public readonly string Target;
         public readonly Func<object, Task> Receiver;
         public readonly Func<object, bool> Filter;
 
-        public StreamSubscriptionMatch(Func<object, Task> receiver, Func<object, bool> filter)
+        public StreamSubscriptionMatch(string target, Func<object, Task> receiver, Func<object, bool> filter)
         {
+            Target = target;
             Receiver = receiver;
             Filter = filter;
         }

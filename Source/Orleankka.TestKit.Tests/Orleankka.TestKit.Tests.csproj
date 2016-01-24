@@ -84,7 +84,7 @@
     <Compile Include="ActorRefMockFixture.cs" />
     <Compile Include="ActorSystemMockFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamSubscriptionChecker.cs" />
+    <Compile Include="StreamSubscriptionSpecificationFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
