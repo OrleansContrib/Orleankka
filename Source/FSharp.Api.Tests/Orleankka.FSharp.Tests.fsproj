@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Orleankka.FSharp.Tests</RootNamespace>
     <AssemblyName>Orleankka.FSharp.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Orleankka.FSharp.Tests</Name>
     <TargetFrameworkProfile />
@@ -81,11 +81,11 @@
       <HintPath>..\..\Packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.0-beta2\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.2\lib\net451\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansCodeGenerator">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.1.1.0-beta2\lib\net45\OrleansCodeGenerator.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.1.1.2\lib\net451\OrleansCodeGenerator.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

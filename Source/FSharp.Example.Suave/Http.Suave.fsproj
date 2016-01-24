@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Orleankka.Http.Suave</RootNamespace>
     <AssemblyName>FSharp.Example.Suave</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Http.Suave</Name>
@@ -87,19 +87,19 @@
       <HintPath>..\..\Packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.0-beta2\lib\net45\Orleans.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.1.2\lib\net451\Orleans.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansCodeGenerator">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.1.1.0-beta2\lib\net45\OrleansCodeGenerator.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.1.1.2\lib\net451\OrleansCodeGenerator.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansDependencyInjection">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.0-beta2\lib\net45\OrleansDependencyInjection.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.2\lib\net451\OrleansDependencyInjection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.0-beta2\lib\net45\OrleansRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.1.2\lib\net451\OrleansRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Suave">
