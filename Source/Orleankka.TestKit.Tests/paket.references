@@ -1,0 +1,10 @@
+Microsoft.CodeAnalysis.Analyzers
+Microsoft.CodeAnalysis.Common
+Microsoft.CodeAnalysis.CSharp
+Microsoft.Framework.DependencyInjection.Abstractions
+Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
+Newtonsoft.Json
+NUnit
+System.Collections.Immutable
+System.Reflection.Metadata
