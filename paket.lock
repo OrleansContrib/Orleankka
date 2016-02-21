@@ -77,9 +77,11 @@ NUGET
     Microsoft.Web.Infrastructure (1.0.0) - framework: >= net451
     Microsoft.WindowsAzure.ConfigurationManager (2.0.3)
     Modernizr (2.6.2) - framework: >= net451
+    Nake (2.3.4)
     Newtonsoft.Json (6.0.8)
     NuGet.CommandLine (3.3.0)
     NUnit (2.6.4) - framework: >= net45
+    NUnit.Runners (2.6.4) - framework: >= net45
     Owin (1.0) - framework: >= net451
     PowerAssert (1.0.13) - framework: >= net45
     Respond (1.2.0) - framework: >= net451

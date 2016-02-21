@@ -29,6 +29,7 @@ var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.0.3";
+var Nuget = @"{PackagePath}\NuGet.CommandLine\tools\Nuget.exe";
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -64,7 +65,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
 
     try
     {
-        Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
+        Cmd(@"Packages\NUnit.Runners.2.6.4\tools\nunit-console.exe " + 
             @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
             (AppVeyor||slow ? "/include:Always,Slow" : ""));
     }
@@ -89,7 +90,7 @@ var GES = "EventStore-OSS-Win-v3.0.3";
 
 void Pack(string project, string properties = null)
 {
-    Cmd(@"Tools\Nuget.exe pack Build\{project}.nuspec -Version {Version(project)} " +
+    Cmd(@"{Nuget} pack Build\{project}.nuspec -Version {Version(project)} " +
          "-OutputDirectory {PackagePath} -BasePath {RootPath} -NoPackageAnalysis " + 
          (properties != null ? "-Properties {properties}" : ""));
 }
@@ -124,7 +125,7 @@ void Pack(string project, string properties = null)
 
 void Push(string project)
 {
-    Cmd(@"Tools\Nuget.exe push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$");
+    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$");
 }
 
 string Version(string project)
@@ -139,20 +140,8 @@ string Version(string project)
     return result;
 }
 
-/// Installs dependencies (packages) 
+/// Installs binary dependencies 
 [Task] void Install()
-{
-    InstallPackages();
-    InstallBinaries();
-}
-
-void InstallPackages()
-{
-    Cmd(@"Tools\NuGet.exe restore {CoreProject}.sln");
-    Cmd(@"Tools\NuGet.exe install Build/Packages.config -o {RootPath}\Packages");
-}
-
-void InstallBinaries()
 {
     var packagesDir = @"{RootPath}\Packages";
 
