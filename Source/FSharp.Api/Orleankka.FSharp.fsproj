@@ -71,6 +71,7 @@
       <Link>Orleankka.FSharp.Version.fs</Link>
     </Compile>
     <Content Include="paket.references" />
+    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
