@@ -29,7 +29,7 @@ var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.0.3";
-var Nuget = @"{PackagePath}\NuGet.CommandLine\tools\Nuget.exe";
+var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
