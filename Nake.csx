@@ -65,7 +65,7 @@ var Nuget = @"{PackagePath}\NuGet.CommandLine\tools\Nuget.exe";
 
     try
     {
-        Cmd(@"Packages\NUnit.Runners.2.6.4\tools\nunit-console.exe " + 
+        Cmd(@"Packages\NUnit.Runners\tools\nunit-console.exe " + 
             @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
             (AppVeyor||slow ? "/include:Always,Slow" : ""));
     }
