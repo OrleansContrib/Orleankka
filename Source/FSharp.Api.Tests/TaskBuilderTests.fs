@@ -13,10 +13,9 @@ let ``task should return the right value after let!``() =
             return v
         }
 
-    match Task.run t with
-    | Task.Canceled -> Assert.Fail("Task should have been successful, but was canceled")
-    | Task.Error e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.AreEqual(100,a)
+    match Task.run t with        
+    | Choice1Of2 r -> Assert.AreEqual(100, r)
+    | Choice2Of2 e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
 
 
 [<Test>]
@@ -28,9 +27,8 @@ let ``task should return the right value after return!``() =
         }
 
     match Task.run t with
-    | Task.Canceled -> Assert.Fail("Task should have been successful, but was canceled")
-    | Task.Error e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.AreEqual("hello world",a)
+    | Choice1Of2 r -> Assert.AreEqual("hello world", r)
+    | Choice2Of2 e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
 
 
 [<Test>]
@@ -40,9 +38,10 @@ let ``exception in task``() =
         task {
             failwith "error"
         }
-    match Task.run t with
-    | Task.Error e -> Assert.AreEqual("error", e.Message)
+    match Task.run t with    
+    | Choice2Of2 e -> Assert.AreEqual("error", e.Message)
     | _ -> Assert.Fail "task should have errored"
+    
 
 [<Test>]
 let ``canceled task``() =
@@ -54,9 +53,10 @@ let ``canceled task``() =
         }
     cts.Cancel()
     match Task.run t with
-    | Task.Canceled -> ()
-    | Task.Error e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", a)
+    | Choice2Of2 (:? System.OperationCanceledException as ex) -> ()
+    | Choice2Of2 e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
+    | Choice1Of2 r -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", r)
+
 
 [<Test>]
 let ``canceled task 2``() =
@@ -69,9 +69,13 @@ let ``canceled task 2``() =
         }
     cts.Cancel()
     match Task.run t with
-    | Task.Canceled -> ()
-    | Task.Error e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", a)
+    | Choice2Of2 (:? System.AggregateException as ex) -> 
+      match ex.InnerException with 
+      | :? TaskCanceledException -> ()
+      | _ -> Assert.Fail("Task should have been canceled, but errored with exception {0}", ex)
+    | Choice2Of2 e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
+    | Choice1Of2 r -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", r)
+
 
 [<Test>]
 let ``while``() = 
@@ -86,6 +90,7 @@ let ``while``() =
     Task.run t |> ignore
     Assert.AreEqual(0, !i)
 
+
 [<Test>]
 let ``try with should catch exception in the body``() =
    let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
@@ -97,6 +102,7 @@ let ``try with should catch exception in the body``() =
    }
    Assert.AreEqual(5, result.Result)
 
+
 [<Test>]
 let ``try with should catch exception in the continuation``() =
    let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
@@ -107,6 +113,7 @@ let ``try with should catch exception in the continuation``() =
       with e -> return 5
    }
    Assert.AreEqual(5, result.Result)
+
 
 [<Test>]
 let ``try with should catch exception only by type``() =
@@ -121,6 +128,7 @@ let ``try with should catch exception only by type``() =
       | e -> return 15
    }
    Assert.AreEqual(10, result.Result)
+
 
 [<Test>]
 let ``try with should do unwrapping of exception to original type if it was raised in continuation``() =

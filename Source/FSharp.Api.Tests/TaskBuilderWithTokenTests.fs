@@ -6,15 +6,18 @@ open System.Threading.Tasks
 
 let checkSuccess (expected: 'a) (t: CancellationToken -> Task<'a>) =
     match Task.run (fun () -> (t CancellationToken.None)) with
-    | Task.Canceled -> Assert.Fail("Task should have been successful, but was canceled")
-    | Task.Error e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.AreEqual(expected, a)     
+    | Choice1Of2 r -> Assert.AreEqual(expected, r)
+    | Choice2Of2 e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
 
 let assertCancelled (cts: CancellationTokenSource) (t: CancellationToken -> Task<'a>) = 
     match Task.run (fun () -> t cts.Token) with
-    | Task.Canceled -> ()
-    | Task.Error e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
-    | Task.Successful a -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", a)
+    | Choice2Of2 (:? System.OperationCanceledException as ex) -> ()
+    | Choice2Of2 (:? System.AggregateException as ex) -> 
+      match ex.InnerException with 
+      | :? TaskCanceledException -> ()
+      | _ -> Assert.Fail("Task should have been canceled, but errored with exception {0}", ex)
+    | Choice2Of2 e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
+    | Choice1Of2 r -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", r)
 
 let checkCancelledWithToken (cts: CancellationTokenSource) (t: CancellationToken -> Task<'a>) =
     cts.Cancel()
@@ -51,7 +54,7 @@ let ``exception in task``() =
             failwith "error"
         }
     match Task.run (fun () -> t CancellationToken.None) with
-    | Task.Error e -> Assert.AreEqual("error", e.InnerException.Message)
+    | Choice2Of2 e -> Assert.AreEqual("error", e.InnerException.Message)
     | _ -> Assert.Fail "task should have errored"
 
 [<Test>]
