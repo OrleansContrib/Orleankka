@@ -6,25 +6,11 @@ open System
 open System.Threading
 open System.Threading.Tasks
 
-/// Task result
-type Result<'T> = 
-   /// Task was canceled
-   | Canceled
-   /// Unhandled exception in task
-   | Error of exn
-   /// Task completed successfully
-   | Successful of 'T
-
 let run (t:unit -> Task<_>) = 
-   try     
-      t().Result |> Result.Successful
+   try
+     t().Result |> Choice1Of2
    with
-   | :? OperationCanceledException -> Result.Canceled
-   | :? AggregateException as e -> 
-      match e.InnerException with
-      | :? TaskCanceledException -> Result.Canceled
-      | _ -> Result.Error e
-   | e -> Result.Error e
+   | e -> Choice2Of2(e)
 
 let inline wait (task:Task<_>) = task.Wait()
 
