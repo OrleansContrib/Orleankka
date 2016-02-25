@@ -1,12 +1,13 @@
-﻿
-namespace Orleankka.FSharp
+﻿namespace Orleankka.FSharp
 
 [<AutoOpen>]
 module Actor =
 
+   open System
+   open System.Linq
    open System.Threading.Tasks
    open Orleankka
-   open Orleankka.FSharp.Task   
+   open Orleankka.FSharp.Task         
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
@@ -18,11 +19,18 @@ module Actor =
 
       abstract Receive : message:'TMessage -> reply:(obj -> unit) -> Task<unit>
 
-      override this.OnReceive(msg : obj) = task {
+      override this.OnReceive(msg:obj) = task {
          _response <- null
          do! this.Receive (msg :?> 'TMessage) reply
          return _response
       }
+
+      static member private GetStreamDefaultFilter(actor:Type) = 
+         let actorMsgType = actor.BaseType.GetGenericArguments().First()
+         new Func<obj, bool>(
+            fun msg -> 
+               let msgType = msg.GetType()
+               actorMsgType.IsAssignableFrom(msgType.DeclaringType))
    
    let inline (<!) (actorRef:ActorRef) (message:obj) = actorRef.Ask(message) |> Task.map(ignore)
    let inline (<?) (actorRef:ActorRef) (message:obj) = actorRef.Ask<'TResponse>(message)
