@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -31,12 +30,12 @@ namespace Example
     {
         protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
+            var events = await Dispatch<IEnumerable<Event>>(cmd);
 
             foreach (var @event in events)
-                ((dynamic)this).On((dynamic)@event);
+                await Dispatch(@event);
 
-            return (object) events;
+            return events;
         }
 
         protected override Task<object> HandleQuery(Query query)

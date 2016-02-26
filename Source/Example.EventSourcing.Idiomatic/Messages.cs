@@ -6,55 +6,55 @@ using Orleankka.Meta;
 namespace Example
 {
     [Serializable]
-    public class CreateInventoryItem : Command
+    public class Create : Command<InventoryItem>
     {
         public readonly string Name;
 
-        public CreateInventoryItem(string name)
+        public Create(string name)
         {
             Name = name;
         }
     }
 
     [Serializable]
-    public class CheckInInventoryItem : Command
+    public class CheckIn : Command<InventoryItem>
     {
         public readonly int Quantity;
 
-        public CheckInInventoryItem(int quantity)
+        public CheckIn(int quantity)
         {
             Quantity = quantity;
         }
     }
 
     [Serializable]
-    public class CheckOutInventoryItem : Command
+    public class CheckOut : Command<InventoryItem>
     {
         public readonly int Quantity;
 
-        public CheckOutInventoryItem(int quantity)
+        public CheckOut(int quantity)
         {
             Quantity = quantity;
         }
     }
 
     [Serializable]
-    public class RenameInventoryItem : Command
+    public class Rename : Command<InventoryItem>
     {
         public readonly string NewName;
 
-        public RenameInventoryItem(string newName)
+        public Rename(string newName)
         {
             NewName = newName;
         }
     }
-	
+
     [Serializable]
-    public class DeactivateInventoryItem : Command
+    public class Deactivate : Command<InventoryItem>
     {}
 
     [Serializable]
-    public class GetInventoryItemDetails : Query<InventoryItemDetails>
+    public class GetDetails : Query<InventoryItem, InventoryItemDetails>
     {}
 
     [Serializable]
@@ -71,7 +71,7 @@ namespace Example
             Active = active;
         }
     }
-	
+
     [Serializable]
     public class InventoryItemCreated : Event
     {

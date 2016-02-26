@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -33,27 +32,27 @@ namespace Example
 
         static async Task Run(IActorSystem system)
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var item = system.TypedActorOf<InventoryItem>("12345");
 
-            await item.Tell(new CreateInventoryItem("XBOX1"));
+            await item.Tell(new Create("XBOX1"));
             await Print(item);
 
-            await item.Tell(new CheckInInventoryItem(10));
+            await item.Tell(new CheckIn(10));
             await Print(item);
 
-            await item.Tell(new CheckOutInventoryItem(5));
+            await item.Tell(new CheckOut(5));
             await Print(item);
 
-            await item.Tell(new RenameInventoryItem("XBOX360"));
+            await item.Tell(new Rename("XBOX360"));
             await Print(item);
 
-            await item.Tell(new DeactivateInventoryItem());
+            await item.Tell(new Deactivate());
             await Print(item);
         }
 
         static async Task Print(ActorRef item)
         {
-            var details = await item.Ask(new GetInventoryItemDetails());
+            var details = await item.Ask(new GetDetails());
 
             Console.WriteLine("{0}: {1} {2}",
                                 details.Name,
