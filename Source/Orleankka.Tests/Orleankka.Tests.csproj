@@ -71,9 +71,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

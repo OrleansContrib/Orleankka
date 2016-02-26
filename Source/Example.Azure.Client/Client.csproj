@@ -116,6 +116,7 @@
     <Content Include="Scripts\bootstrap.min.js">
       <Paket>True</Paket>
     </Content>
+    <Content Include="paket.references" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js">
       <Paket>True</Paket>
@@ -179,7 +180,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot">
       <Paket>True</Paket>
     </Content>
-    <Content Include="Packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
