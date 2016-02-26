@@ -6,7 +6,7 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    [Reentrant(typeof(GetInventoryItemDetails))]
+    [Reentrant(typeof(GetDetails))]
     public class InventoryItem : EventSourcedActor
     {
         int total;
@@ -73,7 +73,7 @@ namespace Example
             yield return new InventoryItemDeactivated();
         }
 
-        InventoryItemDetails Handle(GetInventoryItemDetails query)
+        InventoryItemDetails Handle(GetDetails query)
         {
             return new InventoryItemDetails(name, total, active);
         }

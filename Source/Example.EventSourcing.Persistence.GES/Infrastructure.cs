@@ -74,7 +74,7 @@ namespace Example
                     throw new InvalidOperationException("Stream '" + stream + "' has beed unexpectedly deleted");
 
                 nextSliceStart = currentSlice.NextEventNumber;
-                Replay(currentSlice.Events);
+                await Replay(currentSlice.Events);
             } 
             while (!currentSlice.IsEndOfStream);
         }
@@ -84,10 +84,10 @@ namespace Example
             return GetType().Name + "-" + Id;
         }
 
-        void Replay(IEnumerable<ResolvedEvent> events)
+        async Task Replay(IEnumerable<ResolvedEvent> events)
         {
             var deserialized = events.Select(x => DeserializeEvent(x.Event)).ToArray();
-            Apply(deserialized);
+            await Apply(deserialized);
         }
 
         protected override async Task<object> HandleCommand(Command cmd)
@@ -95,20 +95,20 @@ namespace Example
             var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
             
             await Store(events);
-            Apply(events);
+            await Apply(events);
             
             return events;
         }
 
-        void Apply(IEnumerable<Event> events)
+        async Task Apply(IEnumerable<Event> events)
         {
             foreach (var @event in events)
-                Apply(@event);
+                await Apply(@event);
         }
 
-        void Apply(object @event)
+        async Task Apply(object @event)
         {
-            ((dynamic)this).On((dynamic)@event);
+            await Dispatch(@event);
             version++;
         }
 

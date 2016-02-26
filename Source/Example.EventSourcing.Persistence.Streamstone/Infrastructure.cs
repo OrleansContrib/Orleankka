@@ -76,7 +76,7 @@ namespace Example
             {
                 slice = await Stream.ReadAsync<EventEntity>(partition, nextSliceStart);
                 nextSliceStart = slice.NextEventNumber;
-                Replay(slice.Events);
+                await Replay(slice.Events);
             }
             while (!slice.IsEndOfStream);
         }
@@ -86,10 +86,10 @@ namespace Example
             return GetType().Name + "-" + Id;
         }
 
-        void Replay(IEnumerable<EventEntity> events)
+        async Task Replay(IEnumerable<EventEntity> events)
         {
             var deserialized = events.Select(DeserializeEvent).ToArray();
-            Apply(deserialized);
+            await Apply(deserialized);
         }
 
         protected override async Task<object> HandleCommand(Command cmd)
@@ -97,15 +97,15 @@ namespace Example
             var events = (await Dispatch<IEnumerable<object>>(cmd)).ToArray();
             
             await Store(events);
-            Apply(events);
+            await Apply(events);
             
             return events;
         }
 
-        void Apply(IEnumerable<object> events)
+        async Task Apply(IEnumerable<object> events)
         {
             foreach (var @event in events)
-                ((dynamic)this).On((dynamic)@event);
+                await Dispatch(@event);
         }
 
         async Task Store(ICollection<object> events)
