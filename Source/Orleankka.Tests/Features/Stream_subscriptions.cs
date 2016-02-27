@@ -111,7 +111,7 @@ namespace Orleankka.Features
 
                 var stream = system.StreamOf(provider, $"{provider}-42");
                 Assert.Throws<Core.Dispatcher.HandlerNotFoundException>(
-                    async ()=> await stream.Push(123),
+                    async ()=> await stream.Push(123.0),
                     "Should throw handler not found exception");
                 
                 await Task.Delay(timeout);
