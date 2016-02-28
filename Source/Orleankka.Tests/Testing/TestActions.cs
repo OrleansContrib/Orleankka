@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -18,6 +19,7 @@ namespace Orleankka.Testing
         public bool Fresh;
         public int DefaultKeepAliveTimeoutInMinutes = 1;
         public bool EnableAzureQueueStreamProvider = false;
+        public string RegisterAssembly = null;
 
         public override void BeforeTest(TestDetails details)
         {
@@ -48,8 +50,13 @@ namespace Orleankka.Testing
                 .Playground()
                 .UseInMemoryPubSubStore()
                 .TweakCluster(cfg => cfg
-                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
-                .Register(GetType().Assembly);
+                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)));                
+
+            var assembly = string.IsNullOrEmpty(RegisterAssembly)
+                ? GetType().Assembly
+                : AppDomain.CurrentDomain.GetAssemblies().First(a => a.GetName().Name == RegisterAssembly);
+
+            system = system.Register(assembly);
 
             if (EnableAzureQueueStreamProvider)
             {
