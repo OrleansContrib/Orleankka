@@ -53,7 +53,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="TaskBuilderTests.fs" />
     <Compile Include="TaskBuilderWithTokenTests.fs" />
-    <Compile Include="RequestResponse.fs" />
     <Content Include="paket.references" />
     <Content Include="app.config" />
   </ItemGroup>
@@ -73,11 +72,6 @@
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Name>Orleankka.Core</Name>
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Tests\Orleankka.Tests.csproj">
-      <Name>Orleankka.Tests</Name>
-      <Project>{5bc7c6f2-b8cd-4ee8-b751-533bdc20af9a}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
