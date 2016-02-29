@@ -28,7 +28,7 @@ type TestActor() =
 
 
 [<TestFixture>]
-[<RequiresSilo(RegisterAssembly = "Orleankka.FSharp.Tests")>]
+[<RequiresSilo>]
 type Tests() =   
    [<DefaultValue>] val mutable system: IActorSystem
 
