@@ -6,7 +6,7 @@ module Actor =
 
    open System.Threading.Tasks
    open Orleankka
-   open Orleankka.FSharp.Task   
+   open Orleankka.FSharp.Task
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
@@ -16,12 +16,19 @@ module Actor =
       
       let reply result = _response <- result
 
-      abstract Receive : message:'TMessage -> reply:(obj -> unit) -> Task<unit>
+      abstract Receive: message:'TMessage -> reply:(obj -> unit) -> Task<unit>
+      
+      abstract UntypedReceive: message:obj -> reply:(obj -> unit) -> Task<unit>
+      default this.UntypedReceive (message:obj) (reply:obj -> unit) = Task.FromResult()
 
-      override this.OnReceive(msg : obj) = task {
+      override this.OnReceive(message:obj) = task {
          _response <- null
-         do! this.Receive (msg :?> 'TMessage) reply
-         return _response
+         match message with
+         | :? 'TMessage as m -> do! this.Receive m reply
+                                return _response
+         
+         | _                 -> do! this.UntypedReceive message reply
+                                return _response
       }
    
    let inline (<!) (actorRef:ActorRef) (message:obj) = actorRef.Ask(message) |> Task.map(ignore)
