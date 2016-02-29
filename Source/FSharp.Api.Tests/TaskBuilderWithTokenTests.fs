@@ -1,8 +1,9 @@
-﻿module Orleankka.FSharp.TaskBuilderWithTokenTests
+﻿module Orleankka.FSharp.Tests.TaskBuilderWithTokenTests
 
 open NUnit.Framework
 open System.Threading
 open System.Threading.Tasks
+open Orleankka.FSharp
 
 let checkSuccess (expected: 'a) (t: CancellationToken -> Task<'a>) =
     match Task.run (fun () -> (t CancellationToken.None)) with

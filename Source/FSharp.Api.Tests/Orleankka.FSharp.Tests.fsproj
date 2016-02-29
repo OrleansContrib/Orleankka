@@ -50,9 +50,11 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Infrastructure.fs" />
     <Compile Include="TaskBuilderTests.fs" />
     <Compile Include="TaskBuilderWithTokenTests.fs" />
-    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="RequestResponse.fs" />
     <Content Include="paket.references" />
     <Content Include="app.config" />
   </ItemGroup>

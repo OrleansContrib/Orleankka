@@ -1,8 +1,9 @@
-﻿module Orleankka.FSharp.TaskBuilderTests
+﻿module Orleankka.FSharp.Tests.TaskBuilderTests
 
 open NUnit.Framework
 open System.Threading
 open System.Threading.Tasks
+open Orleankka.FSharp
 
 [<Test>]
 let ``task should return the right value after let!``() =
