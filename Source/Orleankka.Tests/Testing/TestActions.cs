@@ -26,7 +26,7 @@ namespace Orleankka.Testing
             if (!details.IsSuite)
                 return;
 
-            if (Fresh)
+            //if (Fresh)
                 TeardownExisting();
 
             StartNew();
