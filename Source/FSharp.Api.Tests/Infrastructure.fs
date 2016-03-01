@@ -13,7 +13,7 @@ type RequiresSiloAttribute() =
    inherit TestActionAttribute()
 
    override this.BeforeTest(details:TestDetails) =
-      if details.IsSuite = true then this.StartNew()
+      if details.IsSuite then this.StartNew()
 
    member private this.StartNew() =
       if isNull(TestActorSystem.instance) then
@@ -24,3 +24,15 @@ type RequiresSiloAttribute() =
                                  .Done()
       
          TestActorSystem.instance <- system
+
+type TeardownSiloAttribute() =
+   inherit TestActionAttribute()
+
+   override this.AfterTest(details:TestDetails) =
+      if details.IsSuite then
+        if (TestActorSystem.instance <> null) then
+            TestActorSystem.instance.Dispose()
+            TestActorSystem.instance <- null
+
+[<assembly: TeardownSilo()>]
+()
