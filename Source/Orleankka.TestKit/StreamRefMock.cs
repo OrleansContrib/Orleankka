@@ -10,6 +10,7 @@ namespace Orleankka.TestKit
 {
     using Core;
 
+    [Serializable]
     public class StreamRefMock : StreamRef
     {
         static StreamRefMock()
@@ -17,13 +18,13 @@ namespace Orleankka.TestKit
             OrleansSerialization.Initialize();
         }
 
-        readonly IMessageSerializer serializer;
-        readonly List<IExpectation> expectations = new List<IExpectation>();
+        [NonSerialized] readonly IMessageSerializer serializer;
+        [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
-        readonly List<RecordedItem> items = new List<RecordedItem>();
-        public IEnumerable<RecordedItem> RecordedItems => items;  
+        [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
+        public IEnumerable<RecordedItem> RecordedItems => items;
 
-        readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
+        [NonSerialized] readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
         public IEnumerable<StreamSubscriptionMock> RecordedSubscriptions => subscriptions;
 
         public StreamFilter Filter { get; private set; }

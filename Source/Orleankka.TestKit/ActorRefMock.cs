@@ -10,6 +10,7 @@ namespace Orleankka.TestKit
 {
     using Core;
 
+    [Serializable]
     public class ActorRefMock : ActorRef
     {
         static ActorRefMock()
@@ -17,9 +18,9 @@ namespace Orleankka.TestKit
             OrleansSerialization.Initialize();
         }
 
-        readonly IMessageSerializer serializer;
-        readonly List<IExpectation> expectations = new List<IExpectation>();
-        readonly List<RecordedMessage> messages = new List<RecordedMessage>();
+        [NonSerialized] readonly IMessageSerializer serializer;
+        [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
+        [NonSerialized] readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
         public ActorRefMock(ActorPath path, IMessageSerializer serializer = null)
             : base(path)
