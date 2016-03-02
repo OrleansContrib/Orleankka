@@ -11,13 +11,13 @@ type Message =
 type TestActor() = 
    inherit Actor<Message>()
 
-   override this.Receive message reply = task {
+   override this.Receive(message, reply) = task {
       match message with
       | Greet who -> sprintf "Receive Hello %s" who |> reply
       | Hi -> sprintf "Receive Hi" |> reply
    }
 
-   override this.ReceiveUntyped message reply = task {
+   override this.ReceiveUntyped(message, reply) = task {
       match message with
       | :? int as i -> sprintf "ReceiveUntyped int %i" i |> reply
       | _           -> let typeName = message.GetType().Name

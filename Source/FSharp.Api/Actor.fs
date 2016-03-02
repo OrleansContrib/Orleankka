@@ -4,20 +4,8 @@ open System.Threading.Tasks
 open Orleankka
 open Orleankka.FSharp.Task
 
-module ActorRefExtensions =
-
-   type Ref =
-      static member Ask(ref:ActorRef, msg:obj) = ref.Ask<'TResponse>(msg)
-      static member Ask(ref:ActorRef<'TActor>, msg:ActorMessage<'TActor>) = ref.Ask<'TResponse>(msg)     
-      static member Tell(ref:ActorRef, msg:obj) = ref.Ask(msg) |> Task.map(ignore)
-      static member Tell(ref:ActorRef<'TActor>, msg:ActorMessage<'TActor>) = ref.Ask(msg) |> Task.map(ignore)
-      static member Notify(ref:ActorRef, msg:obj) = ref.Notify(msg)
-      static member Notify(ref:ActorRef<'TActor>, msg:ActorMessage<'TActor>) = ref.Notify(msg)
-
 [<AutoOpen>]
-module Actor =
-
-   open ActorRefExtensions
+module Actor =   
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
@@ -136,6 +124,10 @@ module Actor =
       }
 
       
-   let inline (<?) actorRef message = Ref.Ask(actorRef, message)      
-   let inline (<!) actorRef message = Ref.Tell(actorRef, message)   
-   let inline (<*) actorRef message = Ref.Notify(actorRef, message)
+   let inline (<?) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message))
+   
+   let inline (<!) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message)) |> Task.map(ignore)
+
+   let inline (<*) (actorRef:^ref) (message:^msg) = (^ref: (member Notify : ^msg -> unit) (actorRef, message))

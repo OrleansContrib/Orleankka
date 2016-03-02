@@ -35,6 +35,7 @@ let main argv =
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"
+      //do! actor <! true wan't compile
     }
     
     Task.run(job) |> ignore
