@@ -51,7 +51,7 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
     Clean(outDir);
 
     Exec(@"$ProgramFiles(x86)$\MSBuild\14.0\Bin\MSBuild.exe", 
-          "{CoreProject}.sln /p:Configuration={config};OutDir={outDir};ReferencePath={outDir}" + 
+          "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + 
            (verbose ? "/v:d" : ""));
 }
 
