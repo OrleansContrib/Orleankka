@@ -1,11 +1,11 @@
 ﻿namespace Orleankka.FSharp
 
-open System.Threading.Tasks
-open Orleankka
-open Orleankka.FSharp.Task
-
 [<AutoOpen>]
 module Actor =   
+
+   open System.Threading.Tasks
+   open Orleankka
+   open Orleankka.FSharp.Task
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
@@ -130,4 +130,5 @@ module Actor =
    let inline (<!) (actorRef:^ref) (message:^msg) = 
       (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message)) |> Task.map(ignore)
 
-   let inline (<*) (actorRef:^ref) (message:^msg) = (^ref: (member Notify : ^msg -> unit) (actorRef, message))
+   let inline (<*) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Notify : ^msg -> unit) (actorRef, message))
