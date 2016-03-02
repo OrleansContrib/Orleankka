@@ -8,11 +8,12 @@ open Orleankka.Playground
 type Message = 
    | Greet of string
    | Hi
+   interface ActorMessage<Greeter>
 
-type Greeter() = 
+and Greeter() = 
    inherit Actor<Message>()   
 
-   override this.Receive message reply = task {
+   override this.Receive(message, reply) = task {
       match message with
       | Greet who -> printfn "Hello %s" who
       | Hi -> printfn "Hello from F#!"           
@@ -28,12 +29,13 @@ let main argv =
                             .Register(Assembly.GetExecutingAssembly())
                             .Done()
                   
-    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+    let actor = system.TypedActorOf<Greeter>(Guid.NewGuid().ToString())
 
     let job() = task {
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"
+      //do! actor <! true won't compile
     }
     
     Task.run(job) |> ignore
