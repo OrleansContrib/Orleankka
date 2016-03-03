@@ -1,7 +1,7 @@
 ﻿namespace Orleankka.FSharp
 
 [<AutoOpen>]
-module Actor =
+module Actor =   
 
    open System.Threading.Tasks
    open Orleankka
@@ -15,21 +15,27 @@ module Actor =
       
       let reply result = _response <- result
 
-      abstract Receive: message:'TMessage -> reply:(obj -> unit) -> Task<unit>
+      abstract Receive: message:'TMessage * reply:(obj -> unit) -> Task<unit>
       
-      abstract ReceiveUntyped: message:obj -> reply:(obj -> unit) -> Task<unit>
-      default this.ReceiveUntyped (message:obj) (reply:obj -> unit) = Task.FromResult()
+      abstract ReceiveAny: message:obj * reply:(obj -> unit) -> Task<unit>
+      default this.ReceiveAny(message:obj, reply:obj -> unit) = Task.FromResult()
 
       override this.OnReceive(message:obj) = task {
          _response <- null
          match message with
-         | :? 'TMessage as m -> do! this.Receive m reply
+         | :? 'TMessage as m -> do! this.Receive(m, reply)
                                 return _response
          
-         | _                 -> do! this.ReceiveUntyped message reply
+         | _                 -> do! this.ReceiveAny(message, reply)
                                 return _response
       }
+
+      
+   let inline (<?) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message))
    
-   let inline (<!) (actorRef:ActorRef) (message:obj) = actorRef.Ask(message) |> Task.map(ignore)
-   let inline (<?) (actorRef:ActorRef) (message:obj) = actorRef.Ask<'TResponse>(message)
-   let inline (<*) (ref:^ref) (message:obj) = (^ref : (member Notify : obj -> unit) (ref, message))
+   let inline (<!) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message)) |> Task.map(ignore)
+
+   let inline (<*) (actorRef:^ref) (message:^msg) = 
+      (^ref: (member Notify : ^msg -> unit) (actorRef, message))
