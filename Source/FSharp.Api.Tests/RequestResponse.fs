@@ -17,7 +17,7 @@ type TestActor() =
       | Hi -> sprintf "Receive Hi" |> reply
    }
 
-   override this.ReceiveUntyped(message, reply) = task {
+   override this.ReceiveAny(message, reply) = task {
       match message with
       | :? int as i -> sprintf "ReceiveUntyped int %i" i |> reply
       | _           -> let typeName = message.GetType().Name
