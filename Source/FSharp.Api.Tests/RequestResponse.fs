@@ -40,7 +40,7 @@ type Tests() =
       let actor = this.system.ActorOf<TestActor>("test");
 
       Assert.AreEqual("ReceiveAny int 1", actor.Ask(1).Result)
-      Assert.Throws<Exception>(fun ()-> actor.Ask("hello").Result)
+      Assert.Throws<AggregateException>(fun ()-> actor.Tell("hello").Wait()) |> ignore
 
    [<Test>]
    member this.``Receive should be invoked in case of receiving actor's message type.``() =
