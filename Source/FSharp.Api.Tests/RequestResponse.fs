@@ -18,13 +18,13 @@ type TestActor() =
       | Hi -> sprintf "Receive Hi" |> reply
    }
 
-   override this.ReceiveAny(message, reply) = task {
+   override this.ReceiveUntyped(message, reply) = task {
       match message with
-      | :? int as i -> sprintf "ReceiveAny int %i" i |> reply
-      | _           -> do! this.ReceiveAnyBase(message, reply)
+      | :? int as i -> sprintf "ReceiveUntyped int %i" i |> reply
+      | _           -> let typeName = message.GetType().Name
+                       sprintf "Got type %s" typeName |> reply
    }
 
-   member this.ReceiveAnyBase(message, reply) = base.ReceiveAny(message, reply)
 
 [<TestFixture>]
 [<RequiresSilo>]
@@ -36,14 +36,21 @@ type Tests() =
       this.system <- TestActorSystem.instance
 
    [<Test>]
-   member this.``ReceiveAny should be overriden to receive all and every message sent to an actor.``() = 
+   member this.``ReceiveUntyped should be invoked in case of receiving not actor's message type.``() = 
       let actor = this.system.ActorOf<TestActor>("test");
 
-      Assert.AreEqual("ReceiveAny int 1", actor.Ask(1).Result)
-      Assert.Throws<AggregateException>(fun ()-> actor.Tell("hello").Wait()) |> ignore
+      let response1 = actor.Ask(1).Result
+      let response2 = actor.Ask("hello").Result
+      let response3 = actor.Ask(true).Result
+
+      Assert.AreEqual("ReceiveUntyped int 1", response1)
+      Assert.AreEqual("Got type String", response2)
+      Assert.AreEqual("Got type Boolean", response3)
 
    [<Test>]
    member this.``Receive should be invoked in case of receiving actor's message type.``() =
       let actor = this.system.ActorOf<TestActor>("test");
 
-      Assert.AreEqual("Receive Hi", actor.Ask(Hi).Result)
+      let response = actor.Ask(Hi).Result
+
+      Assert.AreEqual("Receive Hi", response)

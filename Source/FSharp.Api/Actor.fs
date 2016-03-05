@@ -13,17 +13,18 @@ module Actor =
 
       abstract Receive: message:'TMessage * reply:(obj -> unit) -> Task<unit>
       
-      abstract ReceiveAny: message:obj * reply:(obj -> unit) -> Task<unit>
-      default this.ReceiveAny(message:obj, reply:obj -> unit) = 
-        match message with
-            | :? 'TMessage as m -> this.Receive(m, reply)
-            | _                 -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |>  failwith 
+      abstract ReceiveUntyped: message:obj * reply:(obj -> unit) -> Task<unit>
+      default this.ReceiveUntyped(message:obj, reply:obj -> unit) = 
+         sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |>  failwith
 
       override this.OnReceive(message:obj) = task {
         let mutable response = null
         let reply result = response <- result
-        do! this.ReceiveAny(message, reply)
-        return response
+        match message with
+        | :? 'TMessage as m -> do! this.Receive(m, reply)
+                               return response         
+        | _                 -> do! this.ReceiveUntyped(message, reply)
+                               return response
       }
 
       
