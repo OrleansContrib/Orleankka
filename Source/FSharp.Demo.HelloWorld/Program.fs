@@ -13,10 +13,10 @@ type Message =
 and Greeter() = 
    inherit Actor<Message>()   
 
-   override this.Receive(message, reply) = task {
+   override this.Receive message reply = task {
       match message with
       | Greet who -> printfn "Hello %s" who
-      | Hi -> printfn "Hello from F#!"           
+      | Hi        -> printfn "Hello from F#!"           
    }
 
 [<EntryPoint>]

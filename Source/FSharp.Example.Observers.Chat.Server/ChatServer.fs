@@ -22,7 +22,7 @@ type ChatServer() =
 
    let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients <* msg)
 
-   override this.Receive(message, reply) = task {
+   override this.Receive message reply = task {
       match message with
       
       | Join (userName, client) -> 

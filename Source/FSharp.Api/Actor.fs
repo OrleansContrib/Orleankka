@@ -2,7 +2,8 @@
 
 [<AutoOpen>]
 module Actor =   
-
+   
+   open System
    open System.Threading.Tasks
    open Orleankka
    open Orleankka.FSharp.Task
@@ -11,19 +12,16 @@ module Actor =
    type Actor<'TMessage>() = 
       inherit Actor()
 
-      abstract Receive: message:'TMessage * reply:(obj -> unit) -> Task<unit>
-      
-      abstract ReceiveAny: message:obj * reply:(obj -> unit) -> Task<unit>
-      default this.ReceiveAny(message:obj, reply:obj -> unit) = 
-        match message with
-            | :? 'TMessage as m -> this.Receive(m, reply)
-            | _                 -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |>  failwith 
+      abstract Receive: message:'TMessage -> reply:(obj -> unit) -> Task<unit>      
 
       override this.OnReceive(message:obj) = task {
         let mutable response = null
         let reply result = response <- result
-        do! this.ReceiveAny(message, reply)
-        return response
+        match message with
+        | :? 'TMessage as m -> do! this.Receive m reply
+                               return response        
+        | _                 -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |> failwith
+                               return response
       }
 
       

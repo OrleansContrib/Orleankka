@@ -12,19 +12,31 @@ type Message =
 type TestActor() = 
    inherit Actor<Message>()
 
-   override this.Receive(message, reply) = task {
+   override this.Receive message reply = task {
       match message with
       | Greet who -> sprintf "Receive Hello %s" who |> reply
-      | Hi -> sprintf "Receive Hi" |> reply
+      | Hi        -> sprintf "Receive Hi"           |> reply
    }
 
-   override this.ReceiveAny(message, reply) = task {
+type TestActorUntyped() = 
+   inherit Actor<obj>()   
+
+   let handleMessage = function
+      | Greet who -> sprintf "Receive Hello %s" who
+      | Hi -> sprintf "Receive Hi"
+
+   let handleInt value = sprintf "Got int %i" value
+
+   let handleStr value = sprintf "Got string %s" value
+
+   override this.Receive message reply = task {
       match message with
-      | :? int as i -> sprintf "ReceiveAny int %i" i |> reply
-      | _           -> do! this.ReceiveAnyBase(message, reply)
+      | :? Message as m -> m |> handleMessage |> reply
+      | :? int as i     -> i |> handleInt     |> reply
+      | :? string as s  -> s |> handleStr     |> reply
+      | _               -> failwith "Received unexpected message type"
    }
 
-   member this.ReceiveAnyBase(message, reply) = base.ReceiveAny(message, reply)
 
 [<TestFixture>]
 [<RequiresSilo>]
@@ -36,14 +48,8 @@ type Tests() =
       this.system <- TestActorSystem.instance
 
    [<Test>]
-   member this.``ReceiveAny should be overriden to receive all and every message sent to an actor.``() = 
-      let actor = this.system.ActorOf<TestActor>("test");
-
-      Assert.AreEqual("ReceiveAny int 1", actor.Ask(1).Result)
-      Assert.Throws<AggregateException>(fun ()-> actor.Tell("hello").Wait()) |> ignore
-
-   [<Test>]
-   member this.``Receive should be invoked in case of receiving actor's message type.``() =
-      let actor = this.system.ActorOf<TestActor>("test");
-
-      Assert.AreEqual("Receive Hi", actor.Ask(Hi).Result)
+   member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
+      let actor = this.system.ActorOf<TestActor>("test")
+      match Task.run(fun _ -> task {return! actor <? "request msg"}) with
+      | Choice1Of2 result -> Assert.Fail("actor was able to handle unspecified message type.")
+      | Choice2Of2 ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)
