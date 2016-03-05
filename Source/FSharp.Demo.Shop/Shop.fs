@@ -18,7 +18,7 @@ type Shop() =
    let mutable cash = 0
    let mutable stock = 0   
    
-   override this.Receive(message, reply) = task {
+   override this.Receive message reply = task {
       match message with
 
       | CheckIn count -> stock <- stock + count   
