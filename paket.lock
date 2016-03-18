@@ -1,103 +1,106 @@
+REDIRECTS: ON
+STRATEGY: MAX
+FRAMEWORK: NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451, NET451
 NUGET
   remote: http://api.nuget.org/v3/index.json
   specs:
-    Antlr (3.5.0.2) - framework: >= net45
-    Autofac (3.5.2) - framework: >= net45
-    bootstrap (3.0.0) - framework: >= net451
-      jQuery (>= 1.9.0)
-    EventStore.Client (3.0.2) - framework: >= net45
-    FSharp.Core (4.0.0.1) - framework: >= net45
-    FsPickler (1.2.5) - framework: >= net45
-    jQuery (1.10.2) - framework: >= net451
-    jQuery.Validation (1.11.1) - framework: >= net451
-      jQuery (>= 1.4.4)
-    Microsoft.AspNet.Mvc (5.2.0) - framework: >= net451
-      Microsoft.AspNet.Razor (>= 3.2.0 < 3.3.0)
-      Microsoft.AspNet.WebPages (>= 3.2.0 < 3.3.0)
-    Microsoft.AspNet.Razor (3.2.0) - framework: >= net451
-    Microsoft.AspNet.SignalR (2.0.0) - framework: >= net451
-      Microsoft.AspNet.SignalR.JS (>= 2.0.0)
-      Microsoft.AspNet.SignalR.SystemWeb (>= 2.0.0)
-    Microsoft.AspNet.SignalR.Core (2.1.2) - framework: >= net451
-      Microsoft.Owin (>= 2.0.1)
-      Microsoft.Owin.Security (>= 2.0.1)
-      Newtonsoft.Json (>= 6.0.4)
-      Owin (>= 1.0)
-    Microsoft.AspNet.SignalR.JS (2.0.1) - framework: >= net451
-      jQuery (>= 1.6.4)
-    Microsoft.AspNet.SignalR.SystemWeb (2.0.1) - framework: >= net451
-      Microsoft.AspNet.SignalR.Core (>= 2.0.1)
-      Microsoft.Owin.Host.SystemWeb (>= 2.0.0)
-    Microsoft.AspNet.Web.Optimization (1.1.3) - framework: >= net451
-      Microsoft.Web.Infrastructure (>= 1.0.0)
-      WebGrease (>= 1.5.2)
-    Microsoft.AspNet.WebPages (3.2.0) - framework: >= net451
-      Microsoft.AspNet.Razor (>= 3.2.0 < 3.3.0)
-      Microsoft.Web.Infrastructure (>= 1.0.0.0)
-    Microsoft.Azure.KeyVault.Core (1.0.0) - framework: >= net45
-    Microsoft.CodeAnalysis.Analyzers (1.1.0) - framework: >= net45
-    Microsoft.CodeAnalysis.Common (1.1.1) - framework: >= net45
-      Microsoft.CodeAnalysis.Analyzers (>= 1.1.0)
-      System.Collections.Immutable (>= 1.1.37)
-      System.Reflection.Metadata (>= 1.1.0)
-    Microsoft.CodeAnalysis.CSharp (1.1.1) - framework: >= net45
-      Microsoft.CodeAnalysis.Common (1.1.1)
-    Microsoft.Data.Edm (5.7.0) - framework: >= net45
-    Microsoft.Data.OData (5.7.0) - framework: >= net45
-      Microsoft.Data.Edm (5.7.0)
-      System.Spatial (5.7.0)
-    Microsoft.Data.Services.Client (5.7.0) - framework: >= net45
-      Microsoft.Data.OData (5.7.0)
-    Microsoft.Framework.DependencyInjection.Abstractions (1.0.0-beta8) - framework: >= net45
-    Microsoft.jQuery.Unobtrusive.Validation (3.2.0) - framework: >= net451
-      jQuery (>= 1.8)
-      jQuery.Validation (>= 1.8)
-    Microsoft.Orleans.Core (1.1.2) - framework: >= net451
-      Newtonsoft.Json (>= 6.0.8)
-    Microsoft.Orleans.OrleansAzureUtils (1.1.2) - framework: >= net451
-      Microsoft.Orleans.Core (>= 1.1.2)
-      Microsoft.Orleans.OrleansProviders (>= 1.1.2)
-      Microsoft.Orleans.OrleansRuntime (>= 1.1.2)
-      WindowsAzure.Storage (>= 5.0.2)
-    Microsoft.Orleans.OrleansCodeGenerator (1.1.2) - framework: >= net451
-      Microsoft.CodeAnalysis.CSharp (>= 1.0.0)
-      Microsoft.Orleans.Core (>= 1.1.2)
-    Microsoft.Orleans.OrleansProviders (1.1.2) - framework: >= net451
-      Microsoft.Orleans.Core (>= 1.1.2)
-    Microsoft.Orleans.OrleansRuntime (1.1.2) - framework: >= net451
-      Microsoft.Orleans.Core (>= 1.1.2)
-    Microsoft.Owin (2.0.1) - framework: >= net451
-      Owin (>= 1.0)
-    Microsoft.Owin.Host.SystemWeb (2.0.0) - framework: >= net451
-      Microsoft.Owin (>= 2.0.0) - framework: >= net40
-      Owin (>= 1.0) - framework: >= net40
-    Microsoft.Owin.Security (2.0.1) - framework: >= net451
-      Microsoft.Owin (>= 2.0.1)
-      Owin (>= 1.0)
-    Microsoft.Web.Infrastructure (1.0.0) - framework: >= net451
+    Antlr (3.5.0.2) - framework: net451
+    Autofac (3.5.2)
+    bootstrap (3.0.0)
+      jQuery (>= 1.9.0) - framework: net451
+    EventStore.Client (3.0.2)
+    FSharp.Core (4.0.0.1) - framework: net451
+    FsPickler (1.2.5) - framework: net451
+    jQuery (1.10.2) - framework: net451
+    jQuery.Validation (1.11.1) - framework: net451
+      jQuery (>= 1.4.4) - framework: net451
+    Microsoft.AspNet.Mvc (5.2.0)
+      Microsoft.AspNet.Razor (>= 3.2.0 < 3.3.0) - framework: net451
+      Microsoft.AspNet.WebPages (>= 3.2.0 < 3.3.0) - framework: net451
+    Microsoft.AspNet.Razor (3.2.0) - framework: net451
+    Microsoft.AspNet.SignalR (2.0.0) - framework: net451
+      Microsoft.AspNet.SignalR.JS (>= 2.0.0) - framework: net451
+      Microsoft.AspNet.SignalR.SystemWeb (>= 2.0.0) - framework: net451
+    Microsoft.AspNet.SignalR.Core (2.1.2) - framework: net451
+      Microsoft.Owin (>= 2.0.1) - framework: net451
+      Microsoft.Owin.Security (>= 2.0.1) - framework: net451
+      Newtonsoft.Json (>= 6.0.4) - framework: net451
+      Owin (>= 1.0) - framework: net451
+    Microsoft.AspNet.SignalR.JS (2.0.1) - framework: net451
+      jQuery (>= 1.6.4) - framework: net451
+    Microsoft.AspNet.SignalR.SystemWeb (2.0.1) - framework: net451
+      Microsoft.AspNet.SignalR.Core (>= 2.0.1) - framework: net451
+      Microsoft.Owin.Host.SystemWeb (>= 2.0.0) - framework: net451
+    Microsoft.AspNet.Web.Optimization (1.1.3)
+      Microsoft.Web.Infrastructure (>= 1.0.0) - framework: net451
+      WebGrease (>= 1.5.2) - framework: net451
+    Microsoft.AspNet.WebPages (3.2.0) - framework: net451
+      Microsoft.AspNet.Razor (>= 3.2.0 < 3.3.0) - framework: net451
+      Microsoft.Web.Infrastructure (>= 1.0.0.0) - framework: net451
+    Microsoft.Azure.KeyVault.Core (1.0.0) - framework: net451
+    Microsoft.CodeAnalysis.Analyzers (1.1.0) - framework: net451
+    Microsoft.CodeAnalysis.Common (1.1.1) - framework: net451
+      Microsoft.CodeAnalysis.Analyzers (>= 1.1.0) - framework: net451
+      System.Collections.Immutable (>= 1.1.37) - framework: net451
+      System.Reflection.Metadata (>= 1.1.0) - framework: net451
+    Microsoft.CodeAnalysis.CSharp (1.1.1) - framework: net451
+      Microsoft.CodeAnalysis.Common (1.1.1) - framework: net451
+    Microsoft.Data.Edm (5.7.0) - framework: net451
+    Microsoft.Data.OData (5.7.0) - framework: net451
+      Microsoft.Data.Edm (5.7.0) - framework: net451
+      System.Spatial (5.7.0) - framework: net451
+    Microsoft.Data.Services.Client (5.7.0) - framework: net451
+      Microsoft.Data.OData (5.7.0) - framework: net451
+    Microsoft.Framework.DependencyInjection.Abstractions (1.0.0-beta8)
+    Microsoft.jQuery.Unobtrusive.Validation (3.2.0)
+      jQuery (>= 1.8) - framework: net451
+      jQuery.Validation (>= 1.8) - framework: net451
+    Microsoft.Orleans.Core (1.1.3) - framework: net451
+      Newtonsoft.Json (>= 6.0.8) - framework: net451
+    Microsoft.Orleans.OrleansAzureUtils (1.1.3)
+      Microsoft.Orleans.Core (>= 1.1.3) - framework: net451
+      Microsoft.Orleans.OrleansProviders (>= 1.1.3) - framework: net451
+      Microsoft.Orleans.OrleansRuntime (>= 1.1.3) - framework: net451
+      WindowsAzure.Storage (>= 5.0.2) - framework: net451
+    Microsoft.Orleans.OrleansCodeGenerator (1.1.3)
+      Microsoft.CodeAnalysis.CSharp (>= 1.0.0) - framework: net451
+      Microsoft.Orleans.Core (>= 1.1.3) - framework: net451
+    Microsoft.Orleans.OrleansProviders (1.1.3) - framework: net451
+      Microsoft.Orleans.Core (>= 1.1.3) - framework: net451
+    Microsoft.Orleans.OrleansRuntime (1.1.3) - framework: net451
+      Microsoft.Orleans.Core (>= 1.1.3) - framework: net451
+    Microsoft.Owin (2.0.1) - framework: net451
+      Owin (>= 1.0) - framework: net451
+    Microsoft.Owin.Host.SystemWeb (2.0.0) - framework: net451
+      Microsoft.Owin (>= 2.0.0) - framework: net451
+      Owin (>= 1.0) - framework: net451
+    Microsoft.Owin.Security (2.0.1) - framework: net451
+      Microsoft.Owin (>= 2.0.1) - framework: net451
+      Owin (>= 1.0) - framework: net451
+    Microsoft.Web.Infrastructure (1.0.0) - framework: net451
     Microsoft.WindowsAzure.ConfigurationManager (2.0.3)
-    Modernizr (2.6.2) - framework: >= net451
+    Modernizr (2.6.2)
     Nake (2.3.4)
-    Newtonsoft.Json (6.0.8)
+    Newtonsoft.Json (6.0.8) - framework: net451
     NuGet.CommandLine (3.3.0)
-    NUnit (2.6.4) - framework: >= net45
-    NUnit.Runners (2.6.4) - framework: >= net45
-    Owin (1.0) - framework: >= net451
-    PowerAssert (1.0.13) - framework: >= net45
-    Respond (1.2.0) - framework: >= net451
-    Streamstone (0.9.5) - framework: >= net45
-      WindowsAzure.Storage (>= 6.1.0)
-    Suave (0.31.0) - framework: >= net45
-      FSharp.Core (>= 4.0.0.1)
-      FsPickler (>= 1.2.5)
-    System.Collections.Immutable (1.1.37) - framework: >= net45
-    System.Reflection.Metadata (1.1.0) - framework: >= net45
-    System.Spatial (5.7.0) - framework: >= net45
-    WebGrease (1.5.2) - framework: >= net451
-      Antlr (>= 3.4.1.9004)
-      Newtonsoft.Json (>= 5.0.4)
-    WindowsAzure.Storage (6.1.0) - framework: >= net45
-      Microsoft.Azure.KeyVault.Core (>= 1.0.0) - framework: >= net40, wpv8.0
-      Microsoft.Data.OData (>= 5.6.4) - framework: >= net40, winv4.5, wpv8.0
-      Microsoft.Data.Services.Client (>= 5.6.4) - framework: >= net40
-      Newtonsoft.Json (>= 6.0.8) - framework: >= net40, winv4.5, wpv8.0
+    NUnit (2.6.4)
+    NUnit.Runners (2.6.4)
+    Owin (1.0) - framework: net451
+    PowerAssert (1.0.16)
+    Respond (1.2.0)
+    Streamstone (0.9.5)
+      WindowsAzure.Storage (>= 6.1.0) - framework: net451
+    Suave (0.31.0)
+      FSharp.Core (>= 4.0.0.1) - framework: net451
+      FsPickler (>= 1.2.5) - framework: net451
+    System.Collections.Immutable (1.1.37) - framework: net451
+    System.Reflection.Metadata (1.1.0) - framework: net451
+    System.Spatial (5.7.0) - framework: net451
+    WebGrease (1.5.2) - framework: net451
+      Antlr (>= 3.4.1.9004) - framework: net451
+      Newtonsoft.Json (>= 5.0.4) - framework: net451
+    WindowsAzure.Storage (6.1.0) - framework: net451
+      Microsoft.Azure.KeyVault.Core (>= 1.0.0) - framework: net451
+      Microsoft.Data.OData (>= 5.6.4) - framework: net451
+      Microsoft.Data.Services.Client (>= 5.6.4) - framework: net451
+      Newtonsoft.Json (>= 6.0.8) - framework: net451
