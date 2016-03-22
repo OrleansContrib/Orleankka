@@ -32,10 +32,23 @@ namespace Example
         {
             var events = await Dispatch<IEnumerable<Event>>(cmd);
 
+            var stream = System.StreamOf("sms", $"InventoryItem-{Id}");
             foreach (var @event in events)
+            {
                 await Dispatch(@event);
-
+                await stream.Push(ToDomainEvent(@event));
+            }
             return events;
+        }
+
+        private object ToDomainEvent(Event  @event)
+        {
+            Type generic = typeof(DomainEvent<>);
+            var domainEventType = generic.MakeGenericType(@event.GetType());
+
+            var domainEventInstance = Activator.CreateInstance(domainEventType,
+                new object[] { Id, @event});
+            return domainEventInstance;
         }
 
         protected override Task<object> HandleQuery(Query query)

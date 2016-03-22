@@ -17,6 +17,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
+                .UseInMemoryPubSubStore()
                 .Register(Assembly.GetExecutingAssembly())
                 .Serializer<NativeSerializer>()
                 .Done();
@@ -48,6 +49,13 @@ namespace Example
 
             await item.Tell(new Deactivate());
             await Print(item);
+
+            var total = await 
+                system
+                .TypedActorOf<TotalItemsProjection>("#")
+                .Ask(new GetTotalItems());
+            Console.WriteLine($"Total items across whole system: {total}");
+
         }
 
         static async Task Print(ActorRef item)
