@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
@@ -83,5 +84,21 @@ namespace Example
             if (!active)
                 throw new InvalidOperationException(Id + " item is deactivated");
         }
+    }
+
+    [StreamSubscription(Source = "sms:/InventoryItem-.*/", Target = "#")]
+    public class Inventory : Actor
+    {
+        readonly Dictionary<string, InventoryItemDetails> items =
+             new Dictionary<string, InventoryItemDetails>();
+
+        void On(EventEnvelope<InventoryItemCreated> e)     => items[e.Stream] = new InventoryItemDetails(e.Event.Name, 0, true);
+        void On(EventEnvelope<InventoryItemCheckedIn> e)   => items[e.Stream].Total += e.Event.Quantity;
+        void On(EventEnvelope<InventoryItemCheckedOut> e)  => items[e.Stream].Total -= e.Event.Quantity;
+        void On(EventEnvelope<InventoryItemDeactivated> e) => items[e.Stream].Active = false;
+        void On(EventEnvelope<InventoryItemRenamed> e)     => items[e.Stream].Name   = e.Event.NewName;
+
+        InventoryItemDetails[] Answer(GetInventoryItems _) => items.Values.ToArray();
+        int Answer(GetInventoryItemsTotal _)               => items.Values.Sum(x => x.Total);
     }
 }

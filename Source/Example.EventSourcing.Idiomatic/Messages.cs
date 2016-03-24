@@ -58,11 +58,32 @@ namespace Example
     {}
 
     [Serializable]
+    public class GetInventoryItems : Query<Inventory, InventoryItemDetails[]>
+    {}
+
+    [Serializable]
+    public class GetInventoryItemsTotal : Query<Inventory, int>
+    {}
+
+    [Serializable]
+    public class EventEnvelope<T> where T : Event
+    {
+        public readonly string Stream;
+        public readonly T Event;
+
+        public EventEnvelope(string stream, T @event)
+        {
+            Stream = stream;
+            Event = @event;
+        }
+    }
+
+    [Serializable]
     public class InventoryItemDetails
     {
-        public readonly string Name;
-        public readonly int Total;
-        public readonly bool Active;
+        public string Name;
+        public int Total;
+        public bool Active;
 
         public InventoryItemDetails(string name, int total, bool active)
         {
