@@ -1,60 +1,65 @@
+framework: auto-detect
+redirects: on
+strategy: max
+lowest_matching: false
+
 source https://api.nuget.org/v3/index.json
 
-nuget Nake 2.3.4
+nuget Nake
 nuget NuGet.CommandLine
 
-nuget NUnit 2.6.4 framework: >= net45
-nuget NUnit.Runners 2.6.4 framework: >= net45
-nuget PowerAssert 1.0.13.0 framework: >= net45
+nuget NUnit 2.6.4
+nuget NUnit.Runners 2.6.4
+nuget PowerAssert
 
-nuget FSharp.Core 4.0.0.1 framework: >= net45
-nuget FsPickler 1.2.5 framework: >= net45
-nuget Suave 0.31.0 framework: >= net45
+nuget FSharp.Core 4.0.0.1
+nuget FsPickler 1.2.5
+nuget Suave 0.31.0
 
-nuget Antlr 3.5.0.2 framework: >= net45
-nuget Microsoft.AspNet.Mvc 5.2.0 framework: >= net451
-nuget Microsoft.AspNet.Razor 3.2.0 framework: >= net451
-nuget Microsoft.AspNet.SignalR 2.0.0 framework: >= net451
-nuget Microsoft.AspNet.SignalR.Core 2.1.2 framework: >= net451
-nuget Microsoft.AspNet.SignalR.JS 2.0.1 framework: >= net451
-nuget Microsoft.AspNet.SignalR.SystemWeb 2.0.1 framework: >= net451
-nuget Microsoft.AspNet.Web.Optimization 1.1.3 framework: >= net451
-nuget Microsoft.AspNet.WebPages 3.2.0 framework: >= net451
-nuget Microsoft.jQuery.Unobtrusive.Validation 3.2.0 framework: >= net451
-nuget jQuery 1.10.2 framework: >= net451
-nuget jQuery.Validation 1.11.1 framework: >= net451
-nuget bootstrap 3.0.0 framework: >= net451
-nuget Modernizr 2.6.2 framework: >= net451
-nuget Respond 1.2.0 framework: >= net451
-nuget WebGrease 1.5.2 framework: >= net451
-nuget Microsoft.Owin 2.0.1 framework: >= net451
-nuget Microsoft.Owin.Host.SystemWeb 2.0.0 framework: >= net451
-nuget Microsoft.Owin.Security 2.0.1 framework: >= net451
-nuget Microsoft.Web.Infrastructure 1.0.0.0 framework: >= net451
-nuget Owin 1.0 framework: >= net451
+nuget Antlr 3.5.0.2
+nuget Microsoft.AspNet.Mvc 5.2.0
+nuget Microsoft.AspNet.Razor 3.2.0
+nuget Microsoft.AspNet.SignalR 2.0.0
+nuget Microsoft.AspNet.SignalR.Core 2.1.2
+nuget Microsoft.AspNet.SignalR.JS 2.0.1
+nuget Microsoft.AspNet.SignalR.SystemWeb 2.0.1
+nuget Microsoft.AspNet.Web.Optimization 1.1.3
+nuget Microsoft.AspNet.WebPages 3.2.0
+nuget Microsoft.jQuery.Unobtrusive.Validation 3.2.0
+nuget jQuery 1.10.2
+nuget jQuery.Validation 1.11.1
+nuget bootstrap 3.0.0
+nuget Modernizr 2.6.2
+nuget Respond 1.2.0
+nuget WebGrease 1.5.2
+nuget Microsoft.Owin 2.0.1
+nuget Microsoft.Owin.Host.SystemWeb 2.0.0
+nuget Microsoft.Owin.Security 2.0.1
+nuget Microsoft.Web.Infrastructure 1.0.0.0
+nuget Owin 1.0
 
-nuget Autofac 3.5.2 framework: >= net45
-nuget EventStore.Client 3.0.2 framework: >= net45
+nuget Autofac 3.5.2
+nuget EventStore.Client 3.0.2
 nuget Newtonsoft.Json 6.0.8
-nuget Streamstone 0.9.5.0 framework: >= net45
+nuget Streamstone 0.9.5.0
 
-nuget Microsoft.CodeAnalysis.Analyzers 1.1.0 framework: >= net45
-nuget Microsoft.CodeAnalysis.Common 1.1.1 framework: >= net45
-nuget Microsoft.CodeAnalysis.CSharp 1.1.1 framework: >= net45
-nuget System.Collections.Immutable 1.1.37 framework: >= net45
-nuget System.Reflection.Metadata 1.1.0 framework: >= net45
+nuget Microsoft.CodeAnalysis.Analyzers 1.1.0
+nuget Microsoft.CodeAnalysis.Common 1.1.1
+nuget Microsoft.CodeAnalysis.CSharp 1.1.1
+nuget System.Collections.Immutable 1.1.37
+nuget System.Reflection.Metadata 1.1.0
 
-nuget Microsoft.Orleans.Core 1.1.2 framework: >= net451
-nuget Microsoft.Orleans.OrleansAzureUtils 1.1.2 framework: >= net451
-nuget Microsoft.Orleans.OrleansCodeGenerator 1.1.2 framework: >= net451
-nuget Microsoft.Orleans.OrleansProviders 1.1.2 framework: >= net451
-nuget Microsoft.Orleans.OrleansRuntime 1.1.2 framework: >= net451
-nuget Microsoft.Framework.DependencyInjection.Abstractions 1.0.0-beta8 framework: >= net45
+nuget Microsoft.Orleans.Core
+nuget Microsoft.Orleans.OrleansAzureUtils
+nuget Microsoft.Orleans.OrleansCodeGenerator
+nuget Microsoft.Orleans.OrleansProviders
+nuget Microsoft.Orleans.OrleansRuntime
+nuget Microsoft.Framework.DependencyInjection.Abstractions 1.0.0-beta8
 
-nuget WindowsAzure.Storage 6.1.0 framework: >= net45
+nuget WindowsAzure.Storage 6.1.0
 nuget Microsoft.WindowsAzure.ConfigurationManager 2.0.3
-nuget Microsoft.Azure.KeyVault.Core 1.0.0 framework: >= net45
-nuget Microsoft.Data.Edm 5.7.0 framework: >= net45
-nuget Microsoft.Data.OData 5.7.0 framework: >= net45
-nuget Microsoft.Data.Services.Client 5.7.0 framework: >= net45
-nuget System.Spatial 5.7.0 framework: >= net45`
+nuget Microsoft.Azure.KeyVault.Core 1.0.0
+nuget Microsoft.Data.Edm 5.7.0
+nuget Microsoft.Data.OData 5.7.0
+nuget Microsoft.Data.Services.Client 5.7.0
+nuget System.Spatial 5.7.0

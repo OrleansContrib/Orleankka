@@ -17,6 +17,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
+                .UseInMemoryPubSubStore()
                 .Register(Assembly.GetExecutingAssembly())
                 .Serializer<NativeSerializer>()
                 .Done();
@@ -48,16 +49,25 @@ namespace Example
 
             await item.Tell(new Deactivate());
             await Print(item);
+
+            var inventory = system.TypedActorOf<Inventory>("#");
+
+            var items = await inventory.Ask(new GetInventoryItems());
+            Console.WriteLine($"\n# of items in inventory: {items.Length}");
+            Array.ForEach(items, Print);
+
+            var total = await inventory.Ask(new GetInventoryItemsTotal());
+            Console.WriteLine($"\nTotal of all items inventory: {total}");
         }
 
-        static async Task Print(ActorRef item)
-        {
-            var details = await item.Ask(new GetDetails());
+        static async Task Print(ActorRef item) => Print(await item.Ask(new GetDetails()));
 
+        static void Print(InventoryItemDetails details)
+        {
             Console.WriteLine("{0}: {1} {2}",
-                                details.Name,
-                                details.Total,
-                                details.Active ? "" : "(deactivated)");
+                details.Name,
+                details.Total,
+                details.Active ? "" : "(deactivated)");
         }
     }
 }

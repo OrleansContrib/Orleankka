@@ -32,10 +32,19 @@ namespace Example
         {
             var events = await Dispatch<IEnumerable<Event>>(cmd);
 
+            var stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
             foreach (var @event in events)
+            {
                 await Dispatch(@event);
-
+                await stream.Push(Wrap(@event));
+            }
             return events;
+        }
+
+        private object Wrap(Event  @event)
+        {
+            var envelopeType = typeof(EventEnvelope<>).MakeGenericType(@event.GetType());
+            return Activator.CreateInstance(envelopeType, Id, @event);
         }
 
         protected override Task<object> HandleQuery(Query query)
