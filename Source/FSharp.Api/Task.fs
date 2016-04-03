@@ -14,6 +14,11 @@ let run (t:unit -> Task<_>) =
 
 let inline wait (task:Task<_>) = task.Wait()
 
+let delay (delay:TimeSpan) = 
+   let tcs = TaskCompletionSource<unit>()
+   Task.Delay(delay).ContinueWith(fun _ -> tcs.SetResult()) |> ignore
+   tcs.Task
+
 let toAsync (t: Task<'T>): Async<'T> =
    let abegin (cb: AsyncCallback, state: obj) : IAsyncResult = 
       match cb with
