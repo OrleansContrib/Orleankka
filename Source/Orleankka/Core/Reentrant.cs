@@ -12,13 +12,13 @@ namespace Orleankka.Core
 
         public Reentrant(Type actor)
         {
-            if (IsTypeHasReentrantAttr(actor))
+            if (IsTypeImplReentrancy(actor))
             {
-                isReentrant = BuildReentrantCheckByAttr(actor);
+                isReentrant = BuildReentrancyCheck(actor);
             }
-            else if (IsTypeImplReentrant(actor))
+            else if (IsTypeHasReentrantAttr(actor))
             {
-                isReentrant = BuildReentrantCheckByImpl(actor);
+                isReentrant = BuildReentrancyCheckByAttr(actor);
             }
         }
 
@@ -33,13 +33,13 @@ namespace Orleankka.Core
             return attributes.Any();
         }
 
-        static bool IsTypeImplReentrant(Type actor)
+        static bool IsTypeImplReentrancy(Type actor)
         {
             var method = actor.GetMethod("IsReentrant", BindingFlags.Static | BindingFlags.NonPublic);
             return method != null;
         }
 
-        static Func<object, bool> BuildReentrantCheckByAttr(Type actor)
+        static Func<object, bool> BuildReentrancyCheckByAttr(Type actor)
         {
             var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true);
 
@@ -56,7 +56,7 @@ namespace Orleankka.Core
             return (message) => messages.Contains(message.GetType());
         }
 
-        static Func<object, bool> BuildReentrantCheckByImpl(Type actor)
+        static Func<object, bool> BuildReentrancyCheck(Type actor)
         {
             var method = actor.GetMethod("IsReentrant", BindingFlags.Static | BindingFlags.NonPublic);            
             var message = Expression.Parameter(typeof(object), "message");
