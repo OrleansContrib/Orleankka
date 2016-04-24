@@ -22,7 +22,7 @@ type ChatServer() =
 
    let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients <* msg)
 
-   override this.Receive message reply = task {
+   override this.Receive message = task {
       match message with
       
       | Join (userName, client) -> 
@@ -33,13 +33,15 @@ type ChatServer() =
                 clients.Add(client)
                 _users.Add(userName, clients)
                          
-         reply "Hello and welcome to Orleankka chat example"                              
+         return response("Hello and welcome to Orleankka chat example")
       
       | Say (userName, text) -> NewMessage(userName, text) |> notifyClients
+                                return response()
       
       | Disconnect (userName, client) -> 
          match _users.TryGetValue(userName) with
          | (true, clients) -> if clients.Count() = 1 then _users.Remove(userName) |> ignore
                               else clients.Remove(client)
-         | _ -> ()
+                              return response()
+         | _ -> return response()
    }
