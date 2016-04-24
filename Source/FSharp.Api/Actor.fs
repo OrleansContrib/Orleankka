@@ -12,19 +12,18 @@ module Actor =
    type Actor<'TMessage>() = 
       inherit Actor()
 
-      abstract Receive: message:'TMessage -> reply:(obj -> unit) -> Task<unit>      
+      abstract Receive: message:'TMessage -> Task<obj>      
 
-      override this.OnReceive(message:obj) = task {
-        let mutable response = null
-        let reply result = response <- result
+      override this.OnReceive(message:obj) = task {        
         match message with
-        | :? 'TMessage as m -> do! this.Receive m reply
-                               return response        
+        | :? 'TMessage as m -> return! this.Receive m                               
         | _                 -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |> failwith
-                               return response
+                               return null
       }
 
-      
+
+   let inline response (data:obj) = data
+
    let inline (<?) (actorRef:^ref) (message:^msg) = 
       (^ref: (member Ask : ^msg -> Task<'TRresponse>) (actorRef, message))
    

@@ -12,10 +12,10 @@ type Message =
 type TestActor() = 
    inherit Actor<Message>()
 
-   override this.Receive message reply = task {
+   override this.Receive message = task {
       match message with
-      | Greet who -> sprintf "Receive Hello %s" who |> reply
-      | Hi        -> sprintf "Receive Hi"           |> reply
+      | Greet who -> return response(sprintf "Receive Hello %s" who)
+      | Hi        -> return response(sprintf "Receive Hi")
    }
 
 type TestActorUntyped() = 
@@ -29,14 +29,14 @@ type TestActorUntyped() =
 
    let handleStr value = sprintf "Got string %s" value
 
-   override this.Receive message reply = task {
+   override this.Receive message = task {
       match message with
-      | :? Message as m -> m |> handleMessage |> reply
-      | :? int as i     -> i |> handleInt     |> reply
-      | :? string as s  -> s |> handleStr     |> reply
+      | :? Message as m -> return m |> handleMessage |> response
+      | :? int as i     -> return i |> handleInt     |> response
+      | :? string as s  -> return s |> handleStr     |> response
       | _               -> failwith "Received unexpected message type"
+                           return response()
    }
-
 
 [<TestFixture>]
 [<RequiresSilo>]
