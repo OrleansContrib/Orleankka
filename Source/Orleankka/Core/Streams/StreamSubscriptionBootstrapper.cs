@@ -40,17 +40,17 @@ namespace Orleankka.Core.Streams
             return TaskDone.Done;
         }
 
-        public Task ReadStateAsync(string grainType, GrainReference grainReference, GrainState grainState)
+        public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
         {
             throw new NotImplementedException();
         }
 
-        public Task WriteStateAsync(string grainType, GrainReference grainReference, GrainState grainState)
+        public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
         {
             throw new NotImplementedException();
         }
 
-        public Task ClearStateAsync(string grainType, GrainReference grainReference, GrainState grainState)
+        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
         {
             throw new NotImplementedException();
         }

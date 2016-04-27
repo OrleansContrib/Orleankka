@@ -20,6 +20,20 @@ namespace Orleans.Internals
             handler = match.Handler;
         }
 
+        public async Task<StreamHandshakeToken> DeliverImmutable(GuidId subscriptionId, Immutable<object> item, StreamSequenceToken currentToken, StreamHandshakeToken handshakeToken)
+        {
+            await handler(item);
+
+            return null;
+        }
+
+        public async Task<StreamHandshakeToken> DeliverMutable(GuidId subscriptionId, object item, StreamSequenceToken currentToken, StreamHandshakeToken handshakeToken)
+        {
+            await handler(item);
+
+            return null;
+        }
+
         public async Task<StreamHandshakeToken> DeliverBatch(GuidId subscriptionId, Immutable<IBatchContainer> batch, StreamHandshakeToken handshakeToken)
         {
             foreach (var each in batch.Value.GetEvents<object>())

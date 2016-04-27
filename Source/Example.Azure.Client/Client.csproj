@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Resource Include="fonts\glyphicons-halflings-regular.ttf">
+      <Paket>True</Paket>
+    </Resource>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
