@@ -41,16 +41,14 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return ReceiveVoid(message)(new RequestEnvelope(Serialize(), message))
-                        .UnwrapExceptions();
+            return ReceiveVoid(message)(new RequestEnvelope(Serialize(), message));
         }
 
         public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            var response = await Receive(message)(new RequestEnvelope(Serialize(), message))
-                                     .UnwrapExceptions();
+            var response = await Receive(message)(new RequestEnvelope(Serialize(), message));
 
             return (TResult) response.Result;
         }

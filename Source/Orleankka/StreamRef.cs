@@ -31,7 +31,7 @@ namespace Orleankka
 
         public virtual Task Push(object item)
         {
-            return Endpoint.OnNextAsync(item).UnwrapExceptions();
+            return Endpoint.OnNextAsync(item);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Orleankka
 
             var observer = new Observer((item, token) => callback(item));
             var predicate = filter != null ? StreamFilter.Internal.Predicate : (StreamFilterPredicate) null;
-            var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter).UnwrapExceptions();
+            var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter);
 
             return new StreamSubscription(handle);
         }
@@ -133,7 +133,7 @@ namespace Orleankka
 
             await Endpoint
                     .SubscribeAsync(observer, null, StreamFilter.Internal.Predicate, filter ?? new StreamFilter(actor))
-                    .UnwrapExceptions();
+                    ;
         }
 
         public virtual async Task Unsubscribe(Actor actor)
@@ -147,7 +147,7 @@ namespace Orleankka
             Debug.Assert(handles.Count == 1, 
                 "We should keep only one active subscription per-stream per-actor");
 
-            await handles[0].UnsubscribeAsync().UnwrapExceptions();
+            await handles[0].UnsubscribeAsync();
         }
 
         public virtual async Task Resume(Actor actor)
@@ -162,12 +162,12 @@ namespace Orleankka
                 "We should keep only one active subscription per-stream per-actor");
 
             var observer = new Observer((item, token) => actor.OnReceive(item));
-            await handles[0].ResumeAsync(observer).UnwrapExceptions();
+            await handles[0].ResumeAsync(observer);
         }
 
         internal Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
         {
-            return Endpoint.GetAllSubscriptionHandles().UnwrapExceptions();
+            return Endpoint.GetAllSubscriptionHandles();
         }
 
         public bool Equals(StreamRef other)
