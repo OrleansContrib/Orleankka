@@ -42,7 +42,9 @@ namespace Orleankka.Cluster
         {
             host.LoadOrleansConfig();
             host.InitializeOrleansSilo();
-            host.StartOrleansSilo();
+
+            if (!host.StartOrleansSilo()) // weird decision made by Orleans team (what about fail fast?)
+                throw new Exception("Silo failed to start. Check the logs");
         }
 
         public override void Dispose()
