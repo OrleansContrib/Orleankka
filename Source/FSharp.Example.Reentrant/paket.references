@@ -1,0 +1,4 @@
+Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
+Microsoft.Orleans.OrleansRuntime
+Newtonsoft.Json

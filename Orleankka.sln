@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E98080C8-5319-4686-BB1C-85413DEDB917}"
 	ProjectSection(SolutionItems) = preProject
@@ -106,6 +106,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.TestKit.Meta", "Source\Orleankka.TestKit.Meta\Orleankka.TestKit.Meta.csproj", "{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Internals", "Source\Orleans.Internals\Orleans.Internals.csproj", "{97E4FE27-27FD-499B-8737-0F293807C297}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reentrant", "Source\FSharp.Example.Reentrant\Reentrant.fsproj", "{04C62B7B-3202-4577-868F-7553D5ED01E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -312,6 +314,12 @@ Global
 		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.Build.0 = Release|Any CPU
 		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Package|Any CPU.Build.0 = Release|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -355,5 +363,6 @@ Global
 		{355B546C-C246-5CEE-A302-7D453A81D3A2} = {A0E9475F-5076-4456-AA89-ECCB53BC3D8C}
 		{83254524-8297-4C24-9571-8FF9312ECBA3} = {CFAFA4BC-6B02-4FFB-BCC4-1965FBBC68E7}
 		{4220A904-CAFA-4F1C-BBCB-82B9257C9FC5} = {C647E083-E3EF-4ABF-ACF5-FA8E0B83513C}
+		{04C62B7B-3202-4577-868F-7553D5ED01E2} = {CFAFA4BC-6B02-4FFB-BCC4-1965FBBC68E7}
 	EndGlobalSection
 EndGlobal
