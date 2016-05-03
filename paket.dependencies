@@ -49,11 +49,11 @@ nuget Microsoft.CodeAnalysis.CSharp 1.1.1
 nuget System.Collections.Immutable 1.1.37
 nuget System.Reflection.Metadata 1.1.0
 
-nuget Microsoft.Orleans.Core  1.2.0-beta
-nuget Microsoft.Orleans.OrleansAzureUtils  1.2.0-beta
-nuget Microsoft.Orleans.OrleansCodeGenerator  1.2.0-beta
-nuget Microsoft.Orleans.OrleansProviders  1.2.0-beta
-nuget Microsoft.Orleans.OrleansRuntime  1.2.0-beta
+nuget Microsoft.Orleans.Core
+nuget Microsoft.Orleans.OrleansAzureUtils
+nuget Microsoft.Orleans.OrleansCodeGenerator
+nuget Microsoft.Orleans.OrleansProviders
+nuget Microsoft.Orleans.OrleansRuntime
 nuget Microsoft.Framework.DependencyInjection.Abstractions 1.0.0-beta8
 
 nuget WindowsAzure.Storage 6.1.0

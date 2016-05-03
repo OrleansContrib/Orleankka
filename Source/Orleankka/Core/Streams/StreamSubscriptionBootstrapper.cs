@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -33,29 +32,12 @@ namespace Orleankka.Core.Streams
 
         #region Garbage
 
-        public string Name { get; private set; }
-
-        public Task Close()
-        {
-            return TaskDone.Done;
-        }
-
-        public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Logger Log { get; }
+        public Logger Log  { get; set; }
+        public string Name { get; set; }
+        public Task Close() => TaskDone.Done;
+        public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)  => TaskDone.Done;
+        public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => TaskDone.Done;
+        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => TaskDone.Done;
 
         #endregion
     }

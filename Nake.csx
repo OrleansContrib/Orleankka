@@ -125,7 +125,7 @@ void Pack(string project, string properties = null)
 
 void Push(string project)
 {
-    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$");
+    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$ -Source https://nuget.org/");
 }
 
 string Version(string project)

@@ -1,6 +1,6 @@
 REDIRECTS: ON
 STRATEGY: MAX
-FRAMEWORK: NET451
+FRAMEWORK: NET451, NET452
 NUGET
   remote: http://api.nuget.org/v3/index.json
   specs:
@@ -55,20 +55,20 @@ NUGET
     Microsoft.jQuery.Unobtrusive.Validation (3.2)
       jQuery (>= 1.8)
       jQuery.Validation (>= 1.8)
-    Microsoft.Orleans.Core (1.2.0-beta)
+    Microsoft.Orleans.Core (1.2)
       Newtonsoft.Json (>= 7.0.1)
-    Microsoft.Orleans.OrleansAzureUtils (1.2.0-beta)
-      Microsoft.Orleans.Core (>= 1.2.0-beta)
-      Microsoft.Orleans.OrleansProviders (>= 1.2.0-beta)
-      Microsoft.Orleans.OrleansRuntime (>= 1.2.0-beta)
+    Microsoft.Orleans.OrleansAzureUtils (1.2)
+      Microsoft.Orleans.Core (>= 1.2)
+      Microsoft.Orleans.OrleansProviders (>= 1.2)
+      Microsoft.Orleans.OrleansRuntime (>= 1.2)
       WindowsAzure.Storage (>= 5.0.2)
-    Microsoft.Orleans.OrleansCodeGenerator (1.2.0-beta)
+    Microsoft.Orleans.OrleansCodeGenerator (1.2)
       Microsoft.CodeAnalysis.CSharp (>= 1.0)
-      Microsoft.Orleans.Core (>= 1.2.0-beta)
-    Microsoft.Orleans.OrleansProviders (1.2.0-beta)
-      Microsoft.Orleans.Core (>= 1.2.0-beta)
-    Microsoft.Orleans.OrleansRuntime (1.2.0-beta)
-      Microsoft.Orleans.Core (>= 1.2.0-beta)
+      Microsoft.Orleans.Core (>= 1.2)
+    Microsoft.Orleans.OrleansProviders (1.2)
+      Microsoft.Orleans.Core (>= 1.2)
+    Microsoft.Orleans.OrleansRuntime (1.2)
+      Microsoft.Orleans.Core (>= 1.2)
     Microsoft.Owin (2.0.1)
       Owin (>= 1.0)
     Microsoft.Owin.Host.SystemWeb (2.0)
@@ -82,7 +82,7 @@ NUGET
     Modernizr (2.6.2)
     Nake (2.3.4)
     Newtonsoft.Json (7.0.1)
-    NuGet.CommandLine (3.3)
+    NuGet.CommandLine (3.4.3)
     NUnit (2.6.4)
     NUnit.Runners (2.6.4)
     Owin (1.0)
