@@ -17,7 +17,7 @@ namespace Orleankka
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
         public static ActorRef Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
-        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorEndpoint.Proxy(path));
+        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, path.Type());
 
         readonly IActorEndpoint endpoint;
         readonly ActorInterface @interface;
@@ -27,11 +27,11 @@ namespace Orleankka
             Path = path;
         }
 
-        ActorRef(ActorPath path, IActorEndpoint endpoint)
+        ActorRef(ActorPath path, ActorType type)
             : this(path)
         {
-            this.endpoint = endpoint;
-            @interface = ActorInterface.Of(path);
+            @interface = type.Interface;
+            endpoint = path.Proxy();
         }
 
         public ActorPath Path { get; }
@@ -106,8 +106,8 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             Path = ActorPath.Deserialize(value);
-            endpoint = ActorEndpoint.Proxy(Path);
-            @interface = ActorInterface.Of(Path);
+            @interface = Path.Interface();
+            endpoint = @interface.Proxy(Path);
         }
 
         #endregion

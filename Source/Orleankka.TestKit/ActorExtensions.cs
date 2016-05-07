@@ -8,7 +8,7 @@
         public static TActor Define<TActor>(this TActor actor) where TActor : Actor
         {
             Requires.NotNull(actor, nameof(actor));
-            actor.Prototype = ActorPrototype.Define(actor.GetType());
+            actor.Type = ActorType.From(actor.GetType());
             return actor;
         }
     }

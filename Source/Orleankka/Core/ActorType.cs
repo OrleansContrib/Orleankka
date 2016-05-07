@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Orleankka.Core
@@ -36,17 +36,12 @@ namespace Orleankka.Core
 
         static void Register(Type actor)
         {
-            var type = RegisterThis(actor);
-
-            ActorInterface.Register(type);
-            ActorPrototype.Register(type);
-            ActorEndpointFactory.Register(type);
-
-            Ref.Register(type);
+            var type = RegisterType(actor);
             StreamSubscriptionMatcher.Register(type);
+            Ref.Register(type);
         }
 
-        static ActorType RegisterThis(Type actor)
+        static ActorType RegisterType(Type actor)
         {
             var type = ActorType.From(actor);
             var registered = codes.Find(type.Code);
@@ -64,27 +59,22 @@ namespace Orleankka.Core
 
         public static void Reset()
         {
-            ResetThis();
-
-            ActorInterface.Reset();
-            ActorPrototype.Reset();
-            ActorEndpointFactory.Reset();
-
+            ResetType();
             Ref.Reset();
             StreamSubscriptionMatcher.Reset();
         }
 
-        static void ResetThis()
+        static void ResetType()
         {
             codes.Clear();
             types.Clear();
         }
 
         public readonly string Code;
-        public readonly Type Interface;
-        public readonly Type Implementation;
+        public readonly ActorInterface Interface;
+        public readonly ActorImplementation Implementation;
 
-        ActorType(string code, Type @interface, Type implementation)
+        ActorType(string code, ActorInterface @interface, ActorImplementation implementation)
         {
             Code = code;
             Interface = @interface;
@@ -126,7 +116,10 @@ namespace Orleankka.Core
                         ? customAttribute.Code
                         : type.FullName;
 
-            return new ActorType(code, type, type);
+            var @interface = ActorInterface.From(type);
+            var implementation = ActorImplementation.From(type);
+
+            return new ActorType(code, @interface, implementation);
         }
 
         public bool Equals(ActorType other)
@@ -141,25 +134,11 @@ namespace Orleankka.Core
                     || obj.GetType() == GetType() && Equals((ActorType) obj));
         }
 
-        public override int GetHashCode()
-        {
-            return Code.GetHashCode();
-        }
+        public static bool operator ==(ActorType left, ActorType right) => Equals(left, right);
+        public static bool operator !=(ActorType left, ActorType right) => !Equals(left, right);
 
-        public static bool operator ==(ActorType left, ActorType right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(ActorType left, ActorType right)
-        {
-            return !Equals(left, right);
-        }
-
-        public override string ToString()
-        {
-            return Code;
-        }
+        public override int GetHashCode() => Code.GetHashCode();
+        public override string ToString() => Code;
     }
 
     static class ActorTypeActorSystemExtensions

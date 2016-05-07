@@ -11,22 +11,22 @@ namespace Orleankka.Core.Streams
     {
         internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType actor)
         {
-            return From(actor, ActorPrototype.Of(actor));
+            return From(actor, actor.Implementation);
         }
 
-        internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType actor, ActorPrototype prototype)
+        internal static IEnumerable<StreamSubscriptionSpecification> From(ActorType actor, ActorImplementation implementation)
         {
-            return actor.Implementation
+            return actor.Implementation.Type
                        .GetCustomAttributes<StreamSubscriptionAttribute>(inherit: true)
-                       .Select(a => From(actor, prototype, a));
+                       .Select(a => From(actor, implementation, a));
         }
 
         internal static StreamSubscriptionSpecification From(ActorType actor, StreamSubscriptionAttribute attribute)
         {
-            return From(actor, ActorPrototype.Of(actor), attribute);
+            return From(actor, actor.Implementation, attribute);
         }
 
-        internal static StreamSubscriptionSpecification From(ActorType actor, ActorPrototype prototype, StreamSubscriptionAttribute attribute)
+        internal static StreamSubscriptionSpecification From(ActorType actor, ActorImplementation implementation, StreamSubscriptionAttribute attribute)
         {
             if (string.IsNullOrWhiteSpace(attribute.Source))
                 throw InvalidSpecification(actor, "has null or whitespace only value of Source");
@@ -49,10 +49,10 @@ namespace Orleankka.Core.Streams
             var isRegex  = source.StartsWith("/") && 
                            source.EndsWith("/");
             if (!isRegex)
-                return new MatchExact(provider, source, target, actor, prototype, filter);
+                return new MatchExact(provider, source, target, actor, implementation, filter);
 
             var pattern = source.Substring(1, source.Length - 2);
-            return new MatchPattern(provider, pattern, target, actor, prototype, filter);
+            return new MatchPattern(provider, pattern, target, actor, implementation, filter);
         }
 
         static Exception InvalidSpecification(ActorType type, string error)
@@ -68,20 +68,20 @@ namespace Orleankka.Core.Streams
         readonly Func<object, bool> filter;
         readonly Func<IActorSystem, string, Func<object, Task>> receiver;
 
-        StreamSubscriptionSpecification(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
+        StreamSubscriptionSpecification(string provider, string source, string target, ActorType actor, ActorImplementation implementation, string filter)
         {
             Provider    = provider;
             this.source = source;
             this.target = target;
 
-            this.filter = BuildFilter(filter, actor, prototype);
+            this.filter = BuildFilter(filter, actor, implementation);
             receiver    = BuildReceiver(target, actor);
         }
 
-        static Func<object, bool> BuildFilter(string filter, ActorType actor, ActorPrototype prototype)
+        static Func<object, bool> BuildFilter(string filter, ActorType actor, ActorImplementation implementation)
         {
             if (filter == null)
-                return item => prototype.DeclaresHandlerFor(item.GetType());
+                return item => implementation.DeclaresHandlerFor(item.GetType());
 
             if (filter == "*")
                 return item => true;
@@ -89,7 +89,7 @@ namespace Orleankka.Core.Streams
             if (!filter.EndsWith("()"))
                 throw new InvalidOperationException("Filter string value is missing '()' function designator");
 
-            var method = GetStaticMethod(filter, actor.Implementation);
+            var method = GetStaticMethod(filter, actor.Implementation.Type);
             if (method == null)
                 throw new InvalidOperationException("Filter function should be a static method");
 
@@ -107,7 +107,7 @@ namespace Orleankka.Core.Streams
                 };
             }
 
-            var method = GetStaticMethod(target, type.Implementation);
+            var method = GetStaticMethod(target, type.Implementation.Type);
             if (method == null)
                 throw new InvalidOperationException("Target function should be a static method");
 
@@ -125,8 +125,8 @@ namespace Orleankka.Core.Streams
 
         class MatchExact : StreamSubscriptionSpecification
         {
-            public MatchExact(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
-                : base(provider, source, target, actor, prototype, filter)
+            public MatchExact(string provider, string source, string target, ActorType actor, ActorImplementation implementation, string filter)
+                : base(provider, source, target, actor, implementation, filter)
             {}
 
             public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
@@ -142,8 +142,8 @@ namespace Orleankka.Core.Streams
             readonly Regex matcher;
             readonly Regex generator;
 
-            public MatchPattern(string provider, string source, string target, ActorType actor, ActorPrototype prototype, string filter)
-                : base(provider, source, target, actor, prototype, filter)
+            public MatchPattern(string provider, string source, string target, ActorType actor, ActorImplementation implementation, string filter)
+                : base(provider, source, target, actor, implementation, filter)
             {
                 matcher = new Regex(source, RegexOptions.Compiled);
                 generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);

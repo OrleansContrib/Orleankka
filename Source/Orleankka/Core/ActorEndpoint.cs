@@ -11,7 +11,6 @@ using Orleans.Runtime;
 namespace Orleankka.Core
 {
     using Cluster;
-    using Endpoints;
 
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
@@ -30,13 +29,13 @@ namespace Orleankka.Core
             Reset();
         }
 
-        Actor actor;
+        Actor instance;
 
         public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
         {
             KeepAlive();
 
-            return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
+            return new ResponseEnvelope(await instance.OnReceive(envelope.Message));
         }
 
         public Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope)
@@ -52,7 +51,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return actor.OnReceive(envelope.Message);
+            return instance.OnReceive(envelope.Message);
         }
 
         public Task ReceiveReentrantVoid(RequestEnvelope envelope)
@@ -68,7 +67,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            await actor.OnReminder(reminderName);
+            await instance.OnReminder(reminderName);
         }
 
         public override Task OnActivateAsync()
@@ -78,27 +77,27 @@ namespace Orleankka.Core
 
         public override Task OnDeactivateAsync()
         {
-            return actor != null
-                    ? actor.OnDeactivate()
+            return instance != null
+                    ? instance.OnDeactivate()
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
+            var actor = path.Type();
+
             var system = ClusterActorSystem.Current;
-
             var runtime = new ActorRuntime(system, this);
-            actor = Activator.Activate(path, runtime);
 
-            var prototype = ActorPrototype.Of(path);
-            actor.Initialize(path.Id, runtime, prototype);
+            instance = Activator.Activate(actor.Implementation.Type, path.Id, runtime);
+            instance.Initialize(actor, path.Id, runtime);
 
-            return actor.OnActivate();
+            return instance.OnActivate();
         }
 
         void KeepAlive()
         {
-            actor.Prototype.KeepAlive(this);
+            instance.Implementation.KeepAlive(this);
         }
 
         #region Internals
@@ -143,11 +142,6 @@ namespace Orleankka.Core
         static string IdentityOf(IGrain grain)
         {
             return (grain as IGrainWithStringKey).GetPrimaryKeyString();
-        }
-
-        internal static IActorEndpoint Proxy(ActorPath path)
-        {
-            return ActorEndpointFactory.Proxy(path);
         }
     }
 

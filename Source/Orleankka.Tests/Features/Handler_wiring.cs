@@ -49,7 +49,7 @@ namespace Orleankka.Features
             [Test]
             public void Calls_fallback_when_handler_not_found()
             {
-                var actor = new TestActor {Prototype = ActorPrototype.Define(typeof(TestActor))};
+                var actor = new TestActor {Type = ActorType.From(typeof(TestActor))};
 
                 var unknownMessage = new UnknownMessage();
                 object bouncedMessage = null;

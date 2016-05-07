@@ -28,11 +28,11 @@ namespace Orleankka
             Runtime = runtime;
         }
 
-        internal void Initialize(string id, IActorRuntime runtime, ActorPrototype prototype)
+        internal void Initialize(ActorType type, string id, IActorRuntime runtime)
         {
             Id = id;
+            Type = type;
             Runtime = runtime;
-            Prototype = prototype;
         }
 
         public string Id
@@ -45,10 +45,13 @@ namespace Orleankka
             get; set;
         }
 
-        internal ActorPrototype Prototype
+        internal ActorType Type
         {
             get; set;
         }
+
+        internal ActorInterface Interface => Type.Interface;
+        internal ActorImplementation Implementation => Type.Implementation;
 
         public ActorRef Self => self ?? (self = System.ActorOf(GetType(), Id));
 
@@ -79,7 +82,7 @@ namespace Orleankka
         public Task<object> Dispatch(object message, Func<object, Task<object>> fallback = null)
         {
             Requires.NotNull(message, nameof(message));
-            return Prototype.Dispatch(this, message, fallback);
+            return Implementation.Dispatch(this, message, fallback);
         }
     }
 }

@@ -40,14 +40,4 @@ namespace Orleankka.Core
             }
         }
     }
-
-    static class ActorActivatorExntensions
-    {
-        public static Actor Activate(this IActorActivator activator, ActorPath path, IActorRuntime runtime)
-        {
-            var type = ActorType.Registered(path.Code);
-
-            return activator.Activate(type.Implementation, path.Id, runtime);
-        }
-    }
 }

@@ -8,7 +8,7 @@ namespace Orleankka.Core
 {
     class Reentrant
     {
-        Func<object, bool> isReentrant = (message) => false;
+        readonly Func<object, bool> isReentrant = (message) => false;
 
         public Reentrant(Type actor)
         {

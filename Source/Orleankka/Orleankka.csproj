@@ -53,9 +53,10 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorMessage.cs" />
+    <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorInterface.cs" />
-    <Compile Include="Core\ActorPrototype.cs" />
+    <Compile Include="Core\ActorImplementation.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Core\Stream.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Cluster\Bootstrapper.cs" />
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
-    <Compile Include="Core\ActorEndpointFactory.cs" />
     <Compile Include="Core\ActorActivator.cs" />
     <Compile Include="Embedded\EmbeddedConfigurator.cs" />
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />

@@ -36,7 +36,7 @@ namespace Orleankka
 
         internal StreamFilter(Actor actor)
         {
-            className = actor.Prototype.Code;
+            className = actor.Type.Code;
             filter = DeclaredHandlerOnlyFilter(className);
         }
 
@@ -58,8 +58,8 @@ namespace Orleankka
 
         static Func<object, bool> DeclaredHandlerOnlyFilter(string actorCode)
         {
-            var actor = ActorPrototype.Of(actorCode);
-            return x => actor.DeclaresHandlerFor(x.GetType());
+            var implementation = ActorType.Registered(actorCode).Implementation;
+            return x => implementation.DeclaresHandlerFor(x.GetType());
         }
 
         bool ShouldReceive(object item)
