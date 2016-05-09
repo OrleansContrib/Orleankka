@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Orleankka.Testing
 {
@@ -7,7 +6,7 @@ namespace Orleankka.Testing
     {
         public static IActorSystem Instance;
 
-        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : Actor
+        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : IActor
         {
             return system.ActorOf<TActor>(Guid.NewGuid().ToString());
         }

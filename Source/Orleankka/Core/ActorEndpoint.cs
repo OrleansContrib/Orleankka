@@ -13,6 +13,12 @@ namespace Orleankka.Core
     using Cluster;
 
     /// <summary> 
+    /// Generic actor endpoint.
+    /// </summary>
+    public abstract class ActorEndpoint<T> : ActorEndpoint where T : Actor
+    {}
+
+    /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
     public abstract class ActorEndpoint : Grain, IRemindable
@@ -149,14 +155,14 @@ namespace Orleankka.Core
     {
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.Random
+        ///   Fixed grain endpoint with Placement.Random
         /// </summary>
         public class A0 : ActorEndpoint, IA0
         {}
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.PreferLocal
+        ///   Fixed grain endpoint with Placement.PreferLocal
         /// </summary>
         [PreferLocalPlacement]
         public class A1 : ActorEndpoint, IA1
@@ -164,7 +170,7 @@ namespace Orleankka.Core
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.DistributeEvenly
+        ///   Fixed grain endpoint with Placement.DistributeEvenly
         /// </summary>
         [ActivationCountBasedPlacement]
         public class A2 : ActorEndpoint, IA2
@@ -172,7 +178,7 @@ namespace Orleankka.Core
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Worker grain endpoint
+        ///   Fixed worker grain endpoint
         /// </summary>
         [StatelessWorker]
         public class W : ActorEndpoint, IW

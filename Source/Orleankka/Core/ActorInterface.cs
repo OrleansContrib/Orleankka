@@ -59,13 +59,15 @@ namespace Orleankka.Core
         readonly Reentrant reentrant;
         readonly Func<string, object> factory;
 
-        ActorInterface(Type actor, Func<string, object> factory)
+        ActorInterface(Type type, Func<string, object> factory)
         {
             this.factory = factory;
-            reentrant = new Reentrant(actor);
+            reentrant = new Reentrant(type);
+            Type = type;
         }
 
+        internal Type Type { get; private set; }
         internal bool IsReentrant(object message) => reentrant.IsReentrant(message);
-        internal IActorEndpoint Proxy(ActorPath path) => (IActorEndpoint)factory(path.Serialize());
+        internal IActorEndpoint Proxy(ActorPath path) => (IActorEndpoint)factory(path.Serialize());        
     }
 }

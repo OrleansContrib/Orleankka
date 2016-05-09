@@ -5,10 +5,14 @@ namespace Orleankka.Core
 {
     class ActorImplementation
     {
+        public static readonly ActorImplementation Undefined = new ActorImplementation();
         public static ActorImplementation From(Type type) => new ActorImplementation(type);
 
         readonly GC gc;
         readonly Dispatcher dispatcher;
+
+        ActorImplementation()
+        {}
 
         ActorImplementation(Type type)
         {

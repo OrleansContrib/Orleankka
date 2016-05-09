@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Orleankka
+﻿namespace Orleankka
 {
     public interface ActorMessage<TActor> where TActor : IActor
     {}

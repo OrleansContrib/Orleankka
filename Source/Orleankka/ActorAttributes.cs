@@ -14,7 +14,7 @@ namespace Orleankka
     public class WorkerAttribute : Attribute
     {}
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public class ActorTypeCodeAttribute : Attribute
     {
         internal readonly string Code;

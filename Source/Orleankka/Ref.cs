@@ -24,7 +24,7 @@ namespace Orleankka
 
         static Type ConstructRefType(ActorType actor)
         {
-            return typeof(ActorRef<>).MakeGenericType(actor.Implementation.Type);
+            return typeof(ActorRef<>).MakeGenericType(actor.Interface.Type);
         }
 
         static Func<ActorRef, Ref> CompileConstructor(Type type)
