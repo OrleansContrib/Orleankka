@@ -46,6 +46,15 @@ To install Orleankka via NuGet, run this command in NuGet package manager consol
 
 Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28C%23%29) ([F#](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28F%23%29)).
 
+### Build sources
+
+Clone repository and run the following in CLI from solution's root folder:
+
+	PM> Nake.bat
+
+This will restore dependencies and build everything in `debug` mode. Run `Nake.bat` with `-T` switch to see available commands.
+
+
 ### Add-ons
 
 |  |  | [inside]
