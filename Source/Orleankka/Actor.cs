@@ -9,7 +9,7 @@ namespace Orleankka
     using Services;
     using Utility;
 
-    public abstract class Actor : IActor
+    public abstract class Actor
     {
         ActorRef self;
 

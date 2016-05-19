@@ -10,7 +10,7 @@ namespace Orleankka.Core
         /// <summary> 
         /// FOR INTERNAL USE ONLY!
         /// </summary>
-        public interface IActorEndpoint : IActor, IGrainWithStringKey, IRemindable
+        public interface IActorEndpoint : IGrainWithStringKey, IRemindable
         {
             Task<ResponseEnvelope> Receive(RequestEnvelope envelope);
             [AlwaysInterleave] Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope);
@@ -21,36 +21,30 @@ namespace Orleankka.Core
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
+        ///   Grain endpoint with Placement.Random
         /// </summary>
-        public interface IFixedEndpoint
+        public interface IA0 : IActorEndpoint
         {}
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.Random
+        ///   Grain endpoint with Placement.PreferLocal
         /// </summary>
-        public interface IA0 : IActorEndpoint, IFixedEndpoint
+        public interface IA1 : IActorEndpoint
         {}
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.PreferLocal
+        ///   Grain endpoint with Placement.DistributeEvenly
         /// </summary>
-        public interface IA1 : IActorEndpoint, IFixedEndpoint
+        public interface IA2 : IActorEndpoint
         {}
 
         /// <summary>
         ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.DistributeEvenly
+        ///   Worker grain endpoint
         /// </summary>
-        public interface IA2 : IActorEndpoint, IFixedEndpoint
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Fixed worker grain endpoint
-        /// </summary>
-        public interface IW : IActorEndpoint, IFixedEndpoint
+        public interface IW : IActorEndpoint
         {}
     }
 }

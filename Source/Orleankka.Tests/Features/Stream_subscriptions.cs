@@ -54,7 +54,7 @@ namespace Orleankka.Features
             }
         }
 
-        class TestCases<TConsumer> where TConsumer : IActor
+        class TestCases<TConsumer> where TConsumer : Actor
         {
             readonly string provider;
             readonly TimeSpan timeout;

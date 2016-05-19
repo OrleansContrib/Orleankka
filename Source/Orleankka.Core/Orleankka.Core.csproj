@@ -59,7 +59,6 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
-    <Compile Include="IActor.cs" />
     <Compile Include="IActorEndpoint.cs" />
     <Compile Include="IMessageSerializer.cs" />
     <Compile Include="MessageEnvelope.cs" />

@@ -82,7 +82,7 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
         {
             return system.ActorOf(typeof(TActor), id);
         }
@@ -105,7 +105,7 @@ namespace Orleankka
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
         {
             return new ActorRef<TActor>(ActorOf<TActor>(system, id));
         }

@@ -54,7 +54,7 @@ namespace Orleankka.Features
                 system = TestActorSystem.Instance;
             }
 
-            public async Task Client_to_stream<T>() where T : IActor
+            public async Task Client_to_stream<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "cs");
 
@@ -66,7 +66,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ce"}));
             }
 
-            public async Task Actor_to_stream<T>() where T : IActor
+            public async Task Actor_to_stream<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "as");
                 var producer = system.ActorOf<TestProducerActor>("foo");
@@ -79,7 +79,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ae"}));
             }
 
-            public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActor
+            public async Task Multistream_subscription_with_fixed_ids<T>() where T : Actor
             {
                 var a = system.StreamOf(provider, "a");
                 var b = system.StreamOf(provider, "b");
@@ -93,7 +93,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
 
-            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActor
+            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : Actor
             {
                 var s1 = system.StreamOf(provider, "INV-001");
                 var s2 = system.StreamOf(provider, "INV-002");
@@ -107,7 +107,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
-            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActor
+            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "declared-auto");
                 Assert.DoesNotThrow(async ()=> await stream.Push(123),
@@ -122,7 +122,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("e-123"));
             }
 
-            public async Task Select_all_filter<T>() where T : IActor
+            public async Task Select_all_filter<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "select-all");
 
@@ -136,7 +136,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("42"));
             }
 
-            public async Task Explicit_filter<T>() where T : IActor
+            public async Task Explicit_filter<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "filtered");
 
@@ -149,7 +149,7 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            public async Task Dynamic_target_selection<T>() where T : IActor
+            public async Task Dynamic_target_selection<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "dynamic-target");
 
