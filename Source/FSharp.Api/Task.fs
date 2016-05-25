@@ -14,6 +14,11 @@ let run (t:unit -> Task<_>) =
 
 let inline wait (task:Task<_>) = task.Wait()
 
+let inline awaitTask (t:Task) = 
+   let tcs = TaskCompletionSource()
+   t.ContinueWith(fun t -> tcs.SetResult()) |> ignore
+   tcs.Task
+
 let inline delay (delay:TimeSpan) = 
    let tcs = TaskCompletionSource()
    Task.Delay(delay).ContinueWith(fun _ -> tcs.SetResult()) |> ignore
