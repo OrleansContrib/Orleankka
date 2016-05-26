@@ -9,64 +9,39 @@ namespace Orleankka.Core
 
     class ActorInterface
     {
-        internal static ActorInterface From(Type type)
+        internal static ActorInterface From(Type actor)
         {
-            var isActor = type.GetCustomAttribute<ActorAttribute>() != null;
-            var isWorker = type.GetCustomAttribute<WorkerAttribute>() != null;
-
-            if (isActor && isWorker)
-                throw new InvalidOperationException(
-                    $"A type cannot be configured to be both Actor and Worker: {type}");
-
-            var factory = isWorker 
-                ? GetWorkerFactory() 
-                : GetActorFactory(type);
-
-            return new ActorInterface(type, factory);
-        }
-
-        static Func<string, object> GetWorkerFactory()
-        {
-            var factory = GrainFactory();
-            return id => factory.GetGrain<IW>(id);
-        }
-
-        static Func<string, object> GetActorFactory(Type type)
-        {
-            var factory = GrainFactory();
-
-            var attribute = type.GetCustomAttribute<ActorAttribute>()
-                            ?? new ActorAttribute();
-
-            switch (attribute.Placement)
-            {
-                case Placement.Random:
-                    return id => factory.GetGrain<IA0>(id); ;
-                case Placement.PreferLocal:
-                    return id => factory.GetGrain<IA1>(id); ;
-                case Placement.DistributeEvenly:
-                    return id => factory.GetGrain<IA2>(id); ;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        static IGrainFactory GrainFactory()
-        {
-            return (IGrainFactory)Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
+            return new ActorInterface(actor);
         }
 
         readonly Reentrant reentrant;
-        readonly Func<string, object> factory;
+        Func<string, object> factory;
 
-        ActorInterface(Type type, Func<string, object> factory)
+        ActorInterface(Type actor)
         {
-            this.factory = factory;
-            reentrant = new Reentrant(type);
-            Type = type;
+            reentrant = new Reentrant(actor);
         }
 
-        internal Type Type { get; private set; }
+        public Type Type { get; private set; }
+
+        string Generate()
+        {
+            return "";
+        }
+
+        internal void Bind(string code, Assembly assembly)
+        {
+            Type type = assembly.GetType($"I{code}Endpoint");
+        }
+
+        Func<string, object> MakeFactory(Type type)
+        {
+            var method = typeof(GrainFactory).GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
+            var invoker = method.MakeGenericMethod(type);
+            var instance = Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
+            return x => invoker.Invoke(instance, new object[] {x, null});
+        }
+
         internal bool IsReentrant(object message) => reentrant.IsReentrant(message);
         internal IActorEndpoint Proxy(ActorPath path) => (IActorEndpoint)factory(path.Serialize());        
     }

@@ -8,14 +8,6 @@ namespace Orleankka
     public interface IActorSystem : IDisposable
     {
         /// <summary>
-        /// Acquires the actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
-        /// </summary>
-        /// <param name="type">The type of the actor</param>
-        /// <param name="id">The id</param>
-        ActorRef ActorOf(Type type, string id);
-
-        /// <summary>
         /// Acquires the actor reference for the given actor path.
         /// </summary>
         /// <param name="path">The path of the actor</param>
@@ -38,11 +30,6 @@ namespace Orleankka
         public static IActorSystemConfigurator Configure()
         {
             return null;
-        }
-
-        public ActorRef ActorOf(Type type, string id)
-        {
-            return ActorOf(ActorPath.Registered(type, id));
         }
 
         public ActorRef ActorOf(ActorPath path)
@@ -84,7 +71,7 @@ namespace Orleankka
         /// <returns>An actor reference</returns>
         public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
         {
-            return system.ActorOf(typeof(TActor), id);
+            return system.ActorOf(typeof(TActor).ToActorPath(id));
         }
         
         /// <summary>
@@ -96,18 +83,6 @@ namespace Orleankka
         public static ActorRef ActorOf(this IActorSystem system, string path)
         {
             return system.ActorOf(ActorPath.Parse(path));
-        }
-
-        /// <summary>
-        /// Acquires the typed actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
-        /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
-        /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
-        {
-            return new ActorRef<TActor>(ActorOf<TActor>(system, id));
         }
 
         /// <summary>

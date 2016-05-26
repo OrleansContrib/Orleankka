@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using NUnit.Framework;
 
@@ -13,7 +12,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            actor = new ActorRefMock(ActorPath.From(typeof(TestActor), Guid.NewGuid().ToString("D")));
+            actor = new ActorRefMock(ActorPath.From("Orleankka.TestKit.TestActor", Guid.NewGuid().ToString("D")));
         }
 
         [Test]

@@ -6,16 +6,16 @@ using Orleankka.Meta;
 
 namespace Example.Serialization.JSON
 {
-    class GetDirectReports : Query<Manager, IEnumerable<ActorRef<Employee>>> {}
+    class GetDirectReports : Query<Manager, IEnumerable<ActorRef>> {}
     class AddDirectReport  : Command<Manager>
     {
-        public ActorRef<Employee> Employee;
+        public ActorRef Employee;
     }
 
     [ActorTypeCode("manager")]
     class Manager : Actor
     {
-        readonly List<ActorRef<Employee>> reports = new List<ActorRef<Employee>>();
+        readonly List<ActorRef> reports = new List<ActorRef>();
 
         async Task On(AddDirectReport x)
         {
@@ -29,6 +29,6 @@ namespace Example.Serialization.JSON
             });                
         }
 
-        IEnumerable<ActorRef<Employee>> On(GetDirectReports x) => reports.AsReadOnly();
+        IEnumerable<ActorRef> On(GetDirectReports x) => reports.AsReadOnly();
     }
 }

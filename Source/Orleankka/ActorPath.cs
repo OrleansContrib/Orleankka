@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Orleankka.Core;
+
 namespace Orleankka
 {
-    using Core;
     using Utility;
      
     [Serializable]
@@ -12,28 +13,6 @@ namespace Orleankka
     {
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = {":"};
-
-        public static ActorPath Registered(Type type, string id)
-        {
-            Requires.NotNull(type, nameof(type));
-
-            var code = ActorType
-                .Registered(type)
-                .Code;
-
-            return From(code, id);
-        }
-
-        public static ActorPath From(Type type, string id)
-        {
-            Requires.NotNull(type, nameof(type));
-
-            var code = ActorType
-                .From(type)
-                .Code;
-
-            return From(code, id);
-        }
 
         public static ActorPath From(string code, string id)
         {
@@ -107,5 +86,18 @@ namespace Orleankka
         public static bool operator !=(ActorPath left, ActorPath right) => !Equals(left, right);
 
         public override string ToString() => Serialize();
+    }
+
+    /// <summary>
+    /// This should live in the server-side assembly
+    /// </summary>
+    public static class ActorPathExtensions
+    {
+        public static ActorPath ToActorPath(this Type type, string id)
+        {
+            Requires.NotNull(type, nameof(type));
+            var code = ActorTypeCode.Of(type);
+            return ActorPath.From(code, id);
+        }
     }
 }

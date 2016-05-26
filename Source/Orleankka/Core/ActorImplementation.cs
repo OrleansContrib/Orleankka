@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Orleankka.Core
@@ -6,13 +7,14 @@ namespace Orleankka.Core
     class ActorImplementation
     {
         public static readonly ActorImplementation Undefined = new ActorImplementation();
-        public static ActorImplementation From(Type type) => new ActorImplementation(type);
+
+        public static ActorImplementation From(Type actor)
+        {
+            return new ActorImplementation(actor);
+        }
 
         readonly GC gc;
         readonly Dispatcher dispatcher;
-
-        ActorImplementation()
-        {}
 
         ActorImplementation(Type type)
         {
@@ -22,6 +24,16 @@ namespace Orleankka.Core
         }
 
         internal Type Type { get; private set; }
+
+        string Generate(string code)
+        {
+            return "";
+        }
+
+        void Bind(Assembly assembly)
+        {
+
+        }
 
         internal void KeepAlive(ActorEndpoint endpoint) => 
             gc.KeepAlive(endpoint);

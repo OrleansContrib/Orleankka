@@ -33,7 +33,7 @@ namespace Example
 
         static async Task Run(IActorSystem system)
         {
-            var item = system.TypedActorOf<InventoryItem>("12345");
+            var item = system.ActorOf<InventoryItem>("12345");
 
             await item.Tell(new Create("XBOX1"));
             await Print(item);
@@ -50,7 +50,7 @@ namespace Example
             await item.Tell(new Deactivate());
             await Print(item);
 
-            var inventory = system.TypedActorOf<Inventory>("#");
+            var inventory = system.ActorOf<Inventory>("#");
 
             var items = await inventory.Ask(new GetInventoryItems());
             Console.WriteLine($"\n# of items in inventory: {items.Length}");

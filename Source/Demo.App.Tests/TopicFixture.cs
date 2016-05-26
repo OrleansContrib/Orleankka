@@ -38,8 +38,8 @@ namespace Demo
         {
             base.SetUp();
 
-            facebook = System.MockActorOf<Api>("facebook");
-            twitter = System.MockActorOf<Api>("twitter");
+            facebook = System.MockActorOf(ActorPath.From("Api", "facebook"));
+            twitter = System.MockActorOf(ActorPath.From("Api", "twitter"));
 
             schedule = new Dictionary<ActorRef, TimeSpan>
             {

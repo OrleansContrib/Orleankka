@@ -50,7 +50,7 @@ namespace Orleankka
         internal ActorInterface Interface => Type.Interface;
         internal ActorImplementation Implementation => Type.Implementation;
 
-        public ActorRef Self => self ?? (self = System.ActorOf(GetType(), Id));
+        public ActorRef Self => self ?? (self = System.ActorOf(GetType().ToActorPath(Id)));
 
         public IActorSystem System           => Runtime.System;
         public IActivationService Activation => Runtime.Activation;

@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Text;
+
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Orleankka.Core
 {
@@ -18,41 +23,83 @@ namespace Orleankka.Core
 
         public static void Register(IEnumerable<Assembly> assemblies)
         {
-            foreach (var assembly in assemblies)
-                Register(assembly);
+            var actors = assemblies.SelectMany(Scan).ToArray();
+            var source = Generate(actors);
+
+            var syntaxTree = CSharpSyntaxTree.ParseText(source);
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(x => MetadataReference.CreateFromFile(x.Location))
+                .ToArray();
+
+            var assemblyName = Path.GetRandomFileName();
+            var compilation = CSharpCompilation.Create(
+                assemblyName,
+                syntaxTrees: new[] {syntaxTree},
+                references: references,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            Assembly asm;
+            using (var ms = new MemoryStream())
+            {
+                var result = compilation.Emit(ms);
+                if (!result.Success)
+                {
+                    var failures = result.Diagnostics.Where(diagnostic =>
+                        diagnostic.IsWarningAsError ||
+                        diagnostic.Severity == DiagnosticSeverity.Error);
+                    throw new Exception("Bad code.\n\n" + string.Join("\n", failures));
+                }
+
+                ms.Seek(0, SeekOrigin.Begin);
+                asm = Assembly.Load(ms.ToArray());
+            }
+
+            foreach (var actor in actors)
+                Register(actor, asm);
         }
 
-        static void Register(Assembly assembly)
+        static string Generate(IEnumerable<ActorType> actors)
         {
-            var actors = assembly.GetTypes()
-                .Where(SatsfiesActorDeclaration)
-                .ToList();
+            var sb = new StringBuilder(
+                @"using Orleankka;
+                  using Orleankka.Core;
+                  using Orleankka.Core.Endpoints;
+            ");
 
-            actors.ForEach(RegisterActor);
+            foreach (var actor in actors)
+            {
+                var declaration =
+                $@"public interface I{actor.Code}Endpoint : IActorEndpoint {{}}
+                   public class {actor.Code}Endpoint : ActorEndpoint, I{actor.Code}Endpoint {{ }}";
+                sb.AppendLine(declaration);
+            }
+
+            return sb.ToString();
         }
 
-        static void RegisterActor(Type type)
+        static void Bind(IEnumerable<ActorType> actors, Assembly asm)
         {
-            var actor = From(TypeCode(type), type, type);
-
-            if (types.ContainsKey(actor.Interface.Type))
-                return;
-
-            Register(actor);
+            foreach (var actor in actors)
+                actor.Bind(asm);
         }
 
-        static void Register(ActorType actor)
+        static IEnumerable<ActorType> Scan(Assembly assembly) => assembly.GetTypes()
+            .Where(type => !type.IsAbstract && typeof(Actor).IsAssignableFrom(type))
+            .Select(actor => new {actor, code = ActorTypeCode.Of(actor)})
+            .Select(x => From(x.code, x.actor));
+
+        static void Register(ActorType actor, Assembly asm)
         {
             var registered = codes.Find(actor.Code);
             if (registered != null)
                 throw new ArgumentException(
-                    $"The type {actor.Interface.Type} has been already registered " +
-                    $"under the code {registered.Code}");
+                    $"An actor with {actor.Code} has been already registered");
+
+            actor.Interface.Bind(actor.Code, asm);
 
             codes.Add(actor.Code, actor);
             types.Add(actor.Interface.Type, actor);
 
-            Ref.Register(actor);
             StreamSubscriptionMatcher.Register(actor);
         }
 
@@ -61,7 +108,6 @@ namespace Orleankka.Core
             codes.Clear();
             types.Clear();
 
-            Ref.Reset();
             StreamSubscriptionMatcher.Reset();
         }
 
@@ -98,40 +144,15 @@ namespace Orleankka.Core
             return result;
         }
 
-        public static ActorType From(Type type)
+        static ActorType From(string code, Type type)
         {
-            if (SatsfiesActorDeclaration(type))
-                return From(TypeCode(type), type, type);
+            var @interface = ActorInterface.From(type);
 
-            throw new InvalidOperationException("Unsupported actor declaration: " + type);
-        }
-
-        static bool SatsfiesActorDeclaration(Type type)
-        {
-            return !type.IsAbstract && typeof(Actor).IsAssignableFrom(type);
-        }
-
-        static ActorType From(string code, Type interfaceType, Type implementationType)
-        {
-            var @interface = ActorInterface.From(interfaceType);
-
-            var implementation = implementationType != null 
-                                     ? ActorImplementation.From(implementationType) 
-                                     : ActorImplementation.Undefined;
+            var implementation = type != null 
+                ? ActorImplementation.From(type) 
+                : ActorImplementation.Undefined;
 
             return new ActorType(code, @interface, implementation);
-        }
-
-        static string TypeCode(Type type)
-        {
-            var customAttribute = type
-                .GetCustomAttributes(typeof(ActorTypeCodeAttribute), false)
-                .Cast<ActorTypeCodeAttribute>()
-                .SingleOrDefault();
-
-            return customAttribute != null
-                    ? customAttribute.Code
-                    : type.FullName;
         }
 
         public bool Equals(ActorType other)

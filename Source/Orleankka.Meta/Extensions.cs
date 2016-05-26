@@ -9,7 +9,7 @@ namespace Orleankka.Meta
             return @ref.Tell(cmd);
         }
 
-        public static Task Tell<TActor>(this ActorRef<TActor> @ref, Command<TActor> cmd) where TActor : Actor
+        public static Task Tell<TActor>(this ActorRef @ref, Command<TActor> cmd) where TActor : Actor
         {
             return @ref.Tell(cmd);
         }
@@ -19,7 +19,7 @@ namespace Orleankka.Meta
             return @ref.Ask<TResult>(query);
         }
 
-        public static Task<TResult> Ask<TActor, TResult>(this ActorRef<TActor> @ref, Query<TActor, TResult> query) where TActor : Actor
+        public static Task<TResult> Ask<TActor, TResult>(this ActorRef @ref, Query<TActor, TResult> query) where TActor : Actor
         {
             return @ref.Ask<TResult>(query);
         }

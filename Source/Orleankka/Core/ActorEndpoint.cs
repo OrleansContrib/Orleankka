@@ -13,12 +13,6 @@ namespace Orleankka.Core
     using Cluster;
 
     /// <summary> 
-    /// Generic actor endpoint.
-    /// </summary>
-    public abstract class ActorEndpoint<T> : ActorEndpoint where T : Actor
-    {}
-
-    /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
     public abstract class ActorEndpoint : Grain, IRemindable
@@ -90,7 +84,7 @@ namespace Orleankka.Core
 
         Task Activate(ActorPath path)
         {
-            var actor = path.Type();
+            var actor = ActorType.Registered(path.Code);
 
             var system = ClusterActorSystem.Current;
             var runtime = new ActorRuntime(system, this);

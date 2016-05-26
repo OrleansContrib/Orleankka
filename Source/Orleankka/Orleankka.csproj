@@ -53,8 +53,8 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorMessage.cs" />
-    <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="ActorRuntime.cs" />
+    <Compile Include="ActorTypeCodeExtensions.cs" />
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorImplementation.cs" />
     <Compile Include="Core\ActorType.cs" />

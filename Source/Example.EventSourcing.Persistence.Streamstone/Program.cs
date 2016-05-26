@@ -69,7 +69,7 @@ namespace Example
 
         static async Task Run()
         {
-            var item = system.TypedActorOf<InventoryItem>("12345");
+            var item = system.ActorOf<InventoryItem>("12345");
 
             await item.Tell(new Create("XBOX1"));
             await Print(item);

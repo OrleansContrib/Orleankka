@@ -14,12 +14,12 @@ namespace Example.Serialization.JSON
     class GetManager : Query<Employee, ActorRef> {}
     class SetManager : Command<Employee>
     {
-        public ActorRef<Manager> Manager;
+        public ActorRef Manager;
     }
 
     class Greeting : Command<Employee>
     {
-        public ActorRef<Manager> From;
+        public ActorRef From;
         public string Text;
     }
 
@@ -27,13 +27,13 @@ namespace Example.Serialization.JSON
     class Employee : Actor
     {
         long level;
-        ActorRef<Manager> manager;
+        ActorRef manager;
 
         void On(Promote x)  => level = x.NewLevel;
         long On(GetLevel x) => level;
 
         void On(SetManager x) => manager = x.Manager;
-        ActorRef<Manager> On(GetManager x) => manager;
+        ActorRef On(GetManager x) => manager;
 
         void On(Greeting x) => Console.WriteLine($"{x.From} said to {Self}: '{x.Text}'");
     }

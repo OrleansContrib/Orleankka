@@ -22,14 +22,13 @@ namespace Orleankka.TestKit
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
-            var path = ActorPath.From(typeof(TActor), id);
+            var path = typeof(TActor).ToActorPath(id);
             return GetOrCreateMock(path);
         }
 
-        ActorRef IActorSystem.ActorOf(Type type, string id)
+        public ActorRefMock MockActorOf(ActorPath path)
         {
-            var path = ActorPath.From(type, id);
-            return (this as IActorSystem).ActorOf(path);
+            return GetOrCreateMock(path);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)

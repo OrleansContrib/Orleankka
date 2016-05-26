@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 
-using Orleankka.Core;
-
 namespace Orleankka.TestKit
 {
     using Core.Streams;
@@ -10,7 +8,6 @@ namespace Orleankka.TestKit
     {
         public static bool Matches(string stream, string target)
         {
-            var type = ActorType.From(typeof(T));
             var specs = StreamSubscriptionSpecification.From(type, type.Implementation);
 
             var matched = specs
