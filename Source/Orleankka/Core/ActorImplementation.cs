@@ -16,6 +16,9 @@ namespace Orleankka.Core
         readonly GC gc;
         readonly Dispatcher dispatcher;
 
+        ActorImplementation()
+        {}
+
         ActorImplementation(Type type)
         {
             gc = new GC(type);

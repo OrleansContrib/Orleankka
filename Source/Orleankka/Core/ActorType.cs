@@ -28,7 +28,8 @@ namespace Orleankka.Core
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(x => MetadataReference.CreateFromFile(x.Location))
+                .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
+                .Where(x => x != null)
                 .ToArray();
 
             var assemblyName = Path.GetRandomFileName();
@@ -60,27 +61,46 @@ namespace Orleankka.Core
 
         static string Generate(IEnumerable<ActorType> actors)
         {
-            var sb = new StringBuilder(
-                @"using Orleankka;
-                  using Orleankka.Core;
-                  using Orleankka.Core.Endpoints;
+            var sb = new StringBuilder(@"
+                 using Orleankka;
+                 using Orleankka.Core;
+                 using Orleankka.Core.Endpoints;
             ");
 
             foreach (var actor in actors)
             {
-                var declaration =
-                $@"public interface I{actor.Code}Endpoint : IActorEndpoint {{}}
-                   public class {actor.Code}Endpoint : ActorEndpoint, I{actor.Code}Endpoint {{ }}";
-                sb.AppendLine(declaration);
+                var declaration = new ActorDeclaration(actor.Code);
+                sb.AppendLine(declaration.Generate());
             }
 
             return sb.ToString();
         }
 
-        static void Bind(IEnumerable<ActorType> actors, Assembly asm)
+        class ActorDeclaration
         {
-            foreach (var actor in actors)
-                actor.Bind(asm);
+            static readonly string[] separator = {".", "+"};
+
+            readonly string clazz;
+            readonly IList<string> namespaces;
+
+            public ActorDeclaration(string code)
+            {
+                var path = code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                clazz = path.Last();
+
+                namespaces = path.TakeWhile(x => x != clazz).ToList();
+                namespaces.Insert(0, "Fun");
+            }
+
+            public string Generate()
+            {
+                var src = new StringBuilder($"namespace {string.Join(".", namespaces)}");
+                src.AppendLine("{");
+                src.AppendLine($"public interface I{clazz} : global::Orleankka.Core.Endpoints.IActorEndpoint {{}}");
+                src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{}}");
+                src.AppendLine("}");
+                return src.ToString();
+            }
         }
 
         static IEnumerable<ActorType> Scan(Assembly assembly) => assembly.GetTypes()
@@ -117,6 +137,8 @@ namespace Orleankka.Core
 
         ActorType(string code, ActorInterface @interface, ActorImplementation implementation)
         {
+            // TODO: Check that code contain valid C# identifier chars only
+
             Code = code;
             Interface = @interface;
             Implementation = implementation;
