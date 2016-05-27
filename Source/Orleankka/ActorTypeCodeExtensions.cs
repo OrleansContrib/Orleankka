@@ -12,6 +12,8 @@ namespace Orleankka
                 .Cast<ActorTypeCodeAttribute>()
                 .SingleOrDefault();
 
+            // TODO: Check that code contain valid C# identifier chars only
+
             return customAttribute != null
                     ? customAttribute.Code
                     : type.FullName;

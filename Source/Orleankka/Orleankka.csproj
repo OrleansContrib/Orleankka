@@ -55,6 +55,7 @@
     <Compile Include="ActorMessage.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="ActorTypeCodeExtensions.cs" />
+    <Compile Include="Core\ActorDeclaration.cs" />
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorImplementation.cs" />
     <Compile Include="Core\ActorType.cs" />
@@ -98,8 +99,6 @@
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamSubscription.cs" />
-    <None Include="Test.cs" />
-    <Compile Include="Test2.cs" />
     <Compile Include="Utility\Annotations.cs" />
     <Compile Include="Utility\AssemblyExtensions.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />
