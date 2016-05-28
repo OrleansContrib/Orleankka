@@ -14,28 +14,26 @@ namespace Orleankka.Core
     {
         public static IEnumerable<ActorType> Generate(IEnumerable<Assembly> assemblies)
         {
+            var outdir = AppDomain.CurrentDomain.BaseDirectory;
+            var binary = Path.Combine(outdir, "Fun.dll");
+
             var declarations = assemblies.SelectMany(Scan).ToArray();
             var source = Generate(declarations);
 
-            var syntaxTree = CSharpSyntaxTree.ParseText(source);
-            var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
-                .Where(x => x != null)
-                .ToArray();
-
-            var assemblyName = Path.GetRandomFileName();
-            var compilation = CSharpCompilation.Create(
-                assemblyName,
-                syntaxTrees: new[] { syntaxTree },
-                references: references,
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-            var output = AppDomain.CurrentDomain.BaseDirectory;
-
-            Assembly asm;
-            using (var ms = new MemoryStream())
+            if (AppDomain.CurrentDomain.ShouldGenerateCode())
             {
-                var result = compilation.Emit(ms);
+                var syntaxTree = CSharpSyntaxTree.ParseText(source);
+                var references = AppDomain.CurrentDomain.GetAssemblies()
+                    .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
+                    .Where(x => x != null)
+                    .ToArray();
+
+                var compilation = CSharpCompilation.Create("Fun",
+                    syntaxTrees: new[] {syntaxTree},
+                    references: references,
+                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+                var result = compilation.Emit(binary);
                 if (!result.Success)
                 {
                     var failures = result.Diagnostics.Where(diagnostic =>
@@ -43,12 +41,12 @@ namespace Orleankka.Core
                         diagnostic.Severity == DiagnosticSeverity.Error);
                     throw new Exception("Bad code.\n\n" + string.Join("\n", failures));
                 }
-
-                ms.Seek(0, SeekOrigin.Begin);
-                asm = Assembly.Load(ms.ToArray());
             }
 
-            return declarations.Select(x => x.Bind(asm));
+            var assemblyName = AssemblyName.GetAssemblyName(binary);
+            var assembly = Assembly.Load(assemblyName);
+
+            return declarations.Select(x => x.Bind(assembly));
         }
 
         static string Generate(IEnumerable<ActorDeclaration> declarations)
@@ -105,5 +103,14 @@ namespace Orleankka.Core
             var @interface = asm.GetType(fullName);
             return ActorType.From(code, @interface, actor);
         }
+    }
+
+    internal static class ActorDeclarationAppDomainExtensions
+    {
+        public static bool ShouldGenerateCode(this AppDomain domain) =>
+            domain.GetData("SuppressCodeGeneration") == null;
+
+        public static void SuppressCodeGeneration(this AppDomain domain) => 
+            domain.SetData("SuppressCodeGeneration", true);
     }
 }

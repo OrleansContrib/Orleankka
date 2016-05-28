@@ -74,6 +74,8 @@ namespace Orleankka.Embedded
 
         public virtual IActorSystem Done()
         {
+            AppDomain.CurrentDomain.SuppressCodeGeneration(); // will be done in cluster's appdomain
+
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();
 
