@@ -10,6 +10,6 @@ namespace Orleankka.Core
     /// </summary>
     public interface IClientEndpoint : IGrainObserver
     {
-        void Receive(NotificationEnvelope envelope);
+        void Receive(object message);
     }
 }

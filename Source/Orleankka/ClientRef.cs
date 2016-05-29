@@ -33,7 +33,7 @@ namespace Orleankka
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
-            endpoint.Receive(new NotificationEnvelope(message));
+            endpoint.Receive(message);
         }
 
         public bool Equals(ClientRef other)

@@ -54,9 +54,9 @@ namespace Orleankka.Core
             return new DisposableSubscription(this);
         }
 
-        public void Receive(NotificationEnvelope envelope)
+        public void Receive(object message)
         {
-            observer?.OnNext(envelope.Message);
+            observer?.OnNext(message);
         }
 
         class DisposableSubscription : IDisposable

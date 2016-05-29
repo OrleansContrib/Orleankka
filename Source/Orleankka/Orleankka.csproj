@@ -59,6 +59,10 @@
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorImplementation.cs" />
     <Compile Include="Core\ActorType.cs" />
+    <Compile Include="Core\IActorEndpoint.cs" />
+    <Compile Include="Core\IClientEndpoint.cs" />
+    <Compile Include="Core\IMessageSerializer.cs" />
+    <Compile Include="Core\MessageEnvelope.cs" />
     <Compile Include="Core\Stream.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamProviderConfiguration.cs" />

@@ -41,16 +41,16 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return ReceiveVoid(message)(new RequestEnvelope(Serialize(), message));
+            return ReceiveVoid(message)(message);
         }
 
         public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            var response = await Receive(message)(new RequestEnvelope(Serialize(), message));
+            var result = await Receive(message)(message);
 
-            return (TResult) response.Result;
+            return (TResult) result;
         }
 
         public override void Notify(object message)
@@ -58,7 +58,7 @@ namespace Orleankka
             Tell(message).Ignore();
         }
 
-        Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
+        Func<object, Task<object>> Receive(object message)
         {
             if (@interface.IsReentrant(message))
                 return endpoint.ReceiveReentrant;
@@ -66,7 +66,7 @@ namespace Orleankka
             return endpoint.Receive;
         }
 
-        Func<RequestEnvelope, Task> ReceiveVoid(object message)
+        Func<object, Task> ReceiveVoid(object message)
         {
             if (@interface.IsReentrant(message))
                 return endpoint.ReceiveReentrantVoid;

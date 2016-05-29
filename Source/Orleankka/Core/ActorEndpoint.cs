@@ -35,36 +35,36 @@ namespace Orleankka.Core
             this.type = ActorType.Registered(code);
         }
 
-        public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
+        public async Task<object> Receive(object message)
         {
             KeepAlive();
 
-            return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
+            return await actor.OnReceive(message);
         }
 
-        public Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope)
+        public Task<object> ReceiveReentrant(object message)
         {
             #if DEBUG
-                CallContext.LogicalSetData("LastMessageReceivedReentrant", envelope.Message);
+                CallContext.LogicalSetData("LastMessageReceivedReentrant", message);
             #endif
 
-            return Receive(envelope);
+            return Receive(message);
         }
 
-        public Task ReceiveVoid(RequestEnvelope envelope)
+        public Task ReceiveVoid(object message)
         {
             KeepAlive();
 
-            return actor.OnReceive(envelope.Message);
+            return actor.OnReceive(message);
         }
 
-        public Task ReceiveReentrantVoid(RequestEnvelope envelope)
+        public Task ReceiveReentrantVoid(object message)
         {
             #if DEBUG
-                CallContext.LogicalSetData("LastMessageReceivedReentrantVoid", envelope.Message);
+                CallContext.LogicalSetData("LastMessageReceivedReentrantVoid", message);
             #endif
 
-            return ReceiveVoid(envelope);
+            return ReceiveVoid(message);
         }
 
         async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
