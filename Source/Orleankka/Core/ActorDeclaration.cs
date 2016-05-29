@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.Placement;
+
 namespace Orleankka.Core
 {
     class ActorDeclaration
@@ -56,6 +58,7 @@ namespace Orleankka.Core
                  using Orleankka;
                  using Orleankka.Core;
                  using Orleankka.Core.Endpoints;
+                 using Orleans.Placement;
             ");
 
             foreach (var declaration in declarations)
@@ -90,13 +93,61 @@ namespace Orleankka.Core
 
         string Generate()
         {
-            var src = new StringBuilder($"namespace {string.Join(".", namespaces)}");
+            var src = new StringBuilder();
+
+            StartNamespace(src);
+            GenerateInterface(src);
+            GenerateImplementation(src);
+            EndNamespace(src);
+
+            return src.ToString();
+        }
+
+        void StartNamespace(StringBuilder src) => 
+            src.AppendLine($"namespace {string.Join(".", namespaces)}");
+
+        static void EndNamespace(StringBuilder src) => 
+            src.AppendLine("}}");
+
+        void GenerateInterface(StringBuilder src)
+        {
             src.AppendLine("{");
             src.AppendLine($"public interface I{clazz} : global::Orleankka.Core.Endpoints.IActorEndpoint {{}}");
+        }
+
+        void GenerateImplementation(StringBuilder src)
+        {
+            var isActor = actor.GetCustomAttribute<ActorAttribute>() != null;
+            var isWorker = actor.GetCustomAttribute<WorkerAttribute>() != null;
+
+            if (isActor && isWorker)
+                throw new InvalidOperationException(
+                    $"A type cannot be configured to be both Actor and Worker: {actor}");
+
+            src.AppendLine(isWorker
+                            ? "[StatelessWorker]"
+                            : $"[{GetActorPlacement()}]");
+
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
             src.AppendLine($"public {clazz}() : base(\"{code}\") {{}}");
-            src.AppendLine("}}");
-            return src.ToString();
+        }
+
+        string GetActorPlacement()
+        {
+            var attribute = actor.GetCustomAttribute<ActorAttribute>()
+                            ?? new ActorAttribute();
+
+            switch (attribute.Placement)
+            {
+                case Placement.Random:
+                    return typeof(RandomPlacementAttribute).Name;
+                case Placement.PreferLocal:
+                    return typeof(PreferLocalPlacementAttribute).Name;
+                case Placement.DistributeEvenly:
+                    return typeof(ActivationCountBasedPlacementAttribute).Name;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         ActorType Bind(Assembly asm)
