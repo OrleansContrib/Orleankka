@@ -2,41 +2,16 @@
 
 Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, re-routing, FSM, etc. 
 
-Orleankka is not just a translation layer on top of Orleans. Besides improved language support, Orleannka brings several new important features and fixes a lot of small-to-medium annoyances, constraints and some of the major limitations, currently present in Orleans' programming model.
-
-> References: [video](https://www.youtube.com/watch?v=07Up88bpl20), [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
+> References: [intro](https://www.youtube.com/watch?v=07Up88bpl20), [meetup](https://www.youtube.com/watch?v=FKL-PS8Q9ac) [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
 
 ### Features
 
-##### Runtime
-
-+ Pluggable serialization protocols
-+ Dependency injection support
-+ Simplified configuration via fluent DSL (client, cluster, azure, embedded)
-+ Programmable from any .NET language
- 
-##### Actors
-
-+ Typed actors for strong type-safety and IntelliSense support
-+ Message interception via higher-order catch-all function (AOP)
-+ Automatic GC with configurable keep-alive timeouts
-+ Runtime independence (isolated testing)
-+ Reentrant messages
-+ Special api for F# (DU, Pattern Matching, Tasks, Custom DSL)
-
-##### Streams
-
-- Greatly simplified and more convenient api (actor subscriptions)
-- Declarative regex-based subscriptions (great for CQRS/ES projections)
-- Content-based filtering with static functions (both imperative and declarative)
-- Support of all built-in and custom stream providers
-
-##### Other
-
++ Message-based api with auto-generation of Orleans' interfaces
++ Special api bindings for C# and F# (DU, Pattern Matching, Tasks, Custom DSL)
++ Simplified programmatic configuration via fluent DSL (client, cluster, azure, embedded)
 + Convenient unit testing kit (stubs, mocks, expectations)
-+ Push-based notifications with observers
-+ Reactive Extensions (RX) support (client-side observers only)
-+ Improved exception handling
++ Redesigned streams api (actor subscriptions)
++ Declarative stream subscriptions (great for CQRS/ES projections)
 
 ### How to install [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/)
 
@@ -85,12 +60,6 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + eCommerce [[demo]](Source/FSharp.Demo.Shop)
 + Worker actors [[see]](Source/FSharp.Demo.Worker)
 + Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
-
-##### Serialization
-
-+ .NET binary [default]
-+ Orleans native (codegened) [[built-in]](Source/Example.Serialization.Native)
-+ Newtonsoft.JSON [[see]](Source/Example.Serialization.JSON)
 
 ##### Dependency Injection
 
