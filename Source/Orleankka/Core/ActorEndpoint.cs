@@ -4,8 +4,6 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Concurrency;
-using Orleans.Placement;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
@@ -29,13 +27,19 @@ namespace Orleankka.Core
             Reset();
         }
 
-        Actor instance;
+        readonly ActorType type;
+        Actor actor;
+
+        protected ActorEndpoint(string code)
+        {
+            this.type = ActorType.Registered(code);
+        }
 
         public async Task<ResponseEnvelope> Receive(RequestEnvelope envelope)
         {
             KeepAlive();
 
-            return new ResponseEnvelope(await instance.OnReceive(envelope.Message));
+            return new ResponseEnvelope(await actor.OnReceive(envelope.Message));
         }
 
         public Task<ResponseEnvelope> ReceiveReentrant(RequestEnvelope envelope)
@@ -51,7 +55,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return instance.OnReceive(envelope.Message);
+            return actor.OnReceive(envelope.Message);
         }
 
         public Task ReceiveReentrantVoid(RequestEnvelope envelope)
@@ -67,7 +71,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            await instance.OnReminder(reminderName);
+            await actor.OnReminder(reminderName);
         }
 
         public override Task OnActivateAsync()
@@ -77,27 +81,25 @@ namespace Orleankka.Core
 
         public override Task OnDeactivateAsync()
         {
-            return instance != null
-                    ? instance.OnDeactivate()
+            return actor != null
+                    ? actor.OnDeactivate()
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
-            var actor = ActorType.Registered(path.Code);
-
             var system = ClusterActorSystem.Current;
             var runtime = new ActorRuntime(system, this);
 
-            instance = Activator.Activate(actor.Implementation.Type, path.Id, runtime);
-            instance.Initialize(actor, path.Id, runtime);
+            actor = Activator.Activate(type.Implementation.Type, path.Id, runtime);
+            actor.Initialize(type, path.Id, runtime);
 
-            return instance.OnActivate();
+            return actor.OnActivate();
         }
 
         void KeepAlive()
         {
-            instance.Implementation.KeepAlive(this);
+            actor.Implementation.KeepAlive(this);
         }
 
         #region Internals
@@ -143,39 +145,5 @@ namespace Orleankka.Core
         {
             return (grain as IGrainWithStringKey).GetPrimaryKeyString();
         }
-    }
-
-    namespace Endpoints
-    {
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.Random
-        /// </summary>
-        public class A0 : ActorEndpoint, IA0
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.PreferLocal
-        /// </summary>
-        [PreferLocalPlacement]
-        public class A1 : ActorEndpoint, IA1
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Fixed grain endpoint with Placement.DistributeEvenly
-        /// </summary>
-        [ActivationCountBasedPlacement]
-        public class A2 : ActorEndpoint, IA2
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Fixed worker grain endpoint
-        /// </summary>
-        [StatelessWorker]
-        public class W : ActorEndpoint, IW
-        {}
     }
 }

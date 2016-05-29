@@ -16,7 +16,7 @@ namespace Orleankka.Core
         static readonly Dictionary<Type, ActorType> types =
                     new Dictionary<Type, ActorType>();
 
-        public static void Register(IEnumerable<Assembly> assemblies)
+        public static void Register(Assembly[] assemblies)
         {
             var actors = ActorDeclaration.Generate(assemblies);
 

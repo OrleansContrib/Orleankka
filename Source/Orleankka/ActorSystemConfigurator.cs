@@ -68,7 +68,7 @@ namespace Orleankka
                 ActorEndpoint.Activator = instance;
             }
 
-            ActorType.Register(assemblies);
+            ActorType.Register(assemblies.ToArray());
         }
 
         public void Dispose()

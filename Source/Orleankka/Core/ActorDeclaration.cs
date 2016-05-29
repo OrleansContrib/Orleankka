@@ -12,7 +12,7 @@ namespace Orleankka.Core
 {
     class ActorDeclaration
     {
-        public static IEnumerable<ActorType> Generate(IEnumerable<Assembly> assemblies)
+        public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
         {
             var outdir = AppDomain.CurrentDomain.BaseDirectory;
             var binary = Path.Combine(outdir, "Fun.dll");
@@ -24,6 +24,7 @@ namespace Orleankka.Core
             {
                 var syntaxTree = CSharpSyntaxTree.ParseText(source);
                 var references = AppDomain.CurrentDomain.GetAssemblies()
+                    .Concat(assemblies)
                     .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
                     .Where(x => x != null)
                     .ToArray();
@@ -92,8 +93,9 @@ namespace Orleankka.Core
             var src = new StringBuilder($"namespace {string.Join(".", namespaces)}");
             src.AppendLine("{");
             src.AppendLine($"public interface I{clazz} : global::Orleankka.Core.Endpoints.IActorEndpoint {{}}");
-            src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{}}");
-            src.AppendLine("}");
+            src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
+            src.AppendLine($"public {clazz}() : base(\"{code}\") {{}}");
+            src.AppendLine("}}");
             return src.ToString();
         }
 

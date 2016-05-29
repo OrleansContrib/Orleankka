@@ -18,33 +18,5 @@ namespace Orleankka.Core
             Task ReceiveVoid(RequestEnvelope envelope);
             [AlwaysInterleave] Task ReceiveReentrantVoid(RequestEnvelope envelope);
         }
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.Random
-        /// </summary>
-        public interface IA0 : IActorEndpoint
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.PreferLocal
-        /// </summary>
-        public interface IA1 : IActorEndpoint
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Grain endpoint with Placement.DistributeEvenly
-        /// </summary>
-        public interface IA2 : IActorEndpoint
-        {}
-
-        /// <summary>
-        ///   FOR INTERNAL USE ONLY!
-        ///   Worker grain endpoint
-        /// </summary>
-        public interface IW : IActorEndpoint
-        {}
     }
 }
