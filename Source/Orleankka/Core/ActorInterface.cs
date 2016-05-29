@@ -8,9 +8,9 @@ namespace Orleankka.Core
 
     class ActorInterface
     {
-        internal static ActorInterface From(Type type)
+        internal static ActorInterface From(Type interfaceType, Type implementationType)
         {
-            return new ActorInterface(type, Bind(type));
+            return new ActorInterface(interfaceType, implementationType, Bind(interfaceType));
         }
 
         static Func<string, object> Bind(Type type)
@@ -24,11 +24,11 @@ namespace Orleankka.Core
         readonly Reentrant reentrant;
         readonly Func<string, object> factory;
 
-        ActorInterface(Type type, Func<string, object> factory)
+        ActorInterface(Type interfaceType, Type implementationType, Func<string, object> factory)
         {
-            Type = type;
+            Type = interfaceType;
             this.factory = factory;
-            reentrant = new Reentrant(type);
+            reentrant = new Reentrant(implementationType);
         }
 
         public Type Type { get; private set; }

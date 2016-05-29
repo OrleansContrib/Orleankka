@@ -69,7 +69,7 @@ namespace Orleankka.Core
 
         internal static ActorType From(string code, Type interfaceType, Type implementationType)
         {
-            var @interface = ActorInterface.From(interfaceType);
+            var @interface = ActorInterface.From(interfaceType, implementationType);
 
             var implementation = implementationType != null
                 ? ActorImplementation.From(implementationType)

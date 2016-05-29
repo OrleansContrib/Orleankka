@@ -46,7 +46,7 @@ namespace Orleankka.Features
                     async () => await actor.Tell(new NonSingleArgumentHandlerMessage()));
             }
 
-            [Test, Ignore("Until everything fixed")]
+            [Test, Ignore("Write separate tests for dispatcher")]
             public void Calls_fallback_when_handler_not_found()
             {
                 //var actor = new TestActor {Type = ActorType.From(typeof(TestActor))};
