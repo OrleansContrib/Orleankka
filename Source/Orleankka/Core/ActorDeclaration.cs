@@ -17,7 +17,7 @@ namespace Orleankka.Core
         public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
         {
             var outdir = AppDomain.CurrentDomain.BaseDirectory;
-            var binary = Path.Combine(outdir, "Fun.dll");
+            var binary = Path.Combine(outdir, "Orleankka.Auto.dll");
 
             var declarations = assemblies.SelectMany(Scan).ToArray();
             var source = Generate(declarations);
@@ -31,7 +31,7 @@ namespace Orleankka.Core
                     .Where(x => x != null)
                     .ToArray();
 
-                var compilation = CSharpCompilation.Create("Fun",
+                var compilation = CSharpCompilation.Create("Orleankka.Auto",
                     syntaxTrees: new[] {syntaxTree},
                     references: references,
                     options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
