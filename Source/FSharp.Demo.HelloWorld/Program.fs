@@ -32,13 +32,12 @@ let main argv =
                             .Register(Assembly.GetExecutingAssembly())
                             .Done()
                   
-    let actor = system.TypedActorOf<Greeter>(Guid.NewGuid().ToString())
+    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
     let job() = task {
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"
-      //do! actor <! true won't compile
     }
     
     Task.run(job) |> ignore

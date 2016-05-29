@@ -33,12 +33,6 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            RegisterSerializer<T>(properties);
-            return this;
-        }
-
         public ClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
         {
             Requires.NotNullOrWhitespace(name, nameof(name));

@@ -37,12 +37,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            RegisterSerializer<T>(properties);
-            return this;
-        }
-        
         public ClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             RegisterActivator<T>(properties);

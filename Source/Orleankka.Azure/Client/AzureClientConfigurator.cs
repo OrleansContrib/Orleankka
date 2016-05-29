@@ -23,12 +23,6 @@ namespace Orleankka.Client
             return this;
         }
 
-        public AzureClientConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            client.Serializer<T>(properties);
-            return this;
-        }
-
         public AzureClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
         {
             client.Register<T>(name, properties);

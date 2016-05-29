@@ -19,7 +19,6 @@ namespace Example
                 .Playground()
                 .UseInMemoryPubSubStore()
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
                 .Done();
 
             Run(system).Wait();

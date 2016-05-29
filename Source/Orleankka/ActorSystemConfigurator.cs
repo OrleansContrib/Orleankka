@@ -14,17 +14,7 @@ namespace Orleankka
     public abstract class ActorSystemConfigurator : MarshalByRefObject, IDisposable
     {
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
-         
-        Tuple<Type, object> serializer;
         Tuple<Type, object> activator;
-
-        protected void RegisterSerializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            if (serializer != null)
-                throw new InvalidOperationException("Serializer has been already registered");
-
-            serializer = Tuple.Create(typeof(T), properties);
-        }
 
         protected void RegisterActivator<T>(object properties) where T : IActorActivator
         {
@@ -52,14 +42,6 @@ namespace Orleankka
 
         protected void Configure()
         {
-            if (serializer != null)
-            {
-                var instance = (IMessageSerializer) Activator.CreateInstance(serializer.Item1);
-                instance.Init(assemblies.ToArray(), serializer.Item2 ?? new Dictionary<string, string>());
-                
-                MessageEnvelope.Serializer = instance;
-            }
-
             if (activator != null)
             {
                 var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
@@ -73,7 +55,6 @@ namespace Orleankka
 
         public void Dispose()
         {
-            MessageEnvelope.Reset();
             ActorEndpoint.Reset();
             ActorType.Reset();
         }

@@ -19,7 +19,6 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
                 .Run<ES.Bootstrap>()
                 .Done();
 

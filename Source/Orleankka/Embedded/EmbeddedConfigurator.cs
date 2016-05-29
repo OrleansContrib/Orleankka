@@ -39,13 +39,6 @@ namespace Orleankka.Embedded
             return this;
         }
     
-        public EmbeddedConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            client.Serializer<T>(properties);
-            cluster.Serializer<T>(properties);
-            return this;
-        }
-
         public EmbeddedConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);

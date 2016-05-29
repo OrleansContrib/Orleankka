@@ -8,17 +8,9 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
-    using Core;
-
     [Serializable]
     public class StreamRefMock : StreamRef
     {
-        static StreamRefMock()
-        {
-            OrleansSerialization.Initialize();
-        }
-
-        [NonSerialized] readonly IMessageSerializer serializer;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
         [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
@@ -31,11 +23,9 @@ namespace Orleankka.TestKit
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        public StreamRefMock(StreamPath path, IMessageSerializer serializer = null)
+        public StreamRefMock(StreamPath path)
             : base(path)
-        {
-            this.serializer = serializer;
-        }
+        {}
 
         public PushExpectation<TItem> Expect<TItem>(Expression<Func<TItem, bool>> match = null)
         {
@@ -46,8 +36,6 @@ namespace Orleankka.TestKit
 
         public override Task Push(object message)
         {
-            message = Reserialize(message);
-
             var expectation = Match(message);
             var expected = expectation != null;
 
@@ -94,7 +82,6 @@ namespace Orleankka.TestKit
         }
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
-        object Reserialize(object message) => OrleansSerialization.Reserialize(serializer, message);
 
         public new void Reset()
         {

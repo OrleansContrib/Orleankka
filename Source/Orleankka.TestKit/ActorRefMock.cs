@@ -13,20 +13,12 @@ namespace Orleankka.TestKit
     [Serializable]
     public class ActorRefMock : ActorRef
     {
-        static ActorRefMock()
-        {
-            OrleansSerialization.Initialize();
-        }
-
-        [NonSerialized] readonly IMessageSerializer serializer;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
         [NonSerialized] readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
-        public ActorRefMock(ActorPath path, IMessageSerializer serializer = null)
+        public ActorRefMock(ActorPath path)
             : base(path)
-        {
-            this.serializer = serializer;
-        }
+        {}
 
         public TellExpectation<TMessage> ExpectTell<TMessage>(Expression<Func<TMessage, bool>> match = null)
         {
@@ -44,8 +36,6 @@ namespace Orleankka.TestKit
 
         public override Task Tell(object message)
         {
-            message = Reserialize(message);
-
             var expectation = Match(message);
             var expected = expectation != null;
 
@@ -59,8 +49,6 @@ namespace Orleankka.TestKit
 
         public override Task<TResult> Ask<TResult>(object message)
         {
-            message = Reserialize(message);
-
             var expectation = Match(message);
             var expected = expectation != null;
 
@@ -72,7 +60,6 @@ namespace Orleankka.TestKit
         }
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
-        object Reserialize(object message) => OrleansSerialization.Reserialize(serializer, message);
 
         public new void Reset()
         {

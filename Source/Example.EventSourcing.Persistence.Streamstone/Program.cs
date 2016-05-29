@@ -30,7 +30,6 @@ namespace Example
             system = ActorSystem.Configure()
                 .Playground()
                 .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
                 .Run<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),

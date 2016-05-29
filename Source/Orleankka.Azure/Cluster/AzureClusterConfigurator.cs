@@ -28,12 +28,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Serializer<T>(object properties = null) where T : IMessageSerializer
-        {
-            cluster.Serializer<T>(properties);
-            return this;
-        }
-
         public AzureClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             cluster.Activator<T>(properties);
