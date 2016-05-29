@@ -76,7 +76,7 @@ Integration tests (those using real actor system) won't work with XUnit visual s
 
 ## Contributing
 
-Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made. Add-ons, like new serialization or communication protocols, DI container support, FSM, etc - are highly welcomed!
+Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made.
 
 ## Community
 
