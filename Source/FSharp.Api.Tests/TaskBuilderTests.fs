@@ -144,3 +144,15 @@ let ``try with should do unwrapping of exception to original type if it was rais
       | e -> return 15
    }
    Assert.AreEqual(10, result.Result)
+
+[<Test>]
+let ``try finally should execute finally block``() =
+   let mutable a = 0      
+   let t = task {      
+      try
+         return 10
+      finally
+         a <- 100
+   }
+   t.Result |> ignore
+   Assert.AreEqual(100, a)
