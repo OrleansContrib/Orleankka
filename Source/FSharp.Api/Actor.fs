@@ -32,3 +32,31 @@ module Actor =
 
    let inline (<*) (actorRef:^ref) (message:^msg) = 
       (^ref: (member Notify : ^msg -> unit) (actorRef, message))
+
+
+[<AutoOpen>]
+module FSharpStream =
+   
+   open Orleankka.FSharp
+
+   type StreamRef(ref:Orleankka.StreamRef) =
+      inherit Orleankka.StreamRef(ref.Path)
+
+      member this.Push(item:obj) =
+         this.Push(item) |> awaitTask
+
+
+[<AutoOpen>]
+module FSharpActorSystem =
+   
+   open Orleankka   
+
+   type IActorSystem with
+
+      member this.StreamOf(provider:string, id:string) =
+         StreamPath.From(provider, id)
+            |> this.StreamOf
+            |> FSharpStream.StreamRef
+
+      member this.StreamOf(path:StreamPath) =
+         path |> this.StreamOf |> FSharpStream.StreamRef
