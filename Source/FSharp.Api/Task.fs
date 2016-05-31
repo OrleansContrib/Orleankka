@@ -120,8 +120,14 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
       with e -> catchFn(e)
 
    member this.TryFinally(body:unit -> Task<_>, compensation) =
-      try body()
-      finally compensation()
+      try
+         body()
+          .ContinueWith(fun (t:Task<_>) ->
+             compensation()
+             t.Result)
+      
+      with e -> compensation()
+                reraise()
 
    member this.TryFinally(m, compensation) =
       try this.ReturnFrom m
