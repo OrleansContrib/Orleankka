@@ -54,10 +54,6 @@
       <Project>{355b546c-c246-4cee-a302-7d453a81d3ac}</Project>
       <Name>Chat.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
-      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Name>Orleankka.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>

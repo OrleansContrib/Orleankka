@@ -110,10 +110,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
-      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Name>Orleankka.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
       <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
       <Name>Orleans.Internals</Name>

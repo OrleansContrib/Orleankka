@@ -15,10 +15,10 @@ type Greeter() =
    override this.Receive message = task {
       match message with
       | Greet who -> printfn "Hello %s" who
-                     return response()
+                     return nothing
       
       | Hi        -> printfn "Hello from F#!"
-                     return response()           
+                     return nothing           
    }
 
 [<EntryPoint>]

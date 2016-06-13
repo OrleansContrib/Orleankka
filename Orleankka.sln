@@ -41,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka", "Source\Orleank
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Tests", "Source\Orleankka.Tests\Orleankka.Tests.csproj", "{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Core", "Source\Orleankka.Core\Orleankka.Core.csproj", "{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.App", "Source\Demo.App\Demo.App.csproj", "{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.App.Tests", "Source\Demo.App.Tests\Demo.App.Tests.csproj", "{A84434F9-A885-4EAF-8AF4-4DAB55A5AC57}"
@@ -130,12 +128,6 @@ Global
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Package|Any CPU.Build.0 = Package|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.ActiveCfg = Package|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.Build.0 = Package|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}.Package|Any CPU.ActiveCfg = Package|Any CPU

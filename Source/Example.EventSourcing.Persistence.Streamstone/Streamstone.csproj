@@ -53,10 +53,6 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
-      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Name>Orleankka.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
       <Project>{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
       <Name>Orleankka.Meta</Name>

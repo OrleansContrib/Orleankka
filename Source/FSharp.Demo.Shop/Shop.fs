@@ -22,14 +22,14 @@ type Shop() =
       match message with
 
       | CheckIn count -> stock <- stock + count   
-                         return response()
+                         return nothing
       
       | Sell (account, count) ->
          let amount = count * price
          do! account <! Withdraw(amount)
          cash <- cash + amount
          stock <- stock - count           
-         return response()                   
+         return nothing                   
 
       | Cash  -> return response(cash)
       | Stock -> return response(stock)

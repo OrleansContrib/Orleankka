@@ -78,11 +78,6 @@
       <Project>{f34f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
-      <Name>Orleankka.Core</Name>
-      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Name>Orleankka</Name>
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>

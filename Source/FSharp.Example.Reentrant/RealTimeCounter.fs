@@ -17,11 +17,11 @@ type Counter() =
       match msg with
       | Increment -> do! Task.delay(TimeSpan.FromSeconds(5.0)) // write to database a new value, IO bound blocking operation
                      count <- count + 1
-                     return response()
+                     return nothing
       
       | Decrement -> do! Task.delay(TimeSpan.FromSeconds(5.0)) // write to database a new value, IO bound blocking operation
                      count <- count - 1
-                     return response()
+                     return nothing
       
       | GetCount -> return response(count) // reentrant operation, is not blocking.
    }
