@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 using Orleankka;
 using Orleankka.Cluster;
+using Orleankka.CSharp;
 
 namespace Example.Azure
 {

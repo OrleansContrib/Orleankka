@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using Orleankka;
 using Orleankka.Client;
+using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -52,10 +53,10 @@ namespace Example.Azure.Controllers
             config.DataConnectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
             config.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
 
-            MvcApplication.System = ActorSystem.Configure().Azure()
+            MvcApplication.System = ActorSystem.Configure() //.Azure()
                 .Client()
                 .From(config)
-                .Register(typeof(Publisher).Assembly)
+                .CSharp(x => x.Register(typeof(Publisher).Assembly))
                 .Done();
         }
 

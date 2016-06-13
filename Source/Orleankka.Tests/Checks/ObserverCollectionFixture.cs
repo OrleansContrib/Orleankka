@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 namespace Orleankka.Checks
 {
+    using CSharp;
     using Testing;
 
     [TestFixture]

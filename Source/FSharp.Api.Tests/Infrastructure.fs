@@ -3,6 +3,7 @@
 open System
 open NUnit.Framework
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.Playground
 
 module TestActorSystem =    
@@ -20,7 +21,7 @@ type RequiresSiloAttribute() =
          let system = ActorSystem.Configure()
                                  .Playground()
                                  .UseInMemoryPubSubStore()
-                                 .Register(this.GetType().Assembly)
+                                 .CSharp(fun x -> x.Register(this.GetType().Assembly) |> ignore)
                                  .Done()
       
          TestActorSystem.instance <- system

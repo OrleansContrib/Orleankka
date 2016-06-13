@@ -7,7 +7,6 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    using Core;
     using Core.Streams;
     using Utility;
 
@@ -44,9 +43,9 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(params Assembly[] assemblies)
+        public ClientConfigurator Register(params ActorConfiguration[] configs)
         {
-            RegisterAssemblies(assemblies);
+            ((IActorSystemConfigurator)this).Register(configs);
             return this;
         }
 

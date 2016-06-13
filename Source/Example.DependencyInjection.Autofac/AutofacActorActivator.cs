@@ -3,6 +3,7 @@ using System.Linq;
 
 using Orleankka;
 using Orleankka.Core;
+using Orleankka.CSharp;
 
 using Autofac;
 
@@ -16,7 +17,7 @@ namespace Example
         {
             if (setup == null)
                 throw new ArgumentNullException(
-                    "setup", "Expected setup action of type Action<ContainerBuilder>");
+                    nameof(setup), "Expected setup action of type Action<ContainerBuilder>");
 
             var builder = new ContainerBuilder();
             setup(builder);

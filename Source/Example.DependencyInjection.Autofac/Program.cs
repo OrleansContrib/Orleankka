@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 
 using Orleankka;
+using Orleankka.CSharp;
 using Orleankka.Playground;
 
 namespace Example
@@ -31,8 +32,9 @@ namespace Example
             var system = ActorSystem
                 .Configure()
                 .Playground()
-                .Activator<AutofacActorActivator>(setup)
-                .Register(Assembly.GetExecutingAssembly())
+                .CSharp(x => x
+                    .Register<AutofacActorActivator>(setup)
+                    .Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
             Run(system).Wait();

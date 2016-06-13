@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Client;
+using Orleankka.CSharp;
+
 using Orleans.Runtime.Configuration;
 
 namespace Example
@@ -15,12 +16,13 @@ namespace Example
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration().LoadFromEmbeddedResource(typeof(Program), "Client.xml");
+            var config = new ClientConfiguration()
+                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
 
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(ChatUser).Assembly)
+                .CSharp(x => x.Register(typeof(ChatUser).Assembly))
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

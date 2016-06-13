@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
+using Orleankka.CSharp;
 
 using Streamstone;
 

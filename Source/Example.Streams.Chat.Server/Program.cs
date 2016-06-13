@@ -4,6 +4,7 @@ using System.Reflection;
 
 using Orleankka;
 using Orleankka.Cluster;
+using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -14,14 +15,14 @@ namespace Example
         private static void Main(string[] args)
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
-            var assembly = Assembly.GetExecutingAssembly();
 
-            var config = new ClusterConfiguration().LoadFromEmbeddedResource<Program>("Server.xml");
+            var config = new ClusterConfiguration()
+                .LoadFromEmbeddedResource<Program>("Server.xml");
             
             var system = ActorSystem.Configure()
                 .Cluster()
                 .From(config)
-                .Register(assembly)
+                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
             Console.WriteLine("Finished booting cluster...");

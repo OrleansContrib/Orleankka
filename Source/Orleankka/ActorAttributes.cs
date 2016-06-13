@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Orleankka
 {
@@ -33,6 +36,27 @@ namespace Orleankka
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ReentrantAttribute : Attribute
     {
+        internal static Func<object, bool> Predicate(Type actor)
+        {
+            var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true).ToArray();
+
+            if (attributes.Length == 0)
+                return message => false;
+
+            var messages = new HashSet<Type>();
+
+            foreach (var attribute in attributes)
+            {
+                if (messages.Contains(attribute.Message))
+                    throw new InvalidOperationException(
+                        $"{attribute.Message} was already registered as Reentrant for {actor}");
+
+                messages.Add(attribute.Message);
+            }
+
+            return (message) => messages.Contains(message.GetType());
+        }
+
         internal readonly Type Message;
 
         public ReentrantAttribute(Type message)
@@ -45,6 +69,16 @@ namespace Orleankka
     [AttributeUsage(AttributeTargets.Class)]
     public class KeepAliveAttribute : Attribute
     {
+        internal static TimeSpan Timeout(Type actor)
+        {
+            var attribute = actor.GetCustomAttribute<KeepAliveAttribute>(inherit: true);
+            if (attribute == null)
+                return TimeSpan.Zero;
+
+            return TimeSpan.FromHours(attribute.Hours)
+                    .Add(TimeSpan.FromMinutes(attribute.Minutes));
+        }
+
         public double Minutes;
         public double Hours;
     }

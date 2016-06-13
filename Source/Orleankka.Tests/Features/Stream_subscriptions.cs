@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleankka.Core;
-
 namespace Orleankka.Features
 {
+    using Core;
+    using CSharp;
+
     namespace Stream_subscriptions
     {
         using Meta;

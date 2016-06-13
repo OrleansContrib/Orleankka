@@ -60,10 +60,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Azure\Orleankka.Azure.csproj">
-      <Project>{933568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
-      <Name>Orleankka.Azure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
       <Project>{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
       <Name>Orleankka.Meta</Name>

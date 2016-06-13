@@ -15,31 +15,21 @@ namespace Orleankka.Core
     /// </summary>
     public abstract class ActorEndpoint : Grain, IRemindable
     {
-        internal static IActorActivator Activator;
-
-        internal static void Reset()
-        {
-            Activator = new DefaultActorActivator();
-        }
-
-        static ActorEndpoint()
-        {
-            Reset();
-        }
-
         readonly ActorType type;
-        Actor actor;
+
+        ActorContext context;
+        Func<ActorContext, object, Task<object>> receiver;
 
         protected ActorEndpoint(string code)
         {
-            this.type = ActorType.Registered(code);
+            type = ActorType.Registered(code);
         }
 
         public async Task<object> Receive(object message)
         {
             KeepAlive();
 
-            return await actor.OnReceive(message);
+            return await receiver(context, message);
         }
 
         public Task<object> ReceiveReentrant(object message)
@@ -55,7 +45,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return actor.OnReceive(message);
+            return receiver(context, message);
         }
 
         public Task ReceiveReentrantVoid(object message)
@@ -67,11 +57,11 @@ namespace Orleankka.Core
             return ReceiveVoid(message);
         }
 
-        async Task IRemindable.ReceiveReminder(string reminderName, TickStatus status)
+        async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
             KeepAlive();
 
-            await actor.OnReminder(reminderName);
+            await receiver(context, new Reminder(name));
         }
 
         public override Task OnActivateAsync()
@@ -81,26 +71,19 @@ namespace Orleankka.Core
 
         public override Task OnDeactivateAsync()
         {
-            return actor != null
-                    ? actor.OnDeactivate()
+            return context != null
+                    ? receiver(context, new Deactivate())
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
-            var system = ClusterActorSystem.Current;
-            var runtime = new ActorRuntime(system, this);
-
-            actor = Activator.Activate(type.Implementation.Type, path.Id, runtime);
-            actor.Initialize(type, path.Id, runtime);
-
-            return actor.OnActivate();
+            context = new ActorContext(path, ClusterActorSystem.Current, this);
+            receiver = type.Receiver(path.Id, context);
+            return receiver(context, new Activate());
         }
 
-        void KeepAlive()
-        {
-            actor.Implementation.KeepAlive(this);
-        }
+        void KeepAlive() => type.KeepAlive(this);
 
         #region Internals
 

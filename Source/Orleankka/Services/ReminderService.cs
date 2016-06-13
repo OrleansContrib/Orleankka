@@ -17,7 +17,6 @@ namespace Orleankka.Services
     {
         /// <summary>
         /// Registers a persistent, reliable reminder to send regular notifications (reminders) to the actor.
-        /// The actor must implement the <see cref="Actor.OnReminder"/> method.
         /// If the current actor is deactivated when the reminder fires, a new activation of the actor will be created to receive this reminder.
         /// If an existing reminder with the same id already exists, than reminder will be overwritten with this new reminder.
         /// Reminders will always be received by one activation of this actor, even if multiple activations exist for this actor.

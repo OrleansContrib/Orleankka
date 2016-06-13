@@ -20,7 +20,7 @@ namespace Orleankka
         public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorType.Registered(path.Code));
 
         readonly IActorEndpoint endpoint;
-        readonly ActorInterface @interface;
+        readonly ActorType type;
 
         protected internal ActorRef(ActorPath path)
         {
@@ -30,8 +30,8 @@ namespace Orleankka
         ActorRef(ActorPath path, ActorType type)
             : this(path)
         {
-            @interface = type.Interface;
-            endpoint = @interface.Proxy(path);
+            this.type = type;
+            endpoint = this.type.Proxy(path);
         }
 
         public ActorPath Path { get; }
@@ -60,7 +60,7 @@ namespace Orleankka
 
         Func<object, Task<object>> Receive(object message)
         {
-            if (@interface.IsReentrant(message))
+            if (type.IsReentrant(message))
                 return endpoint.ReceiveReentrant;
 
             return endpoint.Receive;
@@ -68,7 +68,7 @@ namespace Orleankka
 
         Func<object, Task> ReceiveVoid(object message)
         {
-            if (@interface.IsReentrant(message))
+            if (type.IsReentrant(message))
                 return endpoint.ReceiveReentrantVoid;
 
             return endpoint.ReceiveVoid;
@@ -106,9 +106,8 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             Path = ActorPath.Deserialize(value);
-            var type = ActorType.Registered(Path.Code);
-            @interface = type.Interface;
-            endpoint = @interface.Proxy(Path);
+            type = ActorType.Registered(Path.Code);
+            endpoint = type.Proxy(Path);
         }
 
         #endregion

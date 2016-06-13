@@ -4,6 +4,7 @@
 module Actor = 
    open System.Threading.Tasks   
    open Orleankka  
+   open Orleankka.CSharp  
 
    [<AbstractClass>]
    type Actor<'TMessage>() = 
@@ -45,13 +46,12 @@ module ActorRef =
 [<AutoOpen>]
 module StreamRef = 
    open System.Threading.Tasks
-   open Orleankka   
+   open Orleankka
+   open Orleankka.CSharp   
 
    let inline getPath (ref:StreamRef) = ref.Path
 
    let inline push (ref:StreamRef) (message:obj) = ref.Push(message) |> Task.awaitTask
-
-   let inline resume (ref:StreamRef) (actor:Actor) = ref.Resume(actor) |> Task.awaitTask
 
    let inline subscribe<'TMessage> (ref:StreamRef) (callback:'TMessage -> unit) = ref.Subscribe<'TMessage>(callback)
 

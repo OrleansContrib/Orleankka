@@ -44,7 +44,8 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Checks\SubscriptionSpecificationFixture.cs" />
+    <Compile Include="Checks\SubscriptionSpecificationFixture.cs" />
+    <Compile Include="Checks\ActorConfigurationFixture.cs" />
     <Compile Include="Checks\StreamRefFixture.cs" />
     <Compile Include="Checks\StreamPathFixture.cs" />
     <Compile Include="Features\Declarative_stream_subscriptions.cs" />
@@ -77,10 +78,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Azure\Orleankka.Azure.csproj">
-      <Project>{933568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
-      <Name>Orleankka.Azure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
       <Project>{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
       <Name>Orleankka.Meta</Name>

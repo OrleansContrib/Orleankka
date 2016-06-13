@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
 using Orleankka;
+using Orleankka.CSharp;
 using Orleankka.Meta;
 
 namespace Demo

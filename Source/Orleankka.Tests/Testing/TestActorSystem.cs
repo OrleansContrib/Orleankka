@@ -2,6 +2,8 @@
 
 namespace Orleankka.Testing
 {
+    using CSharp;
+
     public static class TestActorSystem
     {
         public static IActorSystem Instance;

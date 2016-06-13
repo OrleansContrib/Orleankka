@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -118,56 +119,14 @@ namespace Orleankka
             filter);
         }
 
-        public virtual async Task Subscribe(Actor actor, StreamFilter filter = null)
+        /// <summary>
+        /// Returns a list of all current stream subscriptions.
+        /// </summary>
+        /// <returns> A promise for a list of StreamSubscription </returns>
+        public async Task<IList<StreamSubscription>> Subscriptions()
         {
-            Requires.NotNull(actor, nameof(actor));
-
-            var handles = await GetAllSubscriptionHandles();
-            if (handles.Count == 1)
-                return;
-
-            Debug.Assert(handles.Count == 0,
-                "We should keep only one active subscription per-stream per-actor");
-
-            var observer = new Observer((item, token) => actor.OnReceive(item));
-
-            await Endpoint
-                    .SubscribeAsync(observer, null, StreamFilter.Internal.Predicate, filter ?? new StreamFilter(actor))
-                    ;
-        }
-
-        public virtual async Task Unsubscribe(Actor actor)
-        {
-            Requires.NotNull(actor, nameof(actor));
-
-            var handles = await GetAllSubscriptionHandles();
-            if (handles.Count == 0)
-                return;
-
-            Debug.Assert(handles.Count == 1, 
-                "We should keep only one active subscription per-stream per-actor");
-
-            await handles[0].UnsubscribeAsync();
-        }
-
-        public virtual async Task Resume(Actor actor)
-        {
-            Requires.NotNull(actor, nameof(actor));
-
-            var handles = await GetAllSubscriptionHandles();
-            if (handles.Count == 0)
-                return;
-
-            Debug.Assert(handles.Count == 1,
-                "We should keep only one active subscription per-stream per-actor");
-
-            var observer = new Observer((item, token) => actor.OnReceive(item));
-            await handles[0].ResumeAsync(observer);
-        }
-
-        internal Task<IList<StreamSubscriptionHandle<object>>> GetAllSubscriptionHandles()
-        {
-            return Endpoint.GetAllSubscriptionHandles();
+            var handles = await Endpoint.GetAllSubscriptionHandles();
+            return handles.Select(x => new StreamSubscription(x)).ToList();
         }
 
         public bool Equals(StreamRef other)
@@ -205,7 +164,7 @@ namespace Orleankka
 
         #endregion
 
-        class Observer : IAsyncObserver<object>
+        internal class Observer : IAsyncObserver<object>
         {
             readonly Func<object, StreamSequenceToken, Task> callback;
 

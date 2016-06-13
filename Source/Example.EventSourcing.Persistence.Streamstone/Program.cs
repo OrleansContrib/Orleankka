@@ -10,6 +10,8 @@ using Orleankka.Playground;
 
 using Microsoft.WindowsAzure.Storage;
 
+using Orleankka.CSharp;
+
 namespace Example
 {
     public static class Program
@@ -29,12 +31,12 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Register(Assembly.GetExecutingAssembly())
                 .Run<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
                 })
+                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
             try

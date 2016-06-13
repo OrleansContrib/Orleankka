@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -6,7 +7,6 @@ using Orleans.Streams;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     [Serializable]
@@ -17,6 +17,7 @@ namespace Orleankka
 
         readonly string className;
         readonly string methodName;
+        readonly HashSet<Type> items;
 
         [NonSerialized] Func<object, bool> filter;
 
@@ -34,15 +35,40 @@ namespace Orleankka
             methodName = method.Name;
         }
 
-        internal StreamFilter(Actor actor)
+        public StreamFilter(params Type[] items) 
+            : this((IEnumerable<Type>)items)
+        {}
+
+        public StreamFilter(IEnumerable<Type> items)
         {
-            className = actor.Type.Code;
-            filter = DeclaredHandlerOnlyFilter(className);
+            // ReSharper disable once PossibleMultipleEnumeration
+            Requires.NotNull(items, nameof(items));
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            this.items = new HashSet<Type>(items);
+
+            if (this.items.Count == 0)
+                throw new ArgumentOutOfRangeException(nameof(items),
+                    "accepted 'items' list is empty");
+
+            filter = ItemFilter;
         }
 
-        Func<object, bool> Filter => filter ?? (filter = methodName != null
-                                                ? CallbackMethodFilter(className, methodName)
-                                                : DeclaredHandlerOnlyFilter(className));
+        Func<object, bool> Filter()
+        {
+            if (filter != null)
+                return filter;
+
+            if (methodName != null)
+                filter = CallbackMethodFilter(className, methodName);
+
+            if (items != null)
+                filter = ItemFilter;
+
+            return filter ?? (filter = ReceiveAllCallback);
+        }
+
+        bool ItemFilter(object item) => items.Contains(item.GetType());
 
         static Func<object, bool> CallbackMethodFilter(string className, string methodName)
         {
@@ -56,16 +82,7 @@ namespace Orleankka
             return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
         }
 
-        static Func<object, bool> DeclaredHandlerOnlyFilter(string actorCode)
-        {
-            var implementation = ActorType.Registered(actorCode).Implementation;
-            return x => implementation.DeclaresHandlerFor(x.GetType());
-        }
-
-        bool ShouldReceive(object item)
-        {
-            return Filter(item);
-        }
+        bool ShouldReceive(object item) => Filter()(item);
 
         internal class Internal
         {

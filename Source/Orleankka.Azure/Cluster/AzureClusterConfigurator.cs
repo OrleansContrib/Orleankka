@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
-    using Core;
     using Utility;
 
-    public class AzureClusterConfigurator : MarshalByRefObject
+    public class AzureClusterConfigurator : MarshalByRefObject, IActorSystemConfigurator
     {
         readonly ClusterConfigurator cluster;
 
@@ -28,12 +26,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
-        {
-            cluster.Activator<T>(properties);
-            return this;
-        }
-
         public AzureClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
@@ -46,11 +38,20 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public AzureClusterConfigurator Register(params Assembly[] assemblies)
+        public AzureClusterConfigurator Hook(ActorSystemConfiguratorHook hook)
         {
-            cluster.Register(assemblies);
+            cluster.Hook(hook);
             return this;
         }
+
+        public AzureClusterConfigurator Register(params ActorConfiguration[] configs)
+        {
+            cluster.Register(configs);
+            return this;
+        }
+
+        void IActorSystemConfigurator.Hook(ActorSystemConfiguratorHook hook) => this.Hook(hook);
+        void IActorSystemConfigurator.Register(ActorConfiguration[] configs) => this.Register(configs);
 
         public AzureClusterActorSystem Done()
         {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Orleankka.Core;
-
 namespace Orleankka
 {
+    using Core;
     using Utility;
      
     [Serializable]
@@ -52,7 +51,7 @@ namespace Orleankka
         public readonly string Code;
         public readonly string Id;
 
-        ActorPath(string code, string id)
+        internal ActorPath(string code, string id)
         {
             Code = code;
             Id = id;
@@ -86,18 +85,5 @@ namespace Orleankka
         public static bool operator !=(ActorPath left, ActorPath right) => !Equals(left, right);
 
         public override string ToString() => Serialize();
-    }
-
-    /// <summary>
-    /// This should live in the server-side assembly
-    /// </summary>
-    public static class ActorPathExtensions
-    {
-        public static ActorPath ToActorPath(this Type type, string id)
-        {
-            Requires.NotNull(type, nameof(type));
-            var code = ActorTypeCode.Of(type);
-            return ActorPath.From(code, id);
-        }
     }
 }

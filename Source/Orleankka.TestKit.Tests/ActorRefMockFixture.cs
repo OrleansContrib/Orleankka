@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace Orleankka.TestKit
 {
+    using CSharp;
+	
     [TestFixture]
     public class ActorRefMockFixture
     {

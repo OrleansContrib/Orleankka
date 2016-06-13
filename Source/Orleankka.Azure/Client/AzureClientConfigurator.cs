@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    using Core;
-
-    public class AzureClientConfigurator
+    public class AzureClientConfigurator : IActorSystemConfigurator
     {
         readonly ClientConfigurator client;
 
@@ -29,11 +27,15 @@ namespace Orleankka.Client
             return this;
         }
 
-        public AzureClientConfigurator Register(params Assembly[] assemblies)
+        public AzureClientConfigurator Register(params ActorConfiguration[] configs)
         {
-            client.Register(assemblies);
+            client.Register(configs);
             return this;
         }
+
+        IEnumerable<T> IActorSystemConfigurator.Hooks<T>() => client.Hooks<T>();
+        void IActorSystemConfigurator.Hook<T>() => client.Hook(Activator.CreateInstance<T>());
+        void IActorSystemConfigurator.Register(ActorConfiguration[] configs) => hooks.Add(Activator.CreateInstance<T>());
 
         public IActorSystem Done()
         {

@@ -5,10 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using Orleankka.Client;
-using Orleankka.Cluster;
-using Orleankka.Utility;
-
 using Orleans;
 using Orleans.Internals;
 using Orleans.Providers;
@@ -16,6 +12,10 @@ using Orleans.Streams;
 
 namespace Orleankka.Core.Streams
 {
+    using Client;
+    using Cluster;
+    using Utility;
+
     class StreamSubscriptionMatcher : IStreamProviderImpl
     {
         static readonly Dictionary<string, List<StreamSubscriptionSpecification>> configuration = 
@@ -23,25 +23,25 @@ namespace Orleankka.Core.Streams
 
         internal static void Reset() => configuration.Clear();
 
-        internal static void Register(ActorType type)
+        internal static void Register(IEnumerable<StreamSubscriptionSpecification> specifications)
         {
-            foreach (var specification in StreamSubscriptionSpecification.From(type))
+            foreach (var specification in specifications)
             {
-                var specifications = DictionaryExtensions.Find(configuration, specification.Provider);
+                var existent = configuration.Find(specification.Provider);
 
-                if (specifications == null)
+                if (existent == null)
                 {
-                    specifications = new List<StreamSubscriptionSpecification>();
-                    configuration.Add(specification.Provider, specifications);
+                    existent = new List<StreamSubscriptionSpecification>();
+                    configuration.Add(specification.Provider, existent);
                 }
 
-                specifications.Add(specification);
+                existent.Add(specification);
             }
         }
 
         public static StreamSubscriptionMatch[] Match(IActorSystem system, StreamIdentity stream)
         {
-            var specifications = DictionaryExtensions.Find(configuration, stream.Provider)
+            var specifications = configuration.Find(stream.Provider)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
             return Match(system, stream.Id, specifications);
@@ -72,7 +72,7 @@ namespace Orleankka.Core.Streams
                 ? ClusterActorSystem.Current 
                 : ClientActorSystem.Current;
 
-            specifications = DictionaryExtensions.Find(configuration, name)
+            specifications = configuration.Find(name)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
             var type = Type.GetType(pc.Properties[TypeKey]);

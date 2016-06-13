@@ -7,7 +7,7 @@ open Orleankka.FSharp.Configuration
 
 type Message = 
    | Greet of string
-<<<<<<< 6f2d714b504a89c691060ebfacbc187ecf9a9a25
+<<<<<<< 342a046eba72fd6c100917fc7953a181cf8ba520
    | Hi   
 =======
    | Hi

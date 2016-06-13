@@ -71,12 +71,6 @@ namespace Orleankka.Playground
             cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
         }
 
-        public new PlaygroundConfigurator Register(params Assembly[] assemblies)
-        {
-            base.Register(assemblies);
-            return this;
-        }
-
         public new PlaygroundConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             base.Register<T>(name, properties);

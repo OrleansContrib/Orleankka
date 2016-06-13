@@ -14,19 +14,18 @@ namespace Orleankka.Core
 {
     class ActorDeclaration
     {
-        public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
+        public static IEnumerable<ActorType> Generate(IEnumerable<ActorConfiguration> configs)
         {
+            var declarations = configs.Select(x => new ActorDeclaration(x)).ToArray();
+
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto");
             Directory.CreateDirectory(dir);
 
             var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
-            
-            var declarations = assemblies.SelectMany(Scan).ToArray();
             var source = Generate(declarations);
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Concat(assemblies)
                 .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
                 .Where(x => x != null)
                 .ToArray();
@@ -48,7 +47,7 @@ namespace Orleankka.Core
             var assemblyName = AssemblyName.GetAssemblyName(binary);
             var assembly = Assembly.Load(assemblyName);
 
-            return declarations.Select(x => x.Bind(assembly));
+            return declarations.Select(x => x.From(assembly));
         }
 
         static string Generate(IEnumerable<ActorDeclaration> declarations)
@@ -66,22 +65,17 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
-        static IEnumerable<ActorDeclaration> Scan(Assembly assembly) => assembly.GetTypes()
-            .Where(type => !type.IsAbstract && typeof(Actor).IsAssignableFrom(type))
-            .Select(actor => new {actor, code = ActorTypeCode.Of(actor)})
-            .Select(x => new ActorDeclaration(x.code, x.actor));
-
         static readonly string[] separator = {".", "+"};
 
         readonly string code;
-        readonly Type actor;
         readonly string clazz;
         readonly IList<string> namespaces;
+        readonly ActorConfiguration config;
 
-        ActorDeclaration(string code, Type actor)
+        ActorDeclaration(ActorConfiguration config)
         {
-            this.code = code;
-            this.actor = actor;
+            this.config = config;
+            this.code = config.Code;
 
             var path = code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
@@ -116,14 +110,7 @@ namespace Orleankka.Core
 
         void GenerateImplementation(StringBuilder src)
         {
-            var isActor = actor.GetCustomAttribute<ActorAttribute>() != null;
-            var isWorker = actor.GetCustomAttribute<WorkerAttribute>() != null;
-
-            if (isActor && isWorker)
-                throw new InvalidOperationException(
-                    $"A type cannot be configured to be both Actor and Worker: {actor}");
-
-            src.AppendLine(isWorker
+            src.AppendLine(config.Worker  
                             ? "[StatelessWorker]"
                             : $"[{GetActorPlacement()}]");
 
@@ -133,10 +120,7 @@ namespace Orleankka.Core
 
         string GetActorPlacement()
         {
-            var attribute = actor.GetCustomAttribute<ActorAttribute>()
-                            ?? new ActorAttribute();
-
-            switch (attribute.Placement)
+            switch (config.Placement)
             {
                 case Placement.Random:
                     return typeof(RandomPlacementAttribute).Name;
@@ -149,11 +133,11 @@ namespace Orleankka.Core
             }
         }
 
-        ActorType Bind(Assembly asm)
+        ActorType From(Assembly asm)
         {
             var fullName = string.Join(".", new List<string>(namespaces) { $"I{clazz}" });
             var @interface = asm.GetType(fullName);
-            return ActorType.From(code, @interface, actor);
+            return ActorType.From(config, @interface);
         }
     }
 }

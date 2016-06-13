@@ -8,7 +8,6 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
-    using Core;
     using Core.Streams;
     using Utility;
 
@@ -37,12 +36,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
-        {
-            RegisterActivator<T>(properties);
-            return this;
-        }
-
         public ClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
@@ -64,9 +57,9 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register(params Assembly[] assemblies)
+        public ClusterConfigurator Register(params ActorConfiguration[] configs)
         {
-            RegisterAssemblies(assemblies);
+            ((IActorSystemConfigurator)this).Register(configs);
             return this;
         }
 

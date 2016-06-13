@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using Orleans.Streams;
@@ -7,11 +8,10 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Embedded
 {
-    using Core;
     using Client;
     using Cluster;
 
-    public class EmbeddedConfigurator
+    public class EmbeddedConfigurator : IActorSystemConfigurator
     {
         readonly ClientConfigurator client;
         readonly ClusterConfigurator cluster;
@@ -39,12 +39,6 @@ namespace Orleankka.Embedded
             return this;
         }
     
-        public EmbeddedConfigurator Activator<T>(object properties = null) where T : IActorActivator
-        {
-            cluster.Activator<T>(properties);
-            return this;
-        }
-
         public EmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
@@ -58,11 +52,21 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator Register(params Assembly[] assemblies)
+        void IActorSystemConfigurator.Hook<T>()
         {
-            client.Register(assemblies);
-            cluster.Register(assemblies);
-            return this;
+            ((IActorSystemConfigurator)cluster).Hook<T>();
+            ((IActorSystemConfigurator)client).Hook<T>();
+        }
+
+        T[] IActorSystemConfigurator.Hooks<T>()
+        {
+            return ((IActorSystemConfigurator)client).Hooks<T>().Concat(
+                   ((IActorSystemConfigurator)cluster).Hooks<T>()).ToArray();
+        }
+
+        void IActorSystemConfigurator.Register(ActorConfiguration[] configs)
+        {
+            throw new InvalidOperationException();
         }
 
         public virtual IActorSystem Done()

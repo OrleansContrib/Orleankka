@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Core;
+using Orleankka.CSharp;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
@@ -18,8 +19,8 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Register(Assembly.GetExecutingAssembly())
                 .Run<ES.Bootstrap>()
+                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
             try

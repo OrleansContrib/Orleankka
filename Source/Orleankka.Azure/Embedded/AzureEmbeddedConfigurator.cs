@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 using Orleans.Runtime.Configuration;
@@ -10,7 +9,7 @@ namespace Orleankka.Embedded
     using Client;
     using Cluster;
 
-    public class AzureEmbeddedConfigurator
+    public class AzureEmbeddedConfigurator : IActorSystemConfigurator
     {
         readonly AzureClientConfigurator client;
         readonly AzureClusterConfigurator cluster;
@@ -38,24 +37,28 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public AzureEmbeddedConfigurator Activator<T>(object properties = null) where T : IActorActivator
-        {
-            cluster.Activator<T>(properties);
-            return this;
-        }
-
         public AzureEmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             cluster.Run<T>(properties);
             return this;
         }
 
-        public AzureEmbeddedConfigurator Register(params Assembly[] assemblies)
+        public AzureEmbeddedConfigurator Hook(ActorSystemConfiguratorHook hook)
         {
-            client.Register(assemblies);
-            cluster.Register(assemblies);
+            cluster.Hook(hook);
+            client.Hook(hook);
             return this;
         }
+
+        public AzureEmbeddedConfigurator Register(params ActorConfiguration[] configs)
+        {
+            cluster.Register(configs);
+            client.Register(configs);
+            return this;
+        }
+
+        void IActorSystemConfigurator.Hook(ActorSystemConfiguratorHook hook) => this.Hook(hook);
+        void IActorSystemConfigurator.Register(ActorConfiguration[] configs) => this.Register(configs);
 
         public AzureEmbeddedActorSystem Done()
         {

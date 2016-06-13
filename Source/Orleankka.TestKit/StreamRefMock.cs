@@ -8,6 +8,8 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
+    using CSharp;
+
     [Serializable]
     public class StreamRefMock : StreamRef
     {
@@ -60,7 +62,7 @@ namespace Orleankka.TestKit
             return Task.FromResult<StreamSubscription>(mock);
         }
 
-        public override Task Subscribe(Actor actor, StreamFilter filter = null)
+/*        public override Task Subscribe(Actor actor, StreamFilter filter = null)
         {
             Subscribed = actor;
             Filter = filter;
@@ -79,7 +81,7 @@ namespace Orleankka.TestKit
         {
             Resumed = actor;
             return TaskDone.Done;
-        }
+        }*/
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
 

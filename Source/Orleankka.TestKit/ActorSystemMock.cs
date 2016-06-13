@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Orleankka.TestKit
 {
+	using CSharp;
+	
     public class ActorSystemMock : IActorSystem
     {
         readonly Dictionary<ActorPath, ActorRefMock> actors =

@@ -6,7 +6,7 @@ using Orleankka.Meta;
 namespace Example
 {
     [Serializable]
-    public class Create : Command<InventoryItem>
+    public class Create : Command
     {
         public readonly string Name;
 
@@ -17,7 +17,7 @@ namespace Example
     }
 
     [Serializable]
-    public class CheckIn : Command<InventoryItem>
+    public class CheckIn : Command
     {
         public readonly int Quantity;
 
@@ -28,7 +28,7 @@ namespace Example
     }
 
     [Serializable]
-    public class CheckOut : Command<InventoryItem>
+    public class CheckOut : Command
     {
         public readonly int Quantity;
 
@@ -39,7 +39,7 @@ namespace Example
     }
 
     [Serializable]
-    public class Rename : Command<InventoryItem>
+    public class Rename : Command
     {
         public readonly string NewName;
 
@@ -50,11 +50,11 @@ namespace Example
     }
 
     [Serializable]
-    public class Deactivate : Command<InventoryItem>
+    public class Deactivate : Command
     {}
 
     [Serializable]
-    public class GetDetails : Query<InventoryItem, InventoryItemDetails>
+    public class GetDetails : Query<InventoryItemDetails>
     {}
 
     [Serializable]

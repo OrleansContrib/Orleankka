@@ -12,6 +12,7 @@ open Suave.Utils
 
 open Orleankka
 open Orleankka.Http
+open Orleankka.CSharp
 open Orleankka.FSharp.Configuration
 
 [<EntryPoint>]

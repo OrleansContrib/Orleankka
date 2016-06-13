@@ -6,6 +6,8 @@ using NUnit.Framework;
 
 namespace Orleankka.Features
 {
+    using CSharp;
+	
     namespace Request_response
     {
         using Meta;

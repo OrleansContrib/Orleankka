@@ -1,59 +1,64 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Threading.Tasks;
+
+using Orleans;
 
 namespace Orleankka.Core
 {
     using Utility;
-    using Streams;
+    using Endpoints;
 
     class ActorType : IEquatable<ActorType>
     {
         static readonly Dictionary<string, ActorType> codes =
                     new Dictionary<string, ActorType>();
 
-        static readonly Dictionary<Type, ActorType> types =
-                    new Dictionary<Type, ActorType>();
+        public static void Reset() => codes.Clear();
 
-        public static void Register(Assembly[] assemblies)
+        public static void Register(IEnumerable<ActorConfiguration> configs)
         {
-            var actors = ActorDeclaration.Generate(assemblies);
+            var actors = ActorDeclaration.Generate(configs);
 
             foreach (var actor in actors)
                 Register(actor);
-        }
+       }
 
         static void Register(ActorType actor)
         {
             var registered = codes.Find(actor.Code);
             if (registered != null)
                 throw new ArgumentException(
-                    $"An actor with {actor.Code} has been already registered");
+                    $"An actor with code '{actor.Code}' has been already registered");
 
             codes.Add(actor.Code, actor);
-            types.Add(actor.Interface.Type, actor);
-
-            StreamSubscriptionMatcher.Register(actor);
         }
 
-        public static void Reset()
-        {
-            codes.Clear();
-            types.Clear();
+        public static ActorType From(ActorConfiguration config, Type @interface) => 
+            new ActorType(config.Code, config.KeepAliveTimeout, config.Reentrancy, Bind(@interface), config.Receiver);
 
-            StreamSubscriptionMatcher.Reset();
+        static Func<string, object> Bind(Type type)
+        {
+            var method = typeof(GrainFactory).GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
+            var invoker = method.MakeGenericMethod(type);
+            var instance = Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
+            return x => invoker.Invoke(instance, new object[] { x, null });
         }
 
         public readonly string Code;
-        public readonly ActorInterface Interface;
-        public readonly ActorImplementation Implementation;
 
-        ActorType(string code, ActorInterface @interface, ActorImplementation implementation)
+        readonly TimeSpan keepAliveTimeout;
+        readonly Func<object, bool> reentrant;
+        readonly Func<string, object> factory;
+        readonly Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver;
+
+        ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Func<string, object> factory, Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver)
         {
             Code = code;
-            Interface = @interface;
-            Implementation = implementation;
+            this.keepAliveTimeout = keepAliveTimeout;
+            this.reentrant = reentrant;
+            this.factory = factory;
+            this.receiver = receiver;
         }
 
         public static ActorType Registered(string code)
@@ -67,15 +72,21 @@ namespace Orleankka.Core
             return result;
         }
 
-        internal static ActorType From(string code, Type interfaceType, Type implementationType)
+        internal IActorEndpoint Proxy(ActorPath path) => 
+            (IActorEndpoint) factory(path.Serialize());
+
+        public Func<ActorContext, object, Task<object>> Receiver(string id, ActorContext context) => 
+            receiver(id, context);
+
+        internal bool IsReentrant(object message) => 
+            reentrant(message);
+
+        internal void KeepAlive(ActorEndpoint endpoint)
         {
-            var @interface = ActorInterface.From(interfaceType, implementationType);
+            if (keepAliveTimeout == TimeSpan.Zero)
+                return;
 
-            var implementation = implementationType != null
-                ? ActorImplementation.From(implementationType)
-                : ActorImplementation.Undefined;
-
-            return new ActorType(code, @interface, implementation);
+            endpoint.DelayDeactivation(keepAliveTimeout);
         }
 
         public bool Equals(ActorType other)

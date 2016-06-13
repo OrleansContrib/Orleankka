@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using Orleankka.Cluster;
+using Orleankka.CSharp;
 using Orleankka.Playground;
 using Orleankka.Testing;
 using Orleans.Providers.Streams.AzureQueue;
@@ -49,7 +50,7 @@ namespace Orleankka.Testing
                 .UseInMemoryPubSubStore()
                 .TweakCluster(cfg => cfg
                     .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
-                .Register(GetType().Assembly);
+                .CSharp(x => x.Register(GetType().Assembly));
 
             if (EnableAzureQueueStreamProvider)
             {

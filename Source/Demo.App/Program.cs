@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Orleankka;
+using Orleankka.CSharp;
 using Orleankka.Playground;
 
 namespace Demo
@@ -22,7 +23,7 @@ namespace Demo
             var system = ActorSystem.Configure()
                 .Playground()
                 .Run<ServiceLocator.Bootstrap>(properties)
-                .Register(typeof(Api).Assembly)
+                .CSharp(x => x.Register(typeof(Api).Assembly))
                 .Done();
 
             client = new Client(system, ClientObserver.Create().Result);

@@ -1,6 +1,5 @@
 ﻿namespace Orleankka
 {
-    using Core;
     using Services;
 
     public interface IActorRuntime
@@ -11,14 +10,14 @@
         IActivationService Activation   { get; }
     }
 
-    class ActorRuntime : IActorRuntime
+    public class ActorRuntime : IActorRuntime
     {
-        internal ActorRuntime(IActorSystem system, ActorEndpoint endpoint)
+        internal ActorRuntime(IActorContext context)
         {
-            System      = system;
-            Timers      = new TimerService(endpoint);
-            Reminders   = new ReminderService(endpoint);
-            Activation  = new ActivationService(endpoint);
+            System      = context.System;
+            Timers      = context.Timers;
+            Reminders   = context.Reminders;
+            Activation  = context.Activation;
         }
 
         public IActorSystem System              { get; }

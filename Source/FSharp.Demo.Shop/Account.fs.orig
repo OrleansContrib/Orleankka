@@ -22,10 +22,9 @@ type Account() =
       | Withdraw amount -> 
           if balance >= amount then balance <- balance - amount         
           else invalidOp "Amount may not be larger than account balance. \n"
-<<<<<<< 6f2d714b504a89c691060ebfacbc187ecf9a9a25
-          return response()
+          return nothing
+<<<<<<< 342a046eba72fd6c100917fc7953a181cf8ba520
    }
 =======
-          return nothing
    }
 >>>>>>> Fix broken references to Core

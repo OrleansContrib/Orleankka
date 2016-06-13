@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 
@@ -7,6 +5,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 using Orleankka;
 using Orleankka.Cluster;
+using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -14,7 +13,7 @@ namespace Example.Azure
 {
     public class Program : RoleEntryPoint
     {
-        AzureClusterActorSystem system;
+        IActorSystem system;
 
         public override bool OnStart()
         {
@@ -23,10 +22,10 @@ namespace Example.Azure
             var config = new ClusterConfiguration()
                 .LoadFromEmbeddedResource<Program>("Orleans.xml");
 
-            system = ActorSystem.Configure().Azure()
+            system = ActorSystem.Configure() //.Azure()
                 .Cluster()
                 .From(config)
-                .Register(Assembly.GetExecutingAssembly())
+                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Run<HubGateway.Bootstrapper>()
                 .Done();
 
@@ -35,7 +34,7 @@ namespace Example.Azure
 
         public override void Run()
         {
-            system.Run();
+//            system.Run();
         }
     }
 }

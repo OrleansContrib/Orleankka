@@ -2,6 +2,7 @@
 open System.Reflection
 
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 

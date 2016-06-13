@@ -6,6 +6,8 @@ using Orleans;
 
 namespace Orleankka.Features
 {
+    using CSharp;
+
     namespace Handler_wiring
     {
         using Core;

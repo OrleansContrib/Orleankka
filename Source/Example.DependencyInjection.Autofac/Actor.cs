@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Orleankka;
+using Orleankka.CSharp;
 
 namespace Example
 {

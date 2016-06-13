@@ -6,6 +6,8 @@ using NUnit.Framework;
 
 namespace Orleankka.Features
 {
+    using CSharp;
+	
     namespace Reentrant_messages
     {
         using Meta;
@@ -61,14 +63,6 @@ namespace Orleankka.Features
             public async void Could_be_defined_via_attribute()
             {
                 var actor = system.FreshActorOf<TestActor>();
-                Assert.That(await actor.Ask(new RegularMessage()), Is.False);
-                Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
-            }
-
-            [Test]
-            public async void Could_be_defined_via_private_static_method_IsReentrant()
-            {
-                var actor = system.FreshActorOf<TestActor2>();
                 Assert.That(await actor.Ask(new RegularMessage()), Is.False);
                 Assert.That(await actor.Ask(new ReentrantMessage()), Is.True);
             }

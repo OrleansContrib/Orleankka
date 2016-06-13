@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Orleankka.CSharp;
+
 namespace Orleankka.Core
 {
     public interface IActorActivator

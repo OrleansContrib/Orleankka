@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Orleankka;
+using Orleankka.CSharp;
 
 namespace Example
 {

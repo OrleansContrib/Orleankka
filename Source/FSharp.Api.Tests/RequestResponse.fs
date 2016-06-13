@@ -3,6 +3,7 @@
 open NUnit.Framework
 open System
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp.Tests.Infrastructure
 
 type Message = 
