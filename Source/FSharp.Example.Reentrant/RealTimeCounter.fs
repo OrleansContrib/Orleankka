@@ -34,4 +34,3 @@ type Counter() =
                            | GetCount -> true  // here we say that GetCount is reentrant message.
                            | _        -> false
       | _ -> false
-

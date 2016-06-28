@@ -1,10 +1,11 @@
-﻿
+﻿open System
+open System.Reflection
+
 open Orleans.Runtime.Configuration
 open Orleankka
 open Orleankka.Client
 open Orleankka.FSharp
-open System
-open System.Reflection
+
 open ChatServer
 
 let mutable client = null 

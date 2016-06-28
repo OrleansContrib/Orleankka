@@ -7,10 +7,9 @@ open Orleankka.Playground
 
 type Message = 
    | Greet of string
-   | Hi
-   interface ActorMessage<Greeter>
+   | Hi   
 
-and Greeter() = 
+type Greeter() = 
    inherit Actor<Message>()   
 
    override this.Receive message = task {

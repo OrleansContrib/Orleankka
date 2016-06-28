@@ -1,9 +1,9 @@
 ﻿namespace Orleankka.Http
 
-open Orleankka
 open System
 open System.Collections.Generic
 open Microsoft.FSharp.Reflection
+open Orleankka
 
 module ContentType = 
 

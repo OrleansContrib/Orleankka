@@ -1,8 +1,9 @@
-﻿
+﻿open System.Reflection
+
 open Orleans.Runtime.Configuration
 open Orleankka
 open Orleankka.Cluster
-open System.Reflection
+
 
 [<EntryPoint>]
 let main argv = 

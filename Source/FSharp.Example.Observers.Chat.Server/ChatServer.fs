@@ -1,9 +1,11 @@
 ﻿module ChatServer
 
+open System.Linq
+open System.Collections.Generic
+
 open Orleankka
 open Orleankka.FSharp
-open System.Collections.Generic
-open System.Linq
+
 
 type ClientMessage =
    | NewMessage of Username:string * Text:string

@@ -1,4 +1,7 @@
-﻿open Suave                 
+﻿open System.Reflection            
+open Newtonsoft.Json
+
+open Suave                 
 open Suave.Web
 open Suave.Http
 open Suave.Http.Successful
@@ -10,10 +13,6 @@ open Suave.Utils
 open Orleankka
 open Orleankka.Http
 open Orleankka.Playground
-
-open System.Reflection            
-open Newtonsoft.Json
-
 
 [<EntryPoint>]
 let main argv = 
