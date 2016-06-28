@@ -1,8 +1,7 @@
 ﻿namespace Orleankka.FSharp
 
 [<AutoOpen>]
-module FSharpActor = 
-  
+module Actor = 
    open System.Threading.Tasks   
    open Orleankka  
 
@@ -24,8 +23,7 @@ module FSharpActor =
 
 
 [<AutoOpen>]
-module FSharpActorRef = 
-
+module ActorRef =
    open Orleankka   
 
    let inline getPath (ref:ActorRef) = ref.Path
@@ -38,8 +36,7 @@ module FSharpActorRef =
    
    
 [<AutoOpen>]
-module FSharpStreamRef = 
-
+module StreamRef = 
    open System.Threading.Tasks
    open Orleankka   
 
@@ -59,23 +56,72 @@ module FSharpStreamRef =
    
    
 [<AutoOpen>]
-module FSharpStreamSubscription =
-      
+module StreamSubscription =      
    open Orleankka
    
    let inline unsubscribe (sb:StreamSubscription) = sb.Unsubscribe() |> Task.awaitTask
 
 
+[<RequireQualifiedAccess>]
+module ClientConfig =   
+   open Orleans.Runtime.Configuration
+   open Orleankka   
+
+   let inline create () = ClientConfiguration()
+
+   let inline load input = ClientConfiguration().Load(input)
+
+   let inline loadFromFile fileName = ClientConfiguration.LoadFromFile(fileName)
+
+   let inline standardLoad () = ClientConfiguration.StandardLoad()
+
+   let inline localhostSilo gatewayPort = ClientConfiguration.LocalhostSilo(gatewayPort)
+
+
+[<RequireQualifiedAccess>]
+module ClusterConfig =    
+   open Orleans.Runtime.Configuration
+   open Orleankka
+   
+   let inline create () = ClusterConfiguration()
+
+   let inline load input = ClusterConfiguration().Load(input)
+
+   let inline loadFromFile fileName = ClusterConfiguration().LoadFromFile(fileName)
+
+   let inline standardLoad () = ClusterConfiguration().StandardLoad()
+
+   let inline localhostSilo siloPort gatewayPort =
+      ClusterConfiguration.LocalhostPrimarySilo(siloPort, gatewayPort)
+   
+
+[<RequireQualifiedAccess>]
+module ActorSystem =       
+   open Orleans.Runtime.Configuration
+   open Orleankka
+   open Orleankka.Playground
+   open Orleankka.Client
+   open Orleankka.Cluster
+
+   let inline createClient config assemblies = 
+      ActorSystem.Configure().Client().From(config).Register(assemblies).Done()
+
+   let inline createCluster config assemblies =
+      ActorSystem.Configure().Cluster().From(config).Register(assemblies).Done()
+
+   let inline createPlayground assemblies =
+      ActorSystem.Configure().Playground().Register(assemblies).Done()
+
+
 [<AutoOpen>]
 module Operators =
-
    open Orleankka
    
    type Api = Api with      
       static member (<!) (api:Api, actorRef:ActorRef)   = fun (msg:obj) -> actorRef.Tell(msg) |> Task.awaitTask
       static member (<!) (api:Api, streamRef:StreamRef) = fun (msg:obj) -> streamRef.Push(msg) |> Task.awaitTask
 
-   let inline (<*) (x:^T) (message:obj) = (^T: (member Notify : obj -> unit) (x, message))   
+   let inline (<*) (x:^T) (message:obj) = (^T: (member Notify: obj -> unit) (x, message))   
    
    let inline (<!) (x:'T) (message:obj) = Api <! x <| message
 
