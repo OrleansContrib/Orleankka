@@ -60,7 +60,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="Task.fs" />
-    <Compile Include="Actor.fs" />
+    <Compile Include="Api.fs" />
     <Content Include="FSharp.Core.optdata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
