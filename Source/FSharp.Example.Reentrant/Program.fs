@@ -3,7 +3,7 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.Playground
+open Orleankka.FSharp.Configuration
 
 open RealTimeCounter
 
@@ -16,10 +16,7 @@ let main argv =
    printfn "Running demo. Booting cluster might take some time ...\n"
 
    // setup actor system
-   use system = ActorSystem.Configure()
-                           .Playground()
-                           .Register(Assembly.GetExecutingAssembly())
-                           .Done()
+   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
    
    // get uniq actor by name
    let counter = system.ActorOf<Counter>("realtime-consistent-counter")

@@ -3,7 +3,7 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.Playground
+open Orleankka.FSharp.Configuration
 
 type Message = 
    | Greet of string
@@ -24,22 +24,19 @@ type Greeter() =
 [<EntryPoint>]
 let main argv = 
 
-    printfn "Running demo. Booting cluster might take some time ...\n"
+   printfn "Running demo. Booting cluster might take some time ...\n"
 
-    use system = ActorSystem.Configure()
-                            .Playground()
-                            .Register(Assembly.GetExecutingAssembly())
-                            .Done()
+   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
                   
-    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
-    let job() = task {
+   let job() = task {
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"
-    }
+   }
     
-    Task.run(job) |> ignore
+   Task.run(job) |> ignore
     
-    Console.ReadLine() |> ignore    
-    0
+   Console.ReadLine() |> ignore    
+   0

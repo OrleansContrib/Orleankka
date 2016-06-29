@@ -3,7 +3,7 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.Playground
+open Orleankka.FSharp.Configuration
 
 open Shop
 open Account
@@ -13,10 +13,7 @@ let main argv =
 
    printfn "Running demo. Booting cluster might take some time ...\n"
    
-   use system = ActorSystem.Configure()
-                           .Playground()
-                           .Register(Assembly.GetExecutingAssembly())
-                           .Done()
+   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
                   
    let shop = system.ActorOf<Shop>("Amazon")
    let account = system.ActorOf<Account>("Antya")

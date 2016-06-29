@@ -12,7 +12,7 @@ open Suave.Utils
 
 open Orleankka
 open Orleankka.Http
-open Orleankka.Playground
+open Orleankka.FSharp.Configuration
 
 [<EntryPoint>]
 let main argv = 
@@ -20,10 +20,7 @@ let main argv =
   printfn "Running demo. Booting cluster might take some time ...\n"
 
   // configure actor system
-  use system = ActorSystem.Configure()
-                          .Playground()
-                          .Register(Assembly.GetExecutingAssembly())
-                          .Done()
+  use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
   
   let testActor = system.ActorOf<Actors.TestActor>("http_test")
 
