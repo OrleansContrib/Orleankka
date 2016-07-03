@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<OrleansConfiguration xmlns="urn:orleans">
+  <Globals>
+    <StorageProviders>
+      <Provider Type="Orleans.Storage.MemoryStorage" Name="PubSubStore" />
+    </StorageProviders>
+    <StreamProviders>
+      <Provider Type="Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider" Name="sms"/>
+    </StreamProviders>
+    <SeedNode Address="localhost" Port="11111" />
+  </Globals>
+  <Defaults>
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+    <Tracing DefaultTraceLevel="Error" TraceToConsole="true" TraceToFile="">
+      <TraceLevelOverride LogPrefix="Application" TraceLevel="Info" />
+    </Tracing>
+  </Defaults>
+  <Override Node="Primary">
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+  </Override>
+</OrleansConfiguration>
