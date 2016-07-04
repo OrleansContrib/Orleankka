@@ -83,12 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Orleans.xml" />
-    <Content Include="Web.config.install.xdt">
-      <Paket>True</Paket>
-    </Content>
-    <Content Include="Web.config.uninstall.xdt">
-      <Paket>True</Paket>
-    </Content>
     <Content Include="Content\bootstrap-theme.css">
       <Paket>True</Paket>
     </Content>
