@@ -16,34 +16,33 @@ namespace Orleankka.Core
     {
         public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
         {
-            var outdir = AppDomain.CurrentDomain.BaseDirectory;
-            var binary = Path.Combine(outdir, "Orleankka.Auto.dll");
+            var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto");
+            Directory.CreateDirectory(dir);
 
+            var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
+            
             var declarations = assemblies.SelectMany(Scan).ToArray();
             var source = Generate(declarations);
 
-            if (AppDomain.CurrentDomain.ShouldGenerateCode())
+            var syntaxTree = CSharpSyntaxTree.ParseText(source);
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                .Concat(assemblies)
+                .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
+                .Where(x => x != null)
+                .ToArray();
+
+            var compilation = CSharpCompilation.Create("Orleankka.Auto",
+                syntaxTrees: new[] {syntaxTree},
+                references: references,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            var result = compilation.Emit(binary);
+            if (!result.Success)
             {
-                var syntaxTree = CSharpSyntaxTree.ParseText(source);
-                var references = AppDomain.CurrentDomain.GetAssemblies()
-                    .Concat(assemblies)
-                    .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
-                    .Where(x => x != null)
-                    .ToArray();
-
-                var compilation = CSharpCompilation.Create("Orleankka.Auto",
-                    syntaxTrees: new[] {syntaxTree},
-                    references: references,
-                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-                var result = compilation.Emit(binary);
-                if (!result.Success)
-                {
-                    var failures = result.Diagnostics.Where(diagnostic =>
-                        diagnostic.IsWarningAsError ||
-                        diagnostic.Severity == DiagnosticSeverity.Error);
-                    throw new Exception("Bad code.\n\n" + string.Join("\n", failures));
-                }
+                var failures = result.Diagnostics.Where(diagnostic =>
+                    diagnostic.IsWarningAsError ||
+                    diagnostic.Severity == DiagnosticSeverity.Error);
+                throw new Exception("Bad code.\n\n" + string.Join("\n", failures));
             }
 
             var assemblyName = AssemblyName.GetAssemblyName(binary);
@@ -156,14 +155,5 @@ namespace Orleankka.Core
             var @interface = asm.GetType(fullName);
             return ActorType.From(code, @interface, actor);
         }
-    }
-
-    internal static class ActorDeclarationAppDomainExtensions
-    {
-        public static bool ShouldGenerateCode(this AppDomain domain) =>
-            domain.GetData("SuppressCodeGeneration") == null;
-
-        public static void SuppressCodeGeneration(this AppDomain domain) => 
-            domain.SetData("SuppressCodeGeneration", true);
     }
 }
