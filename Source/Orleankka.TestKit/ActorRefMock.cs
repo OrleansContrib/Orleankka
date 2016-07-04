@@ -61,7 +61,7 @@ namespace Orleankka.TestKit
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
 
-        public new void Reset()
+        public void Reset()
         {
             expectations.Clear();
             messages.Clear();
