@@ -20,6 +20,7 @@ module Actor =
 
 
    let inline response (data:obj) = data
+   let nothing = null
 
 
 [<RequireQualifiedAccess>]
