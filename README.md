@@ -60,6 +60,7 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + eCommerce [[demo]](Source/FSharp.Demo.Shop)
 + Worker actors [[see]](Source/FSharp.Demo.Worker)
 + Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
++ Streams [[chat]](Source/FSharp.Example.Streams.Chat.Actors)
 
 ##### Dependency Injection
 
