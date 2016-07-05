@@ -1,4 +1,4 @@
-### Orleankka
+![Orleankka Logo](Logo.Wide.jpg)
 
 Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, re-routing, FSM, etc. 
 
