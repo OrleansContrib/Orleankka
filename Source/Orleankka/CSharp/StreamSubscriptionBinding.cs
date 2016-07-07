@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Orleankka.CSharp
 {
@@ -16,6 +15,8 @@ namespace Orleankka.CSharp
 
         internal static StreamSubscriptionSpecification From(Type actor, StreamSubscriptionAttribute attribute, Dispatcher dispatcher)
         {
+            var code = ActorTypeCode.Of(actor);
+
             if (string.IsNullOrWhiteSpace(attribute.Source))
                 throw InvalidSpecification(actor, "has null or whitespace only value of Source");
 
@@ -25,9 +26,12 @@ namespace Orleankka.CSharp
             if (attribute.Filter != null && string.IsNullOrWhiteSpace(attribute.Filter))
                 throw InvalidSpecification(actor, "has whitespace only value of Filter");
 
-            var parts = attribute.Source.Split(new[] { ":" }, 2, StringSplitOptions.None);
+            var parts = attribute.Source.Split(new[]{":"}, 2, StringSplitOptions.None);
             if (parts.Length != 2)
                 throw InvalidSpecification(actor, $"has invalid Source specification: {attribute.Source}");
+
+            var filter = BuildFilter(attribute.Filter, actor, dispatcher);
+            var selector = BuildTargetSelector(attribute.Target, actor);
 
             var provider = parts[0];
             var source = parts[1];
@@ -35,14 +39,11 @@ namespace Orleankka.CSharp
             var isRegex = source.StartsWith("/") &&
                           source.EndsWith("/");
 
-            var filter = BuildFilter(attribute.Filter, actor, dispatcher);
-            var receiver = BuildReceiver(attribute.Target, actor);
-
             if (!isRegex)
-                return new StreamSubscriptionSpecification.MatchExact(provider, source, attribute.Target, receiver, filter);
+                return  StreamSubscriptionSpecification.MatchExact(provider, source, attribute.Target, selector, filter);
 
             var pattern = source.Substring(1, source.Length - 2);
-            return new StreamSubscriptionSpecification.MatchPattern(provider, pattern, attribute.Target, receiver, filter);
+            return StreamSubscriptionSpecification.MatchPattern(provider, pattern, attribute.Target, selector, filter);
         }
 
         static Exception InvalidSpecification(Type actor, string error)
@@ -69,25 +70,16 @@ namespace Orleankka.CSharp
             return (Func<object, bool>)method.CreateDelegate(typeof(Func<object, bool>));
         }
 
-        static Func<IActorSystem, string, Func<object, Task>> BuildReceiver(string target, Type actor)
+        static Func<object, string> BuildTargetSelector(string target, Type actor)
         {
-            var code = ActorTypeCode.Of(actor);
-
             if (!target.EndsWith("()"))
-            {
-                return (system, id) =>
-                {
-                    var receiver = system.ActorOf(new ActorPath(code, id));
-                    return receiver.Tell;
-                };
-            }
+                return null;
 
             var method = GetStaticMethod(target, actor);
             if (method == null)
                 throw new InvalidOperationException("Target function should be a static method");
 
-            var selector = (Func<object, string>)method.CreateDelegate(typeof(Func<object, string>));
-            return (system, _) => (item => system.ActorOf(new ActorPath(code, selector(item))).Tell(item));
+            return (Func<object, string>)method.CreateDelegate(typeof(Func<object, string>));
         }
 
         static MethodInfo GetStaticMethod(string methodString, Type type)

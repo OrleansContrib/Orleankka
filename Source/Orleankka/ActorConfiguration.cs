@@ -8,8 +8,8 @@ namespace Orleankka
 
     public class ActorConfiguration
     {
-        public readonly List<StreamSubscriptionSpecification> Subscriptions = 
-                    new List<StreamSubscriptionSpecification>();
+        readonly List<StreamSubscriptionSpecification> subscriptions = 
+             new List<StreamSubscriptionSpecification>();
 
         Func<object, bool> reentrancy = message => false;
         Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver;
@@ -67,6 +67,14 @@ namespace Orleankka
 
                 keepAliveTimeout = value;
             }
+        }
+
+        public IEnumerable<StreamSubscriptionSpecification> Subscriptions => subscriptions;
+
+        public void Add(StreamSubscriptionSpecification subscription)
+        {
+            subscription.Code = Code;
+            subscriptions.Add(subscription);
         }
 
         public override bool Equals(object obj)

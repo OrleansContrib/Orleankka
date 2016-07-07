@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleans;
+using Orleankka.Core.Streams;
 
 namespace Orleankka.Checks
 {
@@ -32,9 +33,11 @@ namespace Orleankka.Checks
 
             var type = typeof(TestActor);
             var dispatcher = new Dispatcher(type);
-            var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
-            var match = specification.Match(system, streamId);
 
+            var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
+            specification.Code = ActorTypeCode.Of(typeof(TestActor));
+
+            var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
             {
                 Assert.That(actorId, Is.Null);
@@ -64,9 +67,11 @@ namespace Orleankka.Checks
 
             var type = typeof(TestActor);
             var dispatcher = new Dispatcher(type);
-            var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
-            var match = specification.Match(system, streamId);
 
+            var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
+            specification.Code = ActorTypeCode.Of(typeof(TestActor));
+
+            var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
             {
                 Assert.That(actorId, Is.Null);
@@ -88,7 +93,10 @@ namespace Orleankka.Checks
 
             var type = typeof(DynamicTargetSelectorActor);
             var dispatcher = new Dispatcher(type);
+
             var specification = StreamSubscriptionBinding.From(type, dispatcher).ElementAt(0);
+            specification.Code = ActorTypeCode.Of(typeof(DynamicTargetSelectorActor));
+
             var match = specification.Match(system, "foo");
 
             var message = new object();

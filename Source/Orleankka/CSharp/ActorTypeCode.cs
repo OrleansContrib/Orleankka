@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Orleankka.CSharp
 {
-    internal static class ActorTypeCode
+    static class ActorTypeCode
     {
         internal static string Of(Type type)
         {

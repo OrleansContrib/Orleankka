@@ -97,7 +97,8 @@ namespace Orleankka.CSharp
         static void SetStreamSubscriptions(Type actor, ActorConfiguration config)
         {
             var subscriptions = StreamSubscriptionBinding.From(actor, dispatchers[actor]);
-            config.Subscriptions.AddRange(subscriptions);
+            foreach (var subscription in subscriptions)
+                config.Add(subscription);
         }
     }
 }

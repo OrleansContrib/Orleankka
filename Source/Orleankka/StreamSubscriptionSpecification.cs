@@ -4,77 +4,70 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Core.Streams;
     using Utility;
 
-    public abstract class StreamSubscriptionSpecification
+    public class StreamSubscriptionSpecification
     {
+        internal string Code;
+        readonly Func<string, string> matcher;
+        readonly Func<object, string> selector;
+        readonly Func<object, bool> filter;
         public readonly string Provider;
 
-        protected StreamSubscriptionSpecification(string provider)
+        public StreamSubscriptionSpecification(string provider, Func<string, string> matcher, Func<object, string> selector = null, Func<object, bool> filter = null)
         {
             Requires.NotNullOrWhitespace(provider, nameof(provider));
+            Requires.NotNull(matcher, nameof(matcher));
+
             Provider = provider;
+            this.matcher = matcher;
+            this.selector = selector;
+
+            this.filter = filter ?? (x => true);
         }
 
-        public abstract StreamSubscriptionMatch Match(IActorSystem system, string stream);
-
-        public class MatchExact : StreamSubscriptionSpecification
+        internal StreamSubscriptionMatch Match(IActorSystem system, string stream)
         {
-            readonly string source;
-            readonly string target;
-            readonly Func<IActorSystem, string, Func<object, Task>> receiver;
-            readonly Func<object, bool> filter;
+            var target = matcher(stream);
+            if (target == null)
+                return StreamSubscriptionMatch.None;
 
-            public MatchExact(string provider, string source, string target, Func<IActorSystem, string, Func<object, Task>> receiver, Func<object, bool> filter = null)
-                : base(provider)
-            {
-                this.source = source;
-                this.target = target;
-                this.receiver = receiver;
-                this.filter = filter ?? (x => true);
-            }
+            var receiver = selector == null
+                ? (Func<object, Task>) Reference(system, target).Tell
+                : (x => Reference(system, selector(x)).Tell(x));
 
-            public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
-            {
-                return stream == source
-                        ? new StreamSubscriptionMatch(target, x => receiver(system, target)(x), filter)
-                        : StreamSubscriptionMatch.None;
-            }
+            return new StreamSubscriptionMatch(target, receiver, filter);
         }
 
-        public class MatchPattern : StreamSubscriptionSpecification
+        ActorRef Reference(IActorSystem system, string id) => system.ActorOf(new ActorPath(Code, id));
+
+        public static StreamSubscriptionSpecification MatchExact(string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
         {
-            readonly string target;
-            readonly Func<IActorSystem, string, Func<object, Task>> receiver;
-            readonly Func<object, bool> filter;
-            readonly Regex matcher;
-            readonly Regex generator;
+            Func<string, string> matcher = stream => stream == source ? target: null;
+            return new StreamSubscriptionSpecification(provider, matcher, selector, filter);
+        }
 
-            public MatchPattern(string provider, string source, string target, Func<IActorSystem, string, Func<object, Task>> receiver, Func<object, bool> filter = null)
-                : base(provider)
-            {
-                this.target = target;
-                this.receiver = receiver;
-                this.filter = filter;
-                matcher = new Regex(source, RegexOptions.Compiled);
-                generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
-            }
+        public static StreamSubscriptionSpecification MatchPattern(string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
+        { 
+            var pattern = new Regex(source, RegexOptions.Compiled);
+            var generator = new Regex(@"(?<placeholder>\{[^\}]+\})", RegexOptions.Compiled);
 
-            public override StreamSubscriptionMatch Match(IActorSystem system, string stream)
+            Func<string, string> matcher = stream =>
             {
-                var match = matcher.Match(stream);
+                var match = pattern.Match(stream);
 
                 if (!match.Success)
-                    return StreamSubscriptionMatch.None;
+                    return null;
 
-                var id = generator.Replace(target, m =>
+                return generator.Replace(target, m =>
                 {
-                    var placeholder = m.Value.Substring(1, m.Value.Length - 2);
-                    return match.Groups[placeholder].Value;
+                    var placeholder1 = m.Value.Substring(1, m.Value.Length - 2);
+                    return match.Groups[placeholder1].Value;
                 });
+            };
 
-                return new StreamSubscriptionMatch(id, x => receiver(system, id)(x), filter);
-            }
+            return new StreamSubscriptionSpecification(provider, matcher, selector, filter);
         }
     }
 }

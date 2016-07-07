@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 using Orleans;
 
-namespace Orleankka
+namespace Orleankka.Core.Streams
 {
-    public class StreamSubscriptionMatch
+    class StreamSubscriptionMatch
     {
         public static readonly StreamSubscriptionMatch None = new StreamSubscriptionMatch();
 
