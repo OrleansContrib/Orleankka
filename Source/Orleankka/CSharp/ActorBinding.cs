@@ -5,14 +5,18 @@ using System.Reflection;
 
 namespace Orleankka.CSharp
 {
-    using Core;
-
     class ActorBinding
     {
+        static readonly Dictionary<Type, Dispatcher> dispatchers = 
+                    new Dictionary<Type, Dispatcher>(); 
+
         internal static IActorActivator Activator;
 
-        internal static void Reset() => 
+        internal static void Reset()
+        {
             Activator = new DefaultActorActivator();
+            dispatchers.Clear();
+        }
 
         static ActorBinding()
         {
@@ -75,22 +79,16 @@ namespace Orleankka.CSharp
             config.Reentrancy = ReentrantAttribute.Predicate(actor);
         }
 
-        static void SetStreamSubscriptions(Type actor, ActorConfiguration config)
-        {
-            var subscriptions = StreamSubscriptionBinding.From(actor, new Dispatcher(actor));
-            config.Subscriptions.AddRange(subscriptions);
-        }
-
         static void SetReceiver(Type actor, ActorConfiguration config)
         {
-            var dispatcher = new Dispatcher(actor);
+            dispatchers.Add(actor, new Dispatcher(actor));
 
             config.Receiver = (id, context) =>
             {
-                var runtime = new ActorRuntime(context);
+                var dispatcher = dispatchers[actor];
 
-                var instance = Activator.Activate(actor, id, runtime);
-                instance.Initialize(id, runtime, dispatcher);
+                var instance = Activator.Activate(actor, context, dispatcher);
+                instance.Initialize(context, dispatcher);
 
                 return async (_, message) =>
                 {
@@ -115,6 +113,12 @@ namespace Orleankka.CSharp
                     return await instance.OnReceive(message);
                 };
             };
+        }
+
+        static void SetStreamSubscriptions(Type actor, ActorConfiguration config)
+        {
+            var subscriptions = StreamSubscriptionBinding.From(actor, dispatchers[actor]);
+            config.Subscriptions.AddRange(subscriptions);
         }
     }
 }

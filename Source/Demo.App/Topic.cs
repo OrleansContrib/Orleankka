@@ -38,7 +38,7 @@ namespace Demo
             storage = ServiceLocator.TopicStorage;
         }
 
-        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) : base(id, runtime)
+        public Topic(IActorContext context, ITopicStorage storage) : base(context)
         {
             this.storage = storage;
         }

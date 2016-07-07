@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 
 using Orleankka;
-using Orleankka.Core;
 using Orleankka.CSharp;
 
 using Autofac;
@@ -25,11 +23,11 @@ namespace Example
             container = builder.Build();
         }
 
-        public override Actor Activate(Type type, string id, IActorRuntime runtime)
+        public override Actor Activate(Type type, IActorContext context, Dispatcher dispatcher)
         {
             return (Actor) container.Resolve(type, 
-                new NamedParameter("id", id), 
-                new TypedParameter(typeof(IActorRuntime), runtime));
+                new TypedParameter(typeof(IActorContext), context), 
+                new TypedParameter(typeof(Dispatcher), dispatcher));
         }
     }
 }

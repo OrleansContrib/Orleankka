@@ -1,57 +1,50 @@
 using System;
 using System.Threading.Tasks;
 
-using Orleankka.Services;
-using Orleankka.Utility;
-
 using Orleans;
 
 namespace Orleankka.CSharp
 {
+    using Services;
+    using Utility;
+
     public abstract class Actor
     {
-        ActorRef self;
-
         protected Actor()
         {}
 
-        protected Actor(string id, IActorRuntime runtime)
+        protected Actor(IActorContext context)
         {
-            Requires.NotNull(runtime, nameof(runtime));
-            Requires.NotNullOrWhitespace(id, nameof(id));
-
-            Id = id;
-            Runtime = runtime;
+            Requires.NotNull(context, nameof(context));
+            Context = context;
         }
 
-        internal void Initialize(string id, IActorRuntime runtime, Dispatcher dispatcher)
+        protected Actor(IActorContext context, Dispatcher dispatcher)
         {
-            Id = id;
-            Runtime = runtime;
+            Requires.NotNull(context, nameof(context));
+            Requires.NotNull(dispatcher, nameof(dispatcher));
+            Context = context;
             Dispatcher = dispatcher;
         }
 
-        public string Id
+        internal void Initialize(IActorContext context, Dispatcher dispatcher)
         {
-            get; private set;
+            Context = context;
+            Dispatcher = dispatcher;
         }
 
-        public IActorRuntime Runtime
-        {
-            get; set;
-        }
+        public IActorContext Context { get; private set; }
+        public Dispatcher Dispatcher { get; private set; }
 
-        public Dispatcher Dispatcher
-        {
-            get; set;
-        }
+        public ActorRef Self => Context.Self;
+        public ActorPath Path => Context.Path;
+        public string Code => Path.Code;
+        public string Id => Path.Id;
 
-        public ActorRef Self => self ?? (self = System.ActorOf(GetType().ToActorPath(Id)));
-
-        public IActorSystem System           => Runtime.System;
-        public IActivationService Activation => Runtime.Activation;
-        public IReminderService Reminders    => Runtime.Reminders;
-        public ITimerService Timers          => Runtime.Timers;
+        public IActorSystem System           => Context.System;
+        public IActivationService Activation => Context.Activation;
+        public IReminderService Reminders    => Context.Reminders;
+        public ITimerService Timers          => Context.Timers;
 
         public virtual Task OnActivate()    => TaskDone.Done;
         public virtual Task OnDeactivate()  => TaskDone.Done;

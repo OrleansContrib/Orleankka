@@ -32,7 +32,9 @@ namespace Demo
         {
             SerializationManager.InitializeForTesting();
         }
-        
+
+        protected override ActorPath Path() => ActorPath.From("topic", "42");
+
         [SetUp]
         public override void SetUp()
         {
@@ -47,7 +49,7 @@ namespace Demo
                 {twitter,  TimeSpan.FromMinutes(5)},
             };
             
-            topic = new Topic("42", Runtime, new TopicStorageMock());
+            topic = new Topic(Context, new TopicStorageMock());
         }
 
         [Test]

@@ -5,6 +5,7 @@ using System.Web;
 
 using NUnit.Framework;
 
+using Orleankka;
 using Orleankka.Meta;
 using Orleankka.TestKit;
 
@@ -19,6 +20,8 @@ namespace Demo
         MockApiWorker worker;
         ObserverCollectionMock observers;
 
+        protected override ActorPath Path() => ActorPath.From("api", "facebook");
+
         [SetUp]
         public override void SetUp()
         {
@@ -27,7 +30,7 @@ namespace Demo
             worker = new MockApiWorker();
             observers = new ObserverCollectionMock();
 
-            api = new Api("facebook", Runtime, observers, worker);
+            api = new Api(Context, observers, worker);
         }
 
         [Test]
