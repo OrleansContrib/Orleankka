@@ -106,7 +106,7 @@ namespace Orleankka.CSharp
 
                     if (message is Reminder)
                     {
-                        await instance.OnReminder(((Reminder) message).Name);
+                        await instance.OnReminder(((Reminder) message).Id);
                         return null;
                     }
 

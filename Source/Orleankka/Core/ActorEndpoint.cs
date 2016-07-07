@@ -25,11 +25,11 @@ namespace Orleankka.Core
             type = ActorType.Registered(code);
         }
 
-        public async Task<object> Receive(object message)
+        public Task<object> Receive(object message)
         {
             KeepAlive();
 
-            return await receiver(context, message);
+            return ReceiveInternal(message);
         }
 
         public Task<object> ReceiveReentrant(object message)
@@ -45,7 +45,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return receiver(context, message);
+            return ReceiveInternal(message);
         }
 
         public Task ReceiveReentrantVoid(object message)
@@ -61,8 +61,10 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            await receiver(context, new Reminder(name));
+            await ReceiveInternal(new Reminder(name));
         }
+
+        internal Task<object> ReceiveInternal(object message) => receiver(context, message);
 
         public override Task OnActivateAsync()
         {

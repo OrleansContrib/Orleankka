@@ -12,6 +12,11 @@ namespace Orleankka.TestKit
     {
         readonly Dictionary<string, RecordedTimer> timers = new Dictionary<string, RecordedTimer>();
 
+        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
+        {
+            timers.Add(id, new RecordedTimer<object>(id, due, period, null, null));
+        }
+
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
             timers.Add(id, new RecordedTimer(id, due, period, callback));

@@ -1,17 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Orleankka.Core;
 
 namespace Orleankka.Services
 {
+    using Core;
+
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
     public interface ITimerService
     {
+        /// <summary>
+        ///     Registers a timer to send periodic <see cref="Timer"/> message to this actor in a reentrant way.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        ///     This timer will not prevent the current grain from being deactivated.
+        ///     If the grain is deactivated, then the timer will be discarded.
+        /// </para>
+        /// <para>
+        ///     Until the Task returned from the actor's receiver is resolved,
+        ///     the next timer tick will not be scheduled.
+        ///     That is to say, timer callbacks never interleave their turns.
+        /// </para>
+        /// <para>
+        ///     The timer may be stopped at any time by calling the <see cref="Unregister(string)"/> method
+        /// </para>
+        /// <para>
+        ///     Any exceptions thrown by or faulted Task's 
+        ///     will be logged, but will not prevent the next timer tick from being queued.
+        /// </para>
+        /// </remarks>
+        /// <param name="id">Unique id of the timer</param>
+        /// <param name="due">Due time for first timer tick.</param>
+        /// <param name="period">Period of subsequent timer ticks.</param>
+        /// <param name="state">State object that will be passed with Timer message.</param>>
+        void Register(string id, TimeSpan due, TimeSpan period, object state = null);
+
         /// <summary>
         ///     Registers a timer to send periodic callbacks to this actor in a reentrant way.
         /// </summary>
@@ -98,6 +124,11 @@ namespace Orleankka.Services
         internal TimerService(ActorEndpoint endpoint)
         {
             this.endpoint = endpoint;
+        }
+
+        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
+        {
+            timers.Add(id, endpoint.RegisterTimer(s => endpoint.ReceiveInternal(new Timer(id, s)), state, due, period));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
