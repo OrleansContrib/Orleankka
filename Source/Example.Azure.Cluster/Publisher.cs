@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 
+using Orleankka;
 using Orleankka.CSharp;
 
 namespace Example.Azure
@@ -13,17 +12,14 @@ namespace Example.Azure
         [Serializable]
         public class Init {}
 
-        public void Handle(Init req)
-        {}
+        void On(Init _) {}
 
-        public override Task OnActivate()
+        void On(Activate _)
         {
             Timers.Register("pub-pub", 
                 TimeSpan.FromSeconds(1), 
                 TimeSpan.FromSeconds(rand.Next(3, 10)), 
                 () => HubGateway.Publish(Event()));
-
-            return base.OnActivate();
         }
 
         Event Event()

@@ -16,6 +16,8 @@ using EventStore.ClientAPI.Exceptions;
 
 using Newtonsoft.Json;
 
+using Orleankka;
+
 namespace Example
 {
     public abstract class CqsActor : Actor
@@ -55,7 +57,7 @@ namespace Example
 
         int version = ExpectedVersion.NoStream;
 
-        public override async Task OnActivate()
+        async Task On(Activate _)
         {
             var stream = StreamName();
 

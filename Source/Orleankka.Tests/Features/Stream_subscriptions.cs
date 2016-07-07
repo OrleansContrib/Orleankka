@@ -38,7 +38,7 @@ namespace Orleankka.Features
             void On(string x) => received.Add(x);
             List<string> On(Received x) => received;
 
-            public override Task OnActivate() => Stream().Resume(this);
+            Task On(Activate x) => Stream().Resume(this);
 
             StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
             protected abstract string Provider { get; }

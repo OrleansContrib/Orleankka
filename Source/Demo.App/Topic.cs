@@ -43,10 +43,7 @@ namespace Demo
             this.storage = storage;
         }
 
-        public override async Task OnActivate()
-        {
-            total = await storage.ReadTotalAsync(Id);
-        }
+        async Task On(Activate _) => total = await storage.ReadTotalAsync(Id);
 
         public async Task Handle(CreateTopic cmd)
         {
@@ -56,8 +53,9 @@ namespace Demo
                 await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
-        public override async Task OnReminder(string api)
+        public async Task On(Reminder reminder)
         {
+            var api = reminder.Id;
             try
             {
                 if (!IsRetrying(api))

@@ -22,13 +22,11 @@ namespace Example.Azure
         
         ActorRef hub;
 
-        public override Task OnActivate()
+        void On(Activate _)
         {
             hub = HubGateway.GetLocalHub();
-            
+
             Timers.Register("flush", flushPeriod, flushPeriod, Flush);
-            
-            return base.OnActivate();
         }
 
         Task Flush()

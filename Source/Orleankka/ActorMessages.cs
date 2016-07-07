@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Orleankka
 {
-    public struct Activate
+    public class Activate
     {}
 
-    public struct Deactivate
+    public class Deactivate
     {}
 
-    public struct Reminder
+    public class Reminder
     {
         public readonly string Id;
 
@@ -19,7 +19,7 @@ namespace Orleankka
         }
     }
 
-    public struct Timer
+    public class Timer
     {
         public readonly string Id;
         public readonly object State;

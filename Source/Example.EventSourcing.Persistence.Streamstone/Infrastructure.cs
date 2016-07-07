@@ -17,6 +17,8 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 using Newtonsoft.Json;
 
+using Orleankka;
+
 namespace Example
 {
     public abstract class CqsActor : Actor
@@ -57,7 +59,7 @@ namespace Example
 
         Stream stream;
 
-        public override async Task OnActivate()
+        async Task On(Activate _)
         {
             var partition = new Partition(SS.Table, StreamName());
 

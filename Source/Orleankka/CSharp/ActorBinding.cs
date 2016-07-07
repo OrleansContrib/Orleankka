@@ -90,28 +90,7 @@ namespace Orleankka.CSharp
                 var instance = Activator.Activate(actor, context, dispatcher);
                 instance.Initialize(context, dispatcher);
 
-                return async (_, message) =>
-                {
-                    if (message is Activate)
-                    {
-                        await instance.OnActivate();
-                        return null;
-                    }
-
-                    if (message is Deactivate)
-                    {
-                        await instance.OnDeactivate();
-                        return null;
-                    }
-
-                    if (message is Reminder)
-                    {
-                        await instance.OnReminder(((Reminder) message).Id);
-                        return null;
-                    }
-
-                    return await instance.OnReceive(message);
-                };
+                return async (_, message) => await instance.OnReceive(message);
             };
         }
 
