@@ -62,6 +62,18 @@ namespace Orleankka
     public static class ActorSystemExtensions
     {
         /// <summary>
+        /// Acquires the actor reference for the given actor code and id.
+        /// </summary>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="code">The actor code</param>
+        /// <param name="id">The actor id</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef ActorOf(this IActorSystem system, string code, string id)
+        {
+            return system.ActorOf(ActorPath.From(code, id));
+        }
+
+        /// <summary>
         /// Acquires the actor reference for the given actor path string.
         /// </summary>
         /// <param name="system">The reference to actor system</param>

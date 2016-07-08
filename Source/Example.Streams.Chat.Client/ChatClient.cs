@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.CSharp;
 
 namespace Example
 {
@@ -15,7 +14,7 @@ namespace Example
 
         public ChatClient(IActorSystem system, string user, string room)
         {
-            this.user = system.ActorOf<ChatUser>(user);
+            this.user = system.ActorOf("ChatUser", user);
             this.room = system.StreamOf("sms", room);
         }
 

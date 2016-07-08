@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatUser.cs" />
-    <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +47,10 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Example.Streams.Chat.Shared\Chat.Shared.csproj">
+      <Project>{455b546c-c246-5cee-a302-7d453a81d3a2}</Project>
+      <Name>Chat.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
       <Name>Orleankka</Name>

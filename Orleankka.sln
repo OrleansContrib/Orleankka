@@ -107,6 +107,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Client", "Source\FSharp.Exa
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Server", "Source\FSharp.Example.Streams.Chat.Server\Server.fsproj", "{B2912C76-24A6-4829-AADE-65AA73877B2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Shared", "Source\Example.Streams.Chat.Shared\Chat.Shared.csproj", "{455B546C-C246-5CEE-A302-7D453A81D3A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -312,6 +314,12 @@ Global
 		{B2912C76-24A6-4829-AADE-65AA73877B2C}.Package|Any CPU.Build.0 = Release|Any CPU
 		{B2912C76-24A6-4829-AADE-65AA73877B2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2912C76-24A6-4829-AADE-65AA73877B2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Package|Any CPU.Build.0 = Release|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455B546C-C246-5CEE-A302-7D453A81D3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -357,5 +365,6 @@ Global
 		{326D7FA8-5F82-49C0-9E43-C25CBD35A206} = {6CBF16F9-9FAF-4A18-9781-F080331EC34A}
 		{52B47013-DCDF-4008-9F87-49A44A022152} = {6CBF16F9-9FAF-4A18-9781-F080331EC34A}
 		{B2912C76-24A6-4829-AADE-65AA73877B2C} = {6CBF16F9-9FAF-4A18-9781-F080331EC34A}
+		{455B546C-C246-5CEE-A302-7D453A81D3A2} = {19BDCEE0-4209-481B-A87B-9ECA53910422}
 	EndGlobalSection
 EndGlobal

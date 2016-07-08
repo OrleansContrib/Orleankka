@@ -50,9 +50,9 @@
     <EmbeddedResource Include="Client.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Streams.Chat.Server\Chat.Server.csproj">
-      <Project>{355b546c-c246-4cee-a302-7d453a81d3ac}</Project>
-      <Name>Chat.Server</Name>
+    <ProjectReference Include="..\Example.Streams.Chat.Shared\Chat.Shared.csproj">
+      <Project>{455b546c-c246-5cee-a302-7d453a81d3a2}</Project>
+      <Name>Chat.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>

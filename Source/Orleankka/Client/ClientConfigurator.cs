@@ -20,9 +20,9 @@ namespace Orleankka.Client
             Configuration = new ClientConfiguration();
         }
 
-        internal ClientConfiguration Configuration
+        ClientConfiguration Configuration
         {
-            get; private set;
+            get; set;
         }
 
         public ClientConfigurator From(ClientConfiguration config)
@@ -43,11 +43,36 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(params ActorConfiguration[] configs)
+        public ClientConfigurator Register(params EndpointConfiguration[] configs)
         {
             ((IActorSystemConfigurator)this).Register(configs);
             return this;
         }
+
+        public ClientConfigurator Register(string code, bool worker = false, Func<object, bool> reentrancy = null)
+        {
+            var config = CreateEndpointConfiguration(code, worker);
+            if (reentrancy != null)
+                config.Reentrancy = reentrancy; 
+
+            Register(config);
+            return this;
+        }
+
+        public ClientConfigurator Register(string code, bool worker = false, params Type[] reentrant)
+        {
+            Requires.NotNull(reentrant, nameof(reentrant));
+
+            var config = CreateEndpointConfiguration(code, worker);
+            var messages = new HashSet<Type>(reentrant);
+            config.Reentrancy = m => messages.Contains(m.GetType()); 
+
+            Register(config);
+            return this;
+        }
+
+        static EndpointConfiguration CreateEndpointConfiguration(string code, bool worker) => 
+            worker ? (EndpointConfiguration) new WorkerConfiguration(code) : new ActorConfiguration(code);
 
         public IActorSystem Done()
         {
@@ -58,7 +83,7 @@ namespace Orleankka.Client
             return system;
         }
 
-        internal new void Configure()
+        new void Configure()
         {
             foreach (var each in streamProviders)
                 each.Register(Configuration);
