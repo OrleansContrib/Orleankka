@@ -57,7 +57,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register(params ActorConfiguration[] configs)
+        public ClusterConfigurator Register(params EndpointConfiguration[] configs)
         {
             ((IActorSystemConfigurator)this).Register(configs);
             return this;
