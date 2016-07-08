@@ -18,6 +18,8 @@ namespace Orleankka.CSharp
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
+        readonly List<Type> userDefinedMessages = new List<Type>();
+
         readonly Type actor;        
         
         public Dispatcher(Type actor)
@@ -68,10 +70,15 @@ namespace Orleankka.CSharp
                     $"Handler for {message} has been already defined by {actor}");
 
             handlers.Add(message, handler);
+
+            if (!typeof(ActorMessage).IsAssignableFrom(message))
+                userDefinedMessages.Add(message);
         }
 
         public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
-        public IEnumerable<Type> RegisteredMessages() => handlers.Keys;
+
+        public IEnumerable<Type> RegisteredMessages(bool userDefinedOnly = true) => 
+            userDefinedOnly ? (IEnumerable<Type>) userDefinedMessages : handlers.Keys;
 
         public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {

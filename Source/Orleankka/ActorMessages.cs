@@ -1,15 +1,15 @@
-using System;
-using System.Linq;
-
 namespace Orleankka
 {
-    public class Activate
+    public interface ActorMessage
     {}
 
-    public class Deactivate
+    public class Activate : ActorMessage
     {}
 
-    public class Reminder
+    public class Deactivate : ActorMessage
+    {}
+
+    public class Reminder : ActorMessage
     {
         public readonly string Id;
 
@@ -19,7 +19,7 @@ namespace Orleankka
         }
     }
 
-    public class Timer
+    public class Timer : ActorMessage
     {
         public readonly string Id;
         public readonly object State;
