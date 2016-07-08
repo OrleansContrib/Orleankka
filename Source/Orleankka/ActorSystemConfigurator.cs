@@ -2,29 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Orleankka.Core.Streams;
-
 namespace Orleankka
 {
     using Core;
+    using Core.Streams;
     using Utility;
 
     public interface IActorSystemConfigurator
     {
         T[] Hooks<T>(); 
         void Hook<T>() where T : ActorSystemConfiguratorHook;
-        void Register(ActorConfiguration[] configs);
+        void Register(EndpointConfiguration[] configs);
     }
 
     public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IDisposable
     {
-        readonly HashSet<ActorConfiguration> configs = new HashSet<ActorConfiguration>();
+        readonly HashSet<EndpointConfiguration> configs = new HashSet<EndpointConfiguration>();
         readonly List<ActorSystemConfiguratorHook> hooks = new List<ActorSystemConfiguratorHook>();
 
         T[] IActorSystemConfigurator.Hooks<T>() => hooks.OfType<T>().ToArray();
         void IActorSystemConfigurator.Hook<T>() => hooks.Add(Activator.CreateInstance<T>());
 
-        void IActorSystemConfigurator.Register(ActorConfiguration[] configs)
+        void IActorSystemConfigurator.Register(EndpointConfiguration[] configs)
         {
             Requires.NotNull(configs, nameof(configs));
 
@@ -44,7 +43,9 @@ namespace Orleankka
         {
             hooks.ForEach(x => x.Configure(this));
             ActorType.Register(configs.ToArray());
-            StreamSubscriptionMatcher.Register(configs.SelectMany(x => x.Subscriptions));
+
+            var actors = configs.OfType<ActorConfiguration>();
+            StreamSubscriptionMatcher.Register(actors.SelectMany(x => x.Subscriptions));
         }
 
         public void Dispose()

@@ -4,37 +4,31 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Core;
     using Utility;
 
-    public class ActorConfiguration
+    public abstract class EndpointConfiguration
     {
-        readonly List<StreamSubscriptionSpecification> subscriptions = 
-             new List<StreamSubscriptionSpecification>();
+        static readonly Task<object> Done = Task.FromResult((object)null); 
+
+        static readonly Func<string, IActorContext, Func<IActorContext, object, Task<object>>> Null = 
+            (code, _) => ((context, message) => Done);
 
         Func<object, bool> reentrancy = message => false;
-        Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver;
+        Func<string, IActorContext, Func<IActorContext, object, Task<object>>> receiver = Null;
+
+        readonly List<StreamSubscriptionSpecification> subscriptions =
+             new List<StreamSubscriptionSpecification>();
+
         TimeSpan keepAliveTimeout = TimeSpan.Zero;
 
-        public ActorConfiguration(string code)
+        protected EndpointConfiguration(string code)
         {
             Requires.NotNullOrWhitespace(code, nameof(code));
             Code = code;
         }
 
-        public string Code
-        {
-            get;
-        }
-
-        public bool Worker
-        {
-            get; set;
-        }
-
-        public Placement Placement
-        {
-            get; set;
-        }
+        public string Code { get;}
 
         public Func<object, bool> Reentrancy
         {
@@ -46,7 +40,7 @@ namespace Orleankka
             }
         }
 
-        public Func<string, ActorContext, Func<IActorContext, object, Task<object>>> Receiver
+        public Func<string, IActorContext, Func<IActorContext, object, Task<object>>> Receiver
         {
             get { return receiver; }
             set
@@ -73,6 +67,8 @@ namespace Orleankka
 
         public void Add(StreamSubscriptionSpecification subscription)
         {
+            Requires.NotNull(subscription, nameof(subscription));
+
             subscription.Code = Code;
             subscriptions.Add(subscription);
         }
@@ -85,5 +81,30 @@ namespace Orleankka
 
         public override int GetHashCode() => Code.GetHashCode();
         public override string ToString() => Code;
+
+        internal abstract EndpointDeclaration Declaration();
+    }
+
+    public class WorkerConfiguration : EndpointConfiguration
+    {
+        public WorkerConfiguration(string code)
+            : base(code)
+        {}
+
+        internal override EndpointDeclaration Declaration() => new WorkerDeclaration(this);
+    }
+
+    public class ActorConfiguration : EndpointConfiguration
+    {
+        public ActorConfiguration(string code) 
+            : base(code)
+        {}
+
+        public Placement Placement
+        {
+            get; set;
+        }
+
+        internal override EndpointDeclaration Declaration() => new ActorDeclaration(this);
     }
 }

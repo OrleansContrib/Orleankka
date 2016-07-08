@@ -16,9 +16,9 @@ namespace Orleankka.Core
 
         public static void Reset() => codes.Clear();
 
-        public static void Register(IEnumerable<ActorConfiguration> configs)
+        public static void Register(IEnumerable<EndpointConfiguration> configs)
         {
-            var actors = ActorDeclaration.Generate(configs);
+            var actors = EndpointDeclaration.Generate(configs);
 
             foreach (var actor in actors)
                 Register(actor);
@@ -34,17 +34,6 @@ namespace Orleankka.Core
             codes.Add(actor.Code, actor);
         }
 
-        public static ActorType From(ActorConfiguration config, Type @interface) => 
-            new ActorType(config.Code, config.KeepAliveTimeout, config.Reentrancy, Bind(@interface), config.Receiver);
-
-        static Func<string, object> Bind(Type type)
-        {
-            var method = typeof(GrainFactory).GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
-            var invoker = method.MakeGenericMethod(type);
-            var instance = Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
-            return x => invoker.Invoke(instance, new object[] { x, null });
-        }
-
         public readonly string Code;
 
         readonly TimeSpan keepAliveTimeout;
@@ -52,13 +41,21 @@ namespace Orleankka.Core
         readonly Func<string, object> factory;
         readonly Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver;
 
-        ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Func<string, object> factory, Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver)
+        internal ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Type @interface, Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver)
         {
             Code = code;
             this.keepAliveTimeout = keepAliveTimeout;
             this.reentrant = reentrant;
-            this.factory = factory;
+            this.factory = Bind(@interface);
             this.receiver = receiver;
+        }
+
+        static Func<string, object> Bind(Type type)
+        {
+            var method = typeof(GrainFactory).GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
+            var invoker = method.MakeGenericMethod(type);
+            var instance = Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
+            return x => invoker.Invoke(instance, new object[] { x, null });
         }
 
         public static ActorType Registered(string code)

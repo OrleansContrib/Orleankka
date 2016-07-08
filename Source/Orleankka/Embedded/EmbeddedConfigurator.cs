@@ -64,7 +64,7 @@ namespace Orleankka.Embedded
                    ((IActorSystemConfigurator)cluster).Hooks<T>()).ToArray();
         }
 
-        void IActorSystemConfigurator.Register(ActorConfiguration[] configs)
+        void IActorSystemConfigurator.Register(EndpointConfiguration[] configs)
         {
             throw new InvalidOperationException();
         }

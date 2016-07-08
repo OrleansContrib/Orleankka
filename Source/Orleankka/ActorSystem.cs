@@ -73,6 +73,17 @@ namespace Orleankka
         }
 
         /// <summary>
+        /// Acquires the actor reference for the given worker code.
+        /// </summary>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="code">The code</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf(this IActorSystem system, string code)
+        {
+            return system.ActorOf(ActorPath.From(code, "#"));
+        }
+
+        /// <summary>
         /// Acquires the stream reference for the given id and type of the stream.
         /// </summary>
         /// <param name="system">The reference to actor system</param>

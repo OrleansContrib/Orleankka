@@ -17,5 +17,16 @@
         {
             return system.ActorOf(typeof(TActor).ToActorPath(id));
         }
+
+        /// <summary>
+        /// Acquires the actor reference for the given worker type.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : Actor
+        {
+            return system.ActorOf(typeof(TActor).ToActorPath("#"));
+        }
     }
 }

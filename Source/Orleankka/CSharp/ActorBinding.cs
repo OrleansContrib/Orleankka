@@ -23,18 +23,29 @@ namespace Orleankka.CSharp
             Reset();
         }
 
-        public static ActorConfiguration[] Bind(IEnumerable<Assembly> assemblies) => 
+        public static EndpointConfiguration[] Bind(IEnumerable<Assembly> assemblies) => 
             assemblies.SelectMany(Scan).ToArray();
 
-        static IEnumerable<ActorConfiguration> Scan(Assembly assembly) => assembly.GetTypes()
+        static IEnumerable<EndpointConfiguration> Scan(Assembly assembly) => assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(Actor).IsAssignableFrom(type))
             .Select(Build);
 
-        static ActorConfiguration Build(Type actor)
+        static EndpointConfiguration Build(Type actor)
+        {
+            var isActor  = IsActor(actor);
+            var isWorker = IsWorker(actor);
+
+            if (isActor && isWorker)
+                throw new InvalidOperationException(
+                    $"A type cannot be configured to be both Actor and Worker: {actor}");
+
+            return isActor ? BuildActor(actor) : BuildWorker(actor);
+        }
+
+        static EndpointConfiguration BuildActor(Type actor)
         {
             var config = new ActorConfiguration(ActorTypeCode.Of(actor));
-           
-            SetActorKind(actor, config);
+
             SetPlacement(actor, config);
             SetReentrancy(actor, config);
             SetKeepAliveTimeout(actor, config);
@@ -44,42 +55,40 @@ namespace Orleankka.CSharp
             return config;
         }
 
-        static void SetActorKind(Type actor, ActorConfiguration config)
+        static EndpointConfiguration BuildWorker(Type worker)
         {
-            var isActor = actor.GetCustomAttribute<ActorAttribute>() != null;
-            var isWorker = actor.GetCustomAttribute<WorkerAttribute>() != null;
+            var config = new WorkerConfiguration(ActorTypeCode.Of(worker));
 
-            if (isActor && isWorker)
-            {
-                throw new InvalidOperationException(
-                    $"A type cannot be configured to be both Actor and Worker: {actor}");
-            }
+            SetReentrancy(worker, config);
+            SetKeepAliveTimeout(worker, config);
+            SetReceiver(worker, config);
+            SetStreamSubscriptions(worker, config);
 
-            config.Worker = isWorker;
+            return config;
         }
+
+        static bool IsWorker(MemberInfo x) => x.GetCustomAttribute<WorkerAttribute>() != null;
+        static bool IsActor(MemberInfo x)  => !IsWorker(x);
 
         static void SetPlacement(Type actor, ActorConfiguration config)
         {
-            if (!config.Worker)
-            {
-                var attribute = actor.GetCustomAttribute<ActorAttribute>() ?? new ActorAttribute();
-                config.Placement = attribute.Placement;
-            }
+            var attribute = actor.GetCustomAttribute<ActorAttribute>() ?? new ActorAttribute();
+            config.Placement = attribute.Placement;
         }
 
-        static void SetKeepAliveTimeout(Type actor, ActorConfiguration config)
+        static void SetKeepAliveTimeout(Type actor, EndpointConfiguration config)
         {
             var timeout = KeepAliveAttribute.Timeout(actor);
             if (timeout != TimeSpan.Zero)
                 config.KeepAliveTimeout = timeout;
         }
 
-        static void SetReentrancy(Type actor, ActorConfiguration config)
+        static void SetReentrancy(Type actor, EndpointConfiguration config)
         {
             config.Reentrancy = ReentrantAttribute.Predicate(actor);
         }
 
-        static void SetReceiver(Type actor, ActorConfiguration config)
+        static void SetReceiver(Type actor, EndpointConfiguration config)
         {
             dispatchers.Add(actor, new Dispatcher(actor));
 
@@ -94,7 +103,7 @@ namespace Orleankka.CSharp
             };
         }
 
-        static void SetStreamSubscriptions(Type actor, ActorConfiguration config)
+        static void SetStreamSubscriptions(Type actor, EndpointConfiguration config)
         {
             var subscriptions = StreamSubscriptionBinding.From(actor, dispatchers[actor]);
             foreach (var subscription in subscriptions)

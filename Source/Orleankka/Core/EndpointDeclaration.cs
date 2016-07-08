@@ -12,11 +12,11 @@ using Orleans.Placement;
 
 namespace Orleankka.Core
 {
-    class ActorDeclaration
+    abstract class EndpointDeclaration
     {
-        public static IEnumerable<ActorType> Generate(IEnumerable<ActorConfiguration> configs)
+        public static IEnumerable<ActorType> Generate(IEnumerable<EndpointConfiguration> configs)
         {
-            var declarations = configs.Select(x => new ActorDeclaration(x)).ToArray();
+            var declarations = configs.Select(x => x.Declaration()).ToArray();
 
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto");
             Directory.CreateDirectory(dir);
@@ -31,7 +31,7 @@ namespace Orleankka.Core
                 .ToArray();
 
             var compilation = CSharpCompilation.Create("Orleankka.Auto",
-                syntaxTrees: new[] {syntaxTree},
+                syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
@@ -50,13 +50,14 @@ namespace Orleankka.Core
             return declarations.Select(x => x.From(assembly));
         }
 
-        static string Generate(IEnumerable<ActorDeclaration> declarations)
+        static string Generate(IEnumerable<EndpointDeclaration> declarations)
         {
             var sb = new StringBuilder(@"
                  using Orleankka;
                  using Orleankka.Core;
                  using Orleankka.Core.Endpoints;
                  using Orleans.Placement;
+                 using Orleans.Concurrency;
             ");
 
             foreach (var declaration in declarations)
@@ -65,19 +66,17 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
-        static readonly string[] separator = {".", "+"};
+        static readonly string[] separator = { ".", "+" };
 
-        readonly string code;
         readonly string clazz;
         readonly IList<string> namespaces;
-        readonly ActorConfiguration config;
+        readonly EndpointConfiguration config;
 
-        ActorDeclaration(ActorConfiguration config)
+        protected EndpointDeclaration(EndpointConfiguration config)
         {
             this.config = config;
-            this.code = config.Code;
 
-            var path = code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = config.Code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
 
             namespaces = path.TakeWhile(x => x != clazz).ToList();
@@ -96,10 +95,10 @@ namespace Orleankka.Core
             return src.ToString();
         }
 
-        void StartNamespace(StringBuilder src) => 
+        void StartNamespace(StringBuilder src) =>
             src.AppendLine($"namespace {string.Join(".", namespaces)}");
 
-        static void EndNamespace(StringBuilder src) => 
+        static void EndNamespace(StringBuilder src) =>
             src.AppendLine("}}");
 
         void GenerateInterface(StringBuilder src)
@@ -110,13 +109,39 @@ namespace Orleankka.Core
 
         void GenerateImplementation(StringBuilder src)
         {
-            src.AppendLine(config.Worker  
-                            ? "[StatelessWorker]"
-                            : $"[{GetActorPlacement()}]");
+            GenerateAttributes(src);
 
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
-            src.AppendLine($"public {clazz}() : base(\"{code}\") {{}}");
+            src.AppendLine($"public {clazz}() : base(\"{config.Code}\") {{}}");
         }
+
+        protected abstract void GenerateAttributes(StringBuilder src);
+
+        ActorType From(Assembly asm)
+        {
+            var fullName = string.Join(".", new List<string>(namespaces) { $"I{clazz}" });
+            var @interface = asm.GetType(fullName);
+            return Build(@interface);
+        }
+
+        protected abstract ActorType Build(Type @interface);
+    }
+
+    class ActorDeclaration : EndpointDeclaration
+    {
+        readonly ActorConfiguration config;
+
+        public ActorDeclaration(ActorConfiguration config)
+            : base(config)
+        {
+            this.config = config;
+        }
+
+        protected override ActorType Build(Type @interface) => 
+            new ActorType(config.Code, config.KeepAliveTimeout, config.Reentrancy, @interface, config.Receiver);
+
+        protected override void GenerateAttributes(StringBuilder src) => 
+            src.AppendLine($"[{GetActorPlacement()}]");
 
         string GetActorPlacement()
         {
@@ -133,11 +158,22 @@ namespace Orleankka.Core
             }
         }
 
-        ActorType From(Assembly asm)
+    }
+
+    class WorkerDeclaration : EndpointDeclaration
+    {
+        readonly WorkerConfiguration config;
+
+        public WorkerDeclaration(WorkerConfiguration config)
+            : base(config)
         {
-            var fullName = string.Join(".", new List<string>(namespaces) { $"I{clazz}" });
-            var @interface = asm.GetType(fullName);
-            return ActorType.From(config, @interface);
+            this.config = config;
         }
+
+        protected override ActorType Build(Type @interface) =>
+            new ActorType(config.Code, TimeSpan.Zero, config.Reentrancy, @interface, config.Receiver);
+        
+        protected override void GenerateAttributes(StringBuilder src) => 
+            src.AppendLine("[StatelessWorker]");
     }
 }

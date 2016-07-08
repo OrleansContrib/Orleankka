@@ -52,10 +52,10 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
-    <Compile Include="ActorConfiguration.cs" />
+    <Compile Include="EndpointConfiguration.cs" />
     <Compile Include="ActorContext.cs" />
     <Compile Include="ActorMessages.cs" />
-    <Compile Include="Core\ActorDeclaration.cs" />
+    <Compile Include="Core\EndpointDeclaration.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Core\IActorEndpoint.cs" />
     <Compile Include="Core\IClientEndpoint.cs" />
