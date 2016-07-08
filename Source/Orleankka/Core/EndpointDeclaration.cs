@@ -66,7 +66,13 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
-        static readonly string[] separator = { ".", "+" };
+        public static bool IsValidIdentifier(string code)
+        {
+            var path = code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            return path.All(SyntaxFacts.IsValidIdentifier);
+        }
+
+        static readonly string[] separator = {".", "+"};
 
         readonly string clazz;
         readonly IList<string> namespaces;

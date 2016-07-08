@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.CodeAnalysis.CSharp;
+
 namespace Orleankka
 {
     using Core;
@@ -25,6 +27,10 @@ namespace Orleankka
         protected EndpointConfiguration(string code)
         {
             Requires.NotNullOrWhitespace(code, nameof(code));
+
+            if (!EndpointDeclaration.IsValidIdentifier(code))
+                throw new ArgumentException($"'{code}' is not valid identifer", nameof(code));
+
             Code = code;
         }
 

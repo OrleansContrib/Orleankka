@@ -14,6 +14,7 @@ namespace Orleankka.CSharp
 
         internal static void Reset()
         {
+            ActorTypeCode.Reset();
             Activator = new DefaultActorActivator();
             dispatchers.Clear();
         }
@@ -44,7 +45,7 @@ namespace Orleankka.CSharp
 
         static EndpointConfiguration BuildActor(Type actor)
         {
-            var config = new ActorConfiguration(ActorTypeCode.Of(actor));
+            var config = new ActorConfiguration(ActorTypeCode.Register(actor));
 
             SetPlacement(actor, config);
             SetReentrancy(actor, config);
@@ -57,7 +58,7 @@ namespace Orleankka.CSharp
 
         static EndpointConfiguration BuildWorker(Type worker)
         {
-            var config = new WorkerConfiguration(ActorTypeCode.Of(worker));
+            var config = new WorkerConfiguration(ActorTypeCode.Register(worker));
 
             SetReentrancy(worker, config);
             SetKeepAliveTimeout(worker, config);

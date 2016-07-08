@@ -1,4 +1,6 @@
-﻿namespace Orleankka.CSharp
+﻿using System;
+
+namespace Orleankka.CSharp
 {
     /// <summary>
     /// The actor system extensions.
@@ -7,7 +9,6 @@
     {
         /// <summary>
         /// Acquires the actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
@@ -17,7 +18,7 @@
         {
             return system.ActorOf(typeof(TActor).ToActorPath(id));
         }
-
+        
         /// <summary>
         /// Acquires the actor reference for the given worker type.
         /// </summary>
