@@ -26,7 +26,7 @@ namespace Demo
                 .CSharp(x => x.Register(typeof(Api).Assembly))
                 .Done();
 
-            client = new Client(system, ClientObserver.Create().Result);
+            client = new Client(system, ClientObservable.Create().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");

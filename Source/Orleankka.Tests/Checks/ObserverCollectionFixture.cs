@@ -78,18 +78,18 @@ namespace Orleankka.Checks
         {
             public static async Task<TestObserver> Create()
             {
-                var observer = await ClientObserver.Create();
-                return new TestObserver(observer);
+                var observable = await ClientObservable.Create();
+                return new TestObserver(observable);
             }
 
             public readonly List<object> Notifications = new List<object>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
-            readonly ClientObserver observer;
+            readonly ClientObservable observable;
 
-            TestObserver(ClientObserver observer)
+            TestObserver(ClientObservable observable)
             {
-                this.observer = observer;
-                observer.Subscribe(message =>
+                this.observable = observable;
+                observable.Subscribe(message =>
                 {
                     Notifications.Add(message);
                     Received.Set();
@@ -98,7 +98,7 @@ namespace Orleankka.Checks
 
             public static implicit operator ObserverRef(TestObserver arg)
             {
-                return arg.observer;
+                return arg.observable;
             }
         }
     }

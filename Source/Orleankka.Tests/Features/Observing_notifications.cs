@@ -69,7 +69,7 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<TestActor>();
 
-                using (var observer = await ClientObserver.Create())
+                using (var observer = await ClientObservable.Create())
                 {
                     await actor.Tell(new Attach {Observer = observer});
 

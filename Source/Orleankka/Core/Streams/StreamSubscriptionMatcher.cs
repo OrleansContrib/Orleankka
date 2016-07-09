@@ -69,7 +69,7 @@ namespace Orleankka.Core.Streams
             Name = name;
 
             system = ClusterActorSystem.Initialized 
-                ? ClusterActorSystem.Current 
+                ? (IActorSystem) ClusterActorSystem.Current 
                 : ClientActorSystem.Current;
 
             specifications = configuration.Find(name)
