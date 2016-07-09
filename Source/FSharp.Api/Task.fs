@@ -136,18 +136,15 @@ type TaskBuilder(?continuationOptions, ?scheduler, ?cancellationToken) =
              t.Result)
       
       with e -> compensation()
-                reraise()
+                reraise()   
 
-   member this.TryFinally(m, compensation) =
-      try this.ReturnFrom m
-      finally compensation()
+   member this.Using(res:#IDisposable, body:#IDisposable -> Task<_>) =
+      let body' = fun () -> body res
+      this.TryFinally(body', fun () -> if res <> null then res.Dispose())
 
-   member this.Using(res: #IDisposable, body: #IDisposable -> Task<_>) =
-      this.TryFinally(body res, fun () -> match res with null -> () | disp -> disp.Dispose())
-
-   member this.For(sequence: seq<_>, body) =
+   member this.For(sequence:seq<_>, body) =
       this.Using(sequence.GetEnumerator(),
-                           fun enum -> this.While(enum.MoveNext, fun () -> body enum.Current))
+                 fun enum -> this.While(enum.MoveNext, fun () -> body enum.Current))
 
    member this.Delay (f: unit -> Task<'T>) = f
 
