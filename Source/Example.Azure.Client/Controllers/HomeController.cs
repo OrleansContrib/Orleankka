@@ -35,7 +35,7 @@ namespace Example.Azure.Controllers
         {
             if (MvcApplication.System == null)
             {
-                InitializeActorSystemClient();
+                InitializeClientActorSystem();
                 InitializeHubClient();
             }
 
@@ -44,20 +44,28 @@ namespace Example.Azure.Controllers
             return View("Observe");
         }
 
-        static void InitializeActorSystemClient()
+        static void InitializeClientActorSystem()
         {
-            var config = new ClientConfiguration()
-                .LoadFromEmbeddedResource<Startup>("Orleans.xml");
+            var clusterId = RoleEnvironment.DeploymentId;
+            var clsuterMembershipStorage = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
 
-            config.DeploymentId = RoleEnvironment.DeploymentId;
-            config.DataConnectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
-            config.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
-
-            MvcApplication.System = ActorSystem.Configure() //.Azure()
+            MvcApplication.System = ActorSystem.Configure()
                 .Client()
-                .From(config)
+                .From(Configuration(clusterId, clsuterMembershipStorage))
                 .CSharp(x => x.Register(typeof(Publisher).Assembly))
                 .Done();
+        }
+
+        static ClientConfiguration Configuration(string deploymentId, string dataConnectionString)
+        {
+            var client = new ClientConfiguration()
+                .LoadFromEmbeddedResource<Startup>("Orleans.xml");
+
+            client.DeploymentId = deploymentId;
+            client.DataConnectionString = dataConnectionString;
+            client.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
+
+            return client;
         }
 
         static void InitializeHubClient()
