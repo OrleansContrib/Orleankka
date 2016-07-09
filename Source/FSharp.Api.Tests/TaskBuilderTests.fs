@@ -80,8 +80,7 @@ let ``canceled task 2``() =
 
 [<Test>]
 let ``while``() = 
-    let i = ref 10    
-    let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+    let i = ref 10        
     let t() =
         task {
             while !i > 0 do
@@ -93,8 +92,7 @@ let ``while``() =
 
 
 [<Test>]
-let ``try with should catch exception in the body``() =
-   let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+let ``try with should catch exception in the body``() =   
    let result = task {
       try 
          failwith "exception"
@@ -105,8 +103,7 @@ let ``try with should catch exception in the body``() =
 
 
 [<Test>]
-let ``try with should catch exception in the continuation``() =
-   let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+let ``try with should catch exception in the continuation``() =   
    let result = task {
       try 
          do! Task.Factory.StartNew(fun () -> failwith "exception")            
@@ -117,8 +114,7 @@ let ``try with should catch exception in the continuation``() =
 
 
 [<Test>]
-let ``try with should catch exception only by type``() =
-   let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+let ``try with should catch exception only by type``() =   
    let result = task {
       try 
          invalidArg "param name" "msg"
@@ -132,8 +128,7 @@ let ``try with should catch exception only by type``() =
 
 
 [<Test>]
-let ``try with should do unwrapping of exception to original type if it was raised in continuation``() =
-   let task = Task.TaskBuilder(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+let ``try with should do unwrapping of exception to original type if it was raised in continuation``() =   
    let result = task {
       try 
          do! Task.Factory.StartNew(fun () -> invalidArg "param name" "msg")
