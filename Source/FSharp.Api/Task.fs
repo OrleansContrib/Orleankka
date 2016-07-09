@@ -197,3 +197,4 @@ type TaskBuilderWithToken(?continuationOptions, ?scheduler) =
 
 
 let task = TaskBuilder(scheduler = TaskScheduler.Current)
+let task' = TaskBuilderWithToken(scheduler = TaskScheduler.Current)
