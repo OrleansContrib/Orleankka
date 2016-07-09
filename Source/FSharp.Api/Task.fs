@@ -177,16 +177,30 @@ type TaskBuilderWithToken(?continuationOptions, ?scheduler) =
             if not(guard()) then 
                this.Zero()
             else
-               bind m (fun () -> this.While(guard, m))                    
+               bind m (fun () -> this.While(guard, m))
 
-   member this.TryFinally(t:CancellationToken -> Task<'T>, compensation) =
+   member this.TryWith(m:CancellationToken -> Task<'T>, catchFn:exn -> CancellationToken -> Task<'T>) =
       
       fun (token:CancellationToken) ->
         try
-          t(token)
-             .ContinueWith(fun (value:Task<_>) -> 
+          m(token)
+             .ContinueWith(fun (t:Task<_>) -> 
+                match t.IsFaulted with
+                | false -> returnM(t.Result)
+                | true  -> let baseEx = t.Exception.GetBaseException()
+                           catchFn baseEx token
+             ).Unwrap()
+
+        with e -> catchFn e token
+
+   member this.TryFinally(m:CancellationToken -> Task<'T>, compensation) =
+      
+      fun (token:CancellationToken) ->
+        try
+          m(token)
+             .ContinueWith(fun (t:Task<_>) -> 
                 compensation()
-                value.Result)
+                t.Result)
 
         with e -> compensation()
                   reraise()

@@ -185,6 +185,59 @@ let ``cancel while``() =
     checkCancelled t
     Assert.AreEqual(10, !i)
 
+[<Test>]
+let ``try with should catch exception in the body``() =
+   let cts = new CancellationTokenSource()   
+   let t = task' {
+      try 
+         failwith "exception"
+         return 1
+      with e -> return 5
+   }
+   Assert.AreEqual(5, t(cts.Token).Result)
+
+
+[<Test>]
+let ``try with should catch exception in the continuation``() =
+   let cts = new CancellationTokenSource()   
+   let t = task' {
+      try 
+         do! Task.Factory.StartNew(fun () -> failwith "exception")            
+         return 1
+      with e -> return 5
+   }
+   Assert.AreEqual(5, t(cts.Token).Result)
+
+
+[<Test>]
+let ``try with should catch exception only by type``() =   
+   let cts = new CancellationTokenSource()   
+   let t = task' {
+      try 
+         invalidArg "param name" "msg"
+         return 1
+      with                   
+      | :? System.NullReferenceException -> return 5
+      | :? System.ArgumentException -> return 10
+      | e -> return 15
+   }
+   Assert.AreEqual(10, t(cts.Token).Result)
+
+
+[<Test>]
+let ``try with should do unwrapping of exception to original type if it was raised in continuation``() =   
+   let cts = new CancellationTokenSource()   
+   let t = task' {
+      try 
+         do! Task.Factory.StartNew(fun () -> invalidArg "param name" "msg")
+         return 1
+      with
+      | :? System.NullReferenceException -> return 5
+      | :? System.ArgumentException -> return 10
+      | e -> return 15
+   }
+   Assert.AreEqual(10, t(cts.Token).Result)
+
 let tryFinallyExpression (i: ref<int>) =     
     task' {
         let! v1 = Task.Factory.StartNew(fun () -> 100)
