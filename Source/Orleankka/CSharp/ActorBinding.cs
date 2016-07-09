@@ -93,14 +93,14 @@ namespace Orleankka.CSharp
         {
             dispatchers.Add(actor, new Dispatcher(actor));
 
-            config.Receiver = (id, context) =>
+            config.Receiver = context =>
             {
                 var dispatcher = dispatchers[actor];
 
                 var instance = Activator.Activate(actor, context, dispatcher);
                 instance.Initialize(context, dispatcher);
 
-                return async (_, message) => await instance.OnReceive(message);
+                return instance.OnReceive;
             };
         }
 

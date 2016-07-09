@@ -39,9 +39,9 @@ namespace Orleankka.Core
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> reentrant;
         readonly Func<string, object> factory;
-        readonly Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver;
+        readonly Func<IActorContext, Func<object, Task<object>>> receiver;
 
-        internal ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Type @interface, Func<string, ActorContext, Func<IActorContext, object, Task<object>>> receiver)
+        internal ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Type @interface, Func<IActorContext, Func<object, Task<object>>> receiver)
         {
             Code = code;
             this.keepAliveTimeout = keepAliveTimeout;
@@ -72,8 +72,8 @@ namespace Orleankka.Core
         internal IActorEndpoint Proxy(ActorPath path) => 
             (IActorEndpoint) factory(path.Serialize());
 
-        public Func<ActorContext, object, Task<object>> Receiver(string id, ActorContext context) => 
-            receiver(id, context);
+        public Func<object, Task<object>> Receiver(IActorContext context) => 
+            receiver(context);
 
         internal bool IsReentrant(object message) => 
             reentrant(message);

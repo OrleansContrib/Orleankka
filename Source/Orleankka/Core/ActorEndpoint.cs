@@ -18,7 +18,7 @@ namespace Orleankka.Core
         readonly ActorType type;
 
         ActorContext context;
-        Func<ActorContext, object, Task<object>> receiver;
+        Func<object, Task<object>> receiver;
 
         protected ActorEndpoint(string code)
         {
@@ -64,7 +64,7 @@ namespace Orleankka.Core
             await ReceiveInternal(new Reminder(name));
         }
 
-        internal Task<object> ReceiveInternal(object message) => receiver(context, message);
+        internal Task<object> ReceiveInternal(object message) => receiver(message);
 
         public override Task OnActivateAsync()
         {
@@ -74,15 +74,15 @@ namespace Orleankka.Core
         public override Task OnDeactivateAsync()
         {
             return context != null
-                    ? receiver(context, new Deactivate())
+                    ? receiver(new Deactivate())
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
             context = new ActorContext(path, ClusterActorSystem.Current, this);
-            receiver = type.Receiver(path.Id, context);
-            return receiver(context, new Activate());
+            receiver = type.Receiver(context);
+            return receiver(new Activate());
         }
 
         void KeepAlive() => type.KeepAlive(this);

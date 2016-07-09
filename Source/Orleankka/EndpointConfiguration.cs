@@ -13,11 +13,11 @@ namespace Orleankka
     {
         static readonly Task<object> Done = Task.FromResult((object)null); 
 
-        static readonly Func<string, IActorContext, Func<IActorContext, object, Task<object>>> Null = 
-            (code, _) => ((context, message) => Done);
+        static readonly Func<IActorContext, Func<object, Task<object>>> Null = 
+            (context) => (message => Done);
 
         Func<object, bool> reentrancy = message => false;
-        Func<string, IActorContext, Func<IActorContext, object, Task<object>>> receiver = Null;
+        Func<IActorContext, Func<object, Task<object>>> receiver = Null;
 
         readonly List<StreamSubscriptionSpecification> subscriptions =
              new List<StreamSubscriptionSpecification>();
@@ -46,7 +46,7 @@ namespace Orleankka
             }
         }
 
-        public Func<string, IActorContext, Func<IActorContext, object, Task<object>>> Receiver
+        public Func<IActorContext, Func<object, Task<object>>> Receiver
         {
             get { return receiver; }
             set
