@@ -63,16 +63,16 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public IActorSystem Done()
+        public IActorSystem Done(bool wait = false)
         {
             var system = new ClusterActorSystem(this, Configuration);
             Configure();
 
-            system.Start();
+            system.Start(wait);
             return system;
         }
 
-        internal new void Configure()
+        new void Configure()
         {
             BootstrapStreamSubscriptionHook();
 
