@@ -210,6 +210,60 @@ let ``try finally should be cancellable``() =
     Assert.AreEqual(0, !i)
 
 [<Test>]
+let ``try finally should exec finally block after the body task has been completed``() =
+   let mutable s = ""
+   let cts = new CancellationTokenSource()
+
+   let t = task' {      
+      try         
+         s <- s + "1"
+         do! Task.delay(System.TimeSpan.FromSeconds(1.0))
+         s <- s + "3"
+      finally
+         s <- s + "2"
+   }
+   t(cts.Token).Result |> ignore
+   Assert.AreEqual(s, "132")
+
+[<Test>]
+let ``try finally should exec finally block even if exception is occured``() =
+   let mutable s = ""
+   let cts = new CancellationTokenSource()
+   
+   let t = task' {      
+      try         
+         s <- s + "1"
+         do! Task.delay(System.TimeSpan.FromSeconds(1.0))
+         failwith("test finally exception")
+         s <- s + "3"
+      finally
+         s <- s + "2"
+   }
+
+   try t(cts.Token).Result |> ignore
+   with e -> ()
+
+   Assert.AreEqual(s, "12")
+
+[<Test>]
+let ``try finally - finally shouldn't be invoked 2 times``() =
+   let cts = new CancellationTokenSource()
+   let mutable s = ""
+   
+   let t = task' {      
+      try
+         s <- "1"                  
+      finally
+         s <- s + "1"
+         failwith("test finally exception")         
+   }
+
+   try t(cts.Token).Result |> ignore
+   with e -> ()
+
+   Assert.AreEqual(s, "11")
+
+[<Test>]
 let ``for``() =
     let i = ref 0
     let s = [1; 2; 3; 4]

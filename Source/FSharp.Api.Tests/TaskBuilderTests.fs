@@ -190,3 +190,21 @@ let ``try finally should exec finally block even if exception is occured``() =
    with e -> ()
 
    Assert.AreEqual(s, "12")
+
+[<Test>]
+let ``try finally - finally shouldn't be invoked 2 times``() =
+   let mutable s = ""
+   
+   let t = task {      
+      try
+         s <- "1"                  
+      finally
+         s <- s + "1"
+         failwith("test finally exception")         
+   }
+
+   try t.Result |> ignore
+   with e -> ()
+
+   Assert.AreEqual(s, "11")
+

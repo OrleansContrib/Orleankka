@@ -179,12 +179,20 @@ type TaskBuilderWithToken(?continuationOptions, ?scheduler) =
             else
                bind m (fun () -> this.While(guard, m))                    
 
-   member this.TryFinally(t : CancellationToken -> Task<'T>, compensation) =
-      try t
-      finally compensation()
+   member this.TryFinally(t:CancellationToken -> Task<'T>, compensation) =
+      
+      fun (token:CancellationToken) ->
+        try
+          t(token)
+             .ContinueWith(fun (value:Task<_>) -> 
+                compensation()
+                value.Result)
 
-   member this.Using(res: #IDisposable, body: #IDisposable -> (CancellationToken -> Task<'T>)) =
-      this.TryFinally(body res, fun () -> match res with null -> () | disp -> disp.Dispose())
+        with e -> compensation()
+                  reraise()
+
+   member this.Using(res:#IDisposable, body:#IDisposable -> (CancellationToken -> Task<'T>)) =
+      this.TryFinally(body res, fun () -> if res <> null then res.Dispose())
 
    member this.For(sequence: seq<'T>, body) =            
             this.Using(sequence.GetEnumerator(),
