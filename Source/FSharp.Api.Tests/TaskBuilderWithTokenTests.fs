@@ -29,29 +29,27 @@ let checkCancelled (t: CancellationToken -> Task<'a>) =
     checkCancelledWithToken cts t
 
 [<Test>]
-let ``task should return the right value after let!``() =
-    let task = Task.TaskBuilderWithToken()
+let ``task should return the right value after let!``() =    
     let t = 
-        task {
+        task' {
             let! v = Task.Factory.StartNew(fun () -> 100)
             return v
         }
     checkSuccess 100 t
 
 [<Test>]
-let ``task should return the right value after return!``() =
-    let task = Task.TaskBuilderWithToken()
+let ``task should return the right value after return!``() =    
     let t =
-        task {
+        task' {
             return! Task.Factory.StartNew(fun () -> "hello world")
         }    
     checkSuccess "hello world" t
 
 [<Test>]
 let ``exception in task``() =
-    let task = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+    let task' = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
     let t = 
-        task {
+        task' {
             failwith "error"
         }
     match Task.run (fun () -> t CancellationToken.None) with
@@ -59,54 +57,49 @@ let ``exception in task``() =
     | _ -> Assert.Fail "task should have errored"
 
 [<Test>]
-let ``canceled task``() =
-    let task = Task.TaskBuilderWithToken()
+let ``canceled task``() =    
     let cts = new CancellationTokenSource()
     let t = 
-        task {
+        task' {
             cts.Token.ThrowIfCancellationRequested()
         }
     checkCancelledWithToken cts t
 
 [<Test>]
-let ``canceled task 2``() =    
-    let task = Task.TaskBuilderWithToken()
+let ``canceled task 2``() =        
     let t = 
-        task {
+        task' {
             let! v = Task.Factory.StartNew(fun () -> 0)
             return ()
         }
     checkCancelled t
 
 [<Test>]
-let ``return should return value``() =    
-    let task = Task.TaskBuilderWithToken()
+let ``return should return value``() =        
     let t = 
-        task {            
+        task' {            
             return 100
         }
     checkSuccess 100 t  
 
 [<Test>]
-let ``return! should accept task parametrized by CancellationToken``() =
-    let task = Task.TaskBuilderWithToken()
+let ``return! should accept task parametrized by CancellationToken``() =    
     let t1 = 
-        task {
+        task' {
             let! v = Task.Factory.StartNew(fun () -> 100)
             return v
         }
 
     let t2 = 
-        task {            
+        task' {            
             return! t1
         }
     checkSuccess 100 t2    
 
 [<Test>]
-let ``bind should chain two tasks``() =
-    let task = Task.TaskBuilderWithToken()
+let ``bind should chain two tasks``() =    
     let t = 
-        task {
+        task' {
             let! v1 = Task.Factory.StartNew(fun () -> 100)
             let! v2 = Task.Factory.StartNew(fun () -> v1 + 1)
             return v2
@@ -115,11 +108,10 @@ let ``bind should chain two tasks``() =
 
 [<Test>]
 let ``bind should pass cancellation token``() =
-    let i = ref 0
-    let task = Task.TaskBuilderWithToken()
+    let i = ref 0    
     let cts = new CancellationTokenSource()
     let t = 
-        task {
+        task' {
             let! v1 = Task.Factory.StartNew(fun () -> 1)
             let body2 x = 
                 incr i
@@ -138,18 +130,17 @@ let ``bind should pass cancellation token``() =
 
 
 [<Test>]
-let ``bind should chain two tasks parametrized by CancellationToken``() =
-    let task = Task.TaskBuilderWithToken()
+let ``bind should chain two tasks parametrized by CancellationToken``() =    
     let t1 = 
-        task {
+        task' {
             return! Task.Factory.StartNew(fun () -> 100)
         }
     let t2 = 
-        task {
+        task' {
             return! Task.Factory.StartNew(fun () -> 200)
         }
     let t = 
-        task {
+        task' {
             let! v1 = t1
             let! v2 = t2
             return v1 + v2
@@ -158,10 +149,9 @@ let ``bind should chain two tasks parametrized by CancellationToken``() =
 
 [<Test>]
 let ``task should be delayed``() =
-    let i = ref 0
-    let task = Task.TaskBuilderWithToken()
+    let i = ref 0    
     let t = 
-        task {
+        task' {
             let body() =
                 incr i
                 "hello world"
@@ -173,8 +163,8 @@ let ``task should be delayed``() =
     Assert.AreEqual(1, !i)
 
 let whileExpression (i: ref<int>) = 
-    let task = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)    
-    task {
+    let task' = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)    
+    task' {
         while !i > 0 do
             decr i
             do! Task.Factory.StartNew ignore
@@ -195,9 +185,8 @@ let ``cancel while``() =
     checkCancelled t
     Assert.AreEqual(10, !i)
 
-let tryFinallyExpression (i: ref<int>) = 
-    let task = Task.TaskBuilderWithToken()
-    task {
+let tryFinallyExpression (i: ref<int>) =     
+    task' {
         let! v1 = Task.Factory.StartNew(fun () -> 100)
         try
             let! v2 = Task.Factory.StartNew(fun () -> v1 + 1)
@@ -224,9 +213,9 @@ let ``try finally should be cancellable``() =
 let ``for``() =
     let i = ref 0
     let s = [1; 2; 3; 4]
-    let task = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
+    let task' = Task.TaskBuilderWithToken(continuationOptions = TaskContinuationOptions.ExecuteSynchronously)
     let t =
-        task {
+        task' {
             for x in s do
                 i := !i + x
                 do! Task.Factory.StartNew ignore
@@ -236,10 +225,9 @@ let ``for``() =
 
 [<Test>]
 let ``combine``() =
-    let flag = ref false
-    let task = Task.TaskBuilderWithToken()
+    let flag = ref false    
     let t =
-        task {
+        task' {
             if true then flag := true             
             return! Task.Factory.StartNew(fun () -> "hello world")
         }
