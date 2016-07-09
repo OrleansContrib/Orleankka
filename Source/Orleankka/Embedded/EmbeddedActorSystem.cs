@@ -1,20 +1,25 @@
 using System;
-using System.Linq;
+
+using Orleankka.Client;
+using Orleankka.Cluster;
 
 namespace Orleankka.Embedded
 {
     public class EmbeddedActorSystem : ActorSystem
     {
         AppDomain domain;
-        readonly IActorSystem client;
-        readonly IActorSystem cluster;
+        readonly ClientActorSystem client;
+        readonly ClusterActorSystem cluster;
 
-        internal EmbeddedActorSystem(AppDomain domain, IActorSystem client, IActorSystem cluster)
+        internal EmbeddedActorSystem(AppDomain domain, ClientActorSystem client, ClusterActorSystem cluster)
         {
             this.domain = domain;
             this.client = client;
             this.cluster = cluster;
         }
+
+        public ClientActorSystem Client => client;
+        public ClusterActorSystem Cluster => cluster;
 
         public override void Dispose()
         {

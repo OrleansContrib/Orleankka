@@ -74,7 +74,7 @@ namespace Orleankka.Client
         static EndpointConfiguration CreateEndpointConfiguration(string code, bool worker) => 
             worker ? (EndpointConfiguration) new WorkerConfiguration(code) : new ActorConfiguration(code);
 
-        public IActorSystem Done()
+        public ClientActorSystem Done()
         {
             var system = new ClientActorSystem(this);
             Configure();

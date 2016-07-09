@@ -5,11 +5,11 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    sealed class ClientActorSystem : ActorSystem
+    public sealed class ClientActorSystem : ActorSystem
     {
-        static IActorSystem current;
+        static ClientActorSystem current;
 
-        public static IActorSystem Current
+        public static ClientActorSystem Current
         {
             get
             {
@@ -18,24 +18,19 @@ namespace Orleankka.Client
 
                 return current;
             }
-
-            internal set
-            {
-                current = value;
-            }
         }
 
         public static bool Initialized => current != null;
 
         readonly IDisposable configurator;
 
-        public ClientActorSystem(IDisposable configurator)
+        internal ClientActorSystem(IDisposable configurator)
         {
             current = this;
             this.configurator = configurator;
         }
 
-        public void Initialize(ClientConfiguration configuration)
+        internal void Initialize(ClientConfiguration configuration)
         {
             GrainClient.Initialize(configuration);
         }

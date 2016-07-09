@@ -63,7 +63,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public IActorSystem Done(bool wait = false)
+        public ClusterActorSystem Done(bool wait = false)
         {
             var system = new ClusterActorSystem(this, Configuration);
             Configure();
