@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
 using Orleankka.CSharp;
@@ -16,14 +17,16 @@ using EventStore.ClientAPI.Exceptions;
 
 using Newtonsoft.Json;
 
-using Orleankka;
-
 namespace Example
 {
     public abstract class CqsActor : Actor
     {
         public override Task<object> OnReceive(object message)
         {
+            var sys = message as SystemMessage;
+            if (sys != null)
+                return Dispatch(sys);
+
             var cmd = message as Command;
             if (cmd != null)
                 return HandleCommand(cmd);

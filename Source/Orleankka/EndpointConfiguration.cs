@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis.CSharp;
-
 namespace Orleankka
 {
     using Core;
@@ -11,10 +9,8 @@ namespace Orleankka
 
     public abstract class EndpointConfiguration
     {
-        static readonly Task<object> Done = Task.FromResult((object)null); 
-
         static readonly Func<IActorContext, Func<object, Task<object>>> Null = 
-            (context) => (message => Done);
+            (context) => (message => TaskResult.Done);
 
         Func<object, bool> reentrancy = message => false;
         Func<IActorContext, Func<object, Task<object>>> receiver = Null;

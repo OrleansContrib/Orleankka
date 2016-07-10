@@ -47,21 +47,11 @@ namespace Orleankka.CSharp
         public IReminderService Reminders    => Context.Reminders;
         public ITimerService Timers          => Context.Timers;
 
-        public virtual Task<object> OnReceive(object message)
-        {
-            if (message is Activate)
-                return Dispatch(message, Ignore);
+        public virtual Task<object> OnReceive(object message) => 
+            Dispatch(message);
 
-            if (message is Deactivate)
-                return Dispatch(message, Ignore);
-
-            return Dispatch(message);
-        }
-
-        public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null)
-        {
-            return (TResult)await Dispatch(message, fallback);
-        }
+        public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
+            (TResult)await Dispatch(message, fallback);
 
         public Task<object> Dispatch(object message, Func<object, Task<object>> fallback = null)
         {

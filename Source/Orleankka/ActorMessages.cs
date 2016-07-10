@@ -1,15 +1,21 @@
 namespace Orleankka
 {
-    public interface ActorMessage
+    public interface SystemMessage
     {}
 
-    public class Activate : ActorMessage
+    public interface LifecycleMessage : SystemMessage
     {}
 
-    public class Deactivate : ActorMessage
+    public interface TickMessage : SystemMessage
     {}
 
-    public class Reminder : ActorMessage
+    public class Activate : LifecycleMessage
+    {}
+
+    public class Deactivate : LifecycleMessage
+    {}
+
+    public class Reminder : TickMessage
     {
         public readonly string Id;
 
@@ -19,7 +25,7 @@ namespace Orleankka
         }
     }
 
-    public class Timer : ActorMessage
+    public class Timer : TickMessage
     {
         public readonly string Id;
         public readonly object State;

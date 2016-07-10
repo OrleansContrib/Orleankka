@@ -7,10 +7,10 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Orleankka.Utility;
-
 namespace Orleankka.CSharp
 {
+    using Utility;
+
     public class Dispatcher
     {
         static readonly string[] conventions = {"On", "Handle", "Answer", "Apply"};
@@ -18,7 +18,7 @@ namespace Orleankka.CSharp
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        readonly List<Type> userDefinedMessages = new List<Type>();
+        readonly List<Type> messages = new List<Type>();
 
         readonly Type actor;        
         
@@ -71,14 +71,14 @@ namespace Orleankka.CSharp
 
             handlers.Add(message, handler);
 
-            if (!typeof(ActorMessage).IsAssignableFrom(message))
-                userDefinedMessages.Add(message);
+            if (!IsSystemMessage(message))
+                messages.Add(message);
         }
 
         public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
 
-        public IEnumerable<Type> RegisteredMessages(bool userDefinedOnly = true) => 
-            userDefinedOnly ? (IEnumerable<Type>) userDefinedMessages : handlers.Keys;
+        public IEnumerable<Type> RegisteredMessages(bool includeSystem = false) => 
+            includeSystem ? handlers.Keys : (IEnumerable<Type>) messages;
 
         public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {
@@ -87,11 +87,17 @@ namespace Orleankka.CSharp
             if (handler != null)
                 return handler(target, message);
 
+            if (IsLifecyleMessage(message.GetType()))
+                return TaskResult.Done;
+
             if (fallback == null)
                 throw new HandlerNotFoundException(message.GetType());
 
             return fallback(message);
         }
+
+        static bool IsLifecyleMessage(Type message) => typeof(LifecycleMessage).IsAssignableFrom(message);
+        static bool IsSystemMessage(Type message) => typeof(SystemMessage).IsAssignableFrom(message);
 
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException
