@@ -10,7 +10,7 @@ namespace Orleankka
 
     public interface IActorSystemConfigurator
     {
-        void Register(EndpointConfiguration[] configs);
+        void Register(params EndpointConfiguration[] configs);
     }
 
     public interface IExtensibleActorSystemConfigurator

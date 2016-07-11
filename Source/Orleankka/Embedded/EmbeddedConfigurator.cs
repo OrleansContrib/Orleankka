@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -52,6 +53,17 @@ namespace Orleankka.Embedded
             return this;
         }
 
+        public EmbeddedConfigurator Invoke(Action<IActorSystemConfigurator> configure)
+        {
+            if (configure.Method.IsStatic || !configure.Method.IsPublic)
+                throw new ArgumentException("'configure' should be a public non-static method");
+
+            ((IExtensibleActorSystemConfigurator)this).Extend<StaticMethodConfiguratorExtension>(
+                ext => ext.Method(configure.Method));
+
+            return this;
+        }
+
         void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
         {
             configure(client.Add<T>());
@@ -64,6 +76,21 @@ namespace Orleankka.Embedded
             var clientSystem = client.Done();
 
             return new EmbeddedActorSystem(domain, clientSystem, clusterSystem);
+        }
+
+        public class StaticMethodConfiguratorExtension : ActorSystemConfiguratorExtension
+        {
+            Action<IActorSystemConfigurator> configure;
+             
+            public void Method(MethodInfo method)
+            {
+                Debug.Assert(method.DeclaringType != null);
+                var target = Activator.CreateInstance(method.DeclaringType);
+                configure = (Action<IActorSystemConfigurator>) method.CreateDelegate(typeof(Action<IActorSystemConfigurator>), target);
+            }
+
+            protected internal override void Configure(IActorSystemConfigurator configurator) => 
+                configure(configurator);
         }
     }
 
