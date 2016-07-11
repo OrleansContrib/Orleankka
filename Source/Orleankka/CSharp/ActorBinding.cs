@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Orleankka.CSharp
 {
@@ -100,8 +101,39 @@ namespace Orleankka.CSharp
                 var instance = Activator.Activate(actor, context, dispatcher);
                 instance.Initialize(context, dispatcher);
 
-                return instance.OnReceive;
+                return message => Invoke(message, instance);
             };
+        }
+
+        static async Task<object> Invoke(object message, Actor instance)
+        {
+            if (message is Activate)
+            {
+                await instance.OnActivate();
+                return null;
+            }
+
+            if (message is Deactivate)
+            {
+                await instance.OnDeactivate();
+                return null;
+            }
+
+            var reminder = message as Reminder;
+            if (reminder != null)
+            {
+                await instance.OnReminder(reminder.Id);
+                return null;
+            }
+
+            var timer = message as Timer;
+            if (timer != null)
+            {
+                await instance.OnTimer(timer.Id, timer.State);
+                return null;
+            }
+
+            return await instance.OnReceive(message);
         }
 
         static void SetStreamSubscriptions(Type actor, EndpointConfiguration config)

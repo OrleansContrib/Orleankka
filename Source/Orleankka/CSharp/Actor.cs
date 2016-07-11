@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 
+using Orleans;
+
 namespace Orleankka.CSharp
 {
     using Services;
@@ -8,9 +10,6 @@ namespace Orleankka.CSharp
 
     public abstract class Actor
     {
-        static readonly Task<object> Done = Task.FromResult((object)null);
-        static Task<object> Ignore(object x) => Done;
-
         protected Actor()
         {}
 
@@ -49,6 +48,21 @@ namespace Orleankka.CSharp
 
         public virtual Task<object> OnReceive(object message) => 
             Dispatch(message);
+
+        public virtual Task OnActivate()    => TaskDone.Done;
+        public virtual Task OnDeactivate()  => TaskDone.Done;
+
+        public virtual Task OnReminder(string id)
+        {
+            var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
+            throw new NotImplementedException(message);
+        }
+
+        public virtual Task OnTimer(string id, object state)
+        {
+            var message = $"Override {"OnTimer"}() method in class {GetType()} to implement corresponding behavior";
+            throw new NotImplementedException(message);
+        }
 
         public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
             (TResult)await Dispatch(message, fallback);

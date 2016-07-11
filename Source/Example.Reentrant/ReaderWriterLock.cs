@@ -25,10 +25,11 @@ namespace Example
         int value;
         ConsolePosition indicator;
 
-        void On(Activate _)
+        public override Task OnActivate()
         {
             Console.Write("\nWrites: ");
             indicator = ConsolePosition.Current();
+            return base.OnActivate();
         }
 
         async Task On(Write req)

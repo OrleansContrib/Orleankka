@@ -7,7 +7,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
 using Orleankka.CSharp;
@@ -23,10 +22,6 @@ namespace Example
     {
         public override Task<object> OnReceive(object message)
         {
-            var sys = message as SystemMessage;
-            if (sys != null)
-                return Dispatch(sys);
-
             var cmd = message as Command;
             if (cmd != null)
                 return HandleCommand(cmd);
@@ -60,7 +55,7 @@ namespace Example
 
         int version = ExpectedVersion.NoStream;
 
-        async Task On(Activate _)
+        public override async Task OnActivate()
         {
             var stream = StreamName();
 

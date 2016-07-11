@@ -18,8 +18,6 @@ namespace Orleankka.CSharp
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        readonly List<Type> messages = new List<Type>();
-
         readonly Type actor;        
         
         public Dispatcher(Type actor)
@@ -70,15 +68,10 @@ namespace Orleankka.CSharp
                     $"Handler for {message} has been already defined by {actor}");
 
             handlers.Add(message, handler);
-
-            if (!IsSystemMessage(message))
-                messages.Add(message);
         }
 
         public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
-
-        public IEnumerable<Type> RegisteredMessages(bool includeSystem = false) => 
-            includeSystem ? handlers.Keys : (IEnumerable<Type>) messages;
+        public IEnumerable<Type> RegisteredMessages()  => handlers.Keys;
 
         public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
         {
@@ -87,17 +80,11 @@ namespace Orleankka.CSharp
             if (handler != null)
                 return handler(target, message);
 
-            if (IsLifecyleMessage(message.GetType()))
-                return TaskResult.Done;
-
             if (fallback == null)
                 throw new HandlerNotFoundException(message.GetType());
 
             return fallback(message);
         }
-
-        static bool IsLifecyleMessage(Type message) => typeof(LifecycleMessage).IsAssignableFrom(message);
-        static bool IsSystemMessage(Type message) => typeof(SystemMessage).IsAssignableFrom(message);
 
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException

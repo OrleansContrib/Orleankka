@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.CSharp;
@@ -14,12 +15,14 @@ namespace Example.Azure
 
         void On(Init _) {}
 
-        void On(Activate _)
+        public override Task OnActivate()
         {
             Timers.Register("pub-pub", 
                 TimeSpan.FromSeconds(1), 
                 TimeSpan.FromSeconds(rand.Next(3, 10)), 
                 () => HubGateway.Publish(Event()));
+
+            return base.OnActivate();
         }
 
         Event Event()

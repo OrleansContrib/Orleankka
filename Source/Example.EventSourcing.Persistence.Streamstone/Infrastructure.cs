@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
 using Orleankka.CSharp;
@@ -24,10 +23,6 @@ namespace Example
     {
         public override Task<object> OnReceive(object message)
         {
-            var sys = message as SystemMessage;
-            if (sys != null)
-                return Dispatch(sys);
-
             var cmd = message as Command;
             if (cmd != null)
                 return HandleCommand(cmd);
@@ -62,7 +57,7 @@ namespace Example
 
         Stream stream;
 
-        async Task On(Activate _)
+        public override async Task OnActivate()
         {
             var partition = new Partition(SS.Table, StreamName());
 

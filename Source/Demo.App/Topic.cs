@@ -43,7 +43,10 @@ namespace Demo
             this.storage = storage;
         }
 
-        async Task On(Activate _) => total = await storage.ReadTotalAsync(Id);
+        public override async Task OnActivate()
+        {
+            total = await storage.ReadTotalAsync(Id);
+        }
 
         public async Task Handle(CreateTopic cmd)
         {
