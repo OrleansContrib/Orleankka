@@ -10,18 +10,31 @@ namespace Orleankka
 
     public interface IActorSystemConfigurator
     {
-        T[] Hooks<T>(); 
-        void Hook<T>() where T : ActorSystemConfiguratorHook;
         void Register(EndpointConfiguration[] configs);
     }
 
-    public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IDisposable
+    public interface IExtensibleActorSystemConfigurator
+    {
+        void Extend<T>(Action<T> configure) where T : ActorSystemConfiguratorExtension, new();
+    }
+
+    public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IExtensibleActorSystemConfigurator, IDisposable
     {
         readonly HashSet<EndpointConfiguration> configs = new HashSet<EndpointConfiguration>();
-        readonly List<ActorSystemConfiguratorHook> hooks = new List<ActorSystemConfiguratorHook>();
+        readonly List<ActorSystemConfiguratorExtension> extensions = new List<ActorSystemConfiguratorExtension>();
 
-        T[] IActorSystemConfigurator.Hooks<T>() => hooks.OfType<T>().ToArray();
-        void IActorSystemConfigurator.Hook<T>() => hooks.Add(Activator.CreateInstance<T>());
+        void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
+        {
+            var extension = Add<T>();
+            configure(extension);
+        }
+
+        internal T Add<T>() where T : ActorSystemConfiguratorExtension
+        {
+            var extension = Activator.CreateInstance<T>();
+            extensions.Add(extension);
+            return extension;
+        }
 
         void IActorSystemConfigurator.Register(EndpointConfiguration[] configs)
         {
@@ -41,7 +54,7 @@ namespace Orleankka
 
         protected void Configure()
         {
-            hooks.ForEach(x => x.Configure(this));
+            extensions.ForEach(x => x.Configure(this));
             ActorType.Register(configs.ToArray());
 
             var actors = configs.OfType<ActorConfiguration>();
@@ -52,13 +65,13 @@ namespace Orleankka
         {
             ActorType.Reset();
             StreamSubscriptionMatcher.Reset();
-            hooks.ForEach(x => x.Dispose());
+            extensions.ForEach(x => x.Dispose());
         }
 
         public override object InitializeLifetimeService() => null;
     }
 
-    public abstract class ActorSystemConfiguratorHook : MarshalByRefObject, IDisposable
+    public abstract class ActorSystemConfiguratorExtension : MarshalByRefObject, IDisposable
     {
         protected internal abstract void Configure(IActorSystemConfigurator configurator);
 

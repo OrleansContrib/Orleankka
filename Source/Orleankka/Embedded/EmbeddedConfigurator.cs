@@ -11,7 +11,7 @@ namespace Orleankka.Embedded
     using Client;
     using Cluster;
 
-    public class EmbeddedConfigurator : IActorSystemConfigurator
+    public class EmbeddedConfigurator : IExtensibleActorSystemConfigurator
     {
         readonly ClientConfigurator client;
         readonly ClusterConfigurator cluster;
@@ -52,21 +52,10 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        void IActorSystemConfigurator.Hook<T>()
+        void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
         {
-            ((IActorSystemConfigurator)cluster).Hook<T>();
-            ((IActorSystemConfigurator)client).Hook<T>();
-        }
-
-        T[] IActorSystemConfigurator.Hooks<T>()
-        {
-            return ((IActorSystemConfigurator)client).Hooks<T>().Concat(
-                   ((IActorSystemConfigurator)cluster).Hooks<T>()).ToArray();
-        }
-
-        void IActorSystemConfigurator.Register(EndpointConfiguration[] configs)
-        {
-            throw new InvalidOperationException();
+            configure(client.Add<T>());
+            configure(cluster.Add<T>());
         }
 
         public virtual IActorSystem Done()

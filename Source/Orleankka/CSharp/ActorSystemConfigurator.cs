@@ -2,30 +2,25 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Orleankka.Core;
-using Orleankka.Utility;
-
 namespace Orleankka.CSharp
 {
+    using Utility;
+
     public static class CSharpActorSystemConfigurator
     {
-        public static TConfigurator CSharp<TConfigurator>(this TConfigurator configurator, Action<CSharpActorSystemConfiguratorHook> configure) where TConfigurator : IActorSystemConfigurator
+        public static TConfigurator CSharp<TConfigurator>(this TConfigurator configurator, Action<CSharpActorSystemConfiguratorExtension> configure) where TConfigurator : IExtensibleActorSystemConfigurator
         {
-            configurator.Hook<CSharpActorSystemConfiguratorHook>();
-
-            foreach (var hook in configurator.Hooks<CSharpActorSystemConfiguratorHook>())
-                configure(hook);
-
+            configurator.Extend(configure);
             return configurator;
         }
     }
 
-    public class CSharpActorSystemConfiguratorHook : ActorSystemConfiguratorHook
+    public class CSharpActorSystemConfiguratorExtension : ActorSystemConfiguratorExtension
     {
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
         Tuple<Type, object> activator;
 
-        public CSharpActorSystemConfiguratorHook Register<T>(object properties) where T : IActorActivator
+        public CSharpActorSystemConfiguratorExtension Register<T>(object properties) where T : IActorActivator
         {
             if (activator != null)
                 throw new InvalidOperationException("Activator has been already registered");
@@ -35,7 +30,7 @@ namespace Orleankka.CSharp
             return this;
         }
 
-        public CSharpActorSystemConfiguratorHook Register(params Assembly[] assemblies)
+        public CSharpActorSystemConfiguratorExtension Register(params Assembly[] assemblies)
         {
             Requires.NotNull(assemblies, nameof(assemblies));
 
