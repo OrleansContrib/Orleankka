@@ -17,6 +17,7 @@ namespace Orleankka.CSharp
         {
             Requires.NotNull(context, nameof(context));
             Context = context;
+            Dispatcher = ActorBinding.Dispatcher(GetType());
         }
 
         protected Actor(IActorContext context, Dispatcher dispatcher)

@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Orleankka.CSharp
 {
+    using Utility;
+
     class ActorBinding
     {
+        internal static Dispatcher Dispatcher(Type actor) => 
+            dispatchers.Find(actor) ?? new Dispatcher(actor);
+
         static readonly Dictionary<Type, Dispatcher> dispatchers = 
                     new Dictionary<Type, Dispatcher>(); 
 
