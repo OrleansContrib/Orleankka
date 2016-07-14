@@ -32,7 +32,15 @@ namespace Orleankka.Client
 
         internal void Initialize(ClientConfiguration configuration)
         {
-            GrainClient.Initialize(configuration);
+            try
+            {
+                GrainClient.Initialize(configuration);
+            }
+            catch (Exception)
+            {
+                current = null;
+                throw;
+            }
         }
 
         public override void Dispose()
