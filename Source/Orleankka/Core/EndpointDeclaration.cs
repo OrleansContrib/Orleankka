@@ -26,7 +26,7 @@ namespace Orleankka.Core
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(x => x.IsDynamic ? null : MetadataReference.CreateFromFile(x.Location))
+                .Select(x => x.IsDynamic || x.Location == "" ? null : MetadataReference.CreateFromFile(x.Location))
                 .Where(x => x != null)
                 .ToArray();
 
