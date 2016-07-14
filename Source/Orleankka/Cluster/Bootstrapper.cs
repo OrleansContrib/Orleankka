@@ -16,24 +16,23 @@ namespace Orleankka.Cluster
         /// <summary>
         /// Runs the bootstrapper passing the properties specified during actor system configuration.
         /// </summary>
+        /// <param name="system">The actor system.</param>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        Task Run(object properties);
+        Task Run(ClusterActorSystem system, object properties);
     }
 
     public abstract class Bootstrapper<TProperties> : IBootstrapper
     {
-        Task IBootstrapper.Run(object properties)
-        {
-            return Run((TProperties) properties);
-        }
+        Task IBootstrapper.Run(ClusterActorSystem system, object properties) => Run(system, (TProperties) properties);
 
         /// <summary>
         /// Runs the bootstrapper passing the properties specified during actor system configuration.
         /// </summary>
+        /// <param name="system">The actor system.</param>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        protected abstract Task Run(TProperties properties);
+        protected abstract Task Run(ClusterActorSystem system, TProperties properties);
     }
 
     class BootstrapProvider : IBootstrapProvider
@@ -54,7 +53,9 @@ namespace Orleankka.Cluster
             Debug.Assert(type != null);
 
             var bootstrapper = (IBootstrapper)Activator.CreateInstance(type);
-            return bootstrapper.Run(Deserialize(config.Properties[PropertiesKey]));
+            var system = ClusterActorSystem.Current;
+
+            return bootstrapper.Run(system, Deserialize(config.Properties[PropertiesKey]));
         }
 
         static object Deserialize(string s)
@@ -98,24 +99,15 @@ namespace Orleankka.Cluster
             }
         }
 
-        public bool Equals(BootstrapProviderConfiguration other)
-        {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || type == other.type);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || Equals((BootstrapProviderConfiguration)obj));
-        }
-
-        public override int GetHashCode()
-        {
-            return type.GetHashCode();
-        }
-
-        public void Register(GlobalConfiguration category)
-        {
+        public void Register(GlobalConfiguration category) => 
             category.RegisterBootstrapProvider<BootstrapProvider>(type.FullName, properties);
-        }
+
+        public bool Equals(BootstrapProviderConfiguration other) => 
+            !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || type == other.type);
+
+        public override bool Equals(object obj) => 
+            !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || Equals((BootstrapProviderConfiguration)obj));
+
+        public override int GetHashCode() => type.GetHashCode();
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Net;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -17,9 +15,10 @@ namespace Example.Azure
 
         public class Bootstrapper : IBootstrapper
         {
-            public Task Run(object properties)
+            public Task Run(ClusterActorSystem system, object properties)
             {
-                system = ClusterActorSystem.Current;
+                HubGateway.system = system;
+
                 ip = system.Silo.SiloAddress.Endpoint;
                 Trace.TraceError(ip.ToString());
 

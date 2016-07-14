@@ -173,7 +173,7 @@ namespace Example
 
         public class Bootstrap : IBootstrapper
         {
-            public async Task Run(object properties)
+            public async Task Run(ClusterActorSystem system, object properties)
             {
                 Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
                 await Connection.ConnectAsync();

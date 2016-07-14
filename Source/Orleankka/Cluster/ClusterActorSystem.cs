@@ -12,7 +12,7 @@ namespace Orleankka.Cluster
     {
         static ClusterActorSystem current;
 
-        public static ClusterActorSystem Current 
+        internal static ClusterActorSystem Current 
         {
             get
             {

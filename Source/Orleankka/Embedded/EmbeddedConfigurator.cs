@@ -70,7 +70,7 @@ namespace Orleankka.Embedded
             configure(cluster.Add<T>());
         }
 
-        public virtual IActorSystem Done()
+        public virtual EmbeddedActorSystem Done()
         {
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();

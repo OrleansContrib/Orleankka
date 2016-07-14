@@ -17,7 +17,7 @@ namespace Demo
         {
             static bool done;
 
-            protected override async Task Run(IDictionary<string, string> properties)
+            protected override async Task Run(ClusterActorSystem system, IDictionary<string, string> properties)
             {
                 if (done) 
                     throw new InvalidOperationException("Already done");

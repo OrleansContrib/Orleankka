@@ -77,7 +77,7 @@ namespace Orleankka.Playground
             return this;
         }
 
-        public override IActorSystem Done()
+        public override EmbeddedActorSystem Done()
         {
             From(client);
             From(cluster);

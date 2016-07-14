@@ -177,7 +177,7 @@ namespace Example
 
         public class Bootstrap : Bootstrapper<Properties>
         {
-            protected override Task Run(Properties properties)
+            protected override Task Run(ClusterActorSystem system, Properties properties)
             {
                 var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
                 Table = client.GetTableReference(properties.TableName);
