@@ -21,7 +21,7 @@ let main argv =
       
    use system = ActorSystem.createClient config [|typeof<ChatServer>.Assembly|]
 
-   client <- ClientObserver.create().Result
+   client <- ClientObservable.create().Result
 
    let server = system.ActorOf<ChatServer>("server")
 

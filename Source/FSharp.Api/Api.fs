@@ -25,10 +25,10 @@ module Actor =
 
 
 [<RequireQualifiedAccess>]
-module ClientObserver =
+module ClientObservable =
    open Orleankka
 
-   let inline create () = ClientObserver.Create()
+   let inline create () = ClientObservable.Create()
 
 [<AutoOpen>]
 module ActorRef =
