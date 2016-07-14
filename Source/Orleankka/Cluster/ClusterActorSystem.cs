@@ -23,7 +23,7 @@ namespace Orleankka.Cluster
             }
         }
 
-        public static bool Initialized => current != null;
+        internal static bool Initialized => current != null;
 
         readonly IDisposable configurator;
 

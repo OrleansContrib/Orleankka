@@ -9,7 +9,7 @@ namespace Orleankka.Client
     {
         static ClientActorSystem current;
 
-        public static ClientActorSystem Current
+        internal static ClientActorSystem Current
         {
             get
             {
@@ -20,7 +20,7 @@ namespace Orleankka.Client
             }
         }
 
-        public static bool Initialized => current != null;
+        internal static bool Initialized => current != null;
 
         readonly IDisposable configurator;
 
