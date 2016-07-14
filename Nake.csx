@@ -16,7 +16,6 @@ using System.Diagnostics;
 using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
-const string AzureProject = "Orleankka.Azure";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string Beta = "";
@@ -84,7 +83,6 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
 
     Pack(CoreProject);    
     Pack(TestKitProject, "core_version={Version(CoreProject)}");
-    Pack(AzureProject,   "core_version={Version(CoreProject)}");
     Pack(FSharpProject,  "core_version={Version(CoreProject)}");
 }
 
@@ -103,9 +101,6 @@ void Pack(string project, string properties = null)
         case "core": 
             Push(CoreProject); 
             break;
-        case "azure": 
-            Push(AzureProject); 
-            break;
         case "testkit": 
             Push(TestKitProject); 
             break;        
@@ -114,12 +109,11 @@ void Pack(string project, string properties = null)
             break;
         case "all":
             Push(CoreProject); 
-            Push(AzureProject); 
             Push(TestKitProject); 
             Push(FSharpProject);  
             break;      
         default:
-            throw new ArgumentException("Available values are: core, azure, testkit, fsharp or all");   
+            throw new ArgumentException("Available values are: core, testkit, fsharp or all");   
     }
 }
 
