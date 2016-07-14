@@ -5,8 +5,9 @@
     <version>$version$</version>
     <authors>Yevhen Bobrov, Anton Moldovan</authors>
     <owners>Yevhen Bobrov</owners>
-    <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
-    <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
+    <licenseUrl>https://github.com/OrleansContrib/Orleankka/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/OrleansContrib/Orleankka</projectUrl>
+    <iconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</iconUrl>    
     <description>Functional API for MSR Orleans. Features a uniform interface that doesn't require static codegen</description>
     <tags>Orleans distributed messaging actor concurrency CQRS</tags>
     <dependencies>
@@ -23,9 +24,6 @@
     <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net451" />
     <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net451" />
     <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Core.dll" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Core.xml" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Core.pdb" target="lib/net451" />
     <file src="Output\Package\Release\OrleansManager.dll" target="lib/net451" />
     <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net451" />
   </files>

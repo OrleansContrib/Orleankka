@@ -7,6 +7,7 @@
     <owners>Yevhen Bobrov</owners>
     <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
+    <iconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</iconUrl>    
     <description>F# api for Orleankka</description>
     <tags>Orleans distributed messaging actor concurrency functional F#</tags>
     <dependencies>
