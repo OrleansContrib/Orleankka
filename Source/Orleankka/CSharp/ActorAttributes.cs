@@ -90,4 +90,23 @@ namespace Orleankka.CSharp
         public string Target;
         public string Filter;
     }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class AutorunAttribute : Attribute
+    {
+        internal static string[] From(Type actor)
+        {
+            return actor.GetCustomAttributes<AutorunAttribute>(inherit: true)
+                        .Select(attribute => attribute.Id)
+                        .ToArray();
+        }
+
+        public readonly string Id;
+
+        public AutorunAttribute(string id)
+        {
+            Requires.NotNullOrWhitespace(id, nameof(id));
+            Id = id;
+        }
+    }
 }

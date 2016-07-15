@@ -20,7 +20,7 @@ namespace Orleankka
 
     public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IExtensibleActorSystemConfigurator, IDisposable
     {
-        readonly HashSet<EndpointConfiguration> configs = new HashSet<EndpointConfiguration>();
+        readonly HashSet<EndpointConfiguration> endpoints = new HashSet<EndpointConfiguration>();
         readonly List<ActorSystemConfiguratorExtension> extensions = new List<ActorSystemConfiguratorExtension>();
 
         void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
@@ -45,19 +45,19 @@ namespace Orleankka
 
             foreach (var config in configs)
             {
-                if (this.configs.Contains(config))
-                    throw new ArgumentException($"Actor configuration wit code '{config}' has been already registered");
+                if (this.endpoints.Contains(config))
+                    throw new ArgumentException($"Actor configuration with code '{config}' has been already registered");
 
-                this.configs.Add(config);
+                this.endpoints.Add(config);
             }
         }
 
         protected void Configure()
         {
             extensions.ForEach(x => x.Configure(this));
-            ActorType.Register(configs.ToArray());
+            ActorType.Register(endpoints.ToArray());
 
-            var actors = configs.OfType<ActorConfiguration>();
+            var actors = endpoints.OfType<ActorConfiguration>();
             StreamSubscriptionMatcher.Register(actors.SelectMany(x => x.Subscriptions));
         }
 
@@ -67,6 +67,8 @@ namespace Orleankka
             StreamSubscriptionMatcher.Reset();
             extensions.ForEach(x => x.Dispose());
         }
+
+        public IEnumerable<EndpointConfiguration> Endpoints => endpoints;
 
         public override object InitializeLifetimeService() => null;
     }

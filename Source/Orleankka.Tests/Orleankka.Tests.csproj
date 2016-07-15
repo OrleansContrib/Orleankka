@@ -49,6 +49,7 @@
     <Compile Include="Checks\StreamRefFixture.cs" />
     <Compile Include="Checks\StreamPathFixture.cs" />
     <Compile Include="Features\Declarative_stream_subscriptions.cs" />
+    <Compile Include="Features\Autorun_actors.cs" />
     <Compile Include="Features\One_off_timers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Checks\ActorPathFixture.cs" />

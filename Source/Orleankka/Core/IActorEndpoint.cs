@@ -12,6 +12,8 @@ namespace Orleankka.Core
         /// </summary>
         public interface IActorEndpoint : IGrainWithStringKey, IRemindable
         {
+            Task Autorun();
+
             Task<object> Receive(object message);
             [AlwaysInterleave] Task<object> ReceiveReentrant(object message);
 

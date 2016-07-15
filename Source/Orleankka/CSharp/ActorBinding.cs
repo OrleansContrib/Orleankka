@@ -58,6 +58,7 @@ namespace Orleankka.CSharp
             SetKeepAliveTimeout(actor, config);
             SetReceiver(actor, config);
             SetStreamSubscriptions(actor, config);
+            SetAutorun(actor, config);
 
             return config;
         }
@@ -70,6 +71,7 @@ namespace Orleankka.CSharp
             SetKeepAliveTimeout(worker, config);
             SetReceiver(worker, config);
             SetStreamSubscriptions(worker, config);
+            SetAutorun(worker, config);
 
             return config;
         }
@@ -146,6 +148,13 @@ namespace Orleankka.CSharp
             var subscriptions = StreamSubscriptionBinding.From(actor, dispatchers[actor]);
             foreach (var subscription in subscriptions)
                 config.Add(subscription);
+        }
+
+        static void SetAutorun(Type actor, EndpointConfiguration config)
+        {
+            var ids = AutorunAttribute.From(actor);
+            if (ids.Length > 0)
+                config.Autorun(ids);
         }
     }
 }

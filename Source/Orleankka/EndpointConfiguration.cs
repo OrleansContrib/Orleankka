@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Orleankka
@@ -14,6 +15,8 @@ namespace Orleankka
 
         Func<object, bool> reentrancy = message => false;
         Func<IActorContext, Func<object, Task<object>>> receiver = Null;
+
+        readonly HashSet<string> autoruns = new HashSet<string>(); 
 
         readonly List<StreamSubscriptionSpecification> subscriptions =
              new List<StreamSubscriptionSpecification>();
@@ -74,6 +77,14 @@ namespace Orleankka
             subscription.Code = Code;
             subscriptions.Add(subscription);
         }
+
+        public void Autorun(params string[] ids)
+        {
+            Requires.NotNull(ids, nameof(ids));
+            Array.ForEach(ids, x => autoruns.Add(x));
+        }
+
+        public string[] Autoruns => autoruns.ToArray();
 
         public override bool Equals(object obj)
         {

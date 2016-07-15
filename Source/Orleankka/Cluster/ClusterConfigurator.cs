@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
@@ -10,6 +11,7 @@ namespace Orleankka.Cluster
 {
     using Core.Streams;
     using Utility;
+    using Annotations;
 
     public sealed class ClusterConfigurator : ActorSystemConfigurator
     {
@@ -74,15 +76,16 @@ namespace Orleankka.Cluster
 
         new void Configure()
         {
+            base.Configure();
+
             BootstrapStreamSubscriptionHook();
+            BootstrapAutoruns();
 
             foreach (var each in streamProviders)
                 each.Register(Configuration);
 
             foreach (var each in bootstrapProviders)
                 each.Register(Configuration.Globals);
-
-            base.Configure();
         }
 
         void BootstrapStreamSubscriptionHook()
@@ -97,9 +100,33 @@ namespace Orleankka.Cluster
             Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
+        void BootstrapAutoruns()
+        {
+            var autoruns = new Dictionary<string, string[]>();
+
+            foreach (var config in Endpoints)
+            {
+                var ids = config.Autoruns;
+                if (ids.Length > 0)
+                    autoruns.Add(config.Code, ids);
+            }
+
+            Run<AutorunBootstrapper>(autoruns);
+        }
+
         public override object InitializeLifetimeService()
         {
             return null;
+        }
+
+        [UsedImplicitly]
+        class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
+        {
+            protected override Task Run(ClusterActorSystem system, Dictionary<string, string[]> properties) => 
+                Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
+
+            static IEnumerable<Task> Autorun(IActorSystem system, string code, IEnumerable<string> ids) => 
+                ids.Select(id => system.ActorOf(code, id).Autorun());
         }
     }
 

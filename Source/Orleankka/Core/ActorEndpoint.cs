@@ -25,6 +25,13 @@ namespace Orleankka.Core
             type = ActorType.Registered(code);
         }
 
+        public Task Autorun()
+        {
+            KeepAlive();
+
+            return TaskDone.Done;
+         }
+
         public Task<object> Receive(object message)
         {
             KeepAlive();
