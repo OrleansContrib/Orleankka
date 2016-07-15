@@ -12,16 +12,31 @@ namespace Orleankka.TestKit
     {
         readonly Dictionary<string, RecordedTimer> timers = new Dictionary<string, RecordedTimer>();
 
+        void ITimerService.Register(string id, TimeSpan due, object state)
+        {
+            timers.Add(id, new RecordedTimer<object>(id, due, TimeSpan.Zero, null, null));
+        }
+
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
         {
             CheckGreaterThanZero(period);
             timers.Add(id, new RecordedTimer<object>(id, due, period, null, null));
         }
 
+        void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
+        {
+            timers.Add(id, new RecordedTimer(id, due, TimeSpan.Zero, callback));
+        }
+
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
             CheckGreaterThanZero(period);
             timers.Add(id, new RecordedTimer(id, due, period, callback));
+        }
+
+        void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
+        {
+            timers.Add(id, new RecordedTimer<TState>(id, due, TimeSpan.Zero, callback, state));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
@@ -64,11 +79,13 @@ namespace Orleankka.TestKit
             Period = period;
             Callback = callback;
         }
+
+        public bool IsOneOff => Period == TimeSpan.Zero;
     }
 
     public class RecordedTimer<TState> : RecordedTimer
     {
-        new public readonly Func<TState, Task> Callback;
+        public new readonly Func<TState, Task> Callback;
         public readonly TState State;
 
         public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func<TState, Task> callback, TState state)
