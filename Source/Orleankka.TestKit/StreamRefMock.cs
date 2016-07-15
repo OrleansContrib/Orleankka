@@ -62,27 +62,6 @@ namespace Orleankka.TestKit
             return Task.FromResult<StreamSubscription>(mock);
         }
 
-/*        public override Task Subscribe(Actor actor, StreamFilter filter = null)
-        {
-            Subscribed = actor;
-            Filter = filter;
-            return TaskDone.Done;
-        }
-
-        public override Task Unsubscribe(Actor actor)
-        {
-            if (Subscribed == actor)
-                Subscribed = null; 
-
-            return TaskDone.Done;
-        }
-
-        public override Task Resume(Actor actor)
-        {
-            Resumed = actor;
-            return TaskDone.Done;
-        }*/
-
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
 
         public void Reset()
