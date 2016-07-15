@@ -69,6 +69,9 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
+            if (name == StickyReminderName)
+                return;
+
             await ReceiveInternal(new Reminder(name));
         }
 
