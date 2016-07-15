@@ -75,6 +75,9 @@ namespace Orleankka.Embedded
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();
 
+            // connect automatically
+            clientSystem.Connect();
+
             return new EmbeddedActorSystem(domain, clientSystem, clusterSystem);
         }
 

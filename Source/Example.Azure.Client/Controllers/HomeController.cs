@@ -54,6 +54,8 @@ namespace Example.Azure.Controllers
                 .From(Configuration(clusterId, clsuterMembershipStorage))
                 .CSharp(x => x.Register(typeof(Publisher).Assembly))
                 .Done();
+
+            MvcApplication.System.Connect(retries: 5);
         }
 
         static ClientConfiguration Configuration(string deploymentId, string dataConnectionString)

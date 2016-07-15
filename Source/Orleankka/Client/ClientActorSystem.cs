@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
 using Orleans;
+using Orleans.Runtime;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
@@ -23,31 +26,66 @@ namespace Orleankka.Client
         internal static bool Initialized => current != null;
 
         readonly IDisposable configurator;
+        readonly ClientConfiguration configuration;
 
-        internal ClientActorSystem(IDisposable configurator)
+        internal ClientActorSystem(IDisposable configurator, ClientConfiguration configuration)
         {
             current = this;
             this.configurator = configurator;
+            this.configuration = configuration;
         }
 
-        internal void Initialize(ClientConfiguration configuration)
+        public void Connect(int retries = 0)
         {
-            try
+            if (retries < 0)
+                throw new ArgumentOutOfRangeException(nameof(retries), 
+                    "retries should be greater than or equal to 0");
+
+            while (retries-- >= 0)
             {
-                GrainClient.Initialize(configuration);
+                try
+                {
+                    GrainClient.Initialize(configuration);
+                    return;
+                }
+                catch (SiloUnavailableException e)
+                {
+                    if (retries >= 0)
+                    {
+                        Trace.TraceWarning("Can't connect to cluster. Trying again ...");
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                    }
+                    else
+                    {
+                        Trace.TraceError("Can't connect to cluster. Max retries reached");
+                        throw;
+                    }
+                }
             }
-            catch (Exception)
-            {
-                current = null;
-                throw;
-            }
+        }
+
+        public void Reconnect(string deploymentId = null, int retries = 0)
+        {
+            var clusterId = deploymentId ?? configuration.DeploymentId;
+
+            Trace.TraceInformation("Reconnecting to cluster with DeploymentId '{0}' ...", clusterId);
+            configuration.DeploymentId = clusterId;
+
+            Reset();
+            Connect(retries);
         }
 
         public override void Dispose()
         {
-            GrainClient.Uninitialize();
+            Reset();
             configurator.Dispose();
             current = null;
+        }
+
+        static void Reset()
+        {
+            if (GrainClient.IsInitialized)
+                GrainClient.Uninitialize();
         }
     }
 }

@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-using Orleankka;
+using Orleankka.Client;
 
 namespace Example.Azure
 {
     public class MvcApplication : HttpApplication
     {
-        public static IActorSystem System;
+        public static ClientActorSystem System;
 
         protected void Application_Start()
         {

@@ -28,9 +28,12 @@ namespace Example
             task.Wait();
         }
 
-        private static async Task RunChatClient(IActorSystem system)
+        private static async Task RunChatClient(ClientActorSystem system)
         {
             const string room = "Orleankka";
+
+            Console.WriteLine("Connecting to server ...");
+            system.Connect(retries: 2);
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
@@ -46,6 +49,13 @@ namespace Example
                 {
                     await client.Leave();
                     break;
+                }
+
+                if (message == "reconnect")
+                {
+                    system.Reconnect(retries: 2);
+                    await client.Resubscribe();
+                    continue;
                 }
 
                 await client.Say(message);

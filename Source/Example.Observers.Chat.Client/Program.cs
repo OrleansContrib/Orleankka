@@ -27,13 +27,16 @@ namespace Example
             task.Wait();
         }
 
-        private static async Task RunChatClient(IActorSystem system)
+        private static async Task RunChatClient(ClientActorSystem system)
         {
             const string room = "Orleankka";
 
+            Console.WriteLine("Connecting to server ...");
+            system.Connect(retries: 2);
+
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
-            
+
             var client = new ChatClient(system, userName, room);
             await client.Join();
 
