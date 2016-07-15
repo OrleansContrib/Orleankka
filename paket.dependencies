@@ -1,4 +1,3 @@
-framework: auto-detect
 redirects: on
 strategy: max
 lowest_matching: false
