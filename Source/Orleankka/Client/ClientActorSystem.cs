@@ -48,7 +48,7 @@ namespace Orleankka.Client
                     GrainClient.Initialize(configuration);
                     return;
                 }
-                catch (SiloUnavailableException e)
+                catch (SiloUnavailableException)
                 {
                     if (retries >= 0)
                     {
