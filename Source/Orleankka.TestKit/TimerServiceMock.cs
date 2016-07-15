@@ -14,17 +14,26 @@ namespace Orleankka.TestKit
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
         {
+            CheckGreaterThanZero(period);
             timers.Add(id, new RecordedTimer<object>(id, due, period, null, null));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
+            CheckGreaterThanZero(period);
             timers.Add(id, new RecordedTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
+            CheckGreaterThanZero(period);
             timers.Add(id, new RecordedTimer<TState>(id, due, period, callback, state));
+        }
+
+        void CheckGreaterThanZero(TimeSpan period)
+        {
+            if (period <= TimeSpan.Zero)
+                throw new ArgumentException("period should be greater than zero", nameof(period));
         }
 
         void ITimerService.Unregister(string id) => timers.Remove(id);
