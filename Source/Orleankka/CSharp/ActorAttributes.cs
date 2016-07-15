@@ -109,4 +109,11 @@ namespace Orleankka.CSharp
             Id = id;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class StickyAttribute : Attribute
+    {
+        internal static bool IsApplied(Type actor) => 
+            actor.GetCustomAttribute<StickyAttribute>(inherit: true) != null;
+    }
 }

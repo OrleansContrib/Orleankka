@@ -144,7 +144,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) => 
-            new ActorType(config.Code, config.KeepAliveTimeout, config.Reentrancy, @interface, config.Receiver);
+            new ActorType(config.Code, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
 
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine($"[{GetActorPlacement()}]");
@@ -177,7 +177,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) =>
-            new ActorType(config.Code, TimeSpan.Zero, config.Reentrancy, @interface, config.Receiver);
+            new ActorType(config.Code, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
         
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine("[StatelessWorker]");

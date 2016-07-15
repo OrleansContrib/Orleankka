@@ -36,15 +36,17 @@ namespace Orleankka.Core
 
         public readonly string Code;
 
+        readonly bool sticky;
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> reentrant;
         readonly Func<string, object> factory;
         readonly Func<IActorContext, Func<object, Task<object>>> receiver;
 
-        internal ActorType(string code, TimeSpan keepAliveTimeout, Func<object, bool> reentrant, Type @interface, Func<IActorContext, Func<object, Task<object>>> receiver)
+        internal ActorType(string code, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> reentrant, Type @interface, Func<IActorContext, Func<object, Task<object>>> receiver)
         {
             Code = code;
-            this.keepAliveTimeout = keepAliveTimeout;
+            this.sticky = sticky;
+            this.keepAliveTimeout = sticky ? TimeSpan.FromDays(365 * 10) : keepAliveTimeout;
             this.reentrant = reentrant;
             this.factory = Bind(@interface);
             this.receiver = receiver;
@@ -85,6 +87,8 @@ namespace Orleankka.Core
 
             endpoint.DelayDeactivation(keepAliveTimeout);
         }
+
+        public bool Sticky => sticky;
 
         public bool Equals(ActorType other)
         {

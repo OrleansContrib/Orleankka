@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleans;
 
 namespace Orleankka.Features
 {

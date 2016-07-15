@@ -15,6 +15,7 @@ namespace Orleankka.Core
     /// </summary>
     public abstract class ActorEndpoint : Grain, IRemindable
     {
+        const string StickyReminderName = "##sticky##";
         readonly ActorType type;
 
         ActorContext context;
@@ -73,9 +74,12 @@ namespace Orleankka.Core
 
         internal Task<object> ReceiveInternal(object message) => receiver(message);
 
-        public override Task OnActivateAsync()
+        public override async Task OnActivateAsync()
         {
-            return Activate(ActorPath.Deserialize(IdentityOf(this)));
+            if (type.Sticky)
+                await HandleStickyness();
+
+            await Activate(ActorPath.Deserialize(IdentityOf(this)));
         }
 
         public override Task OnDeactivateAsync()
@@ -90,6 +94,12 @@ namespace Orleankka.Core
             context = new ActorContext(path, ClusterActorSystem.Current, this);
             receiver = type.Receiver(context);
             return receiver(new Activate());
+        }
+
+        async Task HandleStickyness()
+        {
+            var period = TimeSpan.FromMinutes(1);
+            await RegisterOrUpdateReminder(StickyReminderName, period, period);
         }
 
         void KeepAlive() => type.KeepAlive(this);

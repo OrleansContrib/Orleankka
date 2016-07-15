@@ -59,6 +59,7 @@ namespace Orleankka.CSharp
             SetReceiver(actor, config);
             SetStreamSubscriptions(actor, config);
             SetAutorun(actor, config);
+            SetStickiness(actor, config);
 
             return config;
         }
@@ -72,6 +73,7 @@ namespace Orleankka.CSharp
             SetReceiver(worker, config);
             SetStreamSubscriptions(worker, config);
             SetAutorun(worker, config);
+            SetStickiness(worker, config);
 
             return config;
         }
@@ -155,6 +157,11 @@ namespace Orleankka.CSharp
             var ids = AutorunAttribute.From(actor);
             if (ids.Length > 0)
                 config.Autorun(ids);
+        }
+
+        static void SetStickiness(Type actor, EndpointConfiguration config)
+        {
+            config.Sticky = StickyAttribute.IsApplied(actor);
         }
     }
 }

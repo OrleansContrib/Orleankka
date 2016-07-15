@@ -86,6 +86,8 @@ namespace Orleankka
 
         public string[] Autoruns => autoruns.ToArray();
 
+        public bool Sticky { get; set; }
+
         public override bool Equals(object obj)
         {
             return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || 
