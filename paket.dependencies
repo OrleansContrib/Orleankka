@@ -1,3 +1,4 @@
+framework: net451
 redirects: on
 strategy: max
 lowest_matching: false
