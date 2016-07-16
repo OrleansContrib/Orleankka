@@ -35,6 +35,8 @@ namespace Orleankka.Client
             this.configuration = configuration;
         }
 
+        public bool Connected => GrainClient.IsInitialized;
+
         public void Connect(int retries = 0)
         {
             if (retries < 0)
