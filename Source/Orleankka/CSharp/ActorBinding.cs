@@ -103,12 +103,12 @@ namespace Orleankka.CSharp
         {
             dispatchers.Add(actor, new Dispatcher(actor));
 
-            config.Receiver = context =>
+            config.Receiver = (path, runtime) =>
             {
                 var dispatcher = dispatchers[actor];
 
-                var instance = Activator.Activate(actor, context, dispatcher);
-                instance.Initialize(context, dispatcher);
+                var instance = Activator.Activate(actor, path.Id, runtime, dispatcher);
+                instance.Initialize(path, runtime, dispatcher);
 
                 return message => Invoke(message, instance);
             };

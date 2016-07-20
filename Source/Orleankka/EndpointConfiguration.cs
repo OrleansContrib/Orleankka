@@ -10,11 +10,11 @@ namespace Orleankka
 
     public abstract class EndpointConfiguration
     {
-        static readonly Func<IActorContext, Func<object, Task<object>>> Null = 
-            (context) => (message => TaskResult.Done);
+        static readonly Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Null = 
+            (path, runtime) => (message => TaskResult.Done);
 
         Func<object, bool> reentrancy = message => false;
-        Func<IActorContext, Func<object, Task<object>>> receiver = Null;
+        Func<ActorPath, IActorRuntime, Func<object, Task<object>>> receiver = Null;
 
         readonly HashSet<string> autoruns = new HashSet<string>(); 
 
@@ -45,7 +45,7 @@ namespace Orleankka
             }
         }
 
-        public Func<IActorContext, Func<object, Task<object>>> Receiver
+        public Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Receiver
         {
             get { return receiver; }
             set

@@ -1,4 +1,7 @@
-﻿using Orleankka;
+﻿using System;
+using System.Linq;
+
+using Orleankka;
 using Orleankka.CSharp;
 
 namespace Example
@@ -7,12 +10,11 @@ namespace Example
     {
         readonly ISomeService service;
 
-        // parameterless ctor is still required
         DIActor() 
         {}
 
-        public DIActor(IActorContext context, Dispatcher dispatcher, ISomeService service) 
-            : base(context, dispatcher)
+        public DIActor(string id, IActorRuntime runtime, Dispatcher dispatcher, ISomeService service) 
+		    : base(id, runtime, dispatcher)
         {
             this.service = service;
         }

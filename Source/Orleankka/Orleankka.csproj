@@ -52,9 +52,10 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="CSharp\ActorActivator.cs" />
     <Compile Include="EndpointConfiguration.cs" />
-    <Compile Include="ActorContext.cs" />
     <Compile Include="ActorMessages.cs" />
+    <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\EndpointDeclaration.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Core\IActorEndpoint.cs" />
@@ -65,8 +66,6 @@
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="CSharp\Actor.cs" />
-    <Compile Include="CSharp\ActorActivator.cs" />
-    <Compile Include="CSharp\ActorAttributes.cs" />
     <Compile Include="CSharp\ActorBinding.cs" />
     <Compile Include="CSharp\ActorPathExtensions.cs" />
     <Compile Include="CSharp\ActorSystemConfigurator.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="StreamFilter.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
+    <Compile Include="CSharp\ActorAttributes.cs" />
     <Compile Include="StreamRef.cs" />
     <Compile Include="ClientRef.cs" />
     <Compile Include="Core\ClientEndpoint.cs" />

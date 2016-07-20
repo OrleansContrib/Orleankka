@@ -74,10 +74,11 @@ namespace Demo
         }
 
         public Api(
-            IActorContext context, 
+            string id, 
+            IActorRuntime runtime, 
             IObserverCollection observers, 
             IApiWorker worker)
-            : base(context)
+            : base(id, runtime)
         {
             this.observers = observers;
             this.worker = ()=> worker;

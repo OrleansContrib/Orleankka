@@ -7,27 +7,24 @@ using PowerAssert;
 using NUnit.Framework;
 using JetBrains.Annotations;
 
-using Orleankka;
 using Orleankka.TestKit;
 
 namespace Demo
 {
     public abstract class ActorFixture
     {
-        protected ActorContextMock Context;
+        protected ActorRuntimeMock Runtime;
 
         [SetUp]
         public virtual void SetUp()
         {
-            Context = new ActorContextMock(Path());
+            Runtime = new ActorRuntimeMock();
         }
 
-        protected abstract ActorPath Path();
-
-        protected ActorSystemMock System => Context.System;
-        protected TimerServiceMock Timers => Context.Timers;
-        protected ReminderServiceMock Reminders => Context.Reminders;
-        protected ActivationServiceMock Activation => Context.Activation;
+        protected ActorSystemMock System => Runtime.System;
+        protected TimerServiceMock Timers => Runtime.Timers;
+        protected ReminderServiceMock Reminders => Runtime.Reminders;
+        protected ActivationServiceMock Activation => Runtime.Activation;
 
         protected static void IsFalse([InstantHandle] Expression<Func<bool>> expression, string message = null)
         {

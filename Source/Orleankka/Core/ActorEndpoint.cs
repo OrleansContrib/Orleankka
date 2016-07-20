@@ -18,7 +18,7 @@ namespace Orleankka.Core
         const string StickyReminderName = "##sticky##";
         readonly ActorType type;
 
-        ActorContext context;
+        ActorRuntime runtime;
         Func<object, Task<object>> receiver;
 
         protected ActorEndpoint(string code)
@@ -87,15 +87,15 @@ namespace Orleankka.Core
 
         public override Task OnDeactivateAsync()
         {
-            return context != null
+            return runtime != null
                     ? receiver(new Deactivate())
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
-            context = new ActorContext(path, ClusterActorSystem.Current, this);
-            receiver = type.Receiver(context);
+            runtime = new ActorRuntime(ClusterActorSystem.Current, this);
+            receiver = type.Receiver(path, runtime);
             return receiver(new Activate());
         }
 

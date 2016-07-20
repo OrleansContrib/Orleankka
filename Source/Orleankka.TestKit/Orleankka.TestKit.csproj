@@ -56,7 +56,7 @@
     <Compile Include="StreamSubscriptionMock.cs" />
     <Compile Include="StreamRefMock.cs" />
     <Compile Include="ActorRefMock.cs" />
-    <Compile Include="ActorContextMock.cs" />
+    <Compile Include="ActorRuntimeMock.cs" />
     <Compile Include="ObserverRefStub.cs" />
     <Compile Include="Expectations.cs" />
     <Compile Include="ExpressionExtensions.cs" />

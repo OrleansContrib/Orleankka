@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Orleankka.CSharp
 {
@@ -7,7 +6,7 @@ namespace Orleankka.CSharp
     {
         void Init(object properties);
 
-        Actor Activate(Type type, IActorContext context, Dispatcher dispatcher);
+        Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher);
     }
 
     public abstract class ActorActivator<TProperties> : IActorActivator
@@ -18,7 +17,7 @@ namespace Orleankka.CSharp
         }
 
         public abstract void Init(TProperties properties);
-        public abstract Actor Activate(Type type, IActorContext context, Dispatcher dispatcher);
+        public abstract Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher);
     }
 
     public abstract class ActorActivator : ActorActivator<object>
@@ -28,7 +27,7 @@ namespace Orleankka.CSharp
 
     class DefaultActorActivator : ActorActivator
     {
-        public override Actor Activate(Type type, IActorContext context, Dispatcher dispatcher)
+        public override Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             try
             {

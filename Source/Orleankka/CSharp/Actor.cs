@@ -10,42 +10,50 @@ namespace Orleankka.CSharp
 
     public abstract class Actor
     {
+        ActorRef self;
+
         protected Actor()
         {}
 
-        protected Actor(IActorContext context)
+        protected Actor(string id, IActorRuntime runtime)
         {
-            Requires.NotNull(context, nameof(context));
-            Context = context;
+            Requires.NotNull(runtime, nameof(runtime));
+            Requires.NotNullOrWhitespace(id, nameof(id));
+
+            Runtime = runtime;
             Dispatcher = ActorBinding.Dispatcher(GetType());
+            Path = GetType().ToActorPath(id);
         }
 
-        protected Actor(IActorContext context, Dispatcher dispatcher)
+        protected Actor(string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
-            Requires.NotNull(context, nameof(context));
+            Requires.NotNull(runtime, nameof(runtime));
             Requires.NotNull(dispatcher, nameof(dispatcher));
-            Context = context;
-            Dispatcher = dispatcher;
-        }
 
-        internal void Initialize(IActorContext context, Dispatcher dispatcher)
+            Runtime = runtime;
+            Dispatcher = dispatcher;
+            Path = GetType().ToActorPath(id);
+        }
+		
+        internal void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
         {
-            Context = context;
+            Path = path;
+            Runtime = runtime;
             Dispatcher = dispatcher;
         }
 
-        public IActorContext Context { get; private set; }
-        public Dispatcher Dispatcher { get; private set; }
-
-        public ActorRef Self => Context.Self;
-        public ActorPath Path => Context.Path;
-        public string Code => Path.Code;
         public string Id => Path.Id;
 
-        public IActorSystem System           => Context.System;
-        public IActivationService Activation => Context.Activation;
-        public IReminderService Reminders    => Context.Reminders;
-        public ITimerService Timers          => Context.Timers;
+        public ActorPath Path           {get; private set;}
+        public IActorRuntime Runtime    {get; private set;}
+        public Dispatcher Dispatcher    {get; private set;}
+
+        public IActorSystem System           => Runtime.System;
+        public IActivationService Activation => Runtime.Activation;
+        public IReminderService Reminders    => Runtime.Reminders;
+        public ITimerService Timers          => Runtime.Timers;
+
+        public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
         public virtual Task<object> OnReceive(object message) => 
             Dispatch(message);
