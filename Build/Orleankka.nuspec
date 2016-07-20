@@ -14,6 +14,7 @@
         <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.2.3" />
         <dependency id="Microsoft.Orleans.OrleansProviders" version="1.2.3" />
         <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.2.3" />
+        <dependency id="Microsoft.CodeAnalysis.CSharp" version="1.1.1" />
         <dependency id="Newtonsoft.Json" version="7.0.1" />
     </dependencies>    
   </metadata>
