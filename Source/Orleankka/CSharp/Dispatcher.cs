@@ -13,28 +13,31 @@ namespace Orleankka.CSharp
 
     public class Dispatcher
     {
-        static readonly string[] conventions = {"On", "Handle", "Answer", "Apply"};
+        static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
 
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        readonly Type actor;        
-        
-        public Dispatcher(Type actor)
+        readonly Type actor;
+        readonly string[] conventions;
+
+        public Dispatcher(Type actor, string[] conventions = null)
         {
             this.actor = actor;
+            this.conventions = conventions ?? DefaultConventions;
 
             foreach (var method in GetMethods(actor))
                 Register(method);
         }
 
-        static IEnumerable<MethodInfo> GetMethods(Type actor)
+        IEnumerable<MethodInfo> GetMethods(Type actor)
         {
             while (true)
             {
                 Debug.Assert(actor != null);
 
-                if (actor == typeof(Actor))
+                if (actor == typeof(Actor) || 
+                    actor == typeof(object))
                     yield break;
 
                 const BindingFlags scope = BindingFlags.Instance |
@@ -73,7 +76,7 @@ namespace Orleankka.CSharp
         public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
         public IEnumerable<Type> RegisteredMessages()  => handlers.Keys;
 
-        public Task<object> Dispatch(Actor target, object message, Func<object, Task<object>> fallback)
+        public Task<object> Dispatch(object target, object message, Func<object, Task<object>> fallback = null)
         {
             var handler = handlers.Find(message.GetType());
 

@@ -10,8 +10,10 @@ namespace Orleankka.CSharp
 
     class ActorBinding
     {
+        internal static string[] Conventions;
+
         internal static Dispatcher Dispatcher(Type actor) => 
-            dispatchers.Find(actor) ?? new Dispatcher(actor);
+            dispatchers.Find(actor) ?? new Dispatcher(actor, Conventions);
 
         static readonly Dictionary<Type, Dispatcher> dispatchers = 
                     new Dictionary<Type, Dispatcher>(); 
@@ -23,6 +25,7 @@ namespace Orleankka.CSharp
             ActorTypeCode.Reset();
             Activator = new DefaultActorActivator();
             dispatchers.Clear();
+            Conventions = null;
         }
 
         static ActorBinding()

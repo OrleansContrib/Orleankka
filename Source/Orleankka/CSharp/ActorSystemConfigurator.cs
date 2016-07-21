@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Orleankka.CSharp
@@ -18,6 +19,7 @@ namespace Orleankka.CSharp
     public class CSharpActorSystemConfiguratorExtension : ActorSystemConfiguratorExtension
     {
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
+        readonly HashSet<string> conventions = new HashSet<string>();
         Tuple<Type, object> activator;
 
         public CSharpActorSystemConfiguratorExtension Register<T>(object properties) where T : IActorActivator
@@ -48,8 +50,18 @@ namespace Orleankka.CSharp
             return this;
         }
 
+        public CSharpActorSystemConfiguratorExtension HandlerNamingConventions(params string[] conventions)
+        {
+            Requires.NotNull(conventions, nameof(conventions));
+            Array.ForEach(conventions, x => this.conventions.Add(x));
+
+            return this;
+        }
+
         protected internal override void Configure(IActorSystemConfigurator configurator)
         {
+            ActorBinding.Conventions = conventions.Count > 0 ? conventions.ToArray() : null;
+
             if (activator != null)
             {
                 var instance = (IActorActivator)Activator.CreateInstance(activator.Item1);

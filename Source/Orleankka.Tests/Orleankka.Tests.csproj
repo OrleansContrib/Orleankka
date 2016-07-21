@@ -63,7 +63,7 @@
     <Compile Include="Testing\TestActorSystem.cs" />
     <Compile Include="Features\Reentrant_messages.cs" />
     <Compile Include="Features\Observing_notifications.cs" />
-    <Compile Include="Features\Handler_wiring.cs" />
+    <Compile Include="Checks\DispatcherFixture.cs" />
     <Compile Include="Features\Request_response.cs" />
     <Compile Include="Features\Type_codes.cs" />
     <Compile Include="Features\Unwrapping_exceptions.cs" />
