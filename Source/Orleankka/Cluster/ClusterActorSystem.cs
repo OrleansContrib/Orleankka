@@ -34,11 +34,15 @@ namespace Orleankka.Cluster
             Host = new SiloHost(Dns.GetHostName(), configuration);
         }
 
+        public bool Started { get; private set; }
         public SiloHost Host { get; private set; }
         public Silo Silo { get; private set; }
 
-        internal void Start(bool wait)
+        public void Start(bool wait = false)
         {
+            if (Started)
+                throw new InvalidOperationException("Cluster already started");
+
             Host.LoadOrleansConfig();
             Host.InitializeOrleansSilo();
 
@@ -51,17 +55,35 @@ namespace Orleankka.Cluster
             if (!Host.StartOrleansSilo(catchExceptions: false))
                 throw new Exception("Silo failed to start. Check the logs");
 
+            Started = true;
+
             if (wait)
                 Host.WaitForOrleansSiloShutdown();
         }
 
+        public void Stop(bool force = false)
+        {
+            if (!Started)
+                throw new InvalidOperationException("Cluster already stopped");
+
+            if (force)
+                Host.StopOrleansSilo();
+            else
+                Host.ShutdownOrleansSilo();
+
+            Host.UnInitializeOrleansSilo();
+
+            Started = false;
+        }
+
         public override void Dispose()
         {
+            if (Started)
+                Stop(true);
+
             if (Host == null)
                 return;
 
-            Host.StopOrleansSilo();
-            Host.UnInitializeOrleansSilo();
             Host.Dispose();
             Host = null;
 

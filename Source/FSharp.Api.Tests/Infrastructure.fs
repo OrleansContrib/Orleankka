@@ -5,9 +5,10 @@ open NUnit.Framework
 open Orleankka
 open Orleankka.CSharp
 open Orleankka.Playground
+open Orleankka.Embedded
 
 module TestActorSystem =    
-   let mutable instance:IActorSystem = null
+   let mutable instance:EmbeddedActorSystem = null
    
 [<AttributeUsage(AttributeTargets.Class)>]
 type RequiresSiloAttribute() =
@@ -25,6 +26,7 @@ type RequiresSiloAttribute() =
                                  .Done()
       
          TestActorSystem.instance <- system
+         TestActorSystem.instance.Start()
 
 type TeardownSiloAttribute() =
    inherit TestActionAttribute()

@@ -18,6 +18,7 @@ let main argv =
 
    // setup actor system
    use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
+   system.Start()
    
    // get uniq actor by name
    let counter = system.ActorOf<Counter>("realtime-consistent-counter")

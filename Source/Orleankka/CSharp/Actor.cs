@@ -61,7 +61,7 @@ namespace Orleankka.CSharp
         public virtual Task OnActivate()    => TaskDone.Done;
         public virtual Task OnDeactivate()  => TaskDone.Done;
 
-        public virtual Task OnReminder(string id)
+        public virtual Task OnReminder(string api)
         {
             var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
             throw new NotImplementedException(message);

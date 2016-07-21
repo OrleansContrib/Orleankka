@@ -3,10 +3,11 @@
 namespace Orleankka.Testing
 {
     using CSharp;
+    using Embedded;
 
     public static class TestActorSystem
     {
-        public static IActorSystem Instance;
+        public static EmbeddedActorSystem Instance;
 
         public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : Actor
         {

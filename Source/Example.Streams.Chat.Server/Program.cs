@@ -25,6 +25,8 @@ namespace Example
                 .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
+            system.Start();
+
             Console.WriteLine("Finished booting cluster...");
             Console.ReadLine();
             

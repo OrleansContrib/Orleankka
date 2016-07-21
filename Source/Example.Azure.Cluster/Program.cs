@@ -15,7 +15,7 @@ namespace Example.Azure
 {
     public class Program : RoleEntryPoint
     {
-        static IActorSystem system;
+        static ClusterActorSystem system;
 
         public override bool OnStart()
         {
@@ -33,7 +33,9 @@ namespace Example.Azure
                 .From(Configuration(clusterId, clusterMembershipStorage))
                 .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Run<HubGateway.Bootstrapper>()
-                .Done(wait: true);
+                .Done();
+
+            system.Start(wait: true);
         }
 
         static ClusterConfiguration Configuration(string deploymentId, string dataConnectionString)

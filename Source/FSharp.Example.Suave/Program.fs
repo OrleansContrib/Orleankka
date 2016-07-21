@@ -22,7 +22,8 @@ let main argv =
 
   // configure actor system
   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-  
+  system.Start()
+
   let testActor = system.ActorOf<Actors.TestActor>("http_test")
 
 

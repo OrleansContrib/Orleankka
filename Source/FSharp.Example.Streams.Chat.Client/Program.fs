@@ -51,6 +51,7 @@ let main argv =
    let config = ClientConfig.loadFromResource assembly "Client.xml"   
       
    use system = ActorSystem.createClient config [|typeof<ChatUser>.Assembly|]   
+   system.Connect()
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();

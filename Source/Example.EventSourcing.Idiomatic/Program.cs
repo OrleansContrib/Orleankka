@@ -22,6 +22,7 @@ namespace Example
                 .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
+            system.Start();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");

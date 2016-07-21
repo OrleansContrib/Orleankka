@@ -37,6 +37,7 @@ namespace Example
                     .Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
+            system.Start();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");

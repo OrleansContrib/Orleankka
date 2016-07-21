@@ -16,9 +16,9 @@ let main argv =
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
    use system = ActorSystem.createCluster config [|typeof<ChatUser>.Assembly|]
-
+   system.Start()
+   
    printfn "Finished booting cluster...\n"
-
    System.Console.ReadLine() |> ignore
       
    0

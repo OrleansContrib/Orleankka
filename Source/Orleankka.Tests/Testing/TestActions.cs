@@ -62,6 +62,7 @@ namespace Orleankka.Testing
             }
 
             TestActorSystem.Instance = system.Done();
+            TestActorSystem.Instance.Start();
         }
     }
 

@@ -21,6 +21,21 @@ namespace Orleankka.Embedded
         public ClientActorSystem Client => client;
         public ClusterActorSystem Cluster => cluster;
 
+        public void Start(bool wait = false)
+        {
+            cluster.Start();
+            client.Connect(); 
+
+            if (wait)
+                cluster.Host.WaitForOrleansSiloShutdown();
+        }
+
+        public void Stop(bool force = false)
+        {
+            client.Disconnect();
+            cluster.Stop(force);
+        }
+
         public override void Dispose()
         {
             if (domain == null)

@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Core;
+using Orleankka.Embedded;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
@@ -17,7 +17,7 @@ namespace Example
     public static class Program
     {
         static bool resume;
-        static IActorSystem system;
+        static EmbeddedActorSystem system;
 
         public static void Main(string[] args)
         {
@@ -38,6 +38,8 @@ namespace Example
                 })
                 .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
+
+            system.Start();
 
             try
             {

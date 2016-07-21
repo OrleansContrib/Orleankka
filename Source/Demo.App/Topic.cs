@@ -56,9 +56,8 @@ namespace Demo
                 await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
-        public async Task On(Reminder reminder)
+        public override async Task OnReminder(string api)
         {
-            var api = reminder.Id;
             try
             {
                 if (!IsRetrying(api))

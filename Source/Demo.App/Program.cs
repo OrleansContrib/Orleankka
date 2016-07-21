@@ -26,6 +26,8 @@ namespace Demo
                 .CSharp(x => x.Register(typeof(Api).Assembly))
                 .Done();
 
+            system.Start();
+
             client = new Client(system, ClientObservable.Create().Result);
             client.Run();
 

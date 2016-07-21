@@ -23,6 +23,8 @@ namespace Example
                 .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
                 .Done();
 
+            system.Start();
+
             try
             {
                 Run(system).Wait();

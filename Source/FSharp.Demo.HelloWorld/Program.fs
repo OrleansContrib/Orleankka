@@ -28,7 +28,8 @@ let main argv =
    printfn "Running demo. Booting cluster might take some time ...\n"
 
    use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-                  
+   system.Start()               
+   
    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
 
    let job() = task {

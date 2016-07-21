@@ -77,11 +77,16 @@ namespace Orleankka.Client
             Connect(retries);
         }
 
-        public override void Dispose()
+        public void Disconnect()
         {
             Reset();
-            configurator.Dispose();
             current = null;
+        }
+
+        public override void Dispose()
+        {
+            Disconnect();
+            configurator.Dispose();
         }
 
         static void Reset()

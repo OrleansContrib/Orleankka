@@ -65,13 +65,11 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterActorSystem Done(bool wait = false)
+        public ClusterActorSystem Done()
         {
-            var system = new ClusterActorSystem(this, Configuration);
             Configure();
 
-            system.Start(wait);
-            return system;
+            return new ClusterActorSystem(this, Configuration);
         }
 
         new void Configure()

@@ -236,7 +236,7 @@ namespace Demo
 
         Task ReceiveReminder(string id)
         {
-            return topic.On(new Reminder(id));
+            return topic.OnReminder(id);
         }
 
         void RetriesScheduled(string api)
