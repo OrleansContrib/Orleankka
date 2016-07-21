@@ -15,31 +15,21 @@ namespace Orleankka.CSharp
         protected Actor()
         {}
 
-        protected Actor(string id, IActorRuntime runtime)
+        protected Actor(string id, IActorRuntime runtime, Dispatcher dispatcher = null)
         {
             Requires.NotNull(runtime, nameof(runtime));
             Requires.NotNullOrWhitespace(id, nameof(id));
 
             Runtime = runtime;
-            Dispatcher = ActorBinding.Dispatcher(GetType());
+            Dispatcher = dispatcher ?? ActorBinding.Dispatcher(GetType());
             Path = GetType().ToActorPath(id);
         }
 
-        protected Actor(string id, IActorRuntime runtime, Dispatcher dispatcher)
-        {
-            Requires.NotNull(runtime, nameof(runtime));
-            Requires.NotNull(dispatcher, nameof(dispatcher));
-
-            Runtime = runtime;
-            Dispatcher = dispatcher;
-            Path = GetType().ToActorPath(id);
-        }
-		
         internal void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
         {
             Path = path;
             Runtime = runtime;
-            Dispatcher = dispatcher;
+            Dispatcher = Dispatcher ?? dispatcher;
         }
 
         public string Id => Path.Id;
