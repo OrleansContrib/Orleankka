@@ -14,10 +14,9 @@ namespace Orleankka
 
     [Serializable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : Ref, IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
+    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
-        public static StreamRef Deserialize(string path) => Deserialize(StreamPath.Deserialize(path));
-        public static StreamRef Deserialize(StreamPath path) => new StreamRef(path);
+        internal static StreamRef Deserialize(StreamPath path) => new StreamRef(path);
 
         protected internal StreamRef(StreamPath path)
         {
@@ -28,7 +27,7 @@ namespace Orleankka
         IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy());
 
         public StreamPath Path { get; }
-        public override string Serialize() => Path.Serialize();
+        public string Serialize() => Path.Serialize();
 
         public virtual Task Push(object item)
         {

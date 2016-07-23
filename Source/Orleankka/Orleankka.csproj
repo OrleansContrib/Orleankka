@@ -53,6 +53,9 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="CSharp\ActorActivator.cs" />
+    <Compile Include="CSharp\ActorMessage.cs" />
+    <Compile Include="CSharp\ActorRef.cs" />
+    <Compile Include="CSharp\ObserverRef.cs" />
     <Compile Include="EndpointConfiguration.cs" />
     <Compile Include="ActorMessages.cs" />
     <Compile Include="ActorRuntime.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="ActorSystem.cs" />
     <Compile Include="Core\ActorEndpoint.cs" />
     <Compile Include="Playground\PlaygroundConfigurator.cs" />
-    <Compile Include="Ref.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\TimerService.cs" />

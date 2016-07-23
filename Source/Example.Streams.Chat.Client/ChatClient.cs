@@ -2,18 +2,19 @@
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.CSharp;
 
 namespace Example
 {
     class ChatClient
     {
-        readonly ActorRef user;
+        readonly ActorRef<IChatUser> user;
         readonly IActorSystem system;
         StreamSubscription subscription;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
-            this.user = system.ActorOf("ChatUser", user);
+            this.user = system.TypedActorOf<IChatUser>(user);
             this.system = system;
             RoomName = room;
         }

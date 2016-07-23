@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Client;
+using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -21,7 +22,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(code: "ChatUser")
+                .CSharp(x => x.Register(typeof(IChatUser).Assembly))
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

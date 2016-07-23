@@ -7,7 +7,7 @@ using Orleankka.CSharp;
 namespace Example
 {
     [ActorTypeCode("ChatUser")]
-    public class ChatUser : Actor
+    public class ChatUser : Actor, IChatUser
     {
         Task On(Join x)   => Send(x.Room, $"{Id} joined the room {x.Room} ...");
         Task On(Leave x)  => Send(x.Room, $"{Id} left the room {x.Room}!");

@@ -16,8 +16,7 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
-        public static ActorRef Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
-        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorType.Registered(path.Code));
+        internal static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorType.Registered(path.Code));
 
         readonly IActorEndpoint endpoint;
         readonly ActorType type;
@@ -35,7 +34,6 @@ namespace Orleankka
         }
 
         public ActorPath Path { get; }
-        public override string Serialize() => Path.Serialize();
 
         public virtual Task Tell(object message)
         {

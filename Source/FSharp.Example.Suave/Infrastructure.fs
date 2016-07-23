@@ -27,24 +27,23 @@ module HttpRoute =
  type Route = {
    HttpPath : string
    MsgType : MessageType
-   ActorRef : ActorRef
+   ActorPath : ActorPath
  }
 
  let createHttpPath(actorName, id, msgName) = (sprintf "%s/%s/%s" actorName id msgName)
 
  let create (msgType, actorPath:ActorPath) = 
-   let actorRef = ActorRef.Deserialize(actorPath)
    match msgType with   
    
    | Class t -> [| { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, t.Name)
                      MsgType = msgType
-                     ActorRef = actorRef } |]
+                     ActorPath = actorPath } |]
                        
    | DU t -> FSharpType.GetUnionCases(t) 
              |> Array.map(fun case ->                
                 { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, case.Name)
                   MsgType = msgType
-                  ActorRef = actorRef })
+                  ActorPath = actorPath })
 
 module ActorRouter =
 
@@ -56,7 +55,7 @@ module ActorRouter =
       
    let getMessageName (path:string) = path.Split('/').Last()
 
-   member this.Dispatch(httpPath, msg) =            
+   member this.Dispatch(system:IActorSystem, httpPath, msg) =            
       match routes.TryGetValue(httpPath) with      
       | (true, route) ->
          let message = match route.MsgType with
@@ -66,7 +65,7 @@ module ActorRouter =
                                  let duMsg = MessageType.mapToDU(caseName, msg)
                                  deserialize(duMsg, t)
 
-         route.ActorRef.Ask<obj>(message) |> Some
+         system.ActorOf(route.ActorPath).Ask<obj>(message) |> Some
       | _  -> None
 
  let create deserialize (paths:Route seq) =

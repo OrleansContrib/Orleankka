@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Orleankka.CSharp;
+
 namespace Orleankka.TestKit
 {
-	using CSharp;
-	
     public class ActorSystemMock : IActorSystem
     {
         readonly Dictionary<ActorPath, ActorRefMock> actors =

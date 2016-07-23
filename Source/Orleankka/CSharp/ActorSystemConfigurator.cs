@@ -70,7 +70,7 @@ namespace Orleankka.CSharp
                 ActorBinding.Activator = instance;
             }
 
-            configurator.Register(ActorBinding.Bind(assemblies));
+            configurator.Register(ActorBinding.Bind(assemblies.ToArray()));
         }
 
         public override void Dispose()

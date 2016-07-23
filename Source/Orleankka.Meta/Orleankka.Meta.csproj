@@ -48,7 +48,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Orleankka.Version.cs">
@@ -58,6 +57,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="Command.cs" />
+    <Compile Include="CSharp.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

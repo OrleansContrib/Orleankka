@@ -8,6 +8,9 @@ namespace Orleankka.CSharp
     using Services;
     using Utility;
 
+    public interface IActor
+    {}
+
     public abstract class Actor
     {
         ActorRef self;

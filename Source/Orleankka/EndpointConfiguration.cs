@@ -8,7 +8,7 @@ namespace Orleankka
     using Core;
     using Utility;
 
-    public abstract class EndpointConfiguration
+    public abstract class EndpointConfiguration : IEquatable<EndpointConfiguration>
     {
         static readonly Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Null = 
             (path, runtime) => (message => TaskResult.Done);
@@ -91,7 +91,13 @@ namespace Orleankka
         public override bool Equals(object obj)
         {
             return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || 
-                    obj.GetType() == GetType() && Equals((ActorConfiguration) obj));
+                    obj.GetType() == GetType() && Equals((EndpointConfiguration) obj));
+        }
+
+        public bool Equals(EndpointConfiguration other)
+        {
+            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || 
+                    string.Equals(Code, other.Code));
         }
 
         public override int GetHashCode() => Code.GetHashCode();

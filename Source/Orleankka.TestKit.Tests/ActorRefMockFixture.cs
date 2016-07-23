@@ -1,11 +1,10 @@
 ﻿using System;
 
 using NUnit.Framework;
+using Orleankka.CSharp;
 
 namespace Orleankka.TestKit
 {
-    using CSharp;
-	
     [TestFixture]
     public class ActorRefMockFixture
     {

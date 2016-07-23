@@ -59,6 +59,12 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj">
+      <Project>{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}</Project>
+      <Name>Orleankka</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2')" />
   </Choose>

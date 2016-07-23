@@ -15,11 +15,18 @@ namespace Orleankka.CSharp
 
         internal static void Reset() => codes.Clear();
 
+        internal static bool IsRegistered(Type type) => 
+            codes.ContainsKey(type);
+
         internal static string Register(Type type)
         {
             var code = Code(type);
             codes.Add(type, code);
-            return code;
+
+            if (CustomInterface(type) != null)
+                codes.Add(CustomInterface(type), code);
+
+            return codes[type];
         }
 
         internal static string Of(Type type)
@@ -30,6 +37,8 @@ namespace Orleankka.CSharp
 
         static string Code(Type type)
         {
+            type = CustomInterface(type) ?? type;
+
             var customAttribute = type
                 .GetCustomAttributes(typeof(ActorTypeCodeAttribute), false)
                 .Cast<ActorTypeCodeAttribute>()
@@ -43,6 +52,21 @@ namespace Orleankka.CSharp
                 throw new ArgumentException($"'{code}' is not a valid identifer for type '{type}'", nameof(type));
 
             return code;
+        }
+
+        static Type CustomInterface(Type type)
+        {
+            var interfaces = type
+                .GetInterfaces().Except(new[] {typeof(IActor)})
+                .Where(each => each.GetInterfaces().Contains(typeof(IActor)))
+                .ToArray();
+
+            if (interfaces.Length > 1)
+                throw new InvalidOperationException("Type can only implement single custom IActor interface. Type: " + type.FullName);
+
+            return interfaces.Length == 1
+                       ? interfaces[0]
+                       : null;
         }
     }
 }

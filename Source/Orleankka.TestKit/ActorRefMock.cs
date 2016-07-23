@@ -8,8 +8,6 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
-    using Core;
-
     [Serializable]
     public class ActorRefMock : ActorRef
     {

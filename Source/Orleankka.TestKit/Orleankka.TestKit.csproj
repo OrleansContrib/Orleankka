@@ -53,6 +53,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActivationServiceMock.cs" />
+    <Compile Include="CSharp.cs" />
     <Compile Include="StreamSubscriptionMock.cs" />
     <Compile Include="StreamRefMock.cs" />
     <Compile Include="ActorRefMock.cs" />

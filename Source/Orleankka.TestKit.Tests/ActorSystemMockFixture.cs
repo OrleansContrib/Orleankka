@@ -1,12 +1,8 @@
-﻿using System;
-using System.Linq;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Orleankka.CSharp;
 
 namespace Orleankka.TestKit
 {
-	using CSharp;
-
     [TestFixture]
     public class ActorSystemMockFixture
     {

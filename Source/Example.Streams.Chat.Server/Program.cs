@@ -10,9 +10,9 @@ using Orleans.Runtime.Configuration;
 
 namespace Example
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 

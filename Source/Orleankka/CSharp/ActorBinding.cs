@@ -33,14 +33,21 @@ namespace Orleankka.CSharp
             Reset();
         }
 
-        public static EndpointConfiguration[] Bind(IEnumerable<Assembly> assemblies) => 
-            assemblies.SelectMany(Scan).ToArray();
+        public static EndpointConfiguration[] Bind(Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(ScanImplementations).Concat(
+                   assemblies.SelectMany(ScanInterfaces).Where(x => x != null)).ToArray();
+        }
 
-        static IEnumerable<EndpointConfiguration> Scan(Assembly assembly) => assembly.GetTypes()
+        static IEnumerable<EndpointConfiguration> ScanImplementations(Assembly assembly) => assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(Actor).IsAssignableFrom(type))
-            .Select(Build);
+            .Select(BuildImplementation);
 
-        static EndpointConfiguration Build(Type actor)
+        static IEnumerable<EndpointConfiguration> ScanInterfaces(Assembly assembly) => assembly.GetTypes()
+            .Where(type => type != typeof(IActor) && type.IsInterface && typeof(IActor).IsAssignableFrom(type))
+            .Select(BuildInterface);
+
+        static EndpointConfiguration BuildImplementation(Type actor)
         {
             var isActor  = IsActor(actor);
             var isWorker = IsWorker(actor);
@@ -50,6 +57,17 @@ namespace Orleankka.CSharp
                     $"A type cannot be configured to be both Actor and Worker: {actor}");
 
             return isActor ? BuildActor(actor) : BuildWorker(actor);
+        }
+
+        static EndpointConfiguration BuildInterface(Type actor)
+        {
+            if (ActorTypeCode.IsRegistered(actor))
+                return null; // assume endpoint was already build from implementation
+
+            var config = new ActorConfiguration(ActorTypeCode.Register(actor));
+            SetReentrancy(actor, config);
+
+            return config;
         }
 
         static EndpointConfiguration BuildActor(Type actor)

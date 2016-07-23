@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.Remoting.Messaging;
 
 using NUnit.Framework;
@@ -31,23 +30,6 @@ namespace Orleankka.Features
                 CallContext.LogicalGetData("LastMessageReceivedReentrant") == message;
         }
                 
-        class TestActor2 : Actor
-        {
-            bool On(RegularMessage x) => ReceivedReentrant(x);
-            bool On(ReentrantMessage x) => ReceivedReentrant(x);
-
-            static bool ReceivedReentrant(object message) =>
-                CallContext.LogicalGetData("LastMessageReceivedReentrant") == message;
-
-            static bool IsReentrant(object message)
-            {
-                if (message is ReentrantMessage) return true;
-
-                return false;
-            }
-        }
-
-        [TestFixture]
         [RequiresSilo]
         public class Tests
         {

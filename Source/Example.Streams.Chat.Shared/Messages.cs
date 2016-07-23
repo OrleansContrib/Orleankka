@@ -1,21 +1,27 @@
 ﻿using System;
 
+using Orleankka.CSharp;
+
 namespace Example
 {
+    [ActorTypeCode("ChatUser")]
+    public interface IChatUser : IActor
+    {}
+
     [Serializable]
-    public class Join
+    public class Join : ActorMessage<IChatUser>
     {
         public string Room;
     }
 
     [Serializable]
-    public class Leave
+    public class Leave : ActorMessage<IChatUser>
     {
         public string Room;
     }
 
     [Serializable]
-    public class Say
+    public class Say : ActorMessage<IChatUser>
     {
         public string Room;
         public string Message;

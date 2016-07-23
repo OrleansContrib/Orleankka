@@ -28,7 +28,6 @@ namespace Orleankka
         }
 
         public string Path { get; }
-        public override string Serialize() => Path;
 
         public override void Notify(object message)
         {

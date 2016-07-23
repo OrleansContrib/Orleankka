@@ -45,7 +45,7 @@ let main argv =
     
     let msgBody = ctx.request.rawForm |> UTF8.toString
         
-    match router.Dispatch(actorPath, msgBody) with
+    match router.Dispatch(system, actorPath, msgBody) with
     | Some t -> let! result = Async.AwaitTask t
                 return! OK (result.ToString()) ctx
     | None   -> return! BAD_REQUEST "actor has not found, or message has invalid format" ctx  
