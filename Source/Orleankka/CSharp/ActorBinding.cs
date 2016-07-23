@@ -137,18 +137,20 @@ namespace Orleankka.CSharp
 
         static async Task<object> Invoke(object message, Actor instance)
         {
-            if (message is Activate)
-            {
-                await instance.OnActivate();
-                return null;
-            }
+            if (!(message is SystemMessage))
+                return await instance.OnReceive(message);
 
-            if (message is Deactivate)
-            {
-                await instance.OnDeactivate();
-                return null;
-            }
+            if (message is TickMessage)
+                return InvokeTickMethod(message, instance);
 
+            if (message is LifecycleMessage)
+                return InvokeLifecycleMethod(message, instance);
+
+            throw new InvalidOperationException("Unknown system message: " + message.GetType());
+        }
+
+        static async Task<object> InvokeTickMethod(object message, Actor instance)
+        {
             var reminder = message as Reminder;
             if (reminder != null)
             {
@@ -163,7 +165,24 @@ namespace Orleankka.CSharp
                 return null;
             }
 
-            return await instance.OnReceive(message);
+            throw new InvalidOperationException("Unknown tick message: " + message.GetType());
+        }
+
+        static async Task<object> InvokeLifecycleMethod(object message, Actor instance)
+        {
+            if (message is Activate)
+            {
+                await instance.OnActivate();
+                return null;
+            }
+
+            if (message is Deactivate)
+            {
+                await instance.OnDeactivate();
+                return null;
+            }
+
+            throw new InvalidOperationException("Unknown lifecycle message: " + message.GetType());
         }
 
         static void SetStreamSubscriptions(Type actor, EndpointConfiguration config)
