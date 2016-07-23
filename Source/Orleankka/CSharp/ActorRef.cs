@@ -21,9 +21,9 @@ namespace Orleankka.CSharp
             this.@ref = @ref;
         }
 
-        public Task Tell(ActorMessage<TActor> message) => @ref.Tell(message);
-        public Task<TResult> Ask<TResult>(ActorMessage<TActor> message) => @ref.Ask<TResult>(message);
-        public Task<TResult> Ask<TResult>(ActorMessage<TActor, TResult> message) => @ref.Ask<TResult>(message);
+        public virtual Task Tell(ActorMessage<TActor> message) => @ref.Tell(message);
+        public virtual Task<TResult> Ask<TResult>(ActorMessage<TActor> message) => @ref.Ask<TResult>(message);
+        public virtual Task<TResult> Ask<TResult>(ActorMessage<TActor, TResult> message) => @ref.Ask<TResult>(message);
         public override void Notify(ActorMessage<TActor> message) => @ref.Notify(message);
 
         public ActorPath Path => @ref.Path;
