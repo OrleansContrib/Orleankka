@@ -32,6 +32,13 @@ namespace Orleankka.TestKit
             return expectation;
         }
 
+        public TellExpectation<TMessage> ExpectNotify<TMessage>(Expression<Func<TMessage, bool>> match = null)
+        {
+            var expectation = new TellExpectation<TMessage>(match ?? (_ => true));
+            expectations.Add(expectation);
+            return expectation;
+        }
+
         public override Task Tell(object message)
         {
             var expectation = Match(message);
@@ -55,6 +62,17 @@ namespace Orleankka.TestKit
             return expected 
                        ? Task.FromResult((TResult) expectation.Apply()) 
                        : Task.FromResult(default(TResult));
+        }
+
+        public override void Notify(object message)
+        {
+            var expectation = Match(message);
+            var expected = expectation != null;
+
+            messages.Add(new RecordedMessage(expected, message, typeof(DoNotExpectResult)));
+
+            if (expected)
+                expectation.Apply();
         }
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));

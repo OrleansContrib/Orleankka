@@ -35,6 +35,12 @@ namespace Orleankka.TestKit
             public AskExpectation<TMessage> ExpectAsk<TMessage>(Expression<Func<TMessage, bool>> match = null) where TMessage : ActorMessage<T> => 
                 @ref.ExpectAsk(match);
 
+            public AskExpectation<TMessage> ExpectAsk<TMessage, TResult>(Expression<Func<TMessage, bool>> match = null) where TMessage : ActorMessage<T, TResult> => 
+                @ref.ExpectAsk(match);
+
+            public TellExpectation<TMessage> ExpectNotify<TMessage>(Expression<Func<TMessage, bool>> match = null) where TMessage : ActorMessage<T> =>
+                @ref.ExpectNotify(match);
+
             public override Task Tell(ActorMessage<T> message) => 
                 @ref.Tell(message);
 
@@ -43,6 +49,9 @@ namespace Orleankka.TestKit
 
             public override Task<TResult> Ask<TResult>(ActorMessage<T, TResult> message) => 
                 @ref.Ask<TResult>(message);
+
+            public override void Notify(ActorMessage<T> message) => 
+                @ref.Notify(message);
 
             public void Reset() => 
                 @ref.Reset();
