@@ -23,17 +23,17 @@ namespace Orleankka
 
         TimeSpan keepAliveTimeout = TimeSpan.Zero;
 
-        protected EndpointConfiguration(string code)
+        protected EndpointConfiguration(string type)
         {
-            Requires.NotNullOrWhitespace(code, nameof(code));
+            Requires.NotNullOrWhitespace(type, nameof(type));
 
-            if (!EndpointDeclaration.IsValidIdentifier(code))
-                throw new ArgumentException($"'{code}' is not valid identifer", nameof(code));
+            if (!EndpointDeclaration.IsValidIdentifier(type))
+                throw new ArgumentException($"'{type}' is not valid identifer", nameof(type));
 
-            Code = code;
+            Type = type;
         }
 
-        public string Code { get;}
+        public string Type { get;}
 
         public Func<object, bool> Reentrancy
         {
@@ -74,7 +74,7 @@ namespace Orleankka
         {
             Requires.NotNull(subscription, nameof(subscription));
 
-            subscription.Code = Code;
+            subscription.Type = Type;
             subscriptions.Add(subscription);
         }
 
@@ -97,19 +97,19 @@ namespace Orleankka
         public bool Equals(EndpointConfiguration other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || 
-                    string.Equals(Code, other.Code));
+                    string.Equals(Type, other.Type));
         }
 
-        public override int GetHashCode() => Code.GetHashCode();
-        public override string ToString() => Code;
+        public override int GetHashCode() => Type.GetHashCode();
+        public override string ToString() => Type;
 
         internal abstract EndpointDeclaration Declaration();
     }
 
     public class WorkerConfiguration : EndpointConfiguration
     {
-        public WorkerConfiguration(string code)
-            : base(code)
+        public WorkerConfiguration(string type)
+            : base(type)
         {}
 
         internal override EndpointDeclaration Declaration() => new WorkerDeclaration(this);
@@ -117,8 +117,8 @@ namespace Orleankka
 
     public class ActorConfiguration : EndpointConfiguration
     {
-        public ActorConfiguration(string code) 
-            : base(code)
+        public ActorConfiguration(string type) 
+            : base(type)
         {}
 
         public Placement Placement

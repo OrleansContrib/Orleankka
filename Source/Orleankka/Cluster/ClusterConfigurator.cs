@@ -106,7 +106,7 @@ namespace Orleankka.Cluster
             {
                 var ids = config.Autoruns;
                 if (ids.Length > 0)
-                    autoruns.Add(config.Code, ids);
+                    autoruns.Add(config.Type, ids);
             }
 
             Run<AutorunBootstrapper>(autoruns);
@@ -123,8 +123,8 @@ namespace Orleankka.Cluster
             protected override Task Run(ClusterActorSystem system, Dictionary<string, string[]> properties) => 
                 Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
 
-            static IEnumerable<Task> Autorun(IActorSystem system, string code, IEnumerable<string> ids) => 
-                ids.Select(id => system.ActorOf(code, id).Autorun());
+            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) => 
+                ids.Select(id => system.ActorOf(type, id).Autorun());
         }
     }
 

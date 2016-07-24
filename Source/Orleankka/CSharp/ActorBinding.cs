@@ -22,7 +22,7 @@ namespace Orleankka.CSharp
 
         internal static void Reset()
         {
-            ActorTypeCode.Reset();
+            ActorTypeName.Reset();
             Activator = new DefaultActorActivator();
             dispatchers.Clear();
             Conventions = null;
@@ -61,10 +61,10 @@ namespace Orleankka.CSharp
 
         static EndpointConfiguration BuildInterface(Type actor)
         {
-            if (ActorTypeCode.IsRegistered(actor))
+            if (ActorTypeName.IsRegistered(actor))
                 return null; // assume endpoint was already build from implementation
 
-            var config = new ActorConfiguration(ActorTypeCode.Register(actor));
+            var config = new ActorConfiguration(ActorTypeName.Register(actor));
             SetReentrancy(actor, config);
 
             return config;
@@ -72,7 +72,7 @@ namespace Orleankka.CSharp
 
         static EndpointConfiguration BuildActor(Type actor)
         {
-            var config = new ActorConfiguration(ActorTypeCode.Register(actor));
+            var config = new ActorConfiguration(ActorTypeName.Register(actor));
 
             SetPlacement(actor, config);
             SetReentrancy(actor, config);
@@ -87,7 +87,7 @@ namespace Orleankka.CSharp
 
         static EndpointConfiguration BuildWorker(Type worker)
         {
-            var config = new WorkerConfiguration(ActorTypeCode.Register(worker));
+            var config = new WorkerConfiguration(ActorTypeName.Register(worker));
 
             SetReentrancy(worker, config);
             SetKeepAliveTimeout(worker, config);

@@ -15,8 +15,6 @@ namespace Orleankka.CSharp
 
         internal static StreamSubscriptionSpecification From(Type actor, StreamSubscriptionAttribute attribute, Dispatcher dispatcher)
         {
-            var code = ActorTypeCode.Of(actor);
-
             if (string.IsNullOrWhiteSpace(attribute.Source))
                 throw InvalidSpecification(actor, "has null or whitespace only value of Source");
 

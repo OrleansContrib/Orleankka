@@ -3,7 +3,6 @@ using System.Diagnostics;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
      
     [Serializable]
@@ -13,15 +12,15 @@ namespace Orleankka
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = {":"};
 
-        public static ActorPath From(string code, string id)
+        public static ActorPath From(string type, string id)
         {
-            Requires.NotNull(code, nameof(code));
+            Requires.NotNull(type, nameof(type));
             Requires.NotNull(id, nameof(id));
 
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", nameof(id));
 
-            return new ActorPath(code, id);
+            return new ActorPath(type, id);
         }
 
         public static ActorPath Parse(string path)
@@ -32,39 +31,39 @@ namespace Orleankka
             if (parts.Length != 2)
                 throw new ArgumentException("Invalid actor path: " + path);
 
-            var code = parts[0];
+            var type = parts[0];
             var id = parts[1];
 
-            return new ActorPath(code, id);
+            return new ActorPath(type, id);
         }
 
         public static ActorPath Deserialize(string path)
         {
             var parts = path.Split(Separator, 2, StringSplitOptions.None);
 
-            var code = parts[0];
+            var type = parts[0];
             var id = parts[1];
 
-            return new ActorPath(code, id);
+            return new ActorPath(type, id);
         }
 
-        public readonly string Code;
+        public readonly string Type;
         public readonly string Id;
 
-        internal ActorPath(string code, string id)
+        internal ActorPath(string type, string id)
         {
-            Code = code;
+            Type = type;
             Id = id;
         }
 
         public string Serialize()
         {
-            return $"{Code}{Separator[0]}{Id}";
+            return $"{Type}{Separator[0]}{Id}";
         }
 
         public bool Equals(ActorPath other)
         {
-            return Code == other.Code && string.Equals(Id, other.Id);
+            return Type == other.Type && string.Equals(Id, other.Id);
         }
 
         public override bool Equals(object obj)
@@ -76,7 +75,7 @@ namespace Orleankka
         {
             unchecked
             {
-                return ((Code?.GetHashCode() ?? 0) * 397) ^
+                return ((Type?.GetHashCode() ?? 0) * 397) ^
                         (Id?.GetHashCode() ?? 0);
             }
         }

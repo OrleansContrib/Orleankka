@@ -21,9 +21,9 @@ namespace Orleankka.Core
         ActorRuntime runtime;
         Func<object, Task<object>> receiver;
 
-        protected ActorEndpoint(string code)
+        protected ActorEndpoint(string type)
         {
-            type = ActorType.Registered(code);
+            this.type = ActorType.Registered(type);
         }
 
         public Task Autorun()

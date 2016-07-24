@@ -9,8 +9,8 @@ namespace Orleankka.CSharp
         public static ActorPath ToActorPath(this Type type, string id)
         {
             Requires.NotNull(type, nameof(type));
-            var code = ActorTypeCode.Of(type);
-            return ActorPath.From(code, id);
+            var key = ActorTypeName.Of(type);
+            return ActorPath.From(key, id);
         }
     }
 }

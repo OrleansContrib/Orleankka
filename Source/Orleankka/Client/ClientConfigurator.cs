@@ -49,9 +49,9 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(string code, bool worker = false, Func<object, bool> reentrancy = null)
+        public ClientConfigurator Register(string type, bool worker = false, Func<object, bool> reentrancy = null)
         {
-            var config = CreateEndpointConfiguration(code, worker);
+            var config = CreateEndpointConfiguration(type, worker);
             if (reentrancy != null)
                 config.Reentrancy = reentrancy; 
 
@@ -59,11 +59,11 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(string code, bool worker = false, params Type[] reentrant)
+        public ClientConfigurator Register(string type, bool worker = false, params Type[] reentrant)
         {
             Requires.NotNull(reentrant, nameof(reentrant));
 
-            var config = CreateEndpointConfiguration(code, worker);
+            var config = CreateEndpointConfiguration(type, worker);
             var messages = new HashSet<Type>(reentrant);
             config.Reentrancy = m => messages.Contains(m.GetType()); 
 
@@ -71,8 +71,8 @@ namespace Orleankka.Client
             return this;
         }
 
-        static EndpointConfiguration CreateEndpointConfiguration(string code, bool worker) => 
-            worker ? (EndpointConfiguration) new WorkerConfiguration(code) : new ActorConfiguration(code);
+        static EndpointConfiguration CreateEndpointConfiguration(string type, bool worker) => 
+            worker ? (EndpointConfiguration) new WorkerConfiguration(type) : new ActorConfiguration(type);
 
         public ClientActorSystem Done()
         {

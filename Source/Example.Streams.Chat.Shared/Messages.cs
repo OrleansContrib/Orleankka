@@ -4,7 +4,7 @@ using Orleankka.CSharp;
 
 namespace Example
 {
-    [ActorTypeCode("ChatUser")]
+    [ActorType("ChatUser")]
     public interface IChatUser : IActor
     {}
 

@@ -35,7 +35,7 @@ namespace Orleankka.Checks
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
-            specification.Code = ActorTypeCode.Of(typeof(TestActor));
+            specification.Type = ActorTypeName.Of(typeof(TestActor));
 
             var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
@@ -69,7 +69,7 @@ namespace Orleankka.Checks
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionBinding.From(type, attribute, dispatcher);
-            specification.Code = ActorTypeCode.Of(typeof(TestActor));
+            specification.Type = ActorTypeName.Of(typeof(TestActor));
 
             var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
@@ -95,7 +95,7 @@ namespace Orleankka.Checks
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionBinding.From(type, dispatcher).ElementAt(0);
-            specification.Code = ActorTypeCode.Of(typeof(DynamicTargetSelectorActor));
+            specification.Type = ActorTypeName.Of(typeof(DynamicTargetSelectorActor));
 
             var match = specification.Match(system, "foo");
 

@@ -46,7 +46,7 @@ namespace Orleankka
             foreach (var config in configs)
             {
                 if (this.endpoints.Contains(config))
-                    throw new ArgumentException($"Actor configuration with code '{config}' has been already registered");
+                    throw new ArgumentException($"Actor configuration with type '{config}' has been already registered");
 
                 this.endpoints.Add(config);
             }

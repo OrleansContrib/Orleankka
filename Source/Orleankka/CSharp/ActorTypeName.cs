@@ -8,50 +8,50 @@ namespace Orleankka.CSharp
 {
     using Utility;
 
-    static class ActorTypeCode
+    static class ActorTypeName
     {
-        static readonly Dictionary<Type, string> codes =
+        static readonly Dictionary<Type, string> map =
                     new Dictionary<Type, string>();
 
-        internal static void Reset() => codes.Clear();
+        internal static void Reset() => map.Clear();
 
         internal static bool IsRegistered(Type type) => 
-            codes.ContainsKey(type);
+            map.ContainsKey(type);
 
         internal static string Register(Type type)
         {
-            var code = Code(type);
-            codes.Add(type, code);
+            var name = Name(type);
+            map.Add(type, name);
 
             if (CustomInterface(type) != null)
-                codes.Add(CustomInterface(type), code);
+                map.Add(CustomInterface(type), name);
 
-            return codes[type];
+            return map[type];
         }
 
         internal static string Of(Type type)
         {
-            var code = codes.Find(type);
-            return code ?? Code(type);
+            var name = map.Find(type);
+            return name ?? Name(type);
         }
 
-        static string Code(Type type)
+        static string Name(Type type)
         {
             type = CustomInterface(type) ?? type;
 
             var customAttribute = type
-                .GetCustomAttributes(typeof(ActorTypeCodeAttribute), false)
-                .Cast<ActorTypeCodeAttribute>()
+                .GetCustomAttributes(typeof(ActorTypeAttribute), false)
+                .Cast<ActorTypeAttribute>()
                 .SingleOrDefault();
 
             if (customAttribute == null)
                 return type.FullName;
 
-            var code = customAttribute.Code;
-            if (!SyntaxFacts.IsValidIdentifier(code))
-                throw new ArgumentException($"'{code}' is not a valid identifer for type '{type}'", nameof(type));
+            var name = customAttribute.Name;
+            if (!SyntaxFacts.IsValidIdentifier(name))
+                throw new ArgumentException($"'{name}' is not a valid identifer for type '{type}'", nameof(type));
 
-            return code;
+            return name;
         }
 
         static Type CustomInterface(Type type)

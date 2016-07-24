@@ -10,7 +10,7 @@ namespace Orleankka.Features
 
     [TestFixture]
     [RequiresSilo]
-    public class Type_codes
+    public class Custom_type_names
     {
         IActorSystem system;
 
@@ -21,7 +21,7 @@ namespace Orleankka.Features
         }
 
         [Test]
-        public void Type_name_as_default_could_be_overwritten_with_type_code_attribute()
+        public void Type_name_as_default_could_be_overwritten_with_ActorType_attribute()
         {
             var actor1 = system.ActorOf<TypeCode1.TestActor>("id");
             var actor2 = system.ActorOf<TypeCode2.TestActor>("id");
@@ -33,14 +33,14 @@ namespace Orleankka.Features
 
     namespace TypeCode1
     {
-        [ActorTypeCode("T1")]
+        [ActorType("T1")]
         class TestActor : Actor
         {}
     }
 
     namespace TypeCode2
     {
-        [ActorTypeCode("T2")]
+        [ActorType("T2")]
         class TestActor : Actor
         {}
     }

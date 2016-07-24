@@ -9,7 +9,7 @@ namespace Orleankka
 
     public class StreamSubscriptionSpecification
     {
-        internal string Code;
+        internal string Type;
         readonly Func<string, string> matcher;
         readonly Func<object, string> selector;
         readonly Func<object, bool> filter;
@@ -40,7 +40,7 @@ namespace Orleankka
             return new StreamSubscriptionMatch(target, receiver, filter);
         }
 
-        ActorRef Reference(IActorSystem system, string id) => system.ActorOf(new ActorPath(Code, id));
+        ActorRef Reference(IActorSystem system, string id) => system.ActorOf(new ActorPath(Type, id));
 
         public static StreamSubscriptionSpecification MatchExact(string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
         {

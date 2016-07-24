@@ -18,18 +18,18 @@ namespace Orleankka.CSharp
     {}
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public class ActorTypeCodeAttribute : Attribute
+    public class ActorTypeAttribute : Attribute
     {
-        internal readonly string Code;
+        internal readonly string Name;
 
-        public ActorTypeCodeAttribute(string code)
+        public ActorTypeAttribute(string name)
         {
-            Requires.NotNullOrWhitespace(code, nameof(code));
+            Requires.NotNullOrWhitespace(name, nameof(name));
 
-            if (code.Contains(ActorPath.Separator[0]))
-                throw new ArgumentException($"Actor type code cannot contain path separator: {code}");
+            if (name.Contains(ActorPath.Separator[0]))
+                throw new ArgumentException($"Actor type name cannot contain path separator: {name}");
 
-            Code = code;
+            Name = name;
         }
     }
 

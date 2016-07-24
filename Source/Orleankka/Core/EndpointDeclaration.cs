@@ -41,7 +41,7 @@ namespace Orleankka.Core
                 var failures = result.Diagnostics.Where(diagnostic =>
                     diagnostic.IsWarningAsError ||
                     diagnostic.Severity == DiagnosticSeverity.Error);
-                throw new Exception("Bad code.\n\n" + string.Join("\n", failures));
+                throw new Exception("Bad type.\n\n" + string.Join("\n", failures));
             }
 
             var assemblyName = AssemblyName.GetAssemblyName(binary);
@@ -66,9 +66,9 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
-        public static bool IsValidIdentifier(string code)
+        public static bool IsValidIdentifier(string type)
         {
-            var path = code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = type.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             return path.All(SyntaxFacts.IsValidIdentifier);
         }
 
@@ -82,7 +82,7 @@ namespace Orleankka.Core
         {
             this.config = config;
 
-            var path = config.Code.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = config.Type.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
 
             namespaces = path.TakeWhile(x => x != clazz).ToList();
@@ -118,7 +118,7 @@ namespace Orleankka.Core
             GenerateAttributes(src);
 
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
-            src.AppendLine($"public {clazz}() : base(\"{config.Code}\") {{}}");
+            src.AppendLine($"public {clazz}() : base(\"{config.Type}\") {{}}");
         }
 
         protected abstract void GenerateAttributes(StringBuilder src);
@@ -144,7 +144,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) => 
-            new ActorType(config.Code, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
+            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
 
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine($"[{GetActorPlacement()}]");
@@ -177,7 +177,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) =>
-            new ActorType(config.Code, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
+            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.Reentrancy, @interface, config.Receiver);
         
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine("[StatelessWorker]");

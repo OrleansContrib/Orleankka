@@ -6,7 +6,7 @@ using Orleankka.CSharp;
 
 namespace Example
 {
-    [ActorTypeCode("ChatRoom")]
+    [ActorType("ChatRoom")]
     public class ChatRoom : Actor
     {
         readonly HashSet<string> members =

@@ -35,13 +35,13 @@ module HttpRoute =
  let create (msgType, actorPath:ActorPath) = 
    match msgType with   
    
-   | Class t -> [| { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, t.Name)
+   | Class t -> [| { HttpPath = createHttpPath(actorPath.Type, actorPath.Id, t.Name)
                      MsgType = msgType
                      ActorPath = actorPath } |]
                        
    | DU t -> FSharpType.GetUnionCases(t) 
              |> Array.map(fun case ->                
-                { HttpPath = createHttpPath(actorPath.Code, actorPath.Id, case.Name)
+                { HttpPath = createHttpPath(actorPath.Type, actorPath.Id, case.Name)
                   MsgType = msgType
                   ActorPath = actorPath })
 

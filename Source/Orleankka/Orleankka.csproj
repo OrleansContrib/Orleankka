@@ -73,7 +73,7 @@
     <Compile Include="CSharp\ActorPathExtensions.cs" />
     <Compile Include="CSharp\ActorSystemConfigurator.cs" />
     <Compile Include="CSharp\ActorSystemExtensions.cs" />
-    <Compile Include="CSharp\ActorTypeCode.cs" />
+    <Compile Include="CSharp\ActorTypeName.cs" />
     <Compile Include="CSharp\Dispatcher.cs" />
     <Compile Include="CSharp\StreamRefExtensions.cs" />
     <Compile Include="CSharp\StreamSubscriptionBinding.cs" />

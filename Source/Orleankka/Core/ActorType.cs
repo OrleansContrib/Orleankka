@@ -11,10 +11,10 @@ namespace Orleankka.Core
 
     class ActorType : IEquatable<ActorType>
     {
-        static readonly Dictionary<string, ActorType> codes =
+        static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        public static void Reset() => codes.Clear();
+        public static void Reset() => types.Clear();
 
         public static void Register(IEnumerable<EndpointConfiguration> configs)
         {
@@ -26,15 +26,15 @@ namespace Orleankka.Core
 
         static void Register(ActorType actor)
         {
-            var registered = codes.Find(actor.Code);
+            var registered = types.Find(actor.Name);
             if (registered != null)
                 throw new ArgumentException(
-                    $"An actor with code '{actor.Code}' has been already registered");
+                    $"An actor with type '{actor.Name}' has been already registered");
 
-            codes.Add(actor.Code, actor);
+            types.Add(actor.Name, actor);
         }
 
-        public readonly string Code;
+        public readonly string Name;
 
         readonly bool sticky;
         readonly TimeSpan keepAliveTimeout;
@@ -42,9 +42,9 @@ namespace Orleankka.Core
         readonly Func<string, object> factory;
         readonly Func<ActorPath, IActorRuntime, Func<object, Task<object>>> receiver;
 
-        internal ActorType(string code, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> reentrant, Type @interface, Func<ActorPath, IActorRuntime, Func<object, Task<object>>> receiver)
+        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> reentrant, Type @interface, Func<ActorPath, IActorRuntime, Func<object, Task<object>>> receiver)
         {
-            Code = code;
+            Name = name;
             this.sticky = sticky;
             this.keepAliveTimeout = sticky ? TimeSpan.FromDays(365 * 10) : keepAliveTimeout;
             this.reentrant = reentrant;
@@ -60,12 +60,12 @@ namespace Orleankka.Core
             return x => invoker.Invoke(instance, new object[] { x, null });
         }
 
-        public static ActorType Registered(string code)
+        public static ActorType Registered(string type)
         {
-            var result = codes.Find(code);
+            var result = types.Find(type);
             if (result == null)
                 throw new InvalidOperationException(
-                    $"Unable to map code '{code}' to the corresponding actor type. " +
+                    $"Unable to map type '{type}' to the corresponding actor type. " +
                      "Make sure that you've registered the assembly containing this type");
 
             return result;
@@ -93,7 +93,7 @@ namespace Orleankka.Core
         public bool Equals(ActorType other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || string.Equals(Code, other.Code));
+                    || string.Equals(Name, other.Name));
         }
 
         public override bool Equals(object obj)
@@ -105,15 +105,7 @@ namespace Orleankka.Core
         public static bool operator ==(ActorType left, ActorType right) => Equals(left, right);
         public static bool operator !=(ActorType left, ActorType right) => !Equals(left, right);
 
-        public override int GetHashCode() => Code.GetHashCode();
-        public override string ToString() => Code;
-    }
-
-    static class ActorTypeActorSystemExtensions
-    {
-        internal static ActorRef ActorOf(this IActorSystem system, ActorType type, string id)
-        {
-            return system.ActorOf(ActorPath.From(type.Code, id));
-        }
+        public override int GetHashCode() => Name.GetHashCode();
+        public override string ToString() => Name;
     }
 }
