@@ -7,42 +7,63 @@ using System.Threading.Tasks;
 namespace Orleankka.TestKit
 {
     using Services;
+    using Utility;
 
     public class TimerServiceMock : ITimerService, IEnumerable<RecordedTimer>
     {
         readonly Dictionary<string, RecordedTimer> timers = new Dictionary<string, RecordedTimer>();
+        readonly List<RecordedTimerRequest> requests = new List<RecordedTimerRequest>();
 
         void ITimerService.Register(string id, TimeSpan due, object state)
         {
-            timers.Add(id, new RecordedTimer<object>(id, due, TimeSpan.Zero, null, null));
+            RecordRegister(id, new RecordedTimer<object>(id, due, TimeSpan.Zero, null, null));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
         {
             CheckGreaterThanZero(period);
-            timers.Add(id, new RecordedTimer<object>(id, due, period, null, null));
+
+            RecordRegister(id, new RecordedTimer<object>(id, due, period, null, null));
         }
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
-            timers.Add(id, new RecordedTimer(id, due, TimeSpan.Zero, callback));
+            RecordRegister(id, new RecordedTimer(id, due, TimeSpan.Zero, callback));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
             CheckGreaterThanZero(period);
-            timers.Add(id, new RecordedTimer(id, due, period, callback));
+
+            RecordRegister(id, new RecordedTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, new RecordedTimer<TState>(id, due, TimeSpan.Zero, callback, state));
+            RecordRegister(id, new RecordedTimer<TState>(id, due, TimeSpan.Zero, callback, state));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
             CheckGreaterThanZero(period);
-            timers.Add(id, new RecordedTimer<TState>(id, due, period, callback, state));
+
+            RecordRegister(id, new RecordedTimer<TState>(id, due, period, callback, state));
+        }
+
+        void RecordRegister(string id, RecordedTimer timer)
+        {
+            timers.Add(id, timer);
+            requests.Add(new RecordedTimerRequest(id, RecorderTimerRequestKind.Register, timer));
+        }
+
+        void RecordUnregister(string id)
+        {
+            var registered = timers.Find(id);
+            if (registered == null)
+                throw new InvalidOperationException($"Timer with id '{id}' has not been registered");
+
+            timers.Remove(id);
+            requests.Add(new RecordedTimerRequest(id, RecorderTimerRequestKind.Unregister, registered));
         }
 
         void CheckGreaterThanZero(TimeSpan period)
@@ -51,10 +72,11 @@ namespace Orleankka.TestKit
                 throw new ArgumentException("period should be greater than zero", nameof(period));
         }
 
-        void ITimerService.Unregister(string id) => timers.Remove(id);
+        void ITimerService.Unregister(string id) => RecordUnregister(id);
         bool ITimerService.IsRegistered(string id) => timers.ContainsKey(id);
 
         IEnumerable<string> ITimerService.Registered() => timers.Keys;
+        public RecordedTimerRequest[] Requests => requests.ToArray(); 
 
         public IEnumerator<RecordedTimer> GetEnumerator() => timers.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -62,7 +84,31 @@ namespace Orleankka.TestKit
         public RecordedTimer this[int index] => timers.Values.ElementAt(index);
         public RecordedTimer this[string id] => timers[id];
 
-        public void Reset() => timers.Clear();
+        public void Reset()
+        {
+            timers.Clear();
+            requests.Clear();
+        }
+    }
+
+    public class RecordedTimerRequest
+    {
+        public readonly string Id;
+        public readonly RecorderTimerRequestKind Kind;
+        public RecordedTimer Timer;
+
+        internal RecordedTimerRequest(string id, RecorderTimerRequestKind kind, RecordedTimer timer)
+        {
+            Id = id;
+            Kind = kind;
+            Timer = timer;
+        }
+    }
+
+    public enum RecorderTimerRequestKind
+    {
+        Register,
+        Unregister
     }
 
     public class RecordedTimer
