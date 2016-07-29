@@ -33,7 +33,7 @@ namespace Orleankka.CSharp
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public class ReentrantAttribute : Attribute
     {
         internal static Func<object, bool> Predicate(Type actor)
