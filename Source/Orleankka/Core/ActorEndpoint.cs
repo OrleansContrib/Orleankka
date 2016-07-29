@@ -19,7 +19,7 @@ namespace Orleankka.Core
         readonly ActorType type;
 
         ActorRuntime runtime;
-        Func<object, Task<object>> receiver;
+        internal IActorInvoker invoker;
 
         protected ActorEndpoint(string type)
         {
@@ -37,7 +37,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return ReceiveInternal(message);
+            return invoker.OnReceive(message);
         }
 
         public Task<object> ReceiveReentrant(object message)
@@ -53,7 +53,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return ReceiveInternal(message);
+            return invoker.OnReceive(message);
         }
 
         public Task ReceiveReentrantVoid(object message)
@@ -72,10 +72,8 @@ namespace Orleankka.Core
             if (name == StickyReminderName)
                 return;
 
-            await ReceiveInternal(new Reminder(name));
+            await invoker.OnReminder(name);
         }
-
-        internal Task<object> ReceiveInternal(object message) => receiver(message);
 
         public override async Task OnActivateAsync()
         {
@@ -88,15 +86,15 @@ namespace Orleankka.Core
         public override Task OnDeactivateAsync()
         {
             return runtime != null
-                    ? receiver(new Deactivate())
+                    ? invoker.OnDeactivate()
                     : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)
         {
             runtime = new ActorRuntime(ClusterActorSystem.Current, this);
-            receiver = type.Receiver(path, runtime);
-            return receiver(new Activate());
+            invoker = type.Activate(path, runtime);
+            return invoker.OnActivate();
         }
 
         async Task HandleStickyness()

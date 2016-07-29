@@ -12,10 +12,6 @@ namespace Example
     {
         public override Task<object> OnReceive(object message)
         {
-            var sys = message as SystemMessage;
-            if (sys != null)
-                return Dispatch(sys);
-
             var cmd = message as Command;
             if (cmd != null)
                 return HandleCommand(cmd);

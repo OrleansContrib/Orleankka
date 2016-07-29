@@ -13,8 +13,10 @@ namespace Orleankka
         static readonly Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Null = 
             (path, runtime) => (message => TaskResult.Done);
 
-        Func<object, bool> reentrancy = message => false;
-        Func<ActorPath, IActorRuntime, Func<object, Task<object>>> receiver = Null;
+        Func<object, bool> isReentrant = message => false;
+
+        Func<ActorPath, IActorRuntime, IActorInvoker> activator = 
+            (path, runtime) => { throw new InvalidOperationException("Actor activator function is not set"); };
 
         readonly HashSet<string> autoruns = new HashSet<string>(); 
 
@@ -35,23 +37,23 @@ namespace Orleankka
 
         public string Type { get;}
 
-        public Func<object, bool> Reentrancy
+        public Func<object, bool> IsReentrant
         {
-            get { return reentrancy; }
+            get { return isReentrant; }
             set
             {
                 Requires.NotNull(value, nameof(value));
-                reentrancy = value;
+                isReentrant = value;
             }
         }
 
-        public Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Receiver
+        public Func<ActorPath, IActorRuntime, IActorInvoker> Activator
         {
-            get { return receiver; }
+            get { return activator; }
             set
             {
                 Requires.NotNull(value, nameof(value));
-                receiver = value;
+                activator = value;
             }
         }
 

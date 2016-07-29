@@ -53,7 +53,7 @@ namespace Orleankka.Client
         {
             var config = CreateEndpointConfiguration(type, worker);
             if (reentrancy != null)
-                config.Reentrancy = reentrancy; 
+                config.IsReentrant = reentrancy; 
 
             Register(config);
             return this;
@@ -65,7 +65,7 @@ namespace Orleankka.Client
 
             var config = CreateEndpointConfiguration(type, worker);
             var messages = new HashSet<Type>(reentrant);
-            config.Reentrancy = m => messages.Contains(m.GetType()); 
+            config.IsReentrant = m => messages.Contains(m.GetType()); 
 
             Register(config);
             return this;

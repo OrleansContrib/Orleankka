@@ -18,14 +18,7 @@ namespace Orleankka.Checks
         public void Reentrancy_options()
         {
             var cfg = new ActorConfiguration("id");
-            Assert.Throws<ArgumentNullException>(() => cfg.Reentrancy = null);
-        }
-
-        [Test]
-        public void Receive_handler()
-        {
-            var cfg = new ActorConfiguration("id");
-            Assert.Throws<ArgumentNullException>(() => cfg.Receiver = null);
+            Assert.Throws<ArgumentNullException>(() => cfg.IsReentrant = null);
         }
 
         [Test]

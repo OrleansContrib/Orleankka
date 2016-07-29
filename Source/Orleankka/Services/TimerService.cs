@@ -12,7 +12,7 @@ namespace Orleankka.Services
     public interface ITimerService
     {
         /// <summary>
-        ///     Registers a one-off timer to a due time to fire <see cref="Timer"/> message to this actor in a reentrant way.
+        ///     Registers a one-off timer to a due time to fire timer message to this actor in a reentrant way.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -32,7 +32,7 @@ namespace Orleankka.Services
         void Register(string id, TimeSpan due, object state = null);
 
         /// <summary>
-        ///     Registers a timer to send periodic <see cref="Timer"/> message to this actor in a reentrant way.
+        ///     Registers a timer to send periodic timer message to this actor in a reentrant way.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -59,7 +59,7 @@ namespace Orleankka.Services
         void Register(string id, TimeSpan due, TimeSpan period, object state = null);
 
         /// <summary>
-        ///     Registers a one-off timer to a due time to fire <see cref="Timer"/> message to this actor in a reentrant way.
+        ///     Registers a one-off timer to a due time to fire timer message to this actor in a reentrant way.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -192,14 +192,14 @@ namespace Orleankka.Services
             timers.Add(id, endpoint.RegisterTimer(s =>
             {
                 ((ITimerService) this).Unregister(id);
-                return endpoint.ReceiveInternal(new Timer(id, s));
+                return endpoint.invoker.OnTimer(id, s);
             },
             state, due, TimeSpan.FromMilliseconds(1)));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
         {
-            timers.Add(id, endpoint.RegisterTimer(s => endpoint.ReceiveInternal(new Timer(id, s)), state, due, period));
+            timers.Add(id, endpoint.RegisterTimer(s => endpoint.invoker.OnTimer(id, s), state, due, period));
         }
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)

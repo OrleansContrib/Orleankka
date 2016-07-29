@@ -11,7 +11,7 @@ namespace Orleankka.CSharp
     public interface IActor
     {}
 
-    public abstract class Actor
+    public abstract class Actor : IActorInvoker
     {
         ActorRef self;
 
@@ -54,7 +54,7 @@ namespace Orleankka.CSharp
         public virtual Task OnActivate()    => TaskDone.Done;
         public virtual Task OnDeactivate()  => TaskDone.Done;
 
-        public virtual Task OnReminder(string api)
+        public virtual Task OnReminder(string id)
         {
             var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
             throw new NotImplementedException(message);

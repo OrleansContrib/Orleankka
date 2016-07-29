@@ -33,10 +33,15 @@ namespace Orleankka.Features
         {
             bool reminded;
 
-            void On(Reminder x)             => reminded = true;
             bool On(HasBeenReminded x)      => reminded;
             Task On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
             long On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
+
+            public override Task OnReminder(string id)
+            {
+                reminded = true;
+                return TaskDone.Done;
+            }
         }
 
         [TestFixture]
