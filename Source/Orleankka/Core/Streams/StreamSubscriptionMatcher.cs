@@ -76,7 +76,6 @@ namespace Orleankka.Core.Streams
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
             var type = Type.GetType(pc.Properties[TypeKey]);
-            pc.RemoveProperty(TypeKey);
             Debug.Assert(type != null);
 
             provider = (IStreamProviderImpl)Activator.CreateInstance(type);
