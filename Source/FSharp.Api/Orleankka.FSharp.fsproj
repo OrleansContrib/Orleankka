@@ -62,6 +62,7 @@
     <Compile Include="Task.fs" />
     <Compile Include="Api.fs" />
     <Compile Include="Configuration.fs" />
+    <Compile Include="ActorExpression.fs" />
     <Content Include="FSharp.Core.optdata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
