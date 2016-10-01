@@ -3,11 +3,11 @@
 #r "System.IO.Compression"
 #r "System.IO.Compression.FileSystem"
 
-using Nake.FS;
-using Nake.Run;
-using Nake.Log;
-using Nake.Env;
-using Nake.App;
+using static Nake.FS;
+using static Nake.Run;
+using static Nake.Log;
+using static Nake.Env;
+using static Nake.App;
 
 using System.Linq;
 using System.Net;
@@ -20,7 +20,7 @@ const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string Beta = "";
 
-const string RootPath = "$NakeScriptDirectory$";
+const string RootPath = "%NakeScriptDirectory%";
 const string OutputPath = RootPath + @"\Output";
 
 var PackagePath = @"{OutputPath}\Package";
@@ -49,7 +49,7 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
 {    
     Clean(outDir);
 
-    Exec(@"$ProgramFiles(x86)$\MSBuild\14.0\Bin\MSBuild.exe", 
+    Exec(@"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe", 
           "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + 
            (verbose ? "/v:d" : ""));
 }
@@ -71,7 +71,7 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
     finally
     {    	
 	    if (AppVeyor)
-	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
+	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/%APPVEYOR_JOB_ID%", results);
 	}
 }
 
@@ -119,7 +119,7 @@ void Pack(string project, string properties = null)
 
 void Push(string project)
 {
-    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$ -Source https://nuget.org/");
+    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg %NuGetApiKey% -Source https://nuget.org/");
 }
 
 string Version(string project)

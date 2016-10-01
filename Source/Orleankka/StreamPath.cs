@@ -2,12 +2,13 @@
 using System.Diagnostics;
 
 using Orleans;
-using Orleans.Internals;
 using Orleans.Streams;
 
 namespace Orleankka
 {
     using Utility;
+
+    using StreamIdentity = Orleans.Internals.StreamIdentity;
 
     [Serializable]
     [DebuggerDisplay("{ToString()}")]

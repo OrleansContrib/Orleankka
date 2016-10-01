@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Internals;
 using Orleans.Providers;
 using Orleans.Streams;
 
@@ -15,6 +14,8 @@ namespace Orleankka.Core.Streams
     using Client;
     using Cluster;
     using Utility;
+    
+    using StreamIdentity = Orleans.Internals.StreamIdentity;
 
     class StreamSubscriptionMatcher : IStreamProviderImpl
     {
