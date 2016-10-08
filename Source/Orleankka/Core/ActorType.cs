@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using Orleans;
 
@@ -36,18 +35,17 @@ namespace Orleankka.Core
 
         public readonly string Name;
 
-        readonly bool sticky;
         readonly TimeSpan keepAliveTimeout;
-        readonly Func<object, bool> reentrant;
+        readonly Func<object, bool> interleavePredicate;
         readonly Func<string, object> factory;
         readonly Func<ActorPath, IActorRuntime, IActorInvoker> activator;
 
-        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> reentrant, Type @interface, Func<ActorPath, IActorRuntime, IActorInvoker> activator)
+        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type @interface, Func<ActorPath, IActorRuntime, IActorInvoker> activator)
         {
             Name = name;
-            this.sticky = sticky;
+            this.Sticky = sticky;
             this.keepAliveTimeout = sticky ? TimeSpan.FromDays(365 * 10) : keepAliveTimeout;
-            this.reentrant = reentrant;
+            this.interleavePredicate = interleavePredicate;
             this.factory = Bind(@interface);
             this.activator = activator;
         }
@@ -74,11 +72,13 @@ namespace Orleankka.Core
         internal IActorEndpoint Proxy(ActorPath path) => 
             (IActorEndpoint) factory(path.Serialize());
 
-        public IActorInvoker Activate(ActorPath path, IActorRuntime runtime) => 
-            activator(path, runtime);
+        public IActorInvoker Activate(ActorPath path, IActorRuntime runtime)
+        {
+            return activator(path, runtime);
+        }
 
-        internal bool IsReentrant(object message) => 
-            reentrant(message);
+        internal bool IsPartiallyReentrant() => interleavePredicate != null;
+        internal bool ShouldInterleave(object message) => interleavePredicate(message);
 
         internal void KeepAlive(ActorEndpoint endpoint)
         {
@@ -88,7 +88,7 @@ namespace Orleankka.Core
             endpoint.DelayDeactivation(keepAliveTimeout);
         }
 
-        public bool Sticky => sticky;
+        public bool Sticky { get; }
 
         public bool Equals(ActorType other)
         {

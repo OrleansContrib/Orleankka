@@ -33,36 +33,88 @@ namespace Orleankka.CSharp
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ReentrantAttribute : Attribute
     {
-        internal static Func<object, bool> Predicate(Type actor)
+        internal static Func<object, bool> Predicate(Type actor, out bool reentrant)
         {
+            reentrant = false;
+
             var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true).ToArray();
-
             if (attributes.Length == 0)
-                return message => false;
+                return null;
 
+            var fullyReentrant = attributes.Where(x => x.message == null && x.callback == null).ToArray();
+            var selectedMessageType = attributes.Where(x => x.message != null).ToArray();
+            var determinedByCallbackMethod = attributes.Where(x => x.callback != null).ToArray();
+
+            if (fullyReentrant.Any() && (selectedMessageType.Any() || determinedByCallbackMethod.Any()))
+                throw new InvalidOperationException(
+                    $"'{actor}' actor can be only designated either as fully reentrant " +
+                    "or partially reentrant. Choose one of the approaches");
+
+            if (fullyReentrant.Length > 1)
+                throw new InvalidOperationException(
+                    $"'{actor}' actor can't have multiple [Reentrant] attributes specified");
+
+            if (fullyReentrant.Any())
+            {
+                reentrant = true;
+                return null;
+            }
+
+            if (selectedMessageType.Any() && determinedByCallbackMethod.Any())
+                throw new InvalidOperationException(
+                    $"'{actor}' actor can be designated as partially reentrant either by specifying callback method name " +
+                    "or by specifying selected message types. Choose one of the approaches");
+
+            if (determinedByCallbackMethod.Length > 1)
+                throw new InvalidOperationException(
+                    $"'{actor}' actor can't have multiple [Reentrant(\"callback\")] attributes specified");
+
+            if (determinedByCallbackMethod.Any())
+                return DeterminedByCallbackMethod(actor, determinedByCallbackMethod[0].callback);
+                    
+            return MesageTypeBased(actor, selectedMessageType);
+        }
+
+        static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Func<object, bool> MesageTypeBased(Type actor, ReentrantAttribute[] attributes)
+        {
             var messages = new HashSet<Type>();
 
             foreach (var attribute in attributes)
             {
-                if (messages.Contains(attribute.Message))
+                if (messages.Contains(attribute.message))
                     throw new InvalidOperationException(
-                        $"{attribute.Message} was already registered as Reentrant for {actor}");
+                        $"{attribute.message} was already registered as Reentrant for {actor}");
 
-                messages.Add(attribute.Message);
+                messages.Add(attribute.message);
             }
 
-            return (message) => messages.Contains(message.GetType());
+            return message => messages.Contains(message.GetType());
         }
 
-        internal readonly Type Message;
+        readonly string callback;
+        readonly Type message;
+
+        public ReentrantAttribute()
+        {}
 
         public ReentrantAttribute(Type message)
         {
             Requires.NotNull(message, nameof(message));
-            Message = message;
+            this.message = message;
+        }
+
+        public ReentrantAttribute(string callback)
+        {
+            Requires.NotNullOrWhitespace(callback, nameof(callback));
+            this.callback = callback;
         }
     }
 

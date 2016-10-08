@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -16,7 +15,9 @@ namespace Orleankka.Core
     public abstract class ActorEndpoint : Grain, IRemindable
     {
         const string StickyReminderName = "##sticky##";
+
         readonly ActorType type;
+        readonly Func<object, Task<object>> receive;
 
         ActorRuntime runtime;
         internal IActorInvoker invoker;
@@ -24,6 +25,21 @@ namespace Orleankka.Core
         protected ActorEndpoint(string type)
         {
             this.type = ActorType.Registered(type);
+            receive = ConfigureReceive();
+        }
+
+        Func<object, Task<object>> ConfigureReceive()
+        {
+            if (!type.IsPartiallyReentrant())
+                return message => invoker.OnReceive(message);
+
+            var serial = new AsyncSerialExecutor();
+            return message =>
+            {
+                return type.ShouldInterleave(message)
+                    ? invoker.OnReceive(message)
+                    : serial.AddNext(() => invoker.OnReceive(message));
+            };
         }
 
         public Task Autorun()
@@ -31,39 +47,16 @@ namespace Orleankka.Core
             KeepAlive();
 
             return TaskDone.Done;
-         }
+        }
 
         public Task<object> Receive(object message)
         {
             KeepAlive();
 
-            return invoker.OnReceive(message);
+            return receive(message);
         }
 
-        public Task<object> ReceiveReentrant(object message)
-        {
-            #if DEBUG
-                CallContext.LogicalSetData("LastMessageReceivedReentrant", message);
-            #endif
-
-            return Receive(message);
-        }
-
-        public Task ReceiveVoid(object message)
-        {
-            KeepAlive();
-
-            return invoker.OnReceive(message);
-        }
-
-        public Task ReceiveReentrantVoid(object message)
-        {
-            #if DEBUG
-                CallContext.LogicalSetData("LastMessageReceivedReentrantVoid", message);
-            #endif
-
-            return ReceiveVoid(message);
-        }
+        public Task ReceiveVoid(object message) => Receive(message);
 
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
@@ -86,8 +79,8 @@ namespace Orleankka.Core
         public override Task OnDeactivateAsync()
         {
             return runtime != null
-                    ? invoker.OnDeactivate()
-                    : base.OnDeactivateAsync();
+                       ? invoker.OnDeactivate()
+                       : base.OnDeactivateAsync();
         }
 
         Task Activate(ActorPath path)

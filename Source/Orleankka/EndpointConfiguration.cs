@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Orleankka
 {
@@ -10,10 +9,8 @@ namespace Orleankka
 
     public abstract class EndpointConfiguration : IEquatable<EndpointConfiguration>
     {
-        static readonly Func<ActorPath, IActorRuntime, Func<object, Task<object>>> Null = 
-            (path, runtime) => (message => TaskResult.Done);
-
-        Func<object, bool> isReentrant = message => false;
+        bool reentrant;
+        Func<object, bool> interleavePredicate;
 
         Func<ActorPath, IActorRuntime, IActorInvoker> activator = 
             (path, runtime) => { throw new InvalidOperationException("Actor activator function is not set"); };
@@ -37,15 +34,33 @@ namespace Orleankka
 
         public string Type { get;}
 
-        public Func<object, bool> IsReentrant
+        public bool Reentrant
         {
-            get { return isReentrant; }
+            get { return reentrant; }
             set
             {
-                Requires.NotNull(value, nameof(value));
-                isReentrant = value;
+                if (value && interleavePredicate != null)
+                    throw new InvalidOperationException(
+                        $"'{Type}' actor can be designated either as fully reentrant or " +
+                        "as partially reentrant (by specifying interleave predicate)");
+
+                reentrant = value;
             }
         }
+
+        public Func<object, bool> InterleavePredicate
+        {
+            get { return interleavePredicate; }
+            set
+            {
+                if (Reentrant && value != null)
+                    throw new InvalidOperationException(
+                        $"'{Type}' actor can be designated either as fully reentrant or " +
+                        "as partially reentrant (by specifying interleave predicate)");
+
+                interleavePredicate = value;
+            }
+        }       
 
         public Func<ActorPath, IActorRuntime, IActorInvoker> Activator
         {

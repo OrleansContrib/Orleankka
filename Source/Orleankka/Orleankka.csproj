@@ -53,6 +53,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorInvoker.cs" />
+    <Compile Include="Core\AsyncSerialExecutor.cs" />
     <Compile Include="CSharp\ActorActivator.cs" />
     <Compile Include="CSharp\ActorMessage.cs" />
     <Compile Include="CSharp\ActorRef.cs" />

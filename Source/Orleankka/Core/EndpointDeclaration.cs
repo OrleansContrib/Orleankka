@@ -117,9 +117,15 @@ namespace Orleankka.Core
         {
             GenerateAttributes(src);
 
+            if (IsReentrant)
+                src.AppendLine("[Reentrant]");
+
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
             src.AppendLine($"public {clazz}() : base(\"{config.Type}\") {{}}");
         }
+
+        bool IsReentrant => config.Reentrant || IsPartiallyReentrant;
+        bool IsPartiallyReentrant => config.InterleavePredicate != null;
 
         protected abstract void GenerateAttributes(StringBuilder src);
 
@@ -144,7 +150,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) => 
-            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.IsReentrant, @interface, config.Activator);
+            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, config.Activator);
 
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine($"[{GetActorPlacement()}]");
@@ -177,7 +183,7 @@ namespace Orleankka.Core
         }
 
         protected override ActorType Build(Type @interface) =>
-            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.IsReentrant, @interface, config.Activator);
+            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, config.Activator);
         
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine("[StatelessWorker]");

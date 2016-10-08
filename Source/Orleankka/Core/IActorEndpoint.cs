@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Concurrency;
 
 namespace Orleankka.Core
 {
@@ -15,10 +14,7 @@ namespace Orleankka.Core
             Task Autorun();
 
             Task<object> Receive(object message);
-            [AlwaysInterleave] Task<object> ReceiveReentrant(object message);
-
             Task ReceiveVoid(object message);
-            [AlwaysInterleave] Task ReceiveReentrantVoid(object message);
         }
     }
 }

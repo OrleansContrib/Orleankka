@@ -116,7 +116,9 @@ namespace Orleankka.CSharp
 
         static void SetReentrancy(Type actor, EndpointConfiguration config)
         {
-            config.IsReentrant = ReentrantAttribute.Predicate(actor);
+            bool reentrant;
+            config.InterleavePredicate = ReentrantAttribute.Predicate(actor, out reentrant);
+            config.Reentrant = reentrant;
         }
 
         static void SetReceiver(Type actor, EndpointConfiguration config)

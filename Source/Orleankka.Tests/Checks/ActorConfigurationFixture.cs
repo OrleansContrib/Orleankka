@@ -15,10 +15,21 @@ namespace Orleankka.Checks
         }
 
         [Test]
-        public void Reentrancy_options()
+        public void Reentrancy_is_full_or_partial()
         {
             var cfg = new ActorConfiguration("id");
-            Assert.Throws<ArgumentNullException>(() => cfg.IsReentrant = null);
+
+            cfg.Reentrant = true;
+            Assert.Throws<InvalidOperationException>(() => cfg.InterleavePredicate = x => false);
+
+            cfg.Reentrant = false;
+            Assert.DoesNotThrow(() => cfg.InterleavePredicate = x => false);
+
+            cfg.InterleavePredicate = x => false;
+            Assert.Throws<InvalidOperationException>(() => cfg.Reentrant = true);
+
+            cfg.InterleavePredicate = null;
+            Assert.DoesNotThrow(() => cfg.Reentrant = true);
         }
 
         [Test]

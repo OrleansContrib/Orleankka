@@ -19,7 +19,6 @@ namespace Orleankka
         internal static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorType.Registered(path.Type));
 
         readonly IActorEndpoint endpoint;
-        readonly ActorType type;
 
         protected internal ActorRef(ActorPath path)
         {
@@ -29,8 +28,7 @@ namespace Orleankka
         ActorRef(ActorPath path, ActorType type)
             : this(path)
         {
-            this.type = type;
-            endpoint = this.type.Proxy(path);
+            endpoint = type.Proxy(path);
         }
 
         public ActorPath Path { get; }
@@ -39,14 +37,14 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return ReceiveVoid(message)(message);
+            return endpoint.ReceiveVoid(message);
         }
 
         public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            var result = await Receive(message)(message);
+            var result = await endpoint.Receive(message);
 
             return (TResult) result;
         }
@@ -54,22 +52,6 @@ namespace Orleankka
         public override void Notify(object message)
         {
             Tell(message).Ignore();
-        }
-
-        Func<object, Task<object>> Receive(object message)
-        {
-            if (type.IsReentrant(message))
-                return endpoint.ReceiveReentrant;
-
-            return endpoint.Receive;
-        }
-
-        Func<object, Task> ReceiveVoid(object message)
-        {
-            if (type.IsReentrant(message))
-                return endpoint.ReceiveReentrantVoid;
-
-            return endpoint.ReceiveVoid;
         }
 
         internal Task Autorun()
@@ -109,7 +91,7 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             Path = ActorPath.Deserialize(value);
-            type = ActorType.Registered(Path.Type);
+            var type = ActorType.Registered(Path.Type);
             endpoint = type.Proxy(Path);
         }
 

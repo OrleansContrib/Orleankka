@@ -43,36 +43,11 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(params EndpointConfiguration[] configs)
+        public ClientConfigurator Register(string type)
         {
-            ((IActorSystemConfigurator)this).Register(configs);
+            ((IActorSystemConfigurator)this).Register(new ActorConfiguration(type));
             return this;
         }
-
-        public ClientConfigurator Register(string type, bool worker = false, Func<object, bool> reentrancy = null)
-        {
-            var config = CreateEndpointConfiguration(type, worker);
-            if (reentrancy != null)
-                config.IsReentrant = reentrancy; 
-
-            Register(config);
-            return this;
-        }
-
-        public ClientConfigurator Register(string type, bool worker = false, params Type[] reentrant)
-        {
-            Requires.NotNull(reentrant, nameof(reentrant));
-
-            var config = CreateEndpointConfiguration(type, worker);
-            var messages = new HashSet<Type>(reentrant);
-            config.IsReentrant = m => messages.Contains(m.GetType()); 
-
-            Register(config);
-            return this;
-        }
-
-        static EndpointConfiguration CreateEndpointConfiguration(string type, bool worker) => 
-            worker ? (EndpointConfiguration) new WorkerConfiguration(type) : new ActorConfiguration(type);
 
         public ClientActorSystem Done()
         {

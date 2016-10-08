@@ -192,7 +192,7 @@ namespace Orleankka.Features
                 await i2;
             }
 
-            [Test, Ignore("Doesn't work in Orleankka. Need to be fixed ASAP")]
+            [Test]
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
