@@ -85,3 +85,87 @@ module Builders =
 let handlers<'a> = Builders.BodyBulder<'a>()
 
 let actor<'a> = Builders.ActorBuilder<'a>()
+
+module ActorRegister = 
+    
+    open Orleankka
+    
+//    type FSharpActor(actor: Configurations.ActorConfiguration<'a> ) = 
+//            inherit EndpointConfiguration(actor.Id)
+
+    type FSharpInvoker(body: Configurations.BodyConfiguration<'a>)  = 
+        interface IActorInvoker with 
+            member __.OnActivate () =  
+                                            match body.OnActivate  with
+                                            | Some f -> f()
+                                            | None   -> taskDone()
+
+            member __.OnReceive msg = msg |>  body.OnReceive
+
+            member __.OnReminder reminder = 
+                                            match body.OnReminder with
+                                            | Some f->reminder |> f
+                                            | None -> taskDone()
+            member __.OnTimer (timer,state) = taskDone()
+            member __.OnDeactivate () = taskDone()
+
+    let toActorConfiguration (actorConfig: Configurations.ActorConfiguration<'a> ) =
+        let actor = new ActorConfiguration(actorConfig.Id)
+        actor.KeepAliveTimeout <- actorConfig.KeepAlive 
+
+        let activator = System.Func<ActorPath,IActorRuntime,IActorInvoker>(
+            fun path runtime -> actorConfig.Body() |> FSharpInvoker :> IActorInvoker
+        )
+        actor.Activator <- activator
+        actor :> EndpointConfiguration
+            
+        
+
+    type FSharpActorSystemConfiguratorExtention() = 
+        inherit ActorSystemConfiguratorExtension()
+        
+        override  this.Configure(conf: IActorSystemConfigurator) = 
+               let configs =  ActorsRegister.register()
+                                |> Seq.map toActorConfiguration
+                                |> Seq.toArray
+               conf.Register configs  
+                             
+
+    type IExtensibleActorSystemConfigurator with
+        member this.FSharp()=
+            this.Extend (fun x->ignore())
+            this
+
+        member this.FSharp  (configure: FSharpActorSystemConfiguratorExtention ->unit) =
+            System.Action<_>(configure) |> this.Extend 
+            this
+
+module RegistrationExample = 
+    let test = actor {
+        actorType "testActor"
+        body (fun () ->
+                    handlers{
+                        onReceive (
+                                fun t-> 
+                                    printfn "received"
+                                    1|> response
+                                    )
+                    }
+                )
+    }
+
+    open ActorRegister
+    open Orleankka
+    open Orleankka.Client
+    open Orleankka.Playground
+    open Orleankka.CSharp
+    
+
+    let inline createClient config assemblies = 
+        ActorSystem.Configure().Client().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+
+    let inline createFSharpClient config =
+        ActorSystem.Configure().Client().From(config).FSharp(fun x -> ignore()).Done()
+
+    let inline createPlayground ()= 
+        ActorSystem.Configure().Playground().FSharp().Done()
