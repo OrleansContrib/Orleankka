@@ -21,16 +21,6 @@ module Configurations =
         Body: unit->BodyConfiguration
     }
 
-module ActorsRegister =
-    open Configurations
-
-    let mutable private actors  = Map.empty<string,ActorConfiguration>
-
-    let addActor actor =
-        actors<- actors.Add (actor.Id,actor)
-
-    let register ()= actors|> Map.toSeq |> Seq.map (fun (k,v)->v)
-
 module Builders =
     open Configurations
 
@@ -54,10 +44,8 @@ module Builders =
         member __.KeepAlive(actor, timeSpan) = { actor with KeepAlive = timeSpan }
 
         [<CustomOperation("body")>]
-        member __.Body(actor, body) =
-                let a = { actor with Body = body }
-                ActorsRegister.addActor a
-                a
+        member __.Body(actor, body) = { actor with Body = body }                
+               
 
     type BodyBulder() =
         member __.Zero() =  {
@@ -123,13 +111,17 @@ module ActorRegister =
 
     type FSharpActorSystemConfiguratorExtention() = 
         inherit ActorSystemConfiguratorExtension()
-        
+        let configs = new System.Collections.Generic.List<EndpointConfiguration>()
+
         override  this.Configure(conf: IActorSystemConfigurator) = 
-               let configs =  ActorsRegister.register()
-                                |> Seq.map toActorConfiguration
-                                |> Seq.toArray
-               conf.Register configs  
-                             
+               conf.Register (configs.ToArray())
+
+         member this.RegisterConfigs (config: Configurations.ActorConfiguration seq) = 
+                config
+                |> Seq.map toActorConfiguration 
+                |> configs.AddRange
+
+
     open System.Reflection
  
     open System.Runtime.CompilerServices
@@ -178,5 +170,5 @@ module RegistrationExample =
 //    let inline createFSharpClient config =
 //        ActorSystem.Configure().Client().From(config).FSharp().Done()
 
-    let inline createPlayground ()= 
-        ActorSystem.Configure().Playground().FSharp(fun x->ignore()).Done()
+    let inline createPlayground conf= 
+        ActorSystem.Configure().Playground().FSharp(fun x->x.RegisterConfigs( conf )).Done()
