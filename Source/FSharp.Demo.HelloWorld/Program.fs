@@ -30,16 +30,14 @@ let main argv =
    printfn "Running demo. Booting cluster might take some time ...\n"
 
    let system = ActorExpression.RegistrationExample.createPlayground() 
-//   system.Start()               
-//   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
-//
-//   let job() = task {
-//      do! actor <! Hi
-//      do! actor <! Greet "Yevhen"
-//      do! actor <! Greet "AntyaDev"
-//   }
+   system.Start()
+   let ref = system.ActorOf("testActor","@")
+
+   let job() = task {
+      do! ref <! Hi
+   }
     
-//   Task.run(job) |> ignore
+   Task.run(job) |> ignore
     
    Console.ReadLine() |> ignore    
    0

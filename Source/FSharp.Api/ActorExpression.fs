@@ -17,7 +17,7 @@ module Configurations =
 
     type ActorConfiguration =  {
         Id: string
-        KeepAlive: System.TimeSpan
+        KeepAlive: System.TimeSpan option
         Body: unit->BodyConfiguration
     }
 
@@ -41,7 +41,7 @@ module Builders =
         OnDeactivate = None
     }
 
-    let emptyConfig() : ActorConfiguration = { Id = ""; KeepAlive = TimeSpan.Zero; Body = fun () -> emptyBody() }
+    let emptyConfig() : ActorConfiguration = { Id = ""; KeepAlive = None; Body = fun () -> emptyBody() }
 
     type ActorBuilder() =
 
@@ -90,9 +90,6 @@ module ActorRegister =
     
     open Orleankka
     
-//    type FSharpActor(actor: Configurations.ActorConfiguration<'a> ) = 
-//            inherit EndpointConfiguration(actor.Id)
-
     type FSharpInvoker(body: Configurations.BodyConfiguration) = 
         interface IActorInvoker with 
             member __.OnActivate () =  
@@ -111,12 +108,15 @@ module ActorRegister =
 
     let toActorConfiguration (actorConfig: Configurations.ActorConfiguration ) =
         let actor = new ActorConfiguration(actorConfig.Id)
-        actor.KeepAliveTimeout <- actorConfig.KeepAlive 
+        actor.KeepAliveTimeout  <- match actorConfig.KeepAlive with 
+                                    | Some t ->t
+                                    | None -> TimeSpan.FromDays(365.*10.)
 
         let activator = System.Func<ActorPath,IActorRuntime,IActorInvoker>(
             fun path runtime -> actorConfig.Body() |> FSharpInvoker :> IActorInvoker
         )
         actor.Activator <- activator
+        
         actor :> EndpointConfiguration
             
         
@@ -130,15 +130,26 @@ module ActorRegister =
                                 |> Seq.toArray
                conf.Register configs  
                              
+    open System.Reflection
+ 
+    open System.Runtime.CompilerServices
+    open System.Collections.Generic
 
-    type IExtensibleActorSystemConfigurator with
-        member this.FSharp()=
-            this.Extend (fun x->ignore())
-            this
+    [<Extension>]
+    type Ext () =
+        [<Extension>]
+        static member inline FSharp<'T when 'T :> IExtensibleActorSystemConfigurator> (config:'T,configure: FSharpActorSystemConfiguratorExtention ->unit)=
+            System.Action<_> (configure) |>  config.Extend 
+            config
 
-        member this.FSharp  (configure: FSharpActorSystemConfiguratorExtention ->unit) =
-            System.Action<_>(configure) |> this.Extend 
-            this
+//    type 'T when 'T :> string with
+//        member this.FSharp()=
+//            this.Extend (fun x->ignore())
+//            this
+//
+//        member this.FSharp  (configure: FSharpActorSystemConfiguratorExtention ->unit) =
+//            System.Action<_>(configure) |> this.Extend 
+//            this
 
 module RegistrationExample = 
     let test = actor {
@@ -160,12 +171,12 @@ module RegistrationExample =
     open Orleankka.Playground
     open Orleankka.CSharp
     
-
-    let inline createClient config assemblies = 
-        ActorSystem.Configure().Client().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
-
-    let inline createFSharpClient config =
-        ActorSystem.Configure().Client().From(config).FSharp(fun x -> ignore()).Done()
+//
+//    let inline createClient config assemblies = 
+//        ActorSystem.Configure().Client().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+//
+//    let inline createFSharpClient config =
+//        ActorSystem.Configure().Client().From(config).FSharp().Done()
 
     let inline createPlayground ()= 
-        ActorSystem.Configure().Playground().FSharp().Done()
+        ActorSystem.Configure().Playground().FSharp(fun x->ignore()).Done()
