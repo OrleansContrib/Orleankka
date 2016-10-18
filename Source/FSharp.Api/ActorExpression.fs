@@ -8,23 +8,23 @@ let inline response(data:obj) = Task.FromResult(data)
 let inline taskDone() = Task.FromResult(null) :> Task
 
 module Configurations =
-    type BodyConfiguration<'TMessage> = {
-        OnReceive: 'TMessage -> Task<obj>
+    type BodyConfiguration = {
+        OnReceive: obj -> Task<obj>
         OnReminder: (string -> Task) option
         OnActivate: (unit -> Task) option
         OnDeactivate: (unit -> Task) option
     }
 
-    type ActorConfiguration<'TMessage> =  {
+    type ActorConfiguration =  {
         Id: string
         KeepAlive: System.TimeSpan
-        Body: unit->BodyConfiguration<'TMessage>
+        Body: unit->BodyConfiguration
     }
 
 module ActorsRegister =
     open Configurations
 
-    let mutable private actors  = Map.empty<string,ActorConfiguration<obj>>
+    let mutable private actors  = Map.empty<string,ActorConfiguration>
 
     let addActor actor =
         actors<- actors.Add (actor.Id,actor)
@@ -34,18 +34,18 @@ module ActorsRegister =
 module Builders =
     open Configurations
 
-    let emptyBody(): BodyConfiguration<'a> = {
+    let emptyBody(): BodyConfiguration = {
         OnReceive = fun m -> response(null)
         OnReminder = None
         OnActivate = None
         OnDeactivate = None
     }
 
-    let emptyConfig() : ActorConfiguration<'a> = { Id = ""; KeepAlive = TimeSpan.Zero; Body = fun () -> emptyBody() }
+    let emptyConfig() : ActorConfiguration = { Id = ""; KeepAlive = TimeSpan.Zero; Body = fun () -> emptyBody() }
 
-    type ActorBuilder<'TMessage>() =
+    type ActorBuilder() =
 
-        member __.Yield(item: 'a) : ActorConfiguration<'TMessage> = emptyConfig()
+        member __.Yield(item: 'a) : ActorConfiguration = emptyConfig()
 
         [<CustomOperation("actorType")>]
         member __.ActorType(actor, id) = { actor with Id = id }
@@ -59,32 +59,32 @@ module Builders =
                 ActorsRegister.addActor a
                 a
 
-    type BodyBulder<'TMessage>() =
+    type BodyBulder() =
         member __.Zero() =  {
             OnReceive = fun m -> response(null)
             OnReminder = None
             OnActivate = None
             OnDeactivate = None
         }
-        member x.Yield(()) : BodyConfiguration<'TMessage> = x.Zero()
+        member x.Yield(()) : BodyConfiguration = x.Zero()
 
         [<CustomOperation("onReceive")>]
-        member __.OnReceive(body, receive) : BodyConfiguration<'TMessage> = {body with OnReceive = receive}
+        member __.OnReceive(body, receive) : BodyConfiguration = {body with OnReceive = receive}
 
         [<CustomOperation("onReminder", MaintainsVariableSpace = true)>]
-        member __.OnReminder(body, reminder: string ->Task) : BodyConfiguration<'TMessage> =
+        member __.OnReminder(body, reminder: string ->Task) : BodyConfiguration =
             { body with OnReminder = reminder|> Some }
 
         [<CustomOperation("onActivate", MaintainsVariableSpace = true)>]
-        member __.OnActivate(body, activate) : BodyConfiguration<'TMessage> = { body with OnActivate = activate|> Some }
+        member __.OnActivate(body, activate) : BodyConfiguration = { body with OnActivate = activate|> Some }
 
         [<CustomOperation("onDeactivate", MaintainsVariableSpace = true)>]
-        member __.OnDeactivate(body, deactivate) : BodyConfiguration<'TMessage> =
+        member __.OnDeactivate(body, deactivate) : BodyConfiguration =
             { body with OnDeactivate = deactivate |> Some }
 
-let handlers<'a> = Builders.BodyBulder<'a>()
+let handlers<'a> = Builders.BodyBulder()
 
-let actor<'a> = Builders.ActorBuilder<'a>()
+let actor<'a> = Builders.ActorBuilder()
 
 module ActorRegister = 
     
@@ -93,7 +93,7 @@ module ActorRegister =
 //    type FSharpActor(actor: Configurations.ActorConfiguration<'a> ) = 
 //            inherit EndpointConfiguration(actor.Id)
 
-    type FSharpInvoker(body: Configurations.BodyConfiguration<'a>)  = 
+    type FSharpInvoker(body: Configurations.BodyConfiguration) = 
         interface IActorInvoker with 
             member __.OnActivate () =  
                                             match body.OnActivate  with
@@ -109,7 +109,7 @@ module ActorRegister =
             member __.OnTimer (timer,state) = taskDone()
             member __.OnDeactivate () = taskDone()
 
-    let toActorConfiguration (actorConfig: Configurations.ActorConfiguration<'a> ) =
+    let toActorConfiguration (actorConfig: Configurations.ActorConfiguration ) =
         let actor = new ActorConfiguration(actorConfig.Id)
         actor.KeepAliveTimeout <- actorConfig.KeepAlive 
 
