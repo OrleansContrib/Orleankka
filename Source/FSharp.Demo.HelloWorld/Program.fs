@@ -2,40 +2,67 @@
 open System.Reflection
 
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
+//open Orleankka.FSharp.Configuration
 
 type Message = 
    | Greet of string
    | Hi   
 
-type Greeter() = 
-   inherit Actor<Message>()   
+open ActorExpression
 
-   override this.Receive message = task {
-      match message with
-      | Greet who -> printfn "Hello %s" who
-                     return nothing
-      
-      | Hi        -> printfn "Hello from F#!"
-                     return nothing           
-   }
+let myActors = new System.Collections.Generic.List<Configurations.ActorConfiguration>()
+
+actor {
+    actorType "defined"
+    body (fun () ->
+                handlers{
+                    onReceive (
+                            fun t-> 
+                                t.GetType().FullName |> printfn "received %s" 
+                                1|> response
+                                )
+                }
+            )
+} |> myActors.Add
+
+actor {
+    actorType "counter"
+    body (fun () ->
+                    let mutable state = 0
+                    handlers {
+                        onReceive(
+                            fun t->
+                                state <- state+1
+                                printfn "state is %d" state
+                                state |> response
+                        )
+                    }
+    
+    )
+} |> myActors.Add
 
 [<EntryPoint>]
 let main argv = 
 
    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-   system.Start()               
-   
-   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+   let system = ActorExpression.RegistrationExample.createPlayground( myActors ) 
+   system.Start()
+   let ref = system.ActorOf("defined","@")
 
+   let statefull = system.ActorOf("counter","@")
+   let statefull2 = system.ActorOf("counter","2")
    let job() = task {
-      do! actor <! Hi
-      do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"
+      do! ref <! Hi
+      do! statefull <! ""
+      do! statefull <! ""
+      do! statefull <! ""
+      do! statefull <! ""
+
+      do! statefull2 <! ""
+      do! statefull2 <! ""
+      do! statefull2 <! ""
    }
     
    Task.run(job) |> ignore

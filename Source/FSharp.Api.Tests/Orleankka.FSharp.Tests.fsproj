@@ -55,7 +55,6 @@
     <Compile Include="TaskBuilderTests.fs" />
     <Compile Include="TaskBuilderWithTokenTests.fs" />
     <Compile Include="RequestResponse.fs" />
-    <Compile Include="ActorBuilderTests.fs" />
     <Content Include="paket.references" />
     <Content Include="app.config" />
   </ItemGroup>
