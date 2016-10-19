@@ -3,74 +3,48 @@
 open System
 open System.Threading.Tasks
 
+type LifecycleMessage =
+   | Activate
+   | Deactivate
+
+type TickMessage =
+   | Timer of Id:string * State:obj
+   | Reminder of string
+
+type ActorMessage =
+   | LifecycleMessage
+   | TickMessage
+
 let inline response(data:obj) = Task.FromResult(data)
 
 let inline taskDone() = Task.FromResult(null) :> Task
 
 module Configurations =
-    type BodyConfiguration = {
-        OnReceive: obj -> Task<obj>
-        OnReminder: (string -> Task) option
-        OnActivate: (unit -> Task) option
-        OnDeactivate: (unit -> Task) option
-    }
 
     type ActorConfiguration =  {
-        Id: string
+        TypeName: string
         KeepAlive: System.TimeSpan option
-        Body: unit->BodyConfiguration
+        Body: unit -> (obj -> Task<obj>)
     }
 
 module Builders =
     open Configurations
 
-    let emptyBody(): BodyConfiguration = {
-        OnReceive = fun m -> response(null)
-        OnReminder = None
-        OnActivate = None
-        OnDeactivate = None
-    }
-
-    let emptyConfig() : ActorConfiguration = { Id = ""; KeepAlive = None; Body = fun () -> emptyBody() }
+    let emptyConfig() : ActorConfiguration = { TypeName = ""; KeepAlive = None; Body = fun () -> fun m -> response(null) }
 
     type ActorBuilder() =
 
         member __.Yield(item: 'a) : ActorConfiguration = emptyConfig()
 
-        [<CustomOperation("actorType")>]
-        member __.ActorType(actor, id) = { actor with Id = id }
+        [<CustomOperation("typeName")>]
+        member __.ActorType(actor, typeName) = { actor with TypeName = typeName }
 
         [<CustomOperation("keepAlive")>]
         member __.KeepAlive(actor, timeSpan) = { actor with KeepAlive = timeSpan }
 
         [<CustomOperation("body")>]
-        member __.Body(actor, body) = { actor with Body = body }                
+        member __.Body(actor, body) = { actor with Body = body }                            
                
-
-    type BodyBulder() =
-        member __.Zero() =  {
-            OnReceive = fun m -> response(null)
-            OnReminder = None
-            OnActivate = None
-            OnDeactivate = None
-        }
-        member x.Yield(()) : BodyConfiguration = x.Zero()
-
-        [<CustomOperation("onReceive")>]
-        member __.OnReceive(body, receive) : BodyConfiguration = {body with OnReceive = receive}
-
-        [<CustomOperation("onReminder", MaintainsVariableSpace = true)>]
-        member __.OnReminder(body, reminder: string ->Task) : BodyConfiguration =
-            { body with OnReminder = reminder|> Some }
-
-        [<CustomOperation("onActivate", MaintainsVariableSpace = true)>]
-        member __.OnActivate(body, activate) : BodyConfiguration = { body with OnActivate = activate|> Some }
-
-        [<CustomOperation("onDeactivate", MaintainsVariableSpace = true)>]
-        member __.OnDeactivate(body, deactivate) : BodyConfiguration =
-            { body with OnDeactivate = deactivate |> Some }
-
-let handlers<'a> = Builders.BodyBulder()
 
 let actor<'a> = Builders.ActorBuilder()
 
@@ -78,24 +52,16 @@ module ActorRegister =
     
     open Orleankka
     
-    type FSharpInvoker(body: Configurations.BodyConfiguration) = 
+    type FSharpInvoker(body: obj -> Task<obj>) = 
         interface IActorInvoker with 
-            member __.OnActivate () =  
-                                            match body.OnActivate  with
-                                            | Some f -> f()
-                                            | None   -> taskDone()
-
-            member __.OnReceive msg = msg |>  body.OnReceive
-
-            member __.OnReminder reminder = 
-                                            match body.OnReminder with
-                                            | Some f->reminder |> f
-                                            | None -> taskDone()
-            member __.OnTimer (timer,state) = taskDone()
-            member __.OnDeactivate () = taskDone()
+            member __.OnActivate () = Activate |> body :> Task
+            member __.OnReceive msg = msg |> body
+            member __.OnReminder id = Reminder(id) |> body :> Task
+            member __.OnTimer (id,state) = Timer(id,state) |> body :> Task
+            member __.OnDeactivate () = Deactivate |> body :> Task
 
     let toActorConfiguration (actorConfig: Configurations.ActorConfiguration ) =
-        let actor = new ActorConfiguration(actorConfig.Id)
+        let actor = new ActorConfiguration(actorConfig.TypeName)
         actor.KeepAliveTimeout  <- match actorConfig.KeepAlive with 
                                     | Some t ->t
                                     | None -> TimeSpan.FromDays(365.*10.)
@@ -144,24 +110,19 @@ module ActorRegister =
 //            this
 
 module RegistrationExample = 
-    let test = actor {
-        actorType "testActor"
-        body (fun () ->
-                    handlers{
-                        onReceive (
-                                fun t-> 
-                                    printfn "received"
-                                    1|> response
-                                    )
-                    }
-                )
-    }
+   
+   let TestActor = actor {
+      body (fun()->
+         fun msg -> 
+            printfn "received"
+            1 |> response
+   )}
 
-    open ActorRegister
-    open Orleankka
-    open Orleankka.Client
-    open Orleankka.Playground
-    open Orleankka.CSharp
+   open ActorRegister
+   open Orleankka
+   open Orleankka.Client
+   open Orleankka.Playground
+   open Orleankka.CSharp
     
 //
 //    let inline createClient config assemblies = 
@@ -170,5 +131,5 @@ module RegistrationExample =
 //    let inline createFSharpClient config =
 //        ActorSystem.Configure().Client().From(config).FSharp().Done()
 
-    let inline createPlayground conf= 
-        ActorSystem.Configure().Playground().FSharp(fun x->x.RegisterConfigs( conf )).Done()
+   let inline createPlayground conf= 
+      ActorSystem.Configure().Playground().FSharp(fun x->x.RegisterConfigs( conf )).Done()

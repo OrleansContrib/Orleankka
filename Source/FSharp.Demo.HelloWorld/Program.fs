@@ -14,33 +14,24 @@ open ActorExpression
 let myActors = new System.Collections.Generic.List<Configurations.ActorConfiguration>()
 
 actor {
-    actorType "defined"
-    body (fun () ->
-                handlers{
-                    onReceive (
-                            fun t-> 
-                                t.GetType().FullName |> printfn "received %s" 
-                                1|> response
-                                )
-                }
-            )
-} |> myActors.Add
+   typeName "defined"
+   body (fun ()-> 
+      fun msg -> 
+         msg.GetType().FullName |> printfn "received %s" 
+         1 |> response
+
+)} |> myActors.Add
 
 actor {
-    actorType "counter"
-    body (fun () ->
-                    let mutable state = 0
-                    handlers {
-                        onReceive(
-                            fun t->
-                                state <- state+1
-                                printfn "state is %d" state
-                                state |> response
-                        )
-                    }
-    
-    )
-} |> myActors.Add
+   typeName "counter"
+   body (fun () ->   
+      let mutable state = 0     
+      fun msg ->
+         state <- state+1
+         printfn "state is %d" state
+         state |> response
+
+)} |> myActors.Add
 
 [<EntryPoint>]
 let main argv = 

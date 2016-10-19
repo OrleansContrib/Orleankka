@@ -16,7 +16,7 @@ namespace Orleankka.CSharp
         static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
 
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
-             new Dictionary<Type, Func<object, object, Task<object>>>();
+            new Dictionary<Type, Func<object, object, Task<object>>>();
 
         readonly Type actor;
         readonly string[] conventions;
@@ -36,7 +36,7 @@ namespace Orleankka.CSharp
             {
                 Debug.Assert(actor != null);
 
-                if (actor == typeof(Actor) || 
+                if (actor == typeof(Actor) ||
                     actor == typeof(object))
                     yield break;
 
@@ -48,11 +48,11 @@ namespace Orleankka.CSharp
                 var methods = actor
                     .GetMethods(scope)
                     .Where(m =>
-                            m.GetParameters().Length == 1 &&
-                            !m.GetParameters()[0].IsOut &&
-                            !m.GetParameters()[0].IsRetval &&
-                            !m.IsGenericMethod && !m.ContainsGenericParameters &&
-                            conventions.Contains(m.Name));
+                           m.GetParameters().Length == 1 &&
+                           !m.GetParameters()[0].IsOut &&
+                           !m.GetParameters()[0].IsRetval &&
+                           !m.IsGenericMethod && !m.ContainsGenericParameters &&
+                           conventions.Contains(m.Name));
 
                 foreach (var method in methods)
                     yield return method;
@@ -74,7 +74,7 @@ namespace Orleankka.CSharp
         }
 
         public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
-        public IEnumerable<Type> RegisteredMessages()  => handlers.Keys;
+        public IEnumerable<Type> RegisteredMessages() => handlers.Keys;
 
         public Task<object> Dispatch(object target, object message, Func<object, Task<object>> fallback = null)
         {
@@ -107,7 +107,7 @@ namespace Orleankka.CSharp
 
         static class Bind
         {
-            static readonly Task<object> Done = Task.FromResult((object)null);
+            static readonly Task<object> Done = Task.FromResult((object) null);
 
             static class NonUniform
             {
@@ -117,7 +117,7 @@ namespace Orleankka.CSharp
                         .MakeGenericType(method.GetParameters()[0].ParameterType)
                         .GetMethod("Action", BindingFlags.Public | BindingFlags.Static);
 
-                    return (Action<object, object>)compiler.Invoke(null, new object[] {method, actor});
+                    return (Action<object, object>) compiler.Invoke(null, new object[] {method, actor});
                 }
 
                 public static Func<object, object, object> ReplyHandler(MethodInfo method, Type actor)
@@ -127,14 +127,16 @@ namespace Orleankka.CSharp
                         .GetMethod("Func", BindingFlags.Public | BindingFlags.Static)
                         .MakeGenericMethod(method.ReturnType);
 
-                    return (Func<object, object, object>)compiler.Invoke(null, new object[] {method, actor});
+                    return (Func<object, object, object>) compiler.Invoke(null, new object[] {method, actor});
                 }
 
                 static class Void<TRequest>
                 {
                     public static Action<object, object> Action(MethodInfo method, Type type)
                     {
-                        return method.IsStatic ? StaticAction(method) : InstanceAction(method, type);
+                        return method.IsStatic
+                                   ? StaticAction(method)
+                                   : InstanceAction(method, type);
                     }
 
                     static Action<object, object> StaticAction(MethodInfo method)
@@ -153,14 +155,14 @@ namespace Orleankka.CSharp
                         Debug.Assert(method.DeclaringType != null);
 
                         return method.IsAssembly
-                                ? InstanceAssemblyAction(method)
-                                : InstancePrivateAction(method, type);
+                                   ? InstanceAssemblyAction(method)
+                                   : InstancePrivateAction(method, type);
                     }
 
                     static Action<object, object> InstanceAssemblyAction(MethodInfo method)
                     {
                         Debug.Assert(method.DeclaringType != null);
-                        
+
                         var target = Expression.Parameter(typeof(object));
                         var request = Expression.Parameter(typeof(object));
 
@@ -193,7 +195,9 @@ namespace Orleankka.CSharp
                 {
                     public static Func<object, object, object> Func<TResult>(MethodInfo method, Type type)
                     {
-                        return method.IsStatic ? StaticFunc<TResult>(method) : InstanceFunc<TResult>(method, type);
+                        return method.IsStatic
+                                   ? StaticFunc<TResult>(method)
+                                   : InstanceFunc<TResult>(method, type);
                     }
 
                     static Func<object, object, object> StaticFunc<TResult>(MethodInfo method)
@@ -212,8 +216,8 @@ namespace Orleankka.CSharp
                         Debug.Assert(method.DeclaringType != null);
 
                         return method.IsAssembly
-                                ? InstanceAssemblyFunc<TResult>(method)
-                                : InstancePrivateFunc<TResult>(method, type);
+                                   ? InstanceAssemblyFunc<TResult>(method)
+                                   : InstancePrivateFunc<TResult>(method, type);
                     }
 
                     static Func<object, object, object> InstanceAssemblyFunc<TResult>(MethodInfo method)
@@ -244,25 +248,25 @@ namespace Orleankka.CSharp
                         var call = Expression.Call(targetConversion, method, requestConversion);
                         var func = Expression.Lambda<Func<object, object, TResult>>(call, target, request).Compile();
 
-                        return (t, r) => (object)func(t, r);
+                        return (t, r) => (object) func(t, r);
                     }
                 }
             }
 
             public static class Uniform
-            { 
+            {
                 public static Func<object, object, Task<object>> Handler(MethodInfo method, Type actor)
                 {
                     if (typeof(Task).IsAssignableFrom(method.ReturnType))
                     {
                         return method.ReturnType.GenericTypeArguments.Length != 0
-                                ? Lambda(typeof(Async<>), "Func", method.ReturnType.GenericTypeArguments[0], method, actor)
-                                : Lambda(typeof(Async<>), "Action", null, method, actor);
+                                   ? Lambda(typeof(Async<>), "Func", method.ReturnType.GenericTypeArguments[0], method, actor)
+                                   : Lambda(typeof(Async<>), "Action", null, method, actor);
                     }
 
                     return method.ReturnType != typeof(void)
-                            ? NonAsync.Func(method, actor)
-                            : NonAsync.Action(method, actor);
+                               ? NonAsync.Func(method, actor)
+                               : NonAsync.Action(method, actor);
                 }
 
                 static Func<object, object, Task<object>> Lambda(Type binder, string kind, Type arg, MethodInfo method, Type type)
@@ -274,14 +278,16 @@ namespace Orleankka.CSharp
                     if (arg != null)
                         compiler = compiler.MakeGenericMethod(arg);
 
-                    return (Func<object, object, Task<object>>)compiler.Invoke(null, new object[] { method, type });
+                    return (Func<object, object, Task<object>>) compiler.Invoke(null, new object[] {method, type});
                 }
 
                 static class Async<TRequest>
                 {
                     public static Func<object, object, Task<object>> Func<TResult>(MethodInfo method, Type type)
                     {
-                        return method.IsStatic ? StaticFunc<TResult>(method) : InstanceFunc<TResult>(method, type);
+                        return method.IsStatic
+                                   ? StaticFunc<TResult>(method)
+                                   : InstanceFunc<TResult>(method, type);
                     }
 
                     static Func<object, object, Task<object>> StaticFunc<TResult>(MethodInfo method)
@@ -300,8 +306,8 @@ namespace Orleankka.CSharp
                         Debug.Assert(method.DeclaringType != null);
 
                         return method.IsAssembly
-                                ? InstanceAssemblyFunc<TResult>(method)
-                                : InstancePrivateFunc<TResult>(method, type);
+                                   ? InstanceAssemblyFunc<TResult>(method)
+                                   : InstancePrivateFunc<TResult>(method, type);
                     }
 
                     static Func<object, object, Task<object>> InstanceAssemblyFunc<TResult>(MethodInfo method)
@@ -337,7 +343,9 @@ namespace Orleankka.CSharp
 
                     public static Func<object, object, Task<object>> Action(MethodInfo method, Type type)
                     {
-                        return method.IsStatic ? StaticAction(method) : InstanceAction(method, type);
+                        return method.IsStatic
+                                   ? StaticAction(method)
+                                   : InstanceAction(method, type);
                     }
 
                     static Func<object, object, Task<object>> StaticAction(MethodInfo method)
@@ -360,8 +368,8 @@ namespace Orleankka.CSharp
                         Debug.Assert(method.DeclaringType != null);
 
                         return method.IsAssembly
-                                ? InstanceAssemblyAction(method)
-                                : InstancePrivateAction(method, type);
+                                   ? InstanceAssemblyAction(method)
+                                   : InstancePrivateAction(method, type);
                     }
 
                     static Func<object, object, Task<object>> InstanceAssemblyAction(MethodInfo method)
