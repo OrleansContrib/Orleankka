@@ -74,8 +74,8 @@ Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Get
 + Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
 + Chat  [[demo]](Source/FSharp.Demo.Chat.Server)
 + eCommerce [[demo]](Source/FSharp.Demo.Shop)
-+ Worker actors [[see]](Source/FSharp.Demo.Worker)
-+ Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
++ Actors on Suave [[see]](Source/FSharp.Example.Suave)
++ Reentrant messages [[see]](Source/FSharp.Example.Reentrant)
 
 ##### Serialization
 
