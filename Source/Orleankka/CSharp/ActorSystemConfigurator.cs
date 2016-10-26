@@ -12,7 +12,6 @@ namespace Orleankka.CSharp
         public static TConfigurator CSharp<TConfigurator>(this TConfigurator configurator, Action<CSharpActorSystemConfiguratorExtension> configure) where TConfigurator : IExtensibleActorSystemConfigurator
         {
             configurator.Extend(configure);
-            
             return configurator;
         }
     }
