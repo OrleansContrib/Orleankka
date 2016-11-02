@@ -51,6 +51,12 @@ let actor<'a> = Builders.ActorBuilder()
 module ActorRegister = 
     
     open Orleankka
+    open Orleankka.FSharp
+
+    let actorConfigs = new System.Collections.Generic.List<Configurations.ActorConfiguration>()
+
+    let add (actor:Configurations.ActorConfiguration) =
+        actorConfigs.Add(actor)
     
     type FSharpInvoker(body: obj -> Task<obj>) = 
         interface IActorInvoker with 
@@ -72,8 +78,7 @@ module ActorRegister =
         actor.Activator <- activator
         
         actor :> EndpointConfiguration
-            
-        
+
 
     type FSharpActorSystemConfiguratorExtention() = 
         inherit ActorSystemConfiguratorExtension()
@@ -131,5 +136,5 @@ module RegistrationExample =
 //    let inline createFSharpClient config =
 //        ActorSystem.Configure().Client().From(config).FSharp().Done()
 
-   let inline createPlayground conf= 
-      ActorSystem.Configure().Playground().FSharp(fun x->x.RegisterConfigs( conf )).Done()
+   let inline createPlayground () = 
+      ActorSystem.Configure().Playground().FSharp(fun x->x.RegisterConfigs( ActorRegister.actorConfigs )).Done()

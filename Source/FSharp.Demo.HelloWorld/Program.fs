@@ -11,7 +11,7 @@ type Message =
 
 open ActorExpression
 
-let myActors = new System.Collections.Generic.List<Configurations.ActorConfiguration>()
+// let myActors = new System.Collections.Generic.List<Configurations.ActorConfiguration>()
 
 actor {
    typeName "defined"
@@ -20,7 +20,7 @@ actor {
          msg.GetType().FullName |> printfn "received %s" 
          1 |> response
 
-)} |> myActors.Add
+)} |> ActorRegister.add
 
 actor {
    typeName "counter"
@@ -31,14 +31,14 @@ actor {
          printfn "state is %d" state
          state |> response
 
-)} |> myActors.Add
+)} |> ActorRegister.add
 
 [<EntryPoint>]
 let main argv = 
 
    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   let system = ActorExpression.RegistrationExample.createPlayground( myActors ) 
+   let system = ActorExpression.RegistrationExample.createPlayground() 
    system.Start()
    let ref = system.ActorOf("defined","@")
 
