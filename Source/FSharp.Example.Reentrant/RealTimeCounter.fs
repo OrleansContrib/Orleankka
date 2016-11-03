@@ -1,6 +1,8 @@
 ﻿module RealTimeCounter
 
 open System
+open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
 
 type Message =
@@ -8,6 +10,7 @@ type Message =
    | Decrement
    | GetCount
 
+[<Reentrant("IsReentrant")>]
 type Counter() =
    inherit Actor<Message>()
 
@@ -28,7 +31,7 @@ type Counter() =
 
    // this method will be invoked by Orleankka runtime in order to distinguish message on reentrancy,
    // basically it's just a filter method.
-   static member private IsReentrant(msg:obj) =
+   static member IsReentrant(msg:obj) =
       match msg with
       | :? Message as m -> match m with
                            | GetCount -> true  // here we say that GetCount is reentrant message.
