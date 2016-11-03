@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+
+using Orleans.CodeGeneration;
 
 namespace Orleankka.CSharp
 {
@@ -80,7 +83,25 @@ namespace Orleankka.CSharp
 
         static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
         {
-            throw new NotImplementedException();
+            var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.Static);
+            if (method == null)
+                throw new InvalidOperationException(
+                    $"Actor {actor.FullName} doesn't declare public static method " +
+                    $"with name {callbackMethod} specified in Reentrant[] attribute");
+
+            if (method.ReturnType != typeof(bool) ||
+                method.GetParameters().Length != 1 ||
+                method.GetParameters()[0].ParameterType != typeof(object))
+                throw new InvalidOperationException(
+                    $"Wrong signature of callback method {callbackMethod} " +
+                    $"specified in Reentrant[] attribute for actor class {actor.FullName}. \n" +
+                    $"Expected: public static bool {callbackMethod}(object msg)");
+
+            var parameter = Expression.Parameter(typeof(object));
+            var call = Expression.Call(null, method, parameter);
+            var predicate = Expression.Lambda<Func<object, bool>>(call, parameter).Compile();
+
+            return predicate;
         }
 
         static Func<object, bool> MesageTypeBased(Type actor, ReentrantAttribute[] attributes)

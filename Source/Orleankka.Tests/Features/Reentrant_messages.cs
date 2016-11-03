@@ -92,6 +92,34 @@ namespace Orleankka.Features
             }
         }
 
+        [Reentrant(nameof(IsReentrant))]
+        class TestReentrantByCallbackMethodActor : Actor
+        {
+            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
+
+            readonly ActorState state = new ActorState();
+
+            async Task On(NonReentrantMessage x)
+            {
+                if (state.NonReentrantInProgress.Count > 0)
+                    throw new InvalidOperationException("Can't be interleaved");
+
+                state.NonReentrantInProgress.Add(x.Id);
+                await Task.Delay(x.Delay);
+
+                state.NonReentrantInProgress.Remove(x.Id);
+            }
+
+            async Task<ActorState> On(ReentrantMessage x)
+            {
+                state.ReentrantInProgress.Add(x.Id);
+                await Task.Delay(x.Delay);
+
+                state.ReentrantInProgress.Remove(x.Id);
+                return state;
+            }
+        }
+
         [RequiresSilo]
         public class Tests
         {
@@ -104,10 +132,21 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async Task When_received_message_via_Receive()
+            public async Task When_reentrant_determined_by_message_type()
             {
                 var actor = system.FreshActorOf<TestActor>();
+                await TestReentrantReceive(actor);
+            }
 
+            [Test]
+            public async Task When_reentrant_determined_by_callback_method()
+            {
+                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                await TestReentrantReceive(actor);
+            }
+
+            static async Task TestReentrantReceive(ActorRef actor)
+            {
                 var nr1 = actor.Tell(new NonReentrantMessage {Id = 1, Delay = TimeSpan.FromMilliseconds(500)});
                 await Task.Delay(50);
 
