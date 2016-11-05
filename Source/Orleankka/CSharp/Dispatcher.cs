@@ -14,30 +14,38 @@ namespace Orleankka.CSharp
     public class Dispatcher
     {
         static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
+        static readonly Type[] DefaultRoots = {typeof(Actor), typeof(object)};
 
-        readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
+        readonly Dictionary<Type, Action<object, object>> actions =
+             new Dictionary<Type, Action<object, object>>();
+
+        readonly Dictionary<Type, Func<object, object, object>> funcs =
+             new Dictionary<Type, Func<object, object, object>>();
+
+        readonly Dictionary<Type, Func<object, object, Task<object>>> uniform =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
-        readonly Type actor;
-        readonly string[] conventions;
-
-        public Dispatcher(Type actor, string[] conventions = null)
+        readonly Type type;
+        
+        public Dispatcher(Type type, string[] conventions = null, Type[] roots = null)
         {
-            this.actor = actor;
-            this.conventions = conventions ?? DefaultConventions;
+            this.type = type;
 
-            foreach (var method in GetMethods(actor))
+            var methods = GetMethods(type, 
+                roots ?? DefaultRoots, 
+                conventions ?? DefaultConventions);
+
+            foreach (var method in methods)
                 Register(method);
         }
 
-        IEnumerable<MethodInfo> GetMethods(Type actor)
+        static IEnumerable<MethodInfo> GetMethods(Type type, Type[] roots, string[] conventions)
         {
             while (true)
             {
-                Debug.Assert(actor != null);
+                Debug.Assert(type != null);
 
-                if (actor == typeof(Actor) || 
-                    actor == typeof(object))
+                if (roots.Contains(type))
                     yield break;
 
                 const BindingFlags scope = BindingFlags.Instance |
@@ -45,7 +53,7 @@ namespace Orleankka.CSharp
                                            BindingFlags.NonPublic |
                                            BindingFlags.DeclaredOnly;
 
-                var methods = actor
+                var methods = type
                     .GetMethods(scope)
                     .Where(m =>
                             m.GetParameters().Length == 1 &&
@@ -57,28 +65,91 @@ namespace Orleankka.CSharp
                 foreach (var method in methods)
                     yield return method;
 
-                actor = actor.BaseType;
+                type = type.BaseType;
             }
         }
 
-        public void Register(MethodInfo method)
+        void Register(MethodInfo method)
         {
-            var message = method.GetParameters()[0].ParameterType;
-            var handler = Bind.Uniform.Handler(method, actor);
-
-            if (handlers.ContainsKey(message))
-                throw new InvalidOperationException(
-                    $"Handler for {message} has been already defined by {actor}");
-
-            handlers.Add(message, handler);
+            RegisterUniform(method);
+            RegisterNonUniform(method);
         }
 
-        public bool HasRegisteredHandler(Type message) => handlers.Find(message) != null;
-        public IEnumerable<Type> RegisteredMessages()  => handlers.Keys;
+        void RegisterUniform(MethodInfo method)
+        {
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.Uniform.Handler(method, type);
+
+            if (uniform.ContainsKey(message))
+                throw new InvalidOperationException(
+                    $"Handler for {message} has been already defined by {type}");
+
+            uniform.Add(message, handler);
+        }
+
+        void RegisterNonUniform(MethodInfo method)
+        {
+            if (typeof(Task).IsAssignableFrom(method.ReturnType))
+                return;
+
+            if (method.ReturnType == typeof(void))
+            {
+                RegisterAction(method);
+                return;
+            }
+
+            RegisterFunc(method);
+        }
+
+        void RegisterAction(MethodInfo method)
+        {
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.NonUniform.ActionHandler(method, type);
+            actions.Add(message, handler);
+        }
+
+        void RegisterFunc(MethodInfo method)
+        {
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.NonUniform.FuncHandler(method, type);
+            funcs.Add(message, handler);
+        }
+
+        public bool CanHandle(Type message) => uniform.Find(message) != null;
+        public IEnumerable<Type> Handlers   => uniform.Keys;
 
         public Task<object> Dispatch(object target, object message, Func<object, Task<object>> fallback = null)
         {
-            var handler = handlers.Find(message.GetType());
+            var handler = uniform.Find(message.GetType());
+
+            if (handler != null)
+                return handler(target, message);
+
+            if (fallback == null)
+                throw new HandlerNotFoundException(message.GetType());
+
+            return fallback(message);
+        }
+
+        public void DispatchAction(object target, object message, Func<object, Task<object>> fallback = null)
+        {
+            var handler = actions.Find(message.GetType());
+
+            if (handler != null)
+            {
+                handler(target, message);
+                return;
+            }
+
+            if (fallback == null)
+                throw new HandlerNotFoundException(message.GetType());
+
+            fallback(message);
+        }
+
+        public object DispatchFunc(object target, object message, Func<object, Task<object>> fallback = null)
+        {
+            var handler = funcs.Find(message.GetType());
 
             if (handler != null)
                 return handler(target, message);
@@ -109,9 +180,9 @@ namespace Orleankka.CSharp
         {
             static readonly Task<object> Done = Task.FromResult((object)null);
 
-            static class NonUniform
+            internal static class NonUniform
             {
-                public static Action<object, object> VoidHandler(MethodInfo method, Type actor)
+                public static Action<object, object> ActionHandler(MethodInfo method, Type actor)
                 {
                     var compiler = typeof(Void<>)
                         .MakeGenericType(method.GetParameters()[0].ParameterType)
@@ -120,9 +191,9 @@ namespace Orleankka.CSharp
                     return (Action<object, object>)compiler.Invoke(null, new object[] {method, actor});
                 }
 
-                public static Func<object, object, object> ReplyHandler(MethodInfo method, Type actor)
+                public static Func<object, object, object> FuncHandler(MethodInfo method, Type actor)
                 {
-                    var compiler = typeof(Reply<>)
+                    var compiler = typeof(Result<>)
                         .MakeGenericType(method.GetParameters()[0].ParameterType)
                         .GetMethod("Func", BindingFlags.Public | BindingFlags.Static)
                         .MakeGenericMethod(method.ReturnType);
@@ -189,7 +260,7 @@ namespace Orleankka.CSharp
                     }
                 }
 
-                static class Reply<TRequest>
+                static class Result<TRequest>
                 {
                     public static Func<object, object, object> Func<TResult>(MethodInfo method, Type type)
                     {
@@ -408,13 +479,13 @@ namespace Orleankka.CSharp
                 {
                     public static Func<object, object, Task<object>> Func(MethodInfo method, Type type)
                     {
-                        var handler = NonUniform.ReplyHandler(method, type);
+                        var handler = NonUniform.FuncHandler(method, type);
                         return (t, r) => Task.FromResult(handler(t, r));
                     }
 
                     public static Func<object, object, Task<object>> Action(MethodInfo method, Type type)
                     {
-                        var handler = NonUniform.VoidHandler(method, type);
+                        var handler = NonUniform.ActionHandler(method, type);
                         return (t, r) =>
                         {
                             handler(t, r);

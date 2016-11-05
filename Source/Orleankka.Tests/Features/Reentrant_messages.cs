@@ -64,14 +64,14 @@ namespace Orleankka.Features
         }
 
         [Serializable] class Activate : Command {}
-        [Serializable] class GetStreamMessagesInProgress : Query<List<int>> {}
+        [Serializable] class GetStreamMessagesInProgress : Query<List<object>> {}
 
         [Reentrant(typeof(GetStreamMessagesInProgress))]
-        [Reentrant(typeof(int))] // stream message type
+        [Reentrant(typeof(int))]   // 1-st stream message type        
         class TestReentrantStreamConsumerActor : Actor
         {
-            readonly List<int> streamMessagesInProgress = new List<int>();
-            List<int> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
+            readonly List<object> streamMessagesInProgress = new List<object>();
+            List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
 
             async Task On(Activate x)
             {
@@ -84,7 +84,7 @@ namespace Orleankka.Features
                     return Task.Delay(50);
                 });
 
-                await stream2.Subscribe<int>(item =>
+                await stream2.Subscribe<string>(item =>
                 {
                     streamMessagesInProgress.Add(item);
                     return Task.Delay(50);
@@ -92,37 +92,31 @@ namespace Orleankka.Features
             }
         }
 
-        public interface IReentrantStreamConsumerGrain : IGrainWithStringKey
+        [Reentrant(nameof(IsReentrant))]
+        class TestReentrantByCallbackMethodActor : Actor
         {
-            Task Activate();
-            Task<List<int>> StreamMessagesInProgress();
-        }
+            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
 
-        [Orleans.Concurrency.Reentrant]
-        public class ReentrantStreamConsumerGrain : Grain, IReentrantStreamConsumerGrain
-        {
-            readonly List<int> streamMessagesInProgress = new List<int>();
-            public Task<List<int>> StreamMessagesInProgress() => Task.FromResult(streamMessagesInProgress);
+            readonly ActorState state = new ActorState();
 
-            public Task Activate() => TaskDone.Done;
-            public override async Task OnActivateAsync()
+            async Task On(NonReentrantMessage x)
             {
-                var sms = GetStreamProvider("sms");
+                if (state.NonReentrantInProgress.Count > 0)
+                    throw new InvalidOperationException("Can't be interleaved");
 
-                var stream1 = sms.GetStream<int>(Guid.Empty, "stream1");
-                var stream2 = sms.GetStream<int>(Guid.Empty, "stream2");
+                state.NonReentrantInProgress.Add(x.Id);
+                await Task.Delay(x.Delay);
 
-                await stream1.SubscribeAsync((item, _) =>
-                {
-                    streamMessagesInProgress.Add(item);
-                    return Task.Delay(50);
-                });
+                state.NonReentrantInProgress.Remove(x.Id);
+            }
 
-                await stream2.SubscribeAsync((item, _) =>
-                {
-                    streamMessagesInProgress.Add(item);
-                    return Task.Delay(50);
-                });
+            async Task<ActorState> On(ReentrantMessage x)
+            {
+                state.ReentrantInProgress.Add(x.Id);
+                await Task.Delay(x.Delay);
+
+                state.ReentrantInProgress.Remove(x.Id);
+                return state;
             }
         }
 
@@ -138,10 +132,21 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async Task When_received_message_via_Receive()
+            public async Task When_reentrant_determined_by_message_type()
             {
                 var actor = system.FreshActorOf<TestActor>();
+                await TestReentrantReceive(actor);
+            }
 
+            [Test]
+            public async Task When_reentrant_determined_by_callback_method()
+            {
+                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                await TestReentrantReceive(actor);
+            }
+
+            static async Task TestReentrantReceive(ActorRef actor)
+            {
                 var nr1 = actor.Tell(new NonReentrantMessage {Id = 1, Delay = TimeSpan.FromMilliseconds(500)});
                 await Task.Delay(50);
 
@@ -170,29 +175,6 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async Task When_reentrant_grain_received_message_via_Stream()
-            {
-                var grain = GrainClient.GrainFactory.GetGrain<IReentrantStreamConsumerGrain>("test");
-                await grain.Activate();
-
-                var stream1 = GrainClient.GetStreamProvider("sms").GetStream<int>(Guid.Empty, "stream1");
-                var stream2 = GrainClient.GetStreamProvider("sms").GetStream<int>(Guid.Empty, "stream1");
-
-                var i1 = stream1.OnNextAsync(1);
-                await Task.Delay(10);
-
-                var i2 = stream2.OnNextAsync(2);
-                await Task.Delay(10);
-
-                var inProgress = await grain.StreamMessagesInProgress();
-                Assert.That(inProgress, Has.Count.EqualTo(2));
-                Assert.That(inProgress, Is.EquivalentTo(new[] {1, 2}));
-
-                await i1;
-                await i2;
-            }
-
-            [Test]
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
@@ -204,15 +186,38 @@ namespace Orleankka.Features
                 var i1 = stream1.Push(1);
                 await Task.Delay(10);
 
-                var i2 = stream2.Push(2);
+                var i2 = stream2.Push("2");
                 await Task.Delay(10);
 
                 var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
                 Assert.That(inProgress, Has.Count.EqualTo(2));
-                Assert.That(inProgress, Is.EquivalentTo(new[] { 1, 2 }));
+                Assert.That(inProgress, Is.EquivalentTo(new object[] { 1, "2" }));
 
                 await i1;
                 await i2;
+            }
+
+            [Test, Ignore("Until 1.3.1 with my PR")]
+            public async Task When_actor_received_non_reentrant_message_via_Stream()
+            {
+                var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
+                await actor.Tell(new Activate());
+
+                var stream1 = system.StreamOf("sms", "s1");
+                var stream2 = system.StreamOf("sms", "s2");
+
+                var i2 = stream2.Push("2");
+                await Task.Delay(10);
+
+                var i1 = stream1.Push(1);
+                await Task.Delay(10);
+
+                var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
+                Assert.That(inProgress, Has.Count.EqualTo(1));
+                Assert.That(inProgress, Is.EquivalentTo(new object[] { "2" }));
+
+                await i2;
+                await i1;
             }
         }
     }

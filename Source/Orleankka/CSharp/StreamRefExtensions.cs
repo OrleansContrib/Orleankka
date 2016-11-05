@@ -51,6 +51,6 @@ namespace Orleankka.CSharp
         }
 
         static StreamFilter DeclaredHandlerOnlyFilter(Actor actor) => 
-            new StreamFilter(actor.Dispatcher.RegisteredMessages());
+           new StreamFilter(actor.Dispatcher.Handlers);
     }
 }

@@ -53,7 +53,7 @@ namespace Orleankka.CSharp
         static Func<object, bool> BuildFilter(string filter, Type actor, Dispatcher dispatcher)
         {
             if (filter == null)
-                return item => dispatcher.HasRegisteredHandler(item.GetType());
+                return item => dispatcher.CanHandle(item.GetType());
 
             if (filter == "*")
                 return item => true;
