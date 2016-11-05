@@ -1,16 +1,18 @@
 ﻿module Shop
 
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
 
 open Account
    
 type ShopMessage =
-   | Sell of Account : ActorRef * Count : int
+   | Sell of Account : ActorRef<AccountMessage> * Count : int
    | CheckIn of Count : int
    | Cash
    | Stock
 
+[<ActorType("shop")>]
 type Shop() =
    inherit Actor<ShopMessage>()
    

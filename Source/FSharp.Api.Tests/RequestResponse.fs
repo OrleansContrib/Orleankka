@@ -4,12 +4,15 @@ open NUnit.Framework
 open System
 open Orleankka
 open Orleankka.CSharp
+open Orleankka.FSharp
+open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Tests.Infrastructure
 
 type Message = 
    | Greet of string
    | Hi
 
+[<ActorType("test_actor")>]
 type TestActor() = 
    inherit Actor<Message>()
 
@@ -50,7 +53,7 @@ type Tests() =
 
    [<Test>]
    member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
-      let actor = this.system.ActorOf<TestActor>("test")
+      let actor = ActorSystem.actorOf this.system "test_actor" "test"
       match Task.run(fun _ -> task {return! actor <? "request msg"}) with
       | Choice1Of2 result -> Assert.Fail("actor was able to handle unspecified message type.")
       | Choice2Of2 ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)

@@ -5,7 +5,6 @@ open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 open Actors
 
-
 [<EntryPoint>]
 let main argv = 
    
@@ -15,8 +14,9 @@ let main argv =
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = ActorSystem.createCluster config [|typeof<ChatUser>.Assembly|]
-   system.Start()
+   use system = [|typeof<ChatUser>.Assembly|]
+                |> ActorSystem.createCluster config 
+                |> ActorSystem.start   
    
    printfn "Finished booting cluster...\n"
    System.Console.ReadLine() |> ignore

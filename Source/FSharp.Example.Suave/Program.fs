@@ -21,11 +21,11 @@ let main argv =
   printfn "Running demo. Booting cluster might take some time ...\n"
 
   // configure actor system
-  use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-  system.Start()
+  use system = [|Assembly.GetExecutingAssembly()|]
+               |> ActorSystem.createPlayground
+               |> ActorSystem.start  
 
-  let testActor = system.ActorOf<Actors.TestActor>("http_test")
-
+  let testActor = ActorSystem.actorOf system "test_actor" "http_test"
 
   // configure actor routing
   let router = [(MessageType.DU(typeof<Actors.HelloMessage>), testActor.Path)]

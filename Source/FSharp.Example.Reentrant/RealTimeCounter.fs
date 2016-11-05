@@ -1,6 +1,7 @@
 ﻿module RealTimeCounter
 
 open System
+open Orleankka.CSharp
 open Orleankka.FSharp
 
 type Message =
@@ -8,6 +9,7 @@ type Message =
    | Decrement
    | GetCount
 
+[<ActorType("counter")>]
 type Counter() =
    inherit Actor<Message>()
 

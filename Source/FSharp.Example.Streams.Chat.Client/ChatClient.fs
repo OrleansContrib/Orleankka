@@ -6,14 +6,14 @@ open Actors
 
 type ChatClient = {
    UserName: string
-   User: ActorRef
+   User: ActorRef<ChatUserMessage>
    RoomName: string   
-   Room: StreamRef   
+   Room: StreamRef<ChatRoomMessage>   
    Subscription: Option<StreamSubscription>
 }
 
 let join (client:ChatClient) = task {   
-   let! sb = subscribe<ChatRoomMessage> client.Room (fun messge ->
+   let! sb = client.Room.Subscribe (fun messge ->
       if messge.UserName <> client.UserName then printfn "%s" messge.Text
    )
 
@@ -29,4 +29,4 @@ let leave (client:ChatClient) = task {
 
 let say (client:ChatClient) (message:string) = task {
    do! client.User <! Say(client.RoomName, message)   
-}   
+}
