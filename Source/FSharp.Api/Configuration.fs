@@ -1,11 +1,15 @@
 ﻿namespace Orleankka.FSharp.Configuration
+open System.Reflection
+open Orleans.Runtime.Configuration
+open Orleankka
+open Orleankka.CSharp
+open Orleankka.FSharp
+open Orleankka.Playground
+open Orleankka.Client
+open Orleankka.Cluster
 
 [<RequireQualifiedAccess>]
-module ClientConfig =   
-   open System.Reflection
-   open Orleans.Runtime.Configuration
-   open Orleankka   
-   open Orleankka.Client
+module ClientConfig =      
 
    let inline create () = ClientConfiguration()
 
@@ -22,11 +26,7 @@ module ClientConfig =
 
 
 [<RequireQualifiedAccess>]
-module ClusterConfig =    
-   open System.Reflection
-   open Orleans.Runtime.Configuration
-   open Orleankka
-   open Orleankka.Cluster
+module ClusterConfig =       
    
    let inline create () = ClusterConfiguration()
 
@@ -45,12 +45,6 @@ module ClusterConfig =
 
 [<RequireQualifiedAccess>]
 module ActorSystem =       
-   open Orleans.Runtime.Configuration
-   open Orleankka
-   open Orleankka.CSharp
-   open Orleankka.Playground
-   open Orleankka.Client
-   open Orleankka.Cluster
 
    let inline createClient config assemblies = 
       ActorSystem.Configure().Client().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
@@ -60,3 +54,23 @@ module ActorSystem =
 
    let inline createPlayground assemblies =
       ActorSystem.Configure().Playground().CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+         
+   let inline start (system:^TSys) = 
+      (^TSys: (member Start: wait:bool -> unit) (system, false))
+      system
+
+   let inline stop (system:^TSys) = 
+      (^TSys: (member Stop: force:bool -> unit) (system, false))      
+
+   let inline forceStop (system:^TSys) = 
+      (^TSys: (member Stop: force:bool -> unit) (system, true))      
+
+   let inline conect (system:^TSys) =
+      (^TSys: (member Connect: retries:int -> unit) (system, 0))
+      system      
+
+   let inline actorOf (system:IActorSystem) actorType actorId = 
+      system.ActorOf(actorType, actorId) |> FSharp.ActorRef<'TMsg>
+
+   let inline streamOf (system:IActorSystem) provider streamId = 
+      system.StreamOf(provider, streamId) |> FSharp.StreamRef<'TMsg>

@@ -1,6 +1,7 @@
 ﻿module Account
 
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
 
 type AccountMessage = 
@@ -8,6 +9,7 @@ type AccountMessage =
    | Deposit of int
    | Withdraw of int 
 
+[<ActorType("account")>]
 type Account() = 
    inherit Actor<AccountMessage>()
 

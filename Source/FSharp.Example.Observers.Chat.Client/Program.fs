@@ -19,11 +19,13 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"
       
-   use system = ActorSystem.createClient config [|typeof<ChatServer>.Assembly|]
+   use system = [|typeof<ChatServer>.Assembly|]
+                |> ActorSystem.createClient config
+                |> ActorSystem.conect   
 
    client <- ClientObservable.create().Result
 
-   let server = system.ActorOf<ChatServer>("server")
+   let server = ActorSystem.actorOf system "chat_server" "server"
 
    printfn "Enter your user name... \n"
    let userName = Console.ReadLine()     

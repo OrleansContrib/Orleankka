@@ -4,6 +4,7 @@ open System.Linq
 open System.Collections.Generic
 
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
 
 
@@ -16,13 +17,13 @@ type ServerMessage =
    | Say of Username:string * Text:string   
    | Disconnect of Username:string * Client:ObserverRef
 
-
+[<ActorType("chat_server")>]
 type ChatServer() = 
    inherit Actor<ServerMessage>()
 
    let _users = Dictionary<string, IObserverCollection>()
 
-   let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients <* msg)
+   let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients.Notify(msg))
 
    override this.Receive message = task {
       match message with

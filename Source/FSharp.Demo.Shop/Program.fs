@@ -14,11 +14,12 @@ let main argv =
 
    printfn "Running demo. Booting cluster might take some time ...\n"
    
-   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-   system.Start()
+   use system = [|Assembly.GetExecutingAssembly()|]
+                |> ActorSystem.createPlayground
+                |> ActorSystem.start
                   
-   let shop = system.ActorOf<Shop>("Amazon")
-   let account = system.ActorOf<Account>("Antya")
+   let shop = ActorSystem.actorOf system "shop" "amazon"
+   let account = ActorSystem.actorOf system "account" "antya"
    
    let job() = task {
       let! stock = shop <? Stock
@@ -53,5 +54,6 @@ let main argv =
 
    Task.run(job) |> ignore
 
-   Console.ReadLine() |> ignore    
+   Console.ReadLine() |> ignore
+   ActorSystem.stop(system)
    0

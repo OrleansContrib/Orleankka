@@ -1,84 +1,68 @@
 ﻿namespace Orleankka.FSharp
+open System.Threading.Tasks   
+open Orleankka
+open Orleankka.CSharp  
+
+[<AbstractClass>]
+type Actor<'TMsg>() = 
+   inherit Actor()
+
+   abstract Receive: message:'TMsg -> Task<obj>      
+
+   override this.OnReceive(message:obj) = task {        
+      match message with
+      | :? 'TMsg as m -> return! this.Receive m                               
+      | _             -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |> failwith
+                         return null
+   }
 
 [<AutoOpen>]
-module Actor = 
-   open System.Threading.Tasks   
-   open Orleankka  
-   open Orleankka.CSharp  
-
-   [<AbstractClass>]
-   type Actor<'TMessage>() = 
-      inherit Actor()
-
-      abstract Receive: message:'TMessage -> Task<obj>      
-
-      override this.OnReceive(message:obj) = task {        
-        match message with
-        | :? 'TMessage as m -> return! this.Receive m                               
-        | _                 -> sprintf "Received unexpected message of type %s" (message.GetType().ToString()) |> failwith
-                               return null
-      }
-
+module Actor =
 
    let inline response (data:obj) = data
    let nothing = null
+   
+
+type ActorRef<'TMsg>(ref:ActorRef) =    
+   member this.Path = ref.Path
+   member this.Tell(message:'TMsg) = ref.Tell(message) |> awaitTask 
+   member this.Ask(message:'TMsg) = ref.Ask<'TResponse>(message)
+   member this.Notify(message:'TMsg) = ref.Notify(message)
+   
+   override this.Equals(other:obj) = 
+      match other with
+      | :? ActorRef<'TMsg> as ar -> this.Path = ar.Path
+      | _ -> false
+       
+   override this.GetHashCode() = ref.GetHashCode()
+
+   static member (<!) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Tell(message)
+   static member (<?) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Ask<'TResponse>(message)
+   static member (<*) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Notify(message)
 
 
-[<RequireQualifiedAccess>]
+type StreamRef<'TMsg>(ref:StreamRef) = 
+   member this.Path = ref.Path
+   member this.Push(item:'TMsg) = ref.Push(item) |> awaitTask
+   member this.Subscribe(callback:'TMsg -> unit) = ref.Subscribe<'TMsg>(callback)
+   member this.Subscribe(callback:'TMsg -> unit, filter:StreamFilter) = ref.Subscribe<'TMsg>(callback, filter)   
+
+   override this.Equals(other:obj) = 
+      match other with
+      | :? StreamRef<'TMsg> as sr -> this.Path = sr.Path
+      | _ -> false
+       
+   override this.GetHashCode() = ref.GetHashCode()
+
+   static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Push(item)
+
+   
 module ClientObservable =
-   open Orleankka
-
+   
    let inline create () = ClientObservable.Create()
 
+////todo: should be replaced with StreamSubscription<'TMsg>
 [<AutoOpen>]
-module ActorRef =
-   open Orleankka   
-
-   let inline getPath (ref:ActorRef) = ref.Path
-
-   let inline notify (ref:ActorRef) (message:obj) = ref.Notify message
-
-   let inline tell (ref:ActorRef) (message:obj) = ref.Tell(message) |> awaitTask
-
-   let inline ask<'TResponse> (ref:ActorRef) (message:obj) = ref.Ask<'TResponse>(message)
-   
-   
-[<AutoOpen>]
-module StreamRef = 
-   open System.Threading.Tasks
-   open Orleankka
-   open Orleankka.CSharp   
-
-   let inline getPath (ref:StreamRef) = ref.Path
-
-   let inline push (ref:StreamRef) (message:obj) = ref.Push(message) |> Task.awaitTask
-
-   let inline subscribe<'TMessage> (ref:StreamRef) (callback:'TMessage -> unit) = ref.Subscribe<'TMessage>(callback)
-
-   let inline subscribeF<'TMessage> (ref:StreamRef) (callback:'TMessage -> unit) (filter:StreamFilter) = ref.Subscribe<'TMessage>(callback, filter)   
-
-   let inline subscribeActor (ref:StreamRef) (actor:Actor) = ref.Subscribe(actor) |> Task.awaitTask
-
-   let inline subscribeActorF (ref:StreamRef) (actor:Actor) (filter:StreamFilter) = ref.Subscribe(actor, filter) |> Task.awaitTask
-   
-   
-[<AutoOpen>]
-module StreamSubscription =      
-   open Orleankka
+module StreamSubscription =  
    
    let inline unsubscribe (sb:StreamSubscription) = sb.Unsubscribe() |> Task.awaitTask
-
-
-[<AutoOpen>]
-module Operators =
-   open Orleankka
-   
-   type Api = Api with      
-      static member (<!) (api:Api, actorRef:ActorRef)   = fun (msg:obj) -> actorRef.Tell(msg) |> Task.awaitTask
-      static member (<!) (api:Api, streamRef:StreamRef) = fun (msg:obj) -> streamRef.Push(msg) |> Task.awaitTask
-
-   let inline (<*) (x:^T) (message:obj) = (^T: (member Notify: obj -> unit) (x, message))   
-   
-   let inline (<!) (x:'T) (message:obj) = Api <! x <| message
-
-   let inline (<?) (x:ActorRef) (message:obj) = x.Ask(message)

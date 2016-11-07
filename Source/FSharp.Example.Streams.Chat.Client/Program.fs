@@ -23,8 +23,8 @@ let rec handleUserInput client = task {
 
 let startChatClient (system:IActorSystem) userName roomName = task {
 
-   let userActor = system.ActorOf<ChatUser>(userName)
-   let roomStream = system.StreamOf("sms", roomName)
+   let userActor = ActorSystem.actorOf system "chat_user" userName
+   let roomStream = ActorSystem.streamOf system "sms" roomName
    
    let chatClient = { UserName = userName; User = userActor;
                       RoomName = roomName; Room = roomStream;
@@ -50,8 +50,9 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"   
       
-   use system = ActorSystem.createClient config [|typeof<ChatUser>.Assembly|]   
-   system.Connect()
+   use system = [|typeof<ChatUser>.Assembly|]   
+                |> ActorSystem.createClient config
+                |> ActorSystem.conect   
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();

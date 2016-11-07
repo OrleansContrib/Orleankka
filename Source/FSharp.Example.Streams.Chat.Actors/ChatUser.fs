@@ -2,7 +2,9 @@
 
 open System
 open Orleankka
+open Orleankka.CSharp
 open Orleankka.FSharp
+open Orleankka.FSharp.Configuration
    
 type ChatRoomMessage = {
    UserName:string
@@ -15,6 +17,7 @@ type ChatUserMessage =
    | Say   of room:string * message:string
 
 
+[<ActorType("chat_user")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
       
@@ -28,19 +31,19 @@ type ChatUser() =
       match message with
       | Join room      -> let msg = sprintf "%s joined the room %s ..." userId room
                           printfn "[server]: %s" msg
-                          let stream = this.System.StreamOf("sms", room)
+                          let stream = ActorSystem.streamOf this.System "sms" room
                           do! send stream msg userId
                           return response()
                           
       | Leave room     -> let msg = sprintf "%s left the room %s!" userId room
                           printfn "[server]: %s" msg
-                          let stream = this.System.StreamOf("sms", room)
+                          let stream = ActorSystem.streamOf this.System "sms" room
                           do! send stream msg userId
                           return response()
       
       | Say (room,msg) -> let msg = sprintf "%s said: %s" userId msg
                           printfn "[server]: %s" msg
-                          let stream = this.System.StreamOf("sms", room)
+                          let stream = ActorSystem.streamOf this.System "sms" room
                           do! send stream msg userId
                           return response()
    }

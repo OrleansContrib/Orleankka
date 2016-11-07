@@ -10,6 +10,7 @@ type Message =
    | Greet of string
    | Hi   
 
+[<ActorType("greeter")>]
 type Greeter() = 
    inherit Actor<Message>()   
 
@@ -27,18 +28,20 @@ let main argv =
 
    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-   system.Start()               
-   
-   let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+   use system = [|Assembly.GetExecutingAssembly()|]
+                |> ActorSystem.createPlayground
+                |> ActorSystem.start   
+
+   let actor = ActorSystem.actorOf system "greeter" "actor_id"   
 
    let job() = task {
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"
+      do! actor <! Greet "AntyaDev"      
    }
     
    Task.run(job) |> ignore
     
-   Console.ReadLine() |> ignore    
+   Console.ReadLine() |> ignore 
+   ActorSystem.stop(system)   
    0

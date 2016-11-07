@@ -14,8 +14,9 @@ let main argv =
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = ActorSystem.createCluster config [|assembly|]
-   system.Start()
+   use system = [|assembly|]
+                |> ActorSystem.createCluster config
+                |> ActorSystem.start   
    
    printfn "Finished booting cluster...\n"
    System.Console.ReadLine() |> ignore

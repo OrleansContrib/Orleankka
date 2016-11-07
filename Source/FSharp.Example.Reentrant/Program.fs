@@ -17,11 +17,12 @@ let main argv =
    printfn "Running demo. Booting cluster might take some time ...\n"
 
    // setup actor system
-   use system = ActorSystem.createPlayground [|Assembly.GetExecutingAssembly()|]
-   system.Start()
+   use system = [|Assembly.GetExecutingAssembly()|]
+                |> ActorSystem.createPlayground
+                |> ActorSystem.start   
    
    // get uniq actor by name
-   let counter = system.ActorOf<Counter>("realtime-consistent-counter")
+   let counter = ActorSystem.actorOf system "counter" "realtime-consistent-counter"
 
    let writeJob() = task {
       Console.ForegroundColor <- ConsoleColor.Red 
