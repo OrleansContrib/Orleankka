@@ -8,4 +8,5 @@ Microsoft.Orleans.OrleansRuntime
 Newtonsoft.Json
 System.Collections.Immutable
 System.Reflection.Metadata
-Microsoft.Framework.DependencyInjection.Abstractions
+Microsoft.Extensions.DependencyInjection
+Microsoft.Extensions.DependencyInjection.Abstractions

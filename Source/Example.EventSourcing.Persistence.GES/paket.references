@@ -2,7 +2,8 @@ EventStore.Client
 Microsoft.CodeAnalysis.Analyzers
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
-Microsoft.Framework.DependencyInjection.Abstractions
+Microsoft.Extensions.DependencyInjection
+Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansRuntime

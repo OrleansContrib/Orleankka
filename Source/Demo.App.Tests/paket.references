@@ -5,7 +5,8 @@ Microsoft.CodeAnalysis.CSharp
 Microsoft.Data.Edm
 Microsoft.Data.OData
 Microsoft.Data.Services.Client
-Microsoft.Framework.DependencyInjection.Abstractions
+Microsoft.Extensions.DependencyInjection
+Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansRuntime

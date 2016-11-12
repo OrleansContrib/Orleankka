@@ -109,8 +109,19 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
-        <Reference Include="Microsoft.Framework.DependencyInjection.Abstractions">
-          <HintPath>..\..\packages\Microsoft.Framework.DependencyInjection.Abstractions\lib\net45\Microsoft.Framework.DependencyInjection.Abstractions.dll</HintPath>
+        <Reference Include="Microsoft.Extensions.DependencyInjection">
+          <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+          <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -165,7 +176,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
         <Reference Include="System.Collections.Immutable">
-          <HintPath>..\..\packages\System.Collections.Immutable\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+          <HintPath>..\..\packages\System.Collections.Immutable\lib\netstandard1.0\System.Collections.Immutable.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
