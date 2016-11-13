@@ -16,14 +16,8 @@ namespace Orleankka.Core
     {
         const string StickyReminderName = "##sticky##";
 
-        readonly ActorType type;
         ActorRuntime runtime;
-        internal IActorInvoker invoker;
-
-        protected ActorEndpoint(string type)
-        {
-            this.type = ActorType.Registered(type);
-        }
+        IActorInvoker invoker;
 
         public Task Autorun()
         {
@@ -51,26 +45,11 @@ namespace Orleankka.Core
             await invoker.OnReminder(name);
         }
 
-        public override async Task OnActivateAsync()
-        {
-            if (type.Sticky)
-                await HandleStickyness();
-
-            await Activate(ActorPath.Deserialize(IdentityOf(this)));
-        }
-
         public override Task OnDeactivateAsync()
         {
             return runtime != null
                        ? invoker.OnDeactivate()
                        : base.OnDeactivateAsync();
-        }
-
-        Task Activate(ActorPath path)
-        {
-            runtime = new ActorRuntime(ClusterActorSystem.Current, this);
-            invoker = type.Activate(path, runtime);
-            return invoker.OnActivate();
         }
 
         async Task HandleStickyness()
@@ -79,9 +58,31 @@ namespace Orleankka.Core
             await RegisterOrUpdateReminder(StickyReminderName, period, period);
         }
 
-        void KeepAlive() => type.KeepAlive(this);
+        void KeepAlive() => Type.KeepAlive(this);
 
-        #region Internals
+        public override async Task OnActivateAsync()
+        {
+            if (Type.Sticky)
+                await HandleStickyness();
+
+            await Activate(ActorPath.Deserialize(IdentityOf(this)));
+        }
+
+        Task Activate(ActorPath path)
+        {
+            runtime = new ActorRuntime(ClusterActorSystem.Current, this);
+            invoker = Type.Activate(path, runtime);
+            return invoker.OnActivate();
+        }
+
+        static string IdentityOf(IGrain grain)
+        {
+            return (grain as IGrainWithStringKey).GetPrimaryKeyString();
+        }
+
+        protected abstract ActorType Type { get; }
+
+        #region Expose protected methods to actor services layer
 
         internal new void DeactivateOnIdle()
         {
@@ -119,10 +120,20 @@ namespace Orleankka.Core
         }
 
         #endregion
+    }
 
-        static string IdentityOf(IGrain grain)
-        {
-            return (grain as IGrainWithStringKey).GetPrimaryKeyString();
-        }
+    /// <summary> 
+    /// FOR INTERNAL USE ONLY!
+    /// </summary>
+    public abstract class ActorEndpoint<TInterface> : ActorEndpoint
+    {
+        #pragma warning disable 649
+        // ReSharper disable once StaticMemberInGenericType
+        // ReSharper disable once UnassignedField.Global
+        // ReSharper disable once MemberCanBePrivate.Global
+        protected static ActorType type;
+        #pragma warning restore 649
+
+        protected override ActorType Type => type;
     }
 }

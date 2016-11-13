@@ -12,54 +12,7 @@ namespace Orleankka.Services
     public interface ITimerService
     {
         /// <summary>
-        ///     Registers a one-off timer to a due time to fire timer message to this actor in a reentrant way.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        ///     This timer will not prevent the current grain from being deactivated.
-        ///     If the grain is deactivated, then the timer will be discarded.
-        /// </para>
-        /// <para>
-        ///     The timer will fire off ony once.
-        /// </para>
-        /// <para>
-        ///     Any exceptions thrown by or faulted Task's will be logged
-        /// </para>
-        /// </remarks>
-        /// <param name="id">Unique id of the timer</param>
-        /// <param name="due">Due time for firing a timer tick.</param>
-        /// <param name="state">State object that will be passed with Timer message.</param>
-        void Register(string id, TimeSpan due, object state = null);
-
-        /// <summary>
-        ///     Registers a timer to send periodic timer message to this actor in a reentrant way.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        ///     This timer will not prevent the current grain from being deactivated.
-        ///     If the grain is deactivated, then the timer will be discarded.
-        /// </para>
-        /// <para>
-        ///     Until the Task returned from the actor's receiver is resolved,
-        ///     the next timer tick will not be scheduled.
-        ///     That is to say, timer callbacks never interleave their turns.
-        /// </para>
-        /// <para>
-        ///     The timer may be stopped at any time by calling the <see cref="Unregister(string)"/> method
-        /// </para>
-        /// <para>
-        ///     Any exceptions thrown by or faulted Task's 
-        ///     will be logged, but will not prevent the next timer tick from being queued.
-        /// </para>
-        /// </remarks>
-        /// <param name="id">Unique id of the timer</param>
-        /// <param name="due">Due time for first timer tick.</param>
-        /// <param name="period">Period of subsequent timer ticks.</param>
-        /// <param name="state">State object that will be passed with Timer message.</param>>
-        void Register(string id, TimeSpan due, TimeSpan period, object state = null);
-
-        /// <summary>
-        ///     Registers a one-off timer to a due time to fire timer message to this actor in a reentrant way.
+        ///     Registers a one-off timer to a due time to execute a given callback.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -79,7 +32,7 @@ namespace Orleankka.Services
         void Register(string id, TimeSpan due, Func<Task> callback);
 
         /// <summary>
-        ///     Registers a timer to send periodic callbacks to this actor in a reentrant way.
+        ///     Registers a timer to periodically execute a given callback.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -106,7 +59,7 @@ namespace Orleankka.Services
         void Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback);
 
         /// <summary>
-        ///     Registers a one-off timer to a due time to fire <see cref="Timer"/> message to this actor in a reentrant way.
+        ///     Registers a one-off timer to a due time to execute a given callback.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -127,7 +80,7 @@ namespace Orleankka.Services
         void Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback);
 
         /// <summary>
-        ///     Registers a timer to send periodic callbacks to this actor in a reentrant way.
+        ///     Registers a timer to periodically execute a given callback.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -185,21 +138,6 @@ namespace Orleankka.Services
         internal TimerService(ActorEndpoint endpoint)
         {
             this.endpoint = endpoint;
-        }
-
-        void ITimerService.Register(string id, TimeSpan due, object state)
-        {
-            timers.Add(id, endpoint.RegisterTimer(s =>
-            {
-                ((ITimerService) this).Unregister(id);
-                return endpoint.invoker.OnTimer(id, s);
-            },
-            state, due, TimeSpan.FromMilliseconds(1)));
-        }
-
-        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
-        {
-            timers.Add(id, endpoint.RegisterTimer(s => endpoint.invoker.OnTimer(id, s), state, due, period));
         }
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)

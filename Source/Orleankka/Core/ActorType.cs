@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 
 using Orleans;
 using Orleans.CodeGeneration;
@@ -10,14 +12,14 @@ namespace Orleankka.Core
     using Utility;
     using Endpoints;
 
-    class ActorType : IEquatable<ActorType>
+    public class ActorType : IEquatable<ActorType>
     {
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        public static void Reset() => types.Clear();
+        internal static void Reset() => types.Clear();
 
-        public static void Register(IEnumerable<EndpointConfiguration> configs)
+        internal static void Register(IEnumerable<EndpointConfiguration> configs)
         {
             var actors = EndpointDeclaration.Generate(configs);
 
@@ -35,14 +37,14 @@ namespace Orleankka.Core
             types.Add(actor.Name, actor);
         }
 
-        public readonly string Name;
+        internal readonly string Name;
 
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly Func<string, object> factory;
         readonly Func<ActorPath, IActorRuntime, IActorInvoker> activator;
 
-        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type @interface, Func<ActorPath, IActorRuntime, IActorInvoker> activator)
+        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type @interface, Type implementation, Func<ActorPath, IActorRuntime, IActorInvoker> activator)
         {
             Name = name;
             this.Sticky = sticky;
@@ -50,6 +52,16 @@ namespace Orleankka.Core
             this.interleavePredicate = interleavePredicate;
             this.factory = Bind(@interface);
             this.activator = activator;
+            Init(implementation);
+        }
+
+        void Init(Type implementation)
+        {
+            Debug.Assert(implementation.BaseType != null);
+            var field = implementation.BaseType.GetField("type", BindingFlags.NonPublic | BindingFlags.Static);
+
+            Debug.Assert(field != null);
+            field.SetValue(null, this);
         }
 
         static Func<string, object> Bind(Type type)
@@ -60,7 +72,7 @@ namespace Orleankka.Core
             return x => invoker.Invoke(instance, new object[] { x, null });
         }
 
-        public static ActorType Registered(string type)
+        internal static ActorType Registered(string type)
         {
             var result = types.Find(type);
             if (result == null)
@@ -74,7 +86,7 @@ namespace Orleankka.Core
         internal IActorEndpoint Proxy(ActorPath path) => 
             (IActorEndpoint) factory(path.Serialize());
 
-        public IActorInvoker Activate(ActorPath path, IActorRuntime runtime)
+        internal IActorInvoker Activate(ActorPath path, IActorRuntime runtime)
         {
             return activator(path, runtime);
         }
@@ -100,7 +112,7 @@ namespace Orleankka.Core
             endpoint.DelayDeactivation(keepAliveTimeout);
         }
 
-        public bool Sticky { get; }
+        internal bool Sticky { get; }
 
         public bool Equals(ActorType other)
         {

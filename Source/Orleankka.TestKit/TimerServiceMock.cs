@@ -14,18 +14,6 @@ namespace Orleankka.TestKit
         readonly Dictionary<string, RecordedTimer> timers = new Dictionary<string, RecordedTimer>();
         readonly List<RecordedTimerRequest> requests = new List<RecordedTimerRequest>();
 
-        void ITimerService.Register(string id, TimeSpan due, object state)
-        {
-            RecordRegister(id, new RecordedTimer<object>(id, due, TimeSpan.Zero, null, null));
-        }
-
-        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object state)
-        {
-            CheckGreaterThanZero(period);
-
-            RecordRegister(id, new RecordedTimer<object>(id, due, period, null, null));
-        }
-
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
             RecordRegister(id, new RecordedTimer(id, due, TimeSpan.Zero, callback));
