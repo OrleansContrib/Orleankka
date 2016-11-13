@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Orleans;
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
 
 namespace Orleankka.Core
 {
@@ -77,8 +79,18 @@ namespace Orleankka.Core
             return activator(path, runtime);
         }
 
-        internal bool IsPartiallyReentrant() => interleavePredicate != null;
-        internal bool ShouldInterleave(object message) => interleavePredicate(message);
+        internal bool MayInterleave(InvokeMethodRequest request)
+        {
+            var receiveMessage = request.Arguments.Length == 1;
+            if (receiveMessage)
+                return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
+
+            var streamMessage = request.Arguments.Length == 4;
+            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[1]));
+        }
+
+        static object UnwrapImmutable(object item) => 
+            item is Immutable<object> ? ((Immutable<object>)item).Value : item;
 
         internal void KeepAlive(ActorEndpoint endpoint)
         {

@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
-using Orleans.Streams;
-
 namespace Orleankka.Features
 {
     using CSharp;
@@ -81,13 +78,13 @@ namespace Orleankka.Features
                 await stream1.Subscribe<int>(item =>
                 {
                     streamMessagesInProgress.Add(item);
-                    return Task.Delay(50);
+                    return Task.Delay(500);
                 });
 
                 await stream2.Subscribe<string>(item =>
                 {
                     streamMessagesInProgress.Add(item);
-                    return Task.Delay(50);
+                    return Task.Delay(500);
                 });
             }
         }
@@ -183,21 +180,22 @@ namespace Orleankka.Features
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");
 
-                var i1 = stream1.Push(1);
+                var i1 = stream2.Push("1");
                 await Task.Delay(10);
 
-                var i2 = stream2.Push("2");
+                var i2 = stream1.Push(2);
                 await Task.Delay(10);
 
                 var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
                 Assert.That(inProgress, Has.Count.EqualTo(2));
-                Assert.That(inProgress, Is.EquivalentTo(new object[] { 1, "2" }));
+                Assert.That(inProgress[0], Is.EqualTo("1"));
+                Assert.That(inProgress[1], Is.EqualTo(2));
 
                 await i1;
                 await i2;
             }
 
-            [Test, Ignore("Until 1.3.1 with my PR")]
+            [Test]
             public async Task When_actor_received_non_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
@@ -206,18 +204,18 @@ namespace Orleankka.Features
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");
 
-                var i2 = stream2.Push("2");
+                var i1 = stream1.Push(1);
                 await Task.Delay(10);
 
-                var i1 = stream1.Push(1);
+                var i2 = stream2.Push("2");
                 await Task.Delay(10);
 
                 var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
                 Assert.That(inProgress, Has.Count.EqualTo(1));
-                Assert.That(inProgress, Is.EquivalentTo(new object[] { "2" }));
+                Assert.That(inProgress[0], Is.EqualTo(1));
 
-                await i2;
                 await i1;
+                await i2;
             }
         }
     }

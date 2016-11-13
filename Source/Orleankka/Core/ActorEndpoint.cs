@@ -17,29 +17,12 @@ namespace Orleankka.Core
         const string StickyReminderName = "##sticky##";
 
         readonly ActorType type;
-        readonly Func<object, Task<object>> receive;
-
         ActorRuntime runtime;
         internal IActorInvoker invoker;
 
         protected ActorEndpoint(string type)
         {
             this.type = ActorType.Registered(type);
-            receive = ConfigureReceive();
-        }
-
-        Func<object, Task<object>> ConfigureReceive()
-        {
-            if (!type.IsPartiallyReentrant())
-                return message => invoker.OnReceive(message);
-
-            var serial = new AsyncSerialExecutor();
-            return message =>
-            {
-                return type.ShouldInterleave(message)
-                    ? invoker.OnReceive(message)
-                    : serial.AddNext(() => invoker.OnReceive(message));
-            };
         }
 
         public Task Autorun()
@@ -53,7 +36,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return receive(message);
+            return invoker.OnReceive(message);
         }
 
         public Task ReceiveVoid(object message) => Receive(message);

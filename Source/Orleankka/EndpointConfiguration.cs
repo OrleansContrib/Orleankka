@@ -27,7 +27,7 @@ namespace Orleankka
             Requires.NotNullOrWhitespace(type, nameof(type));
 
             if (!EndpointDeclaration.IsValidIdentifier(type))
-                throw new ArgumentException($"'{type}' is not valid identifer", nameof(type));
+                throw new ArgumentException($"'{type}' is not valid identifier", nameof(type));
 
             Type = type;
         }

@@ -58,6 +58,7 @@ namespace Orleankka.Core
                  using Orleankka.Core.Endpoints;
                  using Orleans.Placement;
                  using Orleans.Concurrency;
+                 using Orleans.CodeGeneration;
             ");
 
             foreach (var declaration in declarations)
@@ -102,16 +103,13 @@ namespace Orleankka.Core
         }
 
         void StartNamespace(StringBuilder src) =>
-            src.AppendLine($"namespace {string.Join(".", namespaces)}");
+            src.AppendLine($"namespace {string.Join(".", namespaces)} {{");
 
         static void EndNamespace(StringBuilder src) =>
-            src.AppendLine("}}");
+            src.AppendLine("}");
 
-        void GenerateInterface(StringBuilder src)
-        {
-            src.AppendLine("{");
+        void GenerateInterface(StringBuilder src) => 
             src.AppendLine($"public interface I{clazz} : global::Orleankka.Core.Endpoints.IActorEndpoint {{}}");
-        }
 
         void GenerateImplementation(StringBuilder src)
         {
@@ -120,11 +118,17 @@ namespace Orleankka.Core
             if (IsReentrant)
                 src.AppendLine("[Reentrant]");
 
+            if (IsPartiallyReentrant)
+                src.AppendLine("[MayInterleave(\"MayInterleave\")]");
+
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
             src.AppendLine($"public {clazz}() : base(\"{config.Type}\") {{}}");
+            src.AppendLine($"public static bool MayInterleave(InvokeMethodRequest req) => ");
+            src.AppendLine($"ActorType.Registered(\"{config.Type}\").MayInterleave(req);");
+            src.AppendLine("}");
         }
 
-        bool IsReentrant => config.Reentrant || IsPartiallyReentrant;
+        bool IsReentrant => config.Reentrant;
         bool IsPartiallyReentrant => config.InterleavePredicate != null;
 
         protected abstract void GenerateAttributes(StringBuilder src);
