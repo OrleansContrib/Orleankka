@@ -60,12 +60,6 @@ namespace Orleankka.CSharp
             throw new NotImplementedException(message);
         }
 
-        public virtual Task OnTimer(string id, object state)
-        {
-            var message = $"Override {"OnTimer"}() method in class {GetType()} to implement corresponding behavior";
-            throw new NotImplementedException(message);
-        }
-
         public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
             (TResult)await Dispatch(message, fallback);
 

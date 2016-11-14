@@ -10,6 +10,5 @@ namespace Orleankka
         Task OnDeactivate();
 
         Task OnReminder(string id);
-        Task OnTimer(string id, object state);
     }
 }
