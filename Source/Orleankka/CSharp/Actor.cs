@@ -56,7 +56,7 @@ namespace Orleankka.CSharp
 
         public virtual Task OnReminder(string id)
         {
-            var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
+            var message = $"Override {nameof(OnReminder)}() method in class {GetType()} to implement corresponding behavior";
             throw new NotImplementedException(message);
         }
 
