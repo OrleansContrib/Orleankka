@@ -7,10 +7,10 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace Orleankka.CSharp
-{
-    using Utility;
+using Orleankka.Utility;
 
+namespace Orleankka
+{
     public class Dispatcher
     {
         static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};

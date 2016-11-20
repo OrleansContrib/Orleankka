@@ -1,13 +1,14 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+
+using Orleankka.Services;
+using Orleankka.Utility;
 
 using Orleans;
 
-namespace Orleankka.CSharp
+namespace Orleankka
 {
-    using Services;
-    using Utility;
-
     public interface IActor
     {}
 

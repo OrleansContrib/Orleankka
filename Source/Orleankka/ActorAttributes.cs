@@ -4,10 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Orleankka.CSharp
-{
-    using Utility;
+using Orleankka.Utility;
 
+namespace Orleankka
+{
     [AttributeUsage(AttributeTargets.Class)]
     public class ActorAttribute : Attribute
     {

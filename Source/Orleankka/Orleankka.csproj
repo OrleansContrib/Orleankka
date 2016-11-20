@@ -53,10 +53,8 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="ActorInvoker.cs" />
-    <Compile Include="CSharp\ActorActivator.cs" />
-    <Compile Include="CSharp\ActorMessage.cs" />
-    <Compile Include="CSharp\ActorRef.cs" />
-    <Compile Include="CSharp\ObserverRef.cs" />
+    <Compile Include="ActorActivator.cs" />
+    <Compile Include="ActorMessage.cs" />
     <Compile Include="EndpointConfiguration.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\EndpointDeclaration.cs" />
@@ -68,19 +66,18 @@
     <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
-    <Compile Include="CSharp\Actor.cs" />
-    <Compile Include="CSharp\ActorBinding.cs" />
-    <Compile Include="CSharp\ActorPathExtensions.cs" />
+    <Compile Include="Actor.cs" />
+    <Compile Include="ActorBinding.cs" />
+    <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="CSharp\ActorSystemConfigurator.cs" />
-    <Compile Include="CSharp\ActorSystemExtensions.cs" />
-    <Compile Include="CSharp\ActorTypeName.cs" />
-    <Compile Include="CSharp\Dispatcher.cs" />
-    <Compile Include="CSharp\StreamRefExtensions.cs" />
-    <Compile Include="CSharp\StreamSubscriptionBinding.cs" />
+    <Compile Include="ActorTypeName.cs" />
+    <Compile Include="Dispatcher.cs" />
+    <Compile Include="StreamRefExtensions.cs" />
+    <Compile Include="StreamSubscriptionBinding.cs" />
     <Compile Include="StreamFilter.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
-    <Compile Include="CSharp\ActorAttributes.cs" />
+    <Compile Include="ActorAttributes.cs" />
     <Compile Include="StreamRef.cs" />
     <Compile Include="ClientRef.cs" />
     <Compile Include="Core\ClientEndpoint.cs" />

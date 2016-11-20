@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 
 using Orleankka.Utility;
 
-namespace Orleankka.CSharp
+namespace Orleankka
 {
     public static class ActorPathExtensions
     {

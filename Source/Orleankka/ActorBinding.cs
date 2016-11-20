@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Orleankka.CSharp
-{
-    using Utility;
+using Orleankka.Utility;
 
+namespace Orleankka
+{
     class ActorBinding
     {
         internal static string[] Conventions;

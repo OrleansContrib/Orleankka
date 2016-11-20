@@ -4,10 +4,10 @@ using System.Linq;
 
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Orleankka.CSharp
-{
-    using Utility;
+using Orleankka.Utility;
 
+namespace Orleankka
+{
     static class ActorTypeName
     {
         static readonly Dictionary<Type, string> map =

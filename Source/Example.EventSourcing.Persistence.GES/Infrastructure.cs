@@ -16,6 +16,8 @@ using EventStore.ClientAPI.Exceptions;
 
 using Newtonsoft.Json;
 
+using Orleankka;
+
 namespace Example
 {
     public abstract class CqsActor : Actor

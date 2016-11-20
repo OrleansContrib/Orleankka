@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Orleankka.CSharp
-{
-    using Utility;
+using Orleankka.Utility;
 
+namespace Orleankka
+{
     public static class StreamRefExtensions
     {
         public static async Task Subscribe(this StreamRef stream, Actor actor, StreamFilter filter = null)

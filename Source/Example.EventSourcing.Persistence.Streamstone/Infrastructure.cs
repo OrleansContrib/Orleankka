@@ -17,6 +17,8 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 using Newtonsoft.Json;
 
+using Orleankka;
+
 namespace Example
 {
     public abstract class CqsActor : Actor
