@@ -53,7 +53,7 @@ type Tests() =
 
    [<Test>]
    member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
-      let actor = ActorSystem.actorOf this.system "test_actor" "test"
+      let actor = ActorSystem.actorOf<TestActor>(this.system, "test")
       match Task.run(fun _ -> task {return! actor <? "request msg"}) with
       | Choice1Of2 result -> Assert.Fail("actor was able to handle unspecified message type.")
       | Choice2Of2 ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)
