@@ -7,8 +7,6 @@ using NUnit.Framework;
 
 namespace Orleankka.Features
 {
-    using CSharp;
-
     namespace Observing_notifications
     {
         using Meta;

@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleankka.CSharp;
 
 namespace Orleankka.TestKit
 {

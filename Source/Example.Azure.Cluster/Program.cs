@@ -6,7 +6,6 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 using Orleankka;
 using Orleankka.Cluster;
-using Orleankka.CSharp;
 
 using Orleans.Storage;
 using Orleans.Runtime.Configuration;
@@ -31,7 +30,7 @@ namespace Example.Azure
             system = ActorSystem.Configure()
                 .Cluster()
                 .From(Configuration(clusterId, clusterMembershipStorage))
-                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
+                .Register(Assembly.GetExecutingAssembly())
                 .Run<HubGateway.Bootstrapper>()
                 .Done();
 

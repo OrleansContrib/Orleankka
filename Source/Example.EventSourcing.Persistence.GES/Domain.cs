@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Orleankka;
-using Orleankka.CSharp;
 using Orleankka.Meta;
 
 namespace Example

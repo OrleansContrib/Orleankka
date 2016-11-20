@@ -1,7 +1,6 @@
 ﻿using System;
 
 using NUnit.Framework;
-using Orleankka.CSharp;
 
 namespace Orleankka.TestKit
 {

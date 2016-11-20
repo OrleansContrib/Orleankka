@@ -1,6 +1,6 @@
 ﻿module Actors
 
-open Orleankka.CSharp
+open Orleankka
 open Orleankka.FSharp 
 
 type HelloMessage =

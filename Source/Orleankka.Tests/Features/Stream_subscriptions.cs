@@ -6,9 +6,6 @@ using NUnit.Framework;
 
 namespace Orleankka.Features
 {
-    using Core;
-    using CSharp;
-
     namespace Stream_subscriptions
     {
         using Meta;

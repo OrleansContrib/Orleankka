@@ -6,7 +6,6 @@ using Orleans;
 
 namespace Orleankka.Checks
 {
-    using CSharp;
     using Annotations;
 
     [TestFixture]

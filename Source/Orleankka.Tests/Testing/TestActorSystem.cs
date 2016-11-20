@@ -2,7 +2,6 @@
 
 namespace Orleankka.Testing
 {
-    using CSharp;
     using Embedded;
 
     public static class TestActorSystem

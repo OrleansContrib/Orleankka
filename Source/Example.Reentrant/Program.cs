@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleankka;
-using Orleankka.CSharp;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
@@ -22,7 +21,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
+                .Register(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

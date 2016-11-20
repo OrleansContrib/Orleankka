@@ -20,7 +20,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(type: "ChatRoom")
+                .Register(actorType: "ChatRoom")
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

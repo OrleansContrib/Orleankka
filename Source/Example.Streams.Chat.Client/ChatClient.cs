@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.CSharp;
 
 namespace Example
 {

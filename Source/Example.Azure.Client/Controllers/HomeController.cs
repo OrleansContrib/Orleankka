@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 using Orleankka;
 using Orleankka.Client;
-using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -52,7 +51,7 @@ namespace Example.Azure.Controllers
             MvcApplication.System = ActorSystem.Configure()
                 .Client()
                 .From(Configuration(clusterId, clsuterMembershipStorage))
-                .CSharp(x => x.Register(typeof(Publisher).Assembly))
+                .Register(typeof(Publisher).Assembly)
                 .Done();
 
             MvcApplication.System.Connect(retries: 5);

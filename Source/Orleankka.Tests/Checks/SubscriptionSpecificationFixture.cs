@@ -3,14 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
 using Orleans;
-using Orleankka.Core.Streams;
 
 namespace Orleankka.Checks
 {
-    using CSharp;
     using Testing;
+    using Core.Streams;
 
     [TestFixture, RequiresSilo]
     public class SubscriptionSpecificationFixture

@@ -32,6 +32,12 @@ namespace Orleankka.Client
             return this;
         }
 
+        public new ClientConfigurator Register(params Assembly[] assemblies)
+        {
+            base.Register(assemblies);
+            return this;
+        }
+
         public ClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
@@ -43,9 +49,9 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(string type)
+        public ClientConfigurator Register(string actorType)
         {
-            ((IActorSystemConfigurator)this).Register(new ActorConfiguration(type));
+            Register(new ActorConfiguration(actorType));
             return this;
         }
 

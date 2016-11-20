@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 
 using Orleans.Streams;
@@ -12,7 +10,7 @@ namespace Orleankka.Embedded
     using Client;
     using Cluster;
 
-    public class EmbeddedConfigurator : IExtensibleActorSystemConfigurator
+    public class EmbeddedConfigurator
     {
         readonly ClientConfigurator client;
         readonly ClusterConfigurator cluster;
@@ -46,6 +44,12 @@ namespace Orleankka.Embedded
             return this;
         }
 
+        public EmbeddedConfigurator Register<T>(object properties = null) where T : IActorActivator
+        {
+            cluster.Register<T>(properties);
+            return this;
+        }
+
         public EmbeddedConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             cluster.Register<T>(name, properties);
@@ -53,21 +57,11 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator Invoke(Action<IActorSystemConfigurator> configure)
+        public EmbeddedConfigurator Register(params Assembly[] assemblies)
         {
-            if (configure.Method.IsStatic || !configure.Method.IsPublic)
-                throw new ArgumentException("'configure' should be a public non-static method");
-
-            ((IExtensibleActorSystemConfigurator)this).Extend<StaticMethodConfiguratorExtension>(
-                ext => ext.Method(configure.Method));
-
+            client.Register(assemblies);
+            cluster.Register(assemblies);
             return this;
-        }
-
-        void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
-        {
-            configure(client.Add<T>());
-            configure(cluster.Add<T>());
         }
 
         public virtual EmbeddedActorSystem Done()
@@ -76,21 +70,6 @@ namespace Orleankka.Embedded
             var clientSystem = client.Done();
 
             return new EmbeddedActorSystem(domain, clientSystem, clusterSystem);
-        }
-
-        public class StaticMethodConfiguratorExtension : ActorSystemConfiguratorExtension
-        {
-            Action<IActorSystemConfigurator> configure;
-             
-            public void Method(MethodInfo method)
-            {
-                Debug.Assert(method.DeclaringType != null);
-                var target = Activator.CreateInstance(method.DeclaringType);
-                configure = (Action<IActorSystemConfigurator>) method.CreateDelegate(typeof(Action<IActorSystemConfigurator>), target);
-            }
-
-            protected internal override void Configure(IActorSystemConfigurator configurator) => 
-                configure(configurator);
         }
     }
 

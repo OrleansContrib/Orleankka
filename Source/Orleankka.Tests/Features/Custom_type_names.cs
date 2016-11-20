@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Orleankka.Features
 {
-    using CSharp;
     using Testing;
 
     [TestFixture]

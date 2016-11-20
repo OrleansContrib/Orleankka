@@ -7,7 +7,6 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
 using Orleankka;
-using Orleankka.CSharp;
 
 using Orleans;
 using Orleans.Runtime;

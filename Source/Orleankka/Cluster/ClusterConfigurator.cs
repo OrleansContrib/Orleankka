@@ -15,11 +15,15 @@ namespace Orleankka.Cluster
 
     public sealed class ClusterConfigurator : ActorSystemConfigurator
     {
+        readonly HashSet<string> conventions = new HashSet<string>();
+
         readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
              new HashSet<BootstrapProviderConfiguration>();
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
+
+        Tuple<Type, object> activator;
 
         internal ClusterConfigurator()
         {
@@ -38,12 +42,28 @@ namespace Orleankka.Cluster
             return this;
         }
 
+        public new ClusterConfigurator Register(params Assembly[] assemblies)
+        {
+            base.Register(assemblies);
+            return this;
+        }
+
         public ClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
         {
             var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
 
             if (!bootstrapProviders.Add(configuration))
                 throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
+
+            return this;
+        }
+
+        public ActorSystemConfigurator Register<T>(object properties) where T : IActorActivator
+        {
+            if (activator != null)
+                throw new InvalidOperationException("Activator has been already registered");
+
+            activator = Tuple.Create(typeof(T), properties);
 
             return this;
         }
@@ -59,9 +79,11 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register(params EndpointConfiguration[] configs)
+        public ActorSystemConfigurator HandlerNamingConventions(params string[] conventions)
         {
-            ((IActorSystemConfigurator)this).Register(configs);
+            Requires.NotNull(conventions, nameof(conventions));
+            Array.ForEach(conventions, x => this.conventions.Add(x));
+
             return this;
         }
 
@@ -74,6 +96,7 @@ namespace Orleankka.Cluster
 
         new void Configure()
         {
+            ConfigureCluster();
             base.Configure();
 
             BootstrapStreamSubscriptionHook();
@@ -84,6 +107,21 @@ namespace Orleankka.Cluster
 
             foreach (var each in bootstrapProviders)
                 each.Register(Configuration.Globals);
+        }
+
+        void ConfigureCluster()
+        {
+            ActorBinding.Conventions = conventions.Count > 0
+                ? conventions.ToArray()
+                : null;
+
+            if (activator == null)
+                return;
+
+            var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
+            instance.Init(activator.Item2);
+
+            ActorBinding.Activator = instance;
         }
 
         void BootstrapStreamSubscriptionHook()

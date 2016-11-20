@@ -3,7 +3,6 @@
 open NUnit.Framework
 open System
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Tests.Infrastructure

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Orleankka;
-using Orleankka.CSharp;
+﻿using Orleankka;
 
 namespace Example
 {

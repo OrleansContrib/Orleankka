@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Orleankka
 {
@@ -9,34 +10,30 @@ namespace Orleankka
     using Utility;
 
     public interface IActorSystemConfigurator
-    {
-        void Register(params EndpointConfiguration[] configs);
-    }
+    {}
 
-    public interface IExtensibleActorSystemConfigurator
-    {
-        void Extend<T>(Action<T> configure) where T : ActorSystemConfiguratorExtension, new();
-    }
-
-    public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IExtensibleActorSystemConfigurator, IDisposable
+    public abstract class ActorSystemConfigurator :  MarshalByRefObject, IActorSystemConfigurator, IDisposable
     {
         readonly HashSet<EndpointConfiguration> endpoints = new HashSet<EndpointConfiguration>();
-        readonly List<ActorSystemConfiguratorExtension> extensions = new List<ActorSystemConfiguratorExtension>();
+        readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
 
-        void IExtensibleActorSystemConfigurator.Extend<T>(Action<T> configure)
+        protected void Register(params Assembly[] assemblies)
         {
-            var extension = Add<T>();
-            configure(extension);
+            Requires.NotNull(assemblies, nameof(assemblies));
+
+            if (assemblies.Length == 0)
+                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
+
+            foreach (var assembly in assemblies)
+            {
+                if (this.assemblies.Contains(assembly))
+                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
+
+                this.assemblies.Add(assembly);
+            }
         }
 
-        internal T Add<T>() where T : ActorSystemConfiguratorExtension
-        {
-            var extension = Activator.CreateInstance<T>();
-            extensions.Add(extension);
-            return extension;
-        }
-
-        void IActorSystemConfigurator.Register(EndpointConfiguration[] configs)
+        protected void Register(params EndpointConfiguration[] configs)
         {
             Requires.NotNull(configs, nameof(configs));
 
@@ -45,16 +42,16 @@ namespace Orleankka
 
             foreach (var config in configs)
             {
-                if (this.endpoints.Contains(config))
+                if (endpoints.Contains(config))
                     throw new ArgumentException($"Actor configuration with type '{config}' has been already registered");
 
-                this.endpoints.Add(config);
+                endpoints.Add(config);
             }
         }
 
         protected void Configure()
         {
-            extensions.ForEach(x => x.Configure(this));
+            Register(ActorBinding.Bind(assemblies.ToArray()));
             ActorType.Register(endpoints.ToArray());
 
             var actors = endpoints.OfType<ActorConfiguration>();
@@ -65,7 +62,7 @@ namespace Orleankka
         {
             ActorType.Reset();
             StreamSubscriptionMatcher.Reset();
-            extensions.ForEach(x => x.Dispose());
+            ActorBinding.Reset();
         }
 
         public IEnumerable<EndpointConfiguration> Endpoints => endpoints;

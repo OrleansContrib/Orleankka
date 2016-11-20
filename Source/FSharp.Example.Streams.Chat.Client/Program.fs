@@ -3,7 +3,6 @@ open System.Reflection
 open Orleans.Runtime.Configuration
 
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 

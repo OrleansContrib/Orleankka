@@ -2,7 +2,6 @@
 
 open System
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 
 type Message =

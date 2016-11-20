@@ -10,8 +10,6 @@ using Orleankka.Playground;
 
 using Microsoft.WindowsAzure.Storage;
 
-using Orleankka.CSharp;
-
 namespace Example
 {
     public static class Program
@@ -36,7 +34,7 @@ namespace Example
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
                 })
-                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
+                .Register(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

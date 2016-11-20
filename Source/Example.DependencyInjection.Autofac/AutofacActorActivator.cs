@@ -1,10 +1,5 @@
 using System;
-using System.Linq;
-
 using Orleankka;
-using Orleankka.Core;
-using Orleankka.CSharp;
-
 using Autofac;
 
 namespace Example

@@ -1,7 +1,6 @@
 ﻿namespace Orleankka.FSharp
 open System.Threading.Tasks   
 open Orleankka
-open Orleankka.CSharp
 
 [<AbstractClass>]
 type Actor<'TMsg>() = 

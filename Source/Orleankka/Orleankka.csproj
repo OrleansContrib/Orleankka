@@ -69,7 +69,6 @@
     <Compile Include="Actor.cs" />
     <Compile Include="ActorBinding.cs" />
     <Compile Include="ActorPathExtensions.cs" />
-    <Compile Include="CSharp\ActorSystemConfigurator.cs" />
     <Compile Include="ActorTypeName.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="StreamRefExtensions.cs" />

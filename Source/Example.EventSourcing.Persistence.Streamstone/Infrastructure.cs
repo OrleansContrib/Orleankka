@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
-using Orleankka.CSharp;
 
 using Streamstone;
 
@@ -16,8 +16,6 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 using Newtonsoft.Json;
-
-using Orleankka;
 
 namespace Example
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Orleankka.CSharp;
-
 namespace Orleankka.TestKit
 {
     public class ActorSystemMock : IActorSystem

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleankka;
-using Orleankka.CSharp;
 
 namespace Example.Azure
 {

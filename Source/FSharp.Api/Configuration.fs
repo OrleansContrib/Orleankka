@@ -2,7 +2,6 @@
 open System.Reflection
 open Orleans.Runtime.Configuration
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.Playground
 open Orleankka.Client
@@ -47,13 +46,13 @@ module ClusterConfig =
 module ActorSystem =       
 
    let inline createClient config assemblies = 
-      ActorSystem.Configure().Client().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+      ActorSystem.Configure().Client().From(config).Register(assemblies : Assembly[]).Done()
 
    let inline createCluster config assemblies =
-      ActorSystem.Configure().Cluster().From(config).CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+      ActorSystem.Configure().Cluster().From(config).Register(assemblies : Assembly[]).Done()
 
    let inline createPlayground assemblies =
-      ActorSystem.Configure().Playground().CSharp(fun x -> x.Register(assemblies) |> ignore).Done()
+      ActorSystem.Configure().Playground().Register(assemblies : Assembly[]).Done()
          
    let inline start (system:^TSys) = 
       (^TSys: (member Start: wait:bool -> unit) (system, false))

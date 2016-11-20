@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Cluster;
-using Orleankka.CSharp;
 
 namespace Example.Azure
 {

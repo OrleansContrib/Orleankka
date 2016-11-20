@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 using Orleankka;
 using Orleankka.Cluster;
-using Orleankka.CSharp;
 
 using Orleans.Runtime.Configuration;
 
@@ -22,7 +20,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Cluster()
                 .From(config)
-                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
+                .Register(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

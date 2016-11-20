@@ -7,7 +7,6 @@ namespace Orleankka.Features
 {
     namespace Strongly_typed_actors
     {
-        using CSharp;
         using Meta.CSharp;
         using Testing;
 

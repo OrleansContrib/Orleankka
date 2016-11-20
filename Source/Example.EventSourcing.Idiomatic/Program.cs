@@ -3,8 +3,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Core;
-using Orleankka.CSharp;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
@@ -19,7 +17,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .CSharp(x => x.Register(Assembly.GetExecutingAssembly()))
+                .Register(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();
