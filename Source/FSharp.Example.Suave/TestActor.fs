@@ -1,5 +1,6 @@
 ﻿module Actors
 
+open Orleankka.CSharp
 open Orleankka.FSharp 
 
 type HelloMessage =
@@ -7,6 +8,7 @@ type HelloMessage =
    | WhatIsYourName
    | GiveMeMoney of currency:string * amount:double
 
+[<ActorType("TestActor")>]
 type TestActor() =
    inherit Actor<HelloMessage>()
    

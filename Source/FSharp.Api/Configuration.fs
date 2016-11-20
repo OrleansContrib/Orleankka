@@ -67,10 +67,18 @@ module ActorSystem =
 
    let inline conect (system:^TSys) =
       (^TSys: (member Connect: retries:int -> unit) (system, 0))
-      system      
+      system   
+      
+   let inline disconnect (system:^TSys) =
+      (^TSys: (member Disconnect: unit -> unit) (system))
 
-   let inline actorOf (system:IActorSystem) actorType actorId = 
-      system.ActorOf(actorType, actorId) |> FSharp.ActorRef<'TMsg>
+   let inline actorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
+      let actorPath = typeof<'TActor>.ToActorPath(actorId) 
+      system.ActorOf(actorPath) |> FSharp.ActorRef<obj>
+
+   let inline typedActorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
+      let actorPath = typeof<'TActor>.ToActorPath(actorId) 
+      system.ActorOf(actorPath) |> FSharp.ActorRef<'TActor>
 
    let inline streamOf (system:IActorSystem) provider streamId = 
       system.StreamOf(provider, streamId) |> FSharp.StreamRef<'TMsg>

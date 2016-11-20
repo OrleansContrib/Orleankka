@@ -18,8 +18,8 @@ let main argv =
                 |> ActorSystem.createPlayground
                 |> ActorSystem.start
                   
-   let shop = ActorSystem.actorOf system "shop" "amazon"
-   let account = ActorSystem.actorOf system "account" "antya"
+   let shop = ActorSystem.actorOf<Shop>(system, "amazon")
+   let account = ActorSystem.actorOf<Account>(system, "antya")
    
    let job() = task {
       let! stock = shop <? Stock

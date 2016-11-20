@@ -17,7 +17,6 @@ type ChatUserMessage =
    | Say   of room:string * message:string
 
 
-[<ActorType("chat_user")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
       

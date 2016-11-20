@@ -14,6 +14,7 @@ open Orleankka
 open Orleankka.Http
 open Orleankka.CSharp
 open Orleankka.FSharp.Configuration
+open Actors
 
 [<EntryPoint>]
 let main argv = 
@@ -25,7 +26,7 @@ let main argv =
                |> ActorSystem.createPlayground
                |> ActorSystem.start  
 
-  let testActor = ActorSystem.actorOf system "test_actor" "http_test"
+  let testActor = ActorSystem.actorOf<TestActor>(system, "http_test")
 
   // configure actor routing
   let router = [(MessageType.DU(typeof<Actors.HelloMessage>), testActor.Path)]

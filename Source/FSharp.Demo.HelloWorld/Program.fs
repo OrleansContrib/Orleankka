@@ -2,7 +2,6 @@
 open System.Reflection
 
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 
@@ -10,7 +9,6 @@ type Message =
    | Greet of string
    | Hi   
 
-[<ActorType("greeter")>]
 type Greeter() = 
    inherit Actor<Message>()   
 
@@ -32,7 +30,7 @@ let main argv =
                 |> ActorSystem.createPlayground
                 |> ActorSystem.start   
 
-   let actor = ActorSystem.actorOf system "greeter" "actor_id"   
+   let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
 
    let job() = task {
       do! actor <! Hi

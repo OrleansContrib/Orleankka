@@ -23,7 +23,7 @@ let rec handleUserInput client = task {
 
 let startChatClient (system:IActorSystem) userName roomName = task {
 
-   let userActor = ActorSystem.actorOf system "chat_user" userName
+   let userActor = ActorSystem.actorOf<ChatUser>(system, userName)
    let roomStream = ActorSystem.streamOf system "sms" roomName
    
    let chatClient = { UserName = userName; User = userActor;

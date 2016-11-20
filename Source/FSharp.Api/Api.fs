@@ -1,11 +1,12 @@
 ﻿namespace Orleankka.FSharp
 open System.Threading.Tasks   
 open Orleankka
-open Orleankka.CSharp  
+open Orleankka.CSharp
 
 [<AbstractClass>]
 type Actor<'TMsg>() = 
    inherit Actor()
+   interface IActor
 
    abstract Receive: message:'TMsg -> Task<obj>      
 

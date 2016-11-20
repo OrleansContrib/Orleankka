@@ -22,7 +22,7 @@ let main argv =
                 |> ActorSystem.start   
    
    // get uniq actor by name
-   let counter = ActorSystem.actorOf system "counter" "realtime-consistent-counter"
+   let counter = ActorSystem.actorOf<Counter>(system, "realtime-consistent-counter")
 
    let writeJob() = task {
       Console.ForegroundColor <- ConsoleColor.Red 

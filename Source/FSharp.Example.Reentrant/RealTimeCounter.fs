@@ -11,7 +11,6 @@ type Message =
    | GetCount
 
 [<Reentrant("IsReentrant")>]
-[<ActorType("counter")>]
 type Counter() =
    inherit Actor<Message>()
 

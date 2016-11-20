@@ -2,7 +2,6 @@
 open System.Reflection
 
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 
@@ -25,7 +24,7 @@ let main argv =
 
    client <- ClientObservable.create().Result
 
-   let server = ActorSystem.actorOf system "chat_server" "server"
+   let server = ActorSystem.actorOf<ChatServer>(system, "server")
 
    printfn "Enter your user name... \n"
    let userName = Console.ReadLine()     

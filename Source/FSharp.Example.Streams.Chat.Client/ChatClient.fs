@@ -6,7 +6,7 @@ open Actors
 
 type ChatClient = {
    UserName: string
-   User: ActorRef<ChatUserMessage>
+   User: ActorRef<obj>
    RoomName: string   
    Room: StreamRef<ChatRoomMessage>   
    Subscription: Option<StreamSubscription>
