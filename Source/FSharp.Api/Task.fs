@@ -1,6 +1,5 @@
 ﻿namespace Orleankka.FSharp
 
-[<AutoOpen>]
 module Task =
 
    open System
@@ -27,7 +26,7 @@ module Task =
    let inline delay (delay:TimeSpan) = 
       let tcs = TaskCompletionSource()
       Task.Delay(delay).ContinueWith(fun _ -> tcs.SetResult()) |> ignore
-      tcs.Task
+      tcs.Task   
 
    let toAsync (t: Task<'T>): Async<'T> =
       let abegin (cb: AsyncCallback, state: obj) : IAsyncResult = 
@@ -58,6 +57,8 @@ module Task =
       let s = TaskCompletionSource()
       s.SetResult a
       s.Task
+
+   let completedTask = () |> returnM
 
    let inline whenAll f (tasks : Task<_> seq) = Task.WhenAll(tasks) |> map(f)
 
@@ -188,11 +189,7 @@ module Task =
         
       member this.Delay f = this.Bind(this.Return (), f)
 
-
-   let task = TaskBuilder(scheduler = TaskScheduler.Current)
-   let task' = TaskBuilderWithToken(scheduler = TaskScheduler.Current)
-
-module TaskOperators = 
+module TaskOperators =    
 
    open Task
 
@@ -222,3 +219,12 @@ module TaskOperators =
 
    /// Sequence actions, discarding the value of the second argument.
    let inline ( <*) a b = lift2 (fun z _ -> z) a b
+
+[<AutoOpen>]
+module TaskComprehensions =
+
+   open Task
+   open System.Threading.Tasks
+
+   let task = TaskBuilder(scheduler = TaskScheduler.Current)
+   let task' = TaskBuilderWithToken(scheduler = TaskScheduler.Current)
