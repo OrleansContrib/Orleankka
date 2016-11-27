@@ -1,18 +1,17 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Orleankka.Services;
-using Orleankka.Utility;
 
 using Orleans;
 
 namespace Orleankka
 {
+    using Services;
+    using Utility;
+
     public interface IActor
     {}
 
-    public abstract class Actor : IActorInvoker
+    public abstract class Actor
     {
         ActorRef self;
 

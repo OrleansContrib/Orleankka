@@ -187,4 +187,19 @@ namespace Orleankka
         internal static bool IsApplied(Type actor) => 
             actor.GetCustomAttribute<StickyAttribute>(inherit: true) != null;
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class InvokerAttribute : Attribute
+    {
+        internal static string From(Type actor) => 
+            actor.GetCustomAttribute<InvokerAttribute>(inherit: true)?.Name;
+
+        public readonly string Name;
+
+        public InvokerAttribute(string name)
+        {
+            Requires.NotNullOrWhitespace(name, nameof(name));
+            Name = name;
+        }
+    }
 }

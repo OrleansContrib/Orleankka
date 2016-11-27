@@ -16,8 +16,8 @@ namespace Orleankka.Core
     {
         const string StickyReminderName = "##sticky##";
 
+        Actor actor;
         ActorRuntime runtime;
-        IActorInvoker invoker;
 
         public Task Autorun()
         {
@@ -30,7 +30,8 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return invoker.OnReceive(message);
+
+            return Type.Invoker.OnReceive(actor, message);
         }
 
         public Task ReceiveVoid(object message) => Receive(message);
@@ -42,13 +43,13 @@ namespace Orleankka.Core
             if (name == StickyReminderName)
                 return;
 
-            await invoker.OnReminder(name);
+            await Type.Invoker.OnReminder(actor, name);
         }
 
         public override Task OnDeactivateAsync()
         {
             return runtime != null
-                       ? invoker.OnDeactivate()
+                       ? Type.Invoker.OnDeactivate(actor)
                        : base.OnDeactivateAsync();
         }
 
@@ -72,8 +73,8 @@ namespace Orleankka.Core
         {
             var path = ActorPath.From(Type.Name, IdentityOf(this));
             runtime = new ActorRuntime(ClusterActorSystem.Current, this);
-            invoker = Type.Activate(path, runtime);
-            return invoker.OnActivate();
+            actor = Type.Activate(path, runtime);
+            return Type.Invoker.OnActivate(actor);
         }
 
         static string IdentityOf(IGrain grain)

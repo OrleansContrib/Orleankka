@@ -67,7 +67,7 @@ namespace Orleankka.Client
             foreach (var each in streamProviders)
                 each.Register(Configuration);
 
-            base.Configure();
+            base.Configure(client: true);
         }
     }
 

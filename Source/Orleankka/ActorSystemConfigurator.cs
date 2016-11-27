@@ -49,10 +49,10 @@ namespace Orleankka
             }
         }
 
-        protected void Configure()
+        protected void Configure(bool client = false)
         {
             Register(ActorBinding.Bind(assemblies.ToArray()));
-            ActorType.Register(endpoints.ToArray());
+            ActorType.Register(client, endpoints.ToArray());
 
             var actors = endpoints.OfType<ActorConfiguration>();
             StreamSubscriptionMatcher.Register(actors.SelectMany(x => x.Subscriptions));
@@ -63,6 +63,7 @@ namespace Orleankka
             ActorType.Reset();
             StreamSubscriptionMatcher.Reset();
             ActorBinding.Reset();
+            InvocationPipeline.Reset();
         }
 
         public IEnumerable<EndpointConfiguration> Endpoints => endpoints;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using Orleankka.Cluster;
+using Orleankka.Features.Intercepting_requests;
 using Orleankka.Playground;
 using Orleankka.Testing;
 using Orleans.Providers.Streams.AzureQueue;
@@ -59,6 +60,8 @@ namespace Orleankka.Testing
                     {"DeploymentId", "test"},
                 });
             }
+
+            system.RegisterInterceptor<TestInterceptor>();
 
             TestActorSystem.Instance = system.Done();
             TestActorSystem.Instance.Start();

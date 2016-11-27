@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleankka.Utility;
-
 namespace Orleankka
 {
+    using Utility;
+
     class ActorBinding
     {
         internal static string[] Conventions;
@@ -63,10 +63,7 @@ namespace Orleankka
             if (ActorTypeName.IsRegistered(actor))
                 return null; // assume endpoint was already build from implementation
 
-            var config = new ActorConfiguration(ActorTypeName.Register(actor));
-            SetReentrancy(actor, config);
-
-            return config;
+            return new ActorConfiguration(ActorTypeName.Register(actor));
         }
 
         static EndpointConfiguration BuildActor(Type actor)
@@ -80,6 +77,7 @@ namespace Orleankka
             SetStreamSubscriptions(actor, config);
             SetAutorun(actor, config);
             SetStickiness(actor, config);
+            SetInvoker(actor, config);
 
             return config;
         }
@@ -94,6 +92,7 @@ namespace Orleankka
             SetStreamSubscriptions(worker, config);
             SetAutorun(worker, config);
             SetStickiness(worker, config);
+            SetInvoker(worker, config);
 
             return config;
         }
@@ -153,6 +152,13 @@ namespace Orleankka
         static void SetStickiness(Type actor, EndpointConfiguration config)
         {
             config.Sticky = StickyAttribute.IsApplied(actor);
+        }
+
+        static void SetInvoker(Type actor, EndpointConfiguration config)
+        {
+            var invoker = InvokerAttribute.From(actor);
+            if (invoker != null)
+                config.Invoker = invoker;
         }
     }
 }

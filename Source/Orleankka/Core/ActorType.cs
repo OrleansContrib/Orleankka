@@ -11,6 +11,7 @@ namespace Orleankka.Core
 {
     using Utility;
     using Endpoints;
+    using Annotations;
 
     public class ActorType : IEquatable<ActorType>
     {
@@ -19,9 +20,9 @@ namespace Orleankka.Core
 
         internal static void Reset() => types.Clear();
 
-        internal static void Register(IEnumerable<EndpointConfiguration> configs)
+        internal static void Register(bool client, IEnumerable<EndpointConfiguration> configs)
         {
-            var actors = EndpointDeclaration.Generate(configs);
+            var actors = EndpointDeclaration.Generate(client, configs);
 
             foreach (var actor in actors)
                 Register(actor);
@@ -38,20 +39,22 @@ namespace Orleankka.Core
         }
 
         internal readonly string Name;
+        internal readonly IActorInvoker Invoker;
 
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly Func<string, object> factory;
-        readonly Func<ActorPath, IActorRuntime, IActorInvoker> activator;
+        readonly Func<ActorPath, IActorRuntime, Actor> activator;
 
-        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type @interface, Type implementation, Func<ActorPath, IActorRuntime, IActorInvoker> activator)
+        internal ActorType(bool client, string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type @interface, Type implementation, Func<ActorPath, IActorRuntime, Actor> activator, string invoker)
         {
             Name = name;
             this.Sticky = sticky;
             this.keepAliveTimeout = sticky ? TimeSpan.FromDays(365 * 10) : keepAliveTimeout;
             this.interleavePredicate = interleavePredicate;
-            this.factory = Bind(@interface);
             this.activator = activator;
+            this.factory = Bind(@interface);
+            Invoker = client ? null : InvocationPipeline.Instance.GetInvoker(implementation, invoker);
             Init(implementation);
         }
 
@@ -86,11 +89,10 @@ namespace Orleankka.Core
         internal IActorEndpoint Proxy(ActorPath path) => 
             (IActorEndpoint) factory(path.Id);
 
-        internal IActorInvoker Activate(ActorPath path, IActorRuntime runtime)
-        {
-            return activator(path, runtime);
-        }
+        internal Actor Activate(ActorPath path, IActorRuntime runtime) => 
+            activator(path, runtime);
 
+        [UsedImplicitly]
         internal bool MayInterleave(InvokeMethodRequest request)
         {
             var receiveMessage = request.Arguments.Length == 1;

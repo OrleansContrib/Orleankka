@@ -50,6 +50,12 @@ namespace Orleankka.Embedded
             return this;
         }
 
+        public EmbeddedConfigurator RegisterInterceptor<T>(object properties = null) where T : IInterceptor
+        {
+            cluster.RegisterInterceptor<T>(properties);
+            return this;
+        }
+
         public EmbeddedConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             cluster.Register<T>(name, properties);

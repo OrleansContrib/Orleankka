@@ -14,7 +14,7 @@ namespace Orleankka.Core
 {
     abstract class EndpointDeclaration
     {
-        public static IEnumerable<ActorType> Generate(IEnumerable<EndpointConfiguration> configs)
+        public static IEnumerable<ActorType> Generate(bool client, IEnumerable<EndpointConfiguration> configs)
         {
             var declarations = configs.Select(x => x.Declaration()).ToArray();
 
@@ -47,7 +47,7 @@ namespace Orleankka.Core
             var assemblyName = AssemblyName.GetAssemblyName(binary);
             var assembly = Assembly.Load(assemblyName);
 
-            return declarations.Select(x => x.From(assembly));
+            return declarations.Select(x => x.From(client, assembly));
         }
 
         static string Generate(IEnumerable<EndpointDeclaration> declarations)
@@ -131,16 +131,16 @@ namespace Orleankka.Core
 
         protected abstract void GenerateAttributes(StringBuilder src);
 
-        ActorType From(Assembly asm)
+        ActorType From(bool client, Assembly asm)
         {
             var @interface = asm.GetType(FullPath($"I{clazz}"));
             var implementation = asm.GetType(FullPath($"{clazz}"));
-            return Build(@interface, implementation);
+            return Build(client, @interface, implementation);
         }
 
         string FullPath(string name) => string.Join(".", new List<string>(namespaces) { name });
 
-        protected abstract ActorType Build(Type @interface, Type implementation);
+        protected abstract ActorType Build(bool client, Type @interface, Type implementation);
     }
 
     class ActorDeclaration : EndpointDeclaration
@@ -153,8 +153,8 @@ namespace Orleankka.Core
             this.config = config;
         }
 
-        protected override ActorType Build(Type @interface, Type implementation) => 
-            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, implementation, config.Activator);
+        protected override ActorType Build(bool client, Type @interface, Type implementation) => 
+            new ActorType(client, config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, implementation, config.Activator, config.Invoker);
 
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine($"[{GetActorPlacement()}]");
@@ -186,8 +186,8 @@ namespace Orleankka.Core
             this.config = config;
         }
 
-        protected override ActorType Build(Type @interface, Type implementation) =>
-            new ActorType(config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, implementation, config.Activator);
+        protected override ActorType Build(bool client, Type @interface, Type implementation) =>
+            new ActorType(client, config.Type, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, @interface, implementation, config.Activator, config.Invoker);
         
         protected override void GenerateAttributes(StringBuilder src) => 
             src.AppendLine("[StatelessWorker]");

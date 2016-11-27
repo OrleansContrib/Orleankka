@@ -71,6 +71,8 @@
     <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="ActorTypeName.cs" />
     <Compile Include="Dispatcher.cs" />
+    <Compile Include="Cluster\Interceptor.cs" />
+    <Compile Include="InvocationPipeline.cs" />
     <Compile Include="StreamRefExtensions.cs" />
     <Compile Include="StreamSubscriptionBinding.cs" />
     <Compile Include="StreamFilter.cs" />

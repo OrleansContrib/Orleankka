@@ -12,8 +12,10 @@ namespace Orleankka
         bool reentrant;
         Func<object, bool> interleavePredicate;
 
-        Func<ActorPath, IActorRuntime, IActorInvoker> activator = 
+        Func<ActorPath, IActorRuntime, Actor> activator = 
             (path, runtime) => { throw new InvalidOperationException("Actor activator function is not set"); };
+
+        string invoker;
 
         readonly HashSet<string> autoruns = new HashSet<string>(); 
 
@@ -21,7 +23,7 @@ namespace Orleankka
              new List<StreamSubscriptionSpecification>();
 
         TimeSpan keepAliveTimeout = TimeSpan.Zero;
-
+        
         protected EndpointConfiguration(string type)
         {
             Requires.NotNullOrWhitespace(type, nameof(type));
@@ -62,13 +64,23 @@ namespace Orleankka
             }
         }       
 
-        public Func<ActorPath, IActorRuntime, IActorInvoker> Activator
+        public Func<ActorPath, IActorRuntime, Actor> Activator
         {
             get { return activator; }
             set
             {
                 Requires.NotNull(value, nameof(value));
                 activator = value;
+            }
+        }
+
+        public string Invoker
+        {
+            get { return invoker; }
+            set
+            {
+                Requires.NotNullOrWhitespace(value, nameof(value));
+                invoker = value;
             }
         }
 

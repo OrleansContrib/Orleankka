@@ -24,6 +24,7 @@ namespace Orleankka.Cluster
              new HashSet<StreamProviderConfiguration>();
 
         Tuple<Type, object> activator;
+        Tuple<Type, object> interceptor;
 
         internal ClusterConfigurator()
         {
@@ -58,12 +59,22 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ActorSystemConfigurator Register<T>(object properties) where T : IActorActivator
+        public ActorSystemConfigurator Register<T>(object properties = null) where T : IActorActivator
         {
             if (activator != null)
                 throw new InvalidOperationException("Activator has been already registered");
 
             activator = Tuple.Create(typeof(T), properties);
+
+            return this;
+        }
+
+        public ClusterConfigurator RegisterInterceptor<T>(object properties = null) where T : IInterceptor
+        {
+            if (interceptor != null)
+                throw new InvalidOperationException("Interceptor has been already registered");
+
+            interceptor = Tuple.Create(typeof(T), properties);
 
             return this;
         }
@@ -102,11 +113,8 @@ namespace Orleankka.Cluster
             BootstrapStreamSubscriptionHook();
             BootstrapAutoruns();
 
-            foreach (var each in streamProviders)
-                each.Register(Configuration);
-
-            foreach (var each in bootstrapProviders)
-                each.Register(Configuration.Globals);
+            RegisterStreamProviders();
+            RegisterBootstrapProviders();
         }
 
         void ConfigureCluster()
@@ -115,13 +123,18 @@ namespace Orleankka.Cluster
                 ? conventions.ToArray()
                 : null;
 
-            if (activator == null)
-                return;
+            if (activator != null)
+            {
+                var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
+                instance.Init(activator.Item2);
+                ActorBinding.Activator = instance;
+            }
 
-            var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
-            instance.Init(activator.Item2);
-
-            ActorBinding.Activator = instance;
+            if (interceptor != null)
+            {
+                var instance = (IInterceptor)Activator.CreateInstance(interceptor.Item1);
+                instance.Install(InvocationPipeline.Instance, interceptor.Item2);
+            }
         }
 
         void BootstrapStreamSubscriptionHook()
@@ -148,6 +161,18 @@ namespace Orleankka.Cluster
             }
 
             Run<AutorunBootstrapper>(autoruns);
+        }
+
+        void RegisterStreamProviders()
+        {
+            foreach (var each in streamProviders)
+                each.Register(Configuration);
+        }
+
+        void RegisterBootstrapProviders()
+        {
+            foreach (var each in bootstrapProviders)
+                each.Register(Configuration.Globals);
         }
 
         public override object InitializeLifetimeService()
