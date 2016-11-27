@@ -158,7 +158,7 @@ namespace Orleankka.Cluster
         [UsedImplicitly]
         class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
         {
-            protected override Task Run(ClusterActorSystem system, Dictionary<string, string[]> properties) => 
+            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) => 
                 Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
 
             static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) => 

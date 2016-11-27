@@ -9,21 +9,23 @@ namespace Example.Azure
 {
     public class HubGateway
     {
-        static ClusterActorSystem system;
+        static IActorSystem system;
         static IPEndPoint ip;
 
         public class Bootstrapper : IBootstrapper
         {
-            public Task Run(ClusterActorSystem system, object properties)
+            public Task Run(IActorSystem system, object properties)
             {
                 HubGateway.system = system;
 
-                ip = system.Silo.SiloAddress.Endpoint;
+                ip = GetSiloIpAddress((ClusterActorSystem) system);
                 Trace.TraceError(ip.ToString());
 
                 var hub = GetLocalHub();
                 return hub.Tell(new Hub.Init());
             }
+
+            static IPEndPoint GetSiloIpAddress(ClusterActorSystem system) => system.Silo.SiloAddress.Endpoint;
         }
 
         public static Task Publish(Event e)

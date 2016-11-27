@@ -19,12 +19,12 @@ namespace Orleankka.Cluster
         /// <param name="system">The actor system.</param>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        Task Run(ClusterActorSystem system, object properties);
+        Task Run(IActorSystem system, object properties);
     }
 
     public abstract class Bootstrapper<TProperties> : IBootstrapper
     {
-        Task IBootstrapper.Run(ClusterActorSystem system, object properties) => Run(system, (TProperties) properties);
+        Task IBootstrapper.Run(IActorSystem system, object properties) => Run(system, (TProperties) properties);
 
         /// <summary>
         /// Runs the bootstrapper passing the properties specified during actor system configuration.
@@ -32,7 +32,7 @@ namespace Orleankka.Cluster
         /// <param name="system">The actor system.</param>
         /// <param name="properties">The properties.</param>
         /// <returns>The promise</returns>
-        protected abstract Task Run(ClusterActorSystem system, TProperties properties);
+        protected abstract Task Run(IActorSystem system, TProperties properties);
     }
 
     class BootstrapProvider : IBootstrapProvider
