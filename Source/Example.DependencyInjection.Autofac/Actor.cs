@@ -6,11 +6,8 @@ namespace Example
     {
         readonly ISomeService service;
 
-        DIActor() 
-        {}
-
-        public DIActor(string id, IActorRuntime runtime, Dispatcher dispatcher, ISomeService service) 
-		    : base(id, runtime, dispatcher)
+        public DIActor(string id, IActorRuntime runtime, ISomeService service) 
+		    : base(id, runtime)
         {
             this.service = service;
         }

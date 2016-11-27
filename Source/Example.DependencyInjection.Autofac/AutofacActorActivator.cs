@@ -24,8 +24,7 @@ namespace Example
         {
             return (Actor) container.Resolve(type, 
                 new NamedParameter("id", id), 
-                new TypedParameter(typeof(IActorRuntime), runtime), 
-                new TypedParameter(typeof(Dispatcher), dispatcher));
+                new TypedParameter(typeof(IActorRuntime), runtime));
         }
     }
 }
