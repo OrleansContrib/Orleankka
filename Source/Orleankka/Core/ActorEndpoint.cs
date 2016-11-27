@@ -65,11 +65,12 @@ namespace Orleankka.Core
             if (Type.Sticky)
                 await HandleStickyness();
 
-            await Activate(ActorPath.Deserialize(IdentityOf(this)));
+            await Activate();
         }
 
-        Task Activate(ActorPath path)
+        Task Activate()
         {
+            var path = ActorPath.From(Type.Name, IdentityOf(this));
             runtime = new ActorRuntime(ClusterActorSystem.Current, this);
             invoker = Type.Activate(path, runtime);
             return invoker.OnActivate();

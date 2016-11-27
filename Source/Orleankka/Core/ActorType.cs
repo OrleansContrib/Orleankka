@@ -84,7 +84,7 @@ namespace Orleankka.Core
         }
 
         internal IActorEndpoint Proxy(ActorPath path) => 
-            (IActorEndpoint) factory(path.Serialize());
+            (IActorEndpoint) factory(path.Id);
 
         internal IActorInvoker Activate(ActorPath path, IActorRuntime runtime)
         {
