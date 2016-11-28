@@ -62,7 +62,7 @@ namespace Orleankka.Client
             return new ClientActorSystem(this, Configuration);
         }
 
-        new void Configure()
+        void Configure()
         {
             foreach (var each in streamProviders)
                 each.Register(Configuration);

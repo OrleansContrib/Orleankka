@@ -6,7 +6,6 @@ using System.Reflection;
 namespace Orleankka
 {
     using Core;
-    using Core.Streams;
     using Utility;
 
     public interface IActorSystemConfigurator
@@ -53,15 +52,11 @@ namespace Orleankka
         {
             Register(ActorBinding.Bind(assemblies.ToArray()));
             ActorType.Register(client, endpoints.ToArray());
-
-            var actors = endpoints.OfType<ActorConfiguration>();
-            StreamSubscriptionMatcher.Register(actors.SelectMany(x => x.Subscriptions));
         }
 
         public void Dispose()
         {
             ActorType.Reset();
-            StreamSubscriptionMatcher.Reset();
             ActorBinding.Reset();
             InvocationPipeline.Reset();
         }

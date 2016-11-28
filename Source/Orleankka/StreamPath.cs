@@ -8,8 +8,6 @@ namespace Orleankka
 {
     using Utility;
 
-    using StreamIdentity = Orleans.Internals.StreamIdentity;
-
     [Serializable]
     [DebuggerDisplay("{ToString()}")]
     public struct StreamPath : IEquatable<StreamPath>
@@ -52,10 +50,6 @@ namespace Orleankka
 
         public readonly string Provider;
         public readonly string Id;
-
-        internal StreamPath(StreamIdentity stream)
-            : this(stream.Provider, stream.Id)
-        {}
 
         StreamPath(string provider, string id)
         {

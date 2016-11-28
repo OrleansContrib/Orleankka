@@ -11,19 +11,13 @@ namespace Orleankka
     {
         bool reentrant;
         Func<object, bool> interleavePredicate;
+        string invoker;
+        readonly HashSet<string> autoruns = new HashSet<string>();
+        TimeSpan keepAliveTimeout = TimeSpan.Zero;
 
         Func<ActorPath, IActorRuntime, Actor> activator = 
             (path, runtime) => { throw new InvalidOperationException("Actor activator function is not set"); };
-
-        string invoker;
-
-        readonly HashSet<string> autoruns = new HashSet<string>(); 
-
-        readonly List<StreamSubscriptionSpecification> subscriptions =
-             new List<StreamSubscriptionSpecification>();
-
-        TimeSpan keepAliveTimeout = TimeSpan.Zero;
-        
+       
         protected EndpointConfiguration(string type)
         {
             Requires.NotNullOrWhitespace(type, nameof(type));
@@ -95,16 +89,6 @@ namespace Orleankka
 
                 keepAliveTimeout = value;
             }
-        }
-
-        public IEnumerable<StreamSubscriptionSpecification> Subscriptions => subscriptions;
-
-        public void Add(StreamSubscriptionSpecification subscription)
-        {
-            Requires.NotNull(subscription, nameof(subscription));
-
-            subscription.Type = Type;
-            subscriptions.Add(subscription);
         }
 
         public void Autorun(params string[] ids)

@@ -74,7 +74,6 @@ namespace Orleankka
             SetReentrancy(actor, config);
             SetKeepAliveTimeout(actor, config);
             SetReceiver(actor, config);
-            SetStreamSubscriptions(actor, config);
             SetAutorun(actor, config);
             SetStickiness(actor, config);
             SetInvoker(actor, config);
@@ -89,7 +88,6 @@ namespace Orleankka
             SetReentrancy(worker, config);
             SetKeepAliveTimeout(worker, config);
             SetReceiver(worker, config);
-            SetStreamSubscriptions(worker, config);
             SetAutorun(worker, config);
             SetStickiness(worker, config);
             SetInvoker(worker, config);
@@ -133,13 +131,6 @@ namespace Orleankka
 
                 return instance;
             };
-        }
-
-        static void SetStreamSubscriptions(Type actor, EndpointConfiguration config)
-        {
-            var subscriptions = StreamSubscriptionBinding.From(actor, dispatchers[actor]);
-            foreach (var subscription in subscriptions)
-                config.Add(subscription);
         }
 
         static void SetAutorun(Type actor, EndpointConfiguration config)

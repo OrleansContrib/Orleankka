@@ -105,12 +105,11 @@ namespace Orleankka.Cluster
             return new ClusterActorSystem(this, Configuration);
         }
 
-        new void Configure()
+        void Configure()
         {
             ConfigureCluster();
             base.Configure();
 
-            BootstrapStreamSubscriptionHook();
             BootstrapAutoruns();
 
             RegisterStreamProviders();
@@ -135,18 +134,6 @@ namespace Orleankka.Cluster
                 var instance = (IInterceptor)Activator.CreateInstance(interceptor.Item1);
                 instance.Install(InvocationPipeline.Instance, interceptor.Item2);
             }
-        }
-
-        void BootstrapStreamSubscriptionHook()
-        {
-            const string id = "stream-subscription-boot";
-
-            var properties = new Dictionary<string, string>();
-            properties["providers"] = string.Join(";", streamProviders
-                .Where(x => x.IsPersistentStreamProvider())
-                .Select(x => x.Name));
-              
-            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
         void BootstrapAutoruns()

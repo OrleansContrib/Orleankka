@@ -85,8 +85,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Http.Suave", "Source\FSharp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Meta", "Source\Orleankka.Meta\Orleankka.Meta.csproj", "{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleans.Internals", "Source\Orleans.Internals\Orleans.Internals.csproj", "{97E4FE27-27FD-499B-8737-0F293807C297}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Reentrant", "Source\FSharp.Example.Reentrant\Reentrant.fsproj", "{04C62B7B-3202-4577-868F-7553D5ED01E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Shared", "Source\Example.Observers.Chat.Shared\Chat.Shared.csproj", "{355B546C-C246-5CEE-A302-7D453A81D3A2}"
@@ -260,12 +258,6 @@ Global
 		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Package|Any CPU.Build.0 = Package|Any CPU
 		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.ActiveCfg = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.Build.0 = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04C62B7B-3202-4577-868F-7553D5ED01E2}.Package|Any CPU.ActiveCfg = Release|Any CPU
