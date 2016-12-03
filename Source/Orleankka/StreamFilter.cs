@@ -6,7 +6,6 @@ using Orleans.Streams;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     [Serializable]
@@ -37,12 +36,12 @@ namespace Orleankka
         internal StreamFilter(Actor actor)
         {
             className = actor.Prototype.Code;
-            filter = DeclaredHandlerOnlyFilter(className);
+            filter = msg => true;
         }
 
         Func<object, bool> Filter => filter ?? (filter = methodName != null
                                                 ? CallbackMethodFilter(className, methodName)
-                                                : DeclaredHandlerOnlyFilter(className));
+                                                : msg => true);
 
         static Func<object, bool> CallbackMethodFilter(string className, string methodName)
         {
@@ -54,13 +53,7 @@ namespace Orleankka
                                                     BindingFlags.Static);
 
             return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
-        }
-
-        static Func<object, bool> DeclaredHandlerOnlyFilter(string actorCode)
-        {
-            var actor = ActorPrototype.Of(actorCode);
-            return x => actor.DeclaresHandlerFor(x.GetType());
-        }
+        }        
 
         bool ShouldReceive(object item)
         {

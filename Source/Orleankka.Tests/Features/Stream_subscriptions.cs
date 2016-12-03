@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleankka.Core;
-
 namespace Orleankka.Features
 {
     namespace Stream_subscriptions
@@ -106,20 +104,17 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(1));
             }
 
-            public async Task Declared_handler_only_automatic_item_filtering()
+            public async Task Declared_handler_without_item_filtering()
             {
                 var consumer = system.ActorOf<TConsumer>("declared-only");
                 await consumer.Tell(new Subscribe());
 
                 var stream = system.StreamOf(provider, $"{provider}-42");
-                Assert.DoesNotThrow(async ()=> await stream.Push(123), 
-                    "Should not throw handler not found exception");
-                await stream.Push("e-123");
+                Assert.Throws<Core.Dispatcher.HandlerNotFoundException>(
+                    async ()=> await stream.Push(123.0),
+                    "Should throw handler not found exception");
+                
                 await Task.Delay(timeout);
-
-                var received = await consumer.Ask(new Received());
-                Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0], Is.EqualTo("e-123"));
             }
 
             public async Task Select_all_filter()
@@ -165,7 +160,7 @@ namespace Orleankka.Features
                 [Test, Category("Slow"), Explicit]
                 public async Task Resuming_on_reactivation()                                => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering();
+                [Test] public async Task Declared_handler_without_item_filtering()          => await Verify().Declared_handler_without_item_filtering();
                 [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
                 [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
             }
@@ -193,7 +188,7 @@ namespace Orleankka.Features
 
                 [Test] public async Task Resuming_on_reactivation()                         => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering();
+                [Test] public async Task Declared_handler_without_item_filtering()          => await Verify().Declared_handler_without_item_filtering();
                 [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
                 [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
             }
