@@ -6,7 +6,7 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 
-open Actors
+open Messages
 open Client.ChatClient
 
 let rec handleUserInput client = task {
@@ -22,7 +22,8 @@ let rec handleUserInput client = task {
 
 let startChatClient (system:IActorSystem) userName roomName = task {
 
-   let userActor = ActorSystem.actorOf<ChatUser>(system, userName)
+   let userPath = ActorPath.From("ChatUser", userName)
+   let userActor = ActorSystem.actorOfPath system userPath
    let roomStream = ActorSystem.streamOf system "sms" roomName
    
    let chatClient = { UserName = userName; User = userActor;
@@ -49,8 +50,8 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"   
       
-   use system = [|typeof<ChatUser>.Assembly|]   
-                |> ActorSystem.createClient config
+   use system = [|typeof<ChatRoomMessage>.Assembly|]   
+                |> ActorSystem.createClient config [|"ChatUser"|]
                 |> ActorSystem.conect   
 
    printfn "Enter your user name..."

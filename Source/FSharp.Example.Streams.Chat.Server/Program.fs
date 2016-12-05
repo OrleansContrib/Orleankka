@@ -3,6 +3,7 @@
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
+open Messages
 open Actors
 
 [<EntryPoint>]
@@ -14,7 +15,7 @@ let main argv =
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = [|typeof<ChatUser>.Assembly|]
+   use system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
                 |> ActorSystem.createCluster config 
                 |> ActorSystem.start   
    

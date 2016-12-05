@@ -2,7 +2,7 @@
 
 open Orleankka
 open Orleankka.FSharp
-open Actors
+open Messages
 
 type ChatClient = {
    UserName: string

@@ -77,8 +77,8 @@
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\FSharp.Example.Streams.Chat.Actors\Actors.fsproj">
-      <Name>Actors</Name>
+    <ProjectReference Include="..\FSharp.Example.Streams.Chat.Shared\Shared.fsproj">
+      <Name>Shared</Name>
       <Project>{326d7fa8-5f82-49c0-9e43-c25cbd35a206}</Project>
       <Private>True</Private>
     </ProjectReference>
@@ -173,15 +173,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
-      <ItemGroup>
-        <Reference Include="OrleansRuntime">
-          <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime\lib\net451\OrleansRuntime.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'" />
   </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">

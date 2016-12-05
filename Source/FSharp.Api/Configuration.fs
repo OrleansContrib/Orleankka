@@ -45,8 +45,8 @@ module ClusterConfig =
 [<RequireQualifiedAccess>]
 module ActorSystem =       
 
-   let inline createClient config assemblies = 
-      ActorSystem.Configure().Client().From(config).Register(assemblies : Assembly[]).Done()
+   let inline createClient config actors assemblies = 
+      ActorSystem.Configure().Client().From(config).Register(assemblies : Assembly[]).Register(actors: string[]).Done()
 
    let inline createCluster config assemblies =
       ActorSystem.Configure().Cluster().From(config).Register(assemblies : Assembly[]).Done()
@@ -74,6 +74,9 @@ module ActorSystem =
    let inline actorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
       let actorPath = typeof<'TActor>.ToActorPath(actorId) 
       system.ActorOf(actorPath) |> FSharp.ActorRef<obj>
+
+   let inline actorOfPath(system:IActorSystem) path =
+      system.ActorOf(path) |> FSharp.ActorRef<obj>
 
    let inline typedActorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
       let actorPath = typeof<'TActor>.ToActorPath(actorId) 

@@ -3,7 +3,7 @@
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
-
+open Messages
 
 [<EntryPoint>]
 let main argv = 
@@ -14,7 +14,7 @@ let main argv =
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = [|assembly|]
+   use system = [|assembly;typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createCluster config
                 |> ActorSystem.start   
    

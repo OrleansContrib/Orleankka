@@ -9,14 +9,13 @@ using Orleans.Runtime;
 namespace Orleankka
 {
     using Core;
-    using Core.Endpoints;
     using Utility;
 
     [Serializable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
-        internal static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorType.Registered(path.Type));
+        internal static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorInterface.Registered(path.Type));
 
         readonly IActorEndpoint endpoint;
 
@@ -25,10 +24,10 @@ namespace Orleankka
             Path = path;
         }
 
-        ActorRef(ActorPath path, ActorType type)
+        ActorRef(ActorPath path, ActorInterface @interface)
             : this(path)
         {
-            endpoint = type.Proxy(path);
+            endpoint = @interface.Proxy(path);
         }
 
         public ActorPath Path { get; }
@@ -91,8 +90,8 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             Path = ActorPath.Deserialize(value);
-            var type = ActorType.Registered(Path.Type);
-            endpoint = type.Proxy(Path);
+            var @interface = ActorInterface.Registered(Path.Type);
+            endpoint = @interface.Proxy(Path);
         }
 
         #endregion

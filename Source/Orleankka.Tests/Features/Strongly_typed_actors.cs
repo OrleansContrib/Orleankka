@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleankka.Meta;
+
 namespace Orleankka.Features
 {
     namespace Strongly_typed_actors
     {
-        using Meta.CSharp;
         using Testing;
 
         [Serializable]

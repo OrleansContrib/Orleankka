@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Orleankka.Fsharp</id>
-    <version>$version$-beta1</version>
+    <version>$version$</version>
     <authors>Yevhen Bobrov, Anton Moldovan</authors>
     <owners>Yevhen Bobrov</owners>
     <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
@@ -12,6 +12,7 @@
     <tags>Orleans distributed messaging actor concurrency functional F#</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
+        <dependency id="Orleankka.Runtime" version="$core_version$" />
     </dependencies>
   </metadata>
   <files>

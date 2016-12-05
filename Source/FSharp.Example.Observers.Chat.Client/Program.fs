@@ -5,7 +5,7 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 
-open ChatServer
+open Messages
 
 let mutable client = null 
 
@@ -18,13 +18,14 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"
       
-   use system = [|typeof<ChatServer>.Assembly|]
-                |> ActorSystem.createClient config
+   use system = [|typeof<ServerMessage>.Assembly|]
+                |> ActorSystem.createClient config [|"ChatServer"|]
                 |> ActorSystem.conect   
 
    client <- ClientObservable.create().Result
 
-   let server = ActorSystem.actorOf<ChatServer>(system, "server")
+   let path = ActorPath.From("ChatServer", "server")
+   let server = ActorSystem.actorOfPath system path
 
    printfn "Enter your user name... \n"
    let userName = Console.ReadLine()     

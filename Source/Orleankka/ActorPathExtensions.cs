@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 
+using Orleankka.Core;
 using Orleankka.Utility;
 
 namespace Orleankka

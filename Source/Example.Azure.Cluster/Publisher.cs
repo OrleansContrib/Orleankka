@@ -5,14 +5,12 @@ using Orleankka;
 
 namespace Example.Azure
 {
+    [ActorType("Publisher")]
     public class Publisher : Actor
     {
         static readonly Random rand = new Random();
 
-        [Serializable]
-        public class Init {}
-
-        void On(Init _) {}
+        void On(InitPublisher _) {}
 
         public override Task OnActivate()
         {

@@ -48,9 +48,10 @@ namespace Example.Azure.Hubs
                     continue;
 
                 var id = HubGateway.HubId(address.Endpoint);
-                var hub = MvcApplication.System.ActorOf<Hub>(id);
+                var path = ActorPath.From("Hub", id);
+                var hub = MvcApplication.System.ActorOf(path);
 
-                await hub.Tell(new Hub.Subscribe {Observer = notifications});
+                await hub.Tell(new SubscribeHub { Observer = notifications});
             }
         }
 

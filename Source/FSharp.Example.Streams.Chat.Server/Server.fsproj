@@ -55,7 +55,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="ChatUser.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <EmbeddedResource Include="Server.xml" />
@@ -76,9 +76,14 @@
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\FSharp.Example.Streams.Chat.Actors\Actors.fsproj">
-      <Name>Actors</Name>
+    <ProjectReference Include="..\FSharp.Example.Streams.Chat.Shared\Shared.fsproj">
+      <Name>Shared</Name>
       <Project>{326d7fa8-5f82-49c0-9e43-c25cbd35a206}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
+      <Name>Orleankka.Runtime</Name>
+      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">

@@ -75,6 +75,16 @@
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\FSharp.Example.Observers.Chat.Shared\Shared.fsproj">
+      <Name>Shared (FSharp\Examples\Chat\Shared)</Name>
+      <Project>{134f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
+      <Name>Orleankka.Runtime</Name>
+      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Name>Orleankka</Name>
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>

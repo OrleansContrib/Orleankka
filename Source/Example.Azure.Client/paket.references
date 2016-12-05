@@ -22,7 +22,6 @@ Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansAzureUtils
 Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansProviders
-Microsoft.Orleans.OrleansRuntime
 Microsoft.Owin
 Microsoft.Owin.Host.SystemWeb
 Microsoft.Owin.Security

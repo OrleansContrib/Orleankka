@@ -27,10 +27,7 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
-        public static IActorSystemConfigurator Configure()
-        {
-            return null;
-        }
+        public static IActorSystemConfigurator Configure() => default(IActorSystemConfigurator);
 
         public ActorRef ActorOf(ActorPath path)
         {
@@ -108,18 +105,6 @@ namespace Orleankka
         }
 
         /// <summary>
-        /// Acquires the actor reference for the given id and type of the actor.
-        /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
-        /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
-        /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
-        {
-            return system.ActorOf(typeof(TActor).ToActorPath(id));
-        }
-
-        /// <summary>
         /// Acquires the typed actor reference for the given id and type of the actor.
         /// The type could be either an interface or implementation class.
         /// </summary>
@@ -129,17 +114,6 @@ namespace Orleankka
         public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
         {
             return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath(id)));
-        }
-
-        /// <summary>
-        /// Acquires the actor reference for the given worker type.
-        /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
-        /// <param name="system">The reference to actor system</param>
-        /// <returns>An actor reference</returns>
-        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : Actor
-        {
-            return system.ActorOf(typeof(TActor).ToActorPath("#"));
         }
 
         /// <summary>

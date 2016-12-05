@@ -6,18 +6,13 @@ using Orleankka.Meta;
 
 namespace Example.Azure
 {
+    [ActorType("Hub")]
     [Actor(Placement = Placement.PreferLocal)]
     public class Hub : Actor
     {
         [Serializable]
-        public class Init : Command 
+        public class Init : Command
         {}
-
-        [Serializable]
-        public class Subscribe : Command
-        {
-            public ObserverRef Observer;
-        }
 
         [Serializable]
         public class Publish : Command
@@ -32,9 +27,9 @@ namespace Example.Azure
             observers = new ObserverCollection();
         }
 
-        public void On(Init x) {}
+        public void On(Init _) {}
 
-        public void On(Subscribe x) => observers.Add(x.Observer);
+        public void On(SubscribeHub x) => observers.Add(x.Observer);
 
         public void On(Publish x)
         {

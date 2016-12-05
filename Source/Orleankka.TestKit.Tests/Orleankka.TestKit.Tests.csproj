@@ -52,6 +52,10 @@
     <None Include="StreamSubscriptionSpecificationFixture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
+      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Name>Orleankka.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka.TestKit\Orleankka.TestKit.csproj">
       <Project>{0eec0553-0b9a-4e51-94bf-694dc7164b92}</Project>
       <Name>Orleankka.TestKit</Name>

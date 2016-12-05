@@ -4,17 +4,14 @@ using Orleans;
 
 namespace Orleankka.Core
 {
-    namespace Endpoints
+    /// <summary> 
+    /// FOR INTERNAL USE ONLY!
+    /// </summary>
+    public interface IActorEndpoint : IGrainWithStringKey, IRemindable
     {
-        /// <summary> 
-        /// FOR INTERNAL USE ONLY!
-        /// </summary>
-        public interface IActorEndpoint : IGrainWithStringKey, IRemindable
-        {
-            Task Autorun();
+        Task Autorun();
 
-            Task<object> Receive(object message);
-            Task ReceiveVoid(object message);
-        }
+        Task<object> Receive(object message);
+        Task ReceiveVoid(object message);
     }
 }

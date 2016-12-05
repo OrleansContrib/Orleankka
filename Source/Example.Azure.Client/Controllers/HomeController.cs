@@ -51,7 +51,8 @@ namespace Example.Azure.Controllers
             MvcApplication.System = ActorSystem.Configure()
                 .Client()
                 .From(Configuration(clusterId, clsuterMembershipStorage))
-                .Register(typeof(Publisher).Assembly)
+                .Register(typeof(SubscribeHub).Assembly)
+                .Register("Hub", "Publisher")
                 .Done();
 
             MvcApplication.System.Connect(retries: 5);
@@ -80,8 +81,9 @@ namespace Example.Azure.Controllers
             
             foreach (var i in Enumerable.Range(1, publishers))
             {
-                var activation = MvcApplication.System.ActorOf<Publisher>(i.ToString());
-                activations.Add(activation.Tell(new Publisher.Init()));
+                var path = ActorPath.From("Publisher", i.ToString());
+                var activation = MvcApplication.System.ActorOf(path);
+                activations.Add(activation.Tell(new InitPublisher()));
             }
 
             return Task.WhenAll(activations.ToArray());

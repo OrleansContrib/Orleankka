@@ -28,28 +28,36 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
+        protected override Task<object> HandleQuery(Query query)
+        {
+            return Dispatch(query);
+        }
+
         protected override async Task<object> HandleCommand(Command cmd)
         {
             var events = await Dispatch<IEnumerable<Event>>(cmd);
 
-            var stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
             foreach (var @event in events)
             {
                 await Dispatch(@event);
-                await stream.Push(Wrap(@event));
+                await Project(@event);
             }
+
             return events;
         }
 
-        private object Wrap(Event  @event)
+        Task Project(Event @event)
+        {
+            var envelope = Wrap(@event);
+            return Projection.Tell(envelope);
+        }
+
+        object Wrap(Event @event)
         {
             var envelopeType = typeof(EventEnvelope<>).MakeGenericType(@event.GetType());
             return Activator.CreateInstance(envelopeType, Id, @event);
         }
 
-        protected override Task<object> HandleQuery(Query query)
-        {
-            return Dispatch(query);
-        }
+        protected ActorRef Projection { get; set; }
     }
 }

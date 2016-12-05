@@ -60,6 +60,11 @@
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
+      <Name>Orleankka.Runtime</Name>
+      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Name>Orleankka</Name>
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
