@@ -20,6 +20,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
+                .Register(typeof(Join).Assembly)
                 .Register(types: "ChatRoom")
                 .Done();
 
