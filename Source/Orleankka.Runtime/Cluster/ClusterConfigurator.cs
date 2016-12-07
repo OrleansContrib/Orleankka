@@ -214,6 +214,7 @@ namespace Orleankka.Cluster
 
         public void Dispose()
         {
+            ActorInterface.Reset();
             ActorType.Reset();
             InvocationPipeline.Reset();
         }

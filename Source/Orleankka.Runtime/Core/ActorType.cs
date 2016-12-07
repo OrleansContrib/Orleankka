@@ -36,6 +36,7 @@ namespace Orleankka.Core
         {
             Activator = new DefaultActorActivator();
             Conventions = null;
+            dispatchers.Clear();
             types.Clear();
         }
 
