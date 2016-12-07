@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -46,6 +47,9 @@ namespace Orleankka.TestKit
 
             return TaskDone.Done;
         }
+
+        public override Task<IList<StreamSubscription>> Subscriptions() => 
+            Task.FromResult<IList<StreamSubscription>>(subscriptions.ToList<StreamSubscription>());
 
         public override Task<StreamSubscription> Subscribe(Func<object, Task> callback, StreamFilter filter = null) => Create(callback, filter);
         public override Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback, StreamFilter filter = null) => Create(callback, filter);

@@ -122,7 +122,7 @@ namespace Orleankka
         /// Returns a list of all current stream subscriptions.
         /// </summary>
         /// <returns> A promise for a list of StreamSubscription </returns>
-        public async Task<IList<StreamSubscription>> Subscriptions()
+        public virtual async Task<IList<StreamSubscription>> Subscriptions()
         {
             var handles = await Endpoint.GetAllSubscriptionHandles();
             return handles.Select(x => new StreamSubscription(x)).ToList();
