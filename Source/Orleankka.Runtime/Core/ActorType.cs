@@ -39,9 +39,9 @@ namespace Orleankka.Core
             types.Clear();
         }
 
-        internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorConfiguration> configs)
+        internal static void Register(IEnumerable<Assembly> assemblies)
         {
-            var actors = ClassDeclaration.Generate(assemblies, configs);
+            var actors = ActorTypeDeclaration.Generate(assemblies.ToArray());
 
             foreach (var actor in actors)
                 Register(actor);
@@ -65,21 +65,21 @@ namespace Orleankka.Core
         readonly Func<object, bool> interleavePredicate;
         readonly Dispatcher dispatcher;
 
-        internal ActorType(string name, TimeSpan keepAliveTimeout, bool sticky, Func<object, bool> interleavePredicate, Type grain, Type actor, string invoker)
+        internal ActorType(Type actor, Type endpoint)
         {
-            Name = name;
-
-            this.Sticky = sticky;
-            this.keepAliveTimeout = sticky ? TimeSpan.FromDays(365 * 10) : keepAliveTimeout;
-            this.interleavePredicate = interleavePredicate;
             this.actor = actor;
 
-            Invoker = InvocationPipeline.Instance.GetInvoker(actor, invoker);
+            Name = ActorTypeName.Of(actor);
+            Sticky = StickyAttribute.IsApplied(actor);
+            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(actor);
+            Invoker = InvocationPipeline.Instance.GetInvoker(actor, InvokerAttribute.From(actor));
 
+            interleavePredicate = ReentrantAttribute.MayInterleavePredicate(actor);
+            
             dispatcher = new Dispatcher(actor);
             dispatchers.Add(actor, dispatcher);
 
-            Init(grain);
+            Init(endpoint);
         }
 
         void Init(Type grain)

@@ -21,7 +21,20 @@ namespace Orleankka
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ReentrantAttribute : Attribute
     {
-        internal static Func<object, bool> Predicate(Type actor, out bool reentrant)
+        internal static Func<object, bool> MayInterleavePredicate(Type actor)
+        {
+            bool reentrant;
+            return MayInterleavePredicate(actor, out reentrant);
+        }
+
+        internal static bool IsReentrant(Type actor)
+        {
+            bool reentrant;
+            MayInterleavePredicate(actor, out reentrant);
+            return reentrant;
+        }
+
+        static Func<object, bool> MayInterleavePredicate(Type actor, out bool reentrant)
         {
             reentrant = false;
 

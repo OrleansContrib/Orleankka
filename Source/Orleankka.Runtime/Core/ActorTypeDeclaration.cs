@@ -12,11 +12,14 @@ using Orleans.Placement;
 
 namespace Orleankka.Core
 {
-    class ClassDeclaration
+    class ActorTypeDeclaration
     {
-        public static IEnumerable<ActorType> Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorConfiguration> configs)
+        public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
         {
-            var declarations = configs.Select(x => new ClassDeclaration(x)).ToArray();
+            var declarations = assemblies
+                .SelectMany(x => x.ActorTypes())
+                .Select(x => new ActorTypeDeclaration(x))
+                .ToArray();
 
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Implementations");
             Directory.CreateDirectory(dir);
@@ -54,7 +57,7 @@ namespace Orleankka.Core
         static PortableExecutableReference ToMetadataReference(Assembly x) => 
             x.IsDynamic || x.Location == "" ? null : MetadataReference.CreateFromFile(x.Location);
 
-        static string Generate(IEnumerable<Assembly> assemblies, IEnumerable<ClassDeclaration> declarations)
+        static string Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorTypeDeclaration> declarations)
         {
             var sb = new StringBuilder(@"
                  using Orleankka;
@@ -75,15 +78,15 @@ namespace Orleankka.Core
 
         static readonly string[] separator = {".", "+"};
 
+        readonly Type actor;
         readonly string clazz;
         readonly IList<string> namespaces;
-        readonly ActorConfiguration config;
 
-        ClassDeclaration(ActorConfiguration config)
+        ActorTypeDeclaration(Type actor)
         {
-            this.config = config;
+            this.actor = actor;
 
-            var path = config.Name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = ActorTypeName.Of(actor).Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
 
             namespaces = path.TakeWhile(x => x != clazz).ToList();
@@ -111,10 +114,12 @@ namespace Orleankka.Core
         {
             GenerateAttributes(src);
 
-            if (IsReentrant)
+            var reentrant = ReentrantAttribute.IsReentrant(actor);
+            if (reentrant)
                 src.AppendLine("[Reentrant]");
 
-            if (IsPartiallyReentrant)
+            var mayInterleave = ReentrantAttribute.MayInterleavePredicate(actor) != null;
+            if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 
             src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint<I{clazz}>, I{clazz} {{");
@@ -122,20 +127,24 @@ namespace Orleankka.Core
             src.AppendLine("}");
         }
 
-        bool IsReentrant => config.Reentrant;
-        bool IsPartiallyReentrant => config.InterleavePredicate != null;
-
         ActorType From(Assembly asm)
         {
             var grain = asm.GetType(FullPath($"{clazz}"));
-            return new ActorType(config.Name, config.KeepAliveTimeout, config.Sticky, config.InterleavePredicate, grain, config.Type, config.Invoker);
+            return new ActorType(actor, grain);
         }
 
         string FullPath(string name) => string.Join(".", new List<string>(namespaces) { name });
 
         void GenerateAttributes(StringBuilder src)
         {
-            if (config.Worker)
+            var worker = actor.GetCustomAttribute<WorkerAttribute>() != null;
+            var singleton = actor.GetCustomAttribute<WorkerAttribute>() == null;
+
+            if (singleton && worker)
+                throw new InvalidOperationException(
+                    $"A type cannot be configured to be both Actor and Worker: {actor}");
+
+            if (worker)
             {
                 src.AppendLine("[StatelessWorker]");
                 return;
@@ -146,7 +155,9 @@ namespace Orleankka.Core
 
         string GetActorPlacement()
         {
-            switch (config.Placement)
+            var placement = (actor.GetCustomAttribute<ActorAttribute>() ?? new ActorAttribute()).Placement;
+
+            switch (placement)
             {
                 case Placement.Random:
                     return typeof(RandomPlacementAttribute).Name;

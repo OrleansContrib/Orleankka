@@ -16,7 +16,7 @@ namespace Orleankka.Core
     {
         const string StickyReminderName = "##sticky##";
 
-        Actor actor;
+        Actor instance;
 
         public Task Autorun()
         {
@@ -29,7 +29,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return Type.Invoker.OnReceive(actor, message);
+            return Actor.Invoker.OnReceive(instance, message);
         }
 
         public Task ReceiveVoid(object message) => Receive(message);
@@ -41,13 +41,13 @@ namespace Orleankka.Core
             if (name == StickyReminderName)
                 return;
 
-            await Type.Invoker.OnReminder(actor, name);
+            await Actor.Invoker.OnReminder(instance, name);
         }
 
         public override Task OnDeactivateAsync()
         {
-            return actor != null
-                ? Type.Invoker.OnDeactivate(actor)
+            return instance != null
+                ? Actor.Invoker.OnDeactivate(instance)
                 : base.OnDeactivateAsync();
         }
 
@@ -57,11 +57,11 @@ namespace Orleankka.Core
             await RegisterOrUpdateReminder(StickyReminderName, period, period);
         }
 
-        void KeepAlive() => Type.KeepAlive(this);
+        void KeepAlive() => Actor.KeepAlive(this);
 
         public override async Task OnActivateAsync()
         {
-            if (Type.Sticky)
+            if (Actor.Sticky)
                 await HandleStickyness();
 
             await Activate();
@@ -69,10 +69,10 @@ namespace Orleankka.Core
 
         Task Activate()
         {
-            var path = ActorPath.From(Type.Name, IdentityOf(this));
+            var path = ActorPath.From(Actor.Name, IdentityOf(this));
             var runtime = new ActorRuntime(ClusterActorSystem.Current, this);
-            actor = Type.Activate(this, path, runtime);
-            return Type.Invoker.OnActivate(actor);
+            instance = Actor.Activate(this, path, runtime);
+            return Actor.Invoker.OnActivate(instance);
         }
 
         static string IdentityOf(IGrain grain)
@@ -80,7 +80,7 @@ namespace Orleankka.Core
             return (grain as IGrainWithStringKey).GetPrimaryKeyString();
         }
 
-        protected abstract ActorType Type { get; }
+        protected abstract ActorType Actor { get; }
 
         #region Expose protected methods to actor services layer
 
@@ -134,6 +134,6 @@ namespace Orleankka.Core
         protected static ActorType type;
         #pragma warning restore 649
 
-        protected override ActorType Type => type;
+        protected override ActorType Actor => type;
     }
 }

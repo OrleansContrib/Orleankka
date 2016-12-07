@@ -54,9 +54,8 @@
     <Compile Include="ActorInvoker.cs" />
     <Compile Include="ActorActivator.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
-    <Compile Include="Core\ActorConfiguration.cs" />
     <Compile Include="ActorRuntime.cs" />
-    <Compile Include="Core\ClassDeclaration.cs" />
+    <Compile Include="Core\ActorTypeDeclaration.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="Dispatcher.cs" />

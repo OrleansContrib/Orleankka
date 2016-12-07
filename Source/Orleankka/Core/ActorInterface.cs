@@ -22,7 +22,7 @@ namespace Orleankka.Core
 
         internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
-            var generated = InterfaceDeclaration.Generate(assemblies, mappings);
+            var generated = ActorInterfaceDeclaration.Generate(assemblies, mappings);
 
             foreach (var @interface in generated)
                 Register(@interface);

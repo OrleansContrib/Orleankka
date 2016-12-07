@@ -10,11 +10,11 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Orleankka.Core
 {
-    class InterfaceDeclaration
+    class ActorInterfaceDeclaration
     {
         public static IEnumerable<ActorInterface> Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
-            var declarations = mappings.Select(m => new InterfaceDeclaration(m)).Select(d => new
+            var declarations = mappings.Select(m => new ActorInterfaceDeclaration(m)).Select(d => new
             {
                 Declaration = d,
                 Interface = d.Find()
@@ -59,7 +59,7 @@ namespace Orleankka.Core
             return existentInterfaces.Concat(generatedInterfaces);
         }
 
-        static string Generate(IEnumerable<Assembly> assemblies, IEnumerable<InterfaceDeclaration> declarations)
+        static string Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceDeclaration> declarations)
         {
             var sb = new StringBuilder(@"
                  using Orleankka;
@@ -83,7 +83,7 @@ namespace Orleankka.Core
         readonly IList<string> namespaces;
         readonly ActorInterfaceMapping mapping;
 
-        InterfaceDeclaration(ActorInterfaceMapping mapping)
+        ActorInterfaceDeclaration(ActorInterfaceMapping mapping)
         {
             this.mapping = mapping;
             CheckValidIdentifier(mapping.Name);

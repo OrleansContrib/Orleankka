@@ -56,7 +56,7 @@
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorInterfaceMapping.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
-    <Compile Include="Core\InterfaceDeclaration.cs" />
+    <Compile Include="Core\ActorInterfaceDeclaration.cs" />
     <Compile Include="Core\IActorEndpoint.cs" />
     <Compile Include="Core\IClientEndpoint.cs" />
     <Compile Include="Core\Stream.cs" />

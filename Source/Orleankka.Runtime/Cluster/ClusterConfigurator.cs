@@ -134,11 +134,9 @@ namespace Orleankka.Cluster
             ConfigureActivator();
             ConfigureInterceptor();
 
-            var configs = ActorConfigurations();
-
             RegisterInterfaces();
-            RegisterTypes(configs);
-            RegisterAutoruns(configs);
+            RegisterTypes();
+            RegisterAutoruns();
             RegisterStreamProviders();
             RegisterBootstrappers();
         }
@@ -170,21 +168,18 @@ namespace Orleankka.Cluster
             instance.Install(InvocationPipeline.Instance, interceptor.Item2);
         }
 
-        ActorConfiguration[] ActorConfigurations() => 
-            ActorConfiguration.From(assemblies.ToArray());
-
         void RegisterInterfaces() => ActorInterface.Register(assemblies, interfaces);
-        void RegisterTypes(IEnumerable<ActorConfiguration> configs) => ActorType.Register(assemblies, configs);
+        void RegisterTypes() => ActorType.Register(assemblies);
 
-        void RegisterAutoruns(IEnumerable<ActorConfiguration> configs)
+        void RegisterAutoruns()
         {
             var autoruns = new Dictionary<string, string[]>();
 
-            foreach (var config in configs)
+            foreach (var actor in assemblies.SelectMany(x => x.ActorTypes()))
             {
-                var ids = config.Autoruns;
+                var ids = AutorunAttribute.From(actor);
                 if (ids.Length > 0)
-                    autoruns.Add(config.Name, ids);
+                    autoruns.Add(ActorTypeName.Of(actor), ids);
             }
 
             Run<AutorunBootstrapper>(autoruns);
