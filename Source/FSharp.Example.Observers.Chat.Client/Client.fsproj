@@ -68,11 +68,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
-      <Name>Orleankka.FSharp</Name>
-      <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\FSharp.Example.Observers.Chat.Server\Server.fsproj">
       <Name>Server</Name>
       <Project>{f34f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
@@ -81,6 +76,11 @@
     <ProjectReference Include="..\FSharp.Example.Observers.Chat.Shared\Shared.fsproj">
       <Name>Shared (FSharp\Examples\Chat\Shared)</Name>
       <Project>{134f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj">
+      <Name>Orleankka.FSharp</Name>
+      <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">

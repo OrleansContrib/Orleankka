@@ -70,19 +70,19 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <ProjectReference Include="..\FSharp.Api.Runtime\Orleankka.FSharp.Runtime.fsproj">
+    <ProjectReference Include="..\FSharp.Example.Observers.Chat.Shared\Shared.fsproj">
+      <Name>Shared (FSharp\Examples\Chat\Shared)</Name>
+      <Project>{134f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj">
       <Name>Orleankka.FSharp.Runtime</Name>
       <Project>{ab4305c5-3139-4e62-95c1-e367cfea8a6c}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
+    <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\FSharp.Example.Observers.Chat.Shared\Shared.fsproj">
-      <Name>Shared (FSharp\Examples\Chat\Shared)</Name>
-      <Project>{134f64e7-dc9a-4560-873a-74eb16d0d7f0}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
