@@ -13,6 +13,7 @@ open Suave.Utils
 open Orleankka
 open Orleankka.Http
 open Orleankka.FSharp.Configuration
+open Orleankka.FSharp.Runtime
 open Actors
 
 [<EntryPoint>]

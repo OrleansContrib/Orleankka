@@ -55,6 +55,11 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSharp.Api.Runtime\Orleankka.FSharp.Runtime.fsproj">
+      <Name>Orleankka.FSharp.Runtime</Name>
+      <Project>{ab4305c5-3139-4e62-95c1-e367cfea8a6c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\FSharp.Api\Orleankka.FSharp.fsproj">
       <Name>Orleankka.FSharp</Name>
       <Project>{e41fdb70-5193-4c2d-9ddd-b0d243e21e2b}</Project>

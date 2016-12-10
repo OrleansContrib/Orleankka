@@ -113,7 +113,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Source\Example.Az
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Shared", "Source\FSharp.Example.Observers.Chat.Shared\Shared.fsproj", "{134F64E7-DC9A-4560-873A-74EB16D0D7F0}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp.Runtime", "FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj", "{AB4305C5-3139-4E62-95C1-E367CFEA8A6C}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp.Runtime", "Source\FSharp.Api.Runtime\Orleankka.FSharp.Runtime.fsproj", "{AB4305C5-3139-4E62-95C1-E367CFEA8A6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

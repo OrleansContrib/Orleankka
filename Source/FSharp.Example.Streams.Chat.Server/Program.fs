@@ -3,8 +3,11 @@
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
+open Orleankka.FSharp.Runtime
+
 open Messages
 open Actors
+
 
 [<EntryPoint>]
 let main argv = 
