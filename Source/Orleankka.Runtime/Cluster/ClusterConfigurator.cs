@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Orleankka.Behaviors;
+
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
@@ -139,6 +141,7 @@ namespace Orleankka.Cluster
             RegisterAutoruns();
             RegisterStreamProviders();
             RegisterBootstrappers();
+            RegisterBehaviors();
         }
 
         void ConfigureConventions()
@@ -197,6 +200,12 @@ namespace Orleankka.Cluster
                 each.Register(Configuration.Globals);
         }
 
+        void RegisterBehaviors()
+        {
+            foreach (var actor in assemblies.SelectMany(x => x.ActorTypes()))
+                ActorBehavior.Register(actor);
+        }
+        
         public override object InitializeLifetimeService()
         {
             return null;
@@ -217,6 +226,7 @@ namespace Orleankka.Cluster
             ActorInterface.Reset();
             ActorType.Reset();
             InvocationPipeline.Reset();
+            ActorBehavior.Reset();
         }
     }
 

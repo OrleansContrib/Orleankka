@@ -53,6 +53,9 @@
     </Compile>
     <Compile Include="ActorInvoker.cs" />
     <Compile Include="ActorActivator.cs" />
+    <Compile Include="Behaviors\ActorBehavior.cs" />
+    <Compile Include="Behaviors\BehaviorExtensions.cs" />
+    <Compile Include="Behaviors\CustomBehavior.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorTypeDeclaration.cs" />
