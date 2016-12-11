@@ -54,6 +54,7 @@
     <Compile Include="ClusterConfiguration.fs" />
     <None Include="paket.references" />
     <Compile Include="Api.fs" />
+    <Compile Include="Orleankka.FSharp.Runtime.Version.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

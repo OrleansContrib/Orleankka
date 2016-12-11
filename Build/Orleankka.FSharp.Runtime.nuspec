@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Orleankka.Fsharp.Runtime</id>
+    <version>$version$</version>
+    <authors>Yevhen Bobrov, Anton Moldovan</authors>
+    <owners>Yevhen Bobrov</owners>
+    <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
+    <iconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</iconUrl>    
+    <description>F# api for Orleankka</description>
+    <tags>Orleans distributed messaging actor concurrency functional F#</tags>
+    <dependencies>
+        <dependency id="Orleankka" version="$core_version$" />
+        <dependency id="Orleankka.Runtime" version="$core_version$" />
+        <dependency id="Orleankka.FSharp" version="$core_version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Output\Package\Release\Orleankka.FSharp.Runtime.dll" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.FSharp.Runtime.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.FSharp.Runtime.xml" target="lib/net45" />
+  </files>
+</package>
