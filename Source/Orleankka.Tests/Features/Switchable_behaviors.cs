@@ -40,14 +40,15 @@ namespace Orleankka.Features
                 {
                     Setup(nameof(A));
                     this.Super(S);
-                    this.On<X>(x => this.Become(B));
+                    this.OnReceive<X>(x => this.Become(B));
+                    this.OnReminder(id => Events.Add($"OnReminder_{id}"));
                 }
 
                 public void B()
                 {
                     Setup(nameof(B));
                     this.Super(SS);
-                    this.On<Y>(x => this.Become(A));
+                    this.OnReceive<Y>(x => this.Become(A));
                 }
 
                 void S()
@@ -60,7 +61,7 @@ namespace Orleankka.Features
                 {
                     Setup(nameof(SS));
                     this.Super(SSS);
-                    this.On<Z>(x => this.Become(C));
+                    this.OnReceive<Z>(x => this.Become(C));
                 }
 
                 void SSS()
@@ -203,8 +204,86 @@ namespace Orleankka.Features
                     actor.Behavior.Become(actor.CyclicSuperA));
             }
 
+            [Test]
+            public async Task When_receiving_message()
+            {
+                actor.Behavior.Initial(nameof(TestActor.A));
+
+                await actor.OnReceive(new X());
+
+                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.B)));
+            }
+
+            [Test]
+            public void When_receiving_unhandled_message()
+            {
+                actor.Behavior.Initial(nameof(TestActor.A));
+
+                Assert.Throws<UnhandledMessageException>(async ()=> await actor.OnReceive(new Y()), 
+                    "Should throw by default");
+            }
+
+            [Test]
+            public async Task When_receiving_unhandled_message_callback()
+            {
+                actor.Behavior.Initial(nameof(TestActor.A));
+
+                string passedState = null;
+                object passedMessage = null;
+                actor.Behavior.OnUnhandledReceive((message, state) =>
+                {
+                    passedState = state;
+                    passedMessage = message;
+                    return "test";
+                });
+
+                var msg = new Y();
+                var result = await actor.OnReceive(msg);
+
+                Assert.That(result, Is.EqualTo("test"));
+                Assert.That(passedState, Is.EqualTo(nameof(TestActor.A)));
+                Assert.That(passedMessage, Is.SameAs(msg));
+            }
+
+            [Test]
+            public async Task When_receiving_reminder()
+            {
+                actor.Behavior.Initial(nameof(TestActor.A));
+
+                await actor.OnReminder("test");
+
+                Assert.That(actor.Events.Count, Is.EqualTo(1));
+                Assert.That(actor.Events[0], Is.EqualTo("OnReminder_test"));
+            }
+
+            [Test]
+            public void When_receiving_unhandled_reminder()
+            {
+                actor.Behavior.Initial(nameof(TestActor.B));
+
+                Assert.Throws<UnhandledReminderException>(async ()=> await actor.OnReminder("test"));
+            }
+
+            [Test]
+            public async Task When_receiving_unhandled_reminder_callback()
+            {
+                actor.Behavior.Initial(nameof(TestActor.B));
+
+                string passedState = null;
+                string passedReminderId = null;
+                actor.Behavior.OnUnhandledReminder((reminder, state) =>
+                {
+                    passedState = state;
+                    passedReminderId = reminder;
+                });
+
+                await actor.OnReminder("test");
+                Assert.That(passedState, Is.EqualTo(nameof(TestActor.B)));
+                Assert.That(passedReminderId, Is.SameAs("test"));
+            }
+
             [Test, Ignore("Not yet implemented")]
-            public async Task When_receiving_should_check_supers()
+            public async Task When_receiving_should_check_handlers_in_super_chain()
             {
                 actor.Behavior.Initial(nameof(TestActor.A));
 

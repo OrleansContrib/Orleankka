@@ -53,20 +53,81 @@ namespace Orleankka.Behaviors
 
         public string Name { get; }
 
-        public void OnBecome(Func<Task> action) => onBecome = action;
-        public void OnUnbecome(Func<Task> action) => onUnbecome = action;
-        public void OnActivate(Func<Task> action) => onActivate = action;
-        public void OnDeactivate(Func<Task> action) => onDeactivate = action;
+        public void OnBecome(Func<Task> action)
+        {
+            if (onBecome != null)
+                throw new InvalidOperationException("OnBecome action has been already configured");
 
-        public void OnReceive(Func<Actor, object, Task<object>> action) => onReceiveAny = action;
-        public void OnReceive<TMessage>(Func<Actor, TMessage, Task<object>> action) => onReceive.Add(typeof(TMessage), (actor, message) => action(actor, (TMessage)message));
+            onBecome = action;
+        }
 
-        public void OnReminder(Func<Actor, string, Task> action) => onReminderAny = action;
-        public void OnReminder(string id, Func<Actor, Task> action) => onReminder.Add(id, action);
+        public void OnUnbecome(Func<Task> action)
+        {
+            if (onUnbecome != null)
+                throw new InvalidOperationException("OnUnbecome action has been already configured");
+
+            onUnbecome = action;
+        }
+
+        public void OnActivate(Func<Task> action)
+        {
+            if (onActivate != null)
+                throw new InvalidOperationException("OnActivate action has been already configured");
+
+            onActivate = action;
+        }
+
+        public void OnDeactivate(Func<Task> action)
+        {
+            if (onDeactivate != null)
+                throw new InvalidOperationException("OnDeactivate action has been already configured");
+
+            onDeactivate = action;
+        }
+
+        public void OnReceive(Func<Actor, object, Task<object>> action)
+        {
+            if (onReceiveAny != null)
+                throw new InvalidOperationException("OnReceive(*) action has been already configured");
+
+            onReceiveAny = action;
+        }
+
+        public void OnReceive<TMessage>(Func<Actor, TMessage, Task<object>> action)
+        {
+            try
+            {
+                onReceive.Add(typeof(TMessage), (actor, message) => action(actor, (TMessage) message));
+            }
+            catch (ArgumentException)
+            {
+                throw new InvalidOperationException($"OnReceive<{typeof(TMessage)}>() action has been already configured");
+            }
+        }
+
+        public void OnReminder(Func<Actor, string, Task> action)
+        {
+            if (onReminderAny != null)
+                throw new InvalidOperationException("OnReminder(*) action has been already configured");
+
+            onReminderAny = action;
+        }
+
+        public void OnReminder(string id, Func<Actor, Task> action)
+        {
+            try
+            {
+                onReminder.Add(id, action);
+            }
+            catch (ArgumentException)
+            {
+                throw new InvalidOperationException($"OnReminder(\"{id}\") action has been already configured");
+            }
+        }
 
         public async Task HandleBecome(Transition transition)
         {
-            if (transition.Subsumes(this))
+            if (IncludedIn(transition.From))
                 return;
 
             if (super != null)
@@ -90,7 +151,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleActivate(Transition transition)
         {
-            if (transition.Subsumes(this))
+            if (IncludedIn(transition.From))
                 return;
 
             if (super != null)
@@ -112,26 +173,34 @@ namespace Orleankka.Behaviors
                 await super.HandleDeactivate(transition);
         }
 
-        public Task<object> HandleReceive(Actor actor, object message)
+        public Task<object> HandleReceive(Actor actor, object message, Func<Type, object, string, Task<object>> fallback)
         {
             if (IsNull())
                 return onReceiveAny(actor, message);
 
             var handler = onReceive.Find(message.GetType());
-            return handler != null
-                       ? handler.Invoke(actor, message)
-                       : onReceiveAny(actor, message);
+            if (handler != null)
+                return handler.Invoke(actor, message);
+
+            if (onReceiveAny != null)
+                return onReceiveAny(actor, message);
+
+            return fallback(actor.GetType(), message, Name);
         }
 
-        public Task HandleReminder(Actor actor, string id)
+        public Task HandleReminder(Actor actor, string id, Func<Type, string, string, Task> fallback)
         {
             if (IsNull())
                 return onReminderAny(actor, id);
 
             var handler = onReminder.Find(id);
-            return handler != null
-                       ? handler.Invoke(actor)
-                       : onReminderAny(actor, id);
+            if (handler != null)
+                return handler.Invoke(actor);
+
+            if (onReminderAny != null)
+                return onReminderAny(actor, id);
+
+            return fallback(actor.GetType(), id, Name);
         }
 
         public void Super(CustomBehavior super)
@@ -149,27 +218,12 @@ namespace Orleankka.Behaviors
         public CustomBehavior FindSuper(string name) => 
             Name == name ? this : super?.FindSuper(name);
 
-        internal bool SuperOf(CustomBehavior behavior) => 
-            FindSuper(behavior.Name) != null;
+        bool IncludedIn(CustomBehavior behavior) => 
+            behavior?.FindSuper(Name) != null;
 
         string ToDebugString() => 
             super != null ? $"[{Name}]" + "->" + super.ToDebugString() : $"[{Name}]";
 
         bool IsNull() => ReferenceEquals(this, Null);
-    }
-
-    struct Transition
-    {
-        public readonly CustomBehavior From;
-        public readonly CustomBehavior To;
-
-        public Transition(CustomBehavior from, CustomBehavior to)
-        {
-            From = from;
-            To = to;
-        }
-
-        public bool Subsumes(CustomBehavior behavior) => 
-            From != null && From.SuperOf(behavior);
     }
 }

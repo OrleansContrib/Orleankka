@@ -74,8 +74,16 @@ namespace Orleankka.Behaviors
             current = CustomBehavior.Null
         };
 
+        static readonly Func<Type, object, string, Task<object>> OnUnhandledReceiveDefaultCallback = 
+            (actor, message, state) => { throw new UnhandledMessageException(actor, state, message); };
+
+        static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback = 
+            (actor, reminder, state) => { throw new UnhandledReminderException(actor, state, reminder); };
+
         readonly Actor actor;
         Func<string, string, Task> onBecome;
+        Func<Type, object, string, Task<object>> onUnhandledReceive;
+        Func<Type, string, string, Task> onUnhandledReminder;
 
         CustomBehavior current;
         CustomBehavior next;
@@ -87,8 +95,12 @@ namespace Orleankka.Behaviors
 
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
-        internal Task<object> HandleReceive(object message) => current.HandleReceive(actor, message);
-        internal Task HandleReminder(string id) => current.HandleReminder(actor, id);
+
+        internal Task<object> HandleReceive(object message) => 
+            current.HandleReceive(actor, message, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
+
+        internal Task HandleReminder(string id) => 
+            current.HandleReminder(actor, id, onUnhandledReminder ?? OnUnhandledReminderDefaultCallback);
 
         CustomBehavior Next
         {
@@ -180,20 +192,84 @@ namespace Orleankka.Behaviors
             next = prev;
         }
 
-        public void OnBecome(Action<string, string> action)
+        public void OnBecome(Action<string, string> onBecomeCallback)
         {
-            Requires.NotNull(action, nameof(action));
+            Requires.NotNull(onBecomeCallback, nameof(onBecomeCallback));
             OnBecome((current, previous) =>
             {
-                action(current, previous);
+                onBecomeCallback(current, previous);
                 return TaskResult.Done;
             });
         }
 
-        public void OnBecome(Func<string, string, Task> action)
+        public void OnBecome(Func<string, string, Task> onBecomeCallback)
         {
-            Requires.NotNull(action, nameof(action));
-            onBecome = action;
+            Requires.NotNull(onBecomeCallback, nameof(onBecomeCallback));
+            onBecome = onBecomeCallback;
+        }
+
+        public void OnUnhandledReceive(Action<object, string> unhandledReceiveCallback)
+        {
+            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
+            OnUnhandledReceive((message, state) =>
+            {
+                unhandledReceiveCallback(message, state);
+                return TaskResult.Done;
+            });
+        }
+
+        public void OnUnhandledReceive(Func<object, string, Task> unhandledReceiveCallback)
+        {
+            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
+
+            OnUnhandledReceive(async (message, state) =>
+            {
+                await unhandledReceiveCallback(message, state);
+                return null;
+            });
+        }
+
+        public void OnUnhandledReceive(Func<object, string, object> unhandledReceiveCallback)
+        {
+            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
+            OnUnhandledReceive((message, state) => Task.FromResult(unhandledReceiveCallback(message, state)));
+        }
+
+        public void OnUnhandledReceive(Func<object, string, Task<object>> unhandledReceiveCallback)
+        {
+            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
+
+            if (onUnhandledReceive != null)
+                throw new InvalidOperationException("Unhandled message callback has been already set");
+
+            if (next != null)
+                throw new InvalidOperationException("Unhandled message callback cannot be set while configuring behavior");
+
+            onUnhandledReceive = (actor, message, state) => unhandledReceiveCallback(message, state);
+        }
+
+        public void OnUnhandledReminder(Action<string, string> unhandledReminderCallback)
+        {
+            Requires.NotNull(unhandledReminderCallback, nameof(unhandledReminderCallback));
+
+            OnUnhandledReminder((reminder, state) =>
+            {
+                unhandledReminderCallback(reminder, state);
+                return TaskResult.Done;
+            });
+        }
+
+        public void OnUnhandledReminder(Func<string, string, Task> unhandledReminderCallback)
+        {
+            Requires.NotNull(unhandledReminderCallback, nameof(unhandledReminderCallback));
+
+            if (onUnhandledReminder != null)
+                throw new InvalidOperationException("Unhandled reminder callback has been already set");
+
+            if (next != null)
+                throw new InvalidOperationException("Unhandled reminder callback cannot be set while configuring behavior");
+
+            onUnhandledReminder = (actor, reminder, state) => unhandledReminderCallback(reminder, state);
         }
 
         public void OnBecome(Action action)
@@ -228,23 +304,23 @@ namespace Orleankka.Behaviors
             Next.OnUnbecome(action);
         }
 
-        public void On<TMessage>(Action<TMessage> action)
+        public void OnReceive<TMessage>(Action<TMessage> action)
         {
             Requires.NotNull(action, nameof(action));
-            On<TMessage>(x =>
+            OnReceive<TMessage>(x =>
             {
                 action(x);
                 return TaskDone.Done;
             });
         }
 
-        public void On<TMessage, TResult>(Func<TMessage, TResult> action)
+        public void OnReceive<TMessage, TResult>(Func<TMessage, TResult> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive<TMessage>((a, m) => Task.FromResult((object)action(m)));
         }
 
-        public void On<TMessage>(Func<TMessage, Task> action)
+        public void OnReceive<TMessage>(Func<TMessage, Task> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive<TMessage>(async (a, m) =>
@@ -254,29 +330,29 @@ namespace Orleankka.Behaviors
             });
         }
 
-        public void On<TMessage>(Func<TMessage, Task<object>> action)
+        public void OnReceive<TMessage>(Func<TMessage, Task<object>> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive<TMessage>((a, m) => action(m));
         }
 
-        public void On<TMessage, TResult>(Func<TMessage, Task<TResult>> action)
+        public void OnReceive<TMessage, TResult>(Func<TMessage, Task<TResult>> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive<TMessage>(async (a, m) => await action(m));
         }
 
-        public void On(Action<object> action)
+        public void OnReceive(Action<object> action)
         {
             Requires.NotNull(action, nameof(action));
-            On(x =>
+            OnReceive(x =>
             {
                 action(x);
                 return TaskDone.Done;
             });
         }
 
-        public void On(Func<object, Task> action)
+        public void OnReceive(Func<object, Task> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive(async (a, m) =>
@@ -286,7 +362,7 @@ namespace Orleankka.Behaviors
             });
         }
 
-        public void On(Func<object, Task<object>> action)
+        public void OnReceive(Func<object, Task<object>> action)
         {
             Requires.NotNull(action, nameof(action));
             Next.OnReceive((a, m) => action(m));

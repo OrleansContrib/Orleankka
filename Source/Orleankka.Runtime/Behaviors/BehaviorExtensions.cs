@@ -25,12 +25,12 @@ namespace Orleankka.Behaviors
         public static void OnReminder(this Actor actor, Action<string> action) => actor.Behavior.OnReminder(action);
         public static void OnReminder(this Actor actor, Func<string, Task> action) => actor.Behavior.OnReminder(action);
 
-        public static void On<TMessage>(this Actor actor, Action<TMessage> action) => actor.Behavior.On(action);
-        public static void On<TMessage, TResult>(this Actor actor, Func<TMessage, TResult> action) => actor.Behavior.On(action);
-        public static void On<TMessage>(this Actor actor, Func<TMessage, Task> action) => actor.Behavior.On(action);
-        public static void On<TMessage>(this Actor actor, Func<TMessage, Task<object>> action) => actor.Behavior.On(action);
-        public static void On<TMessage, TResult>(this Actor actor, Func<TMessage, Task<TResult>> action) => actor.Behavior.On(action);
-        public static void On(this Actor actor, Action<object> action) => actor.Behavior.On(action);
-        public static void On(this Actor actor, Func<object, Task> action) => actor.Behavior.On(action);
+        public static void OnReceive<TMessage>(this Actor actor, Action<TMessage> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive<TMessage, TResult>(this Actor actor, Func<TMessage, TResult> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive<TMessage>(this Actor actor, Func<TMessage, Task> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive<TMessage>(this Actor actor, Func<TMessage, Task<object>> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive<TMessage, TResult>(this Actor actor, Func<TMessage, Task<TResult>> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive(this Actor actor, Action<object> action) => actor.Behavior.OnReceive(action);
+        public static void OnReceive(this Actor actor, Func<object, Task> action) => actor.Behavior.OnReceive(action);
     }
 }
