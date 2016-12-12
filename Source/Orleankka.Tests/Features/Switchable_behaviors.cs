@@ -62,6 +62,7 @@ namespace Orleankka.Features
                     Setup(nameof(SS));
                     this.Super(SSS);
                     this.OnReceive<Z>(x => this.Become(C));
+                    this.OnReminder("foo", ()=> Events.Add("OnReminder_foo"));
                 }
 
                 void SSS()
@@ -282,14 +283,25 @@ namespace Orleankka.Features
                 Assert.That(passedReminderId, Is.SameAs("test"));
             }
 
-            [Test, Ignore("Not yet implemented")]
-            public async Task When_receiving_should_check_handlers_in_super_chain()
+            [Test]
+            public async Task When_receiving_message_should_check_handlers_in_super_chain()
             {
                 actor.Behavior.Initial(nameof(TestActor.A));
 
                 await actor.OnReceive(new Z());
 
                 Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.C)));
+            }
+
+            [Test]
+            public async Task When_receiving_reminder_should_check_handlers_in_super_chain()
+            {
+                actor.Behavior.Initial(nameof(TestActor.B));
+
+                await actor.OnReminder("foo");
+
+                Assert.That(actor.Events.Count, Is.EqualTo(1));
+                Assert.That(actor.Events[0], Is.EqualTo("OnReminder_foo"));
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 

@@ -43,7 +43,7 @@ namespace Orleankka.Behaviors
         readonly Dictionary<Type, Func<Actor, object, Task<object>>> onReceive = new Dictionary<Type, Func<Actor, object, Task<object>>>();
         Func<Actor, object, Task<object>> onReceiveAny;
 
-        readonly Dictionary<string, Func<Actor, Task>> onReminder = new Dictionary<string, Func<Actor, Task>>();
+        readonly Dictionary<string, Func<Actor, string, Task>> onReminder = new Dictionary<string, Func<Actor, string, Task>>();
         Func<Actor, string, Task> onReminderAny;
 
         public CustomBehavior(string name)
@@ -117,7 +117,7 @@ namespace Orleankka.Behaviors
         {
             try
             {
-                onReminder.Add(id, action);
+                onReminder.Add(id, (a, x) => action(a));
             }
             catch (ArgumentException)
             {
@@ -178,30 +178,48 @@ namespace Orleankka.Behaviors
             if (IsNull())
                 return onReceiveAny(actor, message);
 
-            var handler = onReceive.Find(message.GetType());
+            var handler = TryFindReceiveHandler(message);
             if (handler != null)
                 return handler.Invoke(actor, message);
 
-            if (onReceiveAny != null)
-                return onReceiveAny(actor, message);
-
-            return fallback(actor.GetType(), message, Name);
+            handler = TryFindReceiveAnyHandler();
+            return handler != null
+                       ? handler(actor, message)
+                       : fallback(actor.GetType(), message, Name);
         }
+
+        Func<Actor, object, Task<object>> TryFindReceiveHandler(object message)
+        {
+            var handler = onReceive.Find(message.GetType());
+            return handler ?? super?.TryFindReceiveHandler(message);
+        }
+
+        Func<Actor, object, Task<object>> TryFindReceiveAnyHandler() => 
+            onReceiveAny ?? super?.TryFindReceiveAnyHandler();
 
         public Task HandleReminder(Actor actor, string id, Func<Type, string, string, Task> fallback)
         {
             if (IsNull())
                 return onReminderAny(actor, id);
 
-            var handler = onReminder.Find(id);
+            var handler = TryFindReminderHandler(id);
             if (handler != null)
-                return handler.Invoke(actor);
+                return handler.Invoke(actor, id);
 
-            if (onReminderAny != null)
-                return onReminderAny(actor, id);
-
-            return fallback(actor.GetType(), id, Name);
+            handler = TryFindReminderAnyHandler();
+            return handler != null
+                       ? handler(actor, id)
+                       : fallback(actor.GetType(), id, Name);
         }
+
+        Func<Actor, string, Task> TryFindReminderHandler(string id)
+        {
+            var handler = onReminder.Find(id);
+            return handler ?? super?.TryFindReminderHandler(id);
+        }
+
+        Func<Actor, string, Task> TryFindReminderAnyHandler() =>
+            onReminderAny ?? super?.TryFindReminderAnyHandler();
 
         public void Super(CustomBehavior super)
         {
