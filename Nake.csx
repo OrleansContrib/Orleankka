@@ -19,6 +19,8 @@ const string CoreProject = "Orleankka";
 const string RuntimeProject = "Orleankka.Runtime";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
+const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
+
 const string Beta = "";
 
 const string RootPath = "%NakeScriptDirectory%";
@@ -44,6 +46,7 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
     Delete(@"{path}\*.*|-:*.vshost.exe");
     RemoveDir(@"**\bin|**\obj|{path}\*|-:*.vshost.exe");
 }
+
 
 /// Builds sources using specified configuration and output path
 [Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false)
@@ -83,9 +86,10 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
     Build("Package", ReleasePath);
 
     Pack(CoreProject);    
-    Pack(RuntimeProject, "core_version={Version(CoreProject)}");    
-    Pack(TestKitProject, "core_version={Version(CoreProject)}");
-    Pack(FSharpProject,  "core_version={Version(CoreProject)}");
+    Pack(RuntimeProject,        "core_version={Version(CoreProject)}");    
+    Pack(TestKitProject,        "core_version={Version(CoreProject)}");
+    Pack(FSharpProject,         "core_version={Version(CoreProject)}");
+    Pack(FSharpRuntimeProject,  "core_version={Version(CoreProject)}");
 }
 
 void Pack(string project, string properties = null)
@@ -111,12 +115,14 @@ void Pack(string project, string properties = null)
             break;        
         case "fsharp": 
             Push(FSharpProject); 
+            Push(FSharpRuntimeProject);
             break;
         case "all":
             Push(CoreProject); 
             Push(RuntimeProject); 
             Push(TestKitProject); 
-            Push(FSharpProject);  
+            Push(FSharpProject);
+            Push(FSharpRuntimeProject);
             break;      
         default:
             throw new ArgumentException("Available values are: core, runtime, testkit, fsharp or all");   
