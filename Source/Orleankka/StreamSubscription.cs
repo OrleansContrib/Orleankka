@@ -22,20 +22,20 @@ namespace Orleankka
             return handle.UnsubscribeAsync();
         }
 
-        public virtual Task Resume(Func<object, Task> callback)
+        public virtual async Task<StreamSubscription> Resume(Func<object, Task> callback)
         {
             Requires.NotNull(callback, nameof(callback));
             var observer = new StreamRef.Observer((item, token) => callback(item));
-            return handle.ResumeAsync(observer);
+            return new StreamSubscription(await handle.ResumeAsync(observer));
         }
 
-        public virtual Task Resume<T>(Func<T, Task> callback)
+        public virtual Task<StreamSubscription> Resume<T>(Func<T, Task> callback)
         {
             Requires.NotNull(callback, nameof(callback));
             return Resume(item => callback((T)item));
         }
 
-        public virtual Task Resume(Action<object> callback)
+        public virtual Task<StreamSubscription> Resume(Action<object> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 
@@ -46,7 +46,7 @@ namespace Orleankka
             });
         }
 
-        public virtual Task Resume<T>(Action<T> callback)
+        public virtual Task<StreamSubscription> Resume<T>(Action<T> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 

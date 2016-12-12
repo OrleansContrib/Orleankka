@@ -19,32 +19,32 @@ namespace Orleankka.TestKit
             Filter = filter;
         }
 
-        public override Task Resume(Func<object, Task> callback)
+        public override Task<StreamSubscription> Resume(Func<object, Task> callback)
         {
             Resumed = true;
             Callback = callback;
-            return TaskDone.Done;;
+            return Task.FromResult((StreamSubscription)this);
         }
 
-        public override Task Resume<T>(Func<T, Task> callback)
+        public override Task<StreamSubscription> Resume<T>(Func<T, Task> callback)
         {
             Resumed = true;
             Callback = callback;
-            return TaskDone.Done;
+            return Task.FromResult((StreamSubscription)this);
         }
 
-        public override Task Resume(Action<object> callback)
+        public override Task<StreamSubscription> Resume(Action<object> callback)
         {
             Resumed = true;
             Callback = callback;
-            return TaskDone.Done; ;
+            return Task.FromResult((StreamSubscription)this);
         }
 
-        public override Task Resume<T>(Action<T> callback)
+        public override Task<StreamSubscription> Resume<T>(Action<T> callback)
         {
             Resumed = true;
             Callback = callback;
-            return TaskDone.Done;
+            return Task.FromResult((StreamSubscription)this);
         }
 
         public override Task Unsubscribe()
