@@ -11,13 +11,18 @@ Orleankka is a functional API for Microsoft Orleans framework. It is highly suit
 + Simplified programmatic configuration via fluent DSL (client, cluster, azure, embedded)
 + Convenient unit testing kit (stubs, mocks, expectations)
 + Redesigned streams api (actor subscriptions)
-+ Declarative stream subscriptions (great for CQRS/ES projections)
++ Switchable actor behaviors with built-in hierarchical FSM
++ Poweful actor invocation pipeline interceptors
 
-### How to install [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/)
+### How to install
 
-To install Orleankka via NuGet, run this command in NuGet package manager console:
+To install client Orleankka library via NuGet, run this command in NuGet package manager console:
 
 	PM> Install-Package Orleankka
+
+For server-side library:
+
+	PM> Install-Package Orleankka.Runtime
 
 Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28C%23%29) ([F#](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28F%23%29)).
 
@@ -30,12 +35,15 @@ Clone repository and run the following in CLI from solution's root folder:
 This will restore dependencies and build everything in `debug` mode. Run `Nake.bat` with `-T` switch to see available commands.
 
 
-### Add-ons
+### Packages
 
 |  |  | [inside]
 | ------- |:----:| ---------- |
-| Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | Special api for F#
+| Orleankka | [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Core and client lib
+| Orleankka.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Server-side runtime lib
 | Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
+| Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
+| Orleankka.FSharp.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
 
 ### Examples
 
