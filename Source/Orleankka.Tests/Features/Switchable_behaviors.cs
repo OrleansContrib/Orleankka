@@ -23,7 +23,7 @@ namespace Orleankka.Features
 
                 public TestActor()
                 {
-                    Behavior.OnBecome((current, previous) => Events.Add($"OnBecome_{previous}_{current}"));
+                    Behavior.OnBecome((current, previous) => Events.Add($"OnBecome_{current}_{previous}"));
                 }
 
                 void Setup(string behavior)
@@ -98,6 +98,12 @@ namespace Orleankka.Features
                     Setup(nameof(CyclicSuperSS));
                     this.Super(CyclicSuperS); // cycle
                 }
+
+                public void BecomeOtherOnBecome() => this.OnBecome(() => this.Become(B));
+                public void BecomeOtherOnActivate() => this.OnActivate(() => this.Become(B));
+
+                public void BecomeOtherOnUnbecome() => this.OnUnbecome(() => this.Become(B));
+                public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
             TestActor actor;
@@ -191,6 +197,35 @@ namespace Orleankka.Features
                     "OnBecome_B",
                     "OnBecome_B_A",
                     "OnActivate_B",
+                };
+
+                AssertEqual(expected, actor.Events);
+            }
+
+            [Test]
+            public async Task When_transitioning_different_super()
+            {
+                actor.Behavior.Initial(nameof(TestActor.Initial));
+
+                await actor.Behavior.Become(actor.A);
+                actor.Events.Clear();
+
+                await actor.Behavior.Become(actor.C);
+                var expected = new[]
+                {
+                    "OnDeactivate_A",
+                    "OnDeactivate_S",
+                    "OnDeactivate_SS",
+                    "OnDeactivate_SSS",
+                    "OnUnbecome_A",
+                    "OnUnbecome_S",
+                    "OnUnbecome_SS",
+                    "OnUnbecome_SSS",
+                    "OnBecome_SSSS",
+                    "OnBecome_C",
+                    "OnBecome_C_A",
+                    "OnActivate_SSSS",
+                    "OnActivate_C"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -302,6 +337,40 @@ namespace Orleankka.Features
 
                 Assert.That(actor.Events.Count, Is.EqualTo(1));
                 Assert.That(actor.Events[0], Is.EqualTo("OnReminder_foo"));
+            }
+
+            [Test]
+            public async Task When_becoming_other_during_activate()
+            {
+                actor.Behavior.Initial(nameof(TestActor.Initial));
+
+                await actor.Become(actor.BecomeOtherOnActivate);
+
+                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.B)));
+            }
+
+            [Test]
+            public void When_becoming_other_during_become()
+            {
+                actor.Behavior.Initial(nameof(TestActor.Initial));
+
+                Assert.Throws<InvalidOperationException>(async () => await actor.Become(actor.BecomeOtherOnBecome));
+            }
+
+            [Test]
+            public void When_becoming_other_during_unbecome()
+            {
+                actor.Behavior.Initial(nameof(TestActor.BecomeOtherOnUnbecome));
+
+                Assert.Throws<InvalidOperationException>(async ()=> await actor.Become(actor.A));
+            }
+
+            [Test]
+            public void When_becoming_other_during_deactivate()
+            {
+                actor.Behavior.Initial(nameof(TestActor.BecomeOtherOnDeactivate));
+
+                Assert.Throws<InvalidOperationException>(async () => await actor.Become(actor.A));
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 

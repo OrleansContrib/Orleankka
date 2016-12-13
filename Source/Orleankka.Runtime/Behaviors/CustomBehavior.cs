@@ -56,7 +56,7 @@ namespace Orleankka.Behaviors
         public void OnBecome(Func<Task> action)
         {
             if (onBecome != null)
-                throw new InvalidOperationException("OnBecome action has been already configured");
+                throw new InvalidOperationException($"OnBecome action has been already configured for behavior '{Name}'");
 
             onBecome = action;
         }
@@ -64,7 +64,7 @@ namespace Orleankka.Behaviors
         public void OnUnbecome(Func<Task> action)
         {
             if (onUnbecome != null)
-                throw new InvalidOperationException("OnUnbecome action has been already configured");
+                throw new InvalidOperationException($"OnUnbecome action has been already configured for behavior '{Name}'");
 
             onUnbecome = action;
         }
@@ -72,7 +72,7 @@ namespace Orleankka.Behaviors
         public void OnActivate(Func<Task> action)
         {
             if (onActivate != null)
-                throw new InvalidOperationException("OnActivate action has been already configured");
+                throw new InvalidOperationException($"OnActivate action has been already configured for behavior '{Name}'");
 
             onActivate = action;
         }
@@ -80,7 +80,7 @@ namespace Orleankka.Behaviors
         public void OnDeactivate(Func<Task> action)
         {
             if (onDeactivate != null)
-                throw new InvalidOperationException("OnDeactivate action has been already configured");
+                throw new InvalidOperationException($"OnDeactivate action has been already configured for behavior '{Name}'");
 
             onDeactivate = action;
         }
@@ -88,7 +88,7 @@ namespace Orleankka.Behaviors
         public void OnReceive(Func<Actor, object, Task<object>> action)
         {
             if (onReceiveAny != null)
-                throw new InvalidOperationException("OnReceive(*) action has been already configured");
+                throw new InvalidOperationException($"OnReceive(*) action has been already configured for behavior '{Name}'");
 
             onReceiveAny = action;
         }
@@ -101,14 +101,14 @@ namespace Orleankka.Behaviors
             }
             catch (ArgumentException)
             {
-                throw new InvalidOperationException($"OnReceive<{typeof(TMessage)}>() action has been already configured");
+                throw new InvalidOperationException($"OnReceive<{typeof(TMessage)}>() action has been already configured for behavior '{Name}'");
             }
         }
 
         public void OnReminder(Func<Actor, string, Task> action)
         {
             if (onReminderAny != null)
-                throw new InvalidOperationException("OnReminder(*) action has been already configured");
+                throw new InvalidOperationException($"OnReminder(*) action has been already configured for behavior '{Name}'");
 
             onReminderAny = action;
         }
@@ -121,7 +121,7 @@ namespace Orleankka.Behaviors
             }
             catch (ArgumentException)
             {
-                throw new InvalidOperationException($"OnReminder(\"{id}\") action has been already configured");
+                throw new InvalidOperationException($"OnReminder(\"{id}\") action has been already configured for behavior '{Name}'");
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,8 +12,8 @@ namespace Orleankka.Behaviors
 
     public sealed class ActorBehavior
     {
-        static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors = 
-                    new Dictionary<Type, Dictionary<string, Action<object>>>();
+        static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors =
+            new Dictionary<Type, Dictionary<string, Action<object>>>();
 
         public static void Reset() => behaviors.Clear();
 
@@ -27,7 +26,7 @@ namespace Orleankka.Behaviors
             {
                 if (method.ReturnType != typeof(void) ||
                     method.GetGenericArguments().Length > 0 ||
-                    method.GetParameters().Length > 0 || 
+                    method.GetParameters().Length > 0 ||
                     method.IsSpecialName)
                     continue;
 
@@ -68,10 +67,10 @@ namespace Orleankka.Behaviors
             current = CustomBehavior.Null
         };
 
-        static readonly Func<Type, object, string, Task<object>> OnUnhandledReceiveDefaultCallback = 
+        static readonly Func<Type, object, string, Task<object>> OnUnhandledReceiveDefaultCallback =
             (actor, message, state) => { throw new UnhandledMessageException(actor, state, message); };
 
-        static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback = 
+        static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback =
             (actor, reminder, state) => { throw new UnhandledReminderException(actor, state, reminder); };
 
         readonly Actor actor;
@@ -90,10 +89,10 @@ namespace Orleankka.Behaviors
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
-        internal Task<object> HandleReceive(object message) => 
+        internal Task<object> HandleReceive(object message) =>
             current.HandleReceive(actor, message, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
 
-        internal Task HandleReminder(string id) => 
+        internal Task HandleReminder(string id) =>
             current.HandleReminder(actor, id, onUnhandledReminder ?? OnUnhandledReminderDefaultCallback);
 
         CustomBehavior Next
@@ -112,7 +111,7 @@ namespace Orleankka.Behaviors
         public void Initial(string behavior)
         {
             if (!IsNull())
-                throw new InvalidOperationException("Initial behavior has been already set");
+                throw new InvalidOperationException($"Initial behavior has been already set to '{Current}'");
 
             var action = RegisteredAction(behavior);
             next = new CustomBehavior(behavior);
@@ -134,7 +133,8 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException("Initial behavior should be set before calling Become");
 
             if (next != null)
-                throw new InvalidOperationException("Become cannot be called while configuring behavior");
+                throw new InvalidOperationException($"Become cannot be called again while behavior configuration is in progress.\n" +
+                                                    $"Current: {Current}, In-progress: {next.Name}, Offending: {behavior}");
 
             if (Current == behavior.Method.Name)
                 throw new InvalidOperationException($"Actor is already behaving as '{behavior.Method.Name}'");
@@ -146,16 +146,15 @@ namespace Orleankka.Behaviors
 
             await current.HandleDeactivate(transition);
             await current.HandleUnbecome(transition);
-            
+
             current = next;
 
             await current.HandleBecome(transition);
             if (onBecome != null)
-                await onBecome(transition.From.Name, transition.To.Name);
-
-            await current.HandleActivate(transition);
+                await onBecome(transition.To.Name, transition.From.Name);
 
             next = null;
+            await current.HandleActivate(transition);
         }
 
         public void Super(Action behavior)
@@ -163,7 +162,8 @@ namespace Orleankka.Behaviors
             AssertHasRegisteredAction(behavior);
 
             if (next == null)
-                throw new InvalidOperationException("Super can only be called while configuring behavior");
+                throw new InvalidOperationException($"Super behavior can only be specified while behavior configuration is in progress. " +
+                                                    $"Current: {Current}, Offending: {behavior.Method.Name}");
 
             if (next.Includes(behavior.Method.Name))
                 throw new InvalidOperationException(
@@ -182,7 +182,7 @@ namespace Orleankka.Behaviors
 
             prev.Super(next);
             behavior();
-            
+
             next = prev;
         }
 
@@ -237,7 +237,8 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException("Unhandled message callback has been already set");
 
             if (next != null)
-                throw new InvalidOperationException("Unhandled message callback cannot be set while configuring behavior");
+                throw new InvalidOperationException("Unhandled message callback cannot be set while behavior configuration is in progress.\n " +
+                                                    $"Current: {Current}, In-progress: {next.Name}");
 
             onUnhandledReceive = (actor, message, state) => unhandledReceiveCallback(message, state);
         }
@@ -261,7 +262,8 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException("Unhandled reminder callback has been already set");
 
             if (next != null)
-                throw new InvalidOperationException("Unhandled reminder callback cannot be set while configuring behavior");
+                throw new InvalidOperationException("Unhandled reminder callback cannot be set while behavior configuration is in progress.\n " +
+                                                    $"Current: {Current}, In-progress: {next.Name}");
 
             onUnhandledReminder = (actor, reminder, state) => unhandledReminderCallback(reminder, state);
         }
@@ -311,7 +313,7 @@ namespace Orleankka.Behaviors
         public void OnReceive<TMessage, TResult>(Func<TMessage, TResult> action)
         {
             Requires.NotNull(action, nameof(action));
-            Next.OnReceive<TMessage>((a, m) => Task.FromResult((object)action(m)));
+            Next.OnReceive<TMessage>((a, m) => Task.FromResult((object) action(m)));
         }
 
         public void OnReceive<TMessage>(Func<TMessage, Task> action)
@@ -398,7 +400,7 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNullOrWhitespace(id, nameof(id));
             Requires.NotNull(action, nameof(action));
-            OnReminder(id, ()=>
+            OnReminder(id, () =>
             {
                 action();
                 return TaskDone.Done;
