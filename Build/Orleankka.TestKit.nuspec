@@ -12,6 +12,7 @@
     <tags>Orleans Akka distributed messaging actor concurrency CQRS unit testing mock</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
+        <dependency id="Orleankka.Runtime" version="$core_version$" />
     </dependencies>  
   </metadata>
   <files>
