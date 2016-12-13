@@ -29,12 +29,12 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Run<SS.Bootstrap>(new SS.Properties
+                .Bootstrapper<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
                 })
-                .Register(Assembly.GetExecutingAssembly())
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

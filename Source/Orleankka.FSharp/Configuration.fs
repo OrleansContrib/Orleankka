@@ -27,7 +27,7 @@ module ClientConfig =
 module ActorSystem =       
 
    let inline createClient config actors assemblies = 
-      ActorSystem.Configure().Client().From(config).Register(assemblies : Assembly[]).Register(actors: string[]).Done()
+      ActorSystem.Configure().Client().From(config).Assemblies(assemblies : Assembly[]).ActorTypes(actors: string[]).Done()
  
    let inline start (system:^TSys) = 
       (^TSys: (member Start: wait:bool -> unit) (system, false))

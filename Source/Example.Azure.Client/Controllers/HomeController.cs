@@ -51,7 +51,7 @@ namespace Example.Azure.Controllers
             MvcApplication.System = ActorSystem.Configure()
                 .Client()
                 .From(Configuration(clusterId, clsuterMembershipStorage))
-                .Register(typeof(SubscribeHub).Assembly)
+                .Assemblies(typeof(SubscribeHub).Assembly)
                 .Done();
 
             MvcApplication.System.Connect(retries: 5);

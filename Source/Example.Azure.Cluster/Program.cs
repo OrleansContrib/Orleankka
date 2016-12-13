@@ -30,8 +30,8 @@ namespace Example.Azure
             system = ActorSystem.Configure()
                 .Cluster()
                 .From(Configuration(clusterId, clusterMembershipStorage))
-                .Register(Assembly.GetExecutingAssembly(), typeof(SubscribeHub).Assembly)
-                .Run<HubGateway.Bootstrapper>()
+                .Assemblies(Assembly.GetExecutingAssembly(), typeof(SubscribeHub).Assembly)
+                .Bootstrapper<HubGateway.Bootstrapper>()
                 .Done();
 
             system.Start(wait: true);

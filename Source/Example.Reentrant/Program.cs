@@ -21,7 +21,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Register(Assembly.GetExecutingAssembly())
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

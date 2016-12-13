@@ -49,7 +49,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register(params Assembly[] assemblies)
+        public ClusterConfigurator Assemblies(params Assembly[] assemblies)
         {
             Requires.NotNull(assemblies, nameof(assemblies));
 
@@ -74,7 +74,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Run<T>(object properties = null) where T : IBootstrapper
+        public ClusterConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
         {
             var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
 
@@ -84,7 +84,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register<T>(object properties = null) where T : IActorActivator
+        public ClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
             if (activator != null)
                 throw new InvalidOperationException("Activator has been already registered");
@@ -94,7 +94,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator RegisterInterceptor<T>(object properties = null) where T : IInterceptor
+        public ClusterConfigurator Interceptor<T>(object properties = null) where T : IInterceptor
         {
             if (interceptor != null)
                 throw new InvalidOperationException("Interceptor has been already registered");
@@ -104,7 +104,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
 
@@ -156,7 +156,7 @@ namespace Orleankka.Cluster
             if (activator == null)
                 return;
 
-            var instance = (IActorActivator) Activator.CreateInstance(activator.Item1);
+            var instance = (IActorActivator) System.Activator.CreateInstance(activator.Item1);
             instance.Init(activator.Item2);
 
             ActorType.Activator = instance;
@@ -167,7 +167,7 @@ namespace Orleankka.Cluster
             if (interceptor == null)
                 return;
 
-            var instance = (IInterceptor) Activator.CreateInstance(interceptor.Item1);
+            var instance = (IInterceptor) System.Activator.CreateInstance(interceptor.Item1);
             instance.Install(InvocationPipeline.Instance, interceptor.Item2);
         }
 
@@ -185,7 +185,7 @@ namespace Orleankka.Cluster
                     autoruns.Add(ActorTypeName.Of(actor), ids);
             }
 
-            Run<AutorunBootstrapper>(autoruns);
+            Bootstrapper<AutorunBootstrapper>(autoruns);
         }
 
         void RegisterStreamProviders()

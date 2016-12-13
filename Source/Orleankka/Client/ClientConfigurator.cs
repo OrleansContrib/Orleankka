@@ -36,7 +36,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
+        public ClientConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
 
@@ -47,7 +47,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Register(params Assembly[] assemblies)
+        public ClientConfigurator Assemblies(params Assembly[] assemblies)
         {
             Requires.NotNull(assemblies, nameof(assemblies));
 
@@ -81,7 +81,7 @@ namespace Orleankka.Client
                 interfaces.Add(mapping);
         }
 
-        public ClientConfigurator Register(params string[] types)
+        internal ClientConfigurator ActorTypes(params string[] types)
         {
             Requires.NotNull(types, nameof(types));
 

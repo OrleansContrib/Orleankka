@@ -28,8 +28,8 @@ module ClusterConfig =
 [<RequireQualifiedAccess>]
 module ActorSystem =       
    let inline createCluster config assemblies =
-      ActorSystem.Configure().Cluster().From(config).Register(assemblies : Assembly[]).Done()
+      ActorSystem.Configure().Cluster().From(config).Assemblies(assemblies : Assembly[]).Done()
 
    let inline createPlayground assemblies =
-      ActorSystem.Configure().Playground().Register(assemblies : Assembly[]).Done()
+      ActorSystem.Configure().Playground().Assemblies(assemblies : Assembly[]).Done()
         

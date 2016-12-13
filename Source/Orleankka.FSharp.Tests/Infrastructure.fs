@@ -21,7 +21,7 @@ type RequiresSiloAttribute() =
          let system = ActorSystem.Configure()
                                  .Playground()
                                  .UseInMemoryPubSubStore()
-                                 .Register(this.GetType().Assembly)
+                                 .Assemblies(this.GetType().Assembly)
                                  .Done()
       
          TestActorSystem.instance <- system

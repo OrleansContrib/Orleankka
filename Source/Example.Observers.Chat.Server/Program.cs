@@ -21,8 +21,8 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Cluster()
                 .From(config)
-                .Register(typeof(Join).Assembly)
-                .Register(Assembly.GetExecutingAssembly())
+                .Assemblies(typeof(Join).Assembly)
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

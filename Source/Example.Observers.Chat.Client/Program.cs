@@ -20,7 +20,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(Join).Assembly)
+                .Assemblies(typeof(Join).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

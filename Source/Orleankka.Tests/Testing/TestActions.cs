@@ -50,18 +50,18 @@ namespace Orleankka.Testing
                 .UseInMemoryPubSubStore()
                 .TweakCluster(cfg => cfg
                     .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
-                .Register(GetType().Assembly);
+                .Assemblies(GetType().Assembly);
 
             if (EnableAzureQueueStreamProvider)
             {
-                system.Register<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
+                system.StreamProvider<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
                 {
                     {"DataConnectionString", "UseDevelopmentStorage=true"},
                     {"DeploymentId", "test"},
                 });
             }
 
-            system.RegisterInterceptor<TestInterceptor>();
+            system.Interceptor<TestInterceptor>();
 
             TestActorSystem.Instance = system.Done();
             TestActorSystem.Instance.Start();

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 
 using Orleans.Storage;
 using Orleans.Runtime.Configuration;
@@ -35,7 +34,7 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            Register<SimpleMessageStreamProvider>("sms", new Dictionary<string, string> {{"FireAndForgetDelivery", "false"}});
+            StreamProvider<SimpleMessageStreamProvider>("sms", new Dictionary<string, string> {{"FireAndForgetDelivery", "false"}});
         }
 
         public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)
@@ -71,16 +70,16 @@ namespace Orleankka.Playground
             cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
         }
 
-        public new PlaygroundConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        public new PlaygroundConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
-            base.Register<T>(name, properties);
+            base.StreamProvider<T>(name, properties);
             return this;
         }
 
         public override EmbeddedActorSystem Done()
         {
-            From(client);
-            From(cluster);
+            Client(client);
+            Cluster(cluster);
 
             return base.Done();
         }

@@ -17,8 +17,8 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Run<ES.Bootstrap>()
-                .Register(Assembly.GetExecutingAssembly())
+                .Bootstrapper<ES.Bootstrap>()
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
             system.Start();

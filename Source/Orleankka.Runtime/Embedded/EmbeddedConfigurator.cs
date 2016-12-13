@@ -36,44 +36,44 @@ namespace Orleankka.Embedded
                         new object[0], null, null);
         }
 
-        public EmbeddedConfigurator From(ClusterConfiguration config)
+        public EmbeddedConfigurator Cluster(ClusterConfiguration config)
         {
             cluster.From(config);
             return this;
         }
 
-        public EmbeddedConfigurator From(ClientConfiguration config)
+        public EmbeddedConfigurator Client(ClientConfiguration config)
         {
             client.From(config);
             return this;
         }
     
-        public EmbeddedConfigurator Run<T>(object properties = null) where T : IBootstrapper
+        public EmbeddedConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
         {
-            cluster.Run<T>(properties);
+            cluster.Bootstrapper<T>(properties);
             return this;
         }
 
-        public EmbeddedConfigurator Register<T>(object properties = null) where T : IActorActivator
+        public EmbeddedConfigurator Activator<T>(object properties = null) where T : IActorActivator
         {
-            cluster.Register<T>(properties);
+            cluster.Activator<T>(properties);
             return this;
         }
 
-        public EmbeddedConfigurator RegisterInterceptor<T>(object properties = null) where T : IInterceptor
+        public EmbeddedConfigurator Interceptor<T>(object properties = null) where T : IInterceptor
         {
-            cluster.RegisterInterceptor<T>(properties);
+            cluster.Interceptor<T>(properties);
             return this;
         }
 
-        public EmbeddedConfigurator Register<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
+        public EmbeddedConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
-            cluster.Register<T>(name, properties);
-            client.Register<T>(name, properties);
+            cluster.StreamProvider<T>(name, properties);
+            client.StreamProvider<T>(name, properties);
             return this;
         }
 
-        public EmbeddedConfigurator Register(params Assembly[] assemblies)
+        public EmbeddedConfigurator Assemblies(params Assembly[] assemblies)
         {
             Requires.NotNull(assemblies, nameof(assemblies));
 
@@ -96,7 +96,7 @@ namespace Orleankka.Embedded
             }
 
             client.Register(assemblies, interfaces);
-            cluster.Register(assemblies);
+            cluster.Assemblies(assemblies);
 
             return this;
         }
