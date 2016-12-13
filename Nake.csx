@@ -108,7 +108,7 @@ void Pack(string project, string properties = null)
             Push(CoreProject); 
             break;
         case "runtime": 
-            Push(CoreProject); 
+            Push(RuntimeProject); 
             break;            
         case "testkit": 
             Push(TestKitProject); 
