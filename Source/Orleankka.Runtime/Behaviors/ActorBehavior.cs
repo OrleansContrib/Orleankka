@@ -22,26 +22,20 @@ namespace Orleankka.Behaviors
         {
             var found = new Dictionary<string, Action<object>>();
 
-            var type = actor;
-            while (type != typeof(Actor))
+            const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+            foreach (var method in actor.GetMethods(scope))
             {
-                const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-                foreach (var method in actor.GetMethods(scope))
-                {
-                    if (method.ReturnType != typeof(void) ||
-                        method.GetGenericArguments().Length > 0 ||
-                        method.GetParameters().Length > 0)
-                        continue;
+                if (method.ReturnType != typeof(void) ||
+                    method.GetGenericArguments().Length > 0 ||
+                    method.GetParameters().Length > 0 || 
+                    method.IsSpecialName)
+                    continue;
 
-                    var target = Expression.Parameter(typeof(object));
-                    var call = Expression.Call(Expression.Convert(target, actor), method);
-                    var action = Expression.Lambda<Action<object>>(call, target).Compile();
+                var target = Expression.Parameter(typeof(object));
+                var call = Expression.Call(Expression.Convert(target, actor), method);
+                var action = Expression.Lambda<Action<object>>(call, target).Compile();
 
-                    found.Add(method.Name, action);
-                }
-
-                Debug.Assert(type != null, "type != null");
-                type = type.BaseType;
+                found[method.Name] = action;
             }
 
             behaviors.Add(actor, found);
