@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors.cs" />
     <Compile Include="Messages.cs" />
   </ItemGroup>
   <ItemGroup>

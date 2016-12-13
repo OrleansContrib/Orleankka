@@ -21,7 +21,6 @@ namespace Example
                 .Client()
                 .From(config)
                 .Register(typeof(Join).Assembly)
-                .Register(types: "ChatRoom")
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

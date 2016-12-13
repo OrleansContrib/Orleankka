@@ -6,9 +6,8 @@ using Orleankka.Meta;
 
 namespace Example.Azure
 {
-    [ActorType("Hub")]
     [Actor(Placement = Placement.PreferLocal)]
-    public class Hub : Actor
+    public class Hub : Actor, IHub
     {
         [Serializable]
         public class Init : Command

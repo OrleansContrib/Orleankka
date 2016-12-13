@@ -5,8 +5,7 @@ using Orleankka;
 
 namespace Example.Azure
 {
-    [ActorType("Publisher")]
-    public class Publisher : Actor
+    public class Publisher : Actor, IPublisher
     {
         static readonly Random rand = new Random();
 

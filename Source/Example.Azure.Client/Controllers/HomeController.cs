@@ -52,7 +52,6 @@ namespace Example.Azure.Controllers
                 .Client()
                 .From(Configuration(clusterId, clsuterMembershipStorage))
                 .Register(typeof(SubscribeHub).Assembly)
-                .Register("Hub", "Publisher")
                 .Done();
 
             MvcApplication.System.Connect(retries: 5);
