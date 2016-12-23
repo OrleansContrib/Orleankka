@@ -26,7 +26,7 @@ module ClientConfig =
 [<RequireQualifiedAccess>]
 module ActorSystem =       
 
-   let inline createClient config actors assemblies = 
+   let createClient config actors assemblies = 
       ActorSystem.Configure().Client().From(config).Assemblies(assemblies : Assembly[]).ActorTypes(actors: string[]).Done()
  
    let inline start (system:^TSys) = 
