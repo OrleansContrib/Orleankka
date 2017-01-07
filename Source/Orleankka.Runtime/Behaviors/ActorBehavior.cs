@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,28 +15,38 @@ namespace Orleankka.Behaviors
     public sealed class ActorBehavior
     {
         static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors =
-            new Dictionary<Type, Dictionary<string, Action<object>>>();
+                    new Dictionary<Type, Dictionary<string, Action<object>>>();
 
         public static void Reset() => behaviors.Clear();
 
         public static void Register(Type actor)
         {
+            Requires.NotNull(actor, nameof(actor));
+
             var found = new Dictionary<string, Action<object>>();
+            var current = actor;
 
-            const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-            foreach (var method in actor.GetMethods(scope))
+            while (current != typeof(Actor))
             {
-                if (method.ReturnType != typeof(void) ||
-                    method.GetGenericArguments().Length > 0 ||
-                    method.GetParameters().Length > 0 ||
-                    method.IsSpecialName)
-                    continue;
+                Debug.Assert(current != null);
 
-                var target = Expression.Parameter(typeof(object));
-                var call = Expression.Call(Expression.Convert(target, actor), method);
-                var action = Expression.Lambda<Action<object>>(call, target).Compile();
+                const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+                foreach (var method in current.GetMethods(scope).Where(x => x.GetCustomAttribute<BehaviorAttribute>() != null))
+                {
+                    if (method.ReturnType != typeof(void) ||
+                        method.GetGenericArguments().Length != 0 ||
+                        method.GetParameters().Length != 0)
+                        throw new InvalidOperationException(
+                            $"Behavior method '{method.Name}' defined on '{current}' has incorrent signature. " +
+                             "Should be void, non-generic and parameterless");
 
-                found[method.Name] = action;
+                    var target = Expression.Parameter(typeof(object));
+                    var call = Expression.Call(Expression.Convert(target, actor), method);
+                    var action = Expression.Lambda<Action<object>>(call, target).Compile();
+
+                    found[method.Name] = action;
+                }
+                current = current.BaseType;
             }
 
             behaviors.Add(actor, found);

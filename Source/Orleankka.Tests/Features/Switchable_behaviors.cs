@@ -34,9 +34,9 @@ namespace Orleankka.Features
                     this.OnDeactivate(() => Events.Add($"OnDeactivate_{behavior}"));
                 }
 
-                public void Initial() => Setup(nameof(Initial));
+                [Behavior] public void Initial() => Setup(nameof(Initial));
 
-                public void A()
+                [Behavior] public void A()
                 {
                     Setup(nameof(A));
                     this.Super(S);
@@ -44,20 +44,20 @@ namespace Orleankka.Features
                     this.OnReminder(id => Events.Add($"OnReminder_{id}"));
                 }
 
-                public void B()
+                [Behavior] public void B()
                 {
                     Setup(nameof(B));
                     this.Super(SS);
                     this.OnReceive<Y>(x => this.Become(A));
                 }
 
-                void S()
+                [Behavior] void S()
                 {
                     Setup(nameof(S));
                     this.Super(SS);
                 }
 
-                void SS()
+                [Behavior] void SS()
                 {
                     Setup(nameof(SS));
                     this.Super(SSS);
@@ -65,45 +65,45 @@ namespace Orleankka.Features
                     this.OnReminder("foo", ()=> Events.Add("OnReminder_foo"));
                 }
 
-                void SSS()
+                [Behavior] void SSS()
                 {
                     Setup(nameof(SSS));
                 }
 
-                public void C()
+                [Behavior] public void C()
                 {
                     Setup(nameof(C));
                     this.Super(SSSS);
                 }
 
-                void SSSS()
+                [Behavior] void SSSS()
                 {
                     Setup(nameof(SSSS));
                 }
 
-                public void CyclicSuperA()
+                [Behavior] public void CyclicSuperA()
                 {
                     Setup(nameof(CyclicSuperA));
                     this.Super(CyclicSuperS);
                 }
 
-                void CyclicSuperS()
+                [Behavior] void CyclicSuperS()
                 {
                     Setup(nameof(CyclicSuperS));
                     this.Super(CyclicSuperSS);
                 }
 
-                void CyclicSuperSS()
+                [Behavior] void CyclicSuperSS()
                 {
                     Setup(nameof(CyclicSuperSS));
                     this.Super(CyclicSuperS); // cycle
                 }
 
-                public void BecomeOtherOnBecome() => this.OnBecome(() => this.Become(B));
-                public void BecomeOtherOnActivate() => this.OnActivate(() => this.Become(B));
+                [Behavior] public void BecomeOtherOnBecome() => this.OnBecome(() => this.Become(B));
+                [Behavior] public void BecomeOtherOnActivate() => this.OnActivate(() => this.Become(B));
 
-                public void BecomeOtherOnUnbecome() => this.OnUnbecome(() => this.Become(B));
-                public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
+                [Behavior] public void BecomeOtherOnUnbecome() => this.OnUnbecome(() => this.Become(B));
+                [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
             TestActor actor;

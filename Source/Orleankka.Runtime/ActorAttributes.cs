@@ -197,4 +197,10 @@ namespace Orleankka
             Name = name;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class BehaviorAttribute : Attribute
+    {
+        public bool Background { get; set; }
+    }
 }
