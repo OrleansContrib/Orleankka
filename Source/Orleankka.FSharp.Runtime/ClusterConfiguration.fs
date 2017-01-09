@@ -24,6 +24,9 @@ module ClusterConfig =
    let inline localhostSilo siloPort gatewayPort =
       ClusterConfiguration.LocalhostPrimarySilo(siloPort, gatewayPort)
    
+   let inline registerStreamProvider<'a when 'a :> Orleans.Streams.IStreamProvider > streamName props (config:ClusterConfiguration) =
+      config.Globals.RegisterStreamProvider<'a>(streamName, props|> Map.toSeq |> dict)
+      config
 
 [<RequireQualifiedAccess>]
 module ActorSystem =       

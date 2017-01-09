@@ -21,6 +21,9 @@ module ClientConfig =
 
    let inline localhostSilo gatewayPort = ClientConfiguration.LocalhostSilo(gatewayPort)
 
+   let inline registerStreamProvider<'a when 'a :> Orleans.Streams.IStreamProvider > streamName props (config:ClientConfiguration) =
+      config.RegisterStreamProvider<'a>(streamName, props|> Map.toSeq |> dict)
+      config
 
 
 [<RequireQualifiedAccess>]

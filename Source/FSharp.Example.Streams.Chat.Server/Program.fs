@@ -17,6 +17,7 @@ let main argv =
    let assembly = Assembly.GetExecutingAssembly()
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
+                |> ClusterConfig.registerStreamProvider<Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider> "sms2" Map.empty
 
    use system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
                 |> ActorSystem.createCluster config 
