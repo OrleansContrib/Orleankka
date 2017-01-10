@@ -5,7 +5,7 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.Client
 
-[<RequireQualifiedAccess>]
+//[<RequireQualifiedAccess>]
 module ClientConfig =      
 
    let inline create () = ClientConfiguration()
