@@ -24,7 +24,7 @@ let startChatClient (system:IActorSystem) userName roomName = task {
 
    let userPath = ActorPath.From("ChatUser", userName)
    let userActor = ActorSystem.actorOfPath system userPath
-   let roomStream = ActorSystem.streamOf system "sms" roomName
+   let roomStream = ActorSystem.streamOf system "rooms" roomName
    
    let chatClient = { UserName = userName; User = userActor;
                       RoomName = roomName; Room = roomStream;
@@ -39,6 +39,8 @@ let startChatClient (system:IActorSystem) userName roomName = task {
    return! handleUserInput joinedClient
 }
 
+open ClientConfig
+open Orleans.Providers.Streams.SimpleMessageStream
 
 [<EntryPoint>]
 let main argv = 
@@ -47,9 +49,11 @@ let main argv =
    Console.ReadLine() |> ignore
 
    let assembly = Assembly.GetExecutingAssembly()   
+   
 
-   let config = ClientConfig.loadFromResource assembly "Client.xml"   
-      
+   let config = loadFromResource assembly "Client.xml"   
+                |> registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
+
    use system = [|typeof<ChatRoomMessage>.Assembly|]   
                 |> ActorSystem.createClient config [|"ChatUser"|]
                 |> ActorSystem.conect   

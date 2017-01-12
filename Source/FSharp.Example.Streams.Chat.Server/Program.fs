@@ -1,5 +1,6 @@
 ﻿open System.Reflection
 
+open Orleans.Providers.Streams.SimpleMessageStream
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
@@ -17,6 +18,7 @@ let main argv =
    let assembly = Assembly.GetExecutingAssembly()
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
+                |> ClusterConfig.registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
 
    use system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
                 |> ActorSystem.createCluster config 
