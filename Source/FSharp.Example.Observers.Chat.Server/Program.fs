@@ -18,7 +18,7 @@ let main argv =
 
    use system = [|assembly;typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createCluster config
-                |> ActorSystem.finishConfiguration
+                |> ActorSystem.complete
                 |> ActorSystem.start   
    
    printfn "Finished booting cluster...\n"

@@ -42,7 +42,7 @@ module ActorSystem =
    let inline bootstrapper<'a when 'a :> Orleankka.Cluster.IBootstrapper> props  (cluster:ClusterConfigurator)= 
       cluster.Bootstrapper<'a>(props |> Map.toSeq |> dict)
 
-   let inline finishConfiguration (cluster: ClusterConfigurator)=  //done is reserved word
+   let inline complete (cluster: ClusterConfigurator)= 
       cluster.Done()
 
    let inline createPlayground assemblies =
