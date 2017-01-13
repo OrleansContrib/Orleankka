@@ -19,7 +19,7 @@ let main argv =
    let config = ClientConfig.loadFromResource assembly "Client.xml"
       
    use system = [|typeof<ServerMessage>.Assembly|]
-                |> ActorSystem.createClient config [|"ChatServer"|]
+                |> ActorSystem.createConfiguredClient config [|"ChatServer"|]
                 |> ActorSystem.conect   
 
    client <- ClientObservable.create().Result

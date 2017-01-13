@@ -22,6 +22,7 @@ let main argv =
 
    use system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
                 |> ActorSystem.createCluster config 
+                |> ActorSystem.finishConfiguration
                 |> ActorSystem.start   
    
    printfn "Finished booting cluster...\n"

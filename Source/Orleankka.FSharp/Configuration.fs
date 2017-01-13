@@ -5,7 +5,6 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.Client
 
-//[<RequireQualifiedAccess>]
 module ClientConfig =      
 
    let inline create () = ClientConfiguration()
@@ -29,7 +28,7 @@ module ClientConfig =
 [<RequireQualifiedAccess>]
 module ActorSystem =       
 
-   let createClient config actors assemblies = 
+   let createConfiguredClient config actors assemblies = 
       ActorSystem.Configure().Client().From(config).Assemblies(assemblies : Assembly[]).ActorTypes(actors: string[]).Done()
  
    let inline start (system:^TSys) = 

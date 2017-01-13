@@ -7,7 +7,6 @@ open Orleankka.FSharp
 open Orleankka.Playground
 open Orleankka.Cluster
 
-[<RequireQualifiedAccess>]
 module ClusterConfig =       
    
    let inline create () = ClusterConfiguration()
@@ -28,11 +27,24 @@ module ClusterConfig =
       config.Globals.RegisterStreamProvider<'a>(streamName, props|> Map.toSeq |> dict)
       config
 
-[<RequireQualifiedAccess>]
+
 module ActorSystem =       
    let inline createCluster config assemblies =
-      ActorSystem.Configure().Cluster().From(config).Assemblies(assemblies : Assembly[]).Done()
+      ActorSystem
+        .Configure()
+        .Cluster()
+        .From(config)
+        .Assemblies(assemblies : Assembly[])
+   
+   let inline interceptor<'a when 'a :> Orleankka.Cluster.IInterceptor> (cluster:ClusterConfigurator)=
+      cluster.Interceptor<'a>()
+
+   let inline bootstrapper<'a when 'a :> Orleankka.Cluster.IBootstrapper> props  (cluster:ClusterConfigurator)= 
+      cluster.Bootstrapper<'a>(props |> Map.toSeq |> dict)
+
+   let inline finishConfiguration (cluster: ClusterConfigurator)=  //done is reserved word
+      cluster.Done()
 
    let inline createPlayground assemblies =
       ActorSystem.Configure().Playground().Assemblies(assemblies : Assembly[]).Done()
-        
+   
