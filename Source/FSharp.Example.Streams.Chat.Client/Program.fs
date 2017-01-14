@@ -55,7 +55,7 @@ let main argv =
                 |> registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
 
    use system = [|typeof<ChatRoomMessage>.Assembly|]   
-                |> ActorSystem.createClient config [|"ChatUser"|]
+                |> ActorSystem.createConfiguredClient config [|"ChatUser"|]
                 |> ActorSystem.conect   
 
    printfn "Enter your user name..."

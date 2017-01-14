@@ -62,7 +62,6 @@ namespace Orleankka.Testing
             }
 
             system.Interceptor<TestInterceptor>();
-
             TestActorSystem.Instance = system.Done();
             TestActorSystem.Instance.Start();
         }
