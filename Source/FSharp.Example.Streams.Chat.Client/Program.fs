@@ -56,7 +56,7 @@ let main argv =
 
    use system = [|typeof<ChatRoomMessage>.Assembly|]   
                 |> ActorSystem.createConfiguredClient config [|"ChatUser"|]
-                |> ActorSystem.conect   
+                |> ActorSystem.connect   
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();
