@@ -20,7 +20,7 @@ let main argv =
       
    use system = [|typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createConfiguredClient config [|"ChatServer"|]
-                |> ActorSystem.conect   
+                |> ActorSystem.connect   
 
    client <- ClientObservable.create().Result
 

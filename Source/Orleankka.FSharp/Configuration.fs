@@ -41,7 +41,7 @@ module ActorSystem =
    let inline forceStop (system:^TSys) = 
       (^TSys: (member Stop: force:bool -> unit) (system, true))      
 
-   let inline conect (system:^TSys) =
+   let inline connect (system:^TSys) =
       (^TSys: (member Connect: retries:int -> unit) (system, 0))
       system   
       
