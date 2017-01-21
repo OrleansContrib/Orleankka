@@ -5,20 +5,24 @@ open System.Threading
 open System.Threading.Tasks
 open Orleankka.FSharp
 
+open FSharpx.Task
+
 let checkSuccess (expected: 'a) (t: CancellationToken -> Task<'a>) =
-    match Task.run (fun () -> (t CancellationToken.None)) with
-    | Choice1Of2 r -> Assert.AreEqual(expected, r)
-    | Choice2Of2 e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
+    match run (fun () -> (t CancellationToken.None)) with
+    | Successful r -> Assert.AreEqual(expected, r)
+    | Error e -> Assert.Fail("Task should have been successful, but errored with exception {0}", e)
+    | Canceled _ -> Assert.Fail()
+
 
 let assertCancelled (cts: CancellationTokenSource) (t: CancellationToken -> Task<'a>) = 
-    match Task.run (fun () -> t cts.Token) with
-    | Choice2Of2 (:? System.OperationCanceledException as ex) -> ()
-    | Choice2Of2 (:? System.AggregateException as ex) -> 
+    match run (fun () -> t cts.Token) with
+    | Error (:? System.OperationCanceledException as ex) -> ()
+    | Error (:? System.AggregateException as ex) -> 
       match ex.InnerException with 
       | :? TaskCanceledException -> ()
       | _ -> Assert.Fail("Task should have been canceled, but errored with exception {0}", ex)
-    | Choice2Of2 e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
-    | Choice1Of2 r -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", r)
+    | Error e -> Assert.Fail("Task should have been canceled, but errored with exception {0}", e)
+    | Successful r -> Assert.Fail("Task should have been canceled, but succeeded with result {0}", r)
 
 let checkCancelledWithToken (cts: CancellationTokenSource) (t: CancellationToken -> Task<'a>) =
     cts.Cancel()
@@ -31,7 +35,7 @@ let checkCancelled (t: CancellationToken -> Task<'a>) =
 [<Test>]
 let ``task should return the right value after let!``() =    
     let t = 
-        task' {
+        task {
             let! v = Task.Factory.StartNew(fun () -> 100)
             return v
         }

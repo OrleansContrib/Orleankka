@@ -1,7 +1,9 @@
 ﻿namespace Orleankka.FSharp
+
 open System.Threading.Tasks   
 open Orleankka
 
+open FSharpx.Task
 
 type ActorRef<'TMsg>(ref:ActorRef) =    
    member this.Path = ref.Path

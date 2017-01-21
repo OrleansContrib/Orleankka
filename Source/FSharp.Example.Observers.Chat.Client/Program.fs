@@ -6,6 +6,7 @@ open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 
 open Messages
+open FSharpx.Task
 
 let mutable client = null 
 
@@ -51,6 +52,6 @@ let main argv =
          |> ignore       
    }
    
-   Task.run(job) |> ignore
+   run(job) |> ignore
    
    0

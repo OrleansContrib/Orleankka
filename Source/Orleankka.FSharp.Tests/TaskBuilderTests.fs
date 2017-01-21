@@ -5,6 +5,9 @@ open System.Threading
 open System.Threading.Tasks
 open Orleankka.FSharp
 
+open FSharpx
+open FSharpx.Task
+
 [<Test>]
 let ``task should return the right value after let!``() =
     let task = Task.TaskBuilder()
@@ -159,7 +162,7 @@ let ``try finally should exec finally block after the body task has been complet
    let t = task {      
       try         
          s <- s + "1"
-         do! Task.delay(System.TimeSpan.FromSeconds(1.0))
+         do! Task.Delay(System.TimeSpan.FromSeconds(1.0))
          s <- s + "3"
       finally
          s <- s + "2"

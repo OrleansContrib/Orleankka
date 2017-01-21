@@ -6,6 +6,9 @@ open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Runtime
 
+open FSharpx
+open FSharpx.Task
+
 type Message = 
    | Greet of string
    | Hi   

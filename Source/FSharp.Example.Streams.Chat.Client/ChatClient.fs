@@ -4,6 +4,8 @@ open Orleankka
 open Orleankka.FSharp
 open Messages
 
+open Fsharpx.
+
 type ChatClient = {
    UserName: string
    User: ActorRef<obj>

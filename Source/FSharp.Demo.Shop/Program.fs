@@ -8,6 +8,9 @@ open Orleankka.FSharp.Runtime
 open Shop
 open Account
 
+open FSharpx
+open FSharpx.Task
+
 [<EntryPoint>]
 let main argv = 
 

@@ -3,6 +3,8 @@
 open System.Threading.Tasks   
 open Orleankka
 
+open FSharpx
+open FSharpx.Task
 
 [<AbstractClass>]
 type Actor<'TMsg> =

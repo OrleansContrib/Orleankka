@@ -7,6 +7,8 @@ open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Tests.Infrastructure
 
+open FSharpx.Task
+
 type Message = 
    | Greet of string
    | Hi
@@ -53,6 +55,7 @@ type Tests() =
    [<Test>]
    member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
       let actor = ActorSystem.actorOf<TestActor>(this.system, "test")
-      match Task.run(fun _ -> task {return! actor <? "request msg"}) with
-      | Choice1Of2 result -> Assert.Fail("actor was able to handle unspecified message type.")
-      | Choice2Of2 ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)
+      match run(fun _ -> task {return! actor <? "request msg"}) with
+      | Successful result -> Assert.Fail("actor was able to handle unspecified message type.")
+      | Error ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)
+      | Canceled _ -> Assert.Fail("Should not be cancelled")
