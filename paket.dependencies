@@ -5,7 +5,7 @@ lowest_matching: false
 
 source https://api.nuget.org/v3/index.json
 
-nuget FSharpx.Extras
+nuget FSharpx.Extras 2.2
 nuget Nake
 nuget NuGet.CommandLine
 

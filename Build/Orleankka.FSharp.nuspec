@@ -11,7 +11,8 @@
     <description>F# api for Orleankka</description>
     <tags>Orleans distributed messaging actor concurrency functional F#</tags>
     <dependencies>
-        <dependency id="Orleankka" version="$core_version$" />       
+        <dependency id="Orleankka" version="$core_version$" />
+        <dependency id="FSharpx.Extras" version="[2.2]" />
     </dependencies>
   </metadata>
   <files>
