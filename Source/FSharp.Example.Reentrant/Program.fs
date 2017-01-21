@@ -1,6 +1,8 @@
 ﻿open System
 open System.Reflection
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
@@ -45,7 +47,7 @@ let main argv =
          count <- result
          
          Console.ForegroundColor <- ConsoleColor.Yellow
-         printfn " current value is %d" count
+         printfn "current value is %d" count
          do! Task.delay(TimeSpan.FromSeconds(0.5))
 
       Console.ForegroundColor <- ConsoleColor.Green
@@ -54,7 +56,7 @@ let main argv =
    }
       
    writeJob() |> ignore
-   Task.run(readJob) |> ignore
+   run(readJob) |> ignore
 
    Console.ReadLine() |> ignore
    0 // return an integer exit code

@@ -1,5 +1,7 @@
 ﻿module Actors
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp 
 

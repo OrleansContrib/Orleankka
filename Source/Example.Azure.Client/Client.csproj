@@ -308,6 +308,11 @@
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
+        <Reference Include="System.Web.WebPages">
+          <HintPath>..\..\packages\Microsoft.AspNet.WebPages\lib\net45\System.Web.WebPages.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
         <Reference Include="System.Web.WebPages.Deployment">
           <HintPath>..\..\packages\Microsoft.AspNet.WebPages\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
           <Private>True</Private>
@@ -315,11 +320,6 @@
         </Reference>
         <Reference Include="System.Web.WebPages.Razor">
           <HintPath>..\..\packages\Microsoft.AspNet.WebPages\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.Web.WebPages">
-          <HintPath>..\..\packages\Microsoft.AspNet.WebPages\lib\net45\System.Web.WebPages.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

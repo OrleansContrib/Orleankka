@@ -1,5 +1,7 @@
 ﻿module Shop
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp
 

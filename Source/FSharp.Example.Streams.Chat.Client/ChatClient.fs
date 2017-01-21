@@ -4,7 +4,9 @@ open Orleankka
 open Orleankka.FSharp
 open Messages
 
-open Fsharpx.
+open FSharpx
+open FSharpx.Task
+
 
 type ChatClient = {
    UserName: string

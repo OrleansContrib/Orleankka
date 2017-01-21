@@ -1,10 +1,11 @@
 ﻿open System
 open System.Reflection
-open Orleans.Runtime.Configuration
+open FSharpx.Task
 
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
+open Orleans.Runtime.Configuration
 
 open Messages
 open Client.ChatClient

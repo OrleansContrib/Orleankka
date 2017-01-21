@@ -1,5 +1,6 @@
 ﻿namespace Orleankka.FSharp
 
+open System
 open System.Threading.Tasks
 open FSharpx.Task
 
@@ -13,3 +14,10 @@ module Task =
                     else tcs.SetResult()
          | true  -> tcs.SetException(t.Exception.GetBaseException())) |> ignore
       tcs.Task
+      
+   let inline delay (delay:TimeSpan) = 
+      let tcs = TaskCompletionSource()
+      Task.Delay(delay).ContinueWith(fun _ -> tcs.SetResult()) |> ignore
+      tcs.Task   
+
+   let completedTask = () |> returnM

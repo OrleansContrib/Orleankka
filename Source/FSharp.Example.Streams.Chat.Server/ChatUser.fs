@@ -5,6 +5,8 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
    
+open FSharpx.Task
+
 [<ActorType("ChatUser")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
