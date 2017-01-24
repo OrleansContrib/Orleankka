@@ -47,9 +47,9 @@ let main argv =
       let textStream = Seq.initInfinite(fun _ -> Console.ReadLine())
       
       textStream 
-         |> Seq.find(function "quit" -> server.Notify <| Disconnect(userName, client.Ref)
+         |> Seq.find(function "quit" -> server </ Disconnect(userName, client.Ref)
                                         true 
-                              | text -> server.Notify <| Say(userName, text)
+                              | text -> server </ Say(userName, text)
                                         false)
          |> ignore       
    }

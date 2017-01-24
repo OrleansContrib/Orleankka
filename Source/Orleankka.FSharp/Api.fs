@@ -20,7 +20,7 @@ type ActorRef<'TMsg>(ref:ActorRef) =
 
    static member (<!) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Tell(message)
    static member (<?) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Ask<'TResponse>(message)
-   static member (<*) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Notify(message)
+   static member (</) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Notify(message)
 
 
 type StreamRef<'TMsg>(ref:StreamRef) = 
