@@ -32,7 +32,10 @@ namespace Orleankka.Checks
             Assert.That(await dispatcher.Dispatch(target, new HandleAsyncResultMessage()), Is.EqualTo("42"));
 
             Assert.DoesNotThrow(
-                async () => await dispatcher.Dispatch(target, new NonPublicHandlerMessage()));
+                async () => await dispatcher.Dispatch(target, new PrivateHandlerMessage()));
+
+            Assert.DoesNotThrow(
+                async () => await dispatcher.Dispatch(target, new InternalHandlerMessage()));
 
             Assert.Throws<Dispatcher.HandlerNotFoundException>(
                 async () => await dispatcher.Dispatch(target, new NonSingleArgumentHandlerMessage()));
@@ -102,7 +105,11 @@ namespace Orleankka.Checks
         {}
 
         [Serializable]
-        class NonPublicHandlerMessage
+        class PrivateHandlerMessage
+        {}
+
+        [Serializable]
+        class InternalHandlerMessage
         {}
 
         [Serializable]
@@ -122,9 +129,10 @@ namespace Orleankka.Checks
             public string Handle(HandleResultMessage m) => "42";
             public Task<string> Handle(HandleAsyncResultMessage m) => Task.FromResult("42");
 
-            void On(NonPublicHandlerMessage m){}
-            public void Handle(NonSingleArgumentHandlerMessage m, int i){}
+            void On(PrivateHandlerMessage m){}
+            internal void On(InternalHandlerMessage m){}
 
+            public void Handle(NonSingleArgumentHandlerMessage m, int i){}
             int CustomHandler(string msg) => 42;
         }
     }
