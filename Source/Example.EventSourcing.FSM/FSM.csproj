@@ -7,8 +7,8 @@
     <ProjectGuid>{D4EA085E-732B-475B-A5DA-766D4EF8692E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FSM</RootNamespace>
-    <AssemblyName>FSM</AssemblyName>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example.EventSourcing.Persistence.FSM</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,22 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Commands\CheckIn.cs" />
-    <Compile Include="Domain\Commands\CheckOut.cs" />
-    <Compile Include="Domain\Commands\Rename.cs" />
-    <Compile Include="Domain\Events\InventoryItemCheckedIn.cs" />
-    <Compile Include="Domain\Events\InventoryItemCheckedOut.cs" />
-    <Compile Include="Domain\Events\InventoryItemDeactivated.cs" />
-    <Compile Include="Domain\Events\InventoryItemRenamed.cs" />
-    <Compile Include="Domain\Queries\GetDetails.cs" />
-    <Compile Include="Domain\Queries\InventoryItemDetails.cs" />
-    <Compile Include="Domain\Events\InventoryItemCreated.cs" />
-    <Compile Include="Infrastructure\CqsActor.cs" />
-    <Compile Include="Domain\Commands\Create.cs" />
-    <Compile Include="Domain\Commands\Deactivate.cs" />
-    <Compile Include="Infrastructure\ES.cs" />
-    <Compile Include="Infrastructure\EventSourcedActor.cs" />
-    <Compile Include="Domain\InventoryItem.cs" />
+    <Compile Include="Infrastructure.cs" />
+    <Compile Include="Domain.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
