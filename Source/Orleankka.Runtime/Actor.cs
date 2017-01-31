@@ -37,6 +37,7 @@ namespace Orleankka
 
         public string Id => Path.Id;
         internal ActorEndpoint Endpoint {get; private set;}
+        internal bool IsExecutingInsideRuntime() => Endpoint != null;
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
@@ -63,6 +64,6 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
             return Dispatcher.Dispatch(this, message, fallback);
-        }
+        }        
     }
 }
