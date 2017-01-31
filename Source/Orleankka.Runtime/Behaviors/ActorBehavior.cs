@@ -48,6 +48,14 @@ namespace Orleankka.Behaviors
                 current = current.BaseType;
             }
 
+            if (found.Count > 0)
+            {
+                var constructor = actor.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+                if (constructor == null)
+                    throw new InvalidOperationException($"Actor type '{actor}' should have parameterless constructor " +
+                                                        "in order to use behaviors functionality");
+            }
+
             behaviors.Add(actor, found);
         }
 
