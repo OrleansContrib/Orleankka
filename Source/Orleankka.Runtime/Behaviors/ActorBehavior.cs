@@ -36,9 +36,8 @@ namespace Orleankka.Behaviors
                     if (method.ReturnType != typeof(void) ||
                         method.GetGenericArguments().Length != 0 ||
                         method.GetParameters().Length != 0)
-                        throw new InvalidOperationException(
-                            $"Behavior method '{method.Name}' defined on '{current}' has incorrent signature. " +
-                             "Should be void, non-generic and parameterless");
+                        throw new InvalidOperationException($"Behavior method '{method.Name}' defined on '{current}' has incorrent signature. " +
+                                                            "Should be void, non-generic and parameterless");
 
                     var target = Expression.Parameter(typeof(object));
                     var call = Expression.Call(Expression.Convert(target, actor), method);
@@ -54,24 +53,14 @@ namespace Orleankka.Behaviors
 
         Action<object> RegisteredAction(string behavior)
         {
-            var action = behaviors[actor.GetType()].Find(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
 
+            var action = behaviors[actor.GetType()].Find(behavior);
             if (action == null)
-                throw new InvalidOperationException(
-                    $"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
-                    "Should be void, non-generic and parameterless");
+                throw new InvalidOperationException($"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
+                                                    "Should be void, non-generic and parameterless");
 
             return action;
-        }
-
-        void AssertHasRegisteredAction(Action behavior)
-        {
-            var action = behaviors[actor.GetType()].Find(behavior.Method.Name);
-
-            if (action == null)
-                throw new InvalidOperationException(
-                    $"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
-                    "Should be void, non-generic and parameterless");
         }
 
         public static ActorBehavior Null(Actor actor) => new ActorBehavior(actor)
@@ -98,6 +87,8 @@ namespace Orleankka.Behaviors
             this.actor = actor;
         }
 
+        public Task<object> Fire(object message) => HandleReceive(message);
+
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
@@ -118,7 +109,11 @@ namespace Orleankka.Behaviors
             }
         }
 
-        public void Initial(Action behavior) => Initial(behavior.Method.Name);
+        public void Initial(Action behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            Initial(behavior.Method.Name);
+        }
 
         public void Initial(string behavior)
         {
@@ -137,10 +132,14 @@ namespace Orleankka.Behaviors
 
         public string Current => current.Name;
 
-        public async Task Become(Action behavior)
+        public Task Become(Action behavior)
         {
-            AssertHasRegisteredAction(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
+            return Become(behavior.Method.Name);
+        }
 
+        public async Task Become(string behavior)
+        {
             if (IsNull())
                 throw new InvalidOperationException("Initial behavior should be set before calling Become");
 
@@ -148,12 +147,13 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException($"Become cannot be called again while behavior configuration is in progress.\n" +
                                                     $"Current: {Current}, In-progress: {next.Name}, Offending: {behavior}");
 
-            if (Current == behavior.Method.Name)
-                throw new InvalidOperationException($"Actor is already behaving as '{behavior.Method.Name}'");
+            if (Current == behavior)
+                throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
 
-            next = new CustomBehavior(behavior.Method.Name);
-            behavior();
-
+            var action = RegisteredAction(behavior);
+            next = new CustomBehavior(behavior);
+            action(actor);
+            
             var transition = new Transition(current, next);
 
             await current.HandleDeactivate(transition);
@@ -171,18 +171,21 @@ namespace Orleankka.Behaviors
 
         public void Super(Action behavior)
         {
-            AssertHasRegisteredAction(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
+            Super(behavior.Method.Name);
+        }
 
+        public void Super(string behavior)
+        {
             if (next == null)
                 throw new InvalidOperationException($"Super behavior can only be specified while behavior configuration is in progress. " +
-                                                    $"Current: {Current}, Offending: {behavior.Method.Name}");
+                                                    $"Current: {Current}, Offending: {behavior}");
 
-            if (next.Includes(behavior.Method.Name))
-                throw new InvalidOperationException(
-                    "Detected cyclic declaration of super behaviors. " +
-                    $"'{behavior.Method.Name}' is already within super chain of {next.Name}");
+            if (next.Includes(behavior))
+                throw new InvalidOperationException("Detected cyclic declaration of super behaviors. " +
+                                                   $"'{behavior}' is already within super chain of {next.Name}");
 
-            var existent = current.FindSuper(behavior.Method.Name);
+            var existent = current.FindSuper(behavior);
             if (existent != null)
             {
                 next.Super(existent);
@@ -190,10 +193,11 @@ namespace Orleankka.Behaviors
             }
 
             var prev = next;
-            next = new CustomBehavior(behavior.Method.Name);
+            next = new CustomBehavior(behavior);
 
             prev.Super(next);
-            behavior();
+            var action = RegisteredAction(behavior);
+            action(actor);
 
             next = prev;
         }
