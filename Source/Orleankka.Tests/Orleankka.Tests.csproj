@@ -46,12 +46,13 @@
   <ItemGroup>
     <Compile Include="Checks\StreamRefFixture.cs" />
     <Compile Include="Checks\StreamPathFixture.cs" />
+    <Compile Include="Features\Actor_behaviors\Firing_messages.cs" />
     <Compile Include="Features\Intercepting_requests.cs" />
     <Compile Include="Features\Sticky_actors.cs" />
     <Compile Include="Features\Autorun_actors.cs" />
     <Compile Include="Features\One_off_timers.cs" />
     <Compile Include="Features\Strongly_typed_actors.cs" />
-    <Compile Include="Features\Switchable_behaviors.cs" />
+    <Compile Include="Features\Actor_behaviors\Switchable_behaviors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Checks\ActorPathFixture.cs" />
     <Compile Include="Checks\ActorRefFixture.cs" />

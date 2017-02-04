@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace Orleankka.Services
 {
+    using System.Runtime.Remoting.Messaging;
+
     using Core;
 
     /// <summary>
@@ -132,6 +134,9 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
+        static void SetExecutingInsideTimerCallback() => CallContext.LogicalSetData("#ORLKKA_TMR", true);
+        internal static bool IsExecutingInsideTimerCallback() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
+
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ActorEndpoint endpoint;
 
@@ -142,30 +147,40 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
-            ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), () =>
+            ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), async () =>
             {
                 ((ITimerService) this).Unregister(id);
-                return callback();
+                await callback();
             });
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, endpoint.RegisterTimer(s => callback(), null, due, period));
+            timers.Add(id, endpoint.RegisterTimer(async s =>
+            {
+                SetExecutingInsideTimerCallback();
+                await callback();
+            }, 
+            null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
         {
-            ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), state, s =>
+            ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), state, async s =>
             {
                 ((ITimerService) this).Unregister(id);
-                return callback(s);
+                await callback(s);
             });
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, endpoint.RegisterTimer(s => callback((TState) s), state, due, period));
+            timers.Add(id, endpoint.RegisterTimer(async s =>
+            {
+                SetExecutingInsideTimerCallback();
+                await callback((TState) s);
+            }, 
+            state, due, period));
         }
 
         void ITimerService.Unregister(string id)

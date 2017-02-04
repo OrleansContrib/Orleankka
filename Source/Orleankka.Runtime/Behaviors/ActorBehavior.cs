@@ -4,12 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 using Orleans;
 
 namespace Orleankka.Behaviors
 {
+    using Services;
+
     using Utility;
 
     public sealed class ActorBehavior
@@ -95,7 +98,15 @@ namespace Orleankka.Behaviors
             this.actor = actor;
         }
 
-        public Task<object> Fire(object message) => HandleReceive(message);
+        public async Task<object> Fire(object message)
+        {
+            Requires.NotNull(message, nameof(message));
+
+            if (TimerService.IsExecutingInsideTimerCallback())
+                return await actor.Self.Ask<object>(message);
+
+            return await HandleReceive(message);
+        }
 
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
