@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -168,6 +167,10 @@ namespace Orleankka.Behaviors
 
             if (Current == behavior)
                 throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
+
+            if (TimerService.IsExecutingInsideTimerCallback())
+                throw new InvalidOperationException($"Can't switch to '{behavior}' behavior. Switching behaviors from inside timer callback is prohibited. " +
+                                                     "Use Fire() to send a message and then call Become inside message handler");
 
             var action = RegisteredAction(behavior);
             next = new CustomBehavior(behavior);
