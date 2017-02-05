@@ -21,7 +21,7 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(IChatRoom).Assembly)
+                .Register(typeof(ChatRoom).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));

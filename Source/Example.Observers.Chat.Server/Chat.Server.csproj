@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatRoom.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -44,10 +45,6 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Observers.Chat.Interfaces\Chat.Interfaces.csproj">
-      <Project>{355B546C-C246-5CEE-A302-7D453A81D3A2}</Project>
-      <Name>Chat.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
       <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
       <Name>Orleankka.Core</Name>
