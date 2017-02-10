@@ -102,6 +102,9 @@ namespace Orleankka.Core
         [UsedImplicitly]
         internal bool MayInterleave(InvokeMethodRequest request)
         {
+            if (request?.Arguments == null)
+                return false;
+
             var receiveMessage = request.Arguments.Length == 1;
             if (receiveMessage)
                 return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
