@@ -266,10 +266,12 @@
 
                 string passedState = null;
                 object passedMessage = null;
-                actor.Behavior.OnUnhandledReceive((message, state) =>
+                var passedOrigin = RequestOrigin.Null;
+                actor.Behavior.OnUnhandledReceive((message, state, origin) =>
                 {
                     passedState = state;
                     passedMessage = message;
+                    passedOrigin = origin;
                     return "test";
                 });
 
@@ -279,6 +281,7 @@
                 Assert.That(result, Is.EqualTo("test"));
                 Assert.That(passedState, Is.EqualTo(nameof(TestActor.A)));
                 Assert.That(passedMessage, Is.SameAs(msg));
+                Assert.That(passedOrigin, Is.EqualTo(RequestOrigin.Null));
             }
 
             [Test]

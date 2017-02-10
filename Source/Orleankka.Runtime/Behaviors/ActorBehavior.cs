@@ -11,7 +11,6 @@ using Orleans;
 namespace Orleankka.Behaviors
 {
     using Services;
-
     using Utility;
 
     public sealed class ActorBehavior
@@ -78,15 +77,15 @@ namespace Orleankka.Behaviors
             current = CustomBehavior.Null
         };
 
-        static readonly Func<Type, object, string, Task<object>> OnUnhandledReceiveDefaultCallback =
-            (actor, message, state) => { throw new UnhandledMessageException(actor, state, message); };
+        static readonly Func<Type, object, string, RequestOrigin, Task<object>> OnUnhandledReceiveDefaultCallback =
+            (actor, message, behavior, origin) => { throw new UnhandledMessageException(actor, behavior, message); };
 
         static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback =
-            (actor, reminder, state) => { throw new UnhandledReminderException(actor, state, reminder); };
+            (actor, reminder, behavior) => { throw new UnhandledReminderException(actor, behavior, reminder); };
 
         readonly Actor actor;
         Func<string, string, Task> onBecome;
-        Func<Type, object, string, Task<object>> onUnhandledReceive;
+        Func<Type, object, string, RequestOrigin, Task<object>> onUnhandledReceive;
         Func<Type, string, string, Task> onUnhandledReminder;
 
         CustomBehavior current;
@@ -101,17 +100,23 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(message, nameof(message));
 
-            if (TimerService.IsExecutingInsideTimerCallback())
+            if (TimerService.IsExecuting())
+            {
+                RequestOrigin.Store(Current);
                 return await actor.Self.Ask<object>(message);
+            }
 
-            return await HandleReceive(message);
+            return await HandleReceive(message, new RequestOrigin(Current));
         }
 
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
-        internal Task<object> HandleReceive(object message) =>
-            current.HandleReceive(actor, message, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
+        internal Task<object> HandleReceive(object message) => 
+            HandleReceive(message, RequestOrigin.Restore());
+
+        internal Task<object> HandleReceive(object message, RequestOrigin origin) => 
+            current.HandleReceive(actor, message, origin, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
 
         internal Task HandleReminder(string id) =>
             current.HandleReminder(actor, id, onUnhandledReminder ?? OnUnhandledReminderDefaultCallback);
@@ -168,8 +173,8 @@ namespace Orleankka.Behaviors
             if (Current == behavior)
                 throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
 
-            if (TimerService.IsExecutingInsideTimerCallback())
-                throw new InvalidOperationException($"Can't switch to '{behavior}' behavior. Switching behaviors from inside timer callback is prohibited. " +
+            if (TimerService.IsExecuting())
+                throw new InvalidOperationException($"Can't switch to '{behavior}' behavior. Switching behaviors from inside timer callback is unsafe. " +
                                                      "Use Fire() to send a message and then call Become inside message handler");
 
             var action = RegisteredAction(behavior);
@@ -187,7 +192,8 @@ namespace Orleankka.Behaviors
             if (onBecome != null)
                 await onBecome(transition.To.Name, transition.From.Name);
 
-            next = null;
+            next = null; // now become could be re-entered
+
             await current.HandleActivate(transition);
         }
 
@@ -240,34 +246,34 @@ namespace Orleankka.Behaviors
             onBecome = onBecomeCallback;
         }
 
-        public void OnUnhandledReceive(Action<object, string> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Action<object, string, RequestOrigin> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state) =>
+            OnUnhandledReceive((message, state, origin) =>
             {
-                unhandledReceiveCallback(message, state);
+                unhandledReceiveCallback(message, state, origin);
                 return TaskResult.Done;
             });
         }
 
-        public void OnUnhandledReceive(Func<object, string, Task> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
 
-            OnUnhandledReceive(async (message, state) =>
+            OnUnhandledReceive(async (message, state, origin) =>
             {
-                await unhandledReceiveCallback(message, state);
+                await unhandledReceiveCallback(message, state, origin);
                 return null;
             });
         }
 
-        public void OnUnhandledReceive(Func<object, string, object> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, object> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state) => Task.FromResult(unhandledReceiveCallback(message, state)));
+            OnUnhandledReceive((message, state, origin) => Task.FromResult(unhandledReceiveCallback(message, state, origin)));
         }
 
-        public void OnUnhandledReceive(Func<object, string, Task<object>> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task<object>> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
 
@@ -278,7 +284,7 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException("Unhandled message callback cannot be set while behavior configuration is in progress.\n " +
                                                     $"Current: {Current}, In-progress: {next.Name}");
 
-            onUnhandledReceive = (actor, message, state) => unhandledReceiveCallback(message, state);
+            onUnhandledReceive = (actor, message, state, origin) => unhandledReceiveCallback(message, state, origin);
         }
 
         public void OnUnhandledReminder(Action<string, string> unhandledReminderCallback)

@@ -35,9 +35,10 @@ namespace Orleankka.Features.Actor_behaviors
                 Behavior.Initial(Test);
             }
 
-            [Behavior] void Test()
+            [Behavior]
+            void Test()
             {
-                this.OnReceive< GetReceived, List<string>>(x => received);
+                this.OnReceive<GetReceived, List<string>>(x => received);
                 this.OnReceive<GetFired, List<string>>(x => fired);
 
                 this.OnReceive<CheckInterleaveFire>(async x =>
@@ -70,10 +71,58 @@ namespace Orleankka.Features.Actor_behaviors
             }
         }
 
+        [Serializable] class CheckUnhandledFiring : Command {}
+        [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
+
+        class TestUnhandledFireActor : Actor
+        {
+            readonly List<Tuple<string, bool>> origins = new List<Tuple<string, bool>>();
+
+            public TestUnhandledFireActor()
+            {
+                Behavior.Initial(Foreground);
+
+                Behavior.OnUnhandledReceive((message, state, origin) =>
+                {
+                    origins.Add(new Tuple<string, bool>(origin.Behavior, origin.IsBackground));
+                });
+            }
+
+            [Behavior]
+            public void Foreground()
+            {
+                this.OnReceive<CheckUnhandledFiring>(async x =>
+                {
+                    await this.Fire("foo");
+                    await this.Become(nameof(Background));
+                });
+            }
+
+            [Behavior]
+            public void Background()
+            {
+                this.OnActivate(()=>
+                {
+                    Timers.Register("test", TimeSpan.FromMilliseconds(1), async ()=>
+                    {
+                        await this.Fire("bar");
+                    });
+                });
+            }
+
+            public override Task<object> OnReceive(object message)
+            {
+                if (message is GetOrigins)
+                    return Task.FromResult((object)origins);
+
+                return base.OnReceive(message);
+            }
+        }
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             ActorBehavior.Register(typeof(TestInterleaveFireActor));
+            ActorBehavior.Register(typeof(TestUnhandledFireActor));
         }
 
         [Test]
@@ -89,11 +138,26 @@ namespace Orleankka.Features.Actor_behaviors
 
             await Task.Delay(TimeSpan.FromMilliseconds(50));
 
-            CollectionAssert.AreEqual(new[] { "timer", "timer" }, 
+            CollectionAssert.AreEqual(new[] { "timer", "timer" },
                 await actor.Ask(new GetReceived()));
 
             CollectionAssert.AreEqual(new[] { "main", "timer", "main", "timer" },
                 await actor.Ask(new GetFired()));
+        }
+
+        [Test]
+        public async Task When_unhandled_callback_has_proper_request_origin()
+        {
+            var actor = TestActorSystem.Instance.ActorOf<TestUnhandledFireActor>("test");
+
+            await actor.Tell(new CheckUnhandledFiring());
+            await Task.Delay(TimeSpan.FromMilliseconds(10));
+
+            var firstFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Foreground), false);
+            var secondFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Background), true);
+
+            CollectionAssert.AreEqual(new[] { firstFire, secondFire },
+                await actor.Ask(new GetOrigins()));
         }
     }
 }

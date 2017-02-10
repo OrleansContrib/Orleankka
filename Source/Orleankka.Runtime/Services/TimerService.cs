@@ -134,8 +134,8 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
-        static void SetExecutingInsideTimerCallback() => CallContext.LogicalSetData("#ORLKKA_TMR", true);
-        internal static bool IsExecutingInsideTimerCallback() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
+        static void SetExecuting() => CallContext.LogicalSetData("#ORLKKA_TMR", true);
+        internal static bool IsExecuting() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
 
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ActorEndpoint endpoint;
@@ -158,7 +158,7 @@ namespace Orleankka.Services
         {
             timers.Add(id, endpoint.RegisterTimer(async s =>
             {
-                SetExecutingInsideTimerCallback();
+                SetExecuting();
                 await callback();
             }, 
             null, due, period));
@@ -177,7 +177,7 @@ namespace Orleankka.Services
         {
             timers.Add(id, endpoint.RegisterTimer(async s =>
             {
-                SetExecutingInsideTimerCallback();
+                SetExecuting();
                 await callback((TState) s);
             }, 
             state, due, period));

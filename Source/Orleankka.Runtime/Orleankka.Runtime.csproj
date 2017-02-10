@@ -57,6 +57,7 @@
     <Compile Include="Behaviors\BehaviorExtensions.cs" />
     <Compile Include="Behaviors\CustomBehavior.cs" />
     <Compile Include="Behaviors\Exceptions.cs" />
+    <Compile Include="Behaviors\RequestOrigin.cs" />
     <Compile Include="Behaviors\Transition.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
     <Compile Include="ActorRuntime.cs" />
