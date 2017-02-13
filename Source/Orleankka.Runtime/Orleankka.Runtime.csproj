@@ -59,18 +59,32 @@
     <Compile Include="Behaviors\Exceptions.cs" />
     <Compile Include="Behaviors\RequestOrigin.cs" />
     <Compile Include="Behaviors\Transition.cs" />
+    <Content Include="Core\ActorEndpoint.Common.T.cs" />
+    <Compile Include="Core\ActorEndpoint.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActorEndpoint.tt</DependentUpon>
+    </Compile>
     <Compile Include="Core\AssemblyScanner.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorTypeDeclaration.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="Cluster\StreamProviderConfiguration.cs" />
+    <Compile Include="Core\IActorHost.cs" />
+    <Compile Include="Core\StatefulActorEndpoint.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StatefulActorEndpoint.tt</DependentUpon>
+    </Compile>
     <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Cluster\Interceptor.cs" />
     <Compile Include="InvocationPipeline.cs" />
+    <Compile Include="Services\StorageService.cs" />
+    <Compile Include="StatefulActor.cs" />
     <Compile Include="StreamRefExtensions.cs" />
     <Compile Include="ActorAttributes.cs" />
     <Compile Include="Placement.cs" />
@@ -81,13 +95,21 @@
     <Compile Include="Embedded\EmbeddedActorSystem.cs" />
     <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorSystem.cs" />
-    <Compile Include="Core\ActorEndpoint.cs" />
+    <Content Include="Core\ActorEndpoint.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActorEndpoint.cs</LastGenOutput>
+    </Content>
     <Compile Include="Playground\PlaygroundConfigurator.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamSubscriptionSpecification.cs" />
+    <Content Include="Core\ActorEndpoint.Common.cs" />
+    <Content Include="Core\StatefulActorEndpoint.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StatefulActorEndpoint.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

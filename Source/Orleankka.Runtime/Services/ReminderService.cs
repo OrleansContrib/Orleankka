@@ -56,36 +56,36 @@ namespace Orleankka.Services
     class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly ActorEndpoint endpoint;
+        readonly IActorHost host;
 
-        internal ReminderService(ActorEndpoint endpoint)
+        internal ReminderService(IActorHost host)
         {
-            this.endpoint = endpoint;
+            this.host = host;
         }
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            reminders[id] = await endpoint.RegisterOrUpdateReminder(id, due, period);
+            reminders[id] = await host.RegisterOrUpdateReminder(id, due, period);
         }
 
         async Task IReminderService.Unregister(string id)
         {
-            var reminder = reminders.Find(id) ?? await endpoint.GetReminder(id);
+            var reminder = reminders.Find(id) ?? await host.GetReminder(id);
             
             if (reminder != null)
-                await endpoint.UnregisterReminder(reminder);
+                await host.UnregisterReminder(reminder);
 
             reminders.Remove(id);
         }
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            return reminders.ContainsKey(id) || (await endpoint.GetReminder(id)) != null;
+            return reminders.ContainsKey(id) || (await host.GetReminder(id)) != null;
         }
 
         async Task<IEnumerable<string>> IReminderService.Registered()
         {
-            return (await endpoint.GetReminders()).Select(x => x.ReminderName);
+            return (await host.GetReminders()).Select(x => x.ReminderName);
         }
     }
 }

@@ -8,6 +8,7 @@ using Orleankka.Features.Intercepting_requests;
 using Orleankka.Playground;
 using Orleankka.Testing;
 using Orleans.Providers.Streams.AzureQueue;
+using Orleans.Storage;
 
 [assembly: TeardownSilo]
 
@@ -48,8 +49,11 @@ namespace Orleankka.Testing
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .TweakCluster(cfg => cfg
-                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
+                .TweakCluster(cfg =>
+                {
+                    cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes));
+                    cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+                })
                 .Assemblies(GetType().Assembly);
 
             if (EnableAzureQueueStreamProvider)

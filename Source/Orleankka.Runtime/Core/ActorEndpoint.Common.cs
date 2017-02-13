@@ -1,20 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Orleans;
-using Orleans.Runtime;
-
-namespace Orleankka.Core
-{
-    using Cluster;
-
-    /// <summary> 
-    /// FOR INTERNAL USE ONLY!
-    /// </summary>
-    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
-    {
-        const string StickyReminderName = "##sticky##";
+﻿        const string StickyReminderName = "##sticky##";
 
         Actor instance;
 
@@ -119,21 +103,4 @@ namespace Orleankka.Core
             return base.RegisterTimer(asyncCallback, state, dueTime, period);
         }
 
-        #endregion  
-    }
-
-    /// <summary> 
-    /// FOR INTERNAL USE ONLY!
-    /// </summary>
-    public abstract class ActorEndpoint<TInterface> : ActorEndpoint
-    {
-        #pragma warning disable 649
-        // ReSharper disable once StaticMemberInGenericType
-        // ReSharper disable once UnassignedField.Global
-        // ReSharper disable once MemberCanBePrivate.Global
-        protected static ActorType type;
-        #pragma warning restore 649
-
-        protected override ActorType Actor => type;  
-    }
-}
+        #endregion

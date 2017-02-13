@@ -94,10 +94,10 @@ namespace Orleankka.Core
             field.SetValue(null, this);
         }
 
-        internal Actor Activate(ActorEndpoint endpoint, ActorPath path, IActorRuntime runtime)
+        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime)
         {
             var instance = Activator.Activate(actor, path.Id, runtime, dispatcher);
-            instance.Initialize(endpoint, path, runtime, dispatcher);
+            instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
 
@@ -118,12 +118,12 @@ namespace Orleankka.Core
         static object UnwrapImmutable(object item) => 
             item is Immutable<object> ? ((Immutable<object>)item).Value : item;
 
-        internal void KeepAlive(ActorEndpoint endpoint)
+        internal void KeepAlive(IActorHost host)
         {
             if (keepAliveTimeout == TimeSpan.Zero)
                 return;
 
-            endpoint.DelayDeactivation(keepAliveTimeout);
+            host.DelayDeactivation(keepAliveTimeout);
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 

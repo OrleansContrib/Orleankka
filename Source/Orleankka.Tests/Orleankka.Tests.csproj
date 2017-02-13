@@ -49,6 +49,7 @@
     <Compile Include="Checks\StreamPathFixture.cs" />
     <Compile Include="Features\Actor_behaviors\Firing_messages.cs" />
     <Compile Include="Features\Intercepting_requests.cs" />
+    <Compile Include="Features\Stateful_actors.cs" />
     <Compile Include="Features\Sticky_actors.cs" />
     <Compile Include="Features\Declarative_stream_subscriptions.cs" />
     <Compile Include="Features\Autorun_actors.cs" />

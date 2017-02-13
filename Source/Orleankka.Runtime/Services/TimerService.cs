@@ -138,11 +138,11 @@ namespace Orleankka.Services
         internal static bool IsExecuting() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
 
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly ActorEndpoint endpoint;
+        readonly IActorHost host;
 
-        internal TimerService(ActorEndpoint endpoint)
+        internal TimerService(IActorHost host)
         {
-            this.endpoint = endpoint;
+            this.host = host;
         }
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
@@ -156,7 +156,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, endpoint.RegisterTimer(async s =>
+            timers.Add(id, host.RegisterTimer(async s =>
             {
                 SetExecuting();
                 await callback();
@@ -175,7 +175,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, endpoint.RegisterTimer(async s =>
+            timers.Add(id, host.RegisterTimer(async s =>
             {
                 SetExecuting();
                 await callback((TState) s);

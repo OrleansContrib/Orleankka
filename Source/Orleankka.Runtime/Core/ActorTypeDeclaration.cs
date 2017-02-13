@@ -4,11 +4,13 @@ using System.Text;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 using Orleans.Placement;
+using Orleans.Providers;
 
 namespace Orleankka.Core
 {
@@ -25,13 +27,15 @@ namespace Orleankka.Core
             Directory.CreateDirectory(dir);
 
             var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
-            var source = Generate(assemblies, declarations);
+            var generated = Generate(assemblies, declarations);
 
-            var syntaxTree = CSharpSyntaxTree.ParseText(source);
+            var syntaxTree = CSharpSyntaxTree.ParseText(generated.Source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
+                .Concat(generated.References)
+                .Concat(ActorInterface.Registered().Select(x => x.GrainAssembly()))
+                .Distinct()
                 .Select(ToMetadataReference)
                 .Where(x => x != null)
-                .Concat(ActorInterface.Registered().Select(x => x.GrainAssembly()).Distinct().Select(ToMetadataReference))
                 .ToArray();
 
             var compilation = CSharpCompilation.Create("Orleankka.Auto.Implementations",
@@ -57,7 +61,7 @@ namespace Orleankka.Core
         static PortableExecutableReference ToMetadataReference(Assembly x) => 
             x.IsDynamic || x.Location == "" ? null : MetadataReference.CreateFromFile(x.Location);
 
-        static string Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorTypeDeclaration> declarations)
+        static GenerateResult Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorTypeDeclaration> declarations)
         {
             var sb = new StringBuilder(@"
                  using Orleankka;
@@ -65,15 +69,14 @@ namespace Orleankka.Core
                  using Orleans.Placement;
                  using Orleans.Concurrency;
                  using Orleans.CodeGeneration;
+                 using Orleans.Providers;
             ");
 
             foreach (var assembly in assemblies)
                 sb.AppendLine($"[assembly: KnownAssembly(\"{assembly.GetName().Name}\")]");
 
-            foreach (var declaration in declarations)
-                sb.AppendLine(declaration.Generate());
-
-            return sb.ToString();
+            var results = declarations.Select(x => x.Generate()).ToArray();
+            return new GenerateResult(sb, results);
         }
 
         static readonly string[] separator = {".", "+"};
@@ -93,15 +96,16 @@ namespace Orleankka.Core
             namespaces.Insert(0, "Fun");
         }
 
-        string Generate()
+        GenerateResult Generate()
         {
             var src = new StringBuilder();
+            var references = new List<Assembly>();
 
             StartNamespace(src);
-            GenerateImplementation(src);
+            GenerateImplementation(src, references);
             EndNamespace(src);
 
-            return src.ToString();
+            return new GenerateResult(src.ToString(), references);
         }
 
         void StartNamespace(StringBuilder src) =>
@@ -110,7 +114,7 @@ namespace Orleankka.Core
         static void EndNamespace(StringBuilder src) =>
             src.AppendLine("}");
 
-        void GenerateImplementation(StringBuilder src)
+        void GenerateImplementation(StringBuilder src, List<Assembly> references)
         {
             GenerateAttributes(src);
 
@@ -122,7 +126,16 @@ namespace Orleankka.Core
             if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 
-            src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint<I{clazz}>, I{clazz} {{");
+            string impl = $"Orleankka.Core.ActorEndpoint<I{clazz}>";
+            if (IsStateful())
+            {
+                var stateType = GetStateArgument();
+                var stateTypeFullName = stateType.FullName.Replace("+", ".");
+                impl = $"Orleankka.Core.StatefulActorEndpoint<I{clazz}, global::{stateTypeFullName}>";
+                references.Add(stateType.Assembly);
+            }
+
+            src.AppendLine($"public class {clazz} : global::{impl}, I{clazz} {{");
             src.AppendLine($"public static bool MayInterleave(InvokeMethodRequest req) => type.MayInterleave(req);");
             src.AppendLine("}");
         }
@@ -151,6 +164,10 @@ namespace Orleankka.Core
             }
 
             src.AppendLine($"[{GetActorPlacement()}]");
+
+            var storageProvider = actor.GetCustomAttribute<StorageProviderAttribute>();
+            if (storageProvider != null)
+                src.AppendLine($"[StorageProvider(ProviderName=\"{storageProvider.ProviderName}\")]");
         }
 
         string GetActorPlacement()
@@ -167,6 +184,38 @@ namespace Orleankka.Core
                     return typeof(ActivationCountBasedPlacementAttribute).Name;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        bool IsStateful() => typeof(IStatefulActor).IsAssignableFrom(actor);
+
+        Type GetStateArgument()
+        {
+            var current = actor;
+            while (current.BaseType != null && 
+                current.BaseType.GetGenericTypeDefinition() != typeof(StatefulActor<>))
+                current = current.BaseType;
+
+            Debug.Assert(current.BaseType != null);
+            return current.BaseType.GetGenericArguments()[0];
+        }
+
+        class GenerateResult
+        {
+            public readonly string Source;
+            public readonly IEnumerable<Assembly> References;
+
+            public GenerateResult(string source, IEnumerable<Assembly> references)
+            {
+                Source = source;
+                References = references;
+            }
+
+            public GenerateResult(StringBuilder sb, GenerateResult[] results)
+            {
+                Array.ForEach(results, x => sb.AppendLine(x.Source));
+                References = results.SelectMany(x => x.References).ToList();
+                Source = sb.ToString();
             }
         }
     }

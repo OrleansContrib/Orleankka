@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +12,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
+    public abstract class StatefulActorEndpoint<TState> : Grain<TState>, IRemindable, IActorHost where TState : new()
     {
         const string StickyReminderName = "##sticky##";
 
@@ -119,13 +119,34 @@ namespace Orleankka.Core
             return base.RegisterTimer(asyncCallback, state, dueTime, period);
         }
 
-        #endregion  
+        #endregion
+
+        public new TState State
+        {
+            get { return base.State; }
+            set { base.State = value; }
+        }
+
+        public new Task ClearStateAsync()
+        {
+            return base.ClearStateAsync();
+        }
+
+        public new Task WriteStateAsync()
+        {
+            return base.WriteStateAsync();
+        }
+
+        public new Task ReadStateAsync()
+        {
+            return base.ReadStateAsync();
+        }  
     }
 
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpoint<TInterface> : ActorEndpoint
+    public abstract class StatefulActorEndpoint<TInterface, TState> : StatefulActorEndpoint<TState> where TState : new()
     {
         #pragma warning disable 649
         // ReSharper disable once StaticMemberInGenericType
