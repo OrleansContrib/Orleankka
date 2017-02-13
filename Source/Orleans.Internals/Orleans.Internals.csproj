@@ -1,28 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{429B185F-3261-45BC-B992-B0D6B8A87E8D}</ProjectGuid>
+    <ProjectGuid>{97E4FE27-27FD-499B-8737-0F293807C297}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orleankka.TestKit</RootNamespace>
-    <AssemblyName>Orleankka.TestKit.Tests</AssemblyName>
+    <RootNamespace>Orleans.Internals</RootNamespace>
+    <AssemblyName>OrleansManager</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,50 +33,37 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
-    <OutputPath>bin\Package\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Content Include="app.config" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorRefMockFixture.cs" />
-    <Compile Include="ActorSystemMockFixture.cs" />
+    <Compile Include="..\Orleankka.Version.cs">
+      <Link>Properties\Orleankka.Version.cs</Link>
+    </Compile>
+    <Compile Include="..\Product.cs">
+      <Link>Properties\Product.cs</Link>
+    </Compile>
+    <Compile Include="PushExtension.cs" />
+    <Compile Include="StreamIdentity.cs" />
+    <Compile Include="StreamPubSubMatch.cs" />
+    <Compile Include="StreamPubSubWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="StreamSubscriptionSpecificationFixture.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
-      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
-      <Name>Orleankka.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleankka.TestKit\Orleankka.TestKit.csproj">
-      <Project>{0eec0553-0b9a-4e51-94bf-694dc7164b92}</Project>
-      <Name>Orleankka.TestKit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleankka\Orleankka.csproj">
-      <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
-      <Name>Orleankka</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
-      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
-      <Name>Orleans.Internals</Name>
-    </ProjectReference>
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -153,6 +143,17 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
+        <Reference Include="OrleansRuntime">
+          <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime\lib\net451\OrleansRuntime.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
@@ -164,19 +165,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
-        <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
-      <ItemGroup>
         <Reference Include="System.Collections.Immutable">
-          <HintPath>..\..\packages\System.Collections.Immutable\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+          <HintPath>..\..\packages\System.Collections.Immutable\lib\netstandard1.0\System.Collections.Immutable.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

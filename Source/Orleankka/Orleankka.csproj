@@ -60,7 +60,7 @@
     <Compile Include="Core\IActorEndpoint.cs" />
     <Compile Include="Core\IClientEndpoint.cs" />
     <Compile Include="Core\Stream.cs" />
-    <Compile Include="Core\StreamProviderConfiguration.cs" />
+    <Compile Include="Client\StreamProviderConfiguration.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="Core\ActorTypeName.cs" />

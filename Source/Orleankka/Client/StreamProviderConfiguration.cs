@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
-using Orleans.Providers.Streams.Common;
 using Orleans.Runtime.Configuration;
 
-namespace Orleankka.Core
+namespace Orleankka.Client
 {
     class StreamProviderConfiguration
     {
@@ -25,18 +22,6 @@ namespace Orleankka.Core
         public void Register(ClientConfiguration configuration)
         {
             configuration.RegisterStreamProvider(type.FullName, Name, properties);
-        }
-
-        public void Register(ClusterConfiguration configuration)
-        {
-            configuration.Globals.RegisterStreamProvider(type.FullName, Name, properties);
-        }
-
-        public bool IsPersistentStreamProvider()
-        {
-            Debug.Assert(type.BaseType != null);
-            return type.BaseType.IsConstructedGenericType &&
-                   type.BaseType.GetGenericTypeDefinition() == typeof(PersistentStreamProvider<>);
         }
     }
 }

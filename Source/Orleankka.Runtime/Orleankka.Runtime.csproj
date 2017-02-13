@@ -64,6 +64,10 @@
     <Compile Include="Core\ActorTypeDeclaration.cs" />
     <Compile Include="Core\ActorType.cs" />
     <Compile Include="Actor.cs" />
+    <Compile Include="Cluster\StreamProviderConfiguration.cs" />
+    <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
+    <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
+    <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Cluster\Interceptor.cs" />
     <Compile Include="InvocationPipeline.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamSubscriptionSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -111,6 +116,10 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
+      <Name>Orleans.Internals</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

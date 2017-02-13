@@ -58,6 +58,8 @@ namespace Orleankka.Core
             types.Add(actor.Name, actor);
         }
 
+        public static IEnumerable<ActorType> Registered() => types.Values;
+
         internal readonly string Name;
         internal readonly IActorInvoker Invoker;
 
@@ -123,6 +125,9 @@ namespace Orleankka.Core
 
             endpoint.DelayDeactivation(keepAliveTimeout);
         }
+
+        internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
+            StreamSubscriptionSpecification.From(actor, dispatcher);
 
         internal bool Sticky { get; }
 

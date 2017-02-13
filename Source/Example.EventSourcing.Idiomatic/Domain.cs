@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
@@ -14,12 +13,6 @@ namespace Example
         int total;
         string name;
         bool active;
-
-        public override Task OnActivate()
-        {
-            Projection = System.ActorOf<Inventory>("#");
-            return base.OnActivate();
-        }
 
         void On(InventoryItemCreated e)
         {
@@ -93,6 +86,7 @@ namespace Example
         }
     }
 
+    [StreamSubscription(Source = "sms:/InventoryItem-.*/", Target = "#")]
     public class Inventory : Actor
     {
         readonly Dictionary<string, InventoryItemDetails> items =

@@ -28,6 +28,14 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
+        StreamRef stream;
+
+        public override Task OnActivate()
+        {
+            stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
+            return base.OnActivate();
+        }
+
         protected override Task<object> HandleQuery(Query query)
         {
             return Dispatch(query);
@@ -49,7 +57,7 @@ namespace Example
         Task Project(Event @event)
         {
             var envelope = Wrap(@event);
-            return Projection.Tell(envelope);
+            return stream.Push(envelope);
         }
 
         object Wrap(Event @event)

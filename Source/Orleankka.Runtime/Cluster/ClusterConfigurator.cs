@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleankka.Behaviors;
-
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
     using Core;
+    using Core.Streams;
+    using Behaviors;
     using Utility;
     using Annotations;
 
@@ -140,6 +140,7 @@ namespace Orleankka.Cluster
             RegisterTypes();
             RegisterAutoruns();
             RegisterStreamProviders();
+            RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
         }
@@ -172,6 +173,7 @@ namespace Orleankka.Cluster
         }
 
         void RegisterInterfaces() => ActorInterface.Register(assemblies, interfaces);
+
         void RegisterTypes() => ActorType.Register(assemblies);
 
         void RegisterAutoruns()
@@ -205,7 +207,22 @@ namespace Orleankka.Cluster
             foreach (var actor in assemblies.SelectMany(x => x.ActorTypes()))
                 ActorBehavior.Register(actor);
         }
-        
+
+        void RegisterStreamSubscriptions()
+        {
+            foreach (var actor in ActorType.Registered())
+                StreamSubscriptionMatcher.Register(actor.Subscriptions());
+
+            const string id = "stream-subscription-boot";
+
+            var properties = new Dictionary<string, string>();
+            properties["providers"] = string.Join(";", streamProviders
+                .Where(x => x.IsPersistentStreamProvider())
+                .Select(x => x.Name));
+              
+            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
+        }
+
         public override object InitializeLifetimeService()
         {
             return null;
@@ -227,6 +244,7 @@ namespace Orleankka.Cluster
             ActorType.Reset();
             InvocationPipeline.Reset();
             ActorBehavior.Reset();
+            StreamSubscriptionMatcher.Reset();
         }
     }
 
