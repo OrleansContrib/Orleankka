@@ -29,8 +29,6 @@ namespace Example
 
             Console.WriteLine("Finished booting cluster...");
             Console.ReadLine();
-            
-            system.Dispose();
         }
     }
 }

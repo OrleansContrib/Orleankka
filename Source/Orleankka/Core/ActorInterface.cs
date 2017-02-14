@@ -14,12 +14,6 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorInterface> interfaces =
                     new Dictionary<string, ActorInterface>();
 
-        internal static void Reset()
-        {
-            interfaces.Clear();
-            ActorTypeName.Reset();
-        }
-
         internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
             var generated = ActorInterfaceDeclaration.Generate(assemblies, mappings);

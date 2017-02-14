@@ -22,8 +22,6 @@ namespace Orleankka.Core.Streams
         static readonly Dictionary<string, List<StreamSubscriptionSpecification>> configuration = 
                     new Dictionary<string, List<StreamSubscriptionSpecification>>();
 
-        internal static void Reset() => configuration.Clear();
-
         internal static void Register(IEnumerable<StreamSubscriptionSpecification> specifications)
         {
             foreach (var specification in specifications)

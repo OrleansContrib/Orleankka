@@ -48,7 +48,6 @@ namespace Orleankka.Features
 
         [TestFixture]
         [Explicit, Category("Slow")]
-        [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
         public class Using_reminders
         {
             IActorSystem system;

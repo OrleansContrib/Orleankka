@@ -24,13 +24,11 @@ namespace Orleankka.Client
 
         internal static bool Initialized => current != null;
 
-        readonly IDisposable configurator;
         readonly ClientConfiguration configuration;
 
-        internal ClientActorSystem(IDisposable configurator, ClientConfiguration configuration)
+        internal ClientActorSystem(ClientConfiguration configuration)
         {
             current = this;
-            this.configurator = configurator;
             this.configuration = configuration;
         }
 
@@ -65,24 +63,6 @@ namespace Orleankka.Client
                     }
                 }
             }
-        }
-
-        public void Disconnect()
-        {
-            Reset();
-            current = null;
-        }
-
-        public override void Dispose()
-        {
-            Disconnect();
-            configurator.Dispose();
-        }
-
-        static void Reset()
-        {
-            if (GrainClient.IsInitialized)
-                GrainClient.Uninitialize();
         }
     }
 }

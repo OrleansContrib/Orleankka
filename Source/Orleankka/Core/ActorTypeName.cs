@@ -13,8 +13,6 @@ namespace Orleankka.Core
         static readonly Dictionary<Type, string> map =
                     new Dictionary<Type, string>();
 
-        internal static void Reset() => map.Clear();
-
         internal static void Register(Type type)
         {
             var name = Name(type);

@@ -36,7 +36,6 @@ namespace Example
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();            
             Environment.Exit(0);
         }
 

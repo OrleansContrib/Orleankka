@@ -11,7 +11,7 @@ namespace Orleankka.Client
     using Core;
     using Utility;
 
-    public sealed class ClientConfigurator : IDisposable
+    public sealed class ClientConfigurator
     {
         readonly HashSet<Assembly> assemblies = 
              new HashSet<Assembly>();
@@ -102,7 +102,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(this, Configuration);
+            return new ClientActorSystem(Configuration);
         }
 
         void RegisterStreamProviders()
@@ -115,8 +115,6 @@ namespace Orleankka.Client
         {
             ActorInterface.Register(assemblies, interfaces);
         }
-
-        public void Dispose() => ActorInterface.Reset();
     }
 
     public static class ClientConfiguratorExtensions

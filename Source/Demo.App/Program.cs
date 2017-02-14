@@ -32,8 +32,6 @@ namespace Demo
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
-
-            system.Dispose();
         }
     }
 }

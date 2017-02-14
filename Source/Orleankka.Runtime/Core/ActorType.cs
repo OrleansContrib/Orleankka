@@ -25,20 +25,7 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        internal static IActorActivator Activator;
-
-        static ActorType()
-        {
-            Reset();
-        }
-
-        internal static void Reset()
-        {
-            Activator = new DefaultActorActivator();
-            Conventions = null;
-            dispatchers.Clear();
-            types.Clear();
-        }
+        internal static IActorActivator Activator = new DefaultActorActivator();
 
         internal static void Register(IEnumerable<Assembly> assemblies)
         {

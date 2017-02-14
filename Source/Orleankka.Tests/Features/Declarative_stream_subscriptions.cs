@@ -296,7 +296,6 @@ namespace Orleankka.Features
             }
 
             [TestFixture]
-            [RequiresSilo(Fresh = true, EnableAzureQueueStreamProvider = true)]
             [Category("Slow"), Explicit]
             public class Tests
             {

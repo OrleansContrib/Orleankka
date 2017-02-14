@@ -18,8 +18,6 @@ namespace Orleankka.Behaviors
         static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors =
                     new Dictionary<Type, Dictionary<string, Action<object>>>();
 
-        public static void Reset() => behaviors.Clear();
-
         public static void Register(Type actor)
         {
             Requires.NotNull(actor, nameof(actor));

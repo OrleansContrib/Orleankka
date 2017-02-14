@@ -15,19 +15,19 @@ namespace Orleankka.Cluster
     using Utility;
     using Annotations;
 
-    public sealed class ClusterConfigurator : MarshalByRefObject, IDisposable
+    public sealed class ClusterConfigurator : MarshalByRefObject
     {
         readonly HashSet<ActorInterfaceMapping> interfaces =
-             new HashSet<ActorInterfaceMapping>();
-        
+            new HashSet<ActorInterfaceMapping>();
+
         readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
         readonly HashSet<string> conventions = new HashSet<string>();
 
         readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
-             new HashSet<BootstrapProviderConfiguration>();
+            new HashSet<BootstrapProviderConfiguration>();
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
-             new HashSet<StreamProviderConfiguration>();
+            new HashSet<StreamProviderConfiguration>();
 
         Tuple<Type, object> activator;
         Tuple<Type, object> interceptor;
@@ -37,10 +37,7 @@ namespace Orleankka.Cluster
             Configuration = new ClusterConfiguration();
         }
 
-        ClusterConfiguration Configuration
-        {
-            get; set;
-        }
+        ClusterConfiguration Configuration { get; set; }
 
         public ClusterConfigurator From(ClusterConfiguration config)
         {
@@ -127,7 +124,7 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(this, Configuration);
+            return new ClusterActorSystem(Configuration);
         }
 
         void Configure()
@@ -217,9 +214,9 @@ namespace Orleankka.Cluster
 
             var properties = new Dictionary<string, string>();
             properties["providers"] = string.Join(";", streamProviders
-                .Where(x => x.IsPersistentStreamProvider())
-                .Select(x => x.Name));
-              
+                                                           .Where(x => x.IsPersistentStreamProvider())
+                                                           .Select(x => x.Name));
+
             Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
@@ -231,20 +228,11 @@ namespace Orleankka.Cluster
         [UsedImplicitly]
         class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
         {
-            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) => 
+            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) =>
                 Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
 
-            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) => 
+            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
                 ids.Select(id => system.ActorOf(type, id).Autorun());
-        }
-
-        public void Dispose()
-        {
-            ActorInterface.Reset();
-            ActorType.Reset();
-            InvocationPipeline.Reset();
-            ActorBehavior.Reset();
-            StreamSubscriptionMatcher.Reset();
         }
     }
 
