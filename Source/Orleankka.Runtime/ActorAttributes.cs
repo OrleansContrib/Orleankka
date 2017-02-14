@@ -211,4 +211,8 @@ namespace Orleankka
     {
         public bool Background { get; set; }
     }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class TraitAttribute : Attribute
+    {}
 }

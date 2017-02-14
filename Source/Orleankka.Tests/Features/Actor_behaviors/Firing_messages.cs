@@ -1,163 +1,166 @@
-namespace Orleankka.Features.Actor_behaviors
-{
-    using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
-    using System;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
-    
+using NUnit.Framework;
+
+namespace Orleankka.Features.Actor_behaviors
+{   
     using Meta;
     using Behaviors;
     using Testing;
 
-    [TestFixture]
-    [RequiresSilo]
-    public class Firing_messages
+    namespace Firing_messages
     {
-        [Serializable]
-        class CheckInterleaveFire : Command
+        [TestFixture]
+        [RequiresSilo]
+        public class Tests
         {
-            public TimeSpan ReceiveDelay;
-            public TimeSpan TimerDelay;
-        }
-
-        [Serializable] class GetReceived : Query<List<string>> {}
-        [Serializable] class GetFired : Query<List<string>> {}
-
-        [Reentrant(typeof(string))]
-        class TestInterleaveFireActor : Actor
-        {
-            readonly List<string> received = new List<string>();
-            readonly List<string> fired = new List<string>();
-
-            public TestInterleaveFireActor()
+            [Serializable]
+            class CheckInterleaveFire : Command
             {
-                Behavior.Initial(Test);
+                public TimeSpan ReceiveDelay;
+                public TimeSpan TimerDelay;
             }
 
-            [Behavior]
-            void Test()
+            [Serializable] class GetReceived : Query<List<string>> {}
+            [Serializable] class GetFired : Query<List<string>> {}
+
+            [Reentrant(typeof(string))]
+            class TestInterleaveFireActor : Actor
             {
-                this.OnReceive<GetReceived, List<string>>(x => received);
-                this.OnReceive<GetFired, List<string>>(x => fired);
+                readonly List<string> received = new List<string>();
+                readonly List<string> fired = new List<string>();
 
-                this.OnReceive<CheckInterleaveFire>(async x =>
+                public TestInterleaveFireActor()
                 {
-                    await this.Fire("main");
+                    Behavior.Initial(Test);
+                }
 
-                    Timers.Register("test", x.TimerDelay, async () =>
+                [Behavior]
+                void Test()
+                {
+                    this.OnReceive<GetReceived, List<string>>(x => received);
+                    this.OnReceive<GetFired, List<string>>(x => fired);
+
+                    this.OnReceive<CheckInterleaveFire>(async x =>
                     {
-                        await this.Fire("timer");
+                        await this.Fire("main");
 
-                        await Task.Delay(x.TimerDelay);
+                        Timers.Register("test", x.TimerDelay, async () =>
+                        {
+                            await this.Fire("timer");
 
-                        await this.Fire("timer");
+                            await Task.Delay(x.TimerDelay);
+
+                            await this.Fire("timer");
+                        });
+
+                        await Task.Delay(x.ReceiveDelay);
+
+                        await this.Fire("main");
                     });
 
-                    await Task.Delay(x.ReceiveDelay);
+                    this.OnReceive<string>(x => fired.Add(x));
+                }
 
-                    await this.Fire("main");
-                });
-
-                this.OnReceive<string>(x => fired.Add(x));
-            }
-
-            public override Task<object> OnReceive(object message)
-            {
-                if (message is string)
-                    received.Add(message.ToString());
-
-                return base.OnReceive(message);
-            }
-        }
-
-        [Serializable] class CheckUnhandledFiring : Command {}
-        [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
-
-        class TestUnhandledFireActor : Actor
-        {
-            readonly List<Tuple<string, bool>> origins = new List<Tuple<string, bool>>();
-
-            public TestUnhandledFireActor()
-            {
-                Behavior.Initial(Foreground);
-
-                Behavior.OnUnhandledReceive((message, state, origin) =>
+                public override Task<object> OnReceive(object message)
                 {
-                    origins.Add(new Tuple<string, bool>(origin.Behavior, origin.IsBackground));
-                });
+                    if (message is string)
+                        received.Add(message.ToString());
+
+                    return base.OnReceive(message);
+                }
             }
 
-            [Behavior]
-            public void Foreground()
-            {
-                this.OnReceive<CheckUnhandledFiring>(async x =>
-                {
-                    await this.Fire("foo");
-                    await this.Become(nameof(Background));
-                });
-            }
+            [Serializable] class CheckUnhandledFiring : Command {}
+            [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
 
-            [Behavior]
-            public void Background()
+            class TestUnhandledFireActor : Actor
             {
-                this.OnActivate(()=>
+                readonly List<Tuple<string, bool>> origins = new List<Tuple<string, bool>>();
+
+                public TestUnhandledFireActor()
                 {
-                    Timers.Register("test", TimeSpan.FromMilliseconds(1), async ()=>
+                    Behavior.Initial(Foreground);
+
+                    Behavior.OnUnhandledReceive((message, state, origin) =>
                     {
-                        await this.Fire("bar");
+                        origins.Add(new Tuple<string, bool>(origin.Behavior, origin.IsBackground));
                     });
+                }
+
+                [Behavior]
+                public void Foreground()
+                {
+                    this.OnReceive<CheckUnhandledFiring>(async x =>
+                    {
+                        await this.Fire("foo");
+                        await this.Become(nameof(Background));
+                    });
+                }
+
+                [Behavior]
+                public void Background()
+                {
+                    this.OnActivate(()=>
+                    {
+                        Timers.Register("test", TimeSpan.FromMilliseconds(1), async ()=>
+                        {
+                            await this.Fire("bar");
+                        });
+                    });
+                }
+
+                public override Task<object> OnReceive(object message)
+                {
+                    if (message is GetOrigins)
+                        return Task.FromResult((object)origins);
+
+                    return base.OnReceive(message);
+                }
+            }
+            [TestFixtureSetUp]
+            public void FixtureSetUp()
+            {
+                ActorBehavior.Register(typeof(TestInterleaveFireActor));
+                ActorBehavior.Register(typeof(TestUnhandledFireActor));
+            }
+
+            [Test]
+            public async Task When_receive_interleaves_with_timer_ticks()
+            {
+                var actor = TestActorSystem.Instance.ActorOf<TestInterleaveFireActor>("test");
+
+                await actor.Tell(new CheckInterleaveFire
+                {
+                    ReceiveDelay = TimeSpan.FromMilliseconds(100),
+                    TimerDelay = TimeSpan.FromMilliseconds(70)
                 });
+
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+
+                CollectionAssert.AreEqual(new[] { "timer", "timer" },
+                    await actor.Ask(new GetReceived()));
+
+                CollectionAssert.AreEqual(new[] { "main", "timer", "main", "timer" },
+                    await actor.Ask(new GetFired()));
             }
 
-            public override Task<object> OnReceive(object message)
+            [Test]
+            public async Task When_unhandled_callback_has_proper_request_origin()
             {
-                if (message is GetOrigins)
-                    return Task.FromResult((object)origins);
+                var actor = TestActorSystem.Instance.ActorOf<TestUnhandledFireActor>("test");
 
-                return base.OnReceive(message);
+                await actor.Tell(new CheckUnhandledFiring());
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
+
+                var firstFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Foreground), false);
+                var secondFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Background), true);
+
+                CollectionAssert.AreEqual(new[] { firstFire, secondFire },
+                    await actor.Ask(new GetOrigins()));
             }
-        }
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-            ActorBehavior.Register(typeof(TestInterleaveFireActor));
-            ActorBehavior.Register(typeof(TestUnhandledFireActor));
-        }
-
-        [Test]
-        public async Task When_receive_interleaves_with_timer_ticks()
-        {
-            var actor = TestActorSystem.Instance.ActorOf<TestInterleaveFireActor>("test");
-
-            await actor.Tell(new CheckInterleaveFire
-            {
-                ReceiveDelay = TimeSpan.FromMilliseconds(100),
-                TimerDelay = TimeSpan.FromMilliseconds(70)
-            });
-
-            await Task.Delay(TimeSpan.FromMilliseconds(50));
-
-            CollectionAssert.AreEqual(new[] { "timer", "timer" },
-                await actor.Ask(new GetReceived()));
-
-            CollectionAssert.AreEqual(new[] { "main", "timer", "main", "timer" },
-                await actor.Ask(new GetFired()));
-        }
-
-        [Test]
-        public async Task When_unhandled_callback_has_proper_request_origin()
-        {
-            var actor = TestActorSystem.Instance.ActorOf<TestUnhandledFireActor>("test");
-
-            await actor.Tell(new CheckUnhandledFiring());
-            await Task.Delay(TimeSpan.FromMilliseconds(50));
-
-            var firstFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Foreground), false);
-            var secondFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Background), true);
-
-            CollectionAssert.AreEqual(new[] { firstFire, secondFire },
-                await actor.Ask(new GetOrigins()));
         }
     }
 }

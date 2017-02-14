@@ -1,12 +1,12 @@
-﻿namespace Orleankka.Features.Actor_behaviors
-{
-    using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    
-    using Orleankka.Behaviors;
+using NUnit.Framework;
+
+namespace Orleankka.Features.Actor_behaviors
+{   
+    using Behaviors;
 
     namespace Switchable_behaviors
     {

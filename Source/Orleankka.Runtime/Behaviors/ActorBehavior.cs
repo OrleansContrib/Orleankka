@@ -32,7 +32,7 @@ namespace Orleankka.Behaviors
                 Debug.Assert(current != null);
 
                 const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-                foreach (var method in current.GetMethods(scope).Where(x => x.GetCustomAttribute<BehaviorAttribute>() != null))
+                foreach (var method in current.GetMethods(scope).Where(IsBehavioral))
                 {
                     if (method.ReturnType != typeof(void) ||
                         method.GetGenericArguments().Length != 0 ||
@@ -59,6 +59,10 @@ namespace Orleankka.Behaviors
 
             behaviors.Add(actor, found);
         }
+
+        static bool IsBehavioral(MethodInfo x) => 
+            x.GetCustomAttribute<BehaviorAttribute>() != null || 
+            x.GetCustomAttribute<TraitAttribute>() != null;
 
         Action<object> RegisteredAction(string behavior)
         {
@@ -228,6 +232,30 @@ namespace Orleankka.Behaviors
             action(actor);
 
             next = prev;
+        }
+
+        public void Trait(params Action[] traits)
+        {
+            Requires.NotNull(traits, nameof(traits));
+
+            if (traits.Any(x => x == null))
+                throw new ArgumentException("Given parameter array contains null value", nameof(traits));
+
+            Trait(traits.Select(x => x.Method.Name).ToArray());
+        }
+
+        public void Trait(params string[] traits)
+        {
+            Requires.NotNull(traits, nameof(traits));
+
+            if (traits.Any(string.IsNullOrWhiteSpace))
+                throw new ArgumentException("Given parameter array contains null/empty value", nameof(traits));
+
+            foreach (var trait in traits)
+            {
+                var action = RegisteredAction(trait);
+                action(actor);
+            }
         }
 
         public void OnBecome(Action<string, string> onBecomeCallback)
