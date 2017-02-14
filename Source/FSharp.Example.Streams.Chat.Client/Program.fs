@@ -54,9 +54,9 @@ let main argv =
    let config = loadFromResource assembly "Client.xml"   
                 |> registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
 
-   use system = [|typeof<ChatRoomMessage>.Assembly|]   
+   let system = [|typeof<ChatRoomMessage>.Assembly|]   
                 |> ActorSystem.createConfiguredClient config [|"ChatUser"|]
-                |> ActorSystem.connect   
+                |> ActorSystem.connect 
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();

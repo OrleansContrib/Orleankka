@@ -18,7 +18,7 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"
       
-   use system = [|typeof<ServerMessage>.Assembly|]
+   let system = [|typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createConfiguredClient config [|"ChatServer"|]
                 |> ActorSystem.connect   
 
