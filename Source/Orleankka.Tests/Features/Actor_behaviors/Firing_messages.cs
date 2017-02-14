@@ -138,7 +138,7 @@ namespace Orleankka.Features.Actor_behaviors
                     TimerDelay = TimeSpan.FromMilliseconds(70)
                 });
 
-                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                await Task.Delay(TimeSpan.FromMilliseconds(200));
 
                 CollectionAssert.AreEqual(new[] { "timer", "timer" },
                     await actor.Ask(new GetReceived()));
@@ -153,7 +153,7 @@ namespace Orleankka.Features.Actor_behaviors
                 var actor = TestActorSystem.Instance.ActorOf<TestUnhandledFireActor>("test");
 
                 await actor.Tell(new CheckUnhandledFiring());
-                await Task.Delay(TimeSpan.FromMilliseconds(50));
+                await Task.Delay(TimeSpan.FromMilliseconds(200));
 
                 var firstFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Foreground), false);
                 var secondFire = new Tuple<string, bool>(nameof(TestUnhandledFireActor.Background), true);
