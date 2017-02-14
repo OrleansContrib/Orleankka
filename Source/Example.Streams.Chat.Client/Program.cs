@@ -53,7 +53,6 @@ namespace Example
 
                 if (message == "reconnect")
                 {
-                    system.Reconnect(retries: 2);
                     await client.Resubscribe();
                     continue;
                 }

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading;
 
 using Orleans;
-using Orleans.Runtime;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
@@ -37,44 +36,35 @@ namespace Orleankka.Client
 
         public bool Connected => GrainClient.IsInitialized;
 
-        public void Connect(int retries = 0)
+        public void Connect(int retries = 0, TimeSpan? retryTimeout = null)
         {
+            if (retryTimeout == null)
+                retryTimeout = TimeSpan.FromSeconds(5);
+
             if (retries < 0)
                 throw new ArgumentOutOfRangeException(nameof(retries), 
                     "retries should be greater than or equal to 0");
 
-            while (retries-- >= 0)
+            while (!Connected && retries-- >= 0)
             {
                 try
                 {
                     GrainClient.Initialize(configuration);
-                    return;
                 }
-                catch (SiloUnavailableException)
+                catch (Exception ex)
                 {
                     if (retries >= 0)
                     {
-                        Trace.TraceWarning("Can't connect to cluster. Trying again ...");
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        Trace.TraceWarning($"Can't connect to cluster. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ... Got error: /n{ex}");
+                        Thread.Sleep(retryTimeout.Value);
                     }
                     else
                     {
-                        Trace.TraceError("Can't connect to cluster. Max retries reached");
+                        Trace.TraceError($"Can't connect to cluster. Max retries reached. Got error: /n{ex}");
                         throw;
                     }
                 }
             }
-        }
-
-        public void Reconnect(string deploymentId = null, int retries = 0)
-        {
-            var clusterId = deploymentId ?? configuration.DeploymentId;
-
-            Trace.TraceInformation("Reconnecting to cluster with DeploymentId '{0}' ...", clusterId);
-            configuration.DeploymentId = clusterId;
-
-            Reset();
-            Connect(retries);
         }
 
         public void Disconnect()
