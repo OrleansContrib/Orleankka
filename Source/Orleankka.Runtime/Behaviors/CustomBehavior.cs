@@ -223,6 +223,9 @@ namespace Orleankka.Behaviors
 
         public void Super(CustomBehavior super)
         {
+            if (this.super != null)
+                throw new InvalidOperationException($"Super '{this.super.Name}' has been already configured for behavior '{Name}'");
+
             this.super = super;
             super.sub = this;
         }
