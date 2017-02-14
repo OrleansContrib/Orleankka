@@ -52,6 +52,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="StorageServiceMock.cs" />
     <Compile Include="ActivationServiceMock.cs" />
     <Compile Include="StreamSubscriptionMock.cs" />
     <Compile Include="StreamRefMock.cs" />
