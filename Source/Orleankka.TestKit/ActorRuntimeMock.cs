@@ -4,9 +4,9 @@ namespace Orleankka.TestKit
 {
     public class ActorRuntimeMock : IActorRuntime
     {
-        public ActorRuntimeMock()
+        public ActorRuntimeMock(SerializationOptions serialization = null)
         {
-            System      = new ActorSystemMock();
+            System      = new ActorSystemMock(serialization);
             Timers      = new TimerServiceMock();
             Reminders   = new ReminderServiceMock();
             Activation  = new ActivationServiceMock();
