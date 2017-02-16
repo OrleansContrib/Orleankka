@@ -279,15 +279,15 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
-        <Reference Include="Microsoft.WindowsAzure.Storage">
-          <HintPath>..\..\packages\WindowsAzure.Storage\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
         <Reference Include="System.Xml">
           <Paket>True</Paket>
         </Reference>
         <Reference Include="System.Xml.Linq">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="Microsoft.WindowsAzure.Storage">
+          <HintPath>..\..\packages\WindowsAzure.Storage\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>

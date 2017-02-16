@@ -61,9 +61,6 @@
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Orleans">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core\lib\net451\Orleans.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -92,4 +89,81 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.CodeAnalysis">
+          <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.CodeAnalysis.CSharp">
+          <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Orleans">
+          <HintPath>..\..\packages\Microsoft.Orleans.Core\lib\net451\Orleans.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="OrleansCodeGenerator">
+          <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator\lib\net451\OrleansCodeGenerator.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="System.Collections.Immutable">
+          <HintPath>..\..\packages\System.Collections.Immutable\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="System.Reflection.Metadata">
+          <HintPath>..\..\packages\System.Reflection.Metadata\lib\netstandard1.1\System.Reflection.Metadata.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
 </Project>

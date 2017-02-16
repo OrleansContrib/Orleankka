@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{224568EA-BC0B-49BC-AF0F-B4A4A62858AC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E43D9F8D-8EC8-44D3-A334-29B3677B022E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orleankka</RootNamespace>
-    <AssemblyName>Orleankka.Runtime</AssemblyName>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example.Serialization.ProtoBuf</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,12 +32,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Orleankka.Runtime.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Example.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
     <OutputPath>bin\Package\</OutputPath>
-    <DefineConstants>TRACE;PACKAGE</DefineConstants>
-    <DocumentationFile>bin\Release\Orleankka.Runtime.xml</DocumentationFile>
+    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,101 +47,69 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Orleankka.Version.cs">
-      <Link>Properties\Orleankka.Version.cs</Link>
-    </Compile>
-    <Compile Include="..\Product.cs">
-      <Link>Properties\Product.cs</Link>
-    </Compile>
-    <Compile Include="ActorInvoker.cs" />
-    <Compile Include="ActorActivator.cs" />
-    <Compile Include="Behaviors\ActorBehavior.cs" />
-    <Compile Include="Behaviors\BehaviorExtensions.cs" />
-    <Compile Include="Behaviors\CustomBehavior.cs" />
-    <Compile Include="Behaviors\Exceptions.cs" />
-    <Compile Include="Behaviors\RequestOrigin.cs" />
-    <Compile Include="Behaviors\Transition.cs" />
-    <Content Include="Core\ActorEndpoint.Common.T.cs" />
-    <Compile Include="Core\ActorEndpoint.cs">
+    <Compile Include="Domain.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Messages.g.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ActorEndpoint.tt</DependentUpon>
+      <DependentUpon>Messages.proto</DependentUpon>
     </Compile>
-    <Compile Include="Core\AssemblyScanner.cs" />
-    <Compile Include="ActorRuntime.cs" />
-    <Compile Include="Core\ActorTypeDeclaration.cs" />
-    <Compile Include="Core\ActorType.cs" />
-    <Compile Include="Actor.cs" />
-    <Compile Include="Cluster\StreamProviderConfiguration.cs" />
-    <Compile Include="Core\IActorHost.cs" />
-    <Compile Include="Core\StatefulActorEndpoint.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StatefulActorEndpoint.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
-    <Compile Include="Dispatcher.cs" />
-    <Compile Include="Cluster\Interceptor.cs" />
-    <Compile Include="InvocationPipeline.cs" />
-    <Compile Include="Services\StorageService.cs" />
-    <Compile Include="StatefulActor.cs" />
-    <Compile Include="StreamRefExtensions.cs" />
-    <Compile Include="ActorAttributes.cs" />
-    <Compile Include="Placement.cs" />
-    <Compile Include="Cluster\Bootstrapper.cs" />
-    <Compile Include="Cluster\ClusterActorSystem.cs" />
-    <Compile Include="Cluster\ClusterConfigurator.cs" />
-    <Compile Include="Embedded\EmbeddedConfigurator.cs" />
-    <Compile Include="Embedded\EmbeddedActorSystem.cs" />
-    <Compile Include="ObserverCollection.cs" />
-    <Compile Include="ActorSystem.cs" />
-    <Content Include="Core\ActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.cs</LastGenOutput>
-    </Content>
-    <Compile Include="Playground\PlaygroundConfigurator.cs" />
-    <Compile Include="Services\ActivationService.cs" />
-    <Compile Include="Services\ReminderService.cs" />
-    <Compile Include="Services\TimerService.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamSubscriptionSpecification.cs" />
-    <Content Include="Core\ActorEndpoint.Common.cs" />
-    <Content Include="Core\StatefulActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StatefulActorEndpoint.cs</LastGenOutput>
-    </Content>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProtobufSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.xml">
+    <None Include="App.config">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Playground\Cluster.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
+    </None>
+    <None Include="Messages.proto">
+      <Generator>ProtobufCSharp</Generator>
+      <LastGenOutput>Messages.g.cs</LastGenOutput>
+    </None>
     <None Include="paket.references" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj">
+      <Project>{1220A904-CAFA-4F1C-BBCB-82B9257C9FC5}</Project>
+      <Name>Orleankka.Meta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj">
+      <Project>{224568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
+      <Name>Orleankka.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj">
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
-      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
-      <Name>Orleans.Internals</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Google.Protobuf">
+          <HintPath>..\..\packages\Google.Protobuf\lib\net45\Google.Protobuf.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll">
       <Paket>True</Paket>
@@ -213,17 +187,6 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
       <ItemGroup>
-        <Reference Include="OrleansProviders">
-          <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders\lib\net451\OrleansProviders.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
-      <ItemGroup>
         <Reference Include="OrleansRuntime">
           <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime\lib\net451\OrleansRuntime.dll</HintPath>
           <Private>True</Private>
@@ -238,15 +201,6 @@
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
-      <ItemGroup>
-        <Reference Include="System.Core">
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
