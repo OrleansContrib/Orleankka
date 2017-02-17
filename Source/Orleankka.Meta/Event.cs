@@ -1,5 +1,5 @@
 namespace Orleankka.Meta
 {
-    public interface Event
+    public interface Event : Message
     {}
 }

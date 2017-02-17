@@ -12,6 +12,7 @@ NUGET
     FSharp.Core (4.0.0.1)
     FsPickler (1.2.5)
     Google.Protobuf (3.2)
+    Hyperion (0.9.2)
     jQuery (1.10.2)
     jQuery.Validation (1.11.1)
       jQuery (>= 1.4.4)

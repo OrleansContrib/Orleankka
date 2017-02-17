@@ -5,6 +5,7 @@ lowest_matching: false
 
 source https://api.nuget.org/v3/index.json
 
+nuget Hyperion
 nuget Nake
 nuget NuGet.CommandLine
 
