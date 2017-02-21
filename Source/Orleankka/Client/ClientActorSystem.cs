@@ -7,6 +7,8 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
+    using Core;
+
     public sealed class ClientActorSystem : ActorSystem
     {
         static ClientActorSystem current;
@@ -63,6 +65,8 @@ namespace Orleankka.Client
                     }
                 }
             }
+
+            ActorInterface.Bind(GrainClient.GrainFactory);
         }
     }
 }

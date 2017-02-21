@@ -21,7 +21,7 @@ namespace Orleankka.Core.Streams
             var system = ClusterActorSystem.Current;
             var providers = config.Properties["providers"].Split(';');
 
-            StreamPubSubWrapper.Hook(providers, stream => 
+            StreamPubSubWrapper.Hook(providerRuntime.ServiceProvider, providers, stream => 
                 StreamSubscriptionMatcher
                     .Match(system, stream)
                     .Select(x => new StreamPubSubMatch(x.Receive))

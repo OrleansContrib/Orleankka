@@ -16,10 +16,10 @@ namespace Orleans.Internals
     /// </summary>
     public class StreamPubSubWrapper : IStreamPubSub
     {
-        public static void Hook(string[] providers, Func<StreamIdentity, StreamPubSubMatch[]> matcher)
+        public static void Hook(IServiceProvider provider, string[] providers, Func<StreamIdentity, StreamPubSubMatch[]> matcher)
         {
             var runtimeType = typeof(SiloHost).Assembly.GetType("Orleans.Runtime.Providers.SiloProviderRuntime");
-            var runtime = runtimeType.GetProperty("Instance").GetValue(null);
+            var runtime = provider.GetService(runtimeType);
 
             var grainBasedPubSubField = runtimeType
                 .GetField("grainBasedPubSub",

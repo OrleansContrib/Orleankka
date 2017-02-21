@@ -51,7 +51,7 @@ namespace Example
             return BaseInterfaceType.IsAssignableFrom(itemType);
         }
 
-        public object DeepCopy(object source)
+        public object DeepCopy(object source, ICopyContext context)
         {
             if (source == null)
                 return null;
@@ -64,8 +64,10 @@ namespace Example
             }
         }
 
-        public void Serialize(object item, BinaryTokenStreamWriter writer, Type expectedType)
+        public void Serialize(object item, ISerializationContext context, Type expectedType)
         {
+            var writer = context.StreamWriter;
+
             if (item == null)
             {
                 writer.WriteNull();
@@ -81,8 +83,10 @@ namespace Example
             }
         }
 
-        public object Deserialize(Type expectedType, BinaryTokenStreamReader reader)
+        public object Deserialize(Type expectedType, IDeserializationContext context)
         {
+            var reader = context.StreamReader;
+
             var length = reader.ReadInt();
             var inBytes = reader.ReadBytes(length);
 

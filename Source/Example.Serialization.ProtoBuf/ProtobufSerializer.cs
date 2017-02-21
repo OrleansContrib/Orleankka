@@ -34,7 +34,7 @@ namespace Example
             return true;
         }
 
-        public object DeepCopy(object source)
+        public object DeepCopy(object source, ICopyContext context)
         {
             if (source == null)
                 return null;
@@ -43,8 +43,10 @@ namespace Example
             return dynamicSource.Clone();
         }
 
-        public void Serialize(object item, BinaryTokenStreamWriter writer, Type expectedType)
+        public void Serialize(object item, ISerializationContext context, Type expectedType)
         {
+            var writer = context.StreamWriter;
+
             if (item == null)
             {
                 // Special handling for null value. 
@@ -63,13 +65,15 @@ namespace Example
             writer.Write(outBytes);
         }
 
-        public object Deserialize(Type expectedType, BinaryTokenStreamReader reader)
+        public object Deserialize(Type expectedType, IDeserializationContext context)
         {
             var typeHandle = expectedType.TypeHandle;
 
             MessageParser parser;
             if (!Parsers.TryGetValue(typeHandle, out parser))
                 throw new ArgumentException("No parser found for the expected type " + expectedType, nameof(expectedType));
+
+            var reader = context.StreamReader;
 
             var length = reader.ReadInt();
             var data = reader.ReadBytes(length);

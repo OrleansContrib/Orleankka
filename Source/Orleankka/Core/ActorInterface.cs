@@ -34,25 +34,25 @@ namespace Orleankka.Core
 
         readonly string name;
         readonly Type grain;
-        readonly Func<string, object> factory;
+        Func<string, object> factory;
 
         internal ActorInterface(ActorInterfaceMapping mapping, Type grain)
         {
             name = mapping.Name;
             Array.ForEach(mapping.Types, ActorTypeName.Register);
-
             this.grain = grain;
-            factory = Bind(grain);
         }
 
         public Assembly GrainAssembly() => grain.Assembly;
 
-        static Func<string, object> Bind(Type type)
+        internal static void Bind(IGrainFactory factory)
         {
-            var method = typeof(GrainFactory).GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
-            var invoker = method.MakeGenericMethod(type);
-            var instance = Activator.CreateInstance(typeof(GrainFactory), nonPublic: true);
-            return x => invoker.Invoke(instance, new object[] { x, null });
+            foreach (var @interface in interfaces.Values)
+            {
+                var method = factory.GetType().GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
+                var invoker = method.MakeGenericMethod(@interface.grain);
+                @interface.factory = x => invoker.Invoke(factory, new object[] { x, null });
+            }
         }
 
         internal static IEnumerable<ActorInterface> Registered() => interfaces.Values.ToArray();

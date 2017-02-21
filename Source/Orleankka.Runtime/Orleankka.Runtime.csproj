@@ -60,6 +60,7 @@
     <Compile Include="Behaviors\RequestOrigin.cs" />
     <Compile Include="Behaviors\Transition.cs" />
     <Content Include="Core\ActorEndpoint.Common.T.cs" />
+    <Compile Include="Cluster\GrainFactoryProvider.cs" />
     <Compile Include="Core\ActorEndpoint.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

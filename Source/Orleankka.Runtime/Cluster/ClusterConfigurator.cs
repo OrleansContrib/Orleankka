@@ -137,6 +137,7 @@ namespace Orleankka.Cluster
             RegisterTypes();
             RegisterAutoruns();
             RegisterStreamProviders();
+            RegisterStorageProviders();
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
@@ -187,6 +188,11 @@ namespace Orleankka.Cluster
             Bootstrapper<AutorunBootstrapper>(autoruns);
         }
 
+        void RegisterStorageProviders()
+        {
+            Configuration.Globals.RegisterStorageProvider<GrainFactoryProvider>("#ORLKKA_GFP");
+        }
+
         void RegisterStreamProviders()
         {
             foreach (var each in streamProviders)
@@ -214,8 +220,8 @@ namespace Orleankka.Cluster
 
             var properties = new Dictionary<string, string>();
             properties["providers"] = string.Join(";", streamProviders
-                                                           .Where(x => x.IsPersistentStreamProvider())
-                                                           .Select(x => x.Name));
+                .Where(x => x.IsPersistentStreamProvider())
+                .Select(x => x.Name));
 
             Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
