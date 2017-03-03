@@ -85,6 +85,10 @@
       <Project>{944568ea-bc0b-49bc-af0f-b4a4a62858ac}</Project>
       <Name>Orleankka</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
+      <Name>Orleans.Internals</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

@@ -12,7 +12,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpoint : Grain, IRemindable
+    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
     {
         const string StickyReminderName = "##sticky##";
 
@@ -84,42 +84,42 @@ namespace Orleankka.Core
 
         #region Expose protected methods to actor services layer
 
-        internal new void DeactivateOnIdle()
+        public new void DeactivateOnIdle()
         {
             base.DeactivateOnIdle();
         }
 
-        internal new void DelayDeactivation(TimeSpan timeSpan)
+        public new void DelayDeactivation(TimeSpan timeSpan)
         {
             base.DelayDeactivation(timeSpan);
         }
 
-        internal new Task<IGrainReminder> GetReminder(string reminderName)
+        public new Task<IGrainReminder> GetReminder(string reminderName)
         {
             return base.GetReminder(reminderName);
         }
 
-        internal new Task<List<IGrainReminder>> GetReminders()
+        public new Task<List<IGrainReminder>> GetReminders()
         {
             return base.GetReminders();
         }
 
-        internal new Task<IGrainReminder> RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
+        public new Task<IGrainReminder> RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
         {
             return base.RegisterOrUpdateReminder(reminderName, dueTime, period);
         }
 
-        internal new Task UnregisterReminder(IGrainReminder reminder)
+        public new Task UnregisterReminder(IGrainReminder reminder)
         {
             return base.UnregisterReminder(reminder);
         }
 
-        internal new IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
+        public new IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
         {
             return base.RegisterTimer(asyncCallback, state, dueTime, period);
         }
 
-        #endregion
+        #endregion  
     }
 
     /// <summary> 
@@ -134,6 +134,6 @@ namespace Orleankka.Core
         protected static ActorType type;
         #pragma warning restore 649
 
-        protected override ActorType Actor => type;
+        protected override ActorType Actor => type;  
     }
 }

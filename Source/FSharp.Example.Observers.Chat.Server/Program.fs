@@ -16,7 +16,7 @@ let main argv =
 
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = [|assembly;typeof<ServerMessage>.Assembly|]
+   let system = [|assembly;typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createCluster config
                 |> ActorSystem.complete
                 |> ActorSystem.start   

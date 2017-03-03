@@ -3,65 +3,45 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using Orleankka.Cluster;
-using Orleankka.Features.Intercepting_requests;
-using Orleankka.Playground;
-using Orleankka.Testing;
+using Orleans.Storage;
 using Orleans.Providers.Streams.AzureQueue;
+using Orleankka.Features.Intercepting_requests;
+using Orleankka.Testing;
 
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
 {
+    using Cluster;
+    using Playground;
+
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
-        public bool Fresh;
-        public int DefaultKeepAliveTimeoutInMinutes = 1;
-        public bool EnableAzureQueueStreamProvider = false;
-
         public override void BeforeTest(TestDetails details)
         {
             if (!details.IsSuite)
                 return;
 
-            if (Fresh)
-                TeardownExisting();
-
-            StartNew();
-        }
-
-        static void TeardownExisting()
-        {
-            if (TestActorSystem.Instance == null)
-                return;
-
-            TestActorSystem.Instance.Dispose();
-            TestActorSystem.Instance = null;
-        }
-
-        void StartNew()
-        {
             if (TestActorSystem.Instance != null)
                 return;
 
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .TweakCluster(cfg => cfg
-                    .DefaultKeepAliveTimeout(TimeSpan.FromMinutes(DefaultKeepAliveTimeoutInMinutes)))
-                .Assemblies(GetType().Assembly);
-
-            if (EnableAzureQueueStreamProvider)
-            {
-                system.StreamProvider<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
+                .StreamProvider<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
                 {
                     {"DataConnectionString", "UseDevelopmentStorage=true"},
                     {"DeploymentId", "test"},
-                });
-            }
+                })
+                .TweakCluster(cfg =>
+                {
+                    cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
+                    cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+                })
+                .Assemblies(GetType().Assembly)
+                .Interceptor<TestInterceptor>();
 
-            system.Interceptor<TestInterceptor>();
             TestActorSystem.Instance = system.Done();
             TestActorSystem.Instance.Start();
         }
@@ -77,7 +57,7 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance == null)
                 return;
 
-            TestActorSystem.Instance.Dispose();
+            TestActorSystem.Instance.Stop(true);
             TestActorSystem.Instance = null;
         }
     }

@@ -6,8 +6,8 @@ namespace Orleankka.Behaviors
     [Serializable]
     public class UnhandledMessageException : Exception
     {
-        public UnhandledMessageException(Type actor, string state, object message)
-            : base($"An actor '{actor}' cannot handle '{message.GetType()}' in its current state '{state}'")
+        public UnhandledMessageException(Type actor, string behavior, object message)
+            : base($"An actor '{actor}' cannot handle '{message.GetType()}' in its current behavior '{behavior}'")
         {}
 
         UnhandledMessageException(SerializationInfo info, StreamingContext context)
@@ -18,8 +18,8 @@ namespace Orleankka.Behaviors
     [Serializable]
     public class UnhandledReminderException : Exception
     {
-        public UnhandledReminderException(Type actor, string state, string reminder)
-            : base($"An actor '{actor}' cannot handle reminder '{reminder}' in its current state '{state}'")
+        public UnhandledReminderException(Type actor, string behavior, string reminder)
+            : base($"An actor '{actor}' cannot handle reminder '{reminder}' in its current behavior '{behavior}'")
         {}
 
         UnhandledReminderException(SerializationInfo info, StreamingContext context)

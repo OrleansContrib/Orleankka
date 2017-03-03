@@ -34,21 +34,21 @@ namespace Orleankka.Services
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly ActorEndpoint endpoint;
+        readonly IActorHost host;
 
-        internal ActivationService(ActorEndpoint endpoint)
+        internal ActivationService(IActorHost host)
         {
-            this.endpoint = endpoint;
+            this.host = host;
         }
 
         void IActivationService.DeactivateOnIdle()
         {
-            endpoint.DeactivateOnIdle();
+            host.DeactivateOnIdle();
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            endpoint.DelayDeactivation(period);
+            host.DelayDeactivation(period);
         } 
     }
 }

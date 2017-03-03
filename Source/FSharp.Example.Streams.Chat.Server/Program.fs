@@ -20,7 +20,7 @@ let main argv =
    let config = ClusterConfig.loadFromResource assembly "Server.xml"   
                 |> ClusterConfig.registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
 
-   use system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
+   let system = [|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|]
                 |> ActorSystem.createCluster config 
                 |> ActorSystem.complete
                 |> ActorSystem.start   

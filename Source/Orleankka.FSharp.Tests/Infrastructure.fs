@@ -33,7 +33,7 @@ type TeardownSiloAttribute() =
    override this.AfterTest(details:TestDetails) =
       if details.IsSuite then
         if (TestActorSystem.instance <> null) then
-            TestActorSystem.instance.Dispose()
+            TestActorSystem.instance.Stop(true)
             TestActorSystem.instance <- null
 
 [<assembly: TeardownSilo()>]

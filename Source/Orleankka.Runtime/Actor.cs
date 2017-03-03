@@ -27,16 +27,16 @@ namespace Orleankka
             Path = GetType().ToActorPath(id);
         }
 
-        internal void Initialize(ActorEndpoint endpoint, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
+        internal virtual void Initialize(IActorHost host, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
         {
             Path = path;
             Runtime = runtime;
             Dispatcher = Dispatcher ?? dispatcher;
-            Endpoint = endpoint;
+            Host = host;
         }
 
         public string Id => Path.Id;
-        internal ActorEndpoint Endpoint {get; private set;}
+        internal IActorHost Host        {get; private set;}
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
@@ -63,6 +63,6 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
             return Dispatcher.Dispatch(this, message, fallback);
-        }
+        }        
     }
 }

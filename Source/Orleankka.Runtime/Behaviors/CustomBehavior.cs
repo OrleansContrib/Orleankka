@@ -173,7 +173,7 @@ namespace Orleankka.Behaviors
                 await super.HandleDeactivate(transition);
         }
 
-        public Task<object> HandleReceive(Actor actor, object message, Func<Type, object, string, Task<object>> fallback)
+        public Task<object> HandleReceive(Actor actor, object message, RequestOrigin origin, Func<Type, object, string, RequestOrigin, Task<object>> fallback)
         {
             if (IsNull())
                 return onReceiveAny(actor, message);
@@ -185,7 +185,7 @@ namespace Orleankka.Behaviors
             handler = TryFindReceiveAnyHandler();
             return handler != null
                        ? handler(actor, message)
-                       : fallback(actor.GetType(), message, Name);
+                       : fallback(actor.GetType(), message, Name, origin);
         }
 
         Func<Actor, object, Task<object>> TryFindReceiveHandler(object message)
@@ -223,6 +223,9 @@ namespace Orleankka.Behaviors
 
         public void Super(CustomBehavior super)
         {
+            if (this.super != null)
+                throw new InvalidOperationException($"Super '{this.super.Name}' has been already configured for behavior '{Name}'");
+
             this.super = super;
             super.sub = this;
         }

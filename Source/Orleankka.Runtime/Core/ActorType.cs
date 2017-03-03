@@ -25,20 +25,7 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        internal static IActorActivator Activator;
-
-        static ActorType()
-        {
-            Reset();
-        }
-
-        internal static void Reset()
-        {
-            Activator = new DefaultActorActivator();
-            Conventions = null;
-            dispatchers.Clear();
-            types.Clear();
-        }
+        internal static IActorActivator Activator = new DefaultActorActivator();
 
         internal static void Register(IEnumerable<Assembly> assemblies)
         {
@@ -57,6 +44,8 @@ namespace Orleankka.Core
 
             types.Add(actor.Name, actor);
         }
+
+        public static IEnumerable<ActorType> Registered() => types.Values;
 
         internal readonly string Name;
         internal readonly IActorInvoker Invoker;
@@ -92,16 +81,19 @@ namespace Orleankka.Core
             field.SetValue(null, this);
         }
 
-        internal Actor Activate(ActorEndpoint endpoint, ActorPath path, IActorRuntime runtime)
+        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime)
         {
             var instance = Activator.Activate(actor, path.Id, runtime, dispatcher);
-            instance.Initialize(endpoint, path, runtime, dispatcher);
+            instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
 
         [UsedImplicitly]
         internal bool MayInterleave(InvokeMethodRequest request)
         {
+            if (request?.Arguments == null)
+                return false;
+
             var receiveMessage = request.Arguments.Length == 1;
             if (receiveMessage)
                 return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
@@ -113,13 +105,16 @@ namespace Orleankka.Core
         static object UnwrapImmutable(object item) => 
             item is Immutable<object> ? ((Immutable<object>)item).Value : item;
 
-        internal void KeepAlive(ActorEndpoint endpoint)
+        internal void KeepAlive(IActorHost host)
         {
             if (keepAliveTimeout == TimeSpan.Zero)
                 return;
 
-            endpoint.DelayDeactivation(keepAliveTimeout);
+            host.DelayDeactivation(keepAliveTimeout);
         }
+
+        internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
+            StreamSubscriptionSpecification.From(actor, dispatcher);
 
         internal bool Sticky { get; }
 

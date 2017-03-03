@@ -165,7 +165,6 @@ namespace Orleankka.Features
             class TestConsumerActor : TestConsumerActorBase { }
 
             [TestFixture]
-            [RequiresSilo(Fresh = true, EnableAzureQueueStreamProvider = true)]
             [Category("Slow"), Explicit]
             class Tests
             {

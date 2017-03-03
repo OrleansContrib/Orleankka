@@ -1,4 +1,5 @@
 ﻿namespace Orleankka.FSharp.Configuration
+open System
 open System.Reflection
 open Orleans.Runtime.Configuration
 open Orleankka
@@ -42,12 +43,9 @@ module ActorSystem =
       (^TSys: (member Stop: force:bool -> unit) (system, true))      
 
    let inline connect (system:^TSys) =
-      (^TSys: (member Connect: retries:int -> unit) (system, 0))
+      (^TSys: (member Connect: retries:int -> retryTimeout:Nullable<TimeSpan> -> unit) (system, 0, new Nullable<TimeSpan>()))
       system   
       
-   let inline disconnect (system:^TSys) =
-      (^TSys: (member Disconnect: unit -> unit) (system))
-
    let inline actorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
       let actorPath = typeof<'TActor>.ToActorPath(actorId) 
       system.ActorOf(actorPath) |> FSharp.ActorRef<obj>

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,6 +11,7 @@ namespace Orleankka.TestKit
     [Serializable]
     public class StreamRefMock : StreamRef
     {
+        [NonSerialized] readonly SerializationOptions serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
         [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
@@ -24,9 +24,11 @@ namespace Orleankka.TestKit
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        public StreamRefMock(StreamPath path)
+        internal StreamRefMock(StreamPath path, SerializationOptions serialization)
             : base(path)
-        {}
+        {
+            this.serialization = serialization;
+        }
 
         public PushExpectation<TItem> Expect<TItem>(Expression<Func<TItem, bool>> match = null)
         {
@@ -37,6 +39,8 @@ namespace Orleankka.TestKit
 
         public override Task Push(object message)
         {
+            message = Roundtrip(message);
+
             var expectation = Match(message);
             var expected = expectation != null;
 
@@ -65,6 +69,7 @@ namespace Orleankka.TestKit
         }
 
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
+        object Roundtrip(object message) => serialization.Roundtrip(message);
 
         public void Reset()
         {

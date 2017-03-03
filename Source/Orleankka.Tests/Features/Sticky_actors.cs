@@ -29,7 +29,6 @@ namespace Orleankka.Features
         }
 
         [TestFixture]
-        [RequiresSilo(Fresh = true)]
         [Explicit, Category("Slow")]
         public class Tests
         {

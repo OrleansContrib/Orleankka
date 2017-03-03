@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Orleankka.TestKit
 {
     public class ActorSystemMock : IActorSystem
     {
+        readonly SerializationOptions serialization;
+
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
 
         readonly Dictionary<StreamPath, StreamRefMock> streams =
              new Dictionary<StreamPath, StreamRefMock>();
+
+        public ActorSystemMock(SerializationOptions serialization = null)
+        {
+            this.serialization = serialization ?? SerializationOptions.Default;
+            this.serialization.Setup();
+        }
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
@@ -32,7 +39,7 @@ namespace Orleankka.TestKit
             if (actors.ContainsKey(path))
                 return actors[path];
 
-            var mock = new ActorRefMock(path);
+            var mock = new ActorRefMock(path, serialization);
             actors.Add(path, mock);
 
             return mock;
@@ -54,7 +61,7 @@ namespace Orleankka.TestKit
             if (streams.ContainsKey(path))
                 return streams[path];
 
-            var mock = new StreamRefMock(path);
+            var mock = new StreamRefMock(path, serialization);
             streams.Add(path, mock);
 
             return mock;

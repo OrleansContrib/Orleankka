@@ -223,30 +223,6 @@ namespace Orleankka
                     {
                         Debug.Assert(method.DeclaringType != null);
 
-                        return method.IsAssembly
-                                ? InstanceAssemblyAction(method)
-                                : InstancePrivateAction(method, type);
-                    }
-
-                    static Action<object, object> InstanceAssemblyAction(MethodInfo method)
-                    {
-                        Debug.Assert(method.DeclaringType != null);
-                        
-                        var target = Expression.Parameter(typeof(object));
-                        var request = Expression.Parameter(typeof(object));
-
-                        var targetConversion = Expression.Convert(target, method.DeclaringType);
-                        var requestConversion = Expression.Convert(request, typeof(TRequest));
-
-                        var call = Expression.Call(targetConversion, method, requestConversion);
-                        var action = Expression.Lambda<Action<object, object>>(call, target, request).Compile();
-
-                        var obj = Activator.CreateInstance(method.DeclaringType);
-                        return (t, r) => action(obj, r);
-                    }
-
-                    static Action<object, object> InstancePrivateAction(MethodInfo method, Type type)
-                    {
                         var target = Expression.Parameter(typeof(object));
                         var request = Expression.Parameter(typeof(object));
 
@@ -282,30 +258,6 @@ namespace Orleankka
                     {
                         Debug.Assert(method.DeclaringType != null);
 
-                        return method.IsAssembly
-                                ? InstanceAssemblyFunc<TResult>(method)
-                                : InstancePrivateFunc<TResult>(method, type);
-                    }
-
-                    static Func<object, object, object> InstanceAssemblyFunc<TResult>(MethodInfo method)
-                    {
-                        Debug.Assert(method.DeclaringType != null);
-
-                        var target = Expression.Parameter(typeof(object));
-                        var request = Expression.Parameter(typeof(object));
-
-                        var targetConversion = Expression.Convert(target, method.DeclaringType);
-                        var requestConversion = Expression.Convert(request, typeof(TRequest));
-
-                        var call = Expression.Call(targetConversion, method, requestConversion);
-                        var func = Expression.Lambda<Func<object, object, TResult>>(call, target, request).Compile();
-
-                        var obj = Activator.CreateInstance(method.DeclaringType);
-                        return (t, r) => func(obj, r);
-                    }
-
-                    static Func<object, object, object> InstancePrivateFunc<TResult>(MethodInfo method, Type type)
-                    {
                         var target = Expression.Parameter(typeof(object));
                         var request = Expression.Parameter(typeof(object));
 
@@ -370,30 +322,6 @@ namespace Orleankka
                     {
                         Debug.Assert(method.DeclaringType != null);
 
-                        return method.IsAssembly
-                                ? InstanceAssemblyFunc<TResult>(method)
-                                : InstancePrivateFunc<TResult>(method, type);
-                    }
-
-                    static Func<object, object, Task<object>> InstanceAssemblyFunc<TResult>(MethodInfo method)
-                    {
-                        Debug.Assert(method.DeclaringType != null);
-
-                        var target = Expression.Parameter(typeof(object));
-                        var request = Expression.Parameter(typeof(object));
-
-                        var targetConversion = Expression.Convert(target, method.DeclaringType);
-                        var requestConversion = Expression.Convert(request, typeof(TRequest));
-
-                        var call = Expression.Call(targetConversion, method, requestConversion);
-                        var func = Expression.Lambda<Func<object, object, Task<TResult>>>(call, target, request).Compile();
-
-                        var obj = Activator.CreateInstance(method.DeclaringType);
-                        return async (t, r) => await func(obj, r);
-                    }
-
-                    static Func<object, object, Task<object>> InstancePrivateFunc<TResult>(MethodInfo method, Type type)
-                    {
                         var target = Expression.Parameter(typeof(object));
                         var request = Expression.Parameter(typeof(object));
 
@@ -430,34 +358,6 @@ namespace Orleankka
                     {
                         Debug.Assert(method.DeclaringType != null);
 
-                        return method.IsAssembly
-                                ? InstanceAssemblyAction(method)
-                                : InstancePrivateAction(method, type);
-                    }
-
-                    static Func<object, object, Task<object>> InstanceAssemblyAction(MethodInfo method)
-                    {
-                        Debug.Assert(method.DeclaringType != null);
-
-                        var target = Expression.Parameter(typeof(object));
-                        var request = Expression.Parameter(typeof(object));
-
-                        var targetConversion = Expression.Convert(target, method.DeclaringType);
-                        var requestConversion = Expression.Convert(request, typeof(TRequest));
-
-                        var call = Expression.Call(targetConversion, method, requestConversion);
-                        var func = Expression.Lambda<Func<object, object, Task>>(call, target, request).Compile();
-
-                        var obj = Activator.CreateInstance(method.DeclaringType);
-                        return async (t, r) =>
-                        {
-                            await func(obj, r);
-                            return null;
-                        };
-                    }
-
-                    static Func<object, object, Task<object>> InstancePrivateAction(MethodInfo method, Type type)
-                    {
                         var target = Expression.Parameter(typeof(object));
                         var request = Expression.Parameter(typeof(object));
 

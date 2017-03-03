@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
-
-using Newtonsoft.Json;
 
 using Orleankka.Meta;
 
@@ -17,7 +17,7 @@ namespace FSM.Infrastructure
 {
     public abstract class EventSourcedActor : CqsActor
     {
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             NullValueHandling = NullValueHandling.Ignore,
@@ -31,7 +31,7 @@ namespace FSM.Infrastructure
             FloatParseHandling = FloatParseHandling.Decimal
         };
 
-        private int version = ExpectedVersion.NoStream;
+        int version = ExpectedVersion.NoStream;
 
         public override async Task OnActivate()
         {
@@ -42,9 +42,7 @@ namespace FSM.Infrastructure
 
             do
             {
-                currentSlice = await ES.Connection
-                                       .ReadStreamEventsForwardAsync(stream, nextSliceStart, 256, false);
-
+                currentSlice = await ES.Connection.ReadStreamEventsForwardAsync(stream, nextSliceStart, 256, false);
                 if (currentSlice.Status == SliceReadStatus.StreamNotFound)
                     return;
 
@@ -57,12 +55,12 @@ namespace FSM.Infrastructure
             while (!currentSlice.IsEndOfStream);
         }
 
-        private string StreamName()
+        string StreamName()
         {
             return GetType().Name + "-" + Id;
         }
 
-        private async Task Replay(IEnumerable<ResolvedEvent> events)
+        async Task Replay(IEnumerable<ResolvedEvent> events)
         {
             var deserialized = events.Select(x => DeserializeEvent(x.Event)).ToArray();
             await Apply(deserialized);
@@ -76,19 +74,19 @@ namespace FSM.Infrastructure
             return events;
         }
 
-        private async Task Apply(IEnumerable<Event> events)
+        async Task Apply(IEnumerable<Event> events)
         {
             foreach (var @event in events)
                 await Apply(@event);
         }
 
-        private async Task Apply(object @event)
+        async Task Apply(object @event)
         {
             await Dispatch(@event);
             version++;
         }
 
-        private async Task Store(ICollection<Event> events)
+        async Task Store(ICollection<Event> events)
         {
             if (events.Count == 0)
                 return;
@@ -111,7 +109,7 @@ namespace FSM.Infrastructure
             }
         }
 
-        private static Event DeserializeEvent(RecordedEvent @event)
+        static Event DeserializeEvent(RecordedEvent @event)
         {
             var eventType = Type.GetType(@event.EventType);
             Debug.Assert(eventType != null, "Couldn't load type '{0}'. Are you missing an assembly reference?", @event.EventType);
@@ -120,12 +118,12 @@ namespace FSM.Infrastructure
             return (Event) JsonConvert.DeserializeObject(json, eventType, SerializerSettings);
         }
 
-        private static EventData ToEventData(object processedEvent)
+        static EventData ToEventData(object processedEvent)
         {
             return ToEventData(Guid.NewGuid(), processedEvent, new Dictionary<string, object>());
         }
 
-        private static EventData ToEventData(Guid eventId, object evnt, IDictionary<string, object> headers)
+        static EventData ToEventData(Guid eventId, object evnt, IDictionary<string, object> headers)
         {
             var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evnt, SerializerSettings));
             var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(headers, SerializerSettings));
@@ -139,5 +137,4 @@ namespace FSM.Infrastructure
             return await queryHandler();
         }
     }
-
 }

@@ -5,8 +5,16 @@ namespace Orleankka.Behaviors
 {
     public static class BehaviorExtensions
     {
+        public static Task<object> Fire(this Actor actor, object message) => actor.Behavior.Fire(message);
+
+        public static Task Become(this Actor actor, string behavior) => actor.Behavior.Become(behavior);
         public static Task Become(this Actor actor, Action behavior) => actor.Behavior.Become(behavior);
+
+        public static void Super(this Actor actor, string behavior) => actor.Behavior.Super(behavior);
         public static void Super(this Actor actor, Action behavior) => actor.Behavior.Super(behavior);
+
+        public static void Trait(this Actor actor, params string[] traits) => actor.Behavior.Trait(traits);
+        public static void Trait(this Actor actor, params Action[] traits) => actor.Behavior.Trait(traits);
 
         public static void OnBecome(this Actor actor, Action action) => actor.Behavior.OnBecome(action);
         public static void OnBecome(this Actor actor, Func<Task> action) => actor.Behavior.OnBecome(action);

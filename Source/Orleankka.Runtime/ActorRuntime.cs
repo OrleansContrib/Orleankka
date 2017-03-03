@@ -13,12 +13,12 @@
 
     public sealed class ActorRuntime : IActorRuntime
     {
-        internal ActorRuntime(IActorSystem system, ActorEndpoint endpoint)
+        internal ActorRuntime(IActorSystem system, IActorHost host)
         {
             System = system;
-            Timers = new TimerService(endpoint);
-            Reminders = new ReminderService(endpoint);
-            Activation = new ActivationService(endpoint);
+            Timers = new TimerService(host);
+            Reminders = new ReminderService(host);
+            Activation = new ActivationService(host);
         }
 
         public IActorSystem System { get; }

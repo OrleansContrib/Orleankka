@@ -25,14 +25,7 @@ namespace Orleankka
 
     class InvocationPipeline : IInvocationPipeline
     {
-        public static InvocationPipeline Instance { get; private set; }
-
-        internal static void Reset() => Instance = new InvocationPipeline();
-
-        static InvocationPipeline()
-        {
-            Reset();
-        }
+        public static InvocationPipeline Instance { get; private set; } = new InvocationPipeline();
 
         readonly Dictionary<string, IActorInvoker> invokers = 
              new Dictionary<string, IActorInvoker>();

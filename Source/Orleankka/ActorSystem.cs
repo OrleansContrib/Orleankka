@@ -5,7 +5,7 @@ namespace Orleankka
     /// <summary>
     /// Serves as factory for acquiring actor references.
     /// </summary>
-    public interface IActorSystem : IDisposable
+    public interface IActorSystem
     {
         /// <summary>
         /// Acquires the actor reference for the given actor path.
@@ -49,8 +49,6 @@ namespace Orleankka
         {
             return null;
         }
-
-        public abstract void Dispose();
     }
 
     /// <summary>

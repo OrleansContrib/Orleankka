@@ -11,6 +11,8 @@ Orleankka is a functional API for Microsoft Orleans framework. It is highly suit
 + Simplified programmatic configuration via fluent DSL (client, cluster, azure, embedded)
 + Convenient unit testing kit (stubs, mocks, expectations)
 + Redesigned streams api (actor subscriptions)
++ Declarative regex-based stream subscriptions (great for CQRS/ES projections)
++ Content-based filtering support for stream subscriptions (both imperative and declarative)
 + Switchable actor behaviors with built-in hierarchical FSM
 + Poweful actor invocation pipeline interceptors
 

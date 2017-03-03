@@ -106,7 +106,7 @@ namespace Orleankka.Embedded
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();
 
-            return new EmbeddedActorSystem(domain, clientSystem, clusterSystem);
+            return new EmbeddedActorSystem(clientSystem, clusterSystem);
         }
     }
 

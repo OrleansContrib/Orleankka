@@ -25,12 +25,9 @@ namespace Orleankka.Cluster
 
         internal static bool Initialized => current != null;
 
-        readonly IDisposable configurator;
-
-        internal ClusterActorSystem(IDisposable configurator, ClusterConfiguration configuration)
+        internal ClusterActorSystem(ClusterConfiguration configuration)
         {
             current = this;
-            this.configurator = configurator;
             Host = new SiloHost(Dns.GetHostName(), configuration);
         }
 
@@ -74,21 +71,6 @@ namespace Orleankka.Cluster
             Host.UnInitializeOrleansSilo();
 
             Started = false;
-        }
-
-        public override void Dispose()
-        {
-            if (Started)
-                Stop(true);
-
-            if (Host == null)
-                return;
-
-            Host.Dispose();
-            Host = null;
-
-            configurator.Dispose();
-            current = null;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -8,58 +10,68 @@ using Orleans;
 
 namespace Orleankka.Behaviors
 {
+    using Services;
     using Utility;
 
     public sealed class ActorBehavior
     {
         static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors =
-            new Dictionary<Type, Dictionary<string, Action<object>>>();
-
-        public static void Reset() => behaviors.Clear();
+                    new Dictionary<Type, Dictionary<string, Action<object>>>();
 
         public static void Register(Type actor)
         {
+            Requires.NotNull(actor, nameof(actor));
+
             var found = new Dictionary<string, Action<object>>();
+            var current = actor;
 
-            const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-            foreach (var method in actor.GetMethods(scope))
+            while (current != typeof(Actor))
             {
-                if (method.ReturnType != typeof(void) ||
-                    method.GetGenericArguments().Length > 0 ||
-                    method.GetParameters().Length > 0 ||
-                    method.IsSpecialName)
-                    continue;
+                Debug.Assert(current != null);
 
-                var target = Expression.Parameter(typeof(object));
-                var call = Expression.Call(Expression.Convert(target, actor), method);
-                var action = Expression.Lambda<Action<object>>(call, target).Compile();
+                const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+                foreach (var method in current.GetMethods(scope).Where(IsBehavioral))
+                {
+                    if (method.ReturnType != typeof(void) ||
+                        method.GetGenericArguments().Length != 0 ||
+                        method.GetParameters().Length != 0)
+                        throw new InvalidOperationException($"Behavior method '{method.Name}' defined on '{current}' has incorrent signature. " +
+                                                            "Should be void, non-generic and parameterless");
 
-                found[method.Name] = action;
+                    var target = Expression.Parameter(typeof(object));
+                    var call = Expression.Call(Expression.Convert(target, actor), method);
+                    var action = Expression.Lambda<Action<object>>(call, target).Compile();
+
+                    found[method.Name] = action;
+                }
+                current = current.BaseType;
+            }
+
+            if (found.Count > 0)
+            {
+                var constructor = actor.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+                if (constructor == null)
+                    throw new InvalidOperationException($"Actor type '{actor}' should have parameterless constructor " +
+                                                        "in order to use behaviors functionality");
             }
 
             behaviors.Add(actor, found);
         }
 
+        static bool IsBehavioral(MethodInfo x) => 
+            x.GetCustomAttribute<BehaviorAttribute>() != null || 
+            x.GetCustomAttribute<TraitAttribute>() != null;
+
         Action<object> RegisteredAction(string behavior)
         {
-            var action = behaviors[actor.GetType()].Find(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
 
+            var action = behaviors[actor.GetType()].Find(behavior);
             if (action == null)
-                throw new InvalidOperationException(
-                    $"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
-                    "Should be void, non-generic and parameterless");
+                throw new InvalidOperationException($"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
+                                                    "Should be void, non-generic and parameterless");
 
             return action;
-        }
-
-        void AssertHasRegisteredAction(Action behavior)
-        {
-            var action = behaviors[actor.GetType()].Find(behavior.Method.Name);
-
-            if (action == null)
-                throw new InvalidOperationException(
-                    $"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
-                    "Should be void, non-generic and parameterless");
         }
 
         public static ActorBehavior Null(Actor actor) => new ActorBehavior(actor)
@@ -67,15 +79,15 @@ namespace Orleankka.Behaviors
             current = CustomBehavior.Null
         };
 
-        static readonly Func<Type, object, string, Task<object>> OnUnhandledReceiveDefaultCallback =
-            (actor, message, state) => { throw new UnhandledMessageException(actor, state, message); };
+        static readonly Func<Type, object, string, RequestOrigin, Task<object>> OnUnhandledReceiveDefaultCallback =
+            (actor, message, behavior, origin) => { throw new UnhandledMessageException(actor, behavior, message); };
 
         static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback =
-            (actor, reminder, state) => { throw new UnhandledReminderException(actor, state, reminder); };
+            (actor, reminder, behavior) => { throw new UnhandledReminderException(actor, behavior, reminder); };
 
         readonly Actor actor;
         Func<string, string, Task> onBecome;
-        Func<Type, object, string, Task<object>> onUnhandledReceive;
+        Func<Type, object, string, RequestOrigin, Task<object>> onUnhandledReceive;
         Func<Type, string, string, Task> onUnhandledReminder;
 
         CustomBehavior current;
@@ -86,11 +98,27 @@ namespace Orleankka.Behaviors
             this.actor = actor;
         }
 
+        public async Task<object> Fire(object message)
+        {
+            Requires.NotNull(message, nameof(message));
+
+            if (TimerService.IsExecuting())
+            {
+                RequestOrigin.Store(Current);
+                return await actor.Self.Ask<object>(message);
+            }
+
+            return await HandleReceive(message, new RequestOrigin(Current));
+        }
+
         internal Task HandleActivate() => current.HandleActivate(default(Transition));
         internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
-        internal Task<object> HandleReceive(object message) =>
-            current.HandleReceive(actor, message, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
+        internal Task<object> HandleReceive(object message) => 
+            HandleReceive(message, RequestOrigin.Restore());
+
+        internal Task<object> HandleReceive(object message, RequestOrigin origin) => 
+            current.HandleReceive(actor, message, origin, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
 
         internal Task HandleReminder(string id) =>
             current.HandleReminder(actor, id, onUnhandledReminder ?? OnUnhandledReminderDefaultCallback);
@@ -106,7 +134,11 @@ namespace Orleankka.Behaviors
             }
         }
 
-        public void Initial(Action behavior) => Initial(behavior.Method.Name);
+        public void Initial(Action behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            Initial(behavior.Method.Name);
+        }
 
         public void Initial(string behavior)
         {
@@ -125,10 +157,14 @@ namespace Orleankka.Behaviors
 
         public string Current => current.Name;
 
-        public async Task Become(Action behavior)
+        public Task Become(Action behavior)
         {
-            AssertHasRegisteredAction(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
+            return Become(behavior.Method.Name);
+        }
 
+        public async Task Become(string behavior)
+        {
             if (IsNull())
                 throw new InvalidOperationException("Initial behavior should be set before calling Become");
 
@@ -136,12 +172,17 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException($"Become cannot be called again while behavior configuration is in progress.\n" +
                                                     $"Current: {Current}, In-progress: {next.Name}, Offending: {behavior}");
 
-            if (Current == behavior.Method.Name)
-                throw new InvalidOperationException($"Actor is already behaving as '{behavior.Method.Name}'");
+            if (Current == behavior)
+                throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
 
-            next = new CustomBehavior(behavior.Method.Name);
-            behavior();
+            if (TimerService.IsExecuting())
+                throw new InvalidOperationException($"Can't switch to '{behavior}' behavior. Switching behaviors from inside timer callback is unsafe. " +
+                                                     "Use Fire() to send a message and then call Become inside message handler");
 
+            var action = RegisteredAction(behavior);
+            next = new CustomBehavior(behavior);
+            action(actor);
+            
             var transition = new Transition(current, next);
 
             await current.HandleDeactivate(transition);
@@ -153,24 +194,28 @@ namespace Orleankka.Behaviors
             if (onBecome != null)
                 await onBecome(transition.To.Name, transition.From.Name);
 
-            next = null;
+            next = null; // now become could be re-entered
+
             await current.HandleActivate(transition);
         }
 
         public void Super(Action behavior)
         {
-            AssertHasRegisteredAction(behavior);
+            Requires.NotNull(behavior, nameof(behavior));
+            Super(behavior.Method.Name);
+        }
 
+        public void Super(string behavior)
+        {
             if (next == null)
                 throw new InvalidOperationException($"Super behavior can only be specified while behavior configuration is in progress. " +
-                                                    $"Current: {Current}, Offending: {behavior.Method.Name}");
+                                                    $"Current: {Current}, Offending: {behavior}");
 
-            if (next.Includes(behavior.Method.Name))
-                throw new InvalidOperationException(
-                    "Detected cyclic declaration of super behaviors. " +
-                    $"'{behavior.Method.Name}' is already within super chain of {next.Name}");
+            if (next.Includes(behavior))
+                throw new InvalidOperationException("Detected cyclic declaration of super behaviors. " +
+                                                   $"'{behavior}' is already within super chain of {next.Name}");
 
-            var existent = current.FindSuper(behavior.Method.Name);
+            var existent = current.FindSuper(behavior);
             if (existent != null)
             {
                 next.Super(existent);
@@ -178,12 +223,37 @@ namespace Orleankka.Behaviors
             }
 
             var prev = next;
-            next = new CustomBehavior(behavior.Method.Name);
+            next = new CustomBehavior(behavior);
 
             prev.Super(next);
-            behavior();
+            var action = RegisteredAction(behavior);
+            action(actor);
 
             next = prev;
+        }
+
+        public void Trait(params Action[] traits)
+        {
+            Requires.NotNull(traits, nameof(traits));
+
+            if (traits.Any(x => x == null))
+                throw new ArgumentException("Given parameter array contains null value", nameof(traits));
+
+            Trait(traits.Select(x => x.Method.Name).ToArray());
+        }
+
+        public void Trait(params string[] traits)
+        {
+            Requires.NotNull(traits, nameof(traits));
+
+            if (traits.Any(string.IsNullOrWhiteSpace))
+                throw new ArgumentException("Given parameter array contains null/empty value", nameof(traits));
+
+            foreach (var trait in traits)
+            {
+                var action = RegisteredAction(trait);
+                action(actor);
+            }
         }
 
         public void OnBecome(Action<string, string> onBecomeCallback)
@@ -202,34 +272,34 @@ namespace Orleankka.Behaviors
             onBecome = onBecomeCallback;
         }
 
-        public void OnUnhandledReceive(Action<object, string> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Action<object, string, RequestOrigin> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state) =>
+            OnUnhandledReceive((message, state, origin) =>
             {
-                unhandledReceiveCallback(message, state);
+                unhandledReceiveCallback(message, state, origin);
                 return TaskResult.Done;
             });
         }
 
-        public void OnUnhandledReceive(Func<object, string, Task> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
 
-            OnUnhandledReceive(async (message, state) =>
+            OnUnhandledReceive(async (message, state, origin) =>
             {
-                await unhandledReceiveCallback(message, state);
+                await unhandledReceiveCallback(message, state, origin);
                 return null;
             });
         }
 
-        public void OnUnhandledReceive(Func<object, string, object> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, object> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state) => Task.FromResult(unhandledReceiveCallback(message, state)));
+            OnUnhandledReceive((message, state, origin) => Task.FromResult(unhandledReceiveCallback(message, state, origin)));
         }
 
-        public void OnUnhandledReceive(Func<object, string, Task<object>> unhandledReceiveCallback)
+        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task<object>> unhandledReceiveCallback)
         {
             Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
 
@@ -240,7 +310,7 @@ namespace Orleankka.Behaviors
                 throw new InvalidOperationException("Unhandled message callback cannot be set while behavior configuration is in progress.\n " +
                                                     $"Current: {Current}, In-progress: {next.Name}");
 
-            onUnhandledReceive = (actor, message, state) => unhandledReceiveCallback(message, state);
+            onUnhandledReceive = (actor, message, state, origin) => unhandledReceiveCallback(message, state, origin);
         }
 
         public void OnUnhandledReminder(Action<string, string> unhandledReminderCallback)
