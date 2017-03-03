@@ -40,16 +40,16 @@ let main argv =
    
    let job() = task {
       printfn "Connecting.... \n"      
-      let! response = server <? Join(userName, client.Ref)
+      let! response = server.Ask <|Join(userName, client.Ref)
       printfn "Connected! \n"
       printfn "%s\n" response
       
       let textStream = Seq.initInfinite(fun _ -> Console.ReadLine())
       
       textStream 
-         |> Seq.find(function "quit" -> server </ Disconnect(userName, client.Ref)
+         |> Seq.find(function "quit" -> server.Notify <|  Disconnect(userName, client.Ref)
                                         true 
-                              | text -> server </ Say(userName, text)
+                              | text -> server.Notify <| Say(userName, text)
                                         false)
          |> ignore       
    }

@@ -21,16 +21,16 @@ let join (client:ChatClient) = task {
       if messge.UserName <> client.UserName then printfn "%s" messge.Text
    )
 
-   do! client.User <! Join(client.RoomName)
+   do! client.User.Tell <| Join(client.RoomName)
 
    return { client with Subscription = Some sb }
 }
 
 let leave (client:ChatClient) = task {
    do! unsubscribe client.Subscription.Value
-   do! client.User <! Leave(client.RoomName)
+   do! client.User.Tell <|  Leave(client.RoomName)
 }
 
 let say (client:ChatClient) (message:string) = task {
-   do! client.User <! Say(client.RoomName, message)   
+   do! client.User.Tell <| Say(client.RoomName, message)   
 }

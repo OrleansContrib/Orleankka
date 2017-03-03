@@ -37,9 +37,9 @@ let main argv =
    let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
 
    let job() = task {
-      do! actor <! Hi
-      do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"      
+      do! actor.Tell <| Hi
+      do! actor.Tell <| Greet "Yevhen"
+      do! actor.Tell <| Greet "AntyaDev"      
    }
     
    Task.run(job) |> ignore
