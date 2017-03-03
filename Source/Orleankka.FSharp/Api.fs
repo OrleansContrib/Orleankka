@@ -16,6 +16,8 @@ type ActorRef<'TMsg>(ref:ActorRef) =
        
    override this.GetHashCode() = ref.GetHashCode()
 
+
+
 type StreamRef<'TMsg>(ref:StreamRef) = 
    member this.Path = ref.Path
    member this.Push(item:'TMsg) = ref.Push(item) |> Task.awaitTask
@@ -29,6 +31,11 @@ type StreamRef<'TMsg>(ref:StreamRef) =
        
    override this.GetHashCode() = ref.GetHashCode()
 
+
+[<RequireQualifiedAccess>]
+module Stream = 
+    let push (ref:StreamRef<'TMsg>) (msg:'TMsg) = ref.Push(msg)
+   
    
 module ClientObservable =
    

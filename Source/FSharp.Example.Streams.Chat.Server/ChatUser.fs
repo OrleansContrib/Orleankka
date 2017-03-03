@@ -11,8 +11,9 @@ open FSharpx.Task
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
       
-   let send (stream:StreamRef<ChatRoomMessage>) message userId =      
-      stream.Push <| { UserName = userId; Text = message } 
+   let send streamRef message userId =      
+      { UserName = userId; Text = message } 
+      |> Stream.push streamRef
       
    override this.Receive message = task {      
       
