@@ -120,7 +120,7 @@ namespace Orleankka.Core
 
             var reentrant = ReentrantAttribute.IsReentrant(actor);
             if (reentrant)
-                src.AppendLine("[Reentrant]");
+                src.AppendLine($"[global::{typeof(Orleans.Concurrency.ReentrantAttribute).FullName}]");
 
             var mayInterleave = ReentrantAttribute.MayInterleavePredicate(actor) != null;
             if (mayInterleave)
