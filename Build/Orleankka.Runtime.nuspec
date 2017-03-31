@@ -12,7 +12,7 @@
     <tags>Orleans distributed messaging actor concurrency CQRS</tags>
     <dependencies>
         <dependency id="Orleankka" version="$core_version$" />
-        <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.4.0" />        
+        <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.4.1" />        
     </dependencies>    
   </metadata>
   <files>
