@@ -140,7 +140,7 @@ namespace Orleankka.TestKit
 
     public static class ActorSystemMockExtensions
     {
-        public static ActorRefMock<TActor> MockActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActor
+        public static ActorRefMock<TActor> MockTypedActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActor
         {
             var path = typeof(TActor).ToActorPath(id);
             return new ActorRefMock<TActor>(system.MockActorOf(path));
