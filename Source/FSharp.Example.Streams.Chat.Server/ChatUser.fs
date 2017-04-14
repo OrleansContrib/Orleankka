@@ -5,12 +5,15 @@ open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
    
+open FSharpx.Task
+
 [<ActorType("ChatUser")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
       
-   let send stream message userId =      
-      stream <! { UserName = userId; Text = message } 
+   let send streamRef message userId =      
+      { UserName = userId; Text = message } 
+      |> Stream.push streamRef
       
    override this.Receive message = task {      
       

@@ -1,7 +1,7 @@
 ﻿namespace Orleankka.FSharp
+
 open System.Threading.Tasks   
 open Orleankka
-
 
 type ActorRef<'TMsg>(ref:ActorRef) =    
    member this.Path = ref.Path
@@ -16,9 +16,6 @@ type ActorRef<'TMsg>(ref:ActorRef) =
        
    override this.GetHashCode() = ref.GetHashCode()
 
-   static member (<!) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Tell(message)
-   static member (<?) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Ask<'TResponse>(message)
-   static member (<*) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Notify(message)
 
 
 type StreamRef<'TMsg>(ref:StreamRef) = 
@@ -34,8 +31,11 @@ type StreamRef<'TMsg>(ref:StreamRef) =
        
    override this.GetHashCode() = ref.GetHashCode()
 
-   static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Push(item)
 
+[<RequireQualifiedAccess>]
+module Stream = 
+    let push (ref:StreamRef<'TMsg>) (msg:'TMsg) = ref.Push(msg)
+   
    
 module ClientObservable =
    

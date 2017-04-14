@@ -1,5 +1,7 @@
 ﻿module Shop
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp
 
@@ -26,7 +28,7 @@ type Shop() =
       
       | Sell (account, count) ->
          let amount = count * price
-         do! account <! Withdraw(amount)
+         do! account.Tell <|  Withdraw(amount)
          cash <- cash + amount
          stock <- stock - count           
          return nothing                   

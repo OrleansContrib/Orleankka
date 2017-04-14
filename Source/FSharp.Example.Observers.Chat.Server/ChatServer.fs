@@ -3,6 +3,8 @@
 open System.Linq
 open System.Collections.Generic
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp
 open Messages

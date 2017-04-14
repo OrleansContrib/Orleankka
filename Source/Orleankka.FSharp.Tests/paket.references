@@ -9,3 +9,4 @@ Newtonsoft.Json
 NUnit
 System.Collections.Immutable
 System.Reflection.Metadata
+FSharpx.Extras

@@ -10,3 +10,4 @@ System.Collections.Immutable
 System.Reflection.Metadata
 Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.DependencyInjection.Abstractions
+FSharpx.Extras

@@ -1,6 +1,7 @@
 ﻿module RealTimeCounter
 
 open System
+open FSharpx.Task
 open Orleankka
 open Orleankka.FSharp
 

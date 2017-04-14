@@ -1,6 +1,8 @@
 ﻿open System
 open System.Reflection
 
+open FSharpx.Task
+
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
@@ -27,25 +29,25 @@ let main argv =
    let writeJob() = task {
       Console.ForegroundColor <- ConsoleColor.Red 
       printfn "\n send Increment message which should take 5 sec to finish. \n"
-      do! counter <! Increment // this message is not reentrant which means blocking operation
+      do! counter.Tell <| Increment // this message is not reentrant which means blocking operation
 
       Console.ForegroundColor <- ConsoleColor.Red
       printfn "\n send Increment message which should take 5 sec to finish. \n"
-      do! counter <! Increment 
+      do! counter.Tell <| Increment 
 
       Console.ForegroundColor <- ConsoleColor.Red
       printfn "\n send Increment message which should take 5 sec to finish. \n"
-      do! counter <! Increment 
+      do! counter.Tell <| Increment 
    }
 
    let readJob() = task {      
       let mutable count = 0
       while count < 3 do         
-         let! result = counter <? GetCount // this message is reentrant which means not blocking operation
+         let! result = counter.Ask <| GetCount // this message is reentrant which means not blocking operation
          count <- result
          
          Console.ForegroundColor <- ConsoleColor.Yellow
-         printfn " current value is %d" count
+         printfn "current value is %d" count
          do! Task.delay(TimeSpan.FromSeconds(0.5))
 
       Console.ForegroundColor <- ConsoleColor.Green
@@ -54,7 +56,7 @@ let main argv =
    }
       
    writeJob() |> ignore
-   Task.run(readJob) |> ignore
+   run(readJob) |> ignore
 
    Console.ReadLine() |> ignore
    0 // return an integer exit code

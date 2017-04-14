@@ -12,3 +12,4 @@ Newtonsoft.Json
 Suave
 System.Collections.Immutable
 System.Reflection.Metadata
+FSharpx.Extras

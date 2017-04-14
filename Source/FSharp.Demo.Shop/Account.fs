@@ -4,6 +4,8 @@ open Orleankka
 open Orleankka
 open Orleankka.FSharp
 
+open FSharpx.Task
+
 type AccountMessage = 
    | Balance
    | Deposit of int
