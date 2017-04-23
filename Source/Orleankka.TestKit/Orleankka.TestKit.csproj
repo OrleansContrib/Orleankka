@@ -52,6 +52,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="ActorBehaviorExtensions.cs" />
     <Compile Include="SerializationOptions.cs" />
     <Compile Include="StorageServiceMock.cs" />
     <Compile Include="ActivationServiceMock.cs" />

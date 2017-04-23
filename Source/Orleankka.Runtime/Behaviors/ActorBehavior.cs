@@ -84,8 +84,9 @@ namespace Orleankka.Behaviors
 
         static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback =
             (actor, reminder, behavior) => { throw new UnhandledReminderException(actor, behavior, reminder); };
-
-        readonly Actor actor;
+        
+        internal bool mocked;
+        internal readonly Actor actor;
         Func<string, string, Task> onBecome;
         Func<Type, object, string, RequestOrigin, Task<object>> onUnhandledReceive;
         Func<Type, string, string, Task> onUnhandledReminder;
@@ -102,7 +103,7 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(message, nameof(message));
 
-            if (TimerService.IsExecuting())
+            if (TimerService.IsExecuting() || mocked)
             {
                 RequestOrigin.Store(Current);
                 return await actor.Self.Ask<object>(message);
