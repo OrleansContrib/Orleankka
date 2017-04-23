@@ -18,12 +18,12 @@ namespace Orleankka.TestKit
             return self;
         }
 
-        public static async Task Activate(this Actor actor, Action behavior) => await Activate(actor, behavior.Method.Name);
+        public static async Task Activate(this ActorBehavior behavior, Action action) => await Activate(behavior, action.Method.Name);
 
-        public static async Task Activate(this Actor actor, string behavior)
+        public static async Task Activate(this ActorBehavior behavior, string name)
         {
-            actor.Behavior.Initial(behavior);
-            await Activate(actor.Behavior);
+            behavior.Initial(name);
+            await Activate(behavior);
         }
 
         public static async Task Activate(this ActorBehavior behavior) => await behavior.HandleActivate();
