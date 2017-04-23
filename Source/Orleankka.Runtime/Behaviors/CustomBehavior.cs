@@ -16,7 +16,7 @@ namespace Orleankka.Behaviors
 
         static CustomBehavior()
         {
-            Null = new CustomBehavior("<NULL>");
+            Null = new CustomBehavior();
 
             Null.OnActivate(() => TaskDone.Done);
             Null.OnDeactivate(() => TaskDone.Done);
@@ -45,6 +45,9 @@ namespace Orleankka.Behaviors
 
         readonly Dictionary<string, Func<Actor, string, Task>> onReminder = new Dictionary<string, Func<Actor, string, Task>>();
         Func<Actor, string, Task> onReminderAny;
+
+        CustomBehavior()
+        {}
 
         public CustomBehavior(string name)
         {

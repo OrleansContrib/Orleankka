@@ -122,7 +122,7 @@ namespace Orleankka.Features.Actor_behaviors
 
             [Test]
             public void When_not_specified() =>
-                Assert.That(actor.Behavior.Current, Is.EqualTo("<NULL>"));
+                Assert.That(actor.Behavior.Current, Is.Null);
 
             [Test]
             public void When_setting_initial_and_method_doesnt_exists() =>
