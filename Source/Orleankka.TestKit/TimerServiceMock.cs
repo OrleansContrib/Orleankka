@@ -61,9 +61,9 @@ namespace Orleankka.TestKit
         }
 
         void ITimerService.Unregister(string id) => RecordUnregister(id);
-        bool ITimerService.IsRegistered(string id) => timers.ContainsKey(id);
+        public bool IsRegistered(string id) => timers.ContainsKey(id);
 
-        IEnumerable<string> ITimerService.Registered() => timers.Keys;
+        public IEnumerable<string> Registered() => timers.Keys;
         public RecordedTimerRequest[] Requests => requests.ToArray(); 
 
         public IEnumerator<RecordedTimer> GetEnumerator() => timers.Values.GetEnumerator();
