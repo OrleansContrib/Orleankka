@@ -78,7 +78,7 @@ namespace Orleankka
 
         static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
         {
-            var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.Static);
+            var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
             if (method == null)
                 throw new InvalidOperationException(
                     $"Actor {actor.FullName} doesn't declare public static method " +
@@ -90,7 +90,7 @@ namespace Orleankka
                 throw new InvalidOperationException(
                     $"Wrong signature of callback method {callbackMethod} " +
                     $"specified in Reentrant[] attribute for actor class {actor.FullName}. \n" +
-                    $"Expected: public static bool {callbackMethod}(object msg)");
+                    $"Expected: [public] static bool {callbackMethod}(object msg)");
 
             var parameter = Expression.Parameter(typeof(object));
             var call = Expression.Call(null, method, parameter);
