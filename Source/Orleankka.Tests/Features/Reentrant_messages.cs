@@ -115,6 +115,23 @@ namespace Orleankka.Features
             }
         }
 
+        [Reentrant]
+        class TestReentrantByCallbackMethodActorFromAnotherActor : Actor
+        {
+            ActorRef receiver;
+
+            public override Task OnActivate()
+            {
+                receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                return base.OnActivate();
+            }
+
+            public override Task<object> OnReceive(object message)
+            {
+                return receiver.Ask<object>(message);
+            }
+        }
+
         [RequiresSilo]
         public class Tests
         {
@@ -140,6 +157,13 @@ namespace Orleankka.Features
                 await TestReentrantReceive(actor);
             }
 
+            [Test]
+            public async Task When_reentrant_determined_by_callback_method_sent_from_another_actor()
+            {
+                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActorFromAnotherActor>();
+                await TestReentrantReceive(actor);
+            }
+            
             static async Task TestReentrantReceive(ActorRef actor)
             {
                 var nr1 = actor.Tell(new NonReentrantMessage {Id = 1, Delay = TimeSpan.FromMilliseconds(500)});
