@@ -7,15 +7,13 @@ namespace Orleankka.TestKit
 
     public static class ActorBehaviorExtensions
     {
-        public static ActorRefMock Mock(this ActorBehavior behavior)
+        public static void Mock(this ActorBehavior behavior)
         {
             behavior.mocked = true;
 
             var self = behavior.actor.Self as ActorRefMock;
             if (self == null)
-                throw new InvalidOperationException("Actor runtime need to be mocked as well");
-
-            return self;
+                throw new InvalidOperationException("Actor runtime should be a mock as well");
         }
 
         public static async Task Activate(this ActorBehavior behavior, Action action) => await Activate(behavior, action.Method.Name);
