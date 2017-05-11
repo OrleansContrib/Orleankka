@@ -38,8 +38,7 @@ namespace Orleankka.Core
                 return type.FullName;
 
             var name = customAttribute.Name;
-            if (!SyntaxFacts.IsValidIdentifier(name))
-                throw new ArgumentException($"'{name}' is not a valid identifer for type '{type}'", nameof(type));
+            ActorInterfaceDeclaration.CheckValidIdentifier(name);
 
             return name;
         }

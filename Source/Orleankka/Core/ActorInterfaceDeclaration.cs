@@ -98,7 +98,7 @@ namespace Orleankka.Core
             fullPath = string.Join(".", new List<string>(namespaces) {name});
         }
 
-        static void CheckValidIdentifier(string name)
+        internal static void CheckValidIdentifier(string name)
         {
             var path = name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (!path.All(SyntaxFacts.IsValidIdentifier))
