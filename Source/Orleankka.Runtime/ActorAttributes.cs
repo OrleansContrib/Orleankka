@@ -78,7 +78,7 @@ namespace Orleankka
 
         static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
         {
-            var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (method == null)
                 throw new InvalidOperationException(
                     $"Actor {actor.FullName} doesn't declare public static method " +

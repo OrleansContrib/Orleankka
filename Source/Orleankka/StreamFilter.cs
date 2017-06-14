@@ -77,7 +77,7 @@ namespace Orleankka
 
             var method = type.GetMethod(methodName, BindingFlags.Public |
                                                     BindingFlags.NonPublic |
-                                                    BindingFlags.Static);
+                                                    BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
             return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
         }
