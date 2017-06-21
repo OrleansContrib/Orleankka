@@ -9,7 +9,7 @@ namespace Orleankka.Core
 {
     using Utility;
 
-    public class ActorInterface : IEquatable<ActorInterface>
+    class ActorInterface : IEquatable<ActorInterface>
     {
         static readonly Dictionary<string, ActorInterface> interfaces =
                     new Dictionary<string, ActorInterface>();

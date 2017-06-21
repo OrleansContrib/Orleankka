@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orleans;
+#pragma warning disable 1591
 
 namespace Orleankka.Core
 {

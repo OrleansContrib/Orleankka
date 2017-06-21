@@ -74,7 +74,7 @@ namespace Orleankka.Behaviors
             return action;
         }
 
-        public static ActorBehavior Null(Actor actor) => new ActorBehavior(actor)
+        internal static ActorBehavior Null(Actor actor) => new ActorBehavior(actor)
         {
             current = CustomBehavior.Null
         };

@@ -27,8 +27,13 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
+        /// <summary>
+        /// Entry-point method for fluent configuration
+        /// </summary>
+        /// <returns>An instance of actor system configurator</returns>
         public static IActorSystemConfigurator Configure() => default(IActorSystemConfigurator);
 
+        /// <inheritdoc />
         public ActorRef ActorOf(ActorPath path)
         {
             if (path == ActorPath.Empty)
@@ -37,6 +42,7 @@ namespace Orleankka
            return ActorRef.Deserialize(path);
         }
 
+        /// <inheritdoc />
         public StreamRef StreamOf(StreamPath path)
         {
             if (path == StreamPath.Empty)
@@ -45,6 +51,7 @@ namespace Orleankka
             return StreamRef.Deserialize(path);
         }
 
+        /// <inheritdoc />
         public override object InitializeLifetimeService()
         {
             return null;
@@ -120,7 +127,6 @@ namespace Orleankka
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
         public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActor
         {
             return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath("#")));

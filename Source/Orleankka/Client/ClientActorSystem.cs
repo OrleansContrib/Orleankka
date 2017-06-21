@@ -9,6 +9,9 @@ namespace Orleankka.Client
 {
     using Core;
 
+    /// <summary>
+    /// Client-side actor system
+    /// </summary>
     public sealed class ClientActorSystem : ActorSystem
     {
         static ClientActorSystem current;
@@ -17,14 +20,12 @@ namespace Orleankka.Client
         {
             get
             {
-                if (!Initialized)
+                if (current == null)
                     throw new InvalidOperationException("Client actor system hasn't been initialized");
 
                 return current;
             }
         }
-
-        internal static bool Initialized => current != null;
 
         readonly ClientConfiguration configuration;
 
@@ -34,8 +35,17 @@ namespace Orleankka.Client
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// Checks whether this client has been successfully connected (ie initialized)
+        /// </summary>
         public bool Connected => GrainClient.IsInitialized;
 
+        /// <summary>
+        /// Connects this instance of client actor system to cluster
+        /// </summary>
+        /// <param name="retries">Number of retries in case on failure</param>
+        /// <param name="retryTimeout">Timeout between retries. Default is 5 seconds</param>
+        /// <exception cref="ArgumentOutOfRangeException">if <paramref name="retries"/> argument value is less than 0</exception>
         public void Connect(int retries = 0, TimeSpan? retryTimeout = null)
         {
             if (retryTimeout == null)
