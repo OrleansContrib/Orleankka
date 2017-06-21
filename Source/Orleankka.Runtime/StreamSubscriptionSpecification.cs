@@ -128,8 +128,8 @@ namespace Orleankka
 
         static StreamSubscriptionSpecification MatchExact(Type actor, string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
         {
-            string Matcher(string stream) => stream == source ? target : null;
-            return new StreamSubscriptionSpecification(actor, provider, Matcher, selector, filter);
+            Func<string, string> matcher = stream => stream == source ? target: null;
+            return new StreamSubscriptionSpecification(actor, provider, matcher, selector, filter);
         }
 
         static StreamSubscriptionSpecification MatchPattern(Type actor, string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
