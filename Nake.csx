@@ -140,8 +140,10 @@ string Version(string project)
             .GetVersionInfo(@"{ReleasePath}\{project}.dll")
             .FileVersion;
 
+	result = result.Substring(0, result.LastIndexOf("."));
+
     if (Beta != "")
-        result = result.Substring(0, result.LastIndexOf(".")) + "-{Beta}";
+        result += "-{Beta}";
 
     return result;
 }
