@@ -32,6 +32,8 @@ var ReleasePath = @"{PackagePath}\Release";
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.0.3";
 var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
+var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
+var MsBuildExe = GetVisualStudio17MSBuild();
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -53,9 +55,7 @@ var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
 {    
     Clean(outDir);
 
-    Exec(@"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe", 
-          "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + 
-           (verbose ? "/v:d" : ""));
+    Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
 }
 
 /// Runs unit tests 
@@ -137,10 +137,10 @@ void Push(string project)
 string Version(string project)
 {
     var result = FileVersionInfo
-            .GetVersionInfo(@"{ReleasePath}\{project}.dll")
-            .FileVersion;
+        .GetVersionInfo(@"{ReleasePath}\{project}.dll")
+        .FileVersion;
 
-	result = result.Substring(0, result.LastIndexOf("."));
+    result = result.Substring(0, result.LastIndexOf("."));
 
     if (Beta != "")
         result += "-{Beta}";
@@ -213,4 +213,19 @@ bool IsRunning(string processName)
 {
     var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
     return (processes.Any(p => p == processName));
+}
+
+string GetVisualStudio17MSBuild()
+{
+    foreach (var each in Vs17Versions) 
+    {
+        var msBuildPath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\{each}\MSBuild\15.0\Bin\MSBuild.exe";
+        if (File.Exists(msBuildPath))
+            return msBuildPath;
+    }
+
+    Error("MSBuild not found!");
+    Exit();
+
+    return null;
 }
