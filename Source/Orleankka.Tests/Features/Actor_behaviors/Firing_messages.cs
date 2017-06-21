@@ -134,11 +134,11 @@ namespace Orleankka.Features.Actor_behaviors
 
                 await actor.Tell(new CheckInterleaveFire
                 {
-                    ReceiveDelay = TimeSpan.FromMilliseconds(100),
-                    TimerDelay = TimeSpan.FromMilliseconds(70)
+                    ReceiveDelay = TimeSpan.FromMilliseconds(200),
+                    TimerDelay = TimeSpan.FromMilliseconds(100)
                 });
 
-                await Task.Delay(TimeSpan.FromMilliseconds(200));
+                await Task.Delay(TimeSpan.FromMilliseconds(400));
 
                 CollectionAssert.AreEqual(new[] { "timer", "timer" },
                     await actor.Ask(new GetReceived()));
