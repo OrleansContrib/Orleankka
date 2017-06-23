@@ -17,13 +17,13 @@
     </dependencies>    
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.dll" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.xml" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.pdb" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net451" />
-    <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net451" />
-    <file src="Output\Package\Release\OrleansManager.dll" target="lib/net451" />       
-    <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.dll" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.xml" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.pdb" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net461" />
+    <file src="Output\Package\Release\OrleansManager.dll" target="lib/net461" />       
+    <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net461" />
   </files>
 </package>
