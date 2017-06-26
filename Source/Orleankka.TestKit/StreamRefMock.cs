@@ -5,13 +5,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
     [Serializable]
     public class StreamRefMock : StreamRef
     {
-        [NonSerialized] readonly SerializationOptions serialization;
+        [NonSerialized] readonly SerializationManager serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
         [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
@@ -24,7 +25,7 @@ namespace Orleankka.TestKit
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        internal StreamRefMock(StreamPath path, SerializationOptions serialization)
+        internal StreamRefMock(StreamPath path, SerializationManager serialization = null)
             : base(path)
         {
             this.serialization = serialization;

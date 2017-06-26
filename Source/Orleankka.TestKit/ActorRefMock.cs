@@ -5,17 +5,18 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
     [Serializable]
     public class ActorRefMock : ActorRef
     {
-        [NonSerialized] readonly SerializationOptions serialization;
+        [NonSerialized] readonly SerializationManager serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
         [NonSerialized] readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
-        internal ActorRefMock(ActorPath path, SerializationOptions serialization)
+        internal ActorRefMock(ActorPath path, SerializationManager serialization = null)
             : base(path)
         {
             this.serialization = serialization;

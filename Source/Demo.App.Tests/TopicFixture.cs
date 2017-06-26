@@ -30,7 +30,8 @@ namespace Demo
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            SerializationManager.InitializeForTesting();
+            // TODO: Fixit
+            //SerializationManager.InitializeForTesting();
         }
         
         [SetUp]

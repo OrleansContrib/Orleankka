@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
+using Orleans.Serialization;
+
 namespace Orleankka.TestKit
 {
     public class ActorSystemMock : IActorSystem
     {
-        readonly SerializationOptions serialization;
+        readonly SerializationManager serialization;
 
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
@@ -12,10 +14,9 @@ namespace Orleankka.TestKit
         readonly Dictionary<StreamPath, StreamRefMock> streams =
              new Dictionary<StreamPath, StreamRefMock>();
 
-        public ActorSystemMock(SerializationOptions serialization = null)
+        public ActorSystemMock(SerializationManager serialization = null)
         {
-            this.serialization = serialization ?? SerializationOptions.Default;
-            this.serialization.Setup();
+            this.serialization = serialization;
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)

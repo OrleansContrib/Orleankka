@@ -9,6 +9,9 @@ using JetBrains.Annotations;
 
 using Orleankka.TestKit;
 
+using Orleans.Runtime.Configuration;
+using Orleans.Serialization;
+
 namespace Demo
 {
     public abstract class ActorFixture
@@ -18,7 +21,8 @@ namespace Demo
         [SetUp]
         public virtual void SetUp()
         {
-            Runtime = new ActorRuntimeMock(new SerializationOptions(roundtrip: true));
+            var config = new ClusterConfiguration();
+            Runtime = new ActorRuntimeMock(new SerializationManager(null, config.Globals, config.Defaults));
         }
 
         protected ActorSystemMock System => Runtime.System;

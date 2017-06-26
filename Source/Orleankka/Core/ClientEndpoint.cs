@@ -81,7 +81,8 @@ namespace Orleankka.Core
 
         internal static IClientEndpoint Proxy(string path)
         {
-            return GrainReference.FromKeyString(path).AsReference<IClientEndpoint>();
+            // TODO: Fixit
+            return null;
         }
     }
 }

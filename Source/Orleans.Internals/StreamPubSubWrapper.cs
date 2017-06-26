@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Orleans.Streams;
 using Orleans.Runtime;
 using Orleans.Runtime.Host;
+using Orleans.Streams.Core;
 
 namespace Orleans.Internals
 {
@@ -32,17 +33,20 @@ namespace Orleans.Internals
             Debug.Assert(grainBasedPubSubField != null);
             Debug.Assert(combinedGrainBasedAndImplicitPubSub != null);
 
+            var client = (IRuntimeClient) provider.GetService(typeof(IRuntimeClient));
             var streamPubSub = (IStreamPubSub) grainBasedPubSubField.GetValue(runtime);
-            var wrapper = new StreamPubSubWrapper(providers, streamPubSub, matcher);
+            var wrapper = new StreamPubSubWrapper(client, providers, streamPubSub, matcher);
             combinedGrainBasedAndImplicitPubSub.SetValue(runtime, wrapper);
         }
 
         readonly Func<StreamIdentity, StreamPubSubMatch[]> matcher;
+        readonly IRuntimeClient client;
         readonly string[] providers;
         readonly IStreamPubSub registry;
 
-        StreamPubSubWrapper(string[] providers, IStreamPubSub registry, Func<StreamIdentity, StreamPubSubMatch[]> matcher)
+        StreamPubSubWrapper(IRuntimeClient client, string[] providers, IStreamPubSub registry, Func<StreamIdentity, StreamPubSubMatch[]> matcher)
         {
+            this.client = client;
             this.providers = providers;
             this.registry = registry;
             this.matcher = matcher;
@@ -58,7 +62,7 @@ namespace Orleans.Internals
             {
                 matches = (from StreamPubSubMatch m in matcher(new StreamIdentity(streamId))
                            let subId = GuidId.GetNewGuidId()
-                           select new PubSubSubscriptionState(subId, streamId, new PushExtension(m)))
+                           select new PubSubSubscriptionState(subId, streamId, new PushExtension(client, m)))
                           .ToArray();
             }
 
@@ -93,7 +97,7 @@ namespace Orleans.Internals
             return registry.ConsumerCount(streamId, streamProvider, streamNamespace);
         }
 
-        Task<List<GuidId>> IStreamPubSub.GetAllSubscriptions(StreamId streamId, IStreamConsumerExtension streamConsumer)
+        Task<List<StreamSubscription>> IStreamPubSub.GetAllSubscriptions(StreamId streamId, IStreamConsumerExtension streamConsumer)
         {
             return registry.GetAllSubscriptions(streamId, streamConsumer);
         }
