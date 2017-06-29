@@ -1,7 +1,7 @@
 REDIRECTS: ON
 STRATEGY: MAX
 LOWEST_MATCHING: FALSE
-FRAMEWORK: NET451
+RESTRICTION: == net451
 NUGET
   remote: https://api.nuget.org/v3/index.json
     Antlr (3.5.0.2)
