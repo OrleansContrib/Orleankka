@@ -47,6 +47,7 @@
     <Compile Include="Checks\SubscriptionSpecificationFixture.cs" />
     <Compile Include="Checks\StreamRefFixture.cs" />
     <Compile Include="Checks\StreamPathFixture.cs" />
+    <Compile Include="Features\Actor_behaviors\Background_flag_properly_flows_with_callcontext.cs" />
     <Compile Include="Features\Actor_behaviors\Reusing_handlers_via_traits.cs" />
     <Compile Include="Features\Actor_behaviors\Firing_messages.cs" />
     <Compile Include="Features\Intercepting_requests.cs" />
