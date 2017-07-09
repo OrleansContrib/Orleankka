@@ -26,7 +26,7 @@ namespace Orleankka.TestKit
         public Actor Resumed       { get; private set; }
 
         internal StreamRefMock(StreamPath path, SerializationManager serialization = null)
-            : base(path)
+            : base(path, null)
         {
             this.serialization = serialization;
         }

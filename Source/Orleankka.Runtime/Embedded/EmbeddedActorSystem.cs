@@ -3,7 +3,7 @@ namespace Orleankka.Embedded
     using Client;
     using Cluster;
 
-    public class EmbeddedActorSystem : ActorSystem
+    public class EmbeddedActorSystem : IActorSystem
     {
         internal EmbeddedActorSystem(ClientActorSystem client, ClusterActorSystem cluster)
         {
@@ -27,5 +27,8 @@ namespace Orleankka.Embedded
         {
             Cluster.Stop(force);
         }
+
+        public ActorRef ActorOf(ActorPath path) => Client.ActorOf(path);
+        public StreamRef StreamOf(StreamPath path) => Client.StreamOf(path);
     }
 }

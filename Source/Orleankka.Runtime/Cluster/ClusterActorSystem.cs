@@ -5,6 +5,7 @@ using System.Reflection;
 using Orleans.Runtime;
 using Orleans.Runtime.Host;
 using Orleans.Runtime.Configuration;
+using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
@@ -52,8 +53,16 @@ namespace Orleankka.Cluster
             if (!Host.StartOrleansSilo(catchExceptions: false))
                 throw new Exception("Silo failed to start. Check the logs");
 
-            Started = true;
+            var servicesField = typeof(Silo).GetProperty("Services", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (servicesField == null)
+                throw new InvalidOperationException("Hey, who moved my cheese? Silo don't have internal 'Services' property anymore!");
+            
+            var serviceProvider = (IServiceProvider)servicesField.GetValue(Silo);
+            var streamProviderManager = (IStreamProviderManager) serviceProvider.GetService(typeof(IStreamProviderManager));
+            StreamProvider = name => (IStreamProvider) streamProviderManager.GetProvider(name);
 
+            Started = true;
+            
             if (wait)
                 Host.WaitForOrleansSiloShutdown();
         }

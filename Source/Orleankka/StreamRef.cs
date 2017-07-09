@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Serialization;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -16,15 +17,18 @@ namespace Orleankka
     [DebuggerDisplay("s->{ToString()}")]
     public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
-        public static StreamRef Deserialize(StreamPath path) => new StreamRef(path);
+        [NonSerialized]
+        readonly IStreamProvider provider;
 
-        protected internal StreamRef(StreamPath path)
+        protected internal StreamRef(StreamPath path, IStreamProvider provider)
         {
             Path = path;
+            this.provider = provider;
         }
 
+        [NonSerialized]
         IAsyncStream<object> endpoint;
-        IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy());
+        IAsyncStream<object> Endpoint => endpoint ?? (endpoint = provider.GetStream<object>(Guid.Empty, Path.Id));
 
         public StreamPath Path { get; }
         public string Serialize() => Path.Serialize();
@@ -159,6 +163,13 @@ namespace Orleankka
         {
             var value = (string)info.GetValue("path", typeof(string));
             Path = StreamPath.Deserialize(value);
+
+            var serializer = context.Context as ISerializerContext;
+            var manager = (IStreamProviderManager)serializer?.ServiceProvider.GetService(typeof(IStreamProviderManager));
+            if (manager == null)
+                return;
+
+            provider = (IStreamProvider)manager.GetProvider(Path.Provider);
         }
 
         #endregion

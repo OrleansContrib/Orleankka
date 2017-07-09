@@ -1,5 +1,8 @@
 ﻿using System;
 
+using Orleans;
+using Orleans.Streams;
+
 namespace Orleankka
 {
     /// <summary>
@@ -27,6 +30,8 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
+        protected Func<string, IStreamProvider> StreamProvider;
+
         /// <summary>
         /// Entry-point method for fluent configuration
         /// </summary>
@@ -48,7 +53,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            return StreamRef.Deserialize(path);
+            return new StreamRef(path, StreamProvider(path.Provider));
         }
 
         /// <inheritdoc />

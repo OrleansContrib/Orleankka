@@ -57,12 +57,6 @@ namespace Orleankka
             Id = id;
         }
 
-        internal IAsyncStream<object> Proxy()
-        {
-            var provider = GrainClient.GetStreamProvider(Provider);
-            return provider.GetStream<object>(Guid.Empty, Id);
-        }
-
         public string Serialize()
         {
             return $"{Provider}{Separator[0]}{Id}";

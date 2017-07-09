@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 
 using Hyperion;
 
@@ -128,7 +129,7 @@ namespace Example
             public static StreamRefSurrogate From(StreamRef @ref) =>
                 new StreamRefSurrogate { S = @ref.Path.ToString() };
 
-            public StreamRef Original() => StreamRef.Deserialize(StreamPath.Deserialize(S));
+            public StreamRef Original() => new StreamRef(null, new StreamingContext());
         }
 
         class ClientRefSurrogate : StringPayloadSurrogate

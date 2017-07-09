@@ -60,6 +60,7 @@ namespace Orleankka.Client
                 try
                 {
                     GrainClient.Initialize(configuration);
+                    StreamProvider = GrainClient.Instance.GetStreamProvider;
                 }
                 catch (Exception ex)
                 {
