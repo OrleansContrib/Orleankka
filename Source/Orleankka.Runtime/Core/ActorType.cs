@@ -98,8 +98,8 @@ namespace Orleankka.Core
             if (receiveMessage)
                 return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
 
-            var streamMessage = request.Arguments.Length == 4;
-            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[1]));
+            var streamMessage = request.Arguments.Length == 5;
+            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[2]));
         }
 
         static object UnwrapImmutable(object item) => 
