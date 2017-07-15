@@ -8,6 +8,7 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleans.Runtime;
 using Orleans.Serialization;
+using Orleans.Streams;
 
 namespace Example
 {
@@ -15,18 +16,20 @@ namespace Example
     {
         static readonly Type BaseInterfaceType = typeof(Message);
 
-        static readonly Serializer serializer;
-        static readonly Serializer copier;
+        readonly Serializer serializer;
+        readonly Serializer copier;
 
-        static HyperionSerializer()
+        IStreamProviderManager streamProviderManager;
+
+        HyperionSerializer()
         {
             var surogates = new[]
             {
                 Surrogate.Create<ActorPath, ActorPathSurrogate>(ActorPathSurrogate.From, x => x.Original()),
-                Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original()),
+                Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<StreamPath, StreamPathSurrogate>(StreamPathSurrogate.From, x => x.Original()),
-                Surrogate.Create<StreamRef, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original()),
-                Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original()),
+                Surrogate.Create<StreamRef, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original(this)),
+                Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original(this)),
             };
 
             var options = new SerializerOptions(
@@ -86,6 +89,9 @@ namespace Example
 
         public object Deserialize(Type expectedType, IDeserializationContext context)
         {
+            if (streamProviderManager == null)
+                streamProviderManager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
+
             var reader = context.StreamReader;
 
             var length = reader.ReadInt();
@@ -113,7 +119,8 @@ namespace Example
             public static ActorRefSurrogate From(ActorRef @ref) =>
                 new ActorRefSurrogate { S = @ref.Path.ToString()};
 
-            public ActorRef Original() => ActorRef.Deserialize(ActorPath.Deserialize(S));
+            public ActorRef Original(HyperionSerializer ctx) => 
+                ActorRef.Deserialize(ActorPath.Deserialize(S));
         }
 
         class StreamPathSurrogate : StringPayloadSurrogate
@@ -127,9 +134,10 @@ namespace Example
         class StreamRefSurrogate : StringPayloadSurrogate
         {
             public static StreamRefSurrogate From(StreamRef @ref) =>
-                new StreamRefSurrogate { S = @ref.Path.ToString() };
+                new StreamRefSurrogate { S = @ref.Serialize() };
 
-            public StreamRef Original() => new StreamRef(null, new StreamingContext());
+            public StreamRef Original(HyperionSerializer ctx) => 
+                StreamRef.Deserialize(StreamPath.Deserialize(S), ctx.streamProviderManager);
         }
 
         class ClientRefSurrogate : StringPayloadSurrogate
@@ -137,7 +145,8 @@ namespace Example
             public static ClientRefSurrogate From(ClientRef @ref) =>
                 new ClientRefSurrogate { S = @ref.Path };
 
-            public ClientRef Original() => ClientRef.Deserialize(S);
+            public ClientRef Original(HyperionSerializer ctx) => 
+                ClientRef.Deserialize(S);
         }
     }
 }

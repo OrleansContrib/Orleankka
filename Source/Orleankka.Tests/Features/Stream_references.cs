@@ -12,14 +12,14 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        class Produce : Command
+        public class Produce : Command
         {
             public StreamRef Stream;
             public Item Item;
         }
 
         [Serializable]
-        class Item
+        public class Item
         {
             public readonly string Text;
 
@@ -38,7 +38,7 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        class Unsubscribe : Command
+        public class Unsubscribe : Command
         {
             public StreamRef Stream;
         }

@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
 using Orleans.Serialization;
 using Orleans.Streams;
 
@@ -13,10 +15,18 @@ namespace Orleankka
 {
     using Utility;
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("s->{ToString()}")]
     public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
     {
+        public string Serialize() => Path.Serialize();
+
+        public static StreamRef Deserialize(StreamPath path, IStreamProviderManager manager)
+        {
+            var provider = (IStreamProvider)manager.GetProvider(path.Provider);
+            return new StreamRef(path, provider);
+        }
+
         [NonSerialized]
         readonly IStreamProvider provider;
 
@@ -28,11 +38,22 @@ namespace Orleankka
 
         [NonSerialized]
         IAsyncStream<object> endpoint;
-        IAsyncStream<object> Endpoint => endpoint ?? (endpoint = provider.GetStream<object>(Guid.Empty, Path.Id));
+        IAsyncStream<object> Endpoint
+        {
+            get
+            {
+                if (endpoint != null)
+                    return endpoint;
+                
+                if (provider == null)
+                    throw new InvalidOperationException($"StreamRef [{Path}] has not been bound to runtime");
+
+                return endpoint = provider.GetStream<object>(Guid.Empty, Path.Id);
+            }
+        }
 
         public StreamPath Path { get; }
-        public string Serialize() => Path.Serialize();
-
+        
         public virtual Task Push(object item)
         {
             return Endpoint.OnNextAsync(item);
@@ -170,6 +191,30 @@ namespace Orleankka
                 return;
 
             provider = (IStreamProvider)manager.GetProvider(Path.Provider);
+        }
+
+        #endregion
+
+        #region Orleans Native Serialization
+
+        [CopierMethod]
+        static object Copy(object input, ICopyContext context) => input;
+
+        [SerializerMethod]
+        static void Serialize(object input, ISerializationContext context, Type expected)
+        {
+            var writer = context.StreamWriter;
+            var @ref = (StreamRef)input;
+            writer.Write(@ref.Serialize());
+        }
+
+        [DeserializerMethod]
+        static object Deserialize(Type t, IDeserializationContext context)
+        {
+            var reader = context.StreamReader;
+            var path = StreamPath.Deserialize(reader.ReadString());
+            var manager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
+            return Deserialize(path, manager);
         }
 
         #endregion

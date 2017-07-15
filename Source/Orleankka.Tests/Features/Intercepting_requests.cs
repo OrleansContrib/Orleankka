@@ -165,7 +165,7 @@ namespace Orleankka.Features
             public async void Intercepting_stream_messages()
             {
                 var stream = system.StreamOf("sms", "test-stream-interception");
-
+                
                 var actor = system.FreshActorOf<TestStreamActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
