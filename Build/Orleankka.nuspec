@@ -11,8 +11,8 @@
     <description>Functional API for MSR Orleans. Core and client-side library</description>
     <tags>Orleans distributed messaging actor concurrency CQRS</tags>
     <dependencies>
-        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.5.0-rc" />
-        <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.5.0-rc" />
+        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.5.0" />
+        <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.5.0" />
         <dependency id="Microsoft.CodeAnalysis.CSharp" version="2.2.0" />
     </dependencies>    
   </metadata>
