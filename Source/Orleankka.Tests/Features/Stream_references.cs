@@ -32,7 +32,7 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        class Subscribe : Command
+        public class Subscribe : Command
         {
             public StreamRef Stream;
         }

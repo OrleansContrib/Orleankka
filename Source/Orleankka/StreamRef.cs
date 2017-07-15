@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -17,7 +16,7 @@ namespace Orleankka
 
     [Serializable, Immutable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
+    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>
     {
         public string Serialize() => Path.Serialize();
 
@@ -172,28 +171,6 @@ namespace Orleankka
         public static bool operator !=(StreamRef left, StreamRef right) => !Equals(left, right);
 
         public override string ToString() => Path.ToString();
-
-        #region Default Binary Serialization
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("path", Serialize(), typeof(string));
-        }
-
-        public StreamRef(SerializationInfo info, StreamingContext context)
-        {
-            var value = (string)info.GetValue("path", typeof(string));
-            Path = StreamPath.Deserialize(value);
-
-            var serializer = context.Context as ISerializerContext;
-            var manager = (IStreamProviderManager)serializer?.ServiceProvider.GetService(typeof(IStreamProviderManager));
-            if (manager == null)
-                return;
-
-            provider = (IStreamProvider)manager.GetProvider(Path.Provider);
-        }
-
-        #endregion
 
         #region Orleans Native Serialization
 
