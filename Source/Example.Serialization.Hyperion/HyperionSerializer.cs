@@ -152,7 +152,7 @@ namespace Example
                 new ClientRefSurrogate { S = @ref.Path };
 
             public ClientRef Original(HyperionSerializer ctx) => 
-                ClientRef.Deserialize(S);
+                ClientRef.Deserialize(S, ctx.grainFactory);
         }
     }
 }

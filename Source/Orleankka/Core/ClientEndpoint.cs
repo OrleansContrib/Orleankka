@@ -27,7 +27,7 @@ namespace Orleankka.Core
         {
             this.proxy = proxy;
             
-            Self = ClientRef.Deserialize(IdentityOf(proxy));
+            Self = new ClientRef(proxy);
             
             return this;
         }
@@ -72,17 +72,6 @@ namespace Orleankka.Core
             {
                 owner.observer = null;
             }
-        }
-
-        static string IdentityOf(IClientEndpoint proxy)
-        {
-            return ((GrainReference)proxy).ToKeyString();
-        }
-
-        internal static IClientEndpoint Proxy(string path)
-        {
-            // TODO: Fixit
-            return null;
         }
     }
 }

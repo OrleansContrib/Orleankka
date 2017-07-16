@@ -1,17 +1,25 @@
 using System;
 using System.Diagnostics;
-using System.Runtime.Serialization;
+using System.Diagnostics.CodeAnalysis;
+
+using Orleans;
+using Orleans.Concurrency;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
     using Core;
     using Utility;
     
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("{ToString()}")]
-    public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>, ISerializable
+    public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>
     {
-        public static ClientRef Deserialize(string path) => new ClientRef(path, ClientEndpoint.Proxy(path));
+        public static ClientRef Deserialize(string path, IGrainFactory factory)
+        {
+            // TODO: Fixit
+            return new ClientRef(path);
+        }
 
         readonly IClientEndpoint endpoint;
 
@@ -20,8 +28,9 @@ namespace Orleankka
             Path = path;
         }
 
-        ClientRef(string path, IClientEndpoint endpoint)
-            : this(path)
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
+        internal ClientRef(IClientEndpoint endpoint) 
+            : this(((GrainReference)endpoint).ToKeyString())
         {
             this.endpoint = endpoint;
         }
@@ -53,20 +62,5 @@ namespace Orleankka
         public static bool operator !=(ClientRef left, ClientRef right) => !Equals(left, right);
 
         public override string ToString() => Path;
-
-        #region Default Binary Serialization
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("path", Path, typeof(string));
-        }
-
-        public ClientRef(SerializationInfo info, StreamingContext context)
-        {
-            Path = (string)info.GetValue("path", typeof(string));
-            endpoint = ClientEndpoint.Proxy(Path);
-        }
-
-        #endregion
     }
 }
