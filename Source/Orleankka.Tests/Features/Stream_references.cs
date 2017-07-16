@@ -164,8 +164,8 @@ namespace Orleankka.Features
             class TestProducerActor : TestProducerActorBase { }
             class TestConsumerActor : TestConsumerActorBase { }
 
-            [TestFixture]
-            [Category("Slow"), Explicit]
+            [TestFixture, RequiresSilo]
+            [Category("Slow")]
             class Tests
             {
                 static TestCases<TestProducerActor, TestConsumerActor> Verify() =>

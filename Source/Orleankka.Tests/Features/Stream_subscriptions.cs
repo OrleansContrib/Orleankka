@@ -160,8 +160,7 @@ namespace Orleankka.Features
                 static TestCases<TestConsumerActor> Verify() => 
                    new TestCases<TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
-                [Test, Category("Slow"), Explicit]
-                public async Task Resuming_on_reactivation()                                => await Verify().Resuming_on_reactivation();
+                [Test, Category("Slow")] public async Task Resuming_on_reactivation()       => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
                 [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering();
                 [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
@@ -181,8 +180,8 @@ namespace Orleankka.Features
                 protected override string Provider => "aqp";
             }
 
-            [TestFixture]
-            [Category("Slow"), Explicit]
+            [TestFixture, RequiresSilo]
+            [Category("Slow")]
             class Tests
             {
                 static TestCases<TestConsumerActor> Verify() => 

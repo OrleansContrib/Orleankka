@@ -28,8 +28,8 @@ namespace Orleankka.Features
             void On(Deactivate q) => Activation.DeactivateOnIdle();
         }
 
-        [TestFixture]
-        [Explicit, Category("Slow")]
+        [TestFixture, RequiresSilo]
+        [Category("Slow")]
         public class Tests
         {
             IActorSystem system;

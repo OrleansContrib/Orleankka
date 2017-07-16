@@ -295,8 +295,8 @@ namespace Orleankka.Features
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }
 
-            [TestFixture]
-            [Category("Slow"), Explicit]
+            [TestFixture, RequiresSilo]
+            [Category("Slow")]
             public class Tests
             {
                static TestCases Verify() =>
