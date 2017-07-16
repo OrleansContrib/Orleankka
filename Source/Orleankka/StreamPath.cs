@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Orleans;
-using Orleans.Streams;
+using Orleans.Concurrency;
 
 namespace Orleankka
 {
     using Utility;
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("{ToString()}")]
     public struct StreamPath : IEquatable<StreamPath>
     {

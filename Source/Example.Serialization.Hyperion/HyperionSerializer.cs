@@ -6,6 +6,8 @@ using Hyperion;
 
 using Orleankka;
 using Orleankka.Meta;
+
+using Orleans;
 using Orleans.Runtime;
 using Orleans.Serialization;
 using Orleans.Streams;
@@ -20,6 +22,7 @@ namespace Example
         readonly Serializer copier;
 
         IStreamProviderManager streamProviderManager;
+        IGrainFactory grainFactory;
 
         HyperionSerializer()
         {
@@ -92,6 +95,9 @@ namespace Example
             if (streamProviderManager == null)
                 streamProviderManager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
 
+            if (grainFactory == null)
+                grainFactory = (IGrainFactory)context.ServiceProvider.GetService(typeof(IGrainFactory));
+
             var reader = context.StreamReader;
 
             var length = reader.ReadInt();
@@ -120,7 +126,7 @@ namespace Example
                 new ActorRefSurrogate { S = @ref.Path.ToString()};
 
             public ActorRef Original(HyperionSerializer ctx) => 
-                ActorRef.Deserialize(ActorPath.Deserialize(S));
+                ActorRef.Deserialize(ActorPath.Deserialize(S), ctx.grainFactory);
         }
 
         class StreamPathSurrogate : StringPayloadSurrogate

@@ -4,6 +4,7 @@ using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime;
 using Orleans.Storage;
+using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
@@ -15,6 +16,12 @@ namespace Orleankka.Cluster
         {
             var factory = providerRuntime.GrainFactory;
             ActorInterface.Bind(factory);
+
+            var serviceProvider = providerRuntime.ServiceProvider;
+            var streamProviderManager = (IStreamProviderManager)serviceProvider.GetService(typeof(IStreamProviderManager));
+            ClusterActorSystem.Current.StreamProvider = x => (IStreamProvider)streamProviderManager.GetProvider(x);
+            ClusterActorSystem.Current.GrainFactory = (IGrainFactory)serviceProvider.GetService(typeof(IGrainFactory));
+
             return TaskDone.Done;
         }
 

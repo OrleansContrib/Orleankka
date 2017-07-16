@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Concurrency;
 using Orleans.Runtime;
 
 namespace Orleankka
@@ -11,11 +12,15 @@ namespace Orleankka
     using Core;
     using Utility;
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
+    public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorInterface.Registered(path.Type));
+        public static ActorRef Deserialize(ActorPath path, IGrainFactory factory)
+        {
+            var @interface = ActorInterface.Registered(path.Type);
+            return new ActorRef(path, @interface.Proxy(path, factory));
+        }
 
         readonly IActorEndpoint endpoint;
 
@@ -24,10 +29,10 @@ namespace Orleankka
             Path = path;
         }
 
-        ActorRef(ActorPath path, ActorInterface @interface)
+        ActorRef(ActorPath path, IActorEndpoint endpoint)
             : this(path)
         {
-            endpoint = @interface.Proxy(path);
+            this.endpoint = endpoint;
         }
 
         public ActorPath Path { get; }
@@ -77,33 +82,14 @@ namespace Orleankka
         public static bool operator ==(ActorRef left, ActorRef right) => Equals(left, right);
         public static bool operator !=(ActorRef left, ActorRef right) => !Equals(left, right);
 
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         public static implicit operator GrainReference(ActorRef arg) => (GrainReference) arg.endpoint;
-
-        #region Default Binary Serialization
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("path", Path.Serialize(), typeof(string));
-        }
-
-        public ActorRef(SerializationInfo info, StreamingContext context)
-        {
-            var value = (string) info.GetValue("path", typeof(string));
-            Path = ActorPath.Deserialize(value);
-            var @interface = ActorInterface.Registered(Path.Type);
-            endpoint = @interface.Proxy(Path);
-        }
-
-        #endregion
     }
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath>, ISerializable where TActor : IActor
+    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActor
     {
-        static ActorRef<TActor> Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
-        static ActorRef<TActor> Deserialize(ActorPath path) => new ActorRef<TActor>(ActorRef.Deserialize(path));
-
         readonly ActorRef @ref;
 
         protected internal ActorRef(ActorRef @ref)
@@ -140,19 +126,5 @@ namespace Orleankka
         public static implicit operator ActorRef(ActorRef<TActor> arg) => arg.@ref;
         public static implicit operator ActorRef<TActor>(ActorRef arg) => new ActorRef<TActor>(arg);
         public static implicit operator GrainReference(ActorRef<TActor> arg) => arg.@ref;
-
-        #region Default Binary Serialization
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("path", @ref.Path.Serialize(), typeof(string));
-        }
-
-        public ActorRef(SerializationInfo info, StreamingContext context)
-        {
-            @ref = Deserialize(info.GetString("path"));
-        }
-
-        #endregion
     }
 }

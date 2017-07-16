@@ -30,7 +30,8 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
-        protected Func<string, IStreamProvider> StreamProvider;
+        protected internal Func<string, IStreamProvider> StreamProvider;
+        protected internal IGrainFactory GrainFactory;
 
         /// <summary>
         /// Entry-point method for fluent configuration
@@ -44,7 +45,7 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
-           return ActorRef.Deserialize(path);
+           return ActorRef.Deserialize(path, GrainFactory);
         }
 
         /// <inheritdoc />

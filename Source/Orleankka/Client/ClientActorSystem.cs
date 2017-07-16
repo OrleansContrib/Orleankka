@@ -61,6 +61,7 @@ namespace Orleankka.Client
                 {
                     GrainClient.Initialize(configuration);
                     StreamProvider = GrainClient.Instance.GetStreamProvider;
+                    GrainFactory = GrainClient.Instance;
                 }
                 catch (Exception ex)
                 {
@@ -77,7 +78,7 @@ namespace Orleankka.Client
                 }
             }
 
-            ActorInterface.Bind(GrainClient.GrainFactory);
+            ActorInterface.Bind(GrainClient.Instance);
         }
     }
 }

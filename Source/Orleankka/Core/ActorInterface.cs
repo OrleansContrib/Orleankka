@@ -34,7 +34,8 @@ namespace Orleankka.Core
 
         readonly string name;
         readonly Type grain;
-        Func<string, object> factory;
+
+        Func<IGrainFactory, string, object> factory;
 
         internal ActorInterface(ActorInterfaceMapping mapping, Type grain)
         {
@@ -46,12 +47,12 @@ namespace Orleankka.Core
         public Assembly GrainAssembly() => grain.Assembly;
 
         internal static void Bind(IGrainFactory factory)
-        {
+        {            
             foreach (var @interface in interfaces.Values)
             {
                 var method = factory.GetType().GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
                 var invoker = method.MakeGenericMethod(@interface.grain);
-                @interface.factory = x => invoker.Invoke(factory, new object[] { x, null });
+                @interface.factory = (f, x) => invoker.Invoke(f, new object[] { x, null });
             }
         }
 
@@ -68,7 +69,7 @@ namespace Orleankka.Core
             return result;
         }
 
-        internal IActorEndpoint Proxy(ActorPath path) => (IActorEndpoint) factory(path.Id);
+        internal IActorEndpoint Proxy(ActorPath path, IGrainFactory instance) => (IActorEndpoint) factory(instance, path.Id);
 
         public bool Equals(ActorInterface other)
         {

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Orleans.Concurrency;
+
 namespace Orleankka
 {
     using Utility;
      
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("{ToString()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
