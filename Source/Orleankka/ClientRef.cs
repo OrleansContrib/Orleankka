@@ -1,10 +1,8 @@
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 using Orleans;
 using Orleans.Concurrency;
-using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -15,10 +13,12 @@ namespace Orleankka
     [DebuggerDisplay("{ToString()}")]
     public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>
     {
+        public string Serialize() => Path;
+
         public static ClientRef Deserialize(string path, IGrainFactory factory)
         {
-            // TODO: Fixit
-            return new ClientRef(path);
+            var endpoint = ClientEndpoint.Proxy(path, factory);
+            return new ClientRef(endpoint);
         }
 
         readonly IClientEndpoint endpoint;
@@ -28,9 +28,8 @@ namespace Orleankka
             Path = path;
         }
 
-        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         internal ClientRef(IClientEndpoint endpoint) 
-            : this(((GrainReference)endpoint).ToKeyString())
+            : this(ClientEndpoint.Path(endpoint))
         {
             this.endpoint = endpoint;
         }

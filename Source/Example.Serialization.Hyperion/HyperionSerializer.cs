@@ -24,13 +24,14 @@ namespace Example
         IStreamProviderManager streamProviderManager;
         IGrainFactory grainFactory;
 
-        HyperionSerializer()
+        public HyperionSerializer()
         {
             var surogates = new[]
             {
                 Surrogate.Create<ActorPath, ActorPathSurrogate>(ActorPathSurrogate.From, x => x.Original()),
-                Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<StreamPath, StreamPathSurrogate>(StreamPathSurrogate.From, x => x.Original()),
+
+                Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<StreamRef, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original(this)),
             };
@@ -120,15 +121,6 @@ namespace Example
             public ActorPath Original() => ActorPath.Deserialize(S);
         }
 
-        class ActorRefSurrogate : StringPayloadSurrogate
-        {
-            public static ActorRefSurrogate From(ActorRef @ref) =>
-                new ActorRefSurrogate { S = @ref.Path.ToString()};
-
-            public ActorRef Original(HyperionSerializer ctx) => 
-                ActorRef.Deserialize(ActorPath.Deserialize(S), ctx.grainFactory);
-        }
-
         class StreamPathSurrogate : StringPayloadSurrogate
         {
             public static StreamPathSurrogate From(StreamPath path) =>
@@ -137,19 +129,28 @@ namespace Example
             public StreamPath Original() => StreamPath.Deserialize(S);
         }
 
+        class ActorRefSurrogate : StringPayloadSurrogate
+        {
+            public static ActorRefSurrogate From(ActorRef @ref) =>
+                new ActorRefSurrogate {S = @ref.Serialize()};
+
+            public ActorRef Original(HyperionSerializer ctx) => 
+                ActorRef.Deserialize(S, ctx.grainFactory);
+        }
+
         class StreamRefSurrogate : StringPayloadSurrogate
         {
             public static StreamRefSurrogate From(StreamRef @ref) =>
                 new StreamRefSurrogate { S = @ref.Serialize() };
 
             public StreamRef Original(HyperionSerializer ctx) => 
-                StreamRef.Deserialize(StreamPath.Deserialize(S), ctx.streamProviderManager);
+                StreamRef.Deserialize(S, ctx.streamProviderManager);
         }
 
         class ClientRefSurrogate : StringPayloadSurrogate
         {
             public static ClientRefSurrogate From(ClientRef @ref) =>
-                new ClientRefSurrogate { S = @ref.Path };
+                new ClientRefSurrogate { S = @ref.Serialize() };
 
             public ClientRef Original(HyperionSerializer ctx) => 
                 ClientRef.Deserialize(S, ctx.grainFactory);

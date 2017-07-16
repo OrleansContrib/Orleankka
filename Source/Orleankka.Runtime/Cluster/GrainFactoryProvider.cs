@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Providers;
@@ -14,13 +15,10 @@ namespace Orleankka.Cluster
     {
         public Task Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
-            var factory = providerRuntime.GrainFactory;
-            ActorInterface.Bind(factory);
+            ActorInterface.Bind(providerRuntime.GrainFactory);
 
-            var serviceProvider = providerRuntime.ServiceProvider;
-            var streamProviderManager = (IStreamProviderManager)serviceProvider.GetService(typeof(IStreamProviderManager));
-            ClusterActorSystem.Current.StreamProvider = x => (IStreamProvider)streamProviderManager.GetProvider(x);
-            ClusterActorSystem.Current.GrainFactory = (IGrainFactory)serviceProvider.GetService(typeof(IGrainFactory));
+            ClusterActorSystem.Current.StreamProviderManager = (IStreamProviderManager)providerRuntime.ServiceProvider.GetService(typeof(IStreamProviderManager));
+            ClusterActorSystem.Current.GrainFactory = providerRuntime.GrainFactory;
 
             return TaskDone.Done;
         }

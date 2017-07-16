@@ -103,6 +103,12 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
+      <Project>{97E4FE27-27FD-499B-8737-0F293807C297}</Project>
+      <Name>Orleans.Internals</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'">
       <ItemGroup>

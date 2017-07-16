@@ -16,7 +16,12 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        public static ActorRef Deserialize(ActorPath path, IGrainFactory factory)
+        public string Serialize() => Path.Serialize();
+
+        public static ActorRef Deserialize(string path, IGrainFactory factory) => 
+            Deserialize(ActorPath.Deserialize(path), factory);
+        
+        internal static ActorRef Deserialize(ActorPath path, IGrainFactory factory)
         {
             var @interface = ActorInterface.Registered(path.Type);
             return new ActorRef(path, @interface.Proxy(path, factory));

@@ -1,7 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Internals;
+using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
@@ -9,22 +12,22 @@ namespace Orleankka.Core
 
     class ClientEndpoint : IClientEndpoint, IDisposable
     {
-        public static async Task<ClientEndpoint> Create(IClusterClient client)
+        public static async Task<ClientEndpoint> Create(IGrainFactory factory)
         {
-            var endpoint = new ClientEndpoint(client);
+            var endpoint = new ClientEndpoint(factory);
 
-            var proxy = await client.CreateObjectReference<IClientEndpoint>(endpoint);
+            var proxy = await factory.CreateObjectReference<IClientEndpoint>(endpoint);
 
             return endpoint.Initialize(proxy);
         }
 
-        readonly IClusterClient client;
+        readonly IGrainFactory factory;
         IClientEndpoint proxy;
         IObserver<object> observer;
 
-        ClientEndpoint(IClusterClient client)
+        ClientEndpoint(IGrainFactory factory)
         {
-            this.client = client;
+            this.factory = factory;
         }
 
         ClientEndpoint Initialize(IClientEndpoint proxy)
@@ -43,7 +46,7 @@ namespace Orleankka.Core
 
         public void Dispose()
         {
-            client.DeleteObjectReference<IClientEndpoint>(proxy);
+            factory.DeleteObjectReference<IClientEndpoint>(proxy);
         }
 
         public IDisposable Subscribe(IObserver<object> observer)
@@ -76,6 +79,17 @@ namespace Orleankka.Core
             {
                 owner.observer = null;
             }
+        }
+
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
+        internal static string Path(IClientEndpoint proxy) => 
+            ((GrainReference)proxy).ToKeyString();
+
+        internal static IClientEndpoint Proxy(string path, IGrainFactory factory)
+        {
+            var reference = GrainReferenceUtility.FromKeyString(path);
+            factory.BindGrainReference(reference);
+            return reference.AsReference<IClientEndpoint>();
         }
     }
 }

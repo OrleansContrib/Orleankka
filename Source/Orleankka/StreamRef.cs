@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.Providers;
 using Orleans.Serialization;
 using Orleans.Streams;
 
@@ -20,7 +21,10 @@ namespace Orleankka
     {
         public string Serialize() => Path.Serialize();
 
-        public static StreamRef Deserialize(StreamPath path, IStreamProviderManager manager)
+        public static StreamRef Deserialize(string path, IStreamProviderManager manager) => 
+            Deserialize(StreamPath.Deserialize(path), manager);
+
+        internal static StreamRef Deserialize(StreamPath path, IProviderManager manager)
         {
             var provider = (IStreamProvider)manager.GetProvider(path.Provider);
             return new StreamRef(path, provider);

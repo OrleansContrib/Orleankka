@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Runtime.Configuration;
+using Orleans.Streams;
 
 namespace Orleankka.Client
 {
@@ -80,8 +81,9 @@ namespace Orleankka.Client
                 try
                 {
                     GrainClient.Initialize(configuration);
-                    StreamProvider = GrainClient.Instance.GetStreamProvider;
-                    GrainFactory = GrainClient.Instance;
+
+                    StreamProviderManager = (IStreamProviderManager) GrainClient.Instance.ServiceProvider.GetService(typeof(IStreamProviderManager));
+                    GrainFactory = (IGrainFactory) GrainClient.Instance.ServiceProvider.GetService(typeof(IGrainFactory));
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +100,7 @@ namespace Orleankka.Client
                 }
             }
 
-            ActorInterface.Bind(GrainClient.Instance);
+            ActorInterface.Bind(GrainFactory);
         }
     }
 }

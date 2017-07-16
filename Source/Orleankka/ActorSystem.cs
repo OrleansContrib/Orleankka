@@ -30,7 +30,7 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
-        protected internal Func<string, IStreamProvider> StreamProvider;
+        protected internal IStreamProviderManager StreamProviderManager;
         protected internal IGrainFactory GrainFactory;
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            return new StreamRef(path, StreamProvider(path.Provider));
+            return StreamRef.Deserialize(path, StreamProviderManager);
         }
 
         /// <inheritdoc />
