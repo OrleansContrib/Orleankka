@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 using Orleans;
@@ -50,9 +51,17 @@ namespace Orleankka.Core
         {            
             foreach (var @interface in interfaces.Values)
             {
-                var method = factory.GetType().GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
+                var method = factory.GetType().GetMethod("GetGrain", new[] {typeof(string), typeof(string)});
                 var invoker = method.MakeGenericMethod(@interface.grain);
-                @interface.factory = (f, x) => invoker.Invoke(f, new object[] { x, null });
+
+                var @this = Expression.Parameter(typeof(object));
+                var id = Expression.Parameter(typeof(string));
+                var ns = Expression.Constant(null, typeof(string));
+
+                var call = Expression.Call(Expression.Convert(@this, factory.GetType()), invoker, id, ns);
+                var func = Expression.Lambda<Func<object, string, object>>(call, @this, id).Compile();
+
+                @interface.factory = func;
             }
         }
 
