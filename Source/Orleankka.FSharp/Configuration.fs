@@ -1,6 +1,7 @@
 ﻿namespace Orleankka.FSharp.Configuration
 open System
 open System.Reflection
+open System.Threading.Tasks
 open Orleans.Runtime.Configuration
 open Orleankka
 open Orleankka.FSharp
@@ -33,18 +34,27 @@ module ActorSystem =
       ActorSystem.Configure().Client().From(config).Assemblies(assemblies : Assembly[]).ActorTypes(actors: string[]).Done()
  
    let inline start (system:^TSys) = 
-      (^TSys: (member Start: wait:bool -> unit) (system, false))
+      (^TSys: (member Start: wait:bool -> Task) (system, false))
+      |> Task.WaitAny
+      |> ignore
       system
 
    let inline stop (system:^TSys) = 
-      (^TSys: (member Stop: force:bool -> unit) (system, false))      
-
+      (^TSys: (member Stop: force:bool -> Task) (system, false))
+      |> Task.WaitAny
+      |> ignore
+      
    let inline forceStop (system:^TSys) = 
-      (^TSys: (member Stop: force:bool -> unit) (system, true))      
+      (^TSys: (member Stop: force:bool -> Task) (system, true))      
+      |> Task.WaitAny
+      |> ignore
 
+   /// THIS NEED TO FIXED PROPERLY. Await should be done by consumer 
    let inline connect (system:^TSys) =
-      (^TSys: (member Connect: retries:int -> retryTimeout:Nullable<TimeSpan> -> unit) (system, 0, new Nullable<TimeSpan>()))
-      system   
+      (^TSys: (member Connect: retries:int -> retryTimeout:Nullable<TimeSpan> -> Task) (system, 0, new Nullable<TimeSpan>()))
+      |> Task.WaitAny
+      |> ignore
+      system
       
    let inline actorOf<'TActor when 'TActor :> IActor> (system:IActorSystem, actorId) =
       let actorPath = typeof<'TActor>.ToActorPath(actorId) 

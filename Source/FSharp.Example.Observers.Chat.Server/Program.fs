@@ -1,8 +1,5 @@
 ﻿open System.Reflection
 
-open Orleankka
-open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Runtime
 
 open Messages
@@ -19,8 +16,9 @@ let main argv =
    let system = [|assembly;typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createCluster config
                 |> ActorSystem.complete
-                |> ActorSystem.start   
-   
+                  
+   system.Start();
+
    printfn "Finished booting cluster...\n"
    System.Console.ReadLine() |> ignore
       

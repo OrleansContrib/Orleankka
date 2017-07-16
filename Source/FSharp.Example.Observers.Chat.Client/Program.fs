@@ -18,11 +18,11 @@ let main argv =
 
    let config = ClientConfig.loadFromResource assembly "Client.xml"
       
-   let system = [|typeof<ServerMessage>.Assembly|]
+   use system = [|typeof<ServerMessage>.Assembly|]
                 |> ActorSystem.createConfiguredClient config [|"ChatServer"|]
                 |> ActorSystem.connect   
 
-   client <- ClientObservable.create().Result
+   client <- system.CreateObservable().Result
 
    let path = ActorPath.From("ChatServer", "server")
    let server = ActorSystem.actorOfPath system path

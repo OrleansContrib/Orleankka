@@ -1,6 +1,5 @@
 ﻿open System
 open System.Reflection
-open Orleans.Runtime.Configuration
 
 open Orleankka
 open Orleankka.FSharp
@@ -54,9 +53,9 @@ let main argv =
    let config = loadFromResource assembly "Client.xml"   
                 |> registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
 
-   let system = [|typeof<ChatRoomMessage>.Assembly|]   
+   use system = [|typeof<ChatRoomMessage>.Assembly|]   
                 |> ActorSystem.createConfiguredClient config [|"ChatUser"|]
-                |> ActorSystem.connect 
+                |> ActorSystem.connect
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();

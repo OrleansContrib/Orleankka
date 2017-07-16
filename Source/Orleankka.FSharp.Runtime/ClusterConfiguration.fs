@@ -3,7 +3,6 @@
 open System.Reflection
 open Orleans.Runtime.Configuration
 open Orleankka
-open Orleankka.FSharp
 open Orleankka.Playground
 open Orleankka.Cluster
 

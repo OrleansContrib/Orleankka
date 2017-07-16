@@ -22,7 +22,7 @@ let main argv =
   printfn "Running demo. Booting cluster might take some time ...\n"
 
   // configure actor system
-  let system = [|Assembly.GetExecutingAssembly()|]
+  use system = [|Assembly.GetExecutingAssembly()|]
                |> ActorSystem.createPlayground
                |> ActorSystem.start  
 
