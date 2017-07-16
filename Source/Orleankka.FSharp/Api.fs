@@ -1,7 +1,6 @@
 ﻿namespace Orleankka.FSharp
-open System.Threading.Tasks   
-open Orleankka
 
+open Orleankka
 
 type ActorRef<'TMsg>(ref:ActorRef) =    
    member this.Path = ref.Path
@@ -37,10 +36,6 @@ type StreamRef<'TMsg>(ref:StreamRef) =
    static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Push(item)
 
    
-module ClientObservable =
-   
-   let inline create () = ClientObservable.Create()
-
 ////todo: should be replaced with StreamSubscription<'TMsg>
 [<AutoOpen>]
 module StreamSubscription =  
