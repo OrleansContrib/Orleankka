@@ -27,7 +27,7 @@ namespace Demo
 
             system.Start();
 
-            client = new Client(system, ClientObservable.Create().Result);
+            client = new Client(system, system.CreateObservable().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");

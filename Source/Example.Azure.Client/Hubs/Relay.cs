@@ -18,14 +18,14 @@ namespace Example.Azure.Hubs
 
     public class HubClient
     {
-        static ClientObservable notifications;
+        static IClientObservable notifications;
         static IHubConnectionContext<dynamic> clients;
 
         public static void Initialize()
         {
             clients = GlobalHost.ConnectionManager.GetHubContext<Relay>().Clients;
             
-            notifications = Task.Run(ClientObservable.Create).Result;
+            notifications = Task.Run(MvcApplication.System.CreateObservable).Result;
             notifications.Subscribe(On);
 
             Task.Run(Subscribe)
@@ -51,7 +51,7 @@ namespace Example.Azure.Hubs
                 var path = ActorPath.From("Hub", id);
                 var hub = MvcApplication.System.ActorOf(path);
 
-                await hub.Tell(new SubscribeHub { Observer = notifications});
+                await hub.Tell(new SubscribeHub { Observer = notifications.Ref});
             }
         }
 

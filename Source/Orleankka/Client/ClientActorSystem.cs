@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Runtime.Configuration;
@@ -10,9 +11,21 @@ namespace Orleankka.Client
     using Core;
 
     /// <summary>
+    /// Client-side actor system interface
+    /// </summary>
+    public interface IClientActorSystem : IActorSystem
+    {
+        /// <summary>
+        /// Creates new <see cref="IClientObservable"/>
+        /// </summary>
+        /// <returns>New instance of <see cref="IClientObservable"/></returns>
+        Task<IClientObservable> CreateObservable();
+    }
+
+    /// <summary>
     /// Client-side actor system
     /// </summary>
-    public sealed class ClientActorSystem : ActorSystem
+    public sealed class ClientActorSystem : ActorSystem, IClientActorSystem
     {
         static ClientActorSystem current;
 
@@ -33,6 +46,13 @@ namespace Orleankka.Client
         {
             current = this;
             this.configuration = configuration;
+        }
+
+        /// <inheritdoc />
+        public async Task<IClientObservable> CreateObservable()
+        {
+            var proxy = await ClientEndpoint.Create(GrainClient.Instance);
+            return new ClientObservable(proxy);
         }
 
         /// <summary>

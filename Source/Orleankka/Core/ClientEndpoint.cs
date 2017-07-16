@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
@@ -10,18 +9,23 @@ namespace Orleankka.Core
 
     class ClientEndpoint : IClientEndpoint, IDisposable
     {
-        public static async Task<ClientEndpoint> Create()
+        public static async Task<ClientEndpoint> Create(IClusterClient client)
         {
-            var endpoint = new ClientEndpoint();
+            var endpoint = new ClientEndpoint(client);
 
-            var proxy = await GrainClient.GrainFactory
-                .CreateObjectReference<IClientEndpoint>(endpoint);
+            var proxy = await client.CreateObjectReference<IClientEndpoint>(endpoint);
 
             return endpoint.Initialize(proxy);
         }
 
+        readonly IClusterClient client;
         IClientEndpoint proxy;
         IObserver<object> observer;
+
+        ClientEndpoint(IClusterClient client)
+        {
+            this.client = client;
+        }
 
         ClientEndpoint Initialize(IClientEndpoint proxy)
         {
@@ -39,7 +43,7 @@ namespace Orleankka.Core
 
         public void Dispose()
         {
-            GrainClient.GrainFactory.DeleteObjectReference<IClientEndpoint>(proxy);
+            client.DeleteObjectReference<IClientEndpoint>(proxy);
         }
 
         public IDisposable Subscribe(IObserver<object> observer)

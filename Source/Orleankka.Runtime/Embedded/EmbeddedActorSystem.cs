@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
+
 namespace Orleankka.Embedded
 {
     using Client;
     using Cluster;
 
-    public class EmbeddedActorSystem : IActorSystem
+    public class EmbeddedActorSystem : IClientActorSystem
     {
         internal EmbeddedActorSystem(ClientActorSystem client, ClusterActorSystem cluster)
         {
@@ -30,5 +32,6 @@ namespace Orleankka.Embedded
 
         public ActorRef ActorOf(ActorPath path) => Client.ActorOf(path);
         public StreamRef StreamOf(StreamPath path) => Client.StreamOf(path);
+        public Task<IClientObservable> CreateObservable() => Client.CreateObservable();
     }
 }

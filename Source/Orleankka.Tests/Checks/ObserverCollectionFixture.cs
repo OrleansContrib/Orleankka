@@ -77,15 +77,15 @@ namespace Orleankka.Checks
         {
             public static async Task<TestObserver> Create()
             {
-                var observable = await ClientObservable.Create();
+                var observable = await TestActorSystem.Instance.CreateObservable();
                 return new TestObserver(observable);
             }
 
             public readonly List<object> Notifications = new List<object>();
             public readonly EventWaitHandle Received = new AutoResetEvent(false);
-            readonly ClientObservable observable;
+            readonly IClientObservable observable;
 
-            TestObserver(ClientObservable observable)
+            TestObserver(IClientObservable observable)
             {
                 this.observable = observable;
                 observable.Subscribe(message =>
@@ -95,10 +95,7 @@ namespace Orleankka.Checks
                 });
             }
 
-            public static implicit operator ObserverRef(TestObserver arg)
-            {
-                return arg.observable;
-            }
+            public static implicit operator ObserverRef(TestObserver arg) => arg.observable.Ref;
         }
     }
 }
