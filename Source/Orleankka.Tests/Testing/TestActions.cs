@@ -5,8 +5,9 @@ using NUnit.Framework;
 
 using Orleans.Storage;
 using Orleans.Providers.Streams.AzureQueue;
-using Orleankka.Features.Intercepting_requests;
+
 using Orleankka.Testing;
+using Orleankka.Features.Intercepting_requests;
 
 [assembly: TeardownSilo]
 
@@ -43,7 +44,7 @@ namespace Orleankka.Testing
                 .Interceptor<TestInterceptor>();
 
             TestActorSystem.Instance = system.Done();
-            TestActorSystem.Instance.Start();
+            TestActorSystem.Instance.Start().Wait();
         }
     }
 
@@ -57,7 +58,8 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance == null)
                 return;
 
-            TestActorSystem.Instance.Stop(true);
+            TestActorSystem.Instance.Stop(true).Wait();
+            TestActorSystem.Instance.Dispose();
             TestActorSystem.Instance = null;
         }
     }

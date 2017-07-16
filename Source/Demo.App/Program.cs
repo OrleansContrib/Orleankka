@@ -25,13 +25,15 @@ namespace Demo
                 .Assemblies(typeof(Api).Assembly)
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
 
             client = new Client(system, system.CreateObservable().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
+
+            system.Dispose();
         }
     }
 }

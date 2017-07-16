@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
 using Orleans.Runtime;
 
@@ -70,7 +72,7 @@ namespace Orleankka.Core
         Task Activate()
         {
             var path = ActorPath.From(Actor.Name, IdentityOf(this));
-            var runtime = new ActorRuntime(ClusterActorSystem.Current, this);
+            var runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
             instance = Actor.Activate(this, path, runtime);
             return Actor.Invoker.OnActivate(instance);
         }

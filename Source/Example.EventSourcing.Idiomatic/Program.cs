@@ -20,12 +20,13 @@ namespace Example
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
+            system.Dispose();
             Environment.Exit(0);
         }
 

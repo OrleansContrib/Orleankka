@@ -137,7 +137,6 @@ namespace Orleankka.Cluster
             RegisterTypes();
             RegisterAutoruns();
             RegisterStreamProviders();
-            RegisterStorageProviders();
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
@@ -186,11 +185,6 @@ namespace Orleankka.Cluster
             }
 
             Bootstrapper<AutorunBootstrapper>(autoruns);
-        }
-
-        void RegisterStorageProviders()
-        {
-            Configuration.Globals.RegisterStorageProvider<GrainFactoryProvider>("#ORLKKA_GFP");
         }
 
         void RegisterStreamProviders()

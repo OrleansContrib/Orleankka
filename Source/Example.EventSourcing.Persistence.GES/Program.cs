@@ -21,7 +21,7 @@ namespace Example
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
 
             try
             {
@@ -36,6 +36,7 @@ namespace Example
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
+            system.Dispose();
             Environment.Exit(0);
         }
 

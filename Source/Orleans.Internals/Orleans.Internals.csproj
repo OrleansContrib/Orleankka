@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="GrainReferenceUtility.cs" />
     <Compile Include="PushExtension.cs" />
+    <Compile Include="SiloUtility.cs" />
     <Compile Include="StreamIdentity.cs" />
     <Compile Include="StreamPubSubMatch.cs" />
     <Compile Include="StreamPubSubWrapper.cs" />

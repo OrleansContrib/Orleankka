@@ -5,14 +5,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
 using Orleans.Providers;
 using Orleans.Streams;
 
 namespace Orleankka.Core.Streams
 {
-    using Client;
-    using Cluster;
     using Utility;
     
     using StreamIdentity = Orleans.Internals.StreamIdentity;
@@ -63,22 +63,20 @@ namespace Orleankka.Core.Streams
         IStreamProviderImpl provider;
         IActorSystem system;
 
-        public Task Init(string name, IProviderRuntime pr, IProviderConfiguration pc)
+        public Task Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
         {
             Name = name;
 
-            system = ClusterActorSystem.Initialized 
-                ? (IActorSystem) ClusterActorSystem.Current 
-                : ClientActorSystem.Current;
+            system = runtime.ServiceProvider.GetRequiredService<IActorSystem>();
 
-            specifications = configuration.Find(name)
+            specifications = StreamSubscriptionMatcher.configuration.Find(name)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
-            var type = Type.GetType(pc.Properties[TypeKey]);
+            var type = Type.GetType(configuration.Properties[TypeKey]);
             Debug.Assert(type != null);
 
             provider = (IStreamProviderImpl)Activator.CreateInstance(type);
-            return provider.Init(name, pr, pc);
+            return provider.Init(name, runtime, configuration);
         }
 
         public string Name { get; private set; }

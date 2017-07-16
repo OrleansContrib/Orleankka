@@ -1,61 +1,55 @@
 ﻿using System;
 using System.Net;
-using System.Reflection;
 
-using Orleans;
+using Microsoft.Extensions.DependencyInjection;
+
+using Orleans.Internals;
 using Orleans.Runtime;
 using Orleans.Runtime.Host;
 using Orleans.Runtime.Configuration;
-using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
-    public class ClusterActorSystem : ActorSystem
+    public class ClusterActorSystem : ActorSystem, IDisposable
     {
+        [ThreadStatic]
         static ClusterActorSystem current;
-
-        internal static ClusterActorSystem Current 
-        {
-            get
-            {
-                if (!Initialized)
-                    throw new InvalidOperationException("Cluster actor system hasn't been initialized");
-
-                return current;
-            }
-        }
-
-        internal static bool Initialized => current != null;
 
         internal ClusterActorSystem(ClusterConfiguration configuration)
         {
             current = this;
+            configuration.UseStartupType<Startup>();
+
             Host = new SiloHost(Dns.GetHostName(), configuration);
+            Host.LoadOrleansConfig();
+            Host.InitializeOrleansSilo();
+
+            Silo = Host.GetSilo();
+            Initialize(Silo.GetServiceProvider());
         }
 
-        public bool Started { get; private set; }
-        public SiloHost Host { get; private set; }
-        public Silo Silo { get; private set; }
+        class Startup
+        {
+            public IServiceProvider ConfigureServices(IServiceCollection services)
+            {
+                services.AddSingleton<IActorSystem>(current);
+                return services.BuildServiceProvider();
+            }
+        }
+
+        public bool Started => Host.IsStarted;
+
+        public SiloHost Host { get; }
+        public Silo Silo { get; }
 
         public void Start(bool wait = false)
         {
             if (Started)
                 throw new InvalidOperationException("Cluster already started");
 
-            Host.LoadOrleansConfig();
-            Host.InitializeOrleansSilo();
-
-            var siloField = typeof(SiloHost).GetField("orleans", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (siloField == null)
-                throw new InvalidOperationException("Hey, who moved my cheese? SiloHost don't have private 'orleans' field anymore!");
-
-            Silo = (Silo)siloField.GetValue(Host);
-
             if (!Host.StartOrleansSilo(catchExceptions: false))
                 throw new Exception("Silo failed to start. Check the logs");
 
-            Started = true;
-            
             if (wait)
                 Host.WaitForOrleansSiloShutdown();
         }
@@ -66,13 +60,18 @@ namespace Orleankka.Cluster
                 throw new InvalidOperationException("Cluster already stopped");
 
             if (force)
+            {
                 Host.StopOrleansSilo();
-            else
-                Host.ShutdownOrleansSilo();
+                return;
+            }
 
-            Host.UnInitializeOrleansSilo();
+            Host.ShutdownOrleansSilo();
+        }
 
-            Started = false;
+        public void Dispose()
+        {
+            Host?.UnInitializeOrleansSilo();
+            Host?.Dispose();
         }
     }
 }

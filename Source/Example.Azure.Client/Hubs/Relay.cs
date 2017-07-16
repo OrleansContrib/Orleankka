@@ -36,7 +36,7 @@ namespace Example.Azure.Hubs
 
         static async Task Subscribe()
         {
-            var orleans = GrainClient.GrainFactory.GetGrain<IManagementGrain>(0);
+            var orleans = MvcApplication.System.Client.GetGrain<IManagementGrain>(0);
             var hosts = await orleans.GetHosts(true);
 
             foreach (var silo in hosts)

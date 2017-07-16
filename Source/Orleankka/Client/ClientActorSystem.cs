@@ -3,9 +3,10 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
 using Orleans.Runtime.Configuration;
-using Orleans.Streams;
 
 namespace Orleankka.Client
 {
@@ -26,40 +27,38 @@ namespace Orleankka.Client
     /// <summary>
     /// Client-side actor system
     /// </summary>
-    public sealed class ClientActorSystem : ActorSystem, IClientActorSystem
+    public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
-        static ClientActorSystem current;
-
-        internal static ClientActorSystem Current
-        {
-            get
-            {
-                if (current == null)
-                    throw new InvalidOperationException("Client actor system hasn't been initialized");
-
-                return current;
-            }
-        }
-
-        readonly ClientConfiguration configuration;
-
         internal ClientActorSystem(ClientConfiguration configuration)
         {
-            current = this;
-            this.configuration = configuration;
+            Client = new ClientBuilder()
+                .UseConfiguration(configuration)
+                .ConfigureServices(services =>
+                {
+                    services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
+                })
+                .Build();
+
+            Initialize(Client.ServiceProvider);
         }
 
         /// <inheritdoc />
         public async Task<IClientObservable> CreateObservable()
         {
-            var proxy = await ClientEndpoint.Create(GrainClient.Instance);
+            var proxy = await ClientEndpoint.Create(GrainFactory);
             return new ClientObservable(proxy);
         }
 
         /// <summary>
+        /// Returns underlying <see cref="IClusterClient"/> instance
+        /// </summary>
+        public IClusterClient Client { get; }
+
+        /// <summary>
         /// Checks whether this client has been successfully connected (ie initialized)
         /// </summary>
-        public bool Connected => GrainClient.IsInitialized;
+        public bool Connected => Client.IsInitialized;
 
         /// <summary>
         /// Connects this instance of client actor system to cluster
@@ -67,7 +66,7 @@ namespace Orleankka.Client
         /// <param name="retries">Number of retries in case on failure</param>
         /// <param name="retryTimeout">Timeout between retries. Default is 5 seconds</param>
         /// <exception cref="ArgumentOutOfRangeException">if <paramref name="retries"/> argument value is less than 0</exception>
-        public void Connect(int retries = 0, TimeSpan? retryTimeout = null)
+        public async Task Connect(int retries = 0, TimeSpan? retryTimeout = null)
         {
             if (retryTimeout == null)
                 retryTimeout = TimeSpan.FromSeconds(5);
@@ -80,10 +79,7 @@ namespace Orleankka.Client
             {
                 try
                 {
-                    GrainClient.Initialize(configuration);
-
-                    StreamProviderManager = (IStreamProviderManager) GrainClient.Instance.ServiceProvider.GetService(typeof(IStreamProviderManager));
-                    GrainFactory = (IGrainFactory) GrainClient.Instance.ServiceProvider.GetService(typeof(IGrainFactory));
+                    await Client.Connect();
                 }
                 catch (Exception ex)
                 {
@@ -99,8 +95,27 @@ namespace Orleankka.Client
                     }
                 }
             }
-
-            ActorInterface.Bind(GrainFactory);
         }
+
+        /// <summary>
+        /// Disconnects this instance of client actor system from cluster
+        /// </summary>
+        /// <param name="force">Set to <c>true</c> to disconnect ungracefully</param>
+        public async Task Disconnect(bool force = false)
+        {
+            if (!Connected)
+                return;
+
+            if (force)
+            {
+                Client.Abort();
+                return;
+            }
+
+            await Client.Close();
+        }
+
+        /// <inheritdoc />
+        public void Dispose() => Client?.Dispose();
     }
 }

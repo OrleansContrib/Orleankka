@@ -1,10 +1,14 @@
 ﻿using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
 using Orleans.Streams;
 
 namespace Orleankka
 {
+    using Core;
+
     /// <summary>
     /// Serves as factory for acquiring actor references.
     /// </summary>
@@ -30,8 +34,16 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
-        protected internal IStreamProviderManager StreamProviderManager;
-        protected internal IGrainFactory GrainFactory;
+        protected IStreamProviderManager StreamProviderManager { get; private set; }
+        protected IGrainFactory GrainFactory { get; private set; }
+
+        protected void Initialize(IServiceProvider provider)
+        {
+            StreamProviderManager = provider.GetRequiredService<IStreamProviderManager>();
+            GrainFactory = provider.GetRequiredService<IGrainFactory>();
+
+            ActorInterface.Bind(GrainFactory);
+        }
 
         /// <summary>
         /// Entry-point method for fluent configuration

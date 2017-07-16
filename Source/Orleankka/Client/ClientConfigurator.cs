@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Orleans;
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
