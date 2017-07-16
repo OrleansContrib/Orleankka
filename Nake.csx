@@ -63,14 +63,14 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 {
     Build("Debug", outDir);
 
-    var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
+    var tests = new FileSet{@"{outDir}\*.Tests.dll|-:Orleankka.FSharp.Tests.dll"}.ToString(" ");
     var results = @"{outDir}\nunit-test-results.xml";
 
     try
     {
         Cmd(@"Packages\NUnit.Runners\tools\nunit-console.exe " + 
-            @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
-            (AppVeyor||slow ? "/include:Always,Slow" : ""));
+            @"/process:Multiple /xml:{results} /framework:net-4.0 /noshadow /labels /nologo {tests} " +
+            (AppVeyor||slow ? "/include:Always,Slow" : "/exclude:Slow"));
     }
     finally
     {    	
@@ -80,9 +80,9 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 }
 
 /// Builds official NuGet packages 
-[Step] void Package()
+[Step] void Package(bool fullCheck = false)
 {
-    Test(@"{PackagePath}\Debug");
+    Test(@"{PackagePath}\Debug", fullCheck);
     Build("Package", ReleasePath);
 
     Pack(CoreProject);    
