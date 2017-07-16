@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using Orleans;
 using Orleans.Runtime;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Core
 {
@@ -33,6 +33,8 @@ namespace Orleankka.Core
         }
 
         public Task ReceiveVoid(object message) => Receive(message);
+
+        public Task Notify(object message) => Receive(message);
 
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {

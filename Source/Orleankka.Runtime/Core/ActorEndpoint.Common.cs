@@ -18,6 +18,8 @@
 
         public Task ReceiveVoid(object message) => Receive(message);
 
+        public Task Notify(object message) => Receive(message);
+
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
             KeepAlive();
@@ -54,7 +56,7 @@
         Task Activate()
         {
             var path = ActorPath.From(Actor.Name, IdentityOf(this));
-            var runtime = new ActorRuntime(ClusterActorSystem.Current, this);
+            var runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
             instance = Actor.Activate(this, path, runtime);
             return Actor.Invoker.OnActivate(instance);
         }

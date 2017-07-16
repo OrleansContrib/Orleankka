@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Runtime;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka.Core
 {
-    using Cluster;
-
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>

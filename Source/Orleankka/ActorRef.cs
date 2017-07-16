@@ -60,7 +60,9 @@ namespace Orleankka
 
         public override void Notify(object message)
         {
-            Tell(message).Ignore();
+            Requires.NotNull(message, nameof(message));
+
+            endpoint.Notify(message);
         }
 
         internal Task Autorun()
