@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 
@@ -74,7 +73,7 @@ namespace Orleankka.Cluster
             }
         }
 
-        public Task Close() => TaskDone.Done;
+        public Task Close() => Task.CompletedTask;
     }
 
     class BootstrapProviderConfiguration : IEquatable<BootstrapProviderConfiguration>

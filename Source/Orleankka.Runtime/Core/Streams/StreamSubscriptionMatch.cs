@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Orleans;
 
 namespace Orleankka.Core.Streams
 {
@@ -24,6 +21,6 @@ namespace Orleankka.Core.Streams
             Filter = filter;
         }
 
-        public Task Receive(object item) => Filter(item) ? Receiver(item) : TaskDone.Done;
+        public Task Receive(object item) => Filter(item) ? Receiver(item) : Task.CompletedTask;
     }
 }

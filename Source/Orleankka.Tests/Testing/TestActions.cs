@@ -30,7 +30,7 @@ namespace Orleankka.Testing
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .StreamProvider<AzureQueueStreamProvider>("aqp", new Dictionary<string, string>
+                .StreamProvider<AzureQueueStreamProviderV2>("aqp", new Dictionary<string, string>
                 {
                     {"DataConnectionString", "UseDevelopmentStorage=true"},
                     {"DeploymentId", "test"},

@@ -6,8 +6,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.Behaviors
 {
     using Services;
@@ -345,7 +343,7 @@ namespace Orleankka.Behaviors
             OnBecome(() =>
             {
                 action();
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -361,7 +359,7 @@ namespace Orleankka.Behaviors
             OnUnbecome(() =>
             {
                 action();
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -377,7 +375,7 @@ namespace Orleankka.Behaviors
             OnReceive<TMessage>(x =>
             {
                 action(x);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -415,7 +413,7 @@ namespace Orleankka.Behaviors
             OnReceive(x =>
             {
                 action(x);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -441,7 +439,7 @@ namespace Orleankka.Behaviors
             OnActivate(() =>
             {
                 action();
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -457,7 +455,7 @@ namespace Orleankka.Behaviors
             OnDeactivate(() =>
             {
                 action();
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -474,7 +472,7 @@ namespace Orleankka.Behaviors
             OnReminder(id, () =>
             {
                 action();
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -491,7 +489,7 @@ namespace Orleankka.Behaviors
             OnReminder(x =>
             {
                 action(x);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 

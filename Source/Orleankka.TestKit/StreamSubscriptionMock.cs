@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.TestKit
 {
     public class StreamSubscriptionMock : StreamSubscription
@@ -50,7 +48,7 @@ namespace Orleankka.TestKit
         public override Task Unsubscribe()
         {
             Unsubscribed = false; 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
     }
 }

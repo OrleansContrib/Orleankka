@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Orleans;
 using Orleans.Providers;
 using Orleans.Streams;
 
@@ -93,7 +92,7 @@ namespace Orleankka.Core.Streams
             {
                 var recipients = Match(system, id, specifications);
 
-                Func<T, Task> fan = item => TaskDone.Done;
+                Func<T, Task> fan = item => Task.CompletedTask;
 
                 if (recipients.Length > 0)
                     fan = item => Task.WhenAll(recipients.Select(x => x.Receive(item)));

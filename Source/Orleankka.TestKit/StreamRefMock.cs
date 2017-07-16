@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Serialization;
 
 namespace Orleankka.TestKit
@@ -50,7 +49,7 @@ namespace Orleankka.TestKit
             if (expected)
                 expectation.Apply();
 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         public override Task<IList<StreamSubscription>> Subscriptions() => 

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.Behaviors
 {
     using Utility;
@@ -18,8 +16,8 @@ namespace Orleankka.Behaviors
         {
             Null = new CustomBehavior();
 
-            Null.OnActivate(() => TaskDone.Done);
-            Null.OnDeactivate(() => TaskDone.Done);
+            Null.OnActivate(() => Task.CompletedTask);
+            Null.OnDeactivate(() => Task.CompletedTask);
             Null.OnReceive((actor, message) => actor.Dispatch(message));
             Null.OnReminder((actor, id) => 
             {

@@ -6,7 +6,7 @@
         {
             KeepAlive();
 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         public Task<object> Receive(object message)

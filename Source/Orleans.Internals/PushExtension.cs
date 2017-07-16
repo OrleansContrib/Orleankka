@@ -42,7 +42,7 @@ namespace Orleans.Internals
 
         public Task<StreamHandshakeToken> GetSequenceToken(GuidId subscriptionId) => Task.FromResult((StreamHandshakeToken)null);
 
-        public Task CompleteStream(GuidId subscriptionId) => TaskDone.Done;
-        public Task ErrorInStream(GuidId subscriptionId, Exception exc) => TaskDone.Done;
+        public Task CompleteStream(GuidId subscriptionId) => Task.CompletedTask;
+        public Task ErrorInStream(GuidId subscriptionId, Exception exc) => Task.CompletedTask;
     }
 }

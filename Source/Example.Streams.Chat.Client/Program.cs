@@ -33,7 +33,7 @@ namespace Example
             const string room = "Orleankka";
 
             Console.WriteLine("Connecting to server ...");
-            system.Connect(retries: 2);
+            await system.Connect(retries: 2);
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();

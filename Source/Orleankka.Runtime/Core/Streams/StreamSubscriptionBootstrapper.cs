@@ -27,17 +27,17 @@ namespace Orleankka.Core.Streams
                     .Select(x => new StreamPubSubMatch(x.Receive))
                     .ToArray());
 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         #region Garbage
 
         public Logger Log  { get; set; }
         public string Name { get; set; }
-        public Task Close() => TaskDone.Done;
-        public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)  => TaskDone.Done;
-        public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => TaskDone.Done;
-        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => TaskDone.Done;
+        public Task Close() => Task.CompletedTask;
+        public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)  => Task.CompletedTask;
+        public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => Task.CompletedTask;
+        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => Task.CompletedTask;
 
         #endregion
     }

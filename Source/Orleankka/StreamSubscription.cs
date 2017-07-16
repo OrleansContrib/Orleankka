@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -42,7 +41,7 @@ namespace Orleankka
             return Resume(item =>
             {
                 callback(item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
 
@@ -53,7 +52,7 @@ namespace Orleankka
             return Resume(item =>
             {
                 callback((T)item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             });
         }
     }

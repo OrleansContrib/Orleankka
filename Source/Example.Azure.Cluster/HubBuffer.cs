@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleankka;
 
 namespace Example.Azure
@@ -33,7 +32,7 @@ namespace Example.Azure
         Task Flush()
         {
             if (buffer.Count == 0)
-                return TaskDone.Done;
+                return Task.CompletedTask;
 
             var events = buffer.ToArray();
             buffer.Clear();

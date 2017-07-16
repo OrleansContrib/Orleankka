@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleans;
 
 namespace Orleankka.Checks
 {
@@ -146,7 +145,7 @@ namespace Orleankka.Checks
             public override Task Tell(object message)
             {
                 MessagePassedToTell = message;
-                return TaskDone.Done;;
+                return Task.CompletedTask;;
             }
         }
     }

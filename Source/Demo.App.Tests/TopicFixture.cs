@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.TestKit;
-
-using Orleans.Serialization;
 
 namespace Demo
 {
@@ -254,7 +251,7 @@ namespace Demo
 
             public Task WriteTotalAsync(string id, int total)
             {
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }
         }
     }

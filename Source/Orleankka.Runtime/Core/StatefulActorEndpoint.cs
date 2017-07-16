@@ -9,8 +9,6 @@ using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
-    using Cluster;
-
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
@@ -24,7 +22,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         public Task<object> Receive(object message)

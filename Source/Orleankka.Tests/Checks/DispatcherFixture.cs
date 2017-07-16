@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleans;
 
 namespace Orleankka.Checks
 {
@@ -120,12 +119,12 @@ namespace Orleankka.Checks
         class TestActor
         {
             public void On(OnVoidMessage m){}
-            public Task On(OnAsyncVoidMessage m) => TaskDone.Done;
+            public Task On(OnAsyncVoidMessage m) => Task.CompletedTask;
             public string On(OnResultMessage m) => "42";
             public Task<string> On(OnAsyncResultMessage m) => Task.FromResult("42");
 
             public void Handle(HandleVoidMessage m){}
-            public Task Handle(HandleAsyncVoidMessage m) => TaskDone.Done;
+            public Task Handle(HandleAsyncVoidMessage m) => Task.CompletedTask;
             public string Handle(HandleResultMessage m) => "42";
             public Task<string> Handle(HandleAsyncResultMessage m) => Task.FromResult("42");
 

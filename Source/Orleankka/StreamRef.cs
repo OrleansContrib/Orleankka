@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 using Orleans.Providers;
@@ -118,7 +117,7 @@ namespace Orleankka
             return Subscribe(item =>
             {
                 callback(item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             },
             filter);
         }
@@ -141,7 +140,7 @@ namespace Orleankka
             return Subscribe(item =>
             {
                 callback((T)item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }, 
             filter);
         }
@@ -212,8 +211,8 @@ namespace Orleankka
             public Task OnNextAsync(object item, StreamSequenceToken token = null) 
                 => callback(item, token);
 
-            public Task OnCompletedAsync()           => TaskDone.Done;
-            public Task OnErrorAsync(Exception ex)   => TaskDone.Done;
+            public Task OnCompletedAsync()           => Task.CompletedTask;
+            public Task OnErrorAsync(Exception ex)   => Task.CompletedTask;
         }
     }
 }
