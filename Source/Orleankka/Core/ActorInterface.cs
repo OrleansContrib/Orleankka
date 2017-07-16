@@ -78,7 +78,7 @@ namespace Orleankka.Core
             return result;
         }
 
-        internal IActorEndpoint Proxy(ActorPath path, IGrainFactory instance) => (IActorEndpoint) factory(instance, path.Id);
+        internal IActorEndpoint Proxy(string id, IGrainFactory instance) => (IActorEndpoint) factory(instance, id);
 
         public bool Equals(ActorInterface other)
         {
