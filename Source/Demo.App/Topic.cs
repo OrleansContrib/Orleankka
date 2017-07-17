@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.Placement;
+
 namespace Demo
 {
     [Serializable]
@@ -20,7 +22,7 @@ namespace Demo
         }
     }
 
-    [Actor(Placement = Placement.DistributeEvenly)]
+    [ActivationCountBasedPlacement]
     public class Topic : Actor
     {
         readonly ITopicStorage storage;

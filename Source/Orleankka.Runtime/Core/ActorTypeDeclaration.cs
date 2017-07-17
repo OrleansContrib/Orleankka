@@ -9,6 +9,9 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+using Orleans.MultiCluster;
 using Orleans.Placement;
 using Orleans.Providers;
 
@@ -70,6 +73,7 @@ namespace Orleankka.Core
                  using Orleans.Concurrency;
                  using Orleans.CodeGeneration;
                  using Orleans.Providers;
+                 using Orleans.MultiCluster;
             ");
 
             foreach (var assembly in assemblies)
@@ -116,7 +120,7 @@ namespace Orleankka.Core
 
         void GenerateImplementation(StringBuilder src, List<Assembly> references)
         {
-            GenerateAttributes(src);
+            CopyAttributes(src);
 
             var reentrant = ReentrantAttribute.IsReentrant(actor);
             if (reentrant)
@@ -148,42 +152,69 @@ namespace Orleankka.Core
 
         string FullPath(string name) => string.Join(".", new List<string>(namespaces) { name });
 
-        void GenerateAttributes(StringBuilder src)
+        void CopyAttributes(StringBuilder src)
         {
-            var worker = actor.GetCustomAttribute<WorkerAttribute>() != null;
-            var singleton = actor.GetCustomAttribute<WorkerAttribute>() == null;
+            var worker = actor.GetCustomAttribute<StatelessWorkerAttribute>();
+            var placement = actor.GetCustomAttributes().Where(x => x is PlacementAttribute).Cast<PlacementAttribute>().ToArray();
 
-            if (singleton && worker)
+            if (worker != null && placement.Any())
                 throw new InvalidOperationException(
-                    $"A type cannot be configured to be both Actor and Worker: {actor}");
+                    $"StatelessWorker cannot be configured to have custom placement: {actor}");
 
-            if (worker)
+            if (worker != null)
             {
-                src.AppendLine("[StatelessWorker]");
+                src.AppendLine($"[{nameof(StatelessWorkerAttribute)}({worker.MaxLocalWorkers})]");
                 return;
             }
 
-            src.AppendLine($"[{GetActorPlacement()}]");
+            if (placement.Length > 1)
+                throw new InvalidOperationException(
+                    $"Only single placement could be configured for an actor: {actor}");
+
+            if (placement.Any())
+                src.AppendLine($"[{GetActorPlacement(placement[0])}]");
 
             var storageProvider = actor.GetCustomAttribute<StorageProviderAttribute>();
+            if (storageProvider != null && placement.Any())
+                throw new InvalidOperationException(
+                    $"Storage provider cannot be configured for {nameof(StorageProviderAttribute).Replace("Attribute", "")} actor: {actor}");
+
             if (storageProvider != null)
-                src.AppendLine($"[StorageProvider(ProviderName=\"{storageProvider.ProviderName}\")]");
+                src.AppendLine($"[{nameof(StorageProviderAttribute)}(ProviderName=\"{storageProvider.ProviderName}\")]");
+
+            var version = actor.GetCustomAttribute<VersionAttribute>();
+            if (version != null)
+                src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
+
+            var registration = actor.GetCustomAttributes().Where(x => x is RegistrationAttribute).Cast<RegistrationAttribute>().ToArray();
+            if (registration.Length > 1)
+                throw new InvalidOperationException(
+                    $"Multiple multi-cluster registrations are specified for actor: {actor}");
+
+            if (registration.Length > 0)
+                src.AppendLine($"[{GetMultiClusterRegistration(registration[0])}]");
         }
 
-        string GetActorPlacement()
+        static string GetMultiClusterRegistration(RegistrationAttribute registration)
         {
-            var placement = (actor.GetCustomAttribute<ActorAttribute>() ?? new ActorAttribute()).Placement;
+            switch (registration)
+            {
+                case GlobalSingleInstanceAttribute gs: return typeof(GlobalSingleInstanceAttribute).Name;
+                case OneInstancePerClusterAttribute one: return typeof(OneInstancePerClusterAttribute).Name;
+                default:
+                    throw new InvalidOperationException($"Unsupported {nameof(RegistrationAttribute)}: {registration.GetType()}");
+            }
+        }
 
+        static string GetActorPlacement(PlacementAttribute placement)
+        {
             switch (placement)
             {
-                case Placement.Random:
-                    return typeof(RandomPlacementAttribute).Name;
-                case Placement.PreferLocal:
-                    return typeof(PreferLocalPlacementAttribute).Name;
-                case Placement.DistributeEvenly:
-                    return typeof(ActivationCountBasedPlacementAttribute).Name;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case RandomPlacementAttribute rand: return typeof(RandomPlacementAttribute).Name;
+                case PreferLocalPlacementAttribute local: return typeof(PreferLocalPlacementAttribute).Name;
+                case ActivationCountBasedPlacementAttribute count: return typeof(ActivationCountBasedPlacementAttribute).Name;
+                case HashBasedPlacementAttribute hash: return typeof(HashBasedPlacementAttribute).Name;
+                default: return placement.GetType().FullName;
             }
         }
 

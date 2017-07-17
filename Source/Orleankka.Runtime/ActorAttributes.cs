@@ -8,16 +8,6 @@ using Orleankka.Utility;
 
 namespace Orleankka
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class ActorAttribute : Attribute
-    {
-        public Placement Placement { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class WorkerAttribute : Attribute
-    {}
-
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ReentrantAttribute : Attribute
     {

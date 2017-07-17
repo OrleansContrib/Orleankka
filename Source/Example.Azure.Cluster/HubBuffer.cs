@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleans.Concurrency;
 
 namespace Example.Azure
 {
-    [Worker, Reentrant(typeof(Publish))]
+    [StatelessWorker, Orleankka.Reentrant(typeof(Publish))]
     public class HubBuffer : Actor
     {
         [Serializable]

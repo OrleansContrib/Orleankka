@@ -4,9 +4,11 @@ using System.Linq;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.Placement;
+
 namespace Example.Azure
 {
-    [Actor(Placement = Placement.PreferLocal)]
+    [PreferLocalPlacement]
     public class Hub : Actor, IHub
     {
         [Serializable]
