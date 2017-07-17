@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
-    public class ActorSystemMock : IActorSystem
+    using Client;
+
+    public class ActorSystemMock : IClientActorSystem
     {
         readonly SerializationManager serialization;
 
@@ -13,6 +17,9 @@ namespace Orleankka.TestKit
 
         readonly Dictionary<StreamPath, StreamRefMock> streams =
              new Dictionary<StreamPath, StreamRefMock>();
+
+        readonly Queue<ClientObservableMock> observables = 
+             new Queue<ClientObservableMock>();
 
         public ActorSystemMock(SerializationManager serialization = null)
         {
@@ -66,6 +73,23 @@ namespace Orleankka.TestKit
             streams.Add(path, mock);
 
             return mock;
+        }
+
+        public ClientObservableMock MockCreateObservable()
+        {
+            var mock = new ClientObservableMock();
+            observables.Enqueue(mock);
+            return mock;
+        }
+
+        Task<IClientObservable> IClientActorSystem.CreateObservable()
+        {
+            if (observables.Count == 0)
+                throw new InvalidOperationException(
+                    "No mock has been previosly setup for this client observable request.\n" +
+                    $"Use {nameof(MockCreateObservable)} method to setup.");
+            
+            return Task.FromResult((IClientObservable)observables.Dequeue());
         }
 
         public void Reset()

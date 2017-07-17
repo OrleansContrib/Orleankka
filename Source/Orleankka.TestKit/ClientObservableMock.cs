@@ -1,23 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Orleankka.TestKit
 {
+    using Utility;
+
     public class ClientObservableMock : IClientObservable
     {
-        public ObserverRef Ref => new ClientRef("path");
+        readonly List<IObserver<object>> subscribers = 
+             new List<IObserver<object>>();
+
+        public IObserver<object>[] Subscribers => subscribers.ToArray();
+
+        public ObserverRef Ref { get; } = new ClientRef(Guid.NewGuid().ToString("N"));
 
         public IDisposable Subscribe(IObserver<object> observer)
         {
-            return new DisposableStub();
+            Requires.NotNull(observer, nameof(observer));
+            return new DisposableStub(subscribers, observer);
         }
 
         class DisposableStub : IDisposable
         {
-            public void Dispose()
-            {}
+            readonly List<IObserver<object>> subscribers;
+            readonly IObserver<object> observer;
+
+            public DisposableStub(List<IObserver<object>> subscribers, IObserver<object> observer)
+            {
+                this.subscribers = subscribers;
+                this.observer = observer;
+                subscribers.Add(observer);
+            }
+
+            public void Dispose() => subscribers.Remove(observer);
         }
 
-        public void Dispose()
-        {}
+        public bool Disposed { get; private set; }
+
+        public void Dispose() => Disposed = true;
     }
 }

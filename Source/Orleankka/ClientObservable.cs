@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Orleankka
 {
@@ -18,11 +17,11 @@ namespace Orleankka
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    class ClientObservable : IClientObservable
+    sealed class ClientObservable : IClientObservable
     {
         readonly ClientEndpoint endpoint;
 
-        protected ClientObservable(ObserverRef @ref)
+        ClientObservable(ObserverRef @ref)
         {
             Ref = @ref;
         }
@@ -33,20 +32,13 @@ namespace Orleankka
             this.endpoint = endpoint;
         }
 
-        public ObserverRef Ref
-        {
-            get; private set;
-        }
+        public ObserverRef Ref {get; }
 
-        public virtual void Dispose()
-        {
+        public IDisposable Subscribe(IObserver<object> observer) => 
+            endpoint.Subscribe(observer);
+
+        public void Dispose() => 
             endpoint.Dispose();
-        }
-
-        public virtual IDisposable Subscribe(IObserver<object> observer)
-        {
-            return endpoint.Subscribe(observer);
-        }
     }
 
     public static class ClientObservableExtensions
