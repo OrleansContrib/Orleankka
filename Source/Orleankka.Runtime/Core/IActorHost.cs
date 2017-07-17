@@ -2,12 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Orleans;
+using Orleans.Core;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
     interface IActorHost
     {
+        IServiceProvider ServiceProvider { get; }
+        IGrainIdentity Identity { get; }
+        string IdentityString { get; }
+        IGrainFactory GrainFactory { get; }
+        Logger Logger();
+
         Task<object> Receive(object message);
         void DeactivateOnIdle();
         void DelayDeactivation(TimeSpan timeSpan);

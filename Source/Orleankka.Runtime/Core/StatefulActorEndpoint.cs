@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Core;
 using Orleans.Runtime;
 
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Core
 {
-    using Cluster;
-
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
@@ -86,7 +85,13 @@ namespace Orleankka.Core
 
         protected abstract ActorType Actor { get; }
 
-        #region Expose protected methods to actor services layer
+        #region Expose protected methods
+
+        public new IServiceProvider ServiceProvider => base.ServiceProvider;
+        public IGrainIdentity Identity => this.GetGrainIdentity();
+        public new string IdentityString => base.IdentityString;
+        public new IGrainFactory GrainFactory => base.GrainFactory;
+        public Logger Logger() => base.GetLogger();
 
         public new void DeactivateOnIdle()
         {

@@ -68,7 +68,13 @@
 
         protected abstract ActorType Actor { get; }
 
-        #region Expose protected methods to actor services layer
+        #region Expose protected methods
+
+        public new IServiceProvider ServiceProvider => base.ServiceProvider;
+        public IGrainIdentity Identity => this.GetGrainIdentity();
+        public new string IdentityString => base.IdentityString;
+        public new IGrainFactory GrainFactory => base.GrainFactory;
+        public Logger Logger() => base.GetLogger();
 
         public new void DeactivateOnIdle()
         {

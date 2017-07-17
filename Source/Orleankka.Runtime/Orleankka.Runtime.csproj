@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActorEndpoint.tt</DependentUpon>
     </Compile>
+    <Compile Include="Core\ActorExtensions.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
     <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorTypeDeclaration.cs" />
