@@ -24,7 +24,7 @@ namespace Orleankka
 
             Runtime = runtime;
             Dispatcher = dispatcher ?? ActorType.Dispatcher(GetType());
-            Path = runtime.GetType().ToActorPath(id);
+            Path = GetType().ToActorPath(id);
         }
 
         internal virtual void Initialize(IActorHost host, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
