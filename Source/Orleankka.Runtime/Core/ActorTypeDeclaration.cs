@@ -214,8 +214,50 @@ namespace Orleankka.Core
                 case PreferLocalPlacementAttribute local: return typeof(PreferLocalPlacementAttribute).Name;
                 case ActivationCountBasedPlacementAttribute count: return typeof(ActivationCountBasedPlacementAttribute).Name;
                 case HashBasedPlacementAttribute hash: return typeof(HashBasedPlacementAttribute).Name;
-                default: return placement.GetType().FullName;
+                default: return GenerateCustomPlacement(placement);
             }
+        }
+
+        static string GenerateCustomPlacement(PlacementAttribute placement)
+        {
+            var properties = placement.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => x.CanRead);
+
+            var setters = properties.Select(x => new {Property = x, Setter = GenerateAttributePropertySetter(x, placement)})
+                .Where(x => x.Setter != null)
+                .Select(x => $"{char.ToLowerInvariant(x.Property.Name[0]) + x.Property.Name.Substring(1)}:{x.Setter}")
+                .ToList();
+
+            return "global:" + placement.GetType().FullName + $"({string.Join(",", setters)})";
+        }
+
+        static string GenerateAttributePropertySetter(PropertyInfo p, object obj)
+        {
+            if (p.PropertyType == typeof(Type))
+                return $"typeof(global::{p.GetValue(obj)})";
+
+            if (p.PropertyType.IsEnum)
+                return $"global::{p.PropertyType.FullName}.{p.GetValue(obj)}";
+
+            if (p.PropertyType == typeof(string))
+                return $"\"{p.GetValue(obj)}\"";
+
+            if (p.PropertyType == typeof(bool))
+                return $"{p.GetValue(obj).ToString().ToLower()}";
+
+            if (p.PropertyType == typeof(short) || 
+                p.PropertyType == typeof(int) || 
+                p.PropertyType == typeof(long))
+                return $"{p.GetValue(obj)}";
+
+            if (p.PropertyType == typeof(double))
+                return $"{p.GetValue(obj)}d";
+
+            if (p.PropertyType == typeof(float))
+                return $"{p.GetValue(obj)}f";
+
+            return null;
         }
 
         bool IsStateful() => typeof(IStatefulActor).IsAssignableFrom(actor);
