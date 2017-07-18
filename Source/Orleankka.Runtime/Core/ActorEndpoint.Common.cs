@@ -61,8 +61,8 @@
             var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
             var runtime = new ActorRuntime(system, this);
 
-            instance = Actor.Activate(this, path, runtime);
-            invoker = Actor.GetInvoker(system.Pipeline);
+            instance = Actor.Activate(this, path, runtime, system.Activator);
+            invoker = Actor.Invoker(system.Pipeline);
 
             return invoker.OnActivate(instance);
         }

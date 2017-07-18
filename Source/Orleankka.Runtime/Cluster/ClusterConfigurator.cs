@@ -30,7 +30,7 @@ namespace Orleankka.Cluster
 
         readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
 
-        Tuple<Type, object> activator;
+        IActorActivator activator;
 
         internal ClusterConfigurator()
         {
@@ -63,12 +63,14 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Activator<T>(object properties = null) where T : IActorActivator
+        public ClusterConfigurator Activator(IActorActivator activator)
         {
-            if (activator != null)
+            Requires.NotNull(activator, nameof(activator));
+
+            if (this.activator != null)
                 throw new InvalidOperationException("Activator has been already registered");
 
-            activator = Tuple.Create(typeof(T), properties);
+            this.activator = activator;
 
             return this;
         }
@@ -124,13 +126,11 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(Configuration, pipeline);
+            return new ClusterActorSystem(Configuration, pipeline, activator);
         }
 
         void Configure()
         {
-            ConfigureActivator();
-
             RegisterInterfaces();
             RegisterTypes();
             RegisterAutoruns();
@@ -138,17 +138,6 @@ namespace Orleankka.Cluster
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
-        }
-
-        void ConfigureActivator()
-        {
-            if (activator == null)
-                return;
-
-            var instance = (IActorActivator) System.Activator.CreateInstance(activator.Item1);
-            instance.Init(activator.Item2);
-
-            ActorType.Activator = instance;
         }
 
         void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);

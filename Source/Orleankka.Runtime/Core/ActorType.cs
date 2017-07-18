@@ -22,8 +22,6 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        internal static IActorActivator Activator = new DefaultActorActivator();
-
         internal static void Register(Assembly[] assemblies, string[] conventions)
         {
             var unregistered = assemblies
@@ -74,14 +72,14 @@ namespace Orleankka.Core
             field.SetValue(null, this);
         }
 
-        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime)
+        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
         {
-            var instance = Activator.Activate(actor, path.Id, runtime, dispatcher);
+            var instance = activator.Activate(actor, path.Id, runtime, dispatcher);
             instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
 
-        internal IActorInvoker GetInvoker(ActorInvocationPipeline pipeline) => 
+        internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
             pipeline.GetInvoker(actor, invoker);
 
         [UsedImplicitly]

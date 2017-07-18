@@ -30,7 +30,7 @@ namespace Example
             var system = ActorSystem
                 .Configure()
                 .Playground()
-                .Activator<AutofacActorActivator>(setup)
+                .Activator(new AutofacActorActivator(setup))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

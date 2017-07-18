@@ -4,11 +4,11 @@ using Autofac;
 
 namespace Example
 {
-    public sealed class AutofacActorActivator : ActorActivator<Action<ContainerBuilder>>
+    public sealed class AutofacActorActivator : IActorActivator
     {
-        IContainer container;
+        readonly IContainer container;
 
-        public override void Init(Action<ContainerBuilder> setup)
+        public AutofacActorActivator(Action<ContainerBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(
@@ -20,7 +20,7 @@ namespace Example
             container = builder.Build();
         }
 
-        public override Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             return (Actor) container.Resolve(type, 
                 new NamedParameter("id", id), 
