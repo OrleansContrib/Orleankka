@@ -28,8 +28,9 @@ namespace Orleankka.Cluster
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
 
+        readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
+
         Tuple<Type, object> activator;
-        Tuple<Type, object> interceptor;
 
         internal ClusterConfigurator()
         {
@@ -72,16 +73,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Interceptor<T>(object properties = null) where T : IInterceptor
-        {
-            if (interceptor != null)
-                throw new InvalidOperationException("Interceptor has been already registered");
-
-            interceptor = Tuple.Create(typeof(T), properties);
-
-            return this;
-        }
-
         public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
@@ -90,6 +81,30 @@ namespace Orleankka.Cluster
             if (!streamProviders.Add(configuration))
                 throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
 
+            return this;
+        }
+
+        /// <summary>
+        /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
+        /// which doesn't specify an individual invoker via <see cref="InvokerAttribute"/> attribute.
+        /// </summary>
+        /// <param name="global">The invoker.</param>
+        public ClusterConfigurator ActorInvoker(IActorInvoker global)
+        {
+            pipeline.Register(global);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers named actor invoker (interceptor). For this invoker to be used an actor need 
+        /// to specify its name via <see cref="InvokerAttribute"/> attribute. 
+        /// The invoker is inherited by all subclasses.
+        /// </summary>
+        /// <param name="name">The name of the invoker</param>
+        /// <param name="invoker">The invoker.</param>
+        public ClusterConfigurator ActorInvoker(string name, IActorInvoker invoker)
+        {
+            pipeline.Register(name, invoker);
             return this;
         }
 
@@ -109,13 +124,12 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(Configuration);
+            return new ClusterActorSystem(Configuration, pipeline);
         }
 
         void Configure()
         {
             ConfigureActivator();
-            ConfigureInterceptor();
 
             RegisterInterfaces();
             RegisterTypes();
@@ -135,15 +149,6 @@ namespace Orleankka.Cluster
             instance.Init(activator.Item2);
 
             ActorType.Activator = instance;
-        }
-
-        void ConfigureInterceptor()
-        {
-            if (interceptor == null)
-                return;
-
-            var instance = (IInterceptor) System.Activator.CreateInstance(interceptor.Item1);
-            instance.Install(InvocationPipeline.Instance, interceptor.Item2);
         }
 
         void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);

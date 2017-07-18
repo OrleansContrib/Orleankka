@@ -85,37 +85,28 @@ namespace Orleankka.Features
             void On(string x) => received.Add(x);
         }
 
-        public class TestInterceptor : IInterceptor
+        public class TestActorInterceptionInvoker : ActorInvoker
         {
-            public void Install(IInvocationPipeline pipeline, object properties)
+            public override Task<object> OnReceive(Actor actor, object message)
             {
-                pipeline.Register("test_actor_interception", new TestActorInterceptionInvoker());
-                pipeline.Register("test_stream_interception", new TestStreamInterceptionInvoker());
-            }
-
-            class TestActorInterceptionInvoker : ActorInvoker
-            {
-                public override Task<object> OnReceive(Actor actor, object message)
-                {
-                    var setText = message as SetText;
-                    if (setText == null)
-                        return base.OnReceive(actor, message);
-
-                    if (setText.Text == "interrupt")
-                        throw new InvalidOperationException();
-
-                    setText.Text += ".intercepted";
+                var setText = message as SetText;
+                if (setText == null)
                     return base.OnReceive(actor, message);
-                }
-            }
 
-            class TestStreamInterceptionInvoker : ActorInvoker
+                if (setText.Text == "interrupt")
+                    throw new InvalidOperationException();
+
+                setText.Text += ".intercepted";
+                return base.OnReceive(actor, message);
+            }
+        }
+
+        public class TestStreamInterceptionInvoker : ActorInvoker
+        {
+            public override Task<object> OnReceive(Actor actor, object message)
             {
-                public override Task<object> OnReceive(Actor actor, object message)
-                {
-                    var item = message as string;                    
-                    return base.OnReceive(actor, item == null ? message : item + ".intercepted");
-                }
+                var item = message as string;                    
+                return base.OnReceive(actor, item == null ? message : item + ".intercepted");
             }
         }
 

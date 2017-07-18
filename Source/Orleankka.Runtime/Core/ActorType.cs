@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using Orleankka.Cluster;
+
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
@@ -40,14 +42,13 @@ namespace Orleankka.Core
         }
 
         internal static IEnumerable<ActorType> Registered() => types.Values;
-
         internal string Name => @interface.Mapping.TypeName;
-        internal readonly IActorInvoker Invoker;
-
+        
         readonly Type actor;
         readonly ActorInterface @interface;
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
+        readonly string invoker;
         readonly Dispatcher dispatcher;
 
         internal ActorType(Type actor, ActorInterface @interface, Type endpoint, string[] conventions)
@@ -57,9 +58,8 @@ namespace Orleankka.Core
 
             Sticky = StickyAttribute.IsApplied(actor);
             keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(actor);
-            Invoker = InvocationPipeline.Instance.GetInvoker(actor, InvokerAttribute.From(actor));
-
             interleavePredicate = ReentrantAttribute.MayInterleavePredicate(actor);
+            invoker = InvokerAttribute.From(actor);
             
             dispatcher = new Dispatcher(actor, conventions);
             dispatchers.Add(actor, dispatcher);
@@ -82,6 +82,9 @@ namespace Orleankka.Core
             instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
+
+        internal IActorInvoker GetInvoker(ActorInvocationPipeline pipeline) => 
+            pipeline.GetInvoker(actor, invoker);
 
         [UsedImplicitly]
         public bool MayInterleave(InvokeMethodRequest request)

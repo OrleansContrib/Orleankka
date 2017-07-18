@@ -42,8 +42,9 @@ namespace Orleankka.Testing
                         cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
                         cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
                     })
-                    .Assemblies(GetType().Assembly)
-                    .Interceptor<TestInterceptor>();
+                    .ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker())
+                    .ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker())
+                    .Assemblies(GetType().Assembly);
 
                 TestActorSystem.Instance = system.Done();
                 TestActorSystem.Instance.Start().Wait();

@@ -35,9 +35,6 @@ module ActorSystem =
         .From(config)
         .Assemblies(assemblies : Assembly[])
    
-   let inline interceptor<'a when 'a :> Orleankka.Cluster.IInterceptor> (cluster:ClusterConfigurator)=
-      cluster.Interceptor<'a>()
-
    let inline bootstrapper<'a when 'a :> Orleankka.Cluster.IBootstrapper> props  (cluster:ClusterConfigurator)= 
       cluster.Bootstrapper<'a>(props |> Map.toSeq |> dict)
 

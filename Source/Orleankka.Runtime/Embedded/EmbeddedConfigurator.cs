@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-
-using Orleankka.Core;
-using Orleankka.Utility;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
@@ -16,12 +12,6 @@ namespace Orleankka.Embedded
 
     public class EmbeddedConfigurator
     {
-        readonly HashSet<Assembly> assemblies = 
-             new HashSet<Assembly>();
-
-        readonly HashSet<ActorInterfaceMapping> interfaces =
-             new HashSet<ActorInterfaceMapping>();
-
         readonly ClientConfigurator client;
         readonly ClusterConfigurator cluster;
 
@@ -55,16 +45,34 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator Interceptor<T>(object properties = null) where T : IInterceptor
-        {
-            cluster.Interceptor<T>(properties);
-            return this;
-        }
-
         public EmbeddedConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             cluster.StreamProvider<T>(name, properties);
             client.StreamProvider<T>(name, properties);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
+        /// which doesn't specify an individual invoker via <see cref="InvokerAttribute"/> attribute.
+        /// </summary>
+        /// <param name="global">The invoker.</param>
+        public EmbeddedConfigurator ActorInvoker(IActorInvoker global)
+        {
+            cluster.ActorInvoker(global);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers named actor invoker (interceptor). For this invoker to be used an actor need 
+        /// to specify its name via <see cref="InvokerAttribute"/> attribute. 
+        /// The invoker is inherited by all subclasses.
+        /// </summary>
+        /// <param name="name">The name of the invoker</param>
+        /// <param name="invoker">The invoker.</param>
+        public EmbeddedConfigurator ActorInvoker(string name, IActorInvoker invoker)
+        {
+            cluster.ActorInvoker(name, invoker);
             return this;
         }
 

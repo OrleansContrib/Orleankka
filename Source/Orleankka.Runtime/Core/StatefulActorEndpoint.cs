@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Core
 {
+	using Cluster;
+
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
@@ -18,6 +20,7 @@ namespace Orleankka.Core
         const string StickyReminderName = "##sticky##";
 
         Actor instance;
+        IActorInvoker invoker;
 
         public Task Autorun()
         {
@@ -30,7 +33,7 @@ namespace Orleankka.Core
         {
             KeepAlive();
 
-            return Actor.Invoker.OnReceive(instance, message);
+            return invoker.OnReceive(instance, message);
         }
 
         public Task ReceiveVoid(object message) => Receive(message);
@@ -44,13 +47,13 @@ namespace Orleankka.Core
             if (name == StickyReminderName)
                 return;
 
-            await Actor.Invoker.OnReminder(instance, name);
+            await invoker.OnReminder(instance, name);
         }
 
         public override Task OnDeactivateAsync()
         {
             return instance != null
-                ? Actor.Invoker.OnDeactivate(instance)
+                ? invoker.OnDeactivate(instance)
                 : base.OnDeactivateAsync();
         }
 
@@ -73,15 +76,18 @@ namespace Orleankka.Core
         Task Activate()
         {
             var path = ActorPath.From(Actor.Name, IdentityOf(this));
-            var runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
+
+            var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
+            var runtime = new ActorRuntime(system, this);
+
             instance = Actor.Activate(this, path, runtime);
-            return Actor.Invoker.OnActivate(instance);
+            invoker = Actor.GetInvoker(system.Pipeline);
+
+            return invoker.OnActivate(instance);
         }
 
-        static string IdentityOf(IGrain grain)
-        {
-            return (grain as IGrainWithStringKey).GetPrimaryKeyString();
-        }
+        static string IdentityOf(IGrain grain) => 
+            (grain as IGrainWithStringKey).GetPrimaryKeyString();
 
         protected abstract ActorType Actor { get; }
 

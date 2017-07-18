@@ -14,11 +14,15 @@ namespace Orleankka.Cluster
 
     public class ClusterActorSystem : ActorSystem, IDisposable
     {
+        internal readonly ActorInvocationPipeline Pipeline;
+
         [ThreadStatic]
         static ClusterActorSystem current;
 
-        internal ClusterActorSystem(ClusterConfiguration configuration)
+        internal ClusterActorSystem(ClusterConfiguration configuration, ActorInvocationPipeline pipeline)
         {
+            Pipeline = pipeline;
+
             current = this;
             configuration.UseStartupType<Startup>();
 

@@ -82,9 +82,8 @@
     <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
     <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
     <Compile Include="Dispatcher.cs" />
-    <Compile Include="Cluster\Interceptor.cs" />
     <Compile Include="Extensions\TimerServiceExtensions.cs" />
-    <Compile Include="InvocationPipeline.cs" />
+    <Compile Include="Cluster\ActorInvocationPipeline.cs" />
     <Compile Include="Services\StorageService.cs" />
     <Compile Include="StatefulActor.cs" />
     <Compile Include="StreamRefExtensions.cs" />
