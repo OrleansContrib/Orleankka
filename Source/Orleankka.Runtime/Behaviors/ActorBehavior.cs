@@ -53,7 +53,7 @@ namespace Orleankka.Behaviors
                                                         "in order to use behaviors functionality");
             }
 
-            behaviors.Add(actor, found);
+            behaviors[actor] = found;
         }
 
         static bool IsBehavioral(MethodInfo x) => 

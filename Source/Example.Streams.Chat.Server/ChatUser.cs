@@ -5,6 +5,10 @@ using Orleankka;
 
 namespace Example
 {
+    [ActorType("ChatUser2")]
+    public class ChatUser2 : Actor
+    { }
+
     [ActorType("ChatUser")]
     public class ChatUser : Actor, IChatUser
     {

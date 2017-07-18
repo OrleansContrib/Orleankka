@@ -20,7 +20,7 @@ namespace Orleankka.Playground
         readonly ClientConfiguration client;
 
         internal PlaygroundConfigurator(AppDomainSetup setup)
-            : base(setup)
+            : base()
         {
             client = new ClientConfiguration()
                 .LoadFromEmbeddedResource<PlaygroundConfigurator>("Client.xml");

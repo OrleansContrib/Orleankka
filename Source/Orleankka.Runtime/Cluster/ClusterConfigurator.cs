@@ -15,19 +15,18 @@ namespace Orleankka.Cluster
     using Utility;
     using Annotations;
 
-    public sealed class ClusterConfigurator : MarshalByRefObject
+    public sealed class ClusterConfigurator
     {
-        readonly HashSet<ActorInterfaceMapping> interfaces =
-            new HashSet<ActorInterfaceMapping>();
+        readonly ActorInterfaceRegistry registry =
+             new ActorInterfaceRegistry();
 
-        readonly HashSet<Assembly> assemblies = new HashSet<Assembly>();
         readonly HashSet<string> conventions = new HashSet<string>();
 
         readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
-            new HashSet<BootstrapProviderConfiguration>();
+             new HashSet<BootstrapProviderConfiguration>();
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
-            new HashSet<StreamProviderConfiguration>();
+             new HashSet<StreamProviderConfiguration>();
 
         Tuple<Type, object> activator;
         Tuple<Type, object> interceptor;
@@ -48,25 +47,7 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator Assemblies(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, nameof(assemblies));
-
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
-
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.Contains(assembly))
-                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
-
-                this.assemblies.Add(assembly);
-            }
-
-            foreach (var type in assemblies.SelectMany(x => x.ActorTypes()))
-            {
-                var mapping = ActorInterfaceMapping.Of(type);
-                if (!interfaces.Add(mapping))
-                    throw new ArgumentException($"Actor type '{mapping.Name}' has been already registered");
-            }
+            registry.Register(assemblies, a => a.ActorTypes());
 
             return this;
         }
@@ -115,6 +96,10 @@ namespace Orleankka.Cluster
         public ClusterConfigurator HandlerNamingConventions(params string[] conventions)
         {
             Requires.NotNull(conventions, nameof(conventions));
+
+            if (conventions.Length == 0)
+                throw new ArgumentException("conventions are empty", nameof(conventions));
+
             Array.ForEach(conventions, x => this.conventions.Add(x));
 
             return this;
@@ -129,7 +114,6 @@ namespace Orleankka.Cluster
 
         void Configure()
         {
-            ConfigureConventions();
             ConfigureActivator();
             ConfigureInterceptor();
 
@@ -140,13 +124,6 @@ namespace Orleankka.Cluster
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
-        }
-
-        void ConfigureConventions()
-        {
-            ActorType.Conventions = conventions.Count > 0
-                ? conventions.ToArray()
-                : null;
         }
 
         void ConfigureActivator()
@@ -169,15 +146,15 @@ namespace Orleankka.Cluster
             instance.Install(InvocationPipeline.Instance, interceptor.Item2);
         }
 
-        void RegisterInterfaces() => ActorInterface.Register(assemblies, interfaces);
+        void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
 
-        void RegisterTypes() => ActorType.Register(assemblies);
+        void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
 
         void RegisterAutoruns()
         {
             var autoruns = new Dictionary<string, string[]>();
 
-            foreach (var actor in assemblies.SelectMany(x => x.ActorTypes()))
+            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
             {
                 var ids = AutorunAttribute.From(actor);
                 if (ids.Length > 0)
@@ -201,7 +178,7 @@ namespace Orleankka.Cluster
 
         void RegisterBehaviors()
         {
-            foreach (var actor in assemblies.SelectMany(x => x.ActorTypes()))
+            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
                 ActorBehavior.Register(actor);
         }
 
@@ -218,11 +195,6 @@ namespace Orleankka.Cluster
                 .Select(x => x.Name));
 
             Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
-        }
-
-        public override object InitializeLifetimeService()
-        {
-            return null;
         }
 
         [UsedImplicitly]

@@ -19,29 +19,29 @@ namespace Orleankka.Core
 {
     class ActorTypeDeclaration
     {
-        public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
+        public static IEnumerable<ActorType> Generate(IEnumerable<Assembly> assemblies, IEnumerable<Type> types, string[] conventions)
         {
-            var declarations = assemblies
-                .SelectMany(x => x.ActorTypes())
+            var declarations = types
                 .Select(x => new ActorTypeDeclaration(x))
                 .ToArray();
 
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Implementations");
             Directory.CreateDirectory(dir);
 
-            var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
+            var id = Guid.NewGuid().ToString("N");
+            var binary = Path.Combine(dir, id + ".dll");
             var generated = Generate(assemblies, declarations);
 
             var syntaxTree = CSharpSyntaxTree.ParseText(generated.Source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
                 .Concat(generated.References)
-                .Concat(ActorInterface.Registered().Select(x => x.GrainAssembly()))
+                .Concat(declarations.Select(x => x.@interface.GrainAssembly()))
                 .Distinct()
                 .Select(ToMetadataReference)
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create("Orleankka.Auto.Implementations",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Implementations.Asm{id}",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -58,7 +58,7 @@ namespace Orleankka.Core
             var assemblyName = AssemblyName.GetAssemblyName(binary);
             var assembly = AppDomain.CurrentDomain.Load(assemblyName);
 
-            return declarations.Select(x => x.From(assembly));
+            return declarations.Select(x => x.From(assembly, conventions));
         }
 
         static PortableExecutableReference ToMetadataReference(Assembly x) => 
@@ -86,6 +86,7 @@ namespace Orleankka.Core
         static readonly string[] separator = {".", "+"};
 
         readonly Type actor;
+        readonly ActorInterface @interface;
         readonly string clazz;
         readonly IList<string> namespaces;
 
@@ -93,7 +94,10 @@ namespace Orleankka.Core
         {
             this.actor = actor;
 
-            var path = ActorTypeName.Of(actor).Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var typeName = ActorTypeName.Of(actor);
+            @interface = ActorInterface.Registered(typeName);
+
+            var path = typeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
 
             namespaces = path.TakeWhile(x => x != clazz).ToList();
@@ -144,10 +148,10 @@ namespace Orleankka.Core
             src.AppendLine("}");
         }
 
-        ActorType From(Assembly asm)
+        ActorType From(Assembly asm, string[] conventions)
         {
             var grain = asm.GetType(FullPath($"{clazz}"));
-            return new ActorType(actor, grain);
+            return new ActorType(actor, @interface, grain, conventions);
         }
 
         string FullPath(string name) => string.Join(".", new List<string>(namespaces) { name });
@@ -155,7 +159,7 @@ namespace Orleankka.Core
         void CopyAttributes(StringBuilder src)
         {
             var worker = actor.GetCustomAttribute<StatelessWorkerAttribute>();
-            var placement = actor.GetCustomAttributes().Where(x => x is PlacementAttribute).Cast<PlacementAttribute>().ToArray();
+            var placement = GetCustomAttributesAssignableFrom<PlacementAttribute>(actor);
 
             if (worker != null && placement.Any())
                 throw new InvalidOperationException(
@@ -186,7 +190,7 @@ namespace Orleankka.Core
             if (version != null)
                 src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
 
-            var registration = actor.GetCustomAttributes().Where(x => x is RegistrationAttribute).Cast<RegistrationAttribute>().ToArray();
+            var registration = GetCustomAttributesAssignableFrom<RegistrationAttribute>(actor);
             if (registration.Length > 1)
                 throw new InvalidOperationException(
                     $"Multiple multi-cluster registrations are specified for actor: {actor}");
@@ -194,6 +198,9 @@ namespace Orleankka.Core
             if (registration.Length > 0)
                 src.AppendLine($"[{GetMultiClusterRegistration(registration[0])}]");
         }
+
+        static T[] GetCustomAttributesAssignableFrom<T>(MemberInfo member) => 
+            member.GetCustomAttributes().Where(x => x is T).Cast<T>().ToArray();
 
         static string GetMultiClusterRegistration(RegistrationAttribute registration)
         {

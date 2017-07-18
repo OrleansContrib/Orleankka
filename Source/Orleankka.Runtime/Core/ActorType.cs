@@ -12,12 +12,9 @@ namespace Orleankka.Core
     using Utility;
     using Annotations;
 
-    public class ActorType : IEquatable<ActorType>
+    public class ActorType
     {
-        internal static string[] Conventions;
-
-        internal static Dispatcher Dispatcher(Type actor) =>
-            dispatchers.Find(actor) ?? new Dispatcher(actor, Conventions);
+        internal static Dispatcher Dispatcher(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
 
         static readonly Dictionary<Type, Dispatcher> dispatchers =
                     new Dictionary<Type, Dispatcher>();
@@ -27,46 +24,41 @@ namespace Orleankka.Core
 
         internal static IActorActivator Activator = new DefaultActorActivator();
 
-        internal static void Register(IEnumerable<Assembly> assemblies)
+        internal static void Register(Assembly[] assemblies, string[] conventions)
         {
-            var actors = ActorTypeDeclaration.Generate(assemblies.ToArray());
+            var unregistered = assemblies
+                .SelectMany(x => x.ActorTypes())
+                .Where(x => !types.ContainsKey(ActorTypeName.Of(x)));
+
+            var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
 
             foreach (var actor in actors)
-                Register(actor);
-       }
-
-        static void Register(ActorType actor)
-        {
-            var registered = types.Find(actor.Name);
-            if (registered != null)
-                throw new ArgumentException(
-                    $"An actor with type '{actor.Name}' has been already registered");
-
-            types.Add(actor.Name, actor);
+                types.Add(actor.Name, actor);
         }
 
-        public static IEnumerable<ActorType> Registered() => types.Values;
+        internal static IEnumerable<ActorType> Registered() => types.Values;
 
-        internal readonly string Name;
+        internal string Name => @interface.Mapping.TypeName;
         internal readonly IActorInvoker Invoker;
 
         readonly Type actor;
+        readonly ActorInterface @interface;
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly Dispatcher dispatcher;
 
-        internal ActorType(Type actor, Type endpoint)
+        internal ActorType(Type actor, ActorInterface @interface, Type endpoint, string[] conventions)
         {
             this.actor = actor;
+            this.@interface = @interface;
 
-            Name = ActorTypeName.Of(actor);
             Sticky = StickyAttribute.IsApplied(actor);
             keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(actor);
             Invoker = InvocationPipeline.Instance.GetInvoker(actor, InvokerAttribute.From(actor));
 
             interleavePredicate = ReentrantAttribute.MayInterleavePredicate(actor);
             
-            dispatcher = new Dispatcher(actor);
+            dispatcher = new Dispatcher(actor, conventions);
             dispatchers.Add(actor, dispatcher);
 
             Init(endpoint);
@@ -89,7 +81,7 @@ namespace Orleankka.Core
         }
 
         [UsedImplicitly]
-        internal bool MayInterleave(InvokeMethodRequest request)
+        public bool MayInterleave(InvokeMethodRequest request)
         {
             if (request?.Arguments == null)
                 return false;
@@ -117,23 +109,5 @@ namespace Orleankka.Core
             StreamSubscriptionSpecification.From(actor, dispatcher);
 
         internal bool Sticky { get; }
-
-        public bool Equals(ActorType other)
-        {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || string.Equals(Name, other.Name));
-        }
-
-        public override bool Equals(object obj)
-        {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
-                    || obj.GetType() == GetType() && Equals((ActorType) obj));
-        }
-
-        public static bool operator ==(ActorType left, ActorType right) => Equals(left, right);
-        public static bool operator !=(ActorType left, ActorType right) => !Equals(left, right);
-
-        public override int GetHashCode() => Name.GetHashCode();
-        public override string ToString() => Name;
     }
 }

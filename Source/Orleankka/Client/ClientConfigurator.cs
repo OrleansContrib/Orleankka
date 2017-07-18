@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
-using Orleans;
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
@@ -14,11 +12,8 @@ namespace Orleankka.Client
 
     public sealed class ClientConfigurator
     {
-        readonly HashSet<Assembly> assemblies = 
-             new HashSet<Assembly>();
-
-        readonly HashSet<ActorInterfaceMapping> interfaces =
-             new HashSet<ActorInterfaceMapping>();
+        readonly ActorInterfaceRegistry registry =
+             new ActorInterfaceRegistry();
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
@@ -50,36 +45,9 @@ namespace Orleankka.Client
 
         public ClientConfigurator Assemblies(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, nameof(assemblies));
+            registry.Register(assemblies, a => a.ActorInterfaces());
 
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
-
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.Contains(assembly))
-                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
-
-                this.assemblies.Add(assembly);
-            }
-
-            foreach (var @interface in assemblies.SelectMany(x => x.ActorInterfaces()))
-            {
-                var mapping = ActorInterfaceMapping.Of(@interface);
-                if (!interfaces.Add(mapping))
-                    throw new ArgumentException($"Actor type '{mapping.Name}' has been already registered");
-            }
-            
             return this;
-        }
-
-        internal void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
-        {
-            foreach (var assembly in assemblies)
-                this.assemblies.Add(assembly);
-
-            foreach (var mapping in mappings)
-                interfaces.Add(mapping);
         }
 
         internal ClientConfigurator ActorTypes(params string[] types)
@@ -91,7 +59,8 @@ namespace Orleankka.Client
 
             foreach (var type in types)
             {
-                if (!interfaces.Add(ActorInterfaceMapping.Of(type)))
+                var mapping = ActorInterfaceMapping.Of(type);
+                if (registry.IsRegistered(mapping.TypeName))
                     throw new ArgumentException($"Actor type '{type}' has been already registered");
             }
 
@@ -112,10 +81,7 @@ namespace Orleankka.Client
                 each.Register(Configuration);
         }
 
-        void RegisterActorInterfaces()
-        {
-            ActorInterface.Register(assemblies, interfaces);            
-        }
+        void RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
     }
 
     public static class ClientConfiguratorExtensions

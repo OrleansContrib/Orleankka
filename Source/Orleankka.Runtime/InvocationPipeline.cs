@@ -43,10 +43,7 @@ namespace Orleankka
             Requires.NotNullOrWhitespace(name, nameof(name));
             Requires.NotNull(invoker, nameof(invoker));
 
-            if (invokers.ContainsKey(name))
-                throw new InvalidOperationException($"Invoker with name '{name}' is already registered");
-
-            invokers.Add(name, invoker);
+            invokers[name] = invoker;
         }
 
         public IActorInvoker GetInvoker(Type actor, string name)

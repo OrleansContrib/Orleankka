@@ -24,16 +24,11 @@ namespace Orleankka.Embedded
 
         readonly ClientConfigurator client;
         readonly ClusterConfigurator cluster;
-        readonly AppDomain domain;
 
-        public EmbeddedConfigurator(AppDomainSetup setup)
+        public EmbeddedConfigurator()
         {
-            domain  = AppDomain.CreateDomain("EmbeddedOrleans", null, setup ?? AppDomain.CurrentDomain.SetupInformation);
             client  = new ClientConfigurator();
-            cluster = (ClusterConfigurator)domain.CreateInstanceAndUnwrap(
-                        GetType().Assembly.FullName, typeof(ClusterConfigurator).FullName, false,
-                        BindingFlags.NonPublic | BindingFlags.Instance , null,
-                        new object[0], null, null);
+            cluster = new ClusterConfigurator();
         }
 
         public EmbeddedConfigurator Cluster(ClusterConfiguration config)
@@ -75,28 +70,8 @@ namespace Orleankka.Embedded
 
         public EmbeddedConfigurator Assemblies(params Assembly[] assemblies)
         {
-            Requires.NotNull(assemblies, nameof(assemblies));
-
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
-
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.Contains(assembly))
-                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
-
-                this.assemblies.Add(assembly);
-            }
-
-            foreach (var type in assemblies.SelectMany(x => x.ActorTypes()))
-            {
-                var mapping = ActorInterfaceMapping.Of(type);
-                if (!interfaces.Add(mapping))
-                    throw new ArgumentException($"Actor type '{mapping.Name}' has been already registered");
-            }
-
-            client.Register(assemblies, interfaces);
             cluster.Assemblies(assemblies);
+            client.Assemblies(assemblies);
 
             return this;
         }
@@ -114,7 +89,7 @@ namespace Orleankka.Embedded
     {
         public static EmbeddedConfigurator Embedded(this IActorSystemConfigurator root, AppDomainSetup setup = null)
         {
-            return new EmbeddedConfigurator(setup);
+            return new EmbeddedConfigurator();
         }
     }
 }

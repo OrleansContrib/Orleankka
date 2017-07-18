@@ -27,7 +27,8 @@ namespace Orleankka.Core
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Interfaces");
             Directory.CreateDirectory(dir);
 
-            var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
+            var id = Guid.NewGuid().ToString("N");
+            var binary = Path.Combine(dir, id + ".dll");
             var source = Generate(assemblies, missing.Select(x => x.Declaration));
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -36,7 +37,7 @@ namespace Orleankka.Core
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create("Orleankka.Auto.Interfaces",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces.Asm{id}",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -86,9 +87,9 @@ namespace Orleankka.Core
         ActorInterfaceDeclaration(ActorInterfaceMapping mapping)
         {
             this.mapping = mapping;
-            CheckValidIdentifier(mapping.Name);
+            CheckValidIdentifier(mapping.TypeName);
 
-            var path = mapping.Name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = mapping.TypeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             name = path.Last();
 
             namespaces = path.TakeWhile(x => x != name).ToList();

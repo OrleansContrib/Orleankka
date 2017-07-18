@@ -58,12 +58,14 @@
     <Compile Include="ActorMessage.cs" />
     <Compile Include="Core\ActorInterface.cs" />
     <Compile Include="Core\ActorInterfaceMapping.cs" />
+    <Compile Include="Core\ActorInterfaceRegistry.cs" />
     <Compile Include="Core\AssemblyScanner.cs" />
     <Compile Include="Core\ActorInterfaceDeclaration.cs" />
     <Compile Include="Core\IActorEndpoint.cs" />
     <Compile Include="Core\IClientEndpoint.cs" />
     <Compile Include="Core\Stream.cs" />
     <Compile Include="Client\StreamProviderConfiguration.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="ActorPathExtensions.cs" />
     <Compile Include="Core\ActorTypeName.cs" />
