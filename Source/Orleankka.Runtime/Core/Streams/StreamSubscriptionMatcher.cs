@@ -18,23 +18,30 @@ namespace Orleankka.Core.Streams
 
     class StreamSubscriptionMatcher : IStreamProviderImpl
     {
+        static readonly HashSet<string> actors = new HashSet<string>();
+
         static readonly Dictionary<string, List<StreamSubscriptionSpecification>> configuration = 
                     new Dictionary<string, List<StreamSubscriptionSpecification>>();
 
-        internal static void Register(IEnumerable<StreamSubscriptionSpecification> specifications)
+        internal static void Register(string actor, IEnumerable<StreamSubscriptionSpecification> specifications)
         {
-            foreach (var specification in specifications)
-            {
-                var existent = configuration.Find(specification.Provider);
+            if (actors.Contains(actor))
+                return;
 
-                if (existent == null)
+            foreach (var each in specifications)
+            {
+                var registry = configuration.Find(each.Provider);
+
+                if (registry == null)
                 {
-                    existent = new List<StreamSubscriptionSpecification>();
-                    configuration.Add(specification.Provider, existent);
+                    registry = new List<StreamSubscriptionSpecification>();
+                    configuration.Add(each.Provider, registry);
                 }
 
-                existent.Add(specification);
+                registry.Add(each);
             }
+
+            actors.Add(actor);
         }
 
         public static StreamSubscriptionMatch[] Match(IActorSystem system, StreamIdentity stream)

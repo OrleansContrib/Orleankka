@@ -179,7 +179,7 @@ namespace Orleankka.Cluster
         void RegisterStreamSubscriptions()
         {
             foreach (var actor in ActorType.Registered())
-                StreamSubscriptionMatcher.Register(actor.Subscriptions());
+                StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
 
             const string id = "stream-subscription-boot";
 
