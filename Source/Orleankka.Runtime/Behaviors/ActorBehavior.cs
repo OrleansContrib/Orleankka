@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Orleankka.Cluster;
+
 namespace Orleankka.Behaviors
 {
     using Services;
@@ -16,11 +18,11 @@ namespace Orleankka.Behaviors
         static readonly Dictionary<Type, Dictionary<string, Action<object>>> behaviors =
                     new Dictionary<Type, Dictionary<string, Action<object>>>();
 
-        public static void Register(Type actor)
+        internal static Dictionary<string, Action<object>> Register(Type actor)
         {
             Requires.NotNull(actor, nameof(actor));
 
-            var found = new Dictionary<string, Action<object>>();
+            var config = new Dictionary<string, Action<object>>();
             var current = actor;
 
             while (current != typeof(Actor))
@@ -40,12 +42,12 @@ namespace Orleankka.Behaviors
                     var call = Expression.Call(Expression.Convert(target, actor), method);
                     var action = Expression.Lambda<Action<object>>(call, target).Compile();
 
-                    found[method.Name] = action;
+                    config[method.Name] = action;
                 }
                 current = current.BaseType;
             }
 
-            if (found.Count > 0)
+            if (config.Count > 0)
             {
                 var constructor = actor.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
                 if (constructor == null)
@@ -53,7 +55,8 @@ namespace Orleankka.Behaviors
                                                         "in order to use behaviors functionality");
             }
 
-            behaviors[actor] = found;
+            behaviors[actor] = config;
+            return config;
         }
 
         static bool IsBehavioral(MethodInfo x) => 
@@ -64,7 +67,11 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(behavior, nameof(behavior));
 
-            var action = behaviors[actor.GetType()].Find(behavior);
+            var config = behaviors.Find(actor.GetType());
+            if (config == null && !(actor.Runtime is ActorRuntime))
+                config = Register(actor.GetType());
+
+            var action = config.Find(behavior);
             if (action == null)
                 throw new InvalidOperationException($"Can't find method with proper signature for behavior '{behavior}' defined on actor {actor.GetType()}. " +
                                                     "Should be void, non-generic and parameterless");

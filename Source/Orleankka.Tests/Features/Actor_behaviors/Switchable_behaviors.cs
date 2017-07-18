@@ -108,12 +108,6 @@ namespace Orleankka.Features.Actor_behaviors
 
             TestActor actor;
 
-            [TestFixtureSetUp]
-            public void FixtureSetUp()
-            {
-                ActorBehavior.Register(typeof(TestActor));
-            }
-
             [SetUp]
             public void SetUp()
             {
