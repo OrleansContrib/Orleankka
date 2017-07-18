@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-using Orleankka.Cluster;
-
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 

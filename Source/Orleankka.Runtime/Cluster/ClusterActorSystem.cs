@@ -10,6 +10,7 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
+    using Core;
     using Utility;
 
     public class ClusterActorSystem : ActorSystem, IDisposable
