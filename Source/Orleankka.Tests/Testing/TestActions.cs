@@ -7,14 +7,14 @@ using Orleans.Storage;
 using Orleans.Providers.Streams.AzureQueue;
 
 using Orleankka.Testing;
-using Orleankka.Features.Intercepting_requests;
-
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
 {
     using Cluster;
     using Playground;
+    using Utility;
+    using Features.Intercepting_requests;
 
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
@@ -27,24 +27,27 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            var system = ActorSystem.Configure()
-                .Playground()
-                .UseInMemoryPubSubStore()
-                .StreamProvider<AzureQueueStreamProviderV2>("aqp", new Dictionary<string, string>
-                {
-                    {"DataConnectionString", "UseDevelopmentStorage=true"},
-                    {"DeploymentId", "test"},
-                })
-                .TweakCluster(cfg =>
-                {
-                    cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
-                    cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
-                })
-                .Assemblies(GetType().Assembly)
-                .Interceptor<TestInterceptor>();
+            using (Execution.Trace("Full system startup"))
+            {
+                var system = ActorSystem.Configure()
+                    .Playground()
+                    .UseInMemoryPubSubStore()
+                    .StreamProvider<AzureQueueStreamProviderV2>("aqp", new Dictionary<string, string>
+                    {
+                        {"DataConnectionString", "UseDevelopmentStorage=true"},
+                        {"DeploymentId", "test"},
+                    })
+                    .TweakCluster(cfg =>
+                    {
+                        cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
+                        cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+                    })
+                    .Assemblies(GetType().Assembly)
+                    .Interceptor<TestInterceptor>();
 
-            TestActorSystem.Instance = system.Done();
-            TestActorSystem.Instance.Start().Wait();
+                TestActorSystem.Instance = system.Done();
+                TestActorSystem.Instance.Start().Wait();
+            }
         }
     }
 

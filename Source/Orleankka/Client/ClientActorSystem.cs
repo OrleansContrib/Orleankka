@@ -11,6 +11,7 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Client
 {
     using Core;
+    using Utility;
 
     /// <summary>
     /// Client-side actor system interface
@@ -31,7 +32,8 @@ namespace Orleankka.Client
     {
         internal ClientActorSystem(ClientConfiguration configuration)
         {
-            Client = new ClientBuilder()
+            using (Execution.Trace("Orleans client initialization"))
+                Client = new ClientBuilder()
                 .UseConfiguration(configuration)
                 .ConfigureServices(services =>
                 {
@@ -80,7 +82,8 @@ namespace Orleankka.Client
             {
                 try
                 {
-                    await Client.Connect();
+                    using (Execution.Trace("Orleans client connection"))
+                        await Client.Connect();
                 }
                 catch (Exception ex)
                 {

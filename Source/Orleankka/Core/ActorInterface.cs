@@ -32,10 +32,13 @@ namespace Orleankka.Core
                     throw new DuplicateActorTypeException(existing.Mapping, each);
             }
 
-            var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
+            using (Execution.Trace("Generation of actor interface assemblies"))
+            {
+                var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
 
-            foreach (var each in generated)
-                interfaces[each.Mapping.TypeName] = each;
+                foreach (var each in generated)
+                    interfaces[each.Mapping.TypeName] = each;
+            }
         }
 
         internal readonly ActorInterfaceMapping Mapping;

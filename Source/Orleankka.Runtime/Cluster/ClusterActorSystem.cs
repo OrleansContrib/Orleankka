@@ -10,6 +10,8 @@ using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Cluster
 {
+    using Utility;
+
     public class ClusterActorSystem : ActorSystem, IDisposable
     {
         [ThreadStatic]
@@ -20,9 +22,12 @@ namespace Orleankka.Cluster
             current = this;
             configuration.UseStartupType<Startup>();
 
-            Host = new SiloHost(Dns.GetHostName(), configuration);
-            Host.LoadOrleansConfig();
-            Host.InitializeOrleansSilo();
+            using (Execution.Trace("Orleans silo initialization"))
+            {
+                Host = new SiloHost(Dns.GetHostName(), configuration);
+                Host.LoadOrleansConfig();
+                Host.InitializeOrleansSilo();
+            }
 
             Silo = Host.GetSilo();
             Initialize(Silo.GetServiceProvider());
@@ -49,9 +54,10 @@ namespace Orleankka.Cluster
             if (Started)
                 throw new InvalidOperationException("Cluster already started");
 
-            if (!Host.StartOrleansSilo(catchExceptions: false))
-                throw new Exception("Silo failed to start. Check the logs");
-
+            using (Execution.Trace("Orleans silo startup"))
+                if (!Host.StartOrleansSilo(catchExceptions: false))
+                    throw new Exception("Silo failed to start. Check the logs");
+            
             if (wait)
                 Host.WaitForOrleansSiloShutdown();
         }
