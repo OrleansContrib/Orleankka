@@ -32,7 +32,7 @@ namespace Orleankka.Client
     {
         internal ClientActorSystem(ClientConfiguration configuration)
         {
-            using (Execution.Trace("Orleans client initialization"))
+            using (Trace.Execution("Orleans client initialization"))
                 Client = new ClientBuilder()
                 .UseConfiguration(configuration)
                 .ConfigureServices(services =>
@@ -82,19 +82,19 @@ namespace Orleankka.Client
             {
                 try
                 {
-                    using (Execution.Trace("Orleans client connection"))
+                    using (Trace.Execution("Orleans client connection"))
                         await Client.Connect();
                 }
                 catch (Exception ex)
                 {
                     if (retries >= 0)
                     {
-                        Trace.TraceWarning($"Can't connect to cluster. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ... Got error: /n{ex}");
+                        System.Diagnostics.Trace.TraceWarning($"Can't connect to cluster. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ... Got error: /n{ex}");
                         Thread.Sleep(retryTimeout.Value);
                     }
                     else
                     {
-                        Trace.TraceError($"Can't connect to cluster. Max retries reached. Got error: /n{ex}");
+                        System.Diagnostics.Trace.TraceError($"Can't connect to cluster. Max retries reached. Got error: /n{ex}");
                         throw;
                     }
                 }

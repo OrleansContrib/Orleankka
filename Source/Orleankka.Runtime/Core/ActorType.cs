@@ -30,7 +30,7 @@ namespace Orleankka.Core
                 .SelectMany(x => x.ActorTypes())
                 .Where(x => !types.ContainsKey(ActorTypeName.Of(x)));
 
-            using (Execution.Trace("Generation of actor implementation assemblies"))
+            using (Trace.Execution("Generation of actor implementation assemblies"))
             {
                 var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
 

@@ -22,7 +22,7 @@ namespace Orleankka.Cluster
             current = this;
             configuration.UseStartupType<Startup>();
 
-            using (Execution.Trace("Orleans silo initialization"))
+            using (Trace.Execution("Orleans silo initialization"))
             {
                 Host = new SiloHost(Dns.GetHostName(), configuration);
                 Host.LoadOrleansConfig();
@@ -54,7 +54,7 @@ namespace Orleankka.Cluster
             if (Started)
                 throw new InvalidOperationException("Cluster already started");
 
-            using (Execution.Trace("Orleans silo startup"))
+            using (Trace.Execution("Orleans silo startup"))
                 if (!Host.StartOrleansSilo(catchExceptions: false))
                     throw new Exception("Silo failed to start. Check the logs");
             

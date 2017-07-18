@@ -27,7 +27,7 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            using (Execution.Trace("Full system startup"))
+            using (Trace.Execution("Full system startup"))
             {
                 var system = ActorSystem.Configure()
                     .Playground()

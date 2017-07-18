@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 using Orleankka;
+using Orleankka.Embedded;
 using Orleankka.Playground;
+using Orleankka.Utility;
 
 namespace Demo
 {
@@ -19,14 +21,18 @@ namespace Demo
                 {"account", "UseDevelopmentStorage=true"}
             };
 
-            var system = ActorSystem.Configure()
-                .Playground()
-                .Bootstrapper<ServiceLocator.Bootstrap>(properties)
-                .Assemblies(typeof(Api).Assembly)
-                .Done();
+            EmbeddedActorSystem system;
+            using (Trace.Execution("Full system startup"))
+            {
+                system = ActorSystem.Configure()
+                    .Playground()
+                    .Bootstrapper<ServiceLocator.Bootstrap>(properties)
+                    .Assemblies(typeof(Api).Assembly)
+                    .Done();
 
-            system.Start().Wait();
-
+                system.Start().Wait();
+                
+            }
             client = new Client(system, system.CreateObservable().Result);
             client.Run();
 

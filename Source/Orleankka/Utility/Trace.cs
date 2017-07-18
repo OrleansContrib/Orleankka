@@ -3,9 +3,11 @@ using System.Diagnostics;
 
 namespace Orleankka.Utility
 {
-    class Execution
+    public class Trace
     {
-        public static IDisposable Trace(string label) => new Session(Stopwatch.StartNew(), label);
+        static readonly TraceSource Source = new TraceSource("Orleankka", SourceLevels.All);
+
+        public static IDisposable Execution(string label) => new Session(Stopwatch.StartNew(), label);
 
         class Session : IDisposable
         {
@@ -18,7 +20,7 @@ namespace Orleankka.Utility
                 this.label = label;
             }
 
-            public void Dispose() => System.Diagnostics.Trace.TraceInformation($"{label} done in {stopwatch.ElapsedMilliseconds} ms");
+            public void Dispose() => Source.TraceInformation($"{label} done in {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }
