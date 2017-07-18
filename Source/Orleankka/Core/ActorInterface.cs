@@ -74,8 +74,6 @@ namespace Orleankka.Core
             }
         }
 
-        internal static IEnumerable<ActorInterface> Registered() => interfaces.Values.ToArray();
-
         internal static ActorInterface Registered(string name)
         {
             var result = interfaces.Find(name);
