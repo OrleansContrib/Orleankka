@@ -33,6 +33,8 @@ namespace Orleankka.Cluster
             public IServiceProvider ConfigureServices(IServiceCollection services)
             {
                 services.AddSingleton<IActorSystem>(current);
+                services.AddSingleton(current);
+
                 return services.BuildServiceProvider();
             }
         }

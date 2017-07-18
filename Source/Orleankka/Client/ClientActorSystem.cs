@@ -37,6 +37,7 @@ namespace Orleankka.Client
                 {
                     services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
                     services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton(this));
                 })
                 .Build();
 
