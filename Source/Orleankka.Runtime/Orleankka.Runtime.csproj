@@ -89,7 +89,6 @@
     <Compile Include="StatefulActor.cs" />
     <Compile Include="StreamRefExtensions.cs" />
     <Compile Include="ActorAttributes.cs" />
-    <Compile Include="Placement.cs" />
     <Compile Include="Cluster\Bootstrapper.cs" />
     <Compile Include="Cluster\ClusterActorSystem.cs" />
     <Compile Include="Cluster\ClusterConfigurator.cs" />
