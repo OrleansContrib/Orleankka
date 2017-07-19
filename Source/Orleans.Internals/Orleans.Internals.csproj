@@ -56,6 +56,7 @@
       <Link>Properties\Product.cs</Link>
     </Compile>
     <Compile Include="GrainReferenceUtility.cs" />
+    <Compile Include="GrainUtility.cs" />
     <Compile Include="PushExtension.cs" />
     <Compile Include="SiloUtility.cs" />
     <Compile Include="StreamIdentity.cs" />

@@ -23,7 +23,7 @@ namespace Orleankka
         
         internal static ActorRef Deserialize(ActorPath path, IGrainFactory factory)
         {
-            var @interface = ActorInterface.Registered(path.Type);
+            var @interface = ActorInterface.Of(path.Type);
             return new ActorRef(path, @interface.Proxy(path.Id, factory));
         }
 

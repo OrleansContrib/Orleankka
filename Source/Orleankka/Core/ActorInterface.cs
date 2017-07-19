@@ -1,19 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 using Orleans;
+using Orleans.Internals;
 
 namespace Orleankka.Core
 {
     using Utility;
 
-    class ActorInterface
+    public class ActorInterface
     {
-        static readonly Dictionary<string, ActorInterface> interfaces =
+        static readonly Dictionary<string, ActorInterface> names =
                     new Dictionary<string, ActorInterface>();
+
+        static readonly Dictionary<int, ActorInterface> ids =
+                    new Dictionary<int, ActorInterface>();
+
+        public static ActorInterface Of(string name)
+        {
+            Requires.NotNull(name, nameof(name));
+
+            var result = names.Find(name);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor type name '{name}' to the corresponding actor. " +
+                        "Make sure that you've registered an actor type or the assembly containing this type");
+
+            return result;
+        }
+
+        public static ActorInterface Of(int id)
+        {
+            var result = ids.Find(id);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor interface id '{id}' to the corresponding actor");
+
+            return result;
+        }
 
         internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
@@ -21,7 +47,7 @@ namespace Orleankka.Core
 
             foreach (var each in mappings)
             {
-                var existing = interfaces.Find(each.TypeName);
+                var existing = names.Find(each.TypeName);
                 if (existing == null)
                 {
                     unregistered.Add(each);
@@ -37,12 +63,19 @@ namespace Orleankka.Core
                 var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
 
                 foreach (var each in generated)
-                    interfaces[each.Mapping.TypeName] = each;
+                {
+                    names.Add(each.Name, each);
+                    ids.Add(each.Id, each);
+                }
             }
         }
 
         internal readonly ActorInterfaceMapping Mapping;
         internal readonly Type Grain;
+
+        public readonly int Id;
+        public readonly ushort Version;
+        public readonly string Name;
 
         Func<IGrainFactory, string, object> factory;
 
@@ -51,6 +84,10 @@ namespace Orleankka.Core
             Mapping = mapping;
             Grain = grain;
 
+            Id = grain.InterfaceId();
+            Version = grain.InterfaceVersion();
+            Name = Mapping.TypeName;
+
             Array.ForEach(mapping.Types, ActorTypeName.Register);
         }
 
@@ -58,7 +95,7 @@ namespace Orleankka.Core
 
         internal static void Bind(IGrainFactory factory)
         {            
-            foreach (var @interface in interfaces.Values)
+            foreach (var @interface in names.Values)
             {
                 var method = factory.GetType().GetMethod("GetGrain", new[] {typeof(string), typeof(string)});
                 var invoker = method.MakeGenericMethod(@interface.Grain);
@@ -72,17 +109,6 @@ namespace Orleankka.Core
 
                 @interface.factory = func;
             }
-        }
-
-        internal static ActorInterface Registered(string name)
-        {
-            var result = interfaces.Find(name);
-            if (result == null)
-                throw new InvalidOperationException(
-                    $"Unable to map type '{name}' to the corresponding actor. " +
-                     "Make sure that you've registered an actor type or the assembly containing this type");
-
-            return result;
         }
 
         internal IActorEndpoint Proxy(string id, IGrainFactory instance) => (IActorEndpoint) factory(instance, id);

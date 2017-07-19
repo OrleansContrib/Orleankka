@@ -22,6 +22,18 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
+        public static ActorType Of(string name)
+        {
+            Requires.NotNull(name, nameof(name));
+
+            var result = types.Find(name);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor type name '{name}' to the corresponding actor implementation class");
+
+            return result;
+        }
+
         internal static void Register(Assembly[] assemblies, string[] conventions)
         {
             var unregistered = assemblies
@@ -38,29 +50,32 @@ namespace Orleankka.Core
         }
 
         internal static IEnumerable<ActorType> Registered() => types.Values;
-        internal string Name => @interface.Mapping.TypeName;
-        
-        readonly Type actor;
-        readonly ActorInterface @interface;
+        internal string Name => Interface.Mapping.TypeName;
+
+        public readonly Type Class;
+        public readonly ActorInterface Interface;
+        internal readonly Type Grain;
+
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly string invoker;
         readonly Dispatcher dispatcher;
 
-        internal ActorType(Type actor, ActorInterface @interface, Type endpoint, string[] conventions)
+        internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
         {
-            this.actor = actor;
-            this.@interface = @interface;
+            Class = @class;
+            Interface = @interface;
+            Grain = grain;
 
-            Sticky = StickyAttribute.IsApplied(actor);
-            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(actor);
-            interleavePredicate = ReentrantAttribute.MayInterleavePredicate(actor);
-            invoker = InvokerAttribute.From(actor);
+            Sticky = StickyAttribute.IsApplied(@class);
+            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
+            interleavePredicate = ReentrantAttribute.MayInterleavePredicate(@class);
+            invoker = InvokerAttribute.From(@class);
             
-            dispatcher = new Dispatcher(actor, conventions);
-            dispatchers.Add(actor, dispatcher);
+            dispatcher = new Dispatcher(@class, conventions);
+            dispatchers.Add(@class, dispatcher);
 
-            Init(endpoint);
+            Init(grain);
         }
 
         void Init(Type grain)
@@ -74,14 +89,17 @@ namespace Orleankka.Core
 
         internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
         {
-            var instance = activator.Activate(actor, path.Id, runtime, dispatcher);
+            var instance = activator.Activate(Class, path.Id, runtime, dispatcher);
             instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
 
         internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
-            pipeline.GetInvoker(actor, invoker);
+            pipeline.GetInvoker(Class, invoker);
 
+        /// <summary> 
+        /// FOR INTERNAL USE ONLY!
+        /// </summary>
         [UsedImplicitly]
         public bool MayInterleave(InvokeMethodRequest request)
         {
@@ -108,7 +126,7 @@ namespace Orleankka.Core
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
-            StreamSubscriptionSpecification.From(actor, dispatcher);
+            StreamSubscriptionSpecification.From(Class, dispatcher);
 
         internal bool Sticky { get; }
     }

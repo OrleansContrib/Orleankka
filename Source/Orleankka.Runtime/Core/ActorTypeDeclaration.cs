@@ -95,7 +95,7 @@ namespace Orleankka.Core
             this.actor = actor;
 
             var typeName = ActorTypeName.Of(actor);
-            @interface = ActorInterface.Registered(typeName);
+            @interface = ActorInterface.Of(typeName);
 
             var path = typeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
