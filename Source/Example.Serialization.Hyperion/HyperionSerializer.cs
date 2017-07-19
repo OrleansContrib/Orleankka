@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
 
 using Hyperion;
 
@@ -18,41 +17,37 @@ namespace Example
     {
         static readonly Type BaseInterfaceType = typeof(Message);
 
-        readonly Serializer serializer;
-        readonly Serializer copier;
+        Serializer serializer;
+        Serializer copier;
 
         IStreamProviderManager streamProviderManager;
         IGrainFactory grainFactory;
 
-        public HyperionSerializer()
+        public void Initialize(Logger logger)
         {
             var surogates = new[]
             {
                 Surrogate.Create<ActorPath, ActorPathSurrogate>(ActorPathSurrogate.From, x => x.Original()),
                 Surrogate.Create<StreamPath, StreamPathSurrogate>(StreamPathSurrogate.From, x => x.Original()),
-
                 Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<StreamRef, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original(this)),
                 Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original(this)),
             };
 
             var options = new SerializerOptions(
-                versionTolerance: true, 
-                preserveObjectReferences: true, 
+                versionTolerance: true,
+                preserveObjectReferences: true,
                 surrogates: surogates);
 
             serializer = new Serializer(options);
 
             options = new SerializerOptions(
                 versionTolerance: false,
-                preserveObjectReferences: true, 
+                preserveObjectReferences: true,
                 surrogates: surogates);
 
             copier = new Serializer(options);
         }
-
-        public void Initialize(Logger logger)
-        {}
 
         public bool IsSupportedType(Type itemType)
         {
@@ -61,6 +56,8 @@ namespace Example
 
         public object DeepCopy(object source, ICopyContext context)
         {
+            EnsureDependencies(context);
+
             if (source == null)
                 return null;
 
@@ -93,11 +90,7 @@ namespace Example
 
         public object Deserialize(Type expectedType, IDeserializationContext context)
         {
-            if (streamProviderManager == null)
-                streamProviderManager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
-
-            if (grainFactory == null)
-                grainFactory = (IGrainFactory)context.ServiceProvider.GetService(typeof(IGrainFactory));
+            EnsureDependencies(context);
 
             var reader = context.StreamReader;
 
@@ -106,6 +99,15 @@ namespace Example
 
             using (var stream = new MemoryStream(inBytes))
                 return serializer.Deserialize(stream);
+        }
+
+        void EnsureDependencies(ISerializerContext context)
+        {
+            if (streamProviderManager == null)
+                streamProviderManager = (IStreamProviderManager) context.ServiceProvider.GetService(typeof(IStreamProviderManager));
+
+            if (grainFactory == null)
+                grainFactory = (IGrainFactory) context.ServiceProvider.GetService(typeof(IGrainFactory));
         }
 
         abstract class StringPayloadSurrogate
