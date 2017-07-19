@@ -232,7 +232,7 @@ namespace Orleankka.Core
                 .Select(x => $"{char.ToLowerInvariant(x.Property.Name[0]) + x.Property.Name.Substring(1)}:{x.Setter}")
                 .ToList();
 
-            return "global:" + placement.GetType().FullName + $"({string.Join(",", setters)})";
+            return "global::" + placement.GetType().FullName + $"({string.Join(",", setters)})";
         }
 
         static string GenerateAttributePropertySetter(PropertyInfo p, object obj)
