@@ -122,9 +122,6 @@ namespace Orleankka.TestKit
         public override Task Tell(ActorMessage<T> message) =>
             @ref.Tell(message);
 
-        public override Task<TResult> Ask<TResult>(ActorMessage<T> message) =>
-            @ref.Ask<TResult>(message);
-
         public override Task<TResult> Ask<TResult>(ActorMessage<T, TResult> message) =>
             @ref.Ask<TResult>(message);
 
