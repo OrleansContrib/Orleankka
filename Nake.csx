@@ -80,9 +80,9 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 }
 
 /// Builds official NuGet packages 
-[Step] void Package(bool fullCheck = false)
+[Step] void Package(bool skipFullCheck = false)
 {
-    Test(@"{PackagePath}\Debug", fullCheck);
+    Test(@"{PackagePath}\Debug", !skipFullCheck);
     Build("Package", ReleasePath);
 
     Pack(CoreProject);    
