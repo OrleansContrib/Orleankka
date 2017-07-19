@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Runtime;
+using Orleans.Internals;
+using Orleans.Timers;
 
 namespace Orleankka.Services
 {
-    using Core;
     using Utility;
 
     /// <summary>
@@ -56,36 +58,36 @@ namespace Orleankka.Services
     class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly IActorHost host;
+        readonly IReminderRegistry registry;
 
-        internal ReminderService(IActorHost host)
+        internal ReminderService(Grain grain)
         {
-            this.host = host;
+            registry = grain.Runtime().ReminderRegistry;
         }
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            reminders[id] = await host.RegisterOrUpdateReminder(id, due, period);
+            reminders[id] = await registry.RegisterOrUpdateReminder(id, due, period);
         }
 
         async Task IReminderService.Unregister(string id)
         {
-            var reminder = reminders.Find(id) ?? await host.GetReminder(id);
+            var reminder = reminders.Find(id) ?? await registry.GetReminder(id);
             
             if (reminder != null)
-                await host.UnregisterReminder(reminder);
+                await registry.UnregisterReminder(reminder);
 
             reminders.Remove(id);
         }
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            return reminders.ContainsKey(id) || (await host.GetReminder(id)) != null;
+            return reminders.ContainsKey(id) || (await registry.GetReminder(id)) != null;
         }
 
         async Task<IEnumerable<string>> IReminderService.Registered()
         {
-            return (await host.GetReminders()).Select(x => x.ReminderName);
+            return (await registry.GetReminders()).Select(x => x.ReminderName);
         }
     }
 }

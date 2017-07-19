@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Core;
 using Orleans.Runtime;
+using Orleans.Internals;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -86,55 +87,12 @@ namespace Orleankka.Core
             return invoker.OnActivate(instance);
         }
 
+        public IGrainRuntime Runtime => this.Runtime();
+
         static string IdentityOf(IGrain grain) => 
             (grain as IGrainWithStringKey).GetPrimaryKeyString();
 
         protected abstract ActorType Actor { get; }
-
-        #region Expose protected methods
-
-        public new IServiceProvider ServiceProvider => base.ServiceProvider;
-        public IGrainIdentity Identity => this.GetGrainIdentity();
-        public new string IdentityString => base.IdentityString;
-        public new IGrainFactory GrainFactory => base.GrainFactory;
-        public Logger Logger() => base.GetLogger();
-
-        public new void DeactivateOnIdle()
-        {
-            base.DeactivateOnIdle();
-        }
-
-        public new void DelayDeactivation(TimeSpan timeSpan)
-        {
-            base.DelayDeactivation(timeSpan);
-        }
-
-        public new Task<IGrainReminder> GetReminder(string reminderName)
-        {
-            return base.GetReminder(reminderName);
-        }
-
-        public new Task<List<IGrainReminder>> GetReminders()
-        {
-            return base.GetReminders();
-        }
-
-        public new Task<IGrainReminder> RegisterOrUpdateReminder(string reminderName, TimeSpan dueTime, TimeSpan period)
-        {
-            return base.RegisterOrUpdateReminder(reminderName, dueTime, period);
-        }
-
-        public new Task UnregisterReminder(IGrainReminder reminder)
-        {
-            return base.UnregisterReminder(reminder);
-        }
-
-        public new IDisposable RegisterTimer(Func<object, Task> asyncCallback, object state, TimeSpan dueTime, TimeSpan period)
-        {
-            return base.RegisterTimer(asyncCallback, state, dueTime, period);
-        }
-
-        #endregion
 
         public new TState State
         {

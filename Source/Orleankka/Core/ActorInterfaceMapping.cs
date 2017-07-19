@@ -12,10 +12,14 @@ namespace Orleankka.Core
             var name = ActorTypeName.Of(type);
 
             Type @interface = null;
-            if (type.IsClass)
-                @interface = ActorTypeName.CustomInterface(type);
-
             Type @class = null;
+
+            if (type.IsClass)
+            {
+                @interface = ActorTypeName.CustomInterface(type);
+                @class = type;
+            }
+
             if (type.IsInterface)
             {
                 var classes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()
@@ -27,7 +31,8 @@ namespace Orleankka.Core
                         $"Custom actor interface [{type.FullName}] is implemented by " +
                         $"multiple classes: {string.Join(" ; ", classes.Select(x => x.ToString()))}");
 
-                @class = classes[0];                
+                @class = classes[0];
+                @interface = type;
             }
 
             return new ActorInterfaceMapping(name, @interface, @class);

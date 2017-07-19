@@ -3,6 +3,8 @@
 using Orleankka.Core;
 using Orleankka.Services;
 
+using Orleans;
+
 namespace Orleankka
 {
     interface IStatefulActor

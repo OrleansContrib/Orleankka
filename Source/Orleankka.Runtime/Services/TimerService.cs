@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
+
+using Orleans;
+using Orleans.Internals;
+using Orleans.Timers;
 
 namespace Orleankka.Services
 {
-    using System.Runtime.Remoting.Messaging;
-
-    using Core;
-
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
@@ -138,11 +139,13 @@ namespace Orleankka.Services
         internal static bool IsExecuting() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
 
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly IActorHost host;
+        readonly ITimerRegistry registry;
+        readonly Grain grain;
 
-        internal TimerService(IActorHost host)
+        internal TimerService(Grain grain)
         {
-            this.host = host;
+            this.grain = grain;
+            this.registry = grain.Runtime().TimerRegistry;
         }
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
@@ -156,7 +159,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, host.RegisterTimer(async s =>
+            timers.Add(id, registry.RegisterTimer(grain, async s =>
             {
                 SetExecuting();
                 await callback();
@@ -175,7 +178,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, host.RegisterTimer(async s =>
+            timers.Add(id, registry.RegisterTimer(grain, async s =>
             {
                 SetExecuting();
                 await callback((TState) s);

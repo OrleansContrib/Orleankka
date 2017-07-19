@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using Orleans;
 using Orleans.CodeGeneration;
+using Orleans.Internals;
 using Orleans.Concurrency;
 
 namespace Orleankka.Core
@@ -117,12 +119,12 @@ namespace Orleankka.Core
         static object UnwrapImmutable(object item) => 
             item is Immutable<object> ? ((Immutable<object>)item).Value : item;
 
-        internal void KeepAlive(IActorHost host)
+        internal void KeepAlive(Grain grain)
         {
             if (keepAliveTimeout == TimeSpan.Zero)
                 return;
 
-            host.DelayDeactivation(keepAliveTimeout);
+            grain.Runtime().DelayDeactivation(grain, keepAliveTimeout);
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 

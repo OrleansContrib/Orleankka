@@ -1,6 +1,7 @@
-﻿namespace Orleankka
+﻿using Orleans;
+
+namespace Orleankka
 {
-    using Core;
     using Services;
 
     public interface IActorRuntime
@@ -13,12 +14,12 @@
 
     public sealed class ActorRuntime : IActorRuntime
     {
-        internal ActorRuntime(IActorSystem system, IActorHost host)
+        internal ActorRuntime(IActorSystem system, Grain grain)
         {
             System = system;
-            Timers = new TimerService(host);
-            Reminders = new ReminderService(host);
-            Activation = new ActivationService(host);
+            Timers = new TimerService(grain);
+            Reminders = new ReminderService(grain);
+            Activation = new ActivationService(grain);
         }
 
         public IActorSystem System { get; }
