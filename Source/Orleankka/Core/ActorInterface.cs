@@ -18,6 +18,9 @@ namespace Orleankka.Core
         static readonly Dictionary<int, ActorInterface> ids =
                     new Dictionary<int, ActorInterface>();
 
+        public static ActorInterface Of<T>() => Of(typeof(T));
+        public static ActorInterface Of(Type type) => Of(ActorTypeName.Of(type));
+
         public static ActorInterface Of(string name)
         {
             Requires.NotNull(name, nameof(name));

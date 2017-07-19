@@ -24,6 +24,9 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
+        public static ActorType Of<T>() => Of(typeof(T));
+        public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
+
         public static ActorType Of(string name)
         {
             Requires.NotNull(name, nameof(name));
