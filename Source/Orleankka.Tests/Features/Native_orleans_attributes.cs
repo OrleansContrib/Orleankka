@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.MultiCluster;
 using Orleans.Providers;
 
 namespace Orleankka.Features
@@ -26,6 +27,12 @@ namespace Orleankka.Features
 
         [StorageProvider]
         public class TestDefaultStorageProviderActor : Actor {}
+
+        [GlobalSingleInstance]
+        public class TestGlobalSingleInstanceActor : Actor {}
+
+        [OneInstancePerCluster]
+        public class TestOneInstancePerClusterActor : Actor {}
 
         [TestFixture]
         [RequiresSilo]
@@ -64,6 +71,13 @@ namespace Orleankka.Features
             {
                 var attribute = AssertHasCustomAttribute<TestDefaultStorageProviderActor, StorageProviderAttribute>();
                 Assert.That(attribute.ProviderName, Is.EqualTo(new StorageProviderAttribute().ProviderName));
+            }
+
+            [Test]
+            public void MultiCluster_attributes()
+            {
+                AssertHasCustomAttribute<TestGlobalSingleInstanceActor, GlobalSingleInstanceAttribute>();
+                AssertHasCustomAttribute<TestOneInstancePerClusterActor, OneInstancePerClusterAttribute>();
             }
         }
     }
