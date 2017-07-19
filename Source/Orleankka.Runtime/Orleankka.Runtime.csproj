@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="ActorInvoker.cs" />
     <Compile Include="ActorActivator.cs" />
+    <Compile Include="ActorPlacementRequest.cs" />
     <Compile Include="Behaviors\ActorBehavior.cs" />
     <Compile Include="Behaviors\BehaviorExtensions.cs" />
     <Compile Include="Behaviors\CustomBehavior.cs" />
