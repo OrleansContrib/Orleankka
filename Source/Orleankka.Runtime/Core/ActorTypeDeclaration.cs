@@ -186,10 +186,6 @@ namespace Orleankka.Core
             if (storageProvider != null)
                 src.AppendLine($"[{nameof(StorageProviderAttribute)}(ProviderName=\"{storageProvider.ProviderName}\")]");
 
-            var version = actor.GetCustomAttribute<VersionAttribute>();
-            if (version != null)
-                src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
-
             var registration = GetCustomAttributesAssignableFrom<RegistrationAttribute>(actor);
             if (registration.Length > 1)
                 throw new InvalidOperationException(

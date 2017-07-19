@@ -36,7 +36,7 @@ namespace Orleankka.Features
 
             void On(Attach x)   => observer = x.Observer;
             void On(Publish x)  => observer.Notify(new Notification {Text = x.Text});
-    }
+        }
 
         [Serializable]
         public class ReceivedNotifications : Query<Notification[]>

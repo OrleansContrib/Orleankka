@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.CodeGeneration;
+
 namespace Orleankka.Core
 {
     class ActorInterfaceDeclaration
@@ -130,10 +132,26 @@ namespace Orleankka.Core
         void StartNamespace(StringBuilder src) =>
             src.AppendLine($"namespace {string.Join(".", namespaces)} {{");
 
-        static void EndNamespace(StringBuilder src) =>
+        static void EndNamespace(StringBuilder src) => 
             src.AppendLine("}");
 
-        void GenerateInterface(StringBuilder src) => 
+        void GenerateInterface(StringBuilder src)
+        {
+            GenerateAttributes(src);
+            GenerateType(src);
+        }
+
+        void GenerateAttributes(StringBuilder src)
+        {
+            if (mapping.CustomInterface == null)
+                return;
+
+            var version = mapping.CustomInterface.GetCustomAttribute<VersionAttribute>();
+            if (version != null)
+                src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
+        }
+
+        void GenerateType(StringBuilder src) => 
             src.AppendLine($"public interface {name} : global::Orleankka.Core.IActorEndpoint {{}}");
     }
 }
