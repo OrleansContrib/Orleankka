@@ -4,21 +4,20 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
     [Serializable]
     public class ActorRefMock : ActorRef
     {
-        [NonSerialized] readonly SerializationManager serialization;
+        [NonSerialized] readonly SerializationOptions serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
         [NonSerialized] readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
-        internal ActorRefMock(ActorPath path, SerializationManager serialization = null)
+        internal ActorRefMock(ActorPath path, SerializationOptions serialization = null)
             : base(path)
         {
-            this.serialization = serialization;
+            this.serialization = serialization ?? SerializationOptions.Default;
         }
 
         public TellExpectation<TMessage> ExpectTell<TMessage>(Expression<Func<TMessage, bool>> match = null)

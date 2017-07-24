@@ -4,14 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using Orleans.Serialization;
 
 namespace Orleankka.TestKit
 {
     [Serializable]
     public class StreamRefMock : StreamRef
     {
-        [NonSerialized] readonly SerializationManager serialization;
+        [NonSerialized] readonly SerializationOptions serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
         [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
@@ -24,10 +23,10 @@ namespace Orleankka.TestKit
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        internal StreamRefMock(StreamPath path, SerializationManager serialization = null)
+        internal StreamRefMock(StreamPath path, SerializationOptions serialization = null)
             : base(path, null)
         {
-            this.serialization = serialization;
+            this.serialization = serialization ?? SerializationOptions.Default;
         }
 
         public PushExpectation<TItem> Expect<TItem>(Expression<Func<TItem, bool>> match = null)

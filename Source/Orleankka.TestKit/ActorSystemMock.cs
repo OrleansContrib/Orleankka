@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Orleans.Serialization;
-
 namespace Orleankka.TestKit
 {
     using Client;
 
     public class ActorSystemMock : IClientActorSystem
     {
-        readonly SerializationManager serialization;
+        readonly SerializationOptions serialization;
 
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
@@ -21,9 +19,9 @@ namespace Orleankka.TestKit
         readonly Queue<ClientObservableMock> observables = 
              new Queue<ClientObservableMock>();
 
-        public ActorSystemMock(SerializationManager serialization = null)
+        public ActorSystemMock(SerializationOptions serialization = null)
         {
-            this.serialization = serialization;
+            this.serialization = serialization ?? SerializationOptions.Default;
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)

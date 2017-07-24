@@ -1,12 +1,10 @@
 ﻿using Orleankka.Services;
 
-using Orleans.Serialization;
-
 namespace Orleankka.TestKit
 {
     public class ActorRuntimeMock : IActorRuntime
     {
-        public ActorRuntimeMock(SerializationManager serialization = null)
+        public ActorRuntimeMock(SerializationOptions serialization = null)
         {
             System      = new ActorSystemMock(serialization);
             Timers      = new TimerServiceMock();
