@@ -34,12 +34,8 @@ namespace Demo
         internal int total;
         string query;
 
-        public Topic()
-        {
-            storage = ServiceLocator.TopicStorage;
-        }
-
-        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) : base(id, runtime)
+        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) 
+            : base(id, runtime)
         {
             this.storage = storage;
         }

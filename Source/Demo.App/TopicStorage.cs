@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading.Tasks;
 
 using Microsoft.WindowsAzure.Storage;
@@ -15,9 +14,8 @@ namespace Demo
 
     public class TopicStorage : ITopicStorage
     {
-        public static async Task<ITopicStorage> Init(string connectionString)
+        public static async Task<ITopicStorage> Init(CloudStorageAccount account)
         {
-            var account = CloudStorageAccount.Parse(connectionString);
             var blobClient = account.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("topics");
@@ -51,9 +49,6 @@ namespace Demo
             return blob.UploadTextAsync(total.ToString(CultureInfo.InvariantCulture));
         }
 
-        static string GetBlobName(string id)
-        {
-            return string.Format("topic-{0}.json", id);
-        }
+        static string GetBlobName(string id) => $"topic-{id}.json";
     }
 }

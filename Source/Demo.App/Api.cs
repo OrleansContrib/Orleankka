@@ -61,16 +61,10 @@ namespace Demo
         const int FailureThreshold = 3;
 
         readonly IObserverCollection observers;
-        readonly Func<IApiWorker> worker;
+        readonly IApiWorker worker;
 
         int failures;
         bool available = true;
-
-        public Api()
-        {
-            observers = new ObserverCollection();
-            worker = ApiWorkerFactory.Create(()=> Id);
-        }
 
         public Api(
             string id, 
@@ -80,7 +74,7 @@ namespace Demo
             : base(id, runtime)
         {
             this.observers = observers;
-            this.worker = ()=> worker;
+            this.worker = worker;
         }
     
         public void Handle(Subscribe cmd)
@@ -95,7 +89,7 @@ namespace Demo
 
             try
             {
-                var result = await worker().Search(search.Subject);
+                var result = await worker.Search(search.Subject);
                 ResetFailureCounter();
 
                 return result;
@@ -131,7 +125,7 @@ namespace Demo
         {
             try
             {
-                await worker().Search("test");
+                await worker.Search("test");
                 Timers.Unregister("check");
 
                 Unlock();

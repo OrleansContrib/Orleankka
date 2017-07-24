@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Demo
 {
@@ -19,10 +18,7 @@ namespace Demo
             {"twitter",  new Faulty(new TwitterApiWorker("twitter.com"))},
         };
 
-        public static Func<IApiWorker> Create(Func<string> api)
-        {
-            return () => registry[api()];
-        }
+        public static IApiWorker Create(string api) => registry[api];
     }
 
     abstract class ApiWorkerBase : IApiWorker

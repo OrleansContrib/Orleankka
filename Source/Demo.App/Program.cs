@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Orleankka;
 using Orleankka.Embedded;
 using Orleankka.Playground;
 using Orleankka.Utility;
+
+using Microsoft.WindowsAzure.Storage;
 
 namespace Demo
 {
@@ -16,17 +17,19 @@ namespace Demo
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
-            var properties = new Dictionary<string, string>
-            {
-                {"account", "UseDevelopmentStorage=true"}
+            var options = new Options {
+                Account = CloudStorageAccount.DevelopmentStorageAccount
             };
+
+            var activator = new DI();
+            activator.Init(options).Wait();
 
             EmbeddedActorSystem system;
             using (Trace.Execution("Full system startup"))
             {
                 system = ActorSystem.Configure()
                     .Playground()
-                    .Bootstrapper<ServiceLocator.Bootstrap>(properties)
+                    .Activator(activator)
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 
