@@ -12,7 +12,6 @@ nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget PowerAssert
 
-nuget FSharp.Core 4.0.0.1
 nuget FsPickler 1.2.5
 nuget Suave 0.31.0
 
