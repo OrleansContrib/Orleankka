@@ -10,7 +10,7 @@
     <RootNamespace>Orleankka.FSharp.Tests</RootNamespace>
     <AssemblyName>Orleankka.FSharp.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
     <Name>Orleankka.FSharp.Tests</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
