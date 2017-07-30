@@ -16,8 +16,8 @@ namespace Orleankka.Core
 
             if (type.IsClass)
             {
-                @interface = ActorTypeName.CustomInterface(type);
                 @class = type;
+                @interface = ActorTypeName.CustomInterface(type);
             }
 
             if (type.IsInterface)
@@ -31,8 +31,8 @@ namespace Orleankka.Core
                         $"Custom actor interface [{type.FullName}] is implemented by " +
                         $"multiple classes: {string.Join(" ; ", classes.Select(x => x.ToString()))}");
 
-                @class = classes[0];
                 @interface = type;
+                @class = classes.Length != 0 ? classes[0] : null;
             }
 
             return new ActorInterfaceMapping(name, @interface, @class);
