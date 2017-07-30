@@ -8,6 +8,9 @@ using Orleans.Runtime.Configuration;
 namespace Orleankka.Client
 {
     using Core;
+
+    using Microsoft.Extensions.DependencyInjection;
+
     using Utility;
 
     public sealed class ClientConfigurator
@@ -17,6 +20,8 @@ namespace Orleankka.Client
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
+
+        Action<IServiceCollection> configure;
 
         internal ClientConfigurator()
         {
@@ -39,6 +44,18 @@ namespace Orleankka.Client
             var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
             if (!streamProviders.Add(configuration))
                 throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
+
+            return this;
+        }
+
+        public ClientConfigurator Services(Action<IServiceCollection> configure)
+        {
+            Requires.NotNull(configure, nameof(configure));
+
+            if (this.configure != null)
+                throw new InvalidOperationException("Services configurator has been already set");
+
+            this.configure = configure;
 
             return this;
         }
@@ -72,7 +89,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration);
+            return new ClientActorSystem(Configuration, configure);
         }
 
         void RegisterStreamProviders()

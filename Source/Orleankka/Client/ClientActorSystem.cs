@@ -30,7 +30,7 @@ namespace Orleankka.Client
     /// </summary>
     public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
-        internal ClientActorSystem(ClientConfiguration configuration)
+        internal ClientActorSystem(ClientConfiguration configuration, Action<IServiceCollection> configure)
         {
             using (Trace.Execution("Orleans client initialization"))
                 Client = new ClientBuilder()
@@ -40,6 +40,8 @@ namespace Orleankka.Client
                     services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
                     services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
                     services.Add(ServiceDescriptor.Singleton(this));
+
+                    configure?.Invoke(services);
                 })
                 .Build();
 
