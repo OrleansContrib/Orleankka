@@ -7,7 +7,7 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    [Reentrant(typeof(GetDetails))]
+    [Interleave(typeof(GetDetails))]
     public class InventoryItem : EventSourcedActor
     {
         int total;

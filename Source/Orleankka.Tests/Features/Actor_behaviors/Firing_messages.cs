@@ -26,7 +26,7 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class GetReceived : Query<List<string>> {}
             [Serializable] class GetFired : Query<List<string>> {}
 
-            [Reentrant(typeof(string))]
+            [Interleave(typeof(string))]
             class TestInterleaveFireActor : Actor
             {
                 readonly List<string> received = new List<string>();

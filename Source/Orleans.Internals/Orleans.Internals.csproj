@@ -55,6 +55,7 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="AttributeUtility.cs" />
     <Compile Include="GrainReferenceUtility.cs" />
     <Compile Include="GrainUtility.cs" />
     <Compile Include="PushExtension.cs" />

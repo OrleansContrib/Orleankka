@@ -126,11 +126,11 @@ namespace Orleankka.Core
         {
             CopyAttributes(src);
 
-            var reentrant = ReentrantAttribute.IsReentrant(actor);
+            var reentrant = InterleaveAttribute.IsReentrant(actor);
             if (reentrant)
                 src.AppendLine($"[global::{typeof(Orleans.Concurrency.ReentrantAttribute).FullName}]");
 
-            var mayInterleave = ReentrantAttribute.MayInterleavePredicate(actor) != null;
+            var mayInterleave = InterleaveAttribute.MayInterleavePredicate(actor) != null;
             if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 

@@ -7,7 +7,7 @@ using Orleans.Concurrency;
 
 namespace Example.Azure
 {
-    [StatelessWorker, Orleankka.Reentrant(typeof(Publish))]
+    [StatelessWorker, Orleankka.Interleave(typeof(Publish))]
     public class HubBuffer : Actor
     {
         [Serializable]
