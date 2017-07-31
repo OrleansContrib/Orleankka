@@ -34,6 +34,7 @@ namespace Orleankka.Embedded
 
         public ActorRef ActorOf(ActorPath path) => Client.ActorOf(path);
         public StreamRef StreamOf(StreamPath path) => Client.StreamOf(path);
+        public ClientRef ClientOf(string path) => Client.ClientOf(path);
         public Task<IClientObservable> CreateObservable() => Client.CreateObservable();
 
         public void Dispose()

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-
 namespace Orleankka.TestKit
 {
     [Serializable]
@@ -24,7 +23,7 @@ namespace Orleankka.TestKit
         public Actor Resumed       { get; private set; }
 
         internal StreamRefMock(StreamPath path, MessageSerialization serialization = null)
-            : base(path, null)
+            : base(path)
         {
             this.serialization = serialization ?? MessageSerialization.Default;
         }

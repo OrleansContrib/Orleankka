@@ -90,6 +90,11 @@ namespace Orleankka.TestKit
             return Task.FromResult((IClientObservable)observables.Dequeue());
         }
 
+        ClientRef IActorSystem.ClientOf(string path)
+        {
+            throw new NotImplementedException();
+        }
+        
         public void Reset()
         {
             actors.Clear();

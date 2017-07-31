@@ -6,13 +6,13 @@ using Hyperion;
 using Orleankka;
 using Orleankka.Meta;
 
-using Orleans;
 using Orleans.Runtime;
 using Orleans.Serialization;
-using Orleans.Streams;
 
 namespace Example
 {
+    using Microsoft.Extensions.DependencyInjection;
+
     public class HyperionSerializer : IExternalSerializer
     {
         static readonly Type BaseInterfaceType = typeof(Message);
@@ -20,8 +20,7 @@ namespace Example
         Serializer serializer;
         Serializer copier;
 
-        IStreamProviderManager streamProviderManager;
-        IGrainFactory grainFactory;
+        IActorSystem system;
 
         public void Initialize(Logger logger)
         {
@@ -56,7 +55,7 @@ namespace Example
 
         public object DeepCopy(object source, ICopyContext context)
         {
-            EnsureDependencies(context);
+            EnsureSystem(context);
 
             if (source == null)
                 return null;
@@ -90,7 +89,7 @@ namespace Example
 
         public object Deserialize(Type expectedType, IDeserializationContext context)
         {
-            EnsureDependencies(context);
+            EnsureSystem(context);
 
             var reader = context.StreamReader;
 
@@ -101,13 +100,10 @@ namespace Example
                 return serializer.Deserialize(stream);
         }
 
-        void EnsureDependencies(ISerializerContext context)
+        void EnsureSystem(ISerializerContext context)
         {
-            if (streamProviderManager == null)
-                streamProviderManager = (IStreamProviderManager) context.ServiceProvider.GetService(typeof(IStreamProviderManager));
-
-            if (grainFactory == null)
-                grainFactory = (IGrainFactory) context.ServiceProvider.GetService(typeof(IGrainFactory));
+            if (system == null)
+                system = context.ServiceProvider.GetRequiredService<IActorSystem>();
         }
 
         abstract class StringPayloadSurrogate
@@ -118,44 +114,44 @@ namespace Example
         class ActorPathSurrogate : StringPayloadSurrogate
         {
             public static ActorPathSurrogate From(ActorPath path) =>
-                new ActorPathSurrogate { S = path.Serialize() };
+                new ActorPathSurrogate { S = path };
 
-            public ActorPath Original() => ActorPath.Deserialize(S);
+            public ActorPath Original() => ActorPath.Parse(S);
         }
 
         class StreamPathSurrogate : StringPayloadSurrogate
         {
             public static StreamPathSurrogate From(StreamPath path) =>
-                new StreamPathSurrogate { S = path.Serialize() };
+                new StreamPathSurrogate { S = path };
 
-            public StreamPath Original() => StreamPath.Deserialize(S);
+            public StreamPath Original() => StreamPath.Parse(S);
         }
 
         class ActorRefSurrogate : StringPayloadSurrogate
         {
             public static ActorRefSurrogate From(ActorRef @ref) =>
-                new ActorRefSurrogate {S = @ref.Serialize()};
+                new ActorRefSurrogate {S = @ref.Path};
 
             public ActorRef Original(HyperionSerializer ctx) => 
-                ActorRef.Deserialize(S, ctx.grainFactory);
+                ctx.system.ActorOf(ActorPath.Parse(S));
         }
 
         class StreamRefSurrogate : StringPayloadSurrogate
         {
             public static StreamRefSurrogate From(StreamRef @ref) =>
-                new StreamRefSurrogate { S = @ref.Serialize() };
+                new StreamRefSurrogate { S = @ref.Path };
 
-            public StreamRef Original(HyperionSerializer ctx) => 
-                StreamRef.Deserialize(S, ctx.streamProviderManager);
+            public StreamRef Original(HyperionSerializer ctx) =>
+                ctx.system.StreamOf(StreamPath.Parse(S));
         }
 
         class ClientRefSurrogate : StringPayloadSurrogate
         {
             public static ClientRefSurrogate From(ClientRef @ref) =>
-                new ClientRefSurrogate { S = @ref.Serialize() };
+                new ClientRefSurrogate { S = @ref };
 
-            public ClientRef Original(HyperionSerializer ctx) => 
-                ClientRef.Deserialize(S, ctx.grainFactory);
+            public ClientRef Original(HyperionSerializer ctx) =>
+                ctx.system.ClientOf(S);
         }
     }
 }

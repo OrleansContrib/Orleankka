@@ -8,6 +8,7 @@ using Orleans.Streams;
 namespace Orleankka
 {
     using Core;
+    using Utility;
 
     /// <summary>
     /// Serves as factory for acquiring actor references.
@@ -27,12 +28,19 @@ namespace Orleankka
         /// <param name="path">The path of the stream</param>
         /// <returns>The stream reference</returns>
         StreamRef StreamOf(StreamPath path);
+        
+        /// <summary>
+        /// Acquires the client reference for the given client path
+        /// </summary>
+        /// <param name="path">The path of the client observable</param>
+        /// <returns>The client path</returns>
+        ClientRef ClientOf(string path);
     }
 
     /// <summary>
     /// Runtime implementation of <see cref="IActorSystem"/>
     /// </summary>
-    public abstract class ActorSystem : MarshalByRefObject, IActorSystem
+    public abstract class ActorSystem : IActorSystem
     {
         protected IStreamProviderManager StreamProviderManager { get; private set; }
         protected IGrainFactory GrainFactory { get; private set; }
@@ -57,22 +65,29 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
-           return ActorRef.Deserialize(path, GrainFactory);
-        }
+            var @interface = ActorInterface.Of(path.Type);
+            var proxy = @interface.Proxy(path.Id, GrainFactory);
 
+            return new ActorRef(path, proxy);
+        }
+        
         /// <inheritdoc />
         public StreamRef StreamOf(StreamPath path)
         {
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            return StreamRef.Deserialize(path, StreamProviderManager);
+            var provider = StreamProviderManager.GetStreamProvider(path.Provider);
+            return new StreamRef(path, provider);
         }
 
         /// <inheritdoc />
-        public override object InitializeLifetimeService()
+        public ClientRef ClientOf(string path)
         {
-            return null;
+            Requires.NotNullOrWhitespace(path, nameof(path));
+
+            var endpoint = ClientEndpoint.Proxy(path, GrainFactory);
+            return new ClientRef(endpoint);
         }
     }
 

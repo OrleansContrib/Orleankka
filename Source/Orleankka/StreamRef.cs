@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
-using Orleans.Providers;
 using Orleans.Serialization;
 using Orleans.Streams;
 
@@ -18,21 +17,10 @@ namespace Orleankka
     [DebuggerDisplay("s->{ToString()}")]
     public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>
     {
-        public string Serialize() => Path.Serialize();
-
-        public static StreamRef Deserialize(string path, IStreamProviderManager manager) => 
-            Deserialize(StreamPath.Deserialize(path), manager);
-
-        internal static StreamRef Deserialize(StreamPath path, IProviderManager manager)
-        {
-            var provider = (IStreamProvider)manager.GetProvider(path.Provider);
-            return new StreamRef(path, provider);
-        }
-
         [NonSerialized]
         readonly IStreamProvider provider;
 
-        protected internal StreamRef(StreamPath path, IStreamProvider provider)
+        protected internal StreamRef(StreamPath path, IStreamProvider provider = null)
         {
             Path = path;
             this.provider = provider;
@@ -167,6 +155,8 @@ namespace Orleankka
                     || obj.GetType() == GetType() && Equals((StreamRef)obj));
         }
 
+        public static implicit operator StreamPath(StreamRef arg) => arg.Path;
+
         public bool Equals(StreamPath other) => Path.Equals(other);
         public override int GetHashCode() => Path.GetHashCode();
 
@@ -185,16 +175,16 @@ namespace Orleankka
         {
             var writer = context.StreamWriter;
             var @ref = (StreamRef)input;
-            writer.Write(@ref.Serialize());
+            writer.Write(@ref.Path);
         }
 
         [DeserializerMethod]
         static object Deserialize(Type t, IDeserializationContext context)
         {
             var reader = context.StreamReader;
-            var path = StreamPath.Deserialize(reader.ReadString());
+            var path = StreamPath.Parse(reader.ReadString());
             var manager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
-            return Deserialize(path, manager);
+            return new StreamRef(path, manager.GetStreamProvider(path.Provider));
         }
 
         #endregion

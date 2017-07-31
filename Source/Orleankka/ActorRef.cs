@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Concurrency;
 using Orleans.Runtime;
 
@@ -16,25 +15,14 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        public string Serialize() => Path.Serialize();
-
-        public static ActorRef Deserialize(string path, IGrainFactory factory) => 
-            Deserialize(ActorPath.Deserialize(path), factory);
-        
-        internal static ActorRef Deserialize(ActorPath path, IGrainFactory factory)
-        {
-            var @interface = ActorInterface.Of(path.Type);
-            return new ActorRef(path, @interface.Proxy(path.Id, factory));
-        }
-
         readonly IActorEndpoint endpoint;
 
-        protected internal ActorRef(ActorPath path)
+        protected ActorRef(ActorPath path)
         {
             Path = path;
         }
 
-        ActorRef(ActorPath path, IActorEndpoint endpoint)
+        internal ActorRef(ActorPath path, IActorEndpoint endpoint)
             : this(path)
         {
             this.endpoint = endpoint;
@@ -91,6 +79,7 @@ namespace Orleankka
 
         [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         public static implicit operator GrainReference(ActorRef arg) => (GrainReference) arg.endpoint;
+        public static implicit operator ActorPath(ActorRef arg) => arg.Path;
     }
 
     [Serializable, Immutable]
@@ -132,5 +121,6 @@ namespace Orleankka
         public static implicit operator ActorRef(ActorRef<TActor> arg) => arg.@ref;
         public static implicit operator ActorRef<TActor>(ActorRef arg) => new ActorRef<TActor>(arg);
         public static implicit operator GrainReference(ActorRef<TActor> arg) => arg.@ref;
+        public static implicit operator ActorPath(ActorRef<TActor> arg) => arg.Path;
     }
 }

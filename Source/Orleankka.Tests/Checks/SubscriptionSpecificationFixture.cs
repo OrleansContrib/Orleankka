@@ -128,6 +128,11 @@ namespace Orleankka.Checks
                 throw new NotImplementedException();
             }
 
+            public ClientRef ClientOf(string path)
+            {
+                throw new NotImplementedException();
+            }
+
             public void Dispose()
             {
                 throw new NotImplementedException();
