@@ -76,6 +76,18 @@ namespace Orleankka.Embedded
             return this;
         }
 
+        /// <summary>
+        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// </summary>
+        /// <param name="invoker">The invoker.</param>
+        public EmbeddedConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        {
+            cluster.ActorRefInvoker(invoker);
+            client.ActorRefInvoker(invoker);
+
+            return this;
+        }
+
         public EmbeddedConfigurator Assemblies(params Assembly[] assemblies)
         {
             cluster.Assemblies(assemblies);

@@ -10,8 +10,8 @@ namespace Orleankka.Checks
         {
             var path = ActorPath.From("T", "42");
 
-            var ref1 = new ActorRef(path, null);
-            var ref2 = new ActorRef(path, null);
+            var ref1 = new ActorRef(path, null, null);
+            var ref2 = new ActorRef(path, null, null);
             
             Assert.True(ref1 == ref2);
             Assert.True(ref1.Equals(ref2));

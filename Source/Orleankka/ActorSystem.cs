@@ -42,8 +42,15 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
+        readonly IActorRefInvoker invoker;
+
         protected IStreamProviderManager StreamProviderManager { get; private set; }
         protected IGrainFactory GrainFactory { get; private set; }
+
+        protected ActorSystem(IActorRefInvoker invoker = null)
+        {
+            this.invoker = invoker ?? DefaultActorRefInvoker.Instance;
+        }
 
         protected void Initialize(IServiceProvider provider)
         {
@@ -68,7 +75,7 @@ namespace Orleankka
             var @interface = ActorInterface.Of(path.Type);
             var proxy = @interface.Proxy(path.Id, GrainFactory);
 
-            return new ActorRef(path, proxy);
+            return new ActorRef(path, proxy, invoker);
         }
         
         /// <inheritdoc />

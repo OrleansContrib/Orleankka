@@ -27,14 +27,14 @@ namespace Orleankka
         public virtual Task OnDeactivate(Actor actor) => Next.OnDeactivate(actor);
     }
 
-    class DefaultActorInvoker : ActorInvoker
+    class DefaultActorInvoker : IActorInvoker
     {
         public static readonly DefaultActorInvoker Instance = new DefaultActorInvoker();
 
-        public override Task<object> OnReceive(Actor actor, object message) => actor.OnReceive(message);
-        public override Task OnReminder(Actor actor, string id) => actor.OnReminder(id);
+        public Task<object> OnReceive(Actor actor, object message) => actor.OnReceive(message);
+        public Task OnReminder(Actor actor, string id) => actor.OnReminder(id);
 
-        public override Task OnActivate(Actor actor) => actor.OnActivate();
-        public override Task OnDeactivate(Actor actor) => actor.OnDeactivate();
+        public Task OnActivate(Actor actor) => actor.OnActivate();
+        public Task OnDeactivate(Actor actor) => actor.OnDeactivate();
     }
 }

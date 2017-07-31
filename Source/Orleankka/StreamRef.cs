@@ -9,6 +9,8 @@ using Orleans.Concurrency;
 using Orleans.Serialization;
 using Orleans.Streams;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka
 {
     using Utility;
@@ -183,7 +185,7 @@ namespace Orleankka
         {
             var reader = context.StreamReader;
             var path = StreamPath.Parse(reader.ReadString());
-            var manager = (IStreamProviderManager)context.ServiceProvider.GetService(typeof(IStreamProviderManager));
+            var manager = context.ServiceProvider.GetRequiredService<IStreamProviderManager>();
             return new StreamRef(path, manager.GetStreamProvider(path.Provider));
         }
 

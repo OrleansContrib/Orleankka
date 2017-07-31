@@ -44,6 +44,7 @@ namespace Orleankka.Testing
                     })
                     .ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker())
                     .ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker())
+                    .ActorRefInvoker(new TestActorRefInvoker())
                     .Assemblies(GetType().Assembly);
 
                 TestActorSystem.Instance = system.Done();

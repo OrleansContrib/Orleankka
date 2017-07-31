@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 using Orleans.Concurrency;
 using Orleans.Runtime;
+using Orleans.CodeGeneration;
+using Orleans.Serialization;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
@@ -15,17 +19,19 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        readonly IActorEndpoint endpoint;
+        [NonSerialized] readonly IActorEndpoint endpoint;
+        [NonSerialized] readonly IActorRefInvoker invoker;
 
         protected ActorRef(ActorPath path)
         {
             Path = path;
         }
 
-        internal ActorRef(ActorPath path, IActorEndpoint endpoint)
+        internal ActorRef(ActorPath path, IActorEndpoint endpoint, IActorRefInvoker invoker)
             : this(path)
         {
             this.endpoint = endpoint;
+            this.invoker = invoker;
         }
 
         public ActorPath Path { get; }
@@ -34,23 +40,21 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return endpoint.ReceiveVoid(message);
+            return invoker.Tell(Path, message, endpoint.ReceiveVoid);
         }
 
-        public virtual async Task<TResult> Ask<TResult>(object message)
+        public virtual Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            var result = await endpoint.Receive(message);
-
-            return (TResult) result;
+            return invoker.Ask<TResult>(Path, message, endpoint.Receive);
         }
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            endpoint.Notify(message);
+            invoker.Notify(Path, message, m => endpoint.Notify(m));
         }
 
         internal Task Autorun()
@@ -80,6 +84,30 @@ namespace Orleankka
         [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         public static implicit operator GrainReference(ActorRef arg) => (GrainReference) arg.endpoint;
         public static implicit operator ActorPath(ActorRef arg) => arg.Path;
+
+        #region Orleans Native Serialization
+
+        [CopierMethod]
+        static object Copy(object input, ICopyContext context) => input;
+
+        [SerializerMethod]
+        static void Serialize(object input, ISerializationContext context, Type expected)
+        {
+            var writer = context.StreamWriter;
+            var @ref = (ActorRef)input;
+            writer.Write(@ref.Path);
+        }
+
+        [DeserializerMethod]
+        static object Deserialize(Type t, IDeserializationContext context)
+        {
+            var reader = context.StreamReader;
+            var path = ActorPath.Parse(reader.ReadString());
+            var system = context.ServiceProvider.GetRequiredService<IActorSystem>();
+            return system.ActorOf(path);
+        }
+
+        #endregion
     }
 
     [Serializable, Immutable]

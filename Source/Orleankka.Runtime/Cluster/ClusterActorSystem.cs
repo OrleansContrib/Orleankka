@@ -21,7 +21,8 @@ namespace Orleankka.Cluster
         [ThreadStatic]
         static ClusterActorSystem current;
 
-        internal ClusterActorSystem(ClusterConfiguration configuration, ActorInvocationPipeline pipeline, IActorActivator activator)
+        internal ClusterActorSystem(ClusterConfiguration configuration, ActorInvocationPipeline pipeline, IActorActivator activator, IActorRefInvoker invoker)
+            : base(invoker)
         {
             Activator = activator ?? new DefaultActorActivator();
             Pipeline = pipeline;

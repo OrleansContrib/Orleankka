@@ -29,6 +29,7 @@ namespace Orleankka.Cluster
              new HashSet<StreamProviderConfiguration>();
 
         readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
+        IActorRefInvoker invoker;
 
         IActorActivator activator;
 
@@ -110,6 +111,21 @@ namespace Orleankka.Cluster
             return this;
         }
 
+        /// <summary>
+        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// </summary>
+        /// <param name="invoker">The invoker.</param>
+        public ClusterConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        {
+            Requires.NotNull(invoker, nameof(invoker));
+
+            if (this.invoker != null)
+                throw new InvalidOperationException("ActorRef invoker has been already registered");
+
+            this.invoker = invoker;
+            return this;
+        }
+
         public ClusterConfigurator HandlerNamingConventions(params string[] conventions)
         {
             Requires.NotNull(conventions, nameof(conventions));
@@ -126,7 +142,7 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(Configuration, pipeline, activator);
+            return new ClusterActorSystem(Configuration, pipeline, activator, invoker);
         }
 
         void Configure()

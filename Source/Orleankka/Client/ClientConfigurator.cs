@@ -5,12 +5,11 @@ using System.Reflection;
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka.Client
 {
     using Core;
-
-    using Microsoft.Extensions.DependencyInjection;
-
     using Utility;
 
     public sealed class ClientConfigurator
@@ -22,6 +21,7 @@ namespace Orleankka.Client
              new HashSet<StreamProviderConfiguration>();
 
         Action<IServiceCollection> configure;
+        IActorRefInvoker invoker;
 
         internal ClientConfigurator()
         {
@@ -60,6 +60,21 @@ namespace Orleankka.Client
             return this;
         }
 
+        /// <summary>
+        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// </summary>
+        /// <param name="invoker">The invoker.</param>
+        public ClientConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        {
+            Requires.NotNull(invoker, nameof(invoker));
+
+            if (this.invoker != null)
+                throw new InvalidOperationException("ActorRef invoker has been already registered");
+
+            this.invoker = invoker;
+            return this;
+        }
+
         public ClientConfigurator Assemblies(params Assembly[] assemblies)
         {
             registry.Register(assemblies, a => a.ActorInterfaces());
@@ -89,7 +104,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, configure);
+            return new ClientActorSystem(Configuration, configure, invoker);
         }
 
         void RegisterStreamProviders()
