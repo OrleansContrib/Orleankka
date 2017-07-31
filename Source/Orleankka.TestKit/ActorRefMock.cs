@@ -10,14 +10,14 @@ namespace Orleankka.TestKit
     [Serializable]
     public class ActorRefMock : ActorRef
     {
-        [NonSerialized] readonly SerializationOptions serialization;
+        [NonSerialized] readonly MessageSerialization serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
         [NonSerialized] readonly List<RecordedMessage> messages = new List<RecordedMessage>();
 
-        internal ActorRefMock(ActorPath path, SerializationOptions serialization = null)
+        internal ActorRefMock(ActorPath path, MessageSerialization serialization = null)
             : base(path)
         {
-            this.serialization = serialization ?? SerializationOptions.Default;
+            this.serialization = serialization ?? MessageSerialization.Default;
         }
 
         public TellExpectation<TMessage> ExpectTell<TMessage>(Expression<Func<TMessage, bool>> match = null)

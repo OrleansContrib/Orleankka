@@ -8,7 +8,7 @@ namespace Orleankka.TestKit
 
     public class ActorSystemMock : IClientActorSystem
     {
-        readonly SerializationOptions serialization;
+        readonly MessageSerialization serialization;
 
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
@@ -19,9 +19,9 @@ namespace Orleankka.TestKit
         readonly Queue<ClientObservableMock> observables = 
              new Queue<ClientObservableMock>();
 
-        public ActorSystemMock(SerializationOptions serialization = null)
+        public ActorSystemMock(MessageSerialization serialization = null)
         {
-            this.serialization = serialization ?? SerializationOptions.Default;
+            this.serialization = serialization ?? MessageSerialization.Default;
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)

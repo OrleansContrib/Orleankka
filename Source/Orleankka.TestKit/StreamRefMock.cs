@@ -10,7 +10,7 @@ namespace Orleankka.TestKit
     [Serializable]
     public class StreamRefMock : StreamRef
     {
-        [NonSerialized] readonly SerializationOptions serialization;
+        [NonSerialized] readonly MessageSerialization serialization;
         [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
         [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
@@ -23,10 +23,10 @@ namespace Orleankka.TestKit
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        internal StreamRefMock(StreamPath path, SerializationOptions serialization = null)
+        internal StreamRefMock(StreamPath path, MessageSerialization serialization = null)
             : base(path, null)
         {
-            this.serialization = serialization ?? SerializationOptions.Default;
+            this.serialization = serialization ?? MessageSerialization.Default;
         }
 
         public PushExpectation<TItem> Expect<TItem>(Expression<Func<TItem, bool>> match = null)

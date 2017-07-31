@@ -14,13 +14,13 @@ namespace Orleankka.TestKit
 {
     using Utility;
 
-    public class SerializationOptions
+    public class MessageSerialization
     {
-        internal static readonly SerializationOptions Default = new SerializationOptions(false);
+        internal static readonly MessageSerialization Default = new MessageSerialization(false);
 
-        readonly SerializationManager manager;
+        public readonly SerializationManager Manager;
 
-        public SerializationOptions(bool roundtrip, params Type[] serializers)
+        public MessageSerialization(bool roundtrip, params Type[] serializers)
         {
             Requires.NotNull(serializers, nameof(serializers));
 
@@ -42,11 +42,11 @@ namespace Orleankka.TestKit
                 .UseConfiguration(configuration)
                 .Build();
 
-            manager = client.ServiceProvider.GetRequiredService<SerializationManager>();
+            Manager = client.ServiceProvider.GetRequiredService<SerializationManager>();
         }
 
-        internal object Roundtrip(object obj) => manager != null
-            ? manager.RoundTripSerializationForTesting(obj)
+        public object Roundtrip(object obj) => Manager != null
+            ? Manager.RoundTripSerializationForTesting(obj)
             : obj;
     }
 }
