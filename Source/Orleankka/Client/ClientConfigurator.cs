@@ -28,7 +28,7 @@ namespace Orleankka.Client
             Configuration = new ClientConfiguration();
         }
 
-        ClientConfiguration Configuration { get; set; }
+        public ClientConfiguration Configuration { get; set; }
 
         public ClientConfigurator From(ClientConfiguration config)
         {

@@ -29,7 +29,7 @@ namespace Demo
             {
                 system = ActorSystem.Configure()
                     .Playground()
-                    .Activator(activator)
+                    .Cluster(x => x.Activator(activator))
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 

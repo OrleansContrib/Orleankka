@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using Orleans.Streams;
-using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Embedded
 {
     using Client;
     using Cluster;
+    using Utility;
 
     public class EmbeddedConfigurator
     {
@@ -21,27 +21,17 @@ namespace Orleankka.Embedded
             cluster = new ClusterConfigurator();
         }
 
-        public EmbeddedConfigurator Cluster(ClusterConfiguration config)
+        public EmbeddedConfigurator Client(Action<ClientConfigurator> configure)
         {
-            cluster.From(config);
+            Requires.NotNull(configure, nameof(configure));
+            configure(client);
             return this;
         }
 
-        public EmbeddedConfigurator Client(ClientConfiguration config)
+        public EmbeddedConfigurator Cluster(Action<ClusterConfigurator> configure)
         {
-            client.From(config);
-            return this;
-        }
-    
-        public EmbeddedConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
-        {
-            cluster.Bootstrapper<T>(properties);
-            return this;
-        }
-
-        public EmbeddedConfigurator Activator(IActorActivator activator)
-        {
-            cluster.Activator(activator);
+            Requires.NotNull(configure, nameof(configure));
+            configure(cluster);
             return this;
         }
 
@@ -49,42 +39,6 @@ namespace Orleankka.Embedded
         {
             cluster.StreamProvider<T>(name, properties);
             client.StreamProvider<T>(name, properties);
-            return this;
-        }
-
-        /// <summary>
-        /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
-        /// which doesn't specify an individual invoker via <see cref="InvokerAttribute"/> attribute.
-        /// </summary>
-        /// <param name="global">The invoker.</param>
-        public EmbeddedConfigurator ActorInvoker(IActorInvoker global)
-        {
-            cluster.ActorInvoker(global);
-            return this;
-        }
-
-        /// <summary>
-        /// Registers named actor invoker (interceptor). For this invoker to be used an actor need 
-        /// to specify its name via <see cref="InvokerAttribute"/> attribute. 
-        /// The invoker is inherited by all subclasses.
-        /// </summary>
-        /// <param name="name">The name of the invoker</param>
-        /// <param name="invoker">The invoker.</param>
-        public EmbeddedConfigurator ActorInvoker(string name, IActorInvoker invoker)
-        {
-            cluster.ActorInvoker(name, invoker);
-            return this;
-        }
-
-        /// <summary>
-        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
-        /// </summary>
-        /// <param name="invoker">The invoker.</param>
-        public EmbeddedConfigurator ActorRefInvoker(IActorRefInvoker invoker)
-        {
-            cluster.ActorRefInvoker(invoker);
-            client.ActorRefInvoker(invoker);
-
             return this;
         }
 

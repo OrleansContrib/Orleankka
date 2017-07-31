@@ -18,7 +18,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Bootstrapper<ES.Bootstrap>()
+                .Cluster(x => x.Bootstrapper<ES.Bootstrap>())
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

@@ -37,14 +37,18 @@ namespace Orleankka.Testing
                         {"DataConnectionString", "UseDevelopmentStorage=true"},
                         {"DeploymentId", "test"},
                     })
-                    .TweakCluster(cfg =>
+                    .Cluster(x =>
                     {
-                        cfg.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
-                        cfg.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+                        x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
+                        x.Configuration.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+
+                        x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
+                        x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
                     })
-                    .ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker())
-                    .ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker())
-                    .ActorRefInvoker(new TestActorRefInvoker())
+                    .Client(x =>
+                    {
+                        x.ActorRefInvoker(new TestActorRefInvoker());
+                    })
                     .Assemblies(GetType().Assembly);
 
                 TestActorSystem.Instance = system.Done();

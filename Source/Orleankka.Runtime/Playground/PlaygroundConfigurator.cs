@@ -17,12 +17,10 @@ namespace Orleankka.Playground
     public sealed class PlaygroundConfigurator : EmbeddedConfigurator
     {
         readonly ClusterConfiguration cluster;
-        readonly ClientConfiguration client;
 
-        internal PlaygroundConfigurator(AppDomainSetup setup)
-            : base()
+        internal PlaygroundConfigurator()
         {
-            client = new ClientConfiguration()
+            var client = new ClientConfiguration()
                 .LoadFromEmbeddedResource<PlaygroundConfigurator>("Client.xml");
 
             cluster = new ClusterConfiguration()
@@ -35,19 +33,22 @@ namespace Orleankka.Playground
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
             StreamProvider<SimpleMessageStreamProvider>("sms", new Dictionary<string, string> {{"FireAndForgetDelivery", "false"}});
+
+            base.Cluster(c => c.From(cluster));
+            base.Client(c => c.From(client));
         }
 
-        public PlaygroundConfigurator TweakClient(Action<ClientConfiguration> tweak)
+        public new PlaygroundConfigurator Client(Action<ClientConfigurator> configure)
         {
-            Requires.NotNull(tweak, nameof(tweak));
-            tweak(client);
+            Requires.NotNull(configure, nameof(configure));
+            base.Client(configure);
             return this;
         }
 
-        public PlaygroundConfigurator TweakCluster(Action<ClusterConfiguration> tweak)
+        public new PlaygroundConfigurator Cluster(Action<ClusterConfigurator> configure)
         {
-            Requires.NotNull(tweak, nameof(tweak));
-            tweak(cluster);
+            Requires.NotNull(configure, nameof(configure));
+            base.Cluster(configure);
             return this;
         }
 
@@ -57,7 +58,7 @@ namespace Orleankka.Playground
             return this;
         }
 
-        internal void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
+        void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
         {
             var registered = cluster.Globals
                 .GetAllProviderConfigurations()
@@ -75,21 +76,13 @@ namespace Orleankka.Playground
             base.StreamProvider<T>(name, properties);
             return this;
         }
-
-        public override EmbeddedActorSystem Done()
-        {
-            Client(client);
-            Cluster(cluster);
-
-            return base.Done();
-        }
     }
 
     public static class PlaygroundConfiguratorExtensions
     {
-        public static PlaygroundConfigurator Playground(this IActorSystemConfigurator root, AppDomainSetup setup = null)
+        public static PlaygroundConfigurator Playground(this IActorSystemConfigurator root)
         {
-            return new PlaygroundConfigurator(setup);
+            return new PlaygroundConfigurator();
         }
     }
 }

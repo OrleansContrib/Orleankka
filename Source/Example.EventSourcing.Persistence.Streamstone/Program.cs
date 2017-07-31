@@ -29,11 +29,11 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Bootstrapper<SS.Bootstrap>(new SS.Properties
+                .Cluster(x => x.Bootstrapper<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
-                })
+                }))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

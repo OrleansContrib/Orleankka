@@ -19,8 +19,8 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .TweakClient(c => c.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
-                .TweakCluster(c => c.Globals.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
+                .Client(x => x.Configuration.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
+                .Cluster(x => x.Configuration.Globals.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

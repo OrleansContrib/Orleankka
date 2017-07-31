@@ -38,7 +38,7 @@ namespace Orleankka.Cluster
             Configuration = new ClusterConfiguration();
         }
 
-        ClusterConfiguration Configuration { get; set; }
+        public ClusterConfiguration Configuration { get; set; }
 
         public ClusterConfigurator From(ClusterConfiguration config)
         {
