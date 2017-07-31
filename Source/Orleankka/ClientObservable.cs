@@ -7,7 +7,7 @@ namespace Orleankka
 
     public interface IClientObservable : IObservable<object>, IDisposable
     {
-        ObserverRef Ref { get; }
+        ClientRef Ref { get; }
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ namespace Orleankka
     {
         readonly ClientEndpoint endpoint;
 
-        ClientObservable(ObserverRef @ref)
+        ClientObservable(ClientRef @ref)
         {
             Ref = @ref;
         }
@@ -32,7 +32,7 @@ namespace Orleankka
             this.endpoint = endpoint;
         }
 
-        public ObserverRef Ref {get; }
+        public ClientRef Ref {get; }
 
         public IDisposable Subscribe(IObserver<object> observer) => 
             endpoint.Subscribe(observer);

@@ -12,7 +12,7 @@ namespace Orleankka.TestKit
 
         public IObserver<object>[] Subscribers => subscribers.ToArray();
 
-        public ObserverRef Ref { get; } = new ClientRef(Guid.NewGuid().ToString("N"));
+        public ClientRef Ref { get; } = new ClientRef(Guid.NewGuid().ToString("N"));
 
         public IDisposable Subscribe(IObserver<object> observer)
         {
