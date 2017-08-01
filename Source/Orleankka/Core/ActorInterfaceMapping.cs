@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Orleankka.Core
 {
@@ -7,7 +9,7 @@ namespace Orleankka.Core
     {
         public static ActorInterfaceMapping Of(string typeName) => new ActorInterfaceMapping(typeName, null, null);
 
-        public static ActorInterfaceMapping Of(Type type)
+        public static ActorInterfaceMapping Of(Type type, IEnumerable<Assembly> assemblies)
         {
             var name = ActorTypeName.Of(type);
 
@@ -22,7 +24,7 @@ namespace Orleankka.Core
 
             if (type.IsInterface)
             {
-                var classes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()
+                var classes = assemblies.SelectMany(a => a.GetTypes()
                     .Where(x => x.IsClass && type.IsAssignableFrom(x)))
                     .ToArray();
 

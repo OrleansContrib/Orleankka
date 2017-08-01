@@ -33,7 +33,7 @@ namespace Orleankka.Core
 
             foreach (var type in assemblies.SelectMany(selector))
             {
-                var mapping = ActorInterfaceMapping.Of(type);
+                var mapping = ActorInterfaceMapping.Of(type, assemblies);
 
                 if (interfaces.Contains(mapping.TypeName))
                 {
