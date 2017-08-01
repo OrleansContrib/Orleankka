@@ -30,23 +30,14 @@ namespace Orleankka.Client
     /// </summary>
     public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
-        internal ClientActorSystem(ClientConfiguration configuration, Action<IServiceCollection> configure, IActorRefInvoker invoker) 
+        readonly ClientConfiguration configuration;
+        readonly Action<IServiceCollection> configureServices;
+
+        internal ClientActorSystem(ClientConfiguration configuration, Action<IServiceCollection> configureServices, IActorRefInvoker invoker) 
             : base(invoker)
         {
-            using (Trace.Execution("Orleans client initialization"))
-                Client = new ClientBuilder()
-                .UseConfiguration(configuration)
-                .ConfigureServices(services =>
-                {
-                    services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
-                    services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
-                    services.Add(ServiceDescriptor.Singleton(this));
-
-                    configure?.Invoke(services);
-                })
-                .Build();
-
-            Initialize(Client.ServiceProvider);
+            this.configuration = configuration;
+            this.configureServices = configureServices;
         }
 
         /// <inheritdoc />
@@ -59,12 +50,12 @@ namespace Orleankka.Client
         /// <summary>
         /// Returns underlying <see cref="IClusterClient"/> instance
         /// </summary>
-        public IClusterClient Client { get; }
+        public IClusterClient Client { get; private set; }
 
         /// <summary>
         /// Checks whether this client has been successfully connected (ie initialized)
         /// </summary>
-        public bool Connected => Client.IsInitialized;
+        public bool Connected => Client?.IsInitialized ?? false;
 
         /// <summary>
         /// Connects this instance of client actor system to cluster
@@ -85,15 +76,19 @@ namespace Orleankka.Client
             {
                 try
                 {
+                    Client = Build();
+
                     using (Trace.Execution("Orleans client connection"))
-                        await Client.Connect();
+                        await Client.Connect().ConfigureAwait(false);
+
+                    Initialize(Client.ServiceProvider);
                 }
                 catch (Exception ex)
                 {
                     if (retries >= 0)
                     {
                         System.Diagnostics.Trace.TraceWarning($"Can't connect to cluster. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ... Got error: /n{ex}");
-                        Thread.Sleep(retryTimeout.Value);
+                        await Task.Delay(retryTimeout.Value).ConfigureAwait(false);
                     }
                     else
                     {
@@ -102,6 +97,22 @@ namespace Orleankka.Client
                     }
                 }
             }
+        }
+
+        IClusterClient Build()
+        {
+            using (Trace.Execution("Orleans client initialization"))
+            return new ClientBuilder()
+                .UseConfiguration(configuration)
+                .ConfigureServices(services =>
+                {
+                    services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton(this));
+
+                    configureServices?.Invoke(services);
+                })
+                .Build();
         }
 
         /// <summary>
@@ -119,7 +130,7 @@ namespace Orleankka.Client
                 return;
             }
 
-            await Client.Close();
+            await Client.Close().ConfigureAwait(false);
         }
 
         /// <inheritdoc />
