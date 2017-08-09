@@ -47,7 +47,7 @@ namespace Orleankka.Features
 
         [TestFixture, RequiresSilo]
         [Category("Slow")]
-        public class Using_reminders
+        public class Tests
         {
             IActorSystem system;
 

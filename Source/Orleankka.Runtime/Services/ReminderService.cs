@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -75,9 +76,25 @@ namespace Orleankka.Services
             var reminder = reminders.Find(id) ?? await registry.GetReminder(id);
             
             if (reminder != null)
-                await registry.UnregisterReminder(reminder);
+                await TryUnregisterReminder(reminder);
 
             reminders.Remove(id);
+        }
+
+        async Task TryUnregisterReminder(IGrainReminder reminder)
+        {
+            try
+            {
+                await registry.UnregisterReminder(reminder);
+            }
+            catch (ReminderException)
+            {
+                var fresh = await registry.GetReminder(reminder.ReminderName);
+                if (fresh == null)
+                    return;
+
+                throw;
+            }
         }
 
         async Task<bool> IReminderService.IsRegistered(string id)

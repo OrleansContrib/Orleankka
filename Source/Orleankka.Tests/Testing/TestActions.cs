@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using Orleans.Storage;
 using Orleans.Providers.Streams.AzureQueue;
+using Orleans.Runtime.Configuration;
 
 using Orleankka.Testing;
 [assembly: TeardownSilo]
@@ -44,6 +45,10 @@ namespace Orleankka.Testing
 
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
                         x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
+
+                        x.Configuration.Globals.DataConnectionStringForReminders = "UseDevelopmentStorage=true";
+                        x.Configuration.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
+
                     })
                     .Client(x =>
                     {
