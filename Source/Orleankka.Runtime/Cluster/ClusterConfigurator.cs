@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka.Cluster
 {
     using Core;
@@ -29,9 +31,9 @@ namespace Orleankka.Cluster
              new HashSet<StreamProviderConfiguration>();
 
         readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
-        IActorRefInvoker invoker;
 
-        IActorActivator activator;
+        IActorRefInvoker invoker;
+        Action<IServiceCollection> di;
 
         internal ClusterConfigurator()
         {
@@ -64,18 +66,6 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator Activator(IActorActivator activator)
-        {
-            Requires.NotNull(activator, nameof(activator));
-
-            if (this.activator != null)
-                throw new InvalidOperationException("Activator has been already registered");
-
-            this.activator = activator;
-
-            return this;
-        }
-
         public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
@@ -84,6 +74,17 @@ namespace Orleankka.Cluster
             if (!streamProviders.Add(configuration))
                 throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
 
+            return this;
+        }
+
+        public ClusterConfigurator Services(Action<IServiceCollection> configure)
+        {
+            Requires.NotNull(configure, nameof(configure));
+
+            if (di != null)
+                throw new InvalidOperationException("Services configurator has been already set");
+
+            di = configure;
             return this;
         }
 
@@ -142,7 +143,7 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(Configuration, pipeline, activator, invoker);
+            return new ClusterActorSystem(Configuration, di, pipeline, invoker);
         }
 
         void Configure()

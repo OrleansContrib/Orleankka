@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
-
-using Microsoft.Extensions.DependencyInjection;
 
 using Orleans.Internals;
 using Orleans.Runtime;
 using Orleans.Runtime.Host;
 using Orleans.Runtime.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 namespace Orleankka.Cluster
 {
     using Core;
     using Utility;
 
-    public class ClusterActorSystem : ActorSystem, IDisposable
+     public class ClusterActorSystem : ActorSystem, IDisposable
     {
+        readonly Action<IServiceCollection> di;
         internal readonly ActorInvocationPipeline Pipeline;
-        internal readonly IActorActivator Activator;
 
         [ThreadStatic]
         static ClusterActorSystem current;
 
-        internal ClusterActorSystem(ClusterConfiguration configuration, ActorInvocationPipeline pipeline, IActorActivator activator, IActorRefInvoker invoker)
+        internal ClusterActorSystem(ClusterConfiguration configuration, Action<IServiceCollection> di, ActorInvocationPipeline pipeline, IActorRefInvoker invoker)
             : base(invoker)
         {
-            Activator = activator ?? new DefaultActorActivator();
+            this.di = di;
             Pipeline = pipeline;
 
             current = this;
@@ -45,8 +47,11 @@ namespace Orleankka.Cluster
         {
             public IServiceProvider ConfigureServices(IServiceCollection services)
             {
+                current.di?.Invoke(services);
+
                 services.AddSingleton<IActorSystem>(current);
                 services.AddSingleton(current);
+                services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
 
                 return services.BuildServiceProvider();
             }

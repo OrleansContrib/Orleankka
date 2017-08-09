@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleankka;
@@ -18,22 +17,13 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var setup = new Action<ContainerBuilder>(builder =>
-            {
-                builder.RegisterType<SomeService>()
-                       .AsImplementedInterfaces()
-                       .WithParameter("connectionString", Settings.Default.ConnectionString)
-                       .SingleInstance();
-
-                builder.RegisterType<DIActor>();
-            });
-
             var system = ActorSystem
                 .Configure()
                 .Playground()
                 .Cluster(c => c
-                    .Services(s => s
-                        .AddSingleton<IActorActivator>(new AutofacActorActivator(setup))))
+                    .Services(di => di
+                        .AddSingleton(new SomeService.Options(Settings.Default.ConnectionString))
+                        .AddSingleton<ISomeService, SomeService>()))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

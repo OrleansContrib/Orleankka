@@ -7,6 +7,7 @@ namespace Example
         readonly ISomeService service;
 
         public DIActor(ISomeService service) 
+		    : base("id", null)
         {
             this.service = service;
         }

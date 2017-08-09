@@ -66,12 +66,11 @@ namespace Demo
         int failures;
         bool available = true;
 
-        public Api(
-            string id, 
-            IActorRuntime runtime, 
+        public Api(            
             IObserverCollection observers, 
-            IApiWorker worker)
-            : base(id, runtime)
+            IApiWorker worker,
+            IActorRuntime runtime = null)
+            : base(runtime)
         {
             this.observers = observers;
             this.worker = worker;

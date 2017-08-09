@@ -23,18 +23,12 @@ namespace Demo
         public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             if (type == typeof(Api))
-                return CreateApi(id, runtime);
+                return new Api(new ObserverCollection(), ApiWorkerFactory.Create(id));
 
             if (type == typeof(Topic))
-                return CreateTopic(id, runtime);
+                return new Topic(storage);
 
             throw new InvalidOperationException($"Unknown actor type: {type}");
         }
-
-        static Api CreateApi(string id, IActorRuntime runtime) => 
-            new Api(id, runtime, new ObserverCollection(), ApiWorkerFactory.Create(id));
-
-        Topic CreateTopic(string id, IActorRuntime runtime) => 
-            new Topic(id, runtime, storage);
     }
 }

@@ -34,7 +34,7 @@ namespace Demo
         internal int total;
         string query;
 
-        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) 
+        public Topic(ITopicStorage storage, string id = null, IActorRuntime runtime = null) 
             : base(id, runtime)
         {
             this.storage = storage;

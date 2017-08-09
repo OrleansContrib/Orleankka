@@ -17,14 +17,35 @@ namespace Orleankka
             Behavior = ActorBehavior.Null(this);
         }
 
-        protected Actor(string id, IActorRuntime runtime, Dispatcher dispatcher = null) : this()
-        {
-            Requires.NotNull(runtime, nameof(runtime));
-            Requires.NotNullOrWhitespace(id, nameof(id));
+        /// <summary>
+        /// Provided only for unit-testing purposes
+        /// </summary>
+        protected Actor(Dispatcher dispatcher = null)
+            : this(null, null, dispatcher)
+        {}
 
+        /// <summary>
+        /// Provided only for unit-testing purposes
+        /// </summary>
+        protected Actor(IActorRuntime runtime = null, Dispatcher dispatcher = null) 
+            : this(null, runtime, dispatcher)
+        {}
+
+        /// <summary>
+        /// Provided only for unit-testing purposes
+        /// </summary>
+        protected Actor(string id = null, Dispatcher dispatcher = null) 
+            : this(id, null, dispatcher)
+        {}
+
+        /// <summary>
+        /// Provided only for unit-testing purposes
+        /// </summary>
+        protected Actor(string id = null, IActorRuntime runtime = null, Dispatcher dispatcher = null) : this()
+        {
             Runtime = runtime;
             Dispatcher = dispatcher ?? ActorType.Dispatcher(GetType());
-            Path = GetType().ToActorPath(id);
+            Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
         }
 
         internal virtual void Initialize(IActorHost host, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)

@@ -23,7 +23,7 @@ namespace Demo
 
     abstract class ApiWorkerBase : IApiWorker
     {
-        public string EndPoint { get; private set; }
+        public string EndPoint { get; }
 
         protected ApiWorkerBase(string endPoint)
         {

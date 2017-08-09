@@ -59,9 +59,11 @@
             var path = ActorPath.From(Actor.Name, IdentityOf(this));
 
             var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
+            var activator = ServiceProvider.GetRequiredService<IActorActivator>();
+
             var runtime = new ActorRuntime(system, this);
 
-            instance = Actor.Activate(this, path, runtime, system.Activator);
+            instance = Actor.Activate(this, path, runtime, activator);
             invoker = Actor.Invoker(system.Pipeline);
 
             return invoker.OnActivate(instance);

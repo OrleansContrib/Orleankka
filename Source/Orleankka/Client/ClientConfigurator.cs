@@ -20,7 +20,7 @@ namespace Orleankka.Client
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
 
-        Action<IServiceCollection> configure;
+        Action<IServiceCollection> di;
         IActorRefInvoker invoker;
 
         internal ClientConfigurator()
@@ -52,11 +52,10 @@ namespace Orleankka.Client
         {
             Requires.NotNull(configure, nameof(configure));
 
-            if (this.configure != null)
+            if (di != null)
                 throw new InvalidOperationException("Services configurator has been already set");
 
-            this.configure = configure;
-
+            di = configure;
             return this;
         }
 
@@ -104,7 +103,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, configure, invoker);
+            return new ClientActorSystem(Configuration, di, invoker);
         }
 
         void RegisterStreamProviders()

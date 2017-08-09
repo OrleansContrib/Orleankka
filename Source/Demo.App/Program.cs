@@ -6,6 +6,7 @@ using Orleankka.Playground;
 using Orleankka.Utility;
 
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo
 {
@@ -29,7 +30,9 @@ namespace Demo
             {
                 system = ActorSystem.Configure()
                     .Playground()
-                    .Cluster(x => x.Activator(activator))
+                    .Cluster(c => c
+                        .Services(s => s
+                            .AddSingleton<IActorActivator>(activator)))
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 
