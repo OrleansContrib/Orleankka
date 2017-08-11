@@ -61,6 +61,7 @@
     <Compile Include="Behaviors\RequestOrigin.cs" />
     <Compile Include="Behaviors\Transition.cs" />
     <Content Include="Core\ActorEndpoint.Common.T.cs" />
+    <Compile Include="Cluster\DashboardIntegration.cs" />
     <Compile Include="Core\ActorEndpoint.cs">
       <DependentUpon>ActorEndpoint.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -74,7 +75,6 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Cluster\StreamProviderConfiguration.cs" />
     <Compile Include="Core\IActorHost.cs" />
-    <Compile Include="Core\DashboardIntegration.cs" />
     <Compile Include="Core\StatefulActorEndpoint.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

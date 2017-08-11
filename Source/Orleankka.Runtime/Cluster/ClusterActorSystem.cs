@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 using Orleans.Internals;
 using Orleans.Runtime;
@@ -9,6 +10,9 @@ using Orleans.Runtime.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Orleans;
+using Orleans.CodeGeneration;
 
 namespace Orleankka.Cluster
 {
@@ -52,6 +56,7 @@ namespace Orleankka.Cluster
                 services.AddSingleton<IActorSystem>(current);
                 services.AddSingleton(current);
                 services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
+                services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
 
                 return services.BuildServiceProvider();
             }

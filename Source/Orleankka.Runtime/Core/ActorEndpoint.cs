@@ -28,7 +28,6 @@ namespace Orleankka.Core
             return Task.CompletedTask;
         }
 
-        [MessageArgumentAttribute]
         public Task<object> Receive(object message)
         {
             KeepAlive();
@@ -36,10 +35,8 @@ namespace Orleankka.Core
             return invoker.OnReceive(instance, message);
         }
 
-        [MessageArgumentAttribute]
         public Task ReceiveVoid(object message) => Receive(message);
 
-        [MessageArgumentAttribute]
         public Task Notify(object message) => Receive(message);
 
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
