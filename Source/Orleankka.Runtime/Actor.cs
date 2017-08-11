@@ -84,6 +84,14 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
             return Dispatcher.Dispatch(this, message, fallback);
-        }        
+        }
+
+        public virtual Task<object> OnUnhandledReceive(RequestOrigin origin, object message) =>
+            throw new UnhandledMessageException(this, message);
+
+        public virtual Task OnUnhandledReminder(string id) =>
+            throw new UnhandledReminderException(this, id);
+
+        public virtual Task OnTransitioned(string current, string previous) => Task.CompletedTask;
     }
 }

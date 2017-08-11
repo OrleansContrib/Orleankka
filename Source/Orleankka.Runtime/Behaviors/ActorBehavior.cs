@@ -6,8 +6,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleankka.Cluster;
-
 namespace Orleankka.Behaviors
 {
     using Services;
@@ -83,18 +81,9 @@ namespace Orleankka.Behaviors
         {
             current = CustomBehavior.Null
         };
-
-        static readonly Func<Type, object, string, RequestOrigin, Task<object>> OnUnhandledReceiveDefaultCallback =
-            (actor, message, behavior, origin) => { throw new UnhandledMessageException(actor, behavior, message); };
-
-        static readonly Func<Type, string, string, Task> OnUnhandledReminderDefaultCallback =
-            (actor, reminder, behavior) => { throw new UnhandledReminderException(actor, behavior, reminder); };
-        
+       
         internal bool mocked;
         internal readonly Actor actor;
-        Func<string, string, Task> onBecome;
-        Func<Type, object, string, RequestOrigin, Task<object>> onUnhandledReceive;
-        Func<Type, string, string, Task> onUnhandledReminder;
 
         CustomBehavior current;
         CustomBehavior next;
@@ -124,10 +113,10 @@ namespace Orleankka.Behaviors
             HandleReceive(message, RequestOrigin.Restore());
 
         internal Task<object> HandleReceive(object message, RequestOrigin origin) => 
-            current.HandleReceive(actor, message, origin, onUnhandledReceive ?? OnUnhandledReceiveDefaultCallback);
+            current.HandleReceive(actor, message, origin);
 
         internal Task HandleReminder(string id) =>
-            current.HandleReminder(actor, id, onUnhandledReminder ?? OnUnhandledReminderDefaultCallback);
+            current.HandleReminder(actor, id);
 
         CustomBehavior Next
         {
@@ -195,14 +184,12 @@ namespace Orleankka.Behaviors
             await current.HandleUnbecome(transition);
 
             current = next;
-
             await current.HandleBecome(transition);
-            if (onBecome != null)
-                await onBecome(transition.To.Name, transition.From.Name);
 
-            next = null; // now become could be re-entered
+            next = null; // now become could be re-entered and we signal about transition
+            await actor.OnTransitioned(transition.To.Name, transition.From.Name);
 
-            await current.HandleActivate(transition);
+            await current.HandleActivate(transition);            
         }
 
         public void Super(Action behavior)
@@ -260,88 +247,6 @@ namespace Orleankka.Behaviors
                 var action = RegisteredAction(trait);
                 action(actor);
             }
-        }
-
-        public void OnBecome(Action<string, string> onBecomeCallback)
-        {
-            Requires.NotNull(onBecomeCallback, nameof(onBecomeCallback));
-            OnBecome((current, previous) =>
-            {
-                onBecomeCallback(current, previous);
-                return TaskResult.Done;
-            });
-        }
-
-        public void OnBecome(Func<string, string, Task> onBecomeCallback)
-        {
-            Requires.NotNull(onBecomeCallback, nameof(onBecomeCallback));
-            onBecome = onBecomeCallback;
-        }
-
-        public void OnUnhandledReceive(Action<object, string, RequestOrigin> unhandledReceiveCallback)
-        {
-            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state, origin) =>
-            {
-                unhandledReceiveCallback(message, state, origin);
-                return TaskResult.Done;
-            });
-        }
-
-        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task> unhandledReceiveCallback)
-        {
-            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-
-            OnUnhandledReceive(async (message, state, origin) =>
-            {
-                await unhandledReceiveCallback(message, state, origin);
-                return null;
-            });
-        }
-
-        public void OnUnhandledReceive(Func<object, string, RequestOrigin, object> unhandledReceiveCallback)
-        {
-            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-            OnUnhandledReceive((message, state, origin) => Task.FromResult(unhandledReceiveCallback(message, state, origin)));
-        }
-
-        public void OnUnhandledReceive(Func<object, string, RequestOrigin, Task<object>> unhandledReceiveCallback)
-        {
-            Requires.NotNull(unhandledReceiveCallback, nameof(unhandledReceiveCallback));
-
-            if (onUnhandledReceive != null)
-                throw new InvalidOperationException("Unhandled message callback has been already set");
-
-            if (next != null)
-                throw new InvalidOperationException("Unhandled message callback cannot be set while behavior configuration is in progress.\n " +
-                                                    $"Current: {Current}, In-progress: {next.Name}");
-
-            onUnhandledReceive = (actor, message, state, origin) => unhandledReceiveCallback(message, state, origin);
-        }
-
-        public void OnUnhandledReminder(Action<string, string> unhandledReminderCallback)
-        {
-            Requires.NotNull(unhandledReminderCallback, nameof(unhandledReminderCallback));
-
-            OnUnhandledReminder((reminder, state) =>
-            {
-                unhandledReminderCallback(reminder, state);
-                return TaskResult.Done;
-            });
-        }
-
-        public void OnUnhandledReminder(Func<string, string, Task> unhandledReminderCallback)
-        {
-            Requires.NotNull(unhandledReminderCallback, nameof(unhandledReminderCallback));
-
-            if (onUnhandledReminder != null)
-                throw new InvalidOperationException("Unhandled reminder callback has been already set");
-
-            if (next != null)
-                throw new InvalidOperationException("Unhandled reminder callback cannot be set while behavior configuration is in progress.\n " +
-                                                    $"Current: {Current}, In-progress: {next.Name}");
-
-            onUnhandledReminder = (actor, reminder, state) => unhandledReminderCallback(reminder, state);
         }
 
         public void OnBecome(Action action)

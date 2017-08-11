@@ -9,6 +9,7 @@ namespace Orleankka.Features.Actor_behaviors
     using Meta;
     using Behaviors;
     using Testing;
+    using Utility;
 
     namespace Background_flag_properly_flows_with_callcontext
     {
@@ -28,24 +29,25 @@ namespace Orleankka.Features.Actor_behaviors
 
                 public TestActor()
                 {
-                    Behavior.OnBecome((current, previous) =>
-                    {
-                        events.Add($"{previous}->{current}");
-                    });
-
-                    Behavior.OnUnhandledReceive((message, behavior, origin) =>
-                    {
-                        if (origin.IsBackground && behavior != origin.Behavior)
-                        {
-                            events.Add($"Received {message.GetType().Name} from background {origin.Behavior} while current is {Behavior.Current}");
-                            return;
-                        }
-
-                        events.Add($"Unhandled {message.GetType().Name} from {origin.Behavior}[Background={origin.IsBackground}] while current is {Behavior.Current}");
-                        throw new UnhandledMessageException(GetType(), behavior, message);
-                    });
-
                     Behavior.Initial(Copying);
+                }
+
+                public override Task OnTransitioned(string current, string previous)
+                {
+                    events.Add($"{previous}->{current}");
+                    return Task.CompletedTask;
+                }
+
+                public override Task<object> OnUnhandledReceive(RequestOrigin origin, object message)
+                {
+                    if (origin.IsBackground && Behavior.Current != origin.Behavior)
+                    {
+                        events.Add($"Received {message.GetType().Name} from background {origin.Behavior} while current is {Behavior.Current}");
+                        return TaskResult.Done;
+                    }
+
+                    events.Add($"Unhandled {message.GetType().Name} from {origin.Behavior}[Background={origin.IsBackground}] while current is {Behavior.Current}");
+                    throw new UnhandledMessageException(this, message);                    
                 }
 
                 public override async Task<object> OnReceive(object message)
