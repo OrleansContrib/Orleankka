@@ -88,7 +88,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 public override Task<object> OnUnhandledReceive(RequestOrigin origin, object message)
                 {
-                    origins.Add(new Tuple<string, bool>(origin.Behavior, origin.IsBackground));
+                    origins.Add(new Tuple<string, bool>(origin.Behavior, origin.Timer));
                     return TaskResult.Done;
                 }
 
