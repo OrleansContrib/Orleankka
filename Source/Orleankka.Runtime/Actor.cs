@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka
@@ -93,5 +94,6 @@ namespace Orleankka
             throw new UnhandledReminderException(this, id);
 
         public virtual Task OnTransitioned(string current, string previous) => Task.CompletedTask;
+        public virtual Task OnTransitionFailure(Transition transition, Exception exception) => Task.CompletedTask;
     }
 }

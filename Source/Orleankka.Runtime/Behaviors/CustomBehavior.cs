@@ -128,7 +128,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleBecome(Transition transition)
         {
-            if (IncludedIn(transition.From))
+            if (IncludedIn(transition.from))
                 return;
 
             if (super != null)
@@ -140,7 +140,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleUnbecome(Transition transition)
         {
-            if (Includes(transition.To))
+            if (Includes(transition.to))
                 return;
 
             if (onUnbecome != null)
@@ -152,7 +152,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleActivate(Transition transition)
         {
-            if (IncludedIn(transition.From))
+            if (IncludedIn(transition.from))
                 return;
 
             if (super != null)
@@ -164,7 +164,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleDeactivate(Transition transition)
         {
-            if (Includes(transition.To))
+            if (Includes(transition.to))
                 return;
 
             if (onDeactivate != null)

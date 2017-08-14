@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
@@ -180,17 +181,26 @@ namespace Orleankka.Behaviors
             
             var transition = new Transition(current, next);
 
-            await current.HandleDeactivate(transition);
-            await current.HandleUnbecome(transition);
+            try
+            {
+                await current.HandleDeactivate(transition);
+                await current.HandleUnbecome(transition);
 
-            current = next;
-            await current.HandleBecome(transition);
+                current = next;
+                await current.HandleBecome(transition);
 
-            next = null; // now become could be re-entered ...
-            await current.HandleActivate(transition);
+                next = null; // now become could be re-entered ...
+                await current.HandleActivate(transition);
 
-            // ... and we can signal about successful transition
-            await actor.OnTransitioned(transition.To.Name, transition.From.Name);
+                // ... and we can signal about successful transition
+                await actor.OnTransitioned(transition.to.Name, transition.@from.Name);
+            }
+            catch (Exception exception)
+            {
+                await actor.OnTransitionFailure(transition, exception);
+                actor.Activation.DeactivateOnIdle();
+                ExceptionDispatchInfo.Capture(exception).Throw();
+            }
         }
 
         public void Super(Action behavior)
