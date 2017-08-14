@@ -93,7 +93,7 @@ namespace Orleankka
         public virtual Task OnUnhandledReminder(string id) =>
             throw new UnhandledReminderException(this, id);
 
-        public virtual Task OnTransitioned(string current, string previous) => Task.CompletedTask;
+        public virtual Task OnTransitioned(Transition transition) => Task.CompletedTask;
         public virtual Task OnTransitionFailure(Transition transition, Exception exception) => Task.CompletedTask;
     }
 }

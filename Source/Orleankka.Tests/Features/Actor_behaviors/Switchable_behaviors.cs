@@ -20,11 +20,18 @@ namespace Orleankka.Features.Actor_behaviors
 
             class TestActor : Actor
             {
+                TestActor()
+                {}
+
+                public TestActor(IActorRuntime runtime)
+                    : base(runtime)
+                {}
+
                 public readonly List<string> Events = new List<string>();
 
-                public override Task OnTransitioned(string current, string previous)
+                public override Task OnTransitioned(Transition transition)
                 {
-                    Events.Add($"OnTransitioned_{current}_{previous}");
+                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
                     return Task.CompletedTask;
                 }
 
@@ -141,7 +148,7 @@ namespace Orleankka.Features.Actor_behaviors
             [SetUp]
             public void SetUp()
             {
-                actor = new TestActor();
+                actor = new TestActor(new MockRuntime());
             }
 
             [Test]

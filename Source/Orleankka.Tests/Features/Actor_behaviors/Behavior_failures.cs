@@ -6,7 +6,6 @@ using NUnit.Framework;
 namespace Orleankka.Features.Actor_behaviors
 {
     using Behaviors;
-    using Services;
 
     namespace Behavior_failures
     {
@@ -33,14 +32,14 @@ namespace Orleankka.Features.Actor_behaviors
                     return base.OnTransitionFailure(transition, exception);
                 }
 
-                public bool ThrowInOnTransitioned = false;
+                public bool ThrowInOnTransitioned;
 
-                public override Task OnTransitioned(string current, string previous)
+                public override Task OnTransitioned(Transition transition)
                 {
                     if (ThrowInOnTransitioned)
                         throw new ApplicationException(nameof(OnTransitioned));
 
-                    return base.OnTransitioned(current, previous);
+                    return base.OnTransitioned(transition);
                 }
 
                 [Behavior] public void Foo() {}
@@ -138,23 +137,6 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(actor.PassedException.Message, Is.EqualTo(faulty));
 
                 Assert.That(activation.DeactivateOnIdleWasCalled, Is.True);
-            }
-
-            class MockRuntime : IActorRuntime
-            {
-                public readonly MockActivationService MockActivationService = new MockActivationService();
-
-                public IActorSystem System => throw new NotImplementedException();
-                public ITimerService Timers => throw new NotImplementedException();
-                public IReminderService Reminders => throw new NotImplementedException();
-                public IActivationService Activation => MockActivationService;
-            }
-
-            class MockActivationService : IActivationService
-            {
-                public bool DeactivateOnIdleWasCalled;
-                public void DeactivateOnIdle() => DeactivateOnIdleWasCalled = true;
-                public void DelayDeactivation(TimeSpan period) => throw new NotImplementedException();
             }
         }
     }

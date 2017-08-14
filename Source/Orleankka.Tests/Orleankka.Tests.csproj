@@ -48,6 +48,7 @@
     <Compile Include="Checks\StreamRefFixture.cs" />
     <Compile Include="Checks\StreamPathFixture.cs" />
     <Compile Include="Features\Actor_behaviors\Behavior_failures.cs" />
+    <Compile Include="Features\Actor_behaviors\%40Mocks.cs" />
     <Compile Include="Features\Actor_behaviors\Reusing_handlers_via_traits.cs" />
     <Compile Include="Features\Actor_behaviors\Firing_messages.cs" />
     <Compile Include="Features\Native_orleans_attributes.cs" />

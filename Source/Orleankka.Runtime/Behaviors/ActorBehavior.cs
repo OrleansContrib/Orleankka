@@ -193,7 +193,7 @@ namespace Orleankka.Behaviors
                 await current.HandleActivate(transition);
 
                 // ... and we can signal about successful transition
-                await actor.OnTransitioned(transition.to.Name, transition.@from.Name);
+                await actor.OnTransitioned(transition);
             }
             catch (Exception exception)
             {
