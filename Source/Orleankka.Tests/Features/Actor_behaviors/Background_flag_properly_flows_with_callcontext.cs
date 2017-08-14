@@ -146,8 +146,8 @@ namespace Orleankka.Features.Actor_behaviors
                     "Become Active",
                     "Received Copied",
                     "Received Suspend",
-                    "Copying->Suspended",
                     "Become Suspended",
+                    "Copying->Suspended",
                     "Received Copied from background Copying while current is Suspended" // this arrives after the behavior is switched
                 };
 

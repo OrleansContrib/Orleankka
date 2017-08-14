@@ -186,10 +186,11 @@ namespace Orleankka.Behaviors
             current = next;
             await current.HandleBecome(transition);
 
-            next = null; // now become could be re-entered and we signal about transition
-            await actor.OnTransitioned(transition.To.Name, transition.From.Name);
+            next = null; // now become could be re-entered ...
+            await current.HandleActivate(transition);
 
-            await current.HandleActivate(transition);            
+            // ... and we can signal about successful transition
+            await actor.OnTransitioned(transition.To.Name, transition.From.Name);
         }
 
         public void Super(Action behavior)

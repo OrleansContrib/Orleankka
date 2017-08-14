@@ -24,7 +24,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 public override Task OnTransitioned(string current, string previous)
                 {
-                    Events.Add($"OnBecome_{current}_{previous}");
+                    Events.Add($"OnTransitioned_{current}_{previous}");
                     return Task.CompletedTask;
                 }
 
@@ -193,11 +193,11 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnBecome_SS",
                     "OnBecome_S",
                     "OnBecome_A",
-                    "OnBecome_A_Initial",
                     "OnActivate_SSS",
                     "OnActivate_SS",
                     "OnActivate_S",
-                    "OnActivate_A"
+                    "OnActivate_A",
+                    "OnTransitioned_A_Initial"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -218,9 +218,9 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnDeactivate_S",
                     "OnUnbecome_A",
                     "OnUnbecome_S",
-                    "OnBecome_B",
-                    "OnBecome_B_A",
+                    "OnBecome_B",                    
                     "OnActivate_B",
+                    "OnTransitioned_B_A"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -246,10 +246,10 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnUnbecome_SS",
                     "OnUnbecome_SSS",
                     "OnBecome_SSSS",
-                    "OnBecome_C",
-                    "OnBecome_C_A",
+                    "OnBecome_C",                    
                     "OnActivate_SSSS",
-                    "OnActivate_C"
+                    "OnActivate_C",
+                    "OnTransitioned_C_A"
                 };
 
                 AssertEqual(expected, actor.Events);
