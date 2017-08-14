@@ -122,12 +122,6 @@ namespace Orleankka.Features.Actor_behaviors
                     return base.OnReceive(message);
                 }
             }
-            [TestFixtureSetUp]
-            public void FixtureSetUp()
-            {
-                ActorBehavior.Register(typeof(TestInterleaveFireActor));
-                ActorBehavior.Register(typeof(TestUnhandledFireActor));
-            }
 
             [Test]
             public async Task When_receive_interleaves_with_timer_ticks()
