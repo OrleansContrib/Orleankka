@@ -34,7 +34,22 @@ namespace Example
             });
         }
 
-        public Task Resubscribe() => Subscribe();
+        public async Task Resubscribe()
+        {
+            while (true)
+            {
+                try
+                {
+                    await Subscribe();
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Error resubscribing to stream. Will retry in 2 seconds");
+                    await Task.Delay(2000);
+                }
+            }
+        }
 
         public async Task Leave()
         {
