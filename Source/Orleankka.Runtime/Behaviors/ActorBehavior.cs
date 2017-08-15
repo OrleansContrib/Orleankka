@@ -183,6 +183,8 @@ namespace Orleankka.Behaviors
 
             try
             {
+                await actor.OnTransitioning(transition);
+
                 await current.HandleDeactivate(transition);
                 await current.HandleUnbecome(transition);
 

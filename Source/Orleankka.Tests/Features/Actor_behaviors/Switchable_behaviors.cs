@@ -29,6 +29,12 @@ namespace Orleankka.Features.Actor_behaviors
 
                 public readonly List<string> Events = new List<string>();
 
+                public override Task OnTransitioning(Transition transition)
+                {
+                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
+                    return Task.CompletedTask;
+                }
+
                 public override Task OnTransitioned(Transition transition)
                 {
                     Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
@@ -194,6 +200,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 var expected = new[]
                 {
+                    "OnTransitioning_Initial_A",
                     "OnDeactivate_Initial",
                     "OnUnbecome_Initial",
                     "OnBecome_SSS",
@@ -221,6 +228,7 @@ namespace Orleankka.Features.Actor_behaviors
                 await actor.Behavior.Become(actor.B);
                 var expected = new[]
                 {
+                    "OnTransitioning_A_B",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnUnbecome_A",
@@ -244,6 +252,7 @@ namespace Orleankka.Features.Actor_behaviors
                 await actor.Behavior.Become(actor.C);
                 var expected = new[]
                 {
+                    "OnTransitioning_A_C",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnDeactivate_SS",

@@ -32,6 +32,16 @@ namespace Orleankka.Features.Actor_behaviors
                     return base.OnTransitionFailure(transition, exception);
                 }
 
+                public bool ThrowInOnTransitioning;
+
+                public override Task OnTransitioning(Transition transition)
+                {
+                    if (ThrowInOnTransitioning)
+                        throw new ApplicationException(nameof(ThrowInOnTransitioning));
+
+                    return base.OnTransitioning(transition);
+                }
+
                 public bool ThrowInOnTransitioned;
 
                 public override Task OnTransitioned(Transition transition)
@@ -103,6 +113,25 @@ namespace Orleankka.Features.Actor_behaviors
                 const string to = nameof(TestActor.Foo);
 
                 AssertFailure(from, to, faulty: from);
+            }
+
+            [Test]
+            public void When_faulty_OnTransitioning()
+            {
+                actor.ThrowInOnTransitioning = true;
+
+                const string from = nameof(TestActor.Foo);
+                const string to = nameof(TestActor.Bar);
+
+                actor.Behavior.Initial(from);
+
+                var exception = Assert.Throws<ApplicationException>(async () => await actor.Become(to));
+                Assert.That(exception.Message, Is.EqualTo(nameof(actor.ThrowInOnTransitioning)));
+
+                Assert.That(actor.PassedTransition.From, Is.EqualTo(from));
+                Assert.That(actor.PassedTransition.To, Is.EqualTo(to));
+                Assert.That(actor.PassedException, Is.Not.Null);
+                Assert.That(actor.PassedException.Message, Is.EqualTo(nameof(actor.ThrowInOnTransitioning)));
             }
 
             [Test]
