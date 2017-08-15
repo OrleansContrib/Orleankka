@@ -40,21 +40,29 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Tell(Path, message, endpoint.ReceiveVoid);
+            return invoker.Send<object>(Path, message, async x =>
+            {
+                await endpoint.ReceiveVoid(x);
+                return null;
+            });
         }
 
         public virtual Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Ask<TResult>(Path, message, endpoint.Receive);
+            return invoker.Send<TResult>(Path, message, endpoint.Receive);
         }
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            invoker.Notify(Path, message, m => endpoint.Notify(m));
+            invoker.Send<object>(Path, message, async x =>
+            {
+                await endpoint.Notify(x);
+                return null;
+            });
         }
 
         internal Task Autorun()

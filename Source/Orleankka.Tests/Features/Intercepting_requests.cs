@@ -111,12 +111,12 @@ namespace Orleankka.Features
 
         public class TestActorRefInvoker : ActorRefInvoker
         {
-            public override Task<TResult> Ask<TResult>(ActorPath actor, object message, Func<object, Task<object>> invoke)
+            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> invoke)
             {
                 if (message is CheckRef)
                     RequestContext.Set("SetByActorRefInvoker", "it works!");
 
-                return base.Ask<TResult>(actor, message, invoke);
+                return base.Send<TResult>(actor, message, invoke);
             }
         }
 
