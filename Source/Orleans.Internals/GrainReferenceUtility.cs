@@ -1,9 +1,11 @@
-﻿using Orleans.Runtime;
+﻿using Orleans.Core;
+using Orleans.Runtime;
 
 namespace Orleans.Internals
 {
-    class GrainReferenceUtility
+    public static class GrainReferenceUtility
     {
         public static GrainReference FromKeyString(string key) => GrainReference.FromKeyString(key, null);
+        public static IGrainIdentity Identity(this GrainReference reference) => reference.GrainId;
     }
 }

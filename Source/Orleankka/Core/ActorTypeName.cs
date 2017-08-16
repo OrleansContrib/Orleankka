@@ -6,7 +6,7 @@ namespace Orleankka.Core
 {
     using Utility;
 
-    struct ActorTypeName
+    class ActorTypeName
     {
         static readonly Dictionary<Type, string> map =
                     new Dictionary<Type, string>();

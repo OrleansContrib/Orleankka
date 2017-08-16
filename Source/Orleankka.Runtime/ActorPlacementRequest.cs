@@ -10,13 +10,12 @@ namespace Orleankka
     {
         public static ActorPlacementRequest From(PlacementTarget target)
         {
-            var @interface = ActorInterface.Of(target.InterfaceId);
-            var mapping = @interface.Mapping;
+            var @interface = ActorType.Of(target.GrainIdentity.TypeCode).Interface;
 
             var id = target.GrainIdentity.PrimaryKeyString;
             var path = new ActorPath(@interface.Name, id);
 
-            return new ActorPlacementRequest(path, mapping);
+            return new ActorPlacementRequest(path, @interface.Mapping);
         }
 
         public readonly ActorPath Path;

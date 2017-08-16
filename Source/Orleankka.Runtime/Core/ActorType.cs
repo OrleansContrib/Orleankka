@@ -24,6 +24,9 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
+        static readonly Dictionary<int, ActorType> typeCodes =
+                    new Dictionary<int, ActorType>();
+
         public static ActorType Of<T>() => Of(typeof(T));
         public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
 
@@ -39,6 +42,16 @@ namespace Orleankka.Core
             return result;
         }
 
+        public static ActorType Of(int typeCode)
+        {
+            var result = typeCodes.Find(typeCode);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor type code '{typeCode}' to the corresponding actor type");
+
+            return result;
+        }
+        
         internal static void Register(Assembly[] assemblies, string[] conventions)
         {
             var unregistered = assemblies
@@ -50,15 +63,20 @@ namespace Orleankka.Core
                 var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
 
                 foreach (var actor in actors)
+                {
                     types.Add(actor.Name, actor);
+                    typeCodes.Add(actor.TypeCode, actor);
+                    typeCodes.Add(actor.Interface.TypeCode, actor);
+                }
             }
         }
 
-        internal static IEnumerable<ActorType> Registered() => types.Values;
+        public static IEnumerable<ActorType> Registered() => types.Values;
         internal string Name => Interface.Mapping.TypeName;
 
         public readonly Type Class;
         public readonly ActorInterface Interface;
+        public readonly int TypeCode;
         internal readonly Type Grain;
 
         readonly TimeSpan keepAliveTimeout;
@@ -71,7 +89,8 @@ namespace Orleankka.Core
             Class = @class;
             Interface = @interface;
             Grain = grain;
-
+            TypeCode = grain.TypeCode();
+            
             Sticky = StickyAttribute.IsApplied(@class);
             keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
             interleavePredicate = InterleaveAttribute.MayInterleavePredicate(@class);
@@ -80,7 +99,7 @@ namespace Orleankka.Core
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
 
-            Init(grain);
+            Init(grain);            
         }
 
         void Init(Type grain)
