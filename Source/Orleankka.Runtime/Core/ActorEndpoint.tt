@@ -1,0 +1,28 @@
+<#@ template language="C#" hostspecific="true" #>
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Orleans;
+using Orleans.Runtime;
+
+namespace Orleankka.Core
+{
+    using Cluster;
+
+    /// <summary> 
+    /// FOR INTERNAL USE ONLY!
+    /// </summary>
+    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
+    {
+<#@ include file="ActorEndpoint.Common.cs" #>  
+    }
+
+    /// <summary> 
+    /// FOR INTERNAL USE ONLY!
+    /// </summary>
+    public abstract class ActorEndpoint<TInterface> : ActorEndpoint
+    {
+<#@ include file="ActorEndpoint.Common.T.cs" #>  
+    }
+}

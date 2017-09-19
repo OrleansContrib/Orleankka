@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Orleankka;
 
 namespace Example
 {
-    public class ChatRoom : Actor, IChatRoom
+    public class ChatRoom : Actor
     {
         readonly HashSet<string> members =
              new HashSet<string>();
@@ -41,7 +40,7 @@ namespace Example
 
         public void Handle(Say cmd)
         {
-            Send(cmd.User, string.Format("{0} said: {1}", cmd.User, cmd.Message));
+            Send(cmd.User, $"{cmd.User} said: {cmd.Message}");
         }
 
         void Send(string user, string message)

@@ -2,21 +2,11 @@
 
 namespace Orleankka
 {
-    using Utility;
-
     /// <summary>
     /// Serves as factory for acquiring actor references.
     /// </summary>
-    public interface IActorSystem : IDisposable
+    public interface IActorSystem
     {
-        /// <summary>
-        /// Acquires the actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
-        /// </summary>
-        /// <param name="type">The type of the actor</param>
-        /// <param name="id">The id</param>
-        ActorRef ActorOf(Type type, string id);
-
         /// <summary>
         /// Acquires the actor reference for the given actor path.
         /// </summary>
@@ -37,16 +27,13 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : MarshalByRefObject, IActorSystem
     {
-        public static IActorSystemConfigurator Configure()
-        {
-            return null;
-        }
+        /// <summary>
+        /// Entry-point method for fluent configuration
+        /// </summary>
+        /// <returns>An instance of actor system configurator</returns>
+        public static IActorSystemConfigurator Configure() => default(IActorSystemConfigurator);
 
-        public ActorRef ActorOf(Type type, string id)
-        {
-            return ActorOf(ActorPath.Registered(type, id));
-        }
-
+        /// <inheritdoc />
         public ActorRef ActorOf(ActorPath path)
         {
             if (path == ActorPath.Empty)
@@ -55,6 +42,7 @@ namespace Orleankka
            return ActorRef.Deserialize(path);
         }
 
+        /// <inheritdoc />
         public StreamRef StreamOf(StreamPath path)
         {
             if (path == StreamPath.Empty)
@@ -63,12 +51,11 @@ namespace Orleankka
             return StreamRef.Deserialize(path);
         }
 
+        /// <inheritdoc />
         public override object InitializeLifetimeService()
         {
             return null;
         }
-
-        public abstract void Dispose();
     }
 
     /// <summary>
@@ -77,18 +64,17 @@ namespace Orleankka
     public static class ActorSystemExtensions
     {
         /// <summary>
-        /// Acquires the actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
+        /// Acquires the actor reference for the given actor type and id.
         /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
+        /// <param name="type">The actor type</param>
+        /// <param name="id">The actor id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static ActorRef ActorOf(this IActorSystem system, string type, string id)
         {
-            return system.ActorOf(typeof(TActor), id);
+            return system.ActorOf(ActorPath.From(type, id));
         }
-        
+
         /// <summary>
         /// Acquires the actor reference for the given actor path string.
         /// </summary>
@@ -101,15 +87,14 @@ namespace Orleankka
         }
 
         /// <summary>
-        /// Acquires the typed actor reference for the given id and type of the actor.
-        /// The type could be either an interface or implementation class.
+        /// Acquires the actor reference for the given worker type.
         /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        /// <param name="type">The type</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf(this IActorSystem system, string type)
         {
-            return new ActorRef<TActor>(ActorOf<TActor>(system, id));
+            return system.ActorOf(ActorPath.From(type, "#"));
         }
 
         /// <summary>
@@ -122,6 +107,29 @@ namespace Orleankka
         public static StreamRef StreamOf(this IActorSystem system, string provider, string id)
         {
             return system.StreamOf(StreamPath.From(provider, id));
+        }
+
+        /// <summary>
+        /// Acquires the typed actor reference for the given id and type of the actor.
+        /// The type could be either an interface or implementation class.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The id</param>
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        {
+            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath(id)));
+        }
+
+        /// <summary>
+        /// Acquires the typed actor reference for the given id and type of the worker actor.
+        /// The type could be either an interface or implementation class.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActor
+        {
+            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath("#")));
         }
     }
 }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Orleankka</RootNamespace>
     <AssemblyName>Orleankka</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -41,19 +41,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\..\packages\Google.Protobuf\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.10\lib\net45\Orleans.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OrleansProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders.1.0.10\lib\net45\OrleansProviders.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.10\lib\net45\OrleansRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -63,82 +54,141 @@
     <Compile Include="..\Product.cs">
       <Link>Properties\Product.cs</Link>
     </Compile>
+    <Compile Include="ActorAttributes.cs" />
     <Compile Include="ActorMessage.cs" />
-    <Compile Include="ActorRuntime.cs" />
     <Compile Include="Core\ActorInterface.cs" />
-    <Compile Include="Core\ActorPrototype.cs" />
-    <Compile Include="Core\ActorType.cs" />
+    <Compile Include="Core\ActorInterfaceMapping.cs" />
+    <Compile Include="Core\AssemblyScanner.cs" />
+    <Compile Include="Core\ActorInterfaceDeclaration.cs" />
+    <Compile Include="Core\IActorEndpoint.cs" />
+    <Compile Include="Core\IClientEndpoint.cs" />
     <Compile Include="Core\Stream.cs" />
-    <Compile Include="Core\Streams\StreamConsumer.cs" />
-    <Compile Include="Core\Streams\StreamProviderConfiguration.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionBootstrapper.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionMatch.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionMatcher.cs" />
-    <Compile Include="Core\Streams\StreamSubscriptionSpecification.cs" />
+    <Compile Include="Client\StreamProviderConfiguration.cs" />
+    <Compile Include="IActor.cs" />
+    <Compile Include="ActorPathExtensions.cs" />
+    <Compile Include="Core\ActorTypeName.cs" />
     <Compile Include="StreamFilter.cs" />
     <Compile Include="StreamPath.cs" />
     <Compile Include="ActorPath.cs" />
-    <Compile Include="ActorAttributes.cs" />
     <Compile Include="StreamRef.cs" />
-    <Compile Include="Core\GC.cs" />
     <Compile Include="ClientRef.cs" />
     <Compile Include="Core\ClientEndpoint.cs" />
-    <Compile Include="Core\Dispatcher.cs" />
-    <Compile Include="ClientObserver.cs" />
-    <Compile Include="Placement.cs" />
+    <Compile Include="ClientObservable.cs" />
     <Compile Include="ActorSystemConfigurator.cs" />
     <Compile Include="Client\ClientActorSystem.cs" />
     <Compile Include="Client\ClientConfigurator.cs" />
-    <Compile Include="Cluster\Bootstrapper.cs" />
-    <Compile Include="Cluster\ClusterActorSystem.cs" />
-    <Compile Include="Cluster\ClusterConfigurator.cs" />
-    <Compile Include="Core\ActorEndpointFactory.cs" />
-    <Compile Include="Core\ActorActivator.cs" />
-    <Compile Include="Embedded\EmbeddedConfigurator.cs" />
-    <Compile Include="Embedded\EmbeddedActorSystem.cs" />
     <Compile Include="ObserverRef.cs" />
-    <Compile Include="ObserverCollection.cs" />
     <Compile Include="ActorRef.cs" />
     <Compile Include="ActorSystem.cs" />
-    <Compile Include="Actor.cs" />
-    <Compile Include="Core\ActorEndpoint.cs" />
-    <Compile Include="Playground\PlaygroundConfigurator.cs" />
-    <Compile Include="Core\Reentrant.cs" />
-    <Compile Include="Ref.cs" />
-    <Compile Include="Services\ActivationService.cs" />
-    <Compile Include="Services\ReminderService.cs" />
-    <Compile Include="Services\TimerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamSubscription.cs" />
     <Compile Include="Utility\Annotations.cs" />
     <Compile Include="Utility\AssemblyExtensions.cs" />
     <Compile Include="Utility\DictionaryExtensions.cs" />
     <Compile Include="Utility\Requires.cs" />
-    <Compile Include="Utility\TaskExtensions.cs" />
+    <Compile Include="Utility\TaskResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Core\Orleankka.Core.csproj">
-      <Project>{2220a904-cafa-4f1c-bbcb-82b9257c9fc5}</Project>
-      <Name>Orleankka.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj">
-      <Project>{97e4fe27-27fd-499b-8737-0f293807c297}</Project>
-      <Name>Orleans.Internals</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Playground\Cluster.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="paket.references" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+  </ItemGroup>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.CodeAnalysis">
+          <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Microsoft.CodeAnalysis.CSharp">
+          <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Orleans">
+          <HintPath>..\..\packages\Microsoft.Orleans.Core\lib\net451\Orleans.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="OrleansCodeGenerator">
+          <HintPath>..\..\packages\Microsoft.Orleans.OrleansCodeGenerator\lib\net451\OrleansCodeGenerator.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="OrleansProviders">
+          <HintPath>..\..\packages\Microsoft.Orleans.OrleansProviders\lib\net451\OrleansProviders.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="System.Collections.Immutable">
+          <HintPath>..\..\packages\System.Collections.Immutable\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="System.Reflection.Metadata">
+          <HintPath>..\..\packages\System.Reflection.Metadata\lib\netstandard1.1\System.Reflection.Metadata.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
 </Project>

@@ -10,6 +10,8 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleankka.TestKit;
 
+using Orleans.Serialization;
+
 namespace Demo
 {
     [TestFixture]
@@ -24,14 +26,20 @@ namespace Demo
 
         ActorRefMock facebook;
         ActorRefMock twitter;
+
+        [TestFixtureSetUp]
+        public void FixtureSetUp()
+        {
+            SerializationManager.InitializeForTesting();
+        }
         
         [SetUp]
         public override void SetUp()
         {
             base.SetUp();
 
-            facebook = System.MockActorOf<Api>("facebook");
-            twitter = System.MockActorOf<Api>("twitter");
+            facebook = System.MockActorOf(ActorPath.From("Api", "facebook"));
+            twitter = System.MockActorOf(ActorPath.From("Api", "twitter"));
 
             schedule = new Dictionary<ActorRef, TimeSpan>
             {

@@ -3,56 +3,56 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.Playground
-
+open Orleankka.FSharp.Configuration
+open Orleankka.FSharp.Runtime
 open Shop
 open Account
 
 [<EntryPoint>]
 let main argv = 
 
-    printfn "Running demo. Booting cluster might take some time ...\n"
+   printfn "Running demo. Booting cluster might take some time ...\n"
    
-    use system = ActorSystem.Configure()
-                            .Playground()
-                            .Register(Assembly.GetExecutingAssembly())
-                            .Done()
+   let system = [|Assembly.GetExecutingAssembly()|]
+                |> ActorSystem.createPlayground
+                |> ActorSystem.start
                   
-    let shop = system.ActorOf<Shop>("Amazon")
-    let account = system.ActorOf<Account>("Antya")
+   let shop = ActorSystem.actorOf<Shop>(system, "amazon")
+   let account = ActorSystem.actorOf<Account>(system, "antya")
    
-    let job() = task {
-        let! stock = shop <? Stock
-        printfn "Shop has %i items in stock \n" stock
+   let job() = task {
+      let! stock = shop <? Stock
+      printfn "Shop has %i items in stock \n" stock
 
-        let! balance = account <? Balance
-        printfn "Account balance is %i \n" balance
+      let! balance = account <? Balance
+      printfn "Account balance is %i \n" balance
 
-        printfn "Let's put 100$ on the account \n"
-        do! account <! Deposit(100)      
+      printfn "Let's put 100$ on the account \n"
+      do! account <! Deposit(100)      
 
-        printfn "Let's put 5 items in stock \n"
-        do! shop <! CheckIn(5)
+      printfn "Let's put 5 items in stock \n"
+      do! shop <! CheckIn(5)
 
-        let! stock = shop <? Stock
-        printfn "Now shop has %i items in stock \n" stock
+      let! stock = shop <? Stock
+      printfn "Now shop has %i items in stock \n" stock
 
-        try
-           printfn "Let's sell 100 items to user \n"
-           do! shop <! Sell(account, 100)
-        with :? InvalidOperationException as e -> printf "[Exception]: %s \n" e.Message
+      try
+         printfn "Let's sell 100 items to user \n"
+         do! shop <! Sell(account, 100)
+      with :? InvalidOperationException as e -> printf "[Exception]: %s \n" e.Message
 
-        printfn "Let's sell 2 items to user \n"
-        do! shop <! Sell(account, 2)      
+      printfn "Let's sell 2 items to user \n"
+      do! shop <! Sell(account, 2)      
 
-        let! stock = shop <? Stock
-        printfn "Now shop has %i items in stock \n" stock
+      let! stock = shop <? Stock
+      printfn "Now shop has %i items in stock \n" stock
 
-        let! balance = account <? Balance
-        printfn "And account balance is %i \n" balance
-    }
+      let! balance = account <? Balance
+      printfn "And account balance is %i \n" balance
+   }
 
-    Task.run(job) |> ignore
+   Task.run(job) |> ignore
 
-    Console.ReadLine() |> ignore    
-    0
+   Console.ReadLine() |> ignore
+   ActorSystem.stop(system)
+   0

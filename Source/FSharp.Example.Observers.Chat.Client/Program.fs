@@ -1,11 +1,11 @@
-﻿
-open Orleans.Runtime.Configuration
-open Orleankka
-open Orleankka.Client
-open Orleankka.FSharp
-open System
+﻿open System
 open System.Reflection
-open ChatServer
+
+open Orleankka
+open Orleankka.FSharp
+open Orleankka.FSharp.Configuration
+
+open Messages
 
 let mutable client = null 
 
@@ -13,18 +13,19 @@ let mutable client = null
 let main argv =    
    printfn "Please wait until Chat Server has completed boot and then press enter. \n"
    Console.ReadLine() |> ignore
-
-   let config = ClientConfiguration().LoadFromEmbeddedResource(Assembly.GetExecutingAssembly(), "Client.xml")
    
-   use system = ActorSystem.Configure()
-                           .Client()
-                           .From(config)
-                           .Register(typeof<ChatServer>.Assembly)
-                           .Done()
+   let assembly = Assembly.GetExecutingAssembly()   
 
-   client <- ClientObserver.Create().Result   
+   let config = ClientConfig.loadFromResource assembly "Client.xml"
+      
+   let system = [|typeof<ServerMessage>.Assembly|]
+                |> ActorSystem.createConfiguredClient config [|"ChatServer"|]
+                |> ActorSystem.connect   
 
-   let server = system.ActorOf<ChatServer>("server")
+   client <- ClientObservable.create().Result
+
+   let path = ActorPath.From("ChatServer", "server")
+   let server = ActorSystem.actorOfPath system path
 
    printfn "Enter your user name... \n"
    let userName = Console.ReadLine()     

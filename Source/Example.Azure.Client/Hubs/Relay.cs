@@ -18,20 +18,20 @@ namespace Example.Azure.Hubs
 
     public class HubClient
     {
-        static ClientObserver observer;
+        static ClientObservable notifications;
         static IHubConnectionContext<dynamic> clients;
 
         public static void Initialize()
         {
             clients = GlobalHost.ConnectionManager.GetHubContext<Relay>().Clients;
             
-            observer = Task.Run(() => ClientObserver.Create()).Result;
-            observer.Subscribe(On);
+            notifications = Task.Run(ClientObservable.Create).Result;
+            notifications.Subscribe(On);
 
-            Task.Run(() => Subscribe())
+            Task.Run(Subscribe)
                 .Wait();
 
-            Task.Run(() => Resubscribe());
+            Task.Run(Resubscribe);
         }
 
         static async Task Subscribe()
@@ -48,9 +48,10 @@ namespace Example.Azure.Hubs
                     continue;
 
                 var id = HubGateway.HubId(address.Endpoint);
-                var hub = MvcApplication.System.ActorOf<Hub>(id);
+                var path = ActorPath.From("Hub", id);
+                var hub = MvcApplication.System.ActorOf(path);
 
-                await hub.Tell(new Hub.Subscribe {Observer = observer});
+                await hub.Tell(new SubscribeHub { Observer = notifications});
             }
         }
 
@@ -65,8 +66,8 @@ namespace Example.Azure.Hubs
 
         static void On(object message)
         {
-            var notifications = (IEnumerable<Notification>) message;
-            clients.All.receive(notifications.Select(Format));
+            var messages = (IEnumerable<Notification>) message;
+            clients.All.receive(messages.Select(Format));
         }
 
         static string Format(Notification notification)

@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ClientConfiguration xmlns="urn:orleans">
-	<Tracing DefaultTraceLevel="Info" TraceToConsole="true" TraceToFile="{0}-{1}.log" WriteTraces="false">
-		<TraceLevelOverride LogPrefix="Application" TraceLevel="Info" />
-	</Tracing>
+
+  <Tracing TraceToConsole="true" TraceToFile="" />
+
+  <Messaging ResponseTimeout="180s"
+             ClientSenderBuckets="8192"
+             MaxResendCount="0"/>
+
 </ClientConfiguration>

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Client;
+
 using Orleans.Runtime.Configuration;
 
 namespace Example
@@ -15,21 +15,25 @@ namespace Example
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration().LoadFromEmbeddedResource(typeof(Program), "Client.xml");
+            var config = new ClientConfiguration()
+                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
 
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(ChatUser).Assembly)
+                .Assemblies(typeof(IChatUser).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));
             task.Wait();
         }
 
-        private static async Task RunChatClient(IActorSystem system)
+        private static async Task RunChatClient(ClientActorSystem system)
         {
             const string room = "Orleankka";
+
+            Console.WriteLine("Connecting to server ...");
+            system.Connect(retries: 2);
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
@@ -45,6 +49,12 @@ namespace Example
                 {
                     await client.Leave();
                     break;
+                }
+
+                if (message == "reconnect")
+                {
+                    await client.Resubscribe();
+                    continue;
                 }
 
                 await client.Say(message);

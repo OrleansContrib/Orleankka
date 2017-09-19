@@ -1,8 +1,9 @@
 @ECHO OFF
 
-SET DIR=%~dp0.
-SET NAKE_VERSION=2.3.4
-SET NAKE_RUNNER=%DIR%\Packages\Nake.%NAKE_VERSION%\tools\net45\Nake.exe
+CALL ".paket\paket.bootstrapper.exe" -s
+CALL ".paket\paket.exe" restore
 
-IF NOT EXIST "%NAKE_RUNNER%" "%DIR%\Tools\NuGet.exe" install Nake -Version %NAKE_VERSION% -o "%DIR%\Packages" 
+SET DIR=%~dp0.
+SET NAKE_RUNNER=%DIR%\Packages\Nake\tools\net45\Nake.exe
+
 "%NAKE_RUNNER%" -f "%DIR%\Nake.csx" -d "%DIR%" %*

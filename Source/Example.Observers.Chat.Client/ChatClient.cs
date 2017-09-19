@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -10,29 +9,29 @@ namespace Example
     {
         readonly string user;
         readonly ActorRef room;
-        ClientObserver client;
+        ClientObservable notifications;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
             this.user = user;
-            this.room = system.ActorOf<IChatRoom>(room);
+            this.room = system.ActorOf($"ChatRoom:{room}");
         }
 
         public async Task Join()
         {
-            client = await ClientObserver.Create();
-            client.Subscribe((ChatRoomMessage msg) =>
+            notifications = await ClientObservable.Create();
+            notifications.Subscribe((ChatRoomMessage msg) =>
             {
                 if (msg.User != user)
                     Console.WriteLine(msg.Text);
             });
 
-            await room.Tell(new Join {User = user, Client = client});
+            await room.Tell(new Join {User = user, Client = notifications});
         }
 
         public async Task Leave()
         {
-            client.Dispose();
+            notifications.Dispose();
             await room.Tell(new Leave {User = user});
         }
 

@@ -1,17 +1,12 @@
-﻿using System;
+﻿using System.Net;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-
-using Microsoft.WindowsAzure.ServiceRuntime;
 
 using Orleankka;
 using Orleankka.Cluster;
 
 namespace Example.Azure
 {
-
     public class HubGateway
     {
         static IActorSystem system;
@@ -19,16 +14,18 @@ namespace Example.Azure
 
         public class Bootstrapper : IBootstrapper
         {
-            public Task Run(object properties)
+            public Task Run(IActorSystem system, object properties)
             {
-                system = ClusterActorSystem.Current;
+                HubGateway.system = system;
 
-                var instanceEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["OrleansSiloEndpoint"];
-                ip = instanceEndpoint.IPEndpoint;
+                ip = GetSiloIpAddress((ClusterActorSystem) system);
+                Trace.TraceError(ip.ToString());
 
                 var hub = GetLocalHub();
                 return hub.Tell(new Hub.Init());
             }
+
+            static IPEndPoint GetSiloIpAddress(ClusterActorSystem system) => system.Silo.SiloAddress.Endpoint;
         }
 
         public static Task Publish(Event e)

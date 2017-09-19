@@ -1,68 +1,88 @@
 ﻿using System;
-using System.Linq;
 
 using Orleankka.Meta;
 
 namespace Example
 {
     [Serializable]
-    public class CreateInventoryItem : Command
+    public class Create : Command
     {
         public readonly string Name;
 
-        public CreateInventoryItem(string name)
+        public Create(string name)
         {
             Name = name;
         }
     }
 
     [Serializable]
-    public class CheckInInventoryItem : Command
+    public class CheckIn : Command
     {
         public readonly int Quantity;
 
-        public CheckInInventoryItem(int quantity)
+        public CheckIn(int quantity)
         {
             Quantity = quantity;
         }
     }
 
     [Serializable]
-    public class CheckOutInventoryItem : Command
+    public class CheckOut : Command
     {
         public readonly int Quantity;
 
-        public CheckOutInventoryItem(int quantity)
+        public CheckOut(int quantity)
         {
             Quantity = quantity;
         }
     }
 
     [Serializable]
-    public class RenameInventoryItem : Command
+    public class Rename : Command
     {
         public readonly string NewName;
 
-        public RenameInventoryItem(string newName)
+        public Rename(string newName)
         {
             NewName = newName;
         }
     }
-	
+
     [Serializable]
-    public class DeactivateInventoryItem : Command
+    public class Deactivate : Command
     {}
 
     [Serializable]
-    public class GetInventoryItemDetails : Query<InventoryItemDetails>
+    public class GetDetails : Query<InventoryItemDetails>
     {}
+
+    [Serializable]
+    public class GetInventoryItems : Query<InventoryItemDetails[]>
+    {}
+
+    [Serializable]
+    public class GetInventoryItemsTotal : Query<int>
+    {}
+
+    [Serializable]
+    public class EventEnvelope<T> where T : Event
+    {
+        public readonly string Stream;
+        public readonly T Event;
+
+        public EventEnvelope(string stream, T @event)
+        {
+            Stream = stream;
+            Event = @event;
+        }
+    }
 
     [Serializable]
     public class InventoryItemDetails
     {
-        public readonly string Name;
-        public readonly int Total;
-        public readonly bool Active;
+        public string Name;
+        public int Total;
+        public bool Active;
 
         public InventoryItemDetails(string name, int total, bool active)
         {
@@ -71,7 +91,7 @@ namespace Example
             Active = active;
         }
     }
-	
+
     [Serializable]
     public class InventoryItemCreated : Event
     {

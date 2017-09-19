@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -8,8 +7,9 @@ namespace Orleankka.TestKit
 {
     public class StreamSubscriptionMock : StreamSubscription
     {
-        public object Callback      { get; }
-        public StreamFilter Filter  { get; }
+        public object Callback      { get; private set; }
+        public StreamFilter Filter  { get; private set; }
+        public bool Resumed         { get; private set; }
         public bool Unsubscribed    { get; private set; }
 
         public StreamSubscriptionMock(object callback, StreamFilter filter)
@@ -17,6 +17,34 @@ namespace Orleankka.TestKit
         {
             Callback = callback;
             Filter = filter;
+        }
+
+        public override Task<StreamSubscription> Resume(Func<object, Task> callback)
+        {
+            Resumed = true;
+            Callback = callback;
+            return Task.FromResult((StreamSubscription)this);
+        }
+
+        public override Task<StreamSubscription> Resume<T>(Func<T, Task> callback)
+        {
+            Resumed = true;
+            Callback = callback;
+            return Task.FromResult((StreamSubscription)this);
+        }
+
+        public override Task<StreamSubscription> Resume(Action<object> callback)
+        {
+            Resumed = true;
+            Callback = callback;
+            return Task.FromResult((StreamSubscription)this);
+        }
+
+        public override Task<StreamSubscription> Resume<T>(Action<T> callback)
+        {
+            Resumed = true;
+            Callback = callback;
+            return Task.FromResult((StreamSubscription)this);
         }
 
         public override Task Unsubscribe()

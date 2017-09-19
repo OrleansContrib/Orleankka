@@ -1,8 +1,11 @@
-﻿
-open Orleans.Runtime.Configuration
+﻿open System.Reflection
+
 open Orleankka
-open Orleankka.Cluster
-open System.Reflection
+open Orleankka.FSharp
+open Orleankka.FSharp.Configuration
+open Orleankka.FSharp.Runtime
+
+open Messages
 
 [<EntryPoint>]
 let main argv = 
@@ -11,16 +14,14 @@ let main argv =
    
    let assembly = Assembly.GetExecutingAssembly()
 
-   let config = ClusterConfiguration().LoadFromEmbeddedResource(assembly, "Server.xml")
+   let config = ClusterConfig.loadFromResource assembly "Server.xml"   
 
-   use system = ActorSystem.Configure()
-                           .Cluster()
-                           .From(config) 
-                           .Register(assembly)
-                           .Done()
-
+   let system = [|assembly;typeof<ServerMessage>.Assembly|]
+                |> ActorSystem.createCluster config
+                |> ActorSystem.complete
+                |> ActorSystem.start   
+   
    printfn "Finished booting cluster...\n"
-
    System.Console.ReadLine() |> ignore
       
    0

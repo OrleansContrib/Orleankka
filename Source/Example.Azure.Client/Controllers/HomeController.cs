@@ -34,7 +34,7 @@ namespace Example.Azure.Controllers
         {
             if (MvcApplication.System == null)
             {
-                InitializeActorSystemClient();
+                InitializeClientActorSystem();
                 InitializeHubClient();
             }
 
@@ -43,20 +43,30 @@ namespace Example.Azure.Controllers
             return View("Observe");
         }
 
-        static void InitializeActorSystemClient()
+        static void InitializeClientActorSystem()
         {
-            var config = new ClientConfiguration()
+            var clusterId = RoleEnvironment.DeploymentId;
+            var clsuterMembershipStorage = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
+
+            MvcApplication.System = ActorSystem.Configure()
+                .Client()
+                .From(Configuration(clusterId, clsuterMembershipStorage))
+                .Assemblies(typeof(SubscribeHub).Assembly)
+                .Done();
+
+            MvcApplication.System.Connect(retries: 5);
+        }
+
+        static ClientConfiguration Configuration(string deploymentId, string dataConnectionString)
+        {
+            var client = new ClientConfiguration()
                 .LoadFromEmbeddedResource<Startup>("Orleans.xml");
 
-            config.DeploymentId = RoleEnvironment.DeploymentId;
-            config.DataConnectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
-            config.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
+            client.DeploymentId = deploymentId;
+            client.DataConnectionString = dataConnectionString;
+            client.GatewayProvider = ClientConfiguration.GatewayProviderType.AzureTable;
 
-            MvcApplication.System = ActorSystem.Configure().Azure()
-                .Client()
-                .From(config)
-                .Register(typeof(Publisher).Assembly)
-                .Done();
+            return client;
         }
 
         static void InitializeHubClient()
@@ -70,8 +80,9 @@ namespace Example.Azure.Controllers
             
             foreach (var i in Enumerable.Range(1, publishers))
             {
-                var activation = MvcApplication.System.ActorOf<Publisher>(i.ToString());
-                activations.Add(activation.Tell(new Publisher.Init()));
+                var path = ActorPath.From("Publisher", i.ToString());
+                var activation = MvcApplication.System.ActorOf(path);
+                activations.Add(activation.Tell(new InitPublisher()));
             }
 
             return Task.WhenAll(activations.ToArray());

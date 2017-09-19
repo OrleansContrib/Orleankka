@@ -21,15 +21,15 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Register(Assembly.GetExecutingAssembly())
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
+            system.Start();
             Run(system).Wait();
 
             Console.Write("\n\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();            
             Environment.Exit(0);
         }
 

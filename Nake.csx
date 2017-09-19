@@ -3,11 +3,11 @@
 #r "System.IO.Compression"
 #r "System.IO.Compression.FileSystem"
 
-using Nake.FS;
-using Nake.Run;
-using Nake.Log;
-using Nake.Env;
-using Nake.App;
+using static Nake.FS;
+using static Nake.Run;
+using static Nake.Log;
+using static Nake.Env;
+using static Nake.App;
 
 using System.Linq;
 using System.Net;
@@ -16,11 +16,14 @@ using System.Diagnostics;
 using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
-const string AzureProject = "Orleankka.Azure";
+const string RuntimeProject = "Orleankka.Runtime";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
+const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
 
-const string RootPath = "$NakeScriptDirectory$";
+const string Beta = "";
+
+const string RootPath = "%NakeScriptDirectory%";
 const string OutputPath = RootPath + @"\Output";
 
 var PackagePath = @"{OutputPath}\Package";
@@ -28,6 +31,9 @@ var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.0.3";
+var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
+var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
+var MsBuildExe = GetVisualStudio17MSBuild();
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -43,13 +49,13 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     RemoveDir(@"**\bin|**\obj|{path}\*|-:*.vshost.exe");
 }
 
+
 /// Builds sources using specified configuration and output path
-[Step] void Build(string config = "Debug", string outDir = OutputPath)
+[Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false)
 {    
     Clean(outDir);
 
-    Exec(@"$ProgramFiles(x86)$\MSBuild\14.0\Bin\MSBuild.exe", 
-          "{CoreProject}.sln /p:Configuration={config};OutDir={outDir};ReferencePath={outDir}");
+    Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
 }
 
 /// Runs unit tests 
@@ -62,14 +68,14 @@ var GES = "EventStore-OSS-Win-v3.0.3";
 
     try
     {
-        Cmd(@"Packages\NUnit.Runners.2.6.3\tools\nunit-console.exe " + 
+        Cmd(@"Packages\NUnit.Runners\tools\nunit-console.exe " + 
             @"/xml:{results} /framework:net-4.0 /noshadow /nologo {tests} " +
             (AppVeyor||slow ? "/include:Always,Slow" : ""));
     }
     finally
     {    	
 	    if (AppVeyor)
-	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/$APPVEYOR_JOB_ID$", results);
+	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/%APPVEYOR_JOB_ID%", results);
 	}
 }
 
@@ -80,14 +86,15 @@ var GES = "EventStore-OSS-Win-v3.0.3";
     Build("Package", ReleasePath);
 
     Pack(CoreProject);    
-    Pack(TestKitProject, "core_version={Version(CoreProject)}");
-    Pack(AzureProject,   "core_version={Version(CoreProject)}");
-    Pack(FSharpProject,  "core_version={Version(CoreProject)}");
+    Pack(RuntimeProject,        "core_version={Version(CoreProject)}");    
+    Pack(TestKitProject,        "core_version={Version(CoreProject)}");
+    Pack(FSharpProject,         "core_version={Version(CoreProject)}");
+    Pack(FSharpRuntimeProject,  "core_version={Version(CoreProject)}");
 }
 
 void Pack(string project, string properties = null)
 {
-    Cmd(@"Tools\Nuget.exe pack Build\{project}.nuspec -Version {Version(project)} " +
+    Cmd(@"{Nuget} pack Build\{project}.nuspec -Version {Version(project)} " +
          "-OutputDirectory {PackagePath} -BasePath {RootPath} -NoPackageAnalysis " + 
          (properties != null ? "-Properties {properties}" : ""));
 }
@@ -97,55 +104,52 @@ void Pack(string project, string properties = null)
 {
     switch (project)
     {
-        case "core": 
+        case "core":         
             Push(CoreProject); 
             break;
-        case "azure": 
-            Push(AzureProject); 
-            break;
+        case "runtime": 
+            Push(RuntimeProject); 
+            break;            
         case "testkit": 
             Push(TestKitProject); 
             break;        
         case "fsharp": 
             Push(FSharpProject); 
+            Push(FSharpRuntimeProject);
             break;
         case "all":
             Push(CoreProject); 
-            Push(AzureProject); 
+            Push(RuntimeProject); 
             Push(TestKitProject); 
-            Push(FSharpProject);  
+            Push(FSharpProject);
+            Push(FSharpRuntimeProject);
             break;      
         default:
-            throw new ArgumentException("Available values are: core, azure, testkit, fsharp or all");   
+            throw new ArgumentException("Available values are: core, runtime, testkit, fsharp or all");   
     }
 }
 
 void Push(string project)
 {
-    Cmd(@"Tools\Nuget.exe push {PackagePath}\{project}.{Version(project)}.nupkg $NuGetApiKey$");
+    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg %NuGetApiKey% -Source https://nuget.org/");
 }
 
 string Version(string project)
 {
-    return FileVersionInfo
-            .GetVersionInfo(@"{ReleasePath}\{project}.dll")
-            .FileVersion;
+    var result = FileVersionInfo
+        .GetVersionInfo(@"{ReleasePath}\{project}.dll")
+        .FileVersion;
+
+    result = result.Substring(0, result.LastIndexOf("."));
+
+    if (Beta != "")
+        result += "-{Beta}";
+
+    return result;
 }
 
-/// Installs dependencies (packages) 
+/// Installs binary dependencies 
 [Task] void Install()
-{
-    InstallPackages();
-    InstallBinaries();
-}
-
-void InstallPackages()
-{
-    Cmd(@"Tools\NuGet.exe restore {CoreProject}.sln");
-    Cmd(@"Tools\NuGet.exe install Build/Packages.config -o {RootPath}\Packages");
-}
-
-void InstallBinaries()
 {
     var packagesDir = @"{RootPath}\Packages";
 
@@ -167,17 +171,61 @@ void InstallBinaries()
     }
 }
 
-/// Runs software, on which samples are dependent
-[Task] void Run(string what = "ges")
+/// Runs 3rd party software, on which samples are dependent upon
+[Task] void Run(string what = "all")
 {
-    var packagesDir = @"{RootPath}\Packages";
-
     switch (what)
     {
+        case "all":
+            RunAzure();
+            RunGES();
+            break;            
         case "ges":
-            Cmd(@"start {packagesDir}/{GES}/EventStore.ClusterNode.exe"); 
+            RunGES();
             break;
+        case "azure":
+            RunAzure(); 
+            break;            
         default:
-            throw new ArgumentException("Available values are: ges, ...");   
+            throw new ArgumentException("Available values are: all, ges, azure ...");
     }
+}
+
+void RunGES() 
+{
+    if (IsRunning("EventStore.ClusterNode"))
+        return;
+
+    Info("Starting local GES node ...");
+    Exec(@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
+}
+
+void RunAzure()
+{
+    if (IsRunning("AzureStorageEmulator"))
+        return;
+
+    Info("Starting storage emulator ...");
+    Exec(@"C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe", "start");
+}
+
+bool IsRunning(string processName)
+{
+    var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
+    return (processes.Any(p => p == processName));
+}
+
+string GetVisualStudio17MSBuild()
+{
+    foreach (var each in Vs17Versions) 
+    {
+        var msBuildPath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\{each}\MSBuild\15.0\Bin\MSBuild.exe";
+        if (File.Exists(msBuildPath))
+            return msBuildPath;
+    }
+
+    Error("MSBuild not found!");
+    Exit();
+
+    return null;
 }

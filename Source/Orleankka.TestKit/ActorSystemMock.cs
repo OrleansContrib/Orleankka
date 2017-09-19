@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Orleankka.TestKit
 {
-    using Core;
-
     public class ActorSystemMock : IActorSystem
     {
+        readonly SerializationOptions serialization;
+
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
 
         readonly Dictionary<StreamPath, StreamRefMock> streams =
              new Dictionary<StreamPath, StreamRefMock>();
 
-        readonly IMessageSerializer serializer;
-
-        public ActorSystemMock(IMessageSerializer serializer = null)
+        public ActorSystemMock(SerializationOptions serialization = null)
         {
-            this.serializer = serializer ?? MessageEnvelope.Serializer;
+            this.serialization = serialization ?? SerializationOptions.Default;
+            this.serialization.Setup();
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
-            var path = ActorPath.From(typeof(TActor), id);
+            var path = typeof(TActor).ToActorPath(id);
             return GetOrCreateMock(path);
         }
 
-        ActorRef IActorSystem.ActorOf(Type type, string id)
+        public ActorRefMock MockActorOf(ActorPath path)
         {
-            var path = ActorPath.From(type, id);
-            return (this as IActorSystem).ActorOf(path);
+            return GetOrCreateMock(path);
         }
 
         ActorRef IActorSystem.ActorOf(ActorPath path)
@@ -42,7 +39,7 @@ namespace Orleankka.TestKit
             if (actors.ContainsKey(path))
                 return actors[path];
 
-            var mock = new ActorRefMock(path, serializer);
+            var mock = new ActorRefMock(path, serialization);
             actors.Add(path, mock);
 
             return mock;
@@ -64,7 +61,7 @@ namespace Orleankka.TestKit
             if (streams.ContainsKey(path))
                 return streams[path];
 
-            var mock = new StreamRefMock(path, serializer);
+            var mock = new StreamRefMock(path, serialization);
             streams.Add(path, mock);
 
             return mock;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -25,9 +24,9 @@ namespace Example.Azure
         public override Task OnActivate()
         {
             hub = HubGateway.GetLocalHub();
-            
+
             Timers.Register("flush", flushPeriod, flushPeriod, Flush);
-            
+
             return base.OnActivate();
         }
 

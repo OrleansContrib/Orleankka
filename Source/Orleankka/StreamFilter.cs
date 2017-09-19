@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 using Orleans.Streams;
 
@@ -10,13 +10,16 @@ namespace Orleankka
     using Utility;
 
     [Serializable]
-    public class StreamFilter : ISerializable, IEquatable<StreamFilter>
+    public class StreamFilter : IEquatable<StreamFilter>
     {
-        readonly string methodName;
-        readonly string className;
+        public static readonly StreamFilter ReceiveAll = new StreamFilter(ReceiveAllCallback);
+        static bool ReceiveAllCallback(object item) => true;
 
-        [NonSerialized]
-        readonly Func<object, bool> filter;
+        readonly string className;
+        readonly string methodName;
+        readonly HashSet<Type> items;
+
+        [NonSerialized] Func<object, bool> filter;
 
         public StreamFilter(Func<object, bool> filter)
         {
@@ -32,36 +35,62 @@ namespace Orleankka
             methodName = method.Name;
         }
 
-        protected StreamFilter(SerializationInfo info, StreamingContext context)
-        {
-            methodName = info.GetString("MethodName");
-            className = info.GetString("ClassName");
+        public StreamFilter(params Type[] items) 
+            : this((IEnumerable<Type>)items)
+        {}
 
+        public StreamFilter(IEnumerable<Type> items)
+        {
+            // ReSharper disable once PossibleMultipleEnumeration
+            Requires.NotNull(items, nameof(items));
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            this.items = new HashSet<Type>(items);
+
+            if (this.items.Count == 0)
+                throw new ArgumentOutOfRangeException(nameof(items),
+                    "accepted 'items' list is empty");
+
+            filter = ItemFilter;
+        }
+
+        Func<object, bool> Filter()
+        {
+            if (filter != null)
+                return filter;
+
+            if (methodName != null)
+                filter = CallbackMethodFilter(className, methodName);
+
+            if (items != null)
+                filter = ItemFilter;
+
+            return filter ?? (filter = ReceiveAllCallback);
+        }
+
+        bool ItemFilter(object item) => items.Contains(item.GetType());
+
+        static Func<object, bool> CallbackMethodFilter(string className, string methodName)
+        {
             var type = Type.GetType(className);
             Debug.Assert(type != null);
 
-            var method = type.GetMethod(methodName, BindingFlags.Public | 
-                                                    BindingFlags.NonPublic |  
-                                                    BindingFlags.Static);
+            var method = type.GetMethod(methodName, BindingFlags.Public |
+                                                    BindingFlags.NonPublic |
+                                                    BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
-            filter = (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
+            return (Func<object, bool>) method.CreateDelegate(typeof(Func<object, bool>));
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("MethodName", methodName);
-            info.AddValue("ClassName", className);
-        }
+        bool ShouldReceive(object item) => Filter()(item);
 
-        bool ShouldReceive(object item)
+        internal class Internal
         {
-            return filter(item);
-        }
-
-        public static bool Predicate(IStreamIdentity stream, object filterData, object item)
-        {
-            var filter = (StreamFilter)filterData;
-            return filter.ShouldReceive(item);
+            public static bool Predicate(IStreamIdentity stream, object filterData, object item)
+            {
+                var filter = (StreamFilter)filterData;
+                return filter.ShouldReceive(item);
+            }
         }
 
         public bool Equals(StreamFilter other)

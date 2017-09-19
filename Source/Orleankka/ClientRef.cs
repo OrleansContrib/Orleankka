@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Orleankka
@@ -28,12 +27,11 @@ namespace Orleankka
         }
 
         public string Path { get; }
-        public override string Serialize() => Path;
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
-            endpoint.Receive(new NotificationEnvelope(message));
+            endpoint.Receive(message);
         }
 
         public bool Equals(ClientRef other)

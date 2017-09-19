@@ -55,16 +55,16 @@ namespace Demo
                 await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
-        public override async Task OnReminder(string api)
+        public override async Task OnReminder(string id)
         {
             try
             {
-                if (!IsRetrying(api))
-                    await Search(api);
+                if (!IsRetrying(id))
+                    await Search(id);
             }
             catch (ApiUnavailableException)
             {
-                ScheduleRetries(api);
+                ScheduleRetries(id);
             }
         }
 

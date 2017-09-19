@@ -5,26 +5,25 @@
     <version>$version$</version>
     <authors>Yevhen Bobrov, Anton Moldovan</authors>
     <owners>Yevhen Bobrov</owners>
-    <licenseUrl>http://github.com/yevhen/Orleankka/blob/master/LICENSE</licenseUrl>
-    <projectUrl>http://github.com/yevhen/Orleankka</projectUrl>
-    <description>Functional API for MSR Orleans. Features a uniform interface that doesn't require static codegen</description>
+    <licenseUrl>https://github.com/OrleansContrib/Orleankka/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/OrleansContrib/Orleankka</projectUrl>
+    <iconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</iconUrl>    
+    <description>Functional API for MSR Orleans. Core and client-side library</description>
     <tags>Orleans distributed messaging actor concurrency CQRS</tags>
     <dependencies>
-        <dependency id="Microsoft.Orleans.OrleansRuntime" version="1.0.10" />
-        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.0.10" />
+        <dependency id="Microsoft.Orleans.OrleansProviders" version="1.4.2" />
+        <dependency id="Microsoft.Orleans.OrleansCodeGenerator" version="1.4.2" />
+        <dependency id="Microsoft.CodeAnalysis.CSharp" version="1.3.2" />
     </dependencies>    
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.xml" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Core.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Core.xml" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.Core.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\OrleansManager.dll" target="lib/net45" />
-    <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.dll" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.xml" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.pdb" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.Meta.dll" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.Meta.xml" target="lib/net451" />
+    <file src="Output\Package\Release\Orleankka.Meta.pdb" target="lib/net451" />
+    <file src="Output\Package\Release\OrleansManager.dll" target="lib/net451" />       
+    <file src="Output\Package\Release\OrleansManager.pdb" target="lib/net451" />
   </files>
 </package>

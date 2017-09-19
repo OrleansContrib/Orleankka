@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -32,15 +31,15 @@ namespace Example
                 .Configure()
                 .Playground()
                 .Activator<AutofacActorActivator>(setup)
-                .Register(Assembly.GetExecutingAssembly())
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
+            system.Start();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();            
             Environment.Exit(0);
         }
 

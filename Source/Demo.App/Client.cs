@@ -9,12 +9,12 @@ namespace Demo
     public class Client
     {
         readonly IActorSystem system;
-        readonly ClientObserver observer;
+        readonly ClientObservable observable;
 
-        public Client(IActorSystem system, ClientObserver observer)
+        public Client(IActorSystem system, ClientObservable observable)
         {
             this.system = system;
-            this.observer = observer;
+            this.observable = observable;
         }
 
         public async void Run()
@@ -22,10 +22,10 @@ namespace Demo
             var facebook = system.ActorOf<Api>("facebook");
             var twitter  = system.ActorOf<Api>("twitter");
 
-            await facebook.Tell(new Subscribe(observer));
-            await twitter.Tell(new Subscribe(observer));
+            await facebook.Tell(new Subscribe(observable));
+            await twitter.Tell(new Subscribe(observable));
 
-            observer.Subscribe(LogToConsole);
+            observable.Subscribe(LogToConsole);
 
             foreach (var i in Enumerable.Range(1, 25))
             {

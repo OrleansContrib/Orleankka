@@ -21,17 +21,17 @@ namespace Demo
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Run<ServiceLocator.Bootstrap>(properties)
-                .Register(typeof(Api).Assembly)
+                .Bootstrapper<ServiceLocator.Bootstrap>(properties)
+                .Assemblies(typeof(Api).Assembly)
                 .Done();
 
-            client = new Client(system, ClientObserver.Create().Result);
+            system.Start();
+
+            client = new Client(system, ClientObservable.Create().Result);
             client.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
-
-            system.Dispose();
         }
     }
 }

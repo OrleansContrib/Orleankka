@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
 
 namespace Example.Azure
 {
-    public class Publisher : Actor
+    public class Publisher : Actor, IPublisher
     {
         static readonly Random rand = new Random();
 
-        [Serializable]
-        public class Init {}
-
-        public void Handle(Init req)
-        {}
+        void On(InitPublisher _) {}
 
         public override Task OnActivate()
         {

@@ -1,57 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
 
 namespace Example
 {
-    [Reentrant(typeof(GetInventoryItemDetails))]
+    [Reentrant(typeof(GetDetails))]
     public class InventoryItem : EventSourcedActor
     {
         int total;
         string name;
         bool active;
 
-        public void On(InventoryItemCreated e)
+        void On(InventoryItemCreated e)
         {
             name = e.Name;
             active = true;
         }
 
-        public void On(InventoryItemRenamed e)
-        {
-            name = e.NewName;
-        }
+        void On(InventoryItemRenamed e) => name = e.NewName;
+        void On(InventoryItemCheckedIn e) => total += e.Quantity;
+        void On(InventoryItemCheckedOut e) => total -= e.Quantity;
+        void On(InventoryItemDeactivated e) => active = false;
 
-        public void On(InventoryItemCheckedIn e)
-        {
-            total += e.Quantity;
-        }
-
-        public void On(InventoryItemCheckedOut e)
-        {
-            total -= e.Quantity;
-        }
-
-        public void On(InventoryItemDeactivated e)
-        {
-            active = false;
-        }
-        public IEnumerable<Event> Handle(CreateInventoryItem cmd)
+        IEnumerable<Event> Handle(Create cmd)
         {
             if (string.IsNullOrEmpty(cmd.Name))
                 throw new ArgumentException("Inventory item name cannot be null or empty");
 
             if (name != null)
                 throw new InvalidOperationException(
-                    string.Format("Inventory item with id {0} has been already created", Id));
+                    $"Inventory item with id {Id} has been already created");
 
             yield return new InventoryItemCreated(cmd.Name);
         }
 
-        public IEnumerable<Event> Handle(RenameInventoryItem cmd)
+        IEnumerable<Event> Handle(Rename cmd)
         {
             CheckIsActive();
 
@@ -61,7 +46,7 @@ namespace Example
             yield return new InventoryItemRenamed(name, cmd.NewName);
         }
 
-        public IEnumerable<Event> Handle(CheckInInventoryItem cmd)
+        IEnumerable<Event> Handle(CheckIn cmd)
         {
             CheckIsActive();
 
@@ -71,7 +56,7 @@ namespace Example
             yield return new InventoryItemCheckedIn(cmd.Quantity);
         }
 
-        public IEnumerable<Event> Handle(CheckOutInventoryItem cmd)
+        IEnumerable<Event> Handle(CheckOut cmd)
         {
             CheckIsActive();
 
@@ -81,14 +66,14 @@ namespace Example
             yield return new InventoryItemCheckedOut(cmd.Quantity);
         }
 
-        public IEnumerable<Event> Handle(DeactivateInventoryItem cmd)
+        IEnumerable<Event> Handle(Deactivate cmd)
         {
             CheckIsActive();
 
             yield return new InventoryItemDeactivated();
         }
 
-        public InventoryItemDetails Handle(GetInventoryItemDetails query)
+        InventoryItemDetails Handle(GetDetails query)
         {
             return new InventoryItemDetails(name, total, active);
         }

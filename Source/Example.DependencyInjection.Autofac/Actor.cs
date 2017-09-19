@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Orleankka;
+﻿using Orleankka;
 
 namespace Example
 {
@@ -9,10 +6,8 @@ namespace Example
     {
         readonly ISomeService service;
 
-        DIActor() 
-        {}
-
-        public DIActor(string id, IActorRuntime runtime, ISomeService service) : base(id, runtime)
+        public DIActor(string id, IActorRuntime runtime, ISomeService service) 
+		    : base(id, runtime)
         {
             this.service = service;
         }

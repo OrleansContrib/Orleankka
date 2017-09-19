@@ -1,13 +1,12 @@
-﻿using Orleankka.Core;
-using Orleankka.Services;
+﻿using Orleankka.Services;
 
 namespace Orleankka.TestKit
 {
     public class ActorRuntimeMock : IActorRuntime
     {
-        public ActorRuntimeMock(IMessageSerializer serializer = null)
+        public ActorRuntimeMock(SerializationOptions serialization = null)
         {
-            System      = new ActorSystemMock(serializer);
+            System      = new ActorSystemMock(serialization);
             Timers      = new TimerServiceMock();
             Reminders   = new ReminderServiceMock();
             Activation  = new ActivationServiceMock();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -29,19 +28,44 @@ namespace Example
 
     public abstract class EventSourcedActor : CqsActor
     {
-        protected override async Task<object> HandleCommand(Command cmd)
+        StreamRef stream;
+
+        public override Task OnActivate()
         {
-            var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
-
-            foreach (var @event in events)
-                ((dynamic)this).On((dynamic)@event);
-
-            return (object) events;
+            stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
+            return base.OnActivate();
         }
 
         protected override Task<object> HandleQuery(Query query)
         {
             return Dispatch(query);
         }
+
+        protected override async Task<object> HandleCommand(Command cmd)
+        {
+            var events = await Dispatch<IEnumerable<Event>>(cmd);
+
+            foreach (var @event in events)
+            {
+                await Dispatch(@event);
+                await Project(@event);
+            }
+
+            return events;
+        }
+
+        Task Project(Event @event)
+        {
+            var envelope = Wrap(@event);
+            return stream.Push(envelope);
+        }
+
+        object Wrap(Event @event)
+        {
+            var envelopeType = typeof(EventEnvelope<>).MakeGenericType(@event.GetType());
+            return Activator.CreateInstance(envelopeType, Id, @event);
+        }
+
+        protected ActorRef Projection { get; set; }
     }
 }

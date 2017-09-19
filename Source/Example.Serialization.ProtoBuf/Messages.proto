@@ -1,0 +1,29 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Example";
+
+message Create {
+  string name = 1;
+}
+
+message Rename {
+  string newName = 1;
+}
+
+message CheckIn {
+  int32 quantity = 1;
+}
+
+message CheckOut {
+  int32 quantity = 1;
+}
+
+message Deactivate {}
+
+message GetDetails {}
+
+message InventoryItemDetails {
+  string name = 1;
+  int32 total = 2;
+  bool active = 3;
+}

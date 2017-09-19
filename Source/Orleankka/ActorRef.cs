@@ -9,50 +9,43 @@ using Orleans.Runtime;
 namespace Orleankka
 {
     using Core;
-    using Core.Endpoints;
     using Utility;
 
     [Serializable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, ISerializable
     {
-        public static ActorRef Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
-        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorEndpoint.Proxy(path));
+        public static ActorRef Deserialize(ActorPath path) => new ActorRef(path, ActorInterface.Registered(path.Type));
 
         readonly IActorEndpoint endpoint;
-        readonly ActorInterface @interface;
 
         protected internal ActorRef(ActorPath path)
         {
             Path = path;
         }
 
-        ActorRef(ActorPath path, IActorEndpoint endpoint)
+        ActorRef(ActorPath path, ActorInterface @interface)
             : this(path)
         {
-            this.endpoint = endpoint;
-            @interface = ActorInterface.Of(path);
+            endpoint = @interface.Proxy(path);
         }
 
         public ActorPath Path { get; }
-        public override string Serialize() => Path.Serialize();
 
         public virtual Task Tell(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            return Receive(message)(new RequestEnvelope(Serialize(), message))
-                .UnwrapExceptions();
+            return endpoint.ReceiveVoid(message);
         }
 
         public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            var response = await Receive(message)(new RequestEnvelope(Serialize(), message))
-                                     .UnwrapExceptions();
+            var result = await endpoint.Receive(message);
 
-            return (TResult) response.Result;
+            return (TResult) result;
         }
 
         public override void Notify(object message)
@@ -60,12 +53,9 @@ namespace Orleankka
             Tell(message).Ignore();
         }
 
-        Func<RequestEnvelope, Task<ResponseEnvelope>> Receive(object message)
+        internal Task Autorun()
         {
-            if (@interface.IsReentrant(message))
-                return endpoint.ReceiveReentrant;
-
-            return endpoint.Receive;
+            return endpoint.Autorun();
         }
 
         public bool Equals(ActorRef other)
@@ -100,8 +90,8 @@ namespace Orleankka
         {
             var value = (string) info.GetValue("path", typeof(string));
             Path = ActorPath.Deserialize(value);
-            endpoint = ActorEndpoint.Proxy(Path);
-            @interface = ActorInterface.Of(Path);
+            var @interface = ActorInterface.Registered(Path.Type);
+            endpoint = @interface.Proxy(Path);
         }
 
         #endregion
@@ -111,8 +101,8 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath>, ISerializable where TActor : IActor
     {
-        public static ActorRef<TActor> Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
-        public static ActorRef<TActor> Deserialize(ActorPath path) => new ActorRef<TActor>(ActorRef.Deserialize(path));
+        static ActorRef<TActor> Deserialize(string path) => Deserialize(ActorPath.Deserialize(path));
+        static ActorRef<TActor> Deserialize(ActorPath path) => new ActorRef<TActor>(ActorRef.Deserialize(path));
 
         readonly ActorRef @ref;
 
@@ -121,12 +111,11 @@ namespace Orleankka
             this.@ref = @ref;
         }
 
-        public Task Tell(ActorMessage<TActor> message) => @ref.Tell(message);
-        public Task<TResult> Ask<TResult>(ActorMessage<TActor, TResult> message) => @ref.Ask<TResult>(message);
+        public virtual Task Tell(ActorMessage<TActor> message) => @ref.Tell(message);
+        public virtual Task<TResult> Ask<TResult>(ActorMessage<TActor, TResult> message) => @ref.Ask<TResult>(message);
         public override void Notify(ActorMessage<TActor> message) => @ref.Notify(message);
 
         public ActorPath Path => @ref.Path;
-        public override string Serialize() => Path.Serialize();
 
         public bool Equals(ActorRef<TActor> other)
         {
@@ -141,8 +130,8 @@ namespace Orleankka
         }
 
         public bool Equals(ActorPath other) => Path.Equals(other);
-        public override string ToString()   => Path.ToString();
-        public override int GetHashCode()   => Path.GetHashCode();
+        public override string ToString() => Path.ToString();
+        public override int GetHashCode() => Path.GetHashCode();
 
         public static bool operator ==(ActorRef<TActor> left, ActorRef<TActor> right) => Equals(left, right);
         public static bool operator !=(ActorRef<TActor> left, ActorRef<TActor> right) => !Equals(left, right);
@@ -155,12 +144,12 @@ namespace Orleankka
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", @ref.Serialize(), typeof(string));
+            info.AddValue("path", @ref.Path.Serialize(), typeof(string));
         }
 
         public ActorRef(SerializationInfo info, StreamingContext context)
         {
-            @ref = ActorRef.Deserialize(info.GetString("path"));
+            @ref = Deserialize(info.GetString("path"));
         }
 
         #endregion

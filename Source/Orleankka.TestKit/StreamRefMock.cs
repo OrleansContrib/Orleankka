@@ -8,32 +8,26 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
-    using Core;
-
+    [Serializable]
     public class StreamRefMock : StreamRef
     {
-        static StreamRefMock()
-        {
-            OrleansSerialization.Hack();
-        }
+        [NonSerialized] readonly SerializationOptions serialization;
+        [NonSerialized] readonly List<IExpectation> expectations = new List<IExpectation>();
 
-        readonly IMessageSerializer serializer;
-        readonly List<IExpectation> expectations = new List<IExpectation>();
+        [NonSerialized] readonly List<RecordedItem> items = new List<RecordedItem>();
+        public IEnumerable<RecordedItem> RecordedItems => items;
 
-        readonly List<RecordedItem> items = new List<RecordedItem>();
-        public IEnumerable<RecordedItem> RecordedItems => items;  
-
-        readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
+        [NonSerialized] readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
         public IEnumerable<StreamSubscriptionMock> RecordedSubscriptions => subscriptions;
 
         public StreamFilter Filter { get; private set; }
         public Actor Subscribed    { get; private set; }
         public Actor Resumed       { get; private set; }
 
-        public StreamRefMock(StreamPath path, IMessageSerializer serializer = null)
+        internal StreamRefMock(StreamPath path, SerializationOptions serialization)
             : base(path)
         {
-            this.serializer = serializer;
+            this.serialization = serialization;
         }
 
         public PushExpectation<TItem> Expect<TItem>(Expression<Func<TItem, bool>> match = null)
@@ -45,7 +39,7 @@ namespace Orleankka.TestKit
 
         public override Task Push(object message)
         {
-            message = Reserialize(message);
+            message = Roundtrip(message);
 
             var expectation = Match(message);
             var expected = expectation != null;
@@ -57,6 +51,9 @@ namespace Orleankka.TestKit
 
             return TaskDone.Done;
         }
+
+        public override Task<IList<StreamSubscription>> Subscriptions() => 
+            Task.FromResult<IList<StreamSubscription>>(subscriptions.ToList<StreamSubscription>());
 
         public override Task<StreamSubscription> Subscribe(Func<object, Task> callback, StreamFilter filter = null) => Create(callback, filter);
         public override Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback, StreamFilter filter = null) => Create(callback, filter);
@@ -71,31 +68,10 @@ namespace Orleankka.TestKit
             return Task.FromResult<StreamSubscription>(mock);
         }
 
-        public override Task Subscribe(Actor actor, StreamFilter filter = null)
-        {
-            Subscribed = actor;
-            Filter = filter;
-            return TaskDone.Done;
-        }
-
-        public override Task Unsubscribe(Actor actor)
-        {
-            if (Subscribed == actor)
-                Subscribed = null; 
-
-            return TaskDone.Done;
-        }
-
-        public override Task Resume(Actor actor)
-        {
-            Resumed = actor;
-            return TaskDone.Done;
-        }
-
         IExpectation Match(object message) => expectations.FirstOrDefault(x => x.Match(message));
-        object Reserialize(object message) => OrleansSerialization.Reserialize(serializer, message);
+        object Roundtrip(object message) => serialization.Roundtrip(message);
 
-        public new void Reset()
+        public void Reset()
         {
             items.Clear();
             subscriptions.Clear();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -10,7 +9,7 @@ namespace Example
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
@@ -21,20 +20,23 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Client()
                 .From(config)
-                .Register(typeof(IChatRoom).Assembly)
+                .Assemblies(typeof(Join).Assembly)
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));
             task.Wait();
         }
 
-        private static async Task RunChatClient(IActorSystem system)
+        private static async Task RunChatClient(ClientActorSystem system)
         {
             const string room = "Orleankka";
 
+            Console.WriteLine("Connecting to server ...");
+            system.Connect(retries: 2);
+
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
-            
+
             var client = new ChatClient(system, userName, room);
             await client.Join();
 

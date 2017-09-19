@@ -38,7 +38,7 @@ namespace Orleankka.Features
             void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
             void On(Deactivate x)           => Activation.DeactivateOnIdle();
             long On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
-
+            
             public override Task OnReminder(string id)
             {
                 reminded = true;
@@ -48,7 +48,6 @@ namespace Orleankka.Features
 
         [TestFixture]
         [Explicit, Category("Slow")]
-        [RequiresSilo(Fresh = true, DefaultKeepAliveTimeoutInMinutes = 1)]
         public class Using_reminders
         {
             IActorSystem system;

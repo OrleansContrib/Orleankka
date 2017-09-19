@@ -3,40 +3,44 @@ open System.Reflection
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.Playground
+open Orleankka.FSharp.Configuration
+open Orleankka.FSharp.Runtime
 
 type Message = 
    | Greet of string
-   | Hi
+   | Hi   
 
 type Greeter() = 
    inherit Actor<Message>()   
 
-   override this.Receive message reply = task {
+   override this.Receive message = task {
       match message with
       | Greet who -> printfn "Hello %s" who
-      | Hi -> printfn "Hello from F#!"           
+                     return nothing
+      
+      | Hi        -> printfn "Hello from F#!"
+                     return nothing           
    }
 
 [<EntryPoint>]
 let main argv = 
 
-    printfn "Running demo. Booting cluster might take some time ...\n"
+   printfn "Running demo. Booting cluster might take some time ...\n"
 
-    use system = ActorSystem.Configure()
-                            .Playground()
-                            .Register(Assembly.GetExecutingAssembly())
-                            .Done()
-                  
-    let actor = system.ActorOf<Greeter>(Guid.NewGuid().ToString())
+   let system = [|Assembly.GetExecutingAssembly()|]
+                |> ActorSystem.createPlayground
+                |> ActorSystem.start   
 
-    let job() = task {
+   let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
+
+   let job() = task {
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
-      do! actor <! Greet "AntyaDev"
-    }
+      do! actor <! Greet "AntyaDev"      
+   }
     
-    Task.run(job) |> ignore
+   Task.run(job) |> ignore
     
-    Console.ReadLine() |> ignore    
-    0
+   Console.ReadLine() |> ignore 
+   ActorSystem.stop(system)   
+   0

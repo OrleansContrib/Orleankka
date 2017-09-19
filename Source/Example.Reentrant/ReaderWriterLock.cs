@@ -31,16 +31,13 @@ namespace Example
             return base.OnActivate();
         }
 
-        public async Task On(Write req)
+        async Task On(Write req)
         {
             value = req.Value;
             indicator.Write(value);
             await Task.Delay(req.Delay);
         }
 
-        public int On(Read req)
-        {
-            return value;
-        }
+        int On(Read req) => value;
     }
 }

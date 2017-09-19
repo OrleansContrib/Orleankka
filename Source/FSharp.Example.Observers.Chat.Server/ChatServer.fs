@@ -1,28 +1,20 @@
 ﻿module ChatServer
 
+open System.Linq
+open System.Collections.Generic
+
 open Orleankka
 open Orleankka.FSharp
-open System.Collections.Generic
-open System.Linq
-
-type ClientMessage =
-   | NewMessage of Username:string * Text:string
-   | Notification of Text:string
-
-type ServerMessage =
-   | Join of Username:string * Client:ObserverRef
-   | Say of Username:string * Text:string   
-   | Disconnect of Username:string * Client:ObserverRef
-
+open Messages
 
 type ChatServer() = 
    inherit Actor<ServerMessage>()
 
    let _users = Dictionary<string, IObserverCollection>()
 
-   let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients <* msg)
+   let notifyClients msg = _users.Values |> Seq.iter(fun clients -> clients.Notify(msg))
 
-   override this.Receive message reply = task {
+   override this.Receive message = task {
       match message with
       
       | Join (userName, client) -> 
@@ -33,13 +25,15 @@ type ChatServer() =
                 clients.Add(client)
                 _users.Add(userName, clients)
                          
-         reply "Hello and welcome to Orleankka chat example"                              
+         return response("Hello and welcome to Orleankka chat example")
       
       | Say (userName, text) -> NewMessage(userName, text) |> notifyClients
+                                return response()
       
       | Disconnect (userName, client) -> 
          match _users.TryGetValue(userName) with
          | (true, clients) -> if clients.Count() = 1 then _users.Remove(userName) |> ignore
                               else clients.Remove(client)
-         | _ -> ()
+                              return response()
+         | _ -> return response()
    }

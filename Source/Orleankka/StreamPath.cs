@@ -2,7 +2,6 @@
 using System.Diagnostics;
 
 using Orleans;
-using Orleans.Internals;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -51,10 +50,6 @@ namespace Orleankka
 
         public readonly string Provider;
         public readonly string Id;
-
-        internal StreamPath(StreamIdentity stream)
-            : this(stream.Provider, stream.Id)
-        {}
 
         StreamPath(string provider, string id)
         {

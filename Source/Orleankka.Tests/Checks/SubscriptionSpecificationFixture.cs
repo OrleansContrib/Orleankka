@@ -1,10 +1,18 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+using NUnit.Framework;
+using Orleans;
 
 namespace Orleankka.Checks
 {
+    using Core;
+
+    using Testing;
     using Core.Streams;
 
-    [TestFixture]
+    [TestFixture, RequiresSilo]
     public class SubscriptionSpecificationFixture
     {
         [Test]
@@ -15,16 +23,33 @@ namespace Orleankka.Checks
         [TestCase("sms:a(.+)", "#", "a(.+)", "#")]
         public void Matching_by_fixed_ids(string source, string target, string streamId, string actorId)
         {
+            var system = new ActorSystemMock();
+
             var attribute = new StreamSubscriptionAttribute
             {
                 Source = source,
                 Target = target
             };
 
-            var specification = StreamSubscriptionSpecification.From(typeof(Actor), attribute);
-            var match = specification.Match(streamId);
+            var type = typeof(TestActor);
+            var dispatcher = new Dispatcher(type);
 
-            Assert.That(match.ActorId, Is.EqualTo(actorId));
+            var specification = StreamSubscriptionSpecification.From(type, attribute, dispatcher);
+            specification.Type = ActorTypeName.Of(typeof(TestActor));
+
+            var match = specification.Match(system, streamId);
+            if (match == StreamSubscriptionMatch.None)
+            {
+                Assert.That(actorId, Is.Null);
+                return;
+            }
+
+            var message = new object();
+            match.Receiver(message);
+
+            Assert.That(system.RequestedRef, Is.Not.Null);
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(TestActor).ToActorPath(actorId)));
+            Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
         [Test]
@@ -32,16 +57,97 @@ namespace Orleankka.Checks
         [TestCase("sms:/(?<acc>[0-9]+)-(?<topic>[0-9]+)/", "{acc}-topics", "111-200", "111-topics")]
         public void Regex_based_matching(string source, string target, string streamId, string actorId)
         {
+            var system = new ActorSystemMock();
+
             var attribute = new StreamSubscriptionAttribute
             {
                 Source = source,
                 Target = target
             };
 
-            var specification = StreamSubscriptionSpecification.From(typeof(Actor), attribute);
-            var match = specification.Match(streamId);
+            var type = typeof(TestActor);
+            var dispatcher = new Dispatcher(type);
 
-            Assert.That(match.ActorId, Is.EqualTo(actorId));
+            var specification = StreamSubscriptionSpecification.From(type, attribute, dispatcher);
+            specification.Type = ActorTypeName.Of(typeof(TestActor));
+
+            var match = specification.Match(system, streamId);
+            if (match == StreamSubscriptionMatch.None)
+            {
+                Assert.That(actorId, Is.Null);
+                return;
+            }
+
+            var message = new object();
+            match.Receiver(message);
+
+            Assert.That(system.RequestedRef, Is.Not.Null);
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(TestActor).ToActorPath(actorId)));
+            Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
+        }
+
+        [Test]
+        public void Dynamic_target_matching()
+        {
+            var system = new ActorSystemMock();
+
+            var type = typeof(DynamicTargetSelectorActor);
+            var dispatcher = new Dispatcher(type);
+
+            var specification = StreamSubscriptionSpecification.From(type, dispatcher).ElementAt(0);
+            specification.Type = ActorTypeName.Of(typeof(DynamicTargetSelectorActor));
+
+            var match = specification.Match(system, "foo");
+
+            var message = new object();
+            match.Receiver(message);
+
+            Assert.That(system.RequestedRef, Is.Not.Null);
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(DynamicTargetSelectorActor).ToActorPath("bar")));
+            Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
+        }
+
+        class TestActor : Actor {}
+
+        [StreamSubscription(Source = "sms:foo", Target = "ComputeSubscriptionTarget()")]
+        class DynamicTargetSelectorActor : Actor
+        {
+            public static string ComputeSubscriptionTarget(object item) => "bar";
+        }
+
+        class ActorSystemMock : IActorSystem
+        {
+            public ActorRefMock RequestedRef;
+
+            public ActorRef ActorOf(ActorPath path)
+            {
+                return (RequestedRef = new ActorRefMock(path));
+            }
+
+            public StreamRef StreamOf(StreamPath path)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Dispose()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class ActorRefMock : ActorRef
+        {
+            public object MessagePassedToTell;
+
+            public ActorRefMock(ActorPath path)
+                : base(path)
+            {}
+
+            public override Task Tell(object message)
+            {
+                MessagePassedToTell = message;
+                return TaskDone.Done;;
+            }
         }
     }
 }

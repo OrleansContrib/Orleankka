@@ -1,6 +1,6 @@
 namespace Orleankka.Meta
 {
-    public interface Query
+    public interface Query : Message
     {}
 
     public interface Query<TResult> : Query

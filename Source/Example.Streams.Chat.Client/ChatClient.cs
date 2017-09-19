@@ -7,27 +7,34 @@ namespace Example
 {
     class ChatClient
     {
-        readonly ActorRef user;
-        readonly StreamRef room;
-
+        readonly ActorRef<IChatUser> user;
+        readonly IActorSystem system;
         StreamSubscription subscription;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
-            this.user = system.ActorOf<ChatUser>(user);
-            this.room = system.StreamOf("sms", room);
+            this.user = system.TypedActorOf<IChatUser>(user);
+            this.system = system;
+            RoomName = room;
         }
 
         public async Task Join()
         {
+            await Subscribe();
+            await user.Tell(new Join {Room = RoomName});
+        }
+
+        async Task Subscribe()
+        {
+            var room = system.StreamOf("sms", RoomName);
             subscription = await room.Subscribe<ChatRoomMessage>(message =>
             {
                 if (message.User != UserName)
                     Console.WriteLine(message.Text);
             });
-
-            await user.Tell(new Join {Room = RoomName});
         }
+
+        public Task Resubscribe() => Subscribe();
 
         public async Task Leave()
         {
@@ -41,6 +48,6 @@ namespace Example
         }
 
         string UserName => user.Path.Id;
-        string RoomName => room.Path.Id;
+        string RoomName { get; }
     }
 }

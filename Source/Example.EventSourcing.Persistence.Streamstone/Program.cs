@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
-using Orleankka.Core;
+using Orleankka.Embedded;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
@@ -15,13 +15,13 @@ namespace Example
     public static class Program
     {
         static bool resume;
-        static IActorSystem system;
+        static EmbeddedActorSystem system;
 
         public static void Main(string[] args)
         {
             resume = args.Length == 1 && args[0] == "resume";
 
-            Console.WriteLine("Make sure you've started Azure storage emulator!");
+            Console.WriteLine("Make sure you've started Azure storage emulator using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
@@ -29,14 +29,15 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Register(Assembly.GetExecutingAssembly())
-                .Serializer<NativeSerializer>()
-                .Run<SS.Bootstrap>(new SS.Properties
+                .Bootstrapper<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
                 })
+                .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
+
+            system.Start();
 
             try
             {
@@ -51,7 +52,6 @@ namespace Example
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();
             Environment.Exit(0);
         }
 
@@ -71,16 +71,16 @@ namespace Example
         {
             var item = system.ActorOf<InventoryItem>("12345");
 
-            await item.Tell(new CreateInventoryItem("XBOX1"));
+            await item.Tell(new Create("XBOX1"));
             await Print(item);
 
-            await item.Tell(new CheckInInventoryItem(10));
+            await item.Tell(new CheckIn(10));
             await Print(item);
 
-            await item.Tell(new CheckOutInventoryItem(5));
+            await item.Tell(new CheckOut(5));
             await Print(item);
             
-            await item.Tell(new RenameInventoryItem("XBOX360"));
+            await item.Tell(new Rename("XBOX360"));
             await Print(item);
         }
 
@@ -88,19 +88,19 @@ namespace Example
         {
             var item = system.ActorOf<InventoryItem>("12345");
 
-            await item.Tell(new CheckInInventoryItem(100));
+            await item.Tell(new CheckIn(100));
             await Print(item);
 
-            await item.Tell(new CheckOutInventoryItem(50));
+            await item.Tell(new CheckOut(50));
             await Print(item);
 
-            await item.Tell(new CheckOutInventoryItem(45));
+            await item.Tell(new CheckOut(45));
             await Print(item);
         }
 
         static async Task Print(ActorRef item)
         {
-            var details = await item.Ask(new GetInventoryItemDetails());
+            var details = await item.Ask(new GetDetails());
 
             Console.WriteLine("{0}: {1} {2}",
                                 details.Name,

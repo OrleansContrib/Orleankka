@@ -1,50 +1,82 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
 using Orleans;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
-    sealed class ClientActorSystem : ActorSystem
-    {
-        static IActorSystem current;
+    using Core;
 
-        public static IActorSystem Current
+    /// <summary>
+    /// Client-side actor system
+    /// </summary>
+    public sealed class ClientActorSystem : ActorSystem
+    {
+        static ClientActorSystem current;
+
+        internal static ClientActorSystem Current
         {
             get
             {
-                if (!Initialized)
+                if (current == null)
                     throw new InvalidOperationException("Client actor system hasn't been initialized");
 
                 return current;
             }
-
-            internal set
-            {
-                current = value;
-            }
         }
 
-        public static bool Initialized => current != null;
+        readonly ClientConfiguration configuration;
 
-        readonly IDisposable configurator;
-
-        public ClientActorSystem(IDisposable configurator)
+        internal ClientActorSystem(ClientConfiguration configuration)
         {
             current = this;
-            this.configurator = configurator;
+            this.configuration = configuration;
         }
 
-        public void Initialize(ClientConfiguration configuration)
-        {
-            GrainClient.Initialize(configuration);
-        }
+        /// <summary>
+        /// Checks whether this client has been successfully connected (ie initialized)
+        /// </summary>
+        public bool Connected => GrainClient.IsInitialized;
 
-        public override void Dispose()
+        /// <summary>
+        /// Connects this instance of client actor system to cluster
+        /// </summary>
+        /// <param name="retries">Number of retries in case on failure</param>
+        /// <param name="retryTimeout">Timeout between retries. Default is 5 seconds</param>
+        /// <exception cref="ArgumentOutOfRangeException">if <paramref name="retries"/> argument value is less than 0</exception>
+        public void Connect(int retries = 0, TimeSpan? retryTimeout = null)
         {
-            GrainClient.Uninitialize();
-            configurator.Dispose();
-            current = null;
+            if (retryTimeout == null)
+                retryTimeout = TimeSpan.FromSeconds(5);
+
+            if (retries < 0)
+                throw new ArgumentOutOfRangeException(nameof(retries), 
+                    "retries should be greater than or equal to 0");
+
+            while (!Connected && retries-- >= 0)
+            {
+                try
+                {
+                    GrainClient.Initialize(configuration);
+                }
+                catch (Exception ex)
+                {
+                    if (retries >= 0)
+                    {
+                        Trace.TraceWarning($"Can't connect to cluster. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ... Got error: /n{ex}");
+                        Thread.Sleep(retryTimeout.Value);
+                    }
+                    else
+                    {
+                        Trace.TraceError($"Can't connect to cluster. Max retries reached. Got error: /n{ex}");
+                        throw;
+                    }
+                }
+            }
+
+            ActorInterface.Bind(GrainClient.GrainFactory);
         }
     }
 }

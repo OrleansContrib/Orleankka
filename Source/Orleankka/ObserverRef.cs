@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-
-namespace Orleankka
+﻿namespace Orleankka
 {
-    public abstract class ObserverRef : Ref
+    public abstract class ObserverRef
     {
         public abstract void Notify(object message);
     }
 
-    public abstract class ObserverRef<TActor> : Ref where TActor : IActor
+    public abstract class ObserverRef<TActor> where TActor : IActor
     {
         public abstract void Notify(ActorMessage<TActor> message);
     }

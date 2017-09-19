@@ -1,9 +1,5 @@
 using System;
-using System.Linq;
-
 using Orleankka;
-using Orleankka.Core;
-
 using Autofac;
 
 namespace Example
@@ -16,7 +12,7 @@ namespace Example
         {
             if (setup == null)
                 throw new ArgumentNullException(
-                    "setup", "Expected setup action of type Action<ContainerBuilder>");
+                    nameof(setup), "Expected setup action of type Action<ContainerBuilder>");
 
             var builder = new ContainerBuilder();
             setup(builder);
@@ -24,7 +20,7 @@ namespace Example
             container = builder.Build();
         }
 
-        public override Actor Activate(Type type, string id, IActorRuntime runtime)
+        public override Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             return (Actor) container.Resolve(type, 
                 new NamedParameter("id", id), 

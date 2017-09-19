@@ -3,29 +3,39 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleankka.Meta;
+
 namespace Orleankka.Features
 {
     namespace Strongly_typed_actors
     {
-        using Meta;
         using Testing;
 
-        [Serializable] public class TestActorCommand : Command<TestActor> {}
-        [Serializable] public class TestActorQuery : Query<TestActor, long> {}
+        [Serializable]
+        public class TestActorCommand : Command<ITestActor> {}
 
-        public class TestActor : Actor
+        [Serializable]
+        public class TestActorQuery : Query<ITestActor, long> {}
+
+        public interface ITestActor : IActor
+        {}
+
+        public class TestActor : Actor, ITestActor
         {
             void On(TestActorCommand x) {}
             long On(TestActorQuery x) => 42;
         }
 
         [Serializable]
-        public class TestAnotherActorCommand : Command<TestAnotherActor>
+        public class TestAnotherActorCommand : Command<ITestAnotherActor>
         {
-            public ActorRef<TestActor> Ref;
+            public ActorRef<ITestActor> Ref;
         }
 
-        public class TestAnotherActor : Actor
+        public interface ITestAnotherActor : IActor
+        {}
+
+        public class TestAnotherActor : Actor, ITestAnotherActor
         {
             Task On(TestAnotherActorCommand x) => x.Ref.Tell(new TestActorCommand());
         }
@@ -45,23 +55,23 @@ namespace Orleankka.Features
             [Test]
             public async void Request_response()
             {
-                var actor = system.TypedActorOf<TestActor>("foo");
+                var actor = system.TypedActorOf<ITestActor>("foo");
 
                 // below won't compile
                 // actor.Tell(new object());
 
-                Assert.DoesNotThrow(async ()=> await actor.Tell(new TestActorCommand()));
+                Assert.DoesNotThrow(async () => await actor.Tell(new TestActorCommand()));
                 Assert.That(await actor.Ask(new TestActorQuery()), Is.EqualTo(42));
             }
 
             [Test]
             public void Typed_actor_ref_serialization()
             {
-                var actor = system.TypedActorOf<TestAnotherActor>("bar");
+                var actor = system.TypedActorOf<ITestAnotherActor>("bar");
 
                 var cmd = new TestAnotherActorCommand
                 {
-                    Ref = system.TypedActorOf<TestActor>("foo")
+                    Ref = system.TypedActorOf<ITestActor>("foo")
                 };
 
                 Assert.DoesNotThrow(async () => await actor.Tell(cmd));
