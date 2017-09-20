@@ -127,6 +127,59 @@ namespace Orleankka.Services
         /// </summary>
         /// <returns>Sequence of <see cref="string"/> elements</returns>
         IEnumerable<string> Registered();
+
+        /// <summary>
+        ///     Registers a timer to periodically sends message to itself.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        ///     This timer will not prevent the current grain from being deactivated.
+        ///     If the grain is deactivated, then the timer will be discarded.
+        /// </para>
+        /// <para>
+        ///     Until the Task returned from the <paramref name="message"/> is resolved,
+        ///     the next timer tick will not be scheduled.
+        ///     That is to say, timer callbacks never interleave their turns.
+        /// </para>
+        /// <para>
+        ///     The timer may be stopped at any time by calling the <see cref="Unregister(string)"/> method
+        /// </para>
+        /// <para>
+        ///     Any exceptions thrown by or faulted Task's returned from the processing <paramref name="message"/>
+        ///     will be logged, but will not prevent the next timer tick from being queued.
+        /// </para>
+        /// </remarks>
+        /// <param name="id">Unique id of the timer</param>
+        /// <param name="due">Due time for first timer tick.</param>
+        /// <param name="period">Period of subsequent timer ticks.</param>
+        /// <param name="message">Message to be sent when timer ticks.</param>
+        void Register(string id, TimeSpan due, TimeSpan period, object message);
+
+        /// <summary>
+        ///     Registers a timer to periodically sends message to itself.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        ///     This timer will not prevent the current grain from being deactivated.
+        ///     If the grain is deactivated, then the timer will be discarded.
+        /// </para>
+        /// <para>
+        ///     Until the Task returned from the <paramref name="message"/> is resolved,
+        ///     the next timer tick will not be scheduled.
+        ///     That is to say, timer callbacks never interleave their turns.
+        /// </para>
+        /// <para>
+        ///     The timer may be stopped at any time by calling the <see cref="Unregister(string)"/> method
+        /// </para>
+        /// <para>
+        ///     Any exceptions thrown by or faulted Task's returned from the processing <paramref name="message"/>
+        ///     will be logged, but will not prevent the next timer tick from being queued.
+        /// </para>
+        /// </remarks>
+        /// <param name="id">Unique id of the timer</param>
+        /// <param name="due">Due time for first timer tick.</param>
+        /// <param name="message">Message to be sent when timer ticks.</param>
+        void Register(string id, TimeSpan due, object message);
     }
 
     /// <summary>
@@ -181,6 +234,24 @@ namespace Orleankka.Services
                 await callback((TState) s);
             }, 
             state, due, period));
+        }
+
+        void ITimerService.Register(string id, TimeSpan due, object message)
+        {
+            ((ITimerService)this).Register(id, due, TimeSpan.FromMilliseconds(1), async () =>
+            {
+                await host.Receive(message);
+                ((ITimerService)this).Unregister(id);
+            });
+        }
+
+        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, object message)
+        {
+            ((ITimerService)this).Register(id, due, period, async () =>
+            {
+                await host.Receive(message);
+                ((ITimerService)this).Unregister(id);
+            });
         }
 
         void ITimerService.Unregister(string id)
