@@ -18,10 +18,6 @@ namespace Orleankka.TestKit
         [NonSerialized] readonly List<StreamSubscriptionMock> subscriptions = new List<StreamSubscriptionMock>();
         public IEnumerable<StreamSubscriptionMock> RecordedSubscriptions => subscriptions;
 
-        public StreamFilter Filter { get; private set; }
-        public Actor Subscribed    { get; private set; }
-        public Actor Resumed       { get; private set; }
-
         internal StreamRefMock(StreamPath path, MessageSerialization serialization = null)
             : base(path)
         {
