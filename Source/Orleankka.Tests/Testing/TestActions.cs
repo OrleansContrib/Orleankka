@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
+using Orleankka.Features.Stateful_actors;
+
 using Orleans.Storage;
 using Orleans.Providers.Streams.AzureQueue;
 using Orleans.Runtime.Configuration;
@@ -41,6 +43,7 @@ namespace Orleankka.Testing
                     .Cluster(x =>
                     {
                         x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
+                        x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
                         x.Configuration.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
 
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
 using Orleans.Providers;
 
 namespace Orleankka.Features
@@ -13,34 +13,50 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        public class SetState : Command
-        {
-            public string Data;
-        }
+        public class GetStorageProviderInvocations : Query<List<string>> {}
 
         [Serializable]
-        public class GetState : Query<string>
-        {}
+        public class ClearState : Command {}
 
-        [StorageProvider(ProviderName = "MemoryStore")]
-        public class TestActor : StatefulActor<TestActor.TestState>
+        [StorageProvider(ProviderName = "Test")]
+        public class TestActor : StatefulActor<TestState>
         {
-            public async Task Handle(SetState cmd)
+            public override async Task OnActivate()
             {
-                State.Data = cmd.Data;
+                await base.OnActivate();
+
+                await ReadState();
                 await WriteState();
             }
 
-            public async Task<string> Handle(GetState query)
+            async Task On(ClearState _) => await ClearState();
+
+            List<string> On(GetStorageProviderInvocations _) => State.Invocations;
+        }
+
+        [Serializable]
+        public class TestState
+        {
+            public readonly List<string> Invocations = new List<string>();
+        }
+
+        public class TestActorStorageProvider : ActorStorageProvider<TestState>
+        {
+            public override Task ReadStateAsync(string type, string id, TestState state)
             {
-                await ReadState();
-                return State.Data;
+                state.Invocations.Add($"{nameof(ReadStateAsync)}:{type}:{id}");
+                return Task.CompletedTask;
             }
 
-            [Serializable]
-            public class TestState
+            public override Task WriteStateAsync(string type, string id, TestState state)
             {
-                public string Data;
+                state.Invocations.Add($"{nameof(WriteStateAsync)}:{type}:{id}");
+                return Task.CompletedTask;
+            }
+
+            public override Task ClearStateAsync(string type, string id, TestState state)
+            {
+                return Task.CompletedTask;
             }
         }
 
@@ -57,12 +73,23 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_using_default_storage_service()
+            public async void When_using_custom_actor_storage_service()
             {
                 var actor = system.FreshActorOf<TestActor>();
 
-                await actor.Tell(new SetState {Data = "foo"});
-                Assert.AreEqual("foo", await actor.Ask(new GetState()));
+                var expected = new List<string>
+                {
+                    $"ReadStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}", // by default on activate
+                    $"ReadStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}",
+                    $"WriteStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}",
+                };
+
+                var invocations = await actor.Ask(new GetStorageProviderInvocations());
+                CollectionAssert.AreEqual(expected, invocations);
+
+                await actor.Tell(new ClearState());
+                Assert.That(await actor.Ask(new GetStorageProviderInvocations()), 
+                   Has.Count.EqualTo(0));
             }
         }
     }
