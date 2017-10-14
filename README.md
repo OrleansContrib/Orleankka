@@ -8,13 +8,13 @@ Orleankka is a functional API for Microsoft Orleans framework. It is highly suit
 
 + Message-based api with auto-generation of Orleans' interfaces
 + Special api bindings for C# and F# (DU, Pattern Matching, Tasks, Custom DSL)
-+ Simplified programmatic configuration via fluent DSL (client, cluster, azure, embedded)
++ Simplified programmatic configuration via fluent DSL (client, cluster, embedded, playground)
 + Convenient unit testing kit (stubs, mocks, expectations)
 + Redesigned streams api (actor subscriptions)
 + Declarative regex-based stream subscriptions (great for CQRS/ES projections)
 + Content-based filtering support for stream subscriptions (both imperative and declarative)
-+ Switchable actor behaviors with built-in hierarchical FSM
-+ Poweful actor invocation pipeline interceptors
++ Switchable actor behaviors with built-in hierarchical FSM (behaviors)
++ Poweful actor/ref invocation interceptors
 
 ### How to install
 
@@ -86,7 +86,7 @@ Integration tests (those using real actor system) won't work with XUnit visual s
 
 ## Contributing
 
-Any bug-fix pull request goes without a saying. For new features or modifications, please first create an issue, so we can discuss it before any effort is made.
+Bug-fix pull requests are always welcome. For new features or modifications, please first create an issue, so we can discuss it before any effort is wasted.
 
 ## Community
 
