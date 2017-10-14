@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleankka;
+using Orleans.Concurrency;
 
 namespace Example.Azure
 {
-    [Worker, Reentrant(typeof(Publish))]
+    [StatelessWorker, Orleankka.Interleave(typeof(Publish))]
     public class HubBuffer : Actor
     {
         [Serializable]
@@ -33,7 +33,7 @@ namespace Example.Azure
         Task Flush()
         {
             if (buffer.Count == 0)
-                return TaskDone.Done;
+                return Task.CompletedTask;
 
             var events = buffer.ToArray();
             buffer.Clear();

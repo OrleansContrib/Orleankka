@@ -20,17 +20,15 @@ namespace Orleankka.Behaviors
             
         internal static readonly RequestOrigin Null = new RequestOrigin();
 
-        internal RequestOrigin(string behavior, bool background = false)
+        internal RequestOrigin(string behavior, bool timer = false)
         {
             Behavior = behavior;
-            IsBackground = background;
+            Timer = timer;
         }
 
         public string Behavior { get; }
+        public bool Timer {get;}
 
-        public bool IsBackground { get; }
-        public bool IsForeground => !IsBackground;
-
-        public bool IsExternal => Behavior == null;
+        public bool External => Behavior == null;
     }
 }

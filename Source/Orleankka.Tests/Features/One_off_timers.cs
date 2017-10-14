@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleans;
 
 namespace Orleankka.Features
 {
@@ -28,7 +28,7 @@ namespace Orleankka.Features
                 Timers.Register("test", TimeSpan.FromMilliseconds(10), () =>
                 {
                     fired++;
-                    return TaskDone.Done;
+                    return Task.CompletedTask;
                 });
             }
 

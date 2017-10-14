@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.TestKit
 {
     using Services;
@@ -21,7 +19,7 @@ namespace Orleankka.TestKit
             var request = new RecordedReminderRequest(id, RecordedReminderRequestKind.Register, reminder);
             reminders.Add(id, reminder);
             requests.Add(request);
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         Task IReminderService.Unregister(string id)
@@ -29,7 +27,7 @@ namespace Orleankka.TestKit
             reminders.Remove(id);
             var request = new RecordedReminderRequest(id, RecordedReminderRequestKind.Unregister, null);
             requests.Add(request);
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         public Task<bool> IsRegistered(string id) => Task.FromResult(reminders.ContainsKey(id));

@@ -17,18 +17,18 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .TweakClient(c => c.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
-                .TweakCluster(c => c.Globals.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
+                .Client(x => x.Configuration.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
+                .Cluster(x => x.Configuration.Globals.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Stop();
+            system.Dispose();
             Environment.Exit(0);
         }
 

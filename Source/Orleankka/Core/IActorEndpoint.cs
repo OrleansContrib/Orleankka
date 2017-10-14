@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Concurrency;
+
 #pragma warning disable 1591
 
 namespace Orleankka.Core
@@ -14,5 +16,8 @@ namespace Orleankka.Core
 
         Task<object> Receive(object message);
         Task ReceiveVoid(object message);
+
+        [OneWay]
+        Task Notify(object message);
     }
 }

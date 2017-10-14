@@ -10,9 +10,9 @@ namespace Orleankka.Services
     public interface IStorageService<out TState> where TState : new()
     {
         TState State { get; }
-        Task ClearState();
-        Task WriteState();
         Task ReadState();
+        Task WriteState();
+        Task ClearState();
     }
 
     /// <summary>
@@ -28,8 +28,8 @@ namespace Orleankka.Services
         }
 
         TState IStorageService<TState>.State => endpoint.State;
-        Task IStorageService<TState>.ClearState() => endpoint.ClearStateAsync();
-        Task IStorageService<TState>.WriteState() => endpoint.WriteStateAsync();
         Task IStorageService<TState>.ReadState() => endpoint.ReadStateAsync();
+        Task IStorageService<TState>.WriteState() => endpoint.WriteStateAsync();
+        Task IStorageService<TState>.ClearState() => endpoint.ClearStateAsync();
     }
 }

@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Orleans;
 
 namespace Orleankka.Features
 {
@@ -38,12 +37,12 @@ namespace Orleankka.Features
             public override Task OnReminder(string id)
             {
                 reminded = true;
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }
         }
 
-        [TestFixture]
-        [Explicit, Category("Slow")]
+        [TestFixture, RequiresSilo]
+        [Category("Slow")]
         public class Tests
         {
             IActorSystem system;

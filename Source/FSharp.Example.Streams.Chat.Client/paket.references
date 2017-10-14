@@ -7,4 +7,3 @@ Microsoft.Orleans.OrleansCodeGenerator
 Newtonsoft.Json
 System.Collections.Immutable
 System.Reflection.Metadata
-FSharp.Core

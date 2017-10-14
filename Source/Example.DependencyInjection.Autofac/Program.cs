@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 using Orleankka;
 using Orleankka.Playground;
@@ -30,11 +31,13 @@ namespace Example
             var system = ActorSystem
                 .Configure()
                 .Playground()
-                .Activator<AutofacActorActivator>(setup)
+                .Cluster(c => c
+                    .Services(s => s
+                        .AddSingleton<IActorActivator>(new AutofacActorActivator(setup))))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");

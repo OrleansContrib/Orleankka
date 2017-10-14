@@ -1,7 +1,7 @@
 ﻿module RealTimeCounter
 
 open System
-open Orleankka
+open Orleans.Concurrency
 open Orleankka.FSharp
 
 type Message =
@@ -9,7 +9,7 @@ type Message =
    | Decrement
    | GetCount
 
-[<Reentrant("IsReentrant")>]
+[<MayInterleave("IsReentrant")>]
 type Counter() =
    inherit Actor<Message>()
 

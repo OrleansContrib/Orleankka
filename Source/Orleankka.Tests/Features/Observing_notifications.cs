@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
@@ -10,6 +9,7 @@ namespace Orleankka.Features
     namespace Observing_notifications
     {
         using Meta;
+        using Client;
         using Testing;
 
         [Serializable]
@@ -36,7 +36,7 @@ namespace Orleankka.Features
 
             void On(Attach x)   => observer = x.Observer;
             void On(Publish x)  => observer.Notify(new Notification {Text = x.Text});
-    }
+        }
 
         [Serializable]
         public class ReceivedNotifications : Query<Notification[]>
@@ -54,7 +54,7 @@ namespace Orleankka.Features
         [RequiresSilo]
         public class Tests
         {
-            IActorSystem system;
+            IClientActorSystem system;
 
             [SetUp]
             public void SetUp()
@@ -67,14 +67,14 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<TestActor>();
 
-                using (var observer = await ClientObservable.Create())
+                using (var observable = await system.CreateObservable())
                 {
-                    await actor.Tell(new Attach {Observer = observer});
+                    await actor.Tell(new Attach {Observer = observable.Ref});
 
                     Notification @event = null;
 
                     var done = new AutoResetEvent(false);
-                    var subscription = observer.Subscribe((Notification e) =>
+                    var subscription = observable.Subscribe((Notification e) =>
                     {
                         @event = e;
                         done.Set();
@@ -102,7 +102,7 @@ namespace Orleankka.Features
                 await actor.Tell(new Attach {Observer = observer});
                 await actor.Tell(new Publish {Text = "a-a"});
 
-                Notification[] received = await observer.Ask(new ReceivedNotifications());
+                var received = await observer.Ask(new ReceivedNotifications());
                 Assert.That(received.Length,  Is.EqualTo(1));
                 Assert.That(received[0].Text, Is.EqualTo("a-a"));
             }

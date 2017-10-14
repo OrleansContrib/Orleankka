@@ -2,33 +2,50 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Orleans;
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+using Orleans.Serialization;
 using Orleans.Streams;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
     using Utility;
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>, ISerializable
+    public class StreamRef : IEquatable<StreamRef>, IEquatable<StreamPath>
     {
-        public static StreamRef Deserialize(StreamPath path) => new StreamRef(path);
+        [NonSerialized]
+        readonly IStreamProvider provider;
 
-        protected internal StreamRef(StreamPath path)
+        protected internal StreamRef(StreamPath path, IStreamProvider provider = null)
         {
             Path = path;
+            this.provider = provider;
         }
 
+        [NonSerialized]
         IAsyncStream<object> endpoint;
-        IAsyncStream<object> Endpoint => endpoint ?? (endpoint = Path.Proxy());
+        IAsyncStream<object> Endpoint
+        {
+            get
+            {
+                if (endpoint != null)
+                    return endpoint;
+                
+                if (provider == null)
+                    throw new InvalidOperationException($"StreamRef [{Path}] has not been bound to runtime");
+
+                return endpoint = provider.GetStream<object>(Guid.Empty, Path.Id);
+            }
+        }
 
         public StreamPath Path { get; }
-        public string Serialize() => Path.Serialize();
-
+        
         public virtual Task Push(object item)
         {
             return Endpoint.OnNextAsync(item);
@@ -90,7 +107,7 @@ namespace Orleankka
             return Subscribe(item =>
             {
                 callback(item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             },
             filter);
         }
@@ -113,7 +130,7 @@ namespace Orleankka
             return Subscribe(item =>
             {
                 callback((T)item);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }, 
             filter);
         }
@@ -140,6 +157,8 @@ namespace Orleankka
                     || obj.GetType() == GetType() && Equals((StreamRef)obj));
         }
 
+        public static implicit operator StreamPath(StreamRef arg) => arg.Path;
+
         public bool Equals(StreamPath other) => Path.Equals(other);
         public override int GetHashCode() => Path.GetHashCode();
 
@@ -148,17 +167,26 @@ namespace Orleankka
 
         public override string ToString() => Path.ToString();
 
-        #region Default Binary Serialization
+        #region Orleans Native Serialization
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        [CopierMethod]
+        static object Copy(object input, ICopyContext context) => input;
+
+        [SerializerMethod]
+        static void Serialize(object input, ISerializationContext context, Type expected)
         {
-            info.AddValue("path", Serialize(), typeof(string));
+            var writer = context.StreamWriter;
+            var @ref = (StreamRef)input;
+            writer.Write(@ref.Path);
         }
 
-        public StreamRef(SerializationInfo info, StreamingContext context)
+        [DeserializerMethod]
+        static object Deserialize(Type t, IDeserializationContext context)
         {
-            var value = (string)info.GetValue("path", typeof(string));
-            Path = StreamPath.Deserialize(value);
+            var reader = context.StreamReader;
+            var path = StreamPath.Parse(reader.ReadString());
+            var manager = context.ServiceProvider.GetRequiredService<IStreamProviderManager>();
+            return new StreamRef(path, manager.GetStreamProvider(path.Provider));
         }
 
         #endregion
@@ -175,8 +203,8 @@ namespace Orleankka
             public Task OnNextAsync(object item, StreamSequenceToken token = null) 
                 => callback(item, token);
 
-            public Task OnCompletedAsync()           => TaskDone.Done;
-            public Task OnErrorAsync(Exception ex)   => TaskDone.Done;
+            public Task OnCompletedAsync()           => Task.CompletedTask;
+            public Task OnErrorAsync(Exception ex)   => Task.CompletedTask;
         }
     }
 }

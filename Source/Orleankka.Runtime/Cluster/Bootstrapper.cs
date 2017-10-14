@@ -5,7 +5,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
-using Orleans;
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 
@@ -45,17 +46,17 @@ namespace Orleankka.Cluster
             get; private set;
         }
 
-        Task IProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
+        Task IProvider.Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
         {
             Name = name;
 
-            var type = Type.GetType(config.Properties[TypeKey]);
+            var type = Type.GetType(configuration.Properties[TypeKey]);
             Debug.Assert(type != null);
 
             var bootstrapper = (IBootstrapper)Activator.CreateInstance(type);
-            var system = ClusterActorSystem.Current;
+            var system = runtime.ServiceProvider.GetRequiredService<IActorSystem>(); ;
 
-            return bootstrapper.Run(system, Deserialize(config.Properties[PropertiesKey]));
+            return bootstrapper.Run(system, Deserialize(configuration.Properties[PropertiesKey]));
         }
 
         static object Deserialize(string s)
@@ -72,7 +73,7 @@ namespace Orleankka.Cluster
             }
         }
 
-        public Task Close() => TaskDone.Done;
+        public Task Close() => Task.CompletedTask;
     }
 
     class BootstrapProviderConfiguration : IEquatable<BootstrapProviderConfiguration>

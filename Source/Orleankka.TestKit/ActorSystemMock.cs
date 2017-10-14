@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
 {
-    public class ActorSystemMock : IActorSystem
+    using Client;
+
+    public class ActorSystemMock : IClientActorSystem
     {
-        readonly SerializationOptions serialization;
+        readonly MessageSerialization serialization;
 
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
@@ -12,10 +16,12 @@ namespace Orleankka.TestKit
         readonly Dictionary<StreamPath, StreamRefMock> streams =
              new Dictionary<StreamPath, StreamRefMock>();
 
-        public ActorSystemMock(SerializationOptions serialization = null)
+        readonly Queue<ClientObservableMock> observables = 
+             new Queue<ClientObservableMock>();
+
+        public ActorSystemMock(MessageSerialization serialization = null)
         {
-            this.serialization = serialization ?? SerializationOptions.Default;
-            this.serialization.Setup();
+            this.serialization = serialization ?? MessageSerialization.Default;
         }
 
         public ActorRefMock MockActorOf<TActor>(string id)
@@ -67,6 +73,28 @@ namespace Orleankka.TestKit
             return mock;
         }
 
+        public ClientObservableMock MockCreateObservable()
+        {
+            var mock = new ClientObservableMock();
+            observables.Enqueue(mock);
+            return mock;
+        }
+
+        Task<IClientObservable> IClientActorSystem.CreateObservable()
+        {
+            if (observables.Count == 0)
+                throw new InvalidOperationException(
+                    "No mock has been previosly setup for this client observable request.\n" +
+                    $"Use {nameof(MockCreateObservable)} method to setup.");
+            
+            return Task.FromResult((IClientObservable)observables.Dequeue());
+        }
+
+        ClientRef IActorSystem.ClientOf(string path)
+        {
+            throw new NotImplementedException();
+        }
+        
         public void Reset()
         {
             actors.Clear();

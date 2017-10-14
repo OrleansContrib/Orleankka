@@ -9,6 +9,7 @@ namespace Orleankka.Features.Actor_behaviors
     using Meta;
     using Behaviors;
     using Testing;
+    using Utility;
 
     namespace Firing_messages
     {
@@ -26,7 +27,7 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class GetReceived : Query<List<string>> {}
             [Serializable] class GetFired : Query<List<string>> {}
 
-            [Reentrant(typeof(string))]
+            [Interleave(typeof(string))]
             class TestInterleaveFireActor : Actor
             {
                 readonly List<string> received = new List<string>();
@@ -83,11 +84,12 @@ namespace Orleankka.Features.Actor_behaviors
                 public TestUnhandledFireActor()
                 {
                     Behavior.Initial(Foreground);
+                }
 
-                    Behavior.OnUnhandledReceive((message, state, origin) =>
-                    {
-                        origins.Add(new Tuple<string, bool>(origin.Behavior, origin.IsBackground));
-                    });
+                public override Task<object> OnUnhandledReceive(RequestOrigin origin, object message)
+                {
+                    origins.Add(new Tuple<string, bool>(origin.Behavior, origin.Timer));
+                    return TaskResult.Done;
                 }
 
                 [Behavior]
@@ -119,12 +121,6 @@ namespace Orleankka.Features.Actor_behaviors
 
                     return base.OnReceive(message);
                 }
-            }
-            [TestFixtureSetUp]
-            public void FixtureSetUp()
-            {
-                ActorBehavior.Register(typeof(TestInterleaveFireActor));
-                ActorBehavior.Register(typeof(TestUnhandledFireActor));
             }
 
             [Test]

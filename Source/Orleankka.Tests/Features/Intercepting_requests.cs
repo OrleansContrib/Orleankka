@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
+using Orleans.Runtime;
 
 namespace Orleankka.Features
 {
     namespace Intercepting_requests
     {
         using Meta;
-        using Cluster;
         using Testing;
 
         [Serializable]
@@ -22,20 +22,19 @@ namespace Orleankka.Features
         public class GetText : Query<string>
         {}
 
+        [Serializable]
+        public class CheckRef : Query<string>
+        {}
+
         [Invoker("test_actor_interception")]
         public class TestActor : Actor
         {
             string text = "";
 
-            public void On(SetText cmd)
-            {
-                text = cmd.Text;
-            }
+            void On(SetText cmd) => text = cmd.Text;
+            string On(GetText q) => text;
 
-            public string On(GetText q)
-            {
-                return text;
-            }
+            string On(CheckRef cmd) => (string) RequestContext.Get("SetByActorRefInvoker");
         }
 
         [Serializable]
@@ -85,37 +84,39 @@ namespace Orleankka.Features
             void On(string x) => received.Add(x);
         }
 
-        public class TestInterceptor : IInterceptor
+        public class TestActorInterceptionInvoker : ActorInvoker
         {
-            public void Install(IInvocationPipeline pipeline, object properties)
+            public override Task<object> OnReceive(Actor actor, object message)
             {
-                pipeline.Register("test_actor_interception", new TestActorInterceptionInvoker());
-                pipeline.Register("test_stream_interception", new TestStreamInterceptionInvoker());
-            }
-
-            class TestActorInterceptionInvoker : ActorInvoker
-            {
-                public override Task<object> OnReceive(Actor actor, object message)
-                {
-                    var setText = message as SetText;
-                    if (setText == null)
-                        return base.OnReceive(actor, message);
-
-                    if (setText.Text == "interrupt")
-                        throw new InvalidOperationException();
-
-                    setText.Text += ".intercepted";
+                var setText = message as SetText;
+                if (setText == null)
                     return base.OnReceive(actor, message);
-                }
-            }
 
-            class TestStreamInterceptionInvoker : ActorInvoker
+                if (setText.Text == "interrupt")
+                    throw new InvalidOperationException();
+
+                setText.Text += ".intercepted";
+                return base.OnReceive(actor, message);
+            }
+        }
+
+        public class TestStreamInterceptionInvoker : ActorInvoker
+        {
+            public override Task<object> OnReceive(Actor actor, object message)
             {
-                public override Task<object> OnReceive(Actor actor, object message)
-                {
-                    var item = message as string;                    
-                    return base.OnReceive(actor, item == null ? message : item + ".intercepted");
-                }
+                var item = message as string;                    
+                return base.OnReceive(actor, item == null ? message : item + ".intercepted");
+            }
+        }
+
+        public class TestActorRefInvoker : ActorRefInvoker
+        {
+            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> invoke)
+            {
+                if (message is CheckRef)
+                    RequestContext.Set("SetByActorRefInvoker", "it works!");
+
+                return base.Send<TResult>(actor, message, invoke);
             }
         }
 
@@ -165,7 +166,7 @@ namespace Orleankka.Features
             public async void Intercepting_stream_messages()
             {
                 var stream = system.StreamOf("sms", "test-stream-interception");
-
+                
                 var actor = system.FreshActorOf<TestStreamActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
@@ -175,6 +176,14 @@ namespace Orleankka.Features
                 var received = await actor.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("foo.intercepted"));
+            }
+
+            [Test]
+            public async void Intercepting_actor_ref()
+            {
+                var actor = system.FreshActorOf<TestActor>();
+                var result = await actor.Ask<string>(new CheckRef());
+                Assert.That(result, Is.EqualTo("it works!"));
             }
         }
     }

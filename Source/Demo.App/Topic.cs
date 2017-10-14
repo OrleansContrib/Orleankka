@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.Placement;
+
 namespace Demo
 {
     [Serializable]
@@ -20,7 +22,7 @@ namespace Demo
         }
     }
 
-    [Actor(Placement = Placement.DistributeEvenly)]
+    [ActivationCountBasedPlacement]
     public class Topic : Actor
     {
         readonly ITopicStorage storage;
@@ -32,12 +34,8 @@ namespace Demo
         internal int total;
         string query;
 
-        public Topic()
-        {
-            storage = ServiceLocator.TopicStorage;
-        }
-
-        public Topic(string id, IActorRuntime runtime, ITopicStorage storage) : base(id, runtime)
+        public Topic(ITopicStorage storage, string id = null, IActorRuntime runtime = null) 
+            : base(id, runtime)
         {
             this.storage = storage;
         }

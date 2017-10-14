@@ -1,14 +1,17 @@
 ﻿namespace Orleankka.Behaviors
 {
-    struct Transition
+    public struct Transition
     {
-        public readonly CustomBehavior From;
-        public readonly CustomBehavior To;
+        internal readonly CustomBehavior from;
+        internal readonly CustomBehavior to;
 
-        public Transition(CustomBehavior from, CustomBehavior to)
+        internal Transition(CustomBehavior from, CustomBehavior to)
         {
-            From = from;
-            To = to;
+            this.from = from;
+            this.to = to;
         }
+
+        public string From => from.Name;
+        public string To => to.Name;
     }
 }

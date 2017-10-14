@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleankka;
 using Orleankka.Client;
 
+using Orleans;
 using Orleans.Runtime.Configuration;
 
 namespace Example
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        public static event Action OnClusterConnectionLost = () => {};
+
+        static void Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
@@ -22,23 +27,27 @@ namespace Example
                 .Client()
                 .From(config)
                 .Assemblies(typeof(IChatUser).Assembly)
+                .Services(x => x
+                    .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost()))
                 .Done();
 
             var task = Task.Run(async () => await RunChatClient(system));
             task.Wait();
         }
 
-        private static async Task RunChatClient(ClientActorSystem system)
+        static async Task RunChatClient(ClientActorSystem system)
         {
             const string room = "Orleankka";
 
             Console.WriteLine("Connecting to server ...");
-            system.Connect(retries: 2);
+            await system.Connect(retries: 2);
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
             
             var client = new ChatClient(system, userName, room);
+            OnClusterConnectionLost += ()=> client.Resubscribe().Wait();
+
             await client.Join();
 
             while (true)

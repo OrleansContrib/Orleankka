@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace Orleankka.Features.Actor_behaviors
 {   
     using Behaviors;
+    using Utility;
 
     namespace Switchable_behaviors
     {
@@ -19,11 +20,43 @@ namespace Orleankka.Features.Actor_behaviors
 
             class TestActor : Actor
             {
+                TestActor()
+                {}
+
+                public TestActor(IActorRuntime runtime)
+                    : base(runtime)
+                {}
+
                 public readonly List<string> Events = new List<string>();
 
-                public TestActor()
+                public override Task OnTransitioning(Transition transition)
                 {
-                    Behavior.OnBecome((current, previous) => Events.Add($"OnBecome_{current}_{previous}"));
+                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
+                    return Task.CompletedTask;
+                }
+
+                public override Task OnTransitioned(Transition transition)
+                {
+                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
+                    return Task.CompletedTask;
+                }
+
+                public object UnhandledMessage;
+                public RequestOrigin UnhandledMessageOrigin = RequestOrigin.Null;
+                
+                public override Task<object> OnUnhandledReceive(RequestOrigin origin, object message)
+                {
+                    UnhandledMessage = message;
+                    UnhandledMessageOrigin = origin;
+                    return Task.FromResult((object)"test");
+                }
+
+                public string UnhandledReminderId;
+
+                public override Task OnUnhandledReminder(string id)
+                {
+                    UnhandledReminderId = id;
+                    return Task.CompletedTask;
                 }
 
                 void Setup(string behavior)
@@ -106,18 +139,22 @@ namespace Orleankka.Features.Actor_behaviors
                 [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
-            TestActor actor;
-
-            [TestFixtureSetUp]
-            public void FixtureSetUp()
+            class TestDefaultActor : Actor
             {
-                ActorBehavior.Register(typeof(TestActor));
+                public TestDefaultActor()
+                {
+                    Behavior.Initial(Initial);
+                }
+
+                [Behavior] void Initial() {}
             }
+
+            TestActor actor;
 
             [SetUp]
             public void SetUp()
             {
-                actor = new TestActor();
+                actor = new TestActor(new MockRuntime());
             }
 
             [Test]
@@ -163,17 +200,18 @@ namespace Orleankka.Features.Actor_behaviors
 
                 var expected = new[]
                 {
+                    "OnTransitioning_Initial_A",
                     "OnDeactivate_Initial",
                     "OnUnbecome_Initial",
                     "OnBecome_SSS",
                     "OnBecome_SS",
                     "OnBecome_S",
                     "OnBecome_A",
-                    "OnBecome_A_Initial",
                     "OnActivate_SSS",
                     "OnActivate_SS",
                     "OnActivate_S",
-                    "OnActivate_A"
+                    "OnActivate_A",
+                    "OnTransitioned_A_Initial"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -190,13 +228,14 @@ namespace Orleankka.Features.Actor_behaviors
                 await actor.Behavior.Become(actor.B);
                 var expected = new[]
                 {
+                    "OnTransitioning_A_B",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnUnbecome_A",
                     "OnUnbecome_S",
-                    "OnBecome_B",
-                    "OnBecome_B_A",
+                    "OnBecome_B",                    
                     "OnActivate_B",
+                    "OnTransitioned_B_A"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -213,6 +252,7 @@ namespace Orleankka.Features.Actor_behaviors
                 await actor.Behavior.Become(actor.C);
                 var expected = new[]
                 {
+                    "OnTransitioning_A_C",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnDeactivate_SS",
@@ -222,10 +262,10 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnUnbecome_SS",
                     "OnUnbecome_SSS",
                     "OnBecome_SSSS",
-                    "OnBecome_C",
-                    "OnBecome_C_A",
+                    "OnBecome_C",                    
                     "OnActivate_SSSS",
-                    "OnActivate_C"
+                    "OnActivate_C",
+                    "OnTransitioned_C_A"
                 };
 
                 AssertEqual(expected, actor.Events);
@@ -253,10 +293,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public void When_receiving_unhandled_message()
             {
-                actor.Behavior.Initial(nameof(TestActor.A));
+                var a = new TestDefaultActor();
 
                 Assert.Throws<UnhandledMessageException>(async () => await 
-                    actor.OnReceive(new Y()), "Should throw by default");
+                    a.OnReceive(new Y()), "Should throw by default");
             }
 
             [Test]
@@ -264,24 +304,12 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.A));
 
-                string passedState = null;
-                object passedMessage = null;
-                var passedOrigin = RequestOrigin.Null;
-                actor.Behavior.OnUnhandledReceive((message, state, origin) =>
-                {
-                    passedState = state;
-                    passedMessage = message;
-                    passedOrigin = origin;
-                    return "test";
-                });
-
                 var msg = new Y();
                 var result = await actor.OnReceive(msg);
 
                 Assert.That(result, Is.EqualTo("test"));
-                Assert.That(passedState, Is.EqualTo(nameof(TestActor.A)));
-                Assert.That(passedMessage, Is.SameAs(msg));
-                Assert.That(passedOrigin, Is.EqualTo(RequestOrigin.Null));
+                Assert.That(actor.UnhandledMessage, Is.SameAs(msg));
+                Assert.That(actor.UnhandledMessageOrigin, Is.EqualTo(RequestOrigin.Null));
             }
 
             [Test]
@@ -298,10 +326,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public void When_receiving_unhandled_reminder()
             {
-                actor.Behavior.Initial(nameof(TestActor.B));
+                var a = new TestDefaultActor();
 
                 Assert.Throws<UnhandledReminderException>(async () => await 
-                    actor.OnReminder("test"));
+                    a.OnReminder("test"));
             }
 
             [Test]
@@ -309,17 +337,8 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.B));
 
-                string passedState = null;
-                string passedReminderId = null;
-                actor.Behavior.OnUnhandledReminder((reminder, state) =>
-                {
-                    passedState = state;
-                    passedReminderId = reminder;
-                });
-
                 await actor.OnReminder("test");
-                Assert.That(passedState, Is.EqualTo(nameof(TestActor.B)));
-                Assert.That(passedReminderId, Is.SameAs("test"));
+                Assert.That(actor.UnhandledReminderId, Is.SameAs("test"));
             }
 
             [Test]

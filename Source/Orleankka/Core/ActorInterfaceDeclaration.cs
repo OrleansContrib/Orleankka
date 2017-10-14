@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.CodeGeneration;
+
 namespace Orleankka.Core
 {
     class ActorInterfaceDeclaration
@@ -27,7 +29,8 @@ namespace Orleankka.Core
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Interfaces");
             Directory.CreateDirectory(dir);
 
-            var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
+            var id = Guid.NewGuid().ToString("N");
+            var binary = Path.Combine(dir, id + ".dll");
             var source = Generate(assemblies, missing.Select(x => x.Declaration));
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -36,7 +39,7 @@ namespace Orleankka.Core
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create("Orleankka.Auto.Interfaces",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces.Asm{id}",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -86,9 +89,9 @@ namespace Orleankka.Core
         ActorInterfaceDeclaration(ActorInterfaceMapping mapping)
         {
             this.mapping = mapping;
-            CheckValidIdentifier(mapping.Name);
+            CheckValidIdentifier(mapping.TypeName);
 
-            var path = mapping.Name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = mapping.TypeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             name = path.Last();
 
             namespaces = path.TakeWhile(x => x != name).ToList();
@@ -129,10 +132,26 @@ namespace Orleankka.Core
         void StartNamespace(StringBuilder src) =>
             src.AppendLine($"namespace {string.Join(".", namespaces)} {{");
 
-        static void EndNamespace(StringBuilder src) =>
+        static void EndNamespace(StringBuilder src) => 
             src.AppendLine("}");
 
-        void GenerateInterface(StringBuilder src) => 
+        void GenerateInterface(StringBuilder src)
+        {
+            GenerateAttributes(src);
+            GenerateType(src);
+        }
+
+        void GenerateAttributes(StringBuilder src)
+        {
+            if (mapping.CustomInterface == null)
+                return;
+
+            var version = mapping.CustomInterface.GetCustomAttribute<VersionAttribute>();
+            if (version != null)
+                src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
+        }
+
+        void GenerateType(StringBuilder src) => 
             src.AppendLine($"public interface {name} : global::Orleankka.Core.IActorEndpoint {{}}");
     }
 }

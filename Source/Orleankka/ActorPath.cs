@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Orleans.Concurrency;
+
 namespace Orleankka
 {
     using Utility;
      
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("{ToString()}")]
     public struct ActorPath : IEquatable<ActorPath>
     {
@@ -37,16 +39,6 @@ namespace Orleankka
             return new ActorPath(type, id);
         }
 
-        public static ActorPath Deserialize(string path)
-        {
-            var parts = path.Split(Separator, 2, StringSplitOptions.None);
-
-            var type = parts[0];
-            var id = parts[1];
-
-            return new ActorPath(type, id);
-        }
-
         public readonly string Type;
         public readonly string Id;
 
@@ -56,20 +48,8 @@ namespace Orleankka
             Id = id;
         }
 
-        public string Serialize()
-        {
-            return $"{Type}{Separator[0]}{Id}";
-        }
-
-        public bool Equals(ActorPath other)
-        {
-            return Type == other.Type && string.Equals(Id, other.Id);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return !ReferenceEquals(null, obj) && (obj is ActorPath && Equals((ActorPath)obj));
-        }
+        public bool Equals(ActorPath other) => Type == other.Type && string.Equals(Id, other.Id);
+        public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (obj is ActorPath && Equals((ActorPath)obj));
 
         public override int GetHashCode()
         {
@@ -80,9 +60,11 @@ namespace Orleankka
             }
         }
 
+        public static implicit operator string(ActorPath arg) => arg.ToString();
+
         public static bool operator ==(ActorPath left, ActorPath right) => Equals(left, right);
         public static bool operator !=(ActorPath left, ActorPath right) => !Equals(left, right);
 
-        public override string ToString() => Serialize();
+        public override string ToString() => $"{Type}:{Id}";
     }
 }

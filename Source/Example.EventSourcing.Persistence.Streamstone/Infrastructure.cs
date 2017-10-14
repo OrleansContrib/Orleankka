@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
@@ -181,7 +180,7 @@ namespace Example
             {
                 var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
                 Table = client.GetTableReference(properties.TableName);
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }
         }
 

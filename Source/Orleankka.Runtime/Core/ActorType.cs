@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using Orleans;
 using Orleans.CodeGeneration;
+using Orleans.Internals;
 using Orleans.Concurrency;
 
 namespace Orleankka.Core
@@ -12,12 +14,9 @@ namespace Orleankka.Core
     using Utility;
     using Annotations;
 
-    public class ActorType : IEquatable<ActorType>
+    public class ActorType
     {
-        internal static string[] Conventions;
-
-        internal static Dispatcher Dispatcher(Type actor) =>
-            dispatchers.Find(actor) ?? new Dispatcher(actor, Conventions);
+        internal static Dispatcher Dispatcher(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
 
         static readonly Dictionary<Type, Dispatcher> dispatchers =
                     new Dictionary<Type, Dispatcher>();
@@ -25,51 +24,82 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
 
-        internal static IActorActivator Activator = new DefaultActorActivator();
+        static readonly Dictionary<int, ActorType> typeCodes =
+                    new Dictionary<int, ActorType>();
 
-        internal static void Register(IEnumerable<Assembly> assemblies)
+        public static ActorType Of<T>() => Of(typeof(T));
+        public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
+
+        public static ActorType Of(string name)
         {
-            var actors = ActorTypeDeclaration.Generate(assemblies.ToArray());
+            Requires.NotNull(name, nameof(name));
 
-            foreach (var actor in actors)
-                Register(actor);
-       }
+            var result = types.Find(name);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor type name '{name}' to the corresponding actor implementation class");
 
-        static void Register(ActorType actor)
+            return result;
+        }
+
+        public static ActorType Of(int typeCode)
         {
-            var registered = types.Find(actor.Name);
-            if (registered != null)
-                throw new ArgumentException(
-                    $"An actor with type '{actor.Name}' has been already registered");
+            var result = typeCodes.Find(typeCode);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map actor type code '{typeCode}' to the corresponding actor type");
 
-            types.Add(actor.Name, actor);
+            return result;
+        }
+        
+        internal static void Register(Assembly[] assemblies, string[] conventions)
+        {
+            var unregistered = assemblies
+                .SelectMany(x => x.ActorTypes())
+                .Where(x => !types.ContainsKey(ActorTypeName.Of(x)));
+
+            using (Trace.Execution("Generation of actor implementation assemblies"))
+            {
+                var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
+
+                foreach (var actor in actors)
+                {
+                    types.Add(actor.Name, actor);
+                    typeCodes.Add(actor.TypeCode, actor);
+                    typeCodes.Add(actor.Interface.TypeCode, actor);
+                }
+            }
         }
 
         public static IEnumerable<ActorType> Registered() => types.Values;
+        internal string Name => Interface.Mapping.TypeName;
 
-        internal readonly string Name;
-        internal readonly IActorInvoker Invoker;
+        public readonly Type Class;
+        public readonly ActorInterface Interface;
+        public readonly int TypeCode;
+        internal readonly Type Grain;
 
-        readonly Type actor;
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
+        readonly string invoker;
         readonly Dispatcher dispatcher;
 
-        internal ActorType(Type actor, Type endpoint)
+        internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
         {
-            this.actor = actor;
-
-            Name = ActorTypeName.Of(actor);
-            Sticky = StickyAttribute.IsApplied(actor);
-            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(actor);
-            Invoker = InvocationPipeline.Instance.GetInvoker(actor, InvokerAttribute.From(actor));
-
-            interleavePredicate = ReentrantAttribute.MayInterleavePredicate(actor);
+            Class = @class;
+            Interface = @interface;
+            Grain = grain;
+            TypeCode = grain.TypeCode();
             
-            dispatcher = new Dispatcher(actor);
-            dispatchers.Add(actor, dispatcher);
+            Sticky = StickyAttribute.IsApplied(@class);
+            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
+            interleavePredicate = InterleaveAttribute.MayInterleavePredicate(@class);
+            invoker = InvokerAttribute.From(@class);
+            
+            dispatcher = new Dispatcher(@class, conventions);
+            dispatchers.Add(@class, dispatcher);
 
-            Init(endpoint);
+            Init(grain);            
         }
 
         void Init(Type grain)
@@ -81,15 +111,21 @@ namespace Orleankka.Core
             field.SetValue(null, this);
         }
 
-        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime)
+        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
         {
-            var instance = Activator.Activate(actor, path.Id, runtime, dispatcher);
+            var instance = activator.Activate(Class, path.Id, runtime, dispatcher);
             instance.Initialize(host, path, runtime, dispatcher);
             return instance;
         }
 
+        internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
+            pipeline.GetInvoker(Class, invoker);
+
+        /// <summary> 
+        /// FOR INTERNAL USE ONLY!
+        /// </summary>
         [UsedImplicitly]
-        internal bool MayInterleave(InvokeMethodRequest request)
+        public bool MayInterleave(InvokeMethodRequest request)
         {
             if (request?.Arguments == null)
                 return false;
@@ -98,42 +134,24 @@ namespace Orleankka.Core
             if (receiveMessage)
                 return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
 
-            var streamMessage = request.Arguments.Length == 4;
-            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[1]));
+            var streamMessage = request.Arguments.Length == 5;
+            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[2]));
         }
 
         static object UnwrapImmutable(object item) => 
             item is Immutable<object> ? ((Immutable<object>)item).Value : item;
 
-        internal void KeepAlive(IActorHost host)
+        internal void KeepAlive(Grain grain)
         {
             if (keepAliveTimeout == TimeSpan.Zero)
                 return;
 
-            host.DelayDeactivation(keepAliveTimeout);
+            grain.Runtime().DelayDeactivation(grain, keepAliveTimeout);
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
-            StreamSubscriptionSpecification.From(actor, dispatcher);
+            StreamSubscriptionSpecification.From(Class, dispatcher);
 
         internal bool Sticky { get; }
-
-        public bool Equals(ActorType other)
-        {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || string.Equals(Name, other.Name));
-        }
-
-        public override bool Equals(object obj)
-        {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
-                    || obj.GetType() == GetType() && Equals((ActorType) obj));
-        }
-
-        public static bool operator ==(ActorType left, ActorType right) => Equals(left, right);
-        public static bool operator !=(ActorType left, ActorType right) => !Equals(left, right);
-
-        public override int GetHashCode() => Name.GetHashCode();
-        public override string ToString() => Name;
     }
 }

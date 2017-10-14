@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.TestKit
 {
     using Services;
@@ -29,19 +27,19 @@ namespace Orleankka.TestKit
         Task IStorageService<TState>.ReadState()
         {
             requests.Add(new ReadStateRequest());
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         Task IStorageService<TState>.WriteState()
         {
             requests.Add(new WriteStateRequest());
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         Task IStorageService<TState>.ClearState()
         {
             requests.Add(new ClearStateRequest());
-            return TaskDone.Done;
+            return Task.CompletedTask;
         }
 
         public IEnumerator<RecordedStorageRequest> GetEnumerator() => requests.GetEnumerator();

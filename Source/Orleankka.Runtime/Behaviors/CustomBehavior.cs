@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-using Orleans;
-
 namespace Orleankka.Behaviors
 {
     using Utility;
@@ -18,8 +16,8 @@ namespace Orleankka.Behaviors
         {
             Null = new CustomBehavior();
 
-            Null.OnActivate(() => TaskDone.Done);
-            Null.OnDeactivate(() => TaskDone.Done);
+            Null.OnActivate(() => Task.CompletedTask);
+            Null.OnDeactivate(() => Task.CompletedTask);
             Null.OnReceive((actor, message) => actor.Dispatch(message));
             Null.OnReminder((actor, id) => 
             {
@@ -130,7 +128,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleBecome(Transition transition)
         {
-            if (IncludedIn(transition.From))
+            if (IncludedIn(transition.from))
                 return;
 
             if (super != null)
@@ -142,7 +140,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleUnbecome(Transition transition)
         {
-            if (Includes(transition.To))
+            if (Includes(transition.to))
                 return;
 
             if (onUnbecome != null)
@@ -154,7 +152,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleActivate(Transition transition)
         {
-            if (IncludedIn(transition.From))
+            if (IncludedIn(transition.from))
                 return;
 
             if (super != null)
@@ -166,7 +164,7 @@ namespace Orleankka.Behaviors
 
         public async Task HandleDeactivate(Transition transition)
         {
-            if (Includes(transition.To))
+            if (Includes(transition.to))
                 return;
 
             if (onDeactivate != null)
@@ -176,7 +174,7 @@ namespace Orleankka.Behaviors
                 await super.HandleDeactivate(transition);
         }
 
-        public Task<object> HandleReceive(Actor actor, object message, RequestOrigin origin, Func<Type, object, string, RequestOrigin, Task<object>> fallback)
+        public Task<object> HandleReceive(Actor actor, object message, RequestOrigin origin)
         {
             if (IsNull())
                 return onReceiveAny(actor, message);
@@ -188,7 +186,7 @@ namespace Orleankka.Behaviors
             handler = TryFindReceiveAnyHandler();
             return handler != null
                        ? handler(actor, message)
-                       : fallback(actor.GetType(), message, Name, origin);
+                       : actor.OnUnhandledReceive(origin, message);
         }
 
         Func<Actor, object, Task<object>> TryFindReceiveHandler(object message)
@@ -200,7 +198,7 @@ namespace Orleankka.Behaviors
         Func<Actor, object, Task<object>> TryFindReceiveAnyHandler() => 
             onReceiveAny ?? super?.TryFindReceiveAnyHandler();
 
-        public Task HandleReminder(Actor actor, string id, Func<Type, string, string, Task> fallback)
+        public Task HandleReminder(Actor actor, string id)
         {
             if (IsNull())
                 return onReminderAny(actor, id);
@@ -212,7 +210,7 @@ namespace Orleankka.Behaviors
             handler = TryFindReminderAnyHandler();
             return handler != null
                        ? handler(actor, id)
-                       : fallback(actor.GetType(), id, Name);
+                       : actor.OnUnhandledReminder(id);
         }
 
         Func<Actor, string, Task> TryFindReminderHandler(string id)

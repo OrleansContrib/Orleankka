@@ -1,4 +1,4 @@
-framework: net451
+framework: net461
 redirects: on
 strategy: max
 lowest_matching: false
@@ -12,7 +12,6 @@ nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4
 nuget PowerAssert
 
-nuget FSharp.Core 4.0.0.1
 nuget FsPickler 1.2.5
 nuget Suave 0.31.0
 
@@ -40,22 +39,22 @@ nuget Owin 1.0
 
 nuget Autofac 3.5.2
 nuget EventStore.Client 3.0.2
-nuget Newtonsoft.Json 7.0.1
+nuget Newtonsoft.Json 9.0.1
 nuget Streamstone 0.9.5.0
 
 nuget Microsoft.CodeAnalysis.Analyzers 1.1.0
-nuget Microsoft.CodeAnalysis.Common 1.3.2
-nuget Microsoft.CodeAnalysis.CSharp 1.3.2
-nuget System.Collections.Immutable 1.1.37
-nuget System.Reflection.Metadata 1.2.0
+nuget Microsoft.CodeAnalysis.Common 2.2.0
+nuget Microsoft.CodeAnalysis.CSharp 2.2.0
+nuget System.Collections.Immutable 1.3.1
+nuget System.Reflection.Metadata 1.4.2
 
-nuget Microsoft.Orleans.Core 1.4.2
-nuget Microsoft.Orleans.OrleansAzureUtils 1.4.2
-nuget Microsoft.Orleans.OrleansCodeGenerator 1.4.2
-nuget Microsoft.Orleans.OrleansProviders 1.4.2
-nuget Microsoft.Orleans.OrleansRuntime 1.4.2
-nuget Microsoft.Extensions.DependencyInjection 1.0.0
-nuget Microsoft.Extensions.DependencyInjection.Abstractions 1.0.0
+nuget Microsoft.Orleans.Core 1.5.0
+nuget Microsoft.Orleans.OrleansAzureUtils 1.5.0
+nuget Microsoft.Orleans.OrleansCodeGenerator 1.5.0
+nuget Microsoft.Orleans.OrleansProviders 1.5.0
+nuget Microsoft.Orleans.OrleansRuntime 1.5.0
+nuget Microsoft.Extensions.DependencyInjection 1.1.0
+nuget Microsoft.Extensions.DependencyInjection.Abstractions 1.1.0
 
 nuget WindowsAzure.Storage 7.0.0
 nuget Microsoft.WindowsAzure.ConfigurationManager 2.0.3

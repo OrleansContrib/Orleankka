@@ -1,7 +1,6 @@
 ﻿open System
 open System.Reflection
 
-open Orleankka
 open Orleankka.FSharp
 open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Runtime
@@ -13,7 +12,7 @@ let main argv =
 
    printfn "Running demo. Booting cluster might take some time ...\n"
    
-   let system = [|Assembly.GetExecutingAssembly()|]
+   use system = [|Assembly.GetExecutingAssembly()|]
                 |> ActorSystem.createPlayground
                 |> ActorSystem.start
                   
@@ -54,5 +53,4 @@ let main argv =
    Task.run(job) |> ignore
 
    Console.ReadLine() |> ignore
-   ActorSystem.stop(system)
    0

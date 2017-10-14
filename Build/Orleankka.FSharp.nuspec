@@ -15,8 +15,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.FSharp.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.FSharp.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.FSharp.xml" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.FSharp.dll" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.FSharp.pdb" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.FSharp.xml" target="lib/net461" />
   </files>
 </package>

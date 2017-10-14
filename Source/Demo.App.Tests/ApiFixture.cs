@@ -27,7 +27,7 @@ namespace Demo
             worker = new MockApiWorker();
             observers = new ObserverCollectionMock();
 
-            api = new Api("facebook", Runtime, observers, worker);
+            api = new Api(observers, worker, Runtime);
         }
 
         [Test]

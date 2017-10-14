@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.CodeAnalysis.CSharp;
-
 namespace Orleankka.Core
 {
     using Utility;
 
-    struct ActorTypeName
+    class ActorTypeName
     {
         static readonly Dictionary<Type, string> map =
                     new Dictionary<Type, string>();
@@ -16,7 +14,7 @@ namespace Orleankka.Core
         internal static void Register(Type type)
         {
             var name = Name(type);
-            map.Add(type, name);
+            map[type]= name;
         }
 
         internal static string Of(Type type)

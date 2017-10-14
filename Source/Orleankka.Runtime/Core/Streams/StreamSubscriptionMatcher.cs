@@ -5,37 +5,43 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using Orleans;
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans.Providers;
 using Orleans.Streams;
 
 namespace Orleankka.Core.Streams
 {
-    using Client;
-    using Cluster;
     using Utility;
     
     using StreamIdentity = Orleans.Internals.StreamIdentity;
 
     class StreamSubscriptionMatcher : IStreamProviderImpl
     {
+        static readonly HashSet<string> actors = new HashSet<string>();
+
         static readonly Dictionary<string, List<StreamSubscriptionSpecification>> configuration = 
                     new Dictionary<string, List<StreamSubscriptionSpecification>>();
 
-        internal static void Register(IEnumerable<StreamSubscriptionSpecification> specifications)
+        internal static void Register(string actor, IEnumerable<StreamSubscriptionSpecification> specifications)
         {
-            foreach (var specification in specifications)
-            {
-                var existent = configuration.Find(specification.Provider);
+            if (actors.Contains(actor))
+                return;
 
-                if (existent == null)
+            foreach (var each in specifications)
+            {
+                var registry = configuration.Find(each.Provider);
+
+                if (registry == null)
                 {
-                    existent = new List<StreamSubscriptionSpecification>();
-                    configuration.Add(specification.Provider, existent);
+                    registry = new List<StreamSubscriptionSpecification>();
+                    configuration.Add(each.Provider, registry);
                 }
 
-                existent.Add(specification);
+                registry.Add(each);
             }
+
+            actors.Add(actor);
         }
 
         public static StreamSubscriptionMatch[] Match(IActorSystem system, StreamIdentity stream)
@@ -63,22 +69,20 @@ namespace Orleankka.Core.Streams
         IStreamProviderImpl provider;
         IActorSystem system;
 
-        public Task Init(string name, IProviderRuntime pr, IProviderConfiguration pc)
+        public Task Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
         {
             Name = name;
 
-            system = ClusterActorSystem.Initialized 
-                ? (IActorSystem) ClusterActorSystem.Current 
-                : ClientActorSystem.Current;
+            system = runtime.ServiceProvider.GetRequiredService<IActorSystem>();
 
-            specifications = configuration.Find(name)
+            specifications = StreamSubscriptionMatcher.configuration.Find(name)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
-            var type = Type.GetType(pc.Properties[TypeKey]);
+            var type = Type.GetType(configuration.Properties[TypeKey]);
             Debug.Assert(type != null);
 
             provider = (IStreamProviderImpl)Activator.CreateInstance(type);
-            return provider.Init(name, pr, pc);
+            return provider.Init(name, runtime, configuration);
         }
 
         public string Name { get; private set; }
@@ -95,7 +99,7 @@ namespace Orleankka.Core.Streams
             {
                 var recipients = Match(system, id, specifications);
 
-                Func<T, Task> fan = item => TaskDone.Done;
+                Func<T, Task> fan = item => Task.CompletedTask;
 
                 if (recipients.Length > 0)
                     fan = item => Task.WhenAll(recipients.Select(x => x.Receive(item)));

@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Internals;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
@@ -10,24 +12,29 @@ namespace Orleankka.Core
 
     class ClientEndpoint : IClientEndpoint, IDisposable
     {
-        public static async Task<ClientEndpoint> Create()
+        public static async Task<ClientEndpoint> Create(IGrainFactory factory)
         {
-            var endpoint = new ClientEndpoint();
+            var endpoint = new ClientEndpoint(factory);
 
-            var proxy = await GrainClient.GrainFactory
-                .CreateObjectReference<IClientEndpoint>(endpoint);
+            var proxy = await factory.CreateObjectReference<IClientEndpoint>(endpoint);
 
             return endpoint.Initialize(proxy);
         }
 
+        readonly IGrainFactory factory;
         IClientEndpoint proxy;
         IObserver<object> observer;
+
+        ClientEndpoint(IGrainFactory factory)
+        {
+            this.factory = factory;
+        }
 
         ClientEndpoint Initialize(IClientEndpoint proxy)
         {
             this.proxy = proxy;
             
-            Self = ClientRef.Deserialize(IdentityOf(proxy));
+            Self = new ClientRef(proxy);
             
             return this;
         }
@@ -39,7 +46,7 @@ namespace Orleankka.Core
 
         public void Dispose()
         {
-            GrainClient.GrainFactory.DeleteObjectReference<IClientEndpoint>(proxy);
+            factory.DeleteObjectReference<IClientEndpoint>(proxy);
         }
 
         public IDisposable Subscribe(IObserver<object> observer)
@@ -74,14 +81,15 @@ namespace Orleankka.Core
             }
         }
 
-        static string IdentityOf(IClientEndpoint proxy)
-        {
-            return ((GrainReference)proxy).ToKeyString();
-        }
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
+        internal static string Path(IClientEndpoint proxy) => 
+            ((GrainReference)proxy).ToKeyString();
 
-        internal static IClientEndpoint Proxy(string path)
+        internal static IClientEndpoint Proxy(string path, IGrainFactory factory)
         {
-            return GrainReference.FromKeyString(path).AsReference<IClientEndpoint>();
+            var reference = GrainReferenceUtility.FromKeyString(path);
+            factory.BindGrainReference(reference);
+            return reference.AsReference<IClientEndpoint>();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-using Orleankka.Core;
-using Orleankka.Services;
-
 namespace Orleankka
 {
+    using Core;
+    using Services;
+
     interface IStatefulActor
     {}
 
@@ -15,7 +15,7 @@ namespace Orleankka
         protected StatefulActor()
         {}
 
-        protected StatefulActor(string id, IActorRuntime runtime, Dispatcher dispatcher = null, IStorageService<TState> storage = null)
+        protected StatefulActor(string id = null, IActorRuntime runtime = null, Dispatcher dispatcher = null, IStorageService<TState> storage = null)
             : base(id, runtime, dispatcher)
         {
             this.storage = storage;
@@ -30,8 +30,8 @@ namespace Orleankka
 
         public TState State => storage.State;
 
-        public Task ClearState() => storage.ClearState();
+        public Task ReadState()  => storage.ReadState();
         public Task WriteState() => storage.WriteState();
-        public Task ReadState() => storage.ReadState();
+        public Task ClearState() => storage.ClearState();
     }
 }

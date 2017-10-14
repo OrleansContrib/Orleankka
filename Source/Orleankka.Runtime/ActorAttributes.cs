@@ -4,22 +4,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-using Orleankka.Utility;
+using Orleans.Internals;
+using Orleans.Concurrency;
 
 namespace Orleankka
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class ActorAttribute : Attribute
-    {
-        public Placement Placement { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class WorkerAttribute : Attribute
-    {}
-
+    using Utility;
+    
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class ReentrantAttribute : Attribute
+    public class InterleaveAttribute : Attribute
     {
         internal static Func<object, bool> MayInterleavePredicate(Type actor)
         {
@@ -38,40 +31,32 @@ namespace Orleankka
         {
             reentrant = false;
 
-            var attributes = actor.GetCustomAttributes<ReentrantAttribute>(inherit: true).ToArray();
+            var attributes = actor.GetCustomAttributes(inherit: true).ToArray();
             if (attributes.Length == 0)
                 return null;
 
-            var fullyReentrant = attributes.Where(x => x.message == null && x.callback == null).ToArray();
-            var selectedMessageType = attributes.Where(x => x.message != null).ToArray();
-            var determinedByCallbackMethod = attributes.Where(x => x.callback != null).ToArray();
+            var fullyReentrant = attributes.OfType<ReentrantAttribute>().SingleOrDefault();
+            var selectedMessageType = attributes.OfType<InterleaveAttribute>().ToArray();
+            var determinedByCallbackMethod = attributes.OfType<MayInterleaveAttribute>().SingleOrDefault();
 
-            if (fullyReentrant.Any() && (selectedMessageType.Any() || determinedByCallbackMethod.Any()))
+            if (fullyReentrant != null && (selectedMessageType.Any() || determinedByCallbackMethod != null))
                 throw new InvalidOperationException(
                     $"'{actor}' actor can be only designated either as fully reentrant " +
                     "or partially reentrant. Choose one of the approaches");
 
-            if (fullyReentrant.Length > 1)
-                throw new InvalidOperationException(
-                    $"'{actor}' actor can't have multiple [Reentrant] attributes specified");
-
-            if (fullyReentrant.Any())
+            if (fullyReentrant != null)
             {
                 reentrant = true;
                 return null;
             }
 
-            if (selectedMessageType.Any() && determinedByCallbackMethod.Any())
+            if (selectedMessageType.Any() && determinedByCallbackMethod != null)
                 throw new InvalidOperationException(
                     $"'{actor}' actor can be designated as partially reentrant either by specifying callback method name " +
                     "or by specifying selected message types. Choose one of the approaches");
 
-            if (determinedByCallbackMethod.Length > 1)
-                throw new InvalidOperationException(
-                    $"'{actor}' actor can't have multiple [Reentrant(\"callback\")] attributes specified");
-
-            if (determinedByCallbackMethod.Any())
-                return DeterminedByCallbackMethod(actor, determinedByCallbackMethod[0].callback);
+            if (determinedByCallbackMethod != null)
+                return DeterminedByCallbackMethod(actor, determinedByCallbackMethod.CallbackMethodName());
                     
             return MesageTypeBased(actor, selectedMessageType);
         }
@@ -99,7 +84,7 @@ namespace Orleankka
             return predicate;
         }
 
-        static Func<object, bool> MesageTypeBased(Type actor, ReentrantAttribute[] attributes)
+        static Func<object, bool> MesageTypeBased(Type actor, InterleaveAttribute[] attributes)
         {
             var messages = new HashSet<Type>();
 
@@ -115,22 +100,12 @@ namespace Orleankka
             return message => messages.Contains(message.GetType());
         }
 
-        readonly string callback;
         readonly Type message;
 
-        public ReentrantAttribute()
-        {}
-
-        public ReentrantAttribute(Type message)
+        public InterleaveAttribute(Type message)
         {
             Requires.NotNull(message, nameof(message));
             this.message = message;
-        }
-
-        public ReentrantAttribute(string callback)
-        {
-            Requires.NotNullOrWhitespace(callback, nameof(callback));
-            this.callback = callback;
         }
     }
 

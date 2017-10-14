@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
+using Orleankka.Client;
 using Orleankka.Playground;
 
 namespace Example
@@ -17,49 +19,58 @@ namespace Example
             var system = ActorSystem.Configure()
                 .Playground()
                 .UseInMemoryPubSubStore()
-                .TweakClient(c => c.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
-                .TweakCluster(c => c.Globals.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
+                .Client(x => x.Configuration.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
+                .Cluster(x => x.Configuration.Globals.SerializationProviders.Add(typeof(HyperionSerializer).GetTypeInfo()))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
             Run(system).Wait();
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Stop();
+            system.Dispose();
             Environment.Exit(0);
         }
 
-        static async Task Run(IActorSystem system)
+        static async Task Run(IClientActorSystem system)
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var some = system.ActorOf<SomeActor>("some");
+            var another = system.ActorOf<AnotherActor>("another");
 
-            await item.Tell(new Create {Name = "XBOX1"});
-            await Print(item);
+            var actor = await some.Ask(new GetSelf());
+            var stream = await some.Ask(new GetStream());
 
-            await item.Tell(new CheckIn {Quantity = 10});
-            await Print(item);
+            var item1 = new Item {Name = "PS3", Paid = DateTimeOffset.UtcNow.AddHours(-2), Price = 600};
+            var item2 = new Item {Name = "XBOX", Paid = DateTimeOffset.UtcNow.AddHours(-9), Price = 500};
 
-            await item.Tell(new CheckOut {Quantity = 5});
-            await Print(item);
+            await another.Tell(new Notify{Observer = actor, Item = item1});
+            await another.Tell(new Push{Stream = stream, Item = item2});
 
-            await item.Tell(new Rename {NewName = "XBOX360"});
-            await Print(item);
+            var received = await some.Ask(new GetReceived());
+            Verify(received[0], item1);
+            Verify(received[1], item2);
 
-            await item.Tell(new Deactivate());
-            await Print(item);
+            using (var observable = await system.CreateObservable())
+            {
+                Item observed = null;
+                using (observable.Subscribe<Item>(x => observed = x))
+                {
+                    var item3 = new Item {Name = "Nintendo", Paid = DateTimeOffset.UtcNow, Price = 300 };
+                    await another.Tell(new Notify {Observer = observable.Ref, Item = item3});
+
+                    Thread.Sleep(2000);
+                    Verify(observed, item3);
+                }
+            }
         }
 
-        static async Task Print(ActorRef item) => Print(await item.Ask(new GetDetails()));
-
-        static void Print(InventoryItemDetails details)
+        static void Verify(Item actual, Item expected)
         {
-            Console.WriteLine("{0}: {1} {2}",
-                details.Name,
-                details.Total,
-                details.Active ? "" : "(deactivated)");
+            Console.WriteLine($"Expected: {expected.Name} - {expected.Price} : {expected.Paid:f}");
+            Console.WriteLine($"Actual:   {actual.Name} - {actual.Price} : {actual.Paid:f}");
+            Console.WriteLine();
         }
     }
 }

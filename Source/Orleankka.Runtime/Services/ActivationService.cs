@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
+
+using Orleans;
+using Orleans.Internals;
 
 namespace Orleankka.Services
 {
-    using Core;
-
     /// <summary>
     /// Manages actor activation lifetime
     /// </summary>
@@ -34,21 +34,21 @@ namespace Orleankka.Services
     /// </summary>
     public class ActivationService : IActivationService
     {
-        readonly IActorHost host;
+        readonly Grain grain;
 
-        internal ActivationService(IActorHost host)
+        internal ActivationService(Grain grain)
         {
-            this.host = host;
+            this.grain = grain;
         }
 
         void IActivationService.DeactivateOnIdle()
         {
-            host.DeactivateOnIdle();
+            grain.Runtime().DeactivateOnIdle(grain);
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            host.DelayDeactivation(period);
+            grain.Runtime().DelayDeactivation(grain, period);
         } 
     }
 }

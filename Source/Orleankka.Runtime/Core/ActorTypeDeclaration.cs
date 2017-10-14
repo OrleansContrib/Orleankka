@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.Concurrency;
+using Orleans.MultiCluster;
 using Orleans.Placement;
 using Orleans.Providers;
 
@@ -16,29 +18,29 @@ namespace Orleankka.Core
 {
     class ActorTypeDeclaration
     {
-        public static IEnumerable<ActorType> Generate(Assembly[] assemblies)
+        public static IEnumerable<ActorType> Generate(IEnumerable<Assembly> assemblies, IEnumerable<Type> types, string[] conventions)
         {
-            var declarations = assemblies
-                .SelectMany(x => x.ActorTypes())
+            var declarations = types
                 .Select(x => new ActorTypeDeclaration(x))
                 .ToArray();
 
             var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Implementations");
             Directory.CreateDirectory(dir);
 
-            var binary = Path.Combine(dir, Guid.NewGuid().ToString("N") + ".dll");
+            var id = Guid.NewGuid().ToString("N");
+            var binary = Path.Combine(dir, id + ".dll");
             var generated = Generate(assemblies, declarations);
 
             var syntaxTree = CSharpSyntaxTree.ParseText(generated.Source);
             var references = AppDomain.CurrentDomain.GetAssemblies()
                 .Concat(generated.References)
-                .Concat(ActorInterface.Registered().Select(x => x.GrainAssembly()))
+                .Concat(declarations.Select(x => x.@interface.GrainAssembly()))
                 .Distinct()
                 .Select(ToMetadataReference)
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create("Orleankka.Auto.Implementations",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Implementations.Asm{id}",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -55,7 +57,7 @@ namespace Orleankka.Core
             var assemblyName = AssemblyName.GetAssemblyName(binary);
             var assembly = AppDomain.CurrentDomain.Load(assemblyName);
 
-            return declarations.Select(x => x.From(assembly));
+            return declarations.Select(x => x.From(assembly, conventions));
         }
 
         static PortableExecutableReference ToMetadataReference(Assembly x) => 
@@ -70,6 +72,7 @@ namespace Orleankka.Core
                  using Orleans.Concurrency;
                  using Orleans.CodeGeneration;
                  using Orleans.Providers;
+                 using Orleans.MultiCluster;
             ");
 
             foreach (var assembly in assemblies)
@@ -82,6 +85,7 @@ namespace Orleankka.Core
         static readonly string[] separator = {".", "+"};
 
         readonly Type actor;
+        readonly ActorInterface @interface;
         readonly string clazz;
         readonly IList<string> namespaces;
 
@@ -89,7 +93,10 @@ namespace Orleankka.Core
         {
             this.actor = actor;
 
-            var path = ActorTypeName.Of(actor).Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var typeName = ActorTypeName.Of(actor);
+            @interface = ActorInterface.Of(typeName);
+
+            var path = typeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             clazz = path.Last();
 
             namespaces = path.TakeWhile(x => x != clazz).ToList();
@@ -116,13 +123,13 @@ namespace Orleankka.Core
 
         void GenerateImplementation(StringBuilder src, List<Assembly> references)
         {
-            GenerateAttributes(src);
+            CopyAttributes(src);
 
-            var reentrant = ReentrantAttribute.IsReentrant(actor);
+            var reentrant = InterleaveAttribute.IsReentrant(actor);
             if (reentrant)
                 src.AppendLine($"[global::{typeof(Orleans.Concurrency.ReentrantAttribute).FullName}]");
 
-            var mayInterleave = ReentrantAttribute.MayInterleavePredicate(actor) != null;
+            var mayInterleave = InterleaveAttribute.MayInterleavePredicate(actor) != null;
             if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 
@@ -140,51 +147,119 @@ namespace Orleankka.Core
             src.AppendLine("}");
         }
 
-        ActorType From(Assembly asm)
+        ActorType From(Assembly asm, string[] conventions)
         {
             var grain = asm.GetType(FullPath($"{clazz}"));
-            return new ActorType(actor, grain);
+            return new ActorType(actor, @interface, grain, conventions);
         }
 
         string FullPath(string name) => string.Join(".", new List<string>(namespaces) { name });
 
-        void GenerateAttributes(StringBuilder src)
+        void CopyAttributes(StringBuilder src)
         {
-            var worker = actor.GetCustomAttribute<WorkerAttribute>() != null;
-            var singleton = actor.GetCustomAttribute<WorkerAttribute>() == null;
+            var worker = actor.GetCustomAttribute<StatelessWorkerAttribute>();
+            var placement = GetCustomAttributesAssignableFrom<PlacementAttribute>(actor);
 
-            if (singleton && worker)
+            if (worker != null && placement.Any())
                 throw new InvalidOperationException(
-                    $"A type cannot be configured to be both Actor and Worker: {actor}");
+                    $"StatelessWorker cannot be configured to have custom placement: {actor}");
 
-            if (worker)
+            if (worker != null)
             {
-                src.AppendLine("[StatelessWorker]");
+                src.AppendLine($"[{nameof(StatelessWorkerAttribute)}({worker.MaxLocalWorkers})]");
                 return;
             }
 
-            src.AppendLine($"[{GetActorPlacement()}]");
+            if (placement.Length > 1)
+                throw new InvalidOperationException(
+                    $"Only single placement could be configured for an actor: {actor}");
+
+            if (placement.Any())
+                src.AppendLine($"[{GetActorPlacement(placement[0])}]");
 
             var storageProvider = actor.GetCustomAttribute<StorageProviderAttribute>();
+            if (storageProvider != null && placement.Any())
+                throw new InvalidOperationException(
+                    $"Storage provider cannot be configured for {nameof(StorageProviderAttribute).Replace("Attribute", "")} actor: {actor}");
+
             if (storageProvider != null)
-                src.AppendLine($"[StorageProvider(ProviderName=\"{storageProvider.ProviderName}\")]");
+                src.AppendLine($"[{nameof(StorageProviderAttribute)}(ProviderName=\"{storageProvider.ProviderName}\")]");
+
+            var registration = GetCustomAttributesAssignableFrom<RegistrationAttribute>(actor);
+            if (registration.Length > 1)
+                throw new InvalidOperationException(
+                    $"Multiple multi-cluster registrations are specified for actor: {actor}");
+
+            if (registration.Length > 0)
+                src.AppendLine($"[{GetMultiClusterRegistration(registration[0])}]");
         }
 
-        string GetActorPlacement()
-        {
-            var placement = (actor.GetCustomAttribute<ActorAttribute>() ?? new ActorAttribute()).Placement;
+        static T[] GetCustomAttributesAssignableFrom<T>(MemberInfo member) => 
+            member.GetCustomAttributes().Where(x => x is T).Cast<T>().ToArray();
 
+        static string GetMultiClusterRegistration(RegistrationAttribute registration)
+        {
+            switch (registration)
+            {
+                case GlobalSingleInstanceAttribute gs: return typeof(GlobalSingleInstanceAttribute).Name;
+                case OneInstancePerClusterAttribute one: return typeof(OneInstancePerClusterAttribute).Name;
+                default:
+                    throw new InvalidOperationException($"Unsupported {nameof(RegistrationAttribute)}: {registration.GetType()}");
+            }
+        }
+
+        static string GetActorPlacement(PlacementAttribute placement)
+        {
             switch (placement)
             {
-                case Placement.Random:
-                    return typeof(RandomPlacementAttribute).Name;
-                case Placement.PreferLocal:
-                    return typeof(PreferLocalPlacementAttribute).Name;
-                case Placement.DistributeEvenly:
-                    return typeof(ActivationCountBasedPlacementAttribute).Name;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case RandomPlacementAttribute rand: return typeof(RandomPlacementAttribute).Name;
+                case PreferLocalPlacementAttribute local: return typeof(PreferLocalPlacementAttribute).Name;
+                case ActivationCountBasedPlacementAttribute count: return typeof(ActivationCountBasedPlacementAttribute).Name;
+                case HashBasedPlacementAttribute hash: return typeof(HashBasedPlacementAttribute).Name;
+                default: return GenerateCustomPlacement(placement);
             }
+        }
+
+        static string GenerateCustomPlacement(PlacementAttribute placement)
+        {
+            var properties = placement.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => x.CanRead);
+
+            var setters = properties.Select(x => new {Property = x, Setter = GenerateAttributePropertySetter(x, placement)})
+                .Where(x => x.Setter != null)
+                .Select(x => $"{char.ToLowerInvariant(x.Property.Name[0]) + x.Property.Name.Substring(1)}:{x.Setter}")
+                .ToList();
+
+            return "global::" + placement.GetType().FullName + $"({string.Join(",", setters)})";
+        }
+
+        static string GenerateAttributePropertySetter(PropertyInfo p, object obj)
+        {
+            if (p.PropertyType == typeof(Type))
+                return $"typeof(global::{p.GetValue(obj)})";
+
+            if (p.PropertyType.IsEnum)
+                return $"global::{p.PropertyType.FullName}.{p.GetValue(obj)}";
+
+            if (p.PropertyType == typeof(string))
+                return $"\"{p.GetValue(obj)}\"";
+
+            if (p.PropertyType == typeof(bool))
+                return $"{p.GetValue(obj).ToString().ToLower()}";
+
+            if (p.PropertyType == typeof(short) || 
+                p.PropertyType == typeof(int) || 
+                p.PropertyType == typeof(long))
+                return $"{p.GetValue(obj)}";
+
+            if (p.PropertyType == typeof(double))
+                return $"{p.GetValue(obj)}d";
+
+            if (p.PropertyType == typeof(float))
+                return $"{p.GetValue(obj)}f";
+
+            return null;
         }
 
         bool IsStateful() => typeof(IStatefulActor).IsAssignableFrom(actor);

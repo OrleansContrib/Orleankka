@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Client
 {
@@ -13,21 +14,21 @@ namespace Orleankka.Client
 
     public sealed class ClientConfigurator
     {
-        readonly HashSet<Assembly> assemblies = 
-             new HashSet<Assembly>();
-
-        readonly HashSet<ActorInterfaceMapping> interfaces =
-             new HashSet<ActorInterfaceMapping>();
+        readonly ActorInterfaceRegistry registry =
+             new ActorInterfaceRegistry();
 
         readonly HashSet<StreamProviderConfiguration> streamProviders =
              new HashSet<StreamProviderConfiguration>();
+
+        Action<IServiceCollection> di;
+        IActorRefInvoker invoker;
 
         internal ClientConfigurator()
         {
             Configuration = new ClientConfiguration();
         }
 
-        ClientConfiguration Configuration { get; set; }
+        public ClientConfiguration Configuration { get; set; }
 
         public ClientConfigurator From(ClientConfiguration config)
         {
@@ -47,38 +48,37 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator Assemblies(params Assembly[] assemblies)
+        public ClientConfigurator Services(Action<IServiceCollection> configure)
         {
-            Requires.NotNull(assemblies, nameof(assemblies));
+            Requires.NotNull(configure, nameof(configure));
 
-            if (assemblies.Length == 0)
-                throw new ArgumentException("Assemblies length should be greater than 0", nameof(assemblies));
+            if (di != null)
+                throw new InvalidOperationException("Services configurator has been already set");
 
-            foreach (var assembly in assemblies)
-            {
-                if (this.assemblies.Contains(assembly))
-                    throw new ArgumentException($"Assembly {assembly.FullName} has been already registered");
-
-                this.assemblies.Add(assembly);
-            }
-
-            foreach (var @interface in assemblies.SelectMany(x => x.ActorInterfaces()))
-            {
-                var mapping = ActorInterfaceMapping.Of(@interface);
-                if (!interfaces.Add(mapping))
-                    throw new ArgumentException($"Actor type '{mapping.Name}' has been already registered");
-            }
-            
+            di = configure;
             return this;
         }
 
-        internal void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
+        /// <summary>
+        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// </summary>
+        /// <param name="invoker">The invoker.</param>
+        public ClientConfigurator ActorRefInvoker(IActorRefInvoker invoker)
         {
-            foreach (var assembly in assemblies)
-                this.assemblies.Add(assembly);
+            Requires.NotNull(invoker, nameof(invoker));
 
-            foreach (var mapping in mappings)
-                interfaces.Add(mapping);
+            if (this.invoker != null)
+                throw new InvalidOperationException("ActorRef invoker has been already registered");
+
+            this.invoker = invoker;
+            return this;
+        }
+
+        public ClientConfigurator Assemblies(params Assembly[] assemblies)
+        {
+            registry.Register(assemblies, a => a.ActorInterfaces());
+
+            return this;
         }
 
         internal ClientConfigurator ActorTypes(params string[] types)
@@ -90,7 +90,8 @@ namespace Orleankka.Client
 
             foreach (var type in types)
             {
-                if (!interfaces.Add(ActorInterfaceMapping.Of(type)))
+                var mapping = ActorInterfaceMapping.Of(type);
+                if (registry.IsRegistered(mapping.TypeName))
                     throw new ArgumentException($"Actor type '{type}' has been already registered");
             }
 
@@ -102,7 +103,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration);
+            return new ClientActorSystem(Configuration, di, invoker);
         }
 
         void RegisterStreamProviders()
@@ -111,10 +112,7 @@ namespace Orleankka.Client
                 each.Register(Configuration);
         }
 
-        void RegisterActorInterfaces()
-        {
-            ActorInterface.Register(assemblies, interfaces);            
-        }
+        void RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
     }
 
     public static class ClientConfiguratorExtensions

@@ -12,14 +12,14 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        class Produce : Command
+        public class Produce : Command
         {
             public StreamRef Stream;
             public Item Item;
         }
 
         [Serializable]
-        class Item
+        public class Item
         {
             public readonly string Text;
 
@@ -32,13 +32,13 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        class Subscribe : Command
+        public class Subscribe : Command
         {
             public StreamRef Stream;
         }
 
         [Serializable]
-        class Unsubscribe : Command
+        public class Unsubscribe : Command
         {
             public StreamRef Stream;
         }
@@ -164,8 +164,8 @@ namespace Orleankka.Features
             class TestProducerActor : TestProducerActorBase { }
             class TestConsumerActor : TestConsumerActorBase { }
 
-            [TestFixture]
-            [Category("Slow"), Explicit]
+            [TestFixture, RequiresSilo]
+            [Category("Slow")]
             class Tests
             {
                 static TestCases<TestProducerActor, TestConsumerActor> Verify() =>

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Core;
 using Orleans.Runtime;
+using Orleans.Internals;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Core
 {
-    using Cluster;
+	using Cluster;
 
     /// <summary> 
     /// FOR INTERNAL USE ONLY!

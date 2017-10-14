@@ -1,10 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Orleankka
 {
     using Core;
     using Utility;
+
+    public interface IClientObservable : IObservable<object>, IDisposable
+    {
+        ClientRef Ref { get; }
+    }
 
     /// <summary>
     /// Allows clients to receive push-based notifications from actors, ie observing them.
@@ -13,50 +17,28 @@ namespace Orleankka
     /// </para>
     /// </summary>
     /// <remarks> Instances of this type are not thread safe </remarks>
-    public class ClientObservable : IObservable<object>, IDisposable
+    sealed class ClientObservable : IClientObservable
     {
-        /// <summary>
-        /// Creates new <see cref="ClientObservable"/>
-        /// </summary>
-        /// <returns>New instance of <see cref="ClientObservable"/></returns>
-        public static async Task<ClientObservable> Create()
-        {
-            var proxy = await ClientEndpoint.Create();
-            return new ClientObservable(proxy);
-        }
-
         readonly ClientEndpoint endpoint;
 
-        protected ClientObservable(ObserverRef @ref)
+        ClientObservable(ClientRef @ref)
         {
             Ref = @ref;
         }
 
-        ClientObservable(ClientEndpoint endpoint) 
+        internal ClientObservable(ClientEndpoint endpoint) 
             : this(endpoint.Self)
         {
             this.endpoint = endpoint;
         }
 
-        public ObserverRef Ref
-        {
-            get; private set;
-        }
+        public ClientRef Ref {get; }
 
-        public virtual void Dispose()
-        {
+        public IDisposable Subscribe(IObserver<object> observer) => 
+            endpoint.Subscribe(observer);
+
+        public void Dispose() => 
             endpoint.Dispose();
-        }
-
-        public virtual IDisposable Subscribe(IObserver<object> observer)
-        {
-            return endpoint.Subscribe(observer);
-        }
-
-        public static implicit operator ObserverRef(ClientObservable arg)
-        {
-            return arg.Ref;
-        }
     }
 
     public static class ClientObservableExtensions
@@ -70,14 +52,14 @@ namespace Orleankka
         /// </returns>
         /// <param name="observable">The instance of client observable proxy</param>
         /// <param name="callback">The callback delegate that is to receive notifications</param>
-        public static IDisposable Subscribe(this ClientObservable observable, Action<object> callback)
+        public static IDisposable Subscribe(this IClientObservable observable, Action<object> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 
             return observable.Subscribe(new DelegateObserver(callback));
         }
 
-        public static IDisposable Subscribe<T>(this ClientObservable observable, Action<T> callback)
+        public static IDisposable Subscribe<T>(this IClientObservable observable, Action<T> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 

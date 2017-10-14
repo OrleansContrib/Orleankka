@@ -18,17 +18,18 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Bootstrapper<ES.Bootstrap>()
+                .Cluster(x => x.Bootstrapper<ES.Bootstrap>())
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
             Run(system).Wait();
 
             Console.WriteLine("\nTry running this sample again or change item id to start fresh");
             Console.WriteLine("Press any key to terminate ...");
             Console.ReadKey(true);
 
+            system.Dispose();
             Environment.Exit(0);
         }
 

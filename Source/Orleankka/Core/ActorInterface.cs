@@ -1,91 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 using Orleans;
+using Orleans.Internals;
 
 namespace Orleankka.Core
 {
     using Utility;
 
-    class ActorInterface : IEquatable<ActorInterface>
+    public class ActorInterface
     {
-        static readonly Dictionary<string, ActorInterface> interfaces =
+        static readonly Dictionary<string, ActorInterface> names =
                     new Dictionary<string, ActorInterface>();
 
-        internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
+        public static ActorInterface Of<T>() => Of(typeof(T));
+        public static ActorInterface Of(Type type) => Of(ActorTypeName.Of(type));
+
+        public static ActorInterface Of(string name)
         {
-            var generated = ActorInterfaceDeclaration.Generate(assemblies, mappings);
+            Requires.NotNull(name, nameof(name));
 
-            foreach (var @interface in generated)
-                Register(@interface);
-        }
-
-        static void Register(ActorInterface @interface)
-        {
-            var registered = interfaces.Find(@interface.name);
-            if (registered != null)
-                throw new ArgumentException(
-                    $"An actor with type '{@interface.name}' has been already registered");
-
-            interfaces.Add(@interface.name, @interface);
-        }
-
-        readonly string name;
-        readonly Type grain;
-        Func<string, object> factory;
-
-        internal ActorInterface(ActorInterfaceMapping mapping, Type grain)
-        {
-            name = mapping.Name;
-            Array.ForEach(mapping.Types, ActorTypeName.Register);
-            this.grain = grain;
-        }
-
-        public Assembly GrainAssembly() => grain.Assembly;
-
-        internal static void Bind(IGrainFactory factory)
-        {
-            foreach (var @interface in interfaces.Values)
-            {
-                var method = factory.GetType().GetMethod("GetGrain", new[] { typeof(string), typeof(string) });
-                var invoker = method.MakeGenericMethod(@interface.grain);
-                @interface.factory = x => invoker.Invoke(factory, new object[] { x, null });
-            }
-        }
-
-        internal static IEnumerable<ActorInterface> Registered() => interfaces.Values.ToArray();
-
-        internal static ActorInterface Registered(string name)
-        {
-            var result = interfaces.Find(name);
+            var result = names.Find(name);
             if (result == null)
                 throw new InvalidOperationException(
-                    $"Unable to map type '{name}' to the corresponding actor. " +
-                     "Make sure that you've registered an actor type or the assembly containing this type");
+                    $"Unable to map actor type name '{name}' to the corresponding actor. " +
+                        "Make sure that you've registered an actor type or the assembly containing this type");
 
             return result;
         }
 
-        internal IActorEndpoint Proxy(ActorPath path) => (IActorEndpoint) factory(path.Id);
-
-        public bool Equals(ActorInterface other)
+        internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
-            return !ReferenceEquals(null, other) && (ReferenceEquals(this, other) 
-                    || string.Equals(name, other.name));
+            var unregistered = new List<ActorInterfaceMapping>();
+
+            foreach (var each in mappings)
+            {
+                var existing = names.Find(each.TypeName);
+                if (existing == null)
+                {
+                    unregistered.Add(each);
+                    continue;
+                }
+
+                if (existing.Mapping != each)
+                    throw new DuplicateActorTypeException(existing.Mapping, each);
+            }
+
+            using (Trace.Execution("Generation of actor interface assemblies"))
+            {
+                var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
+
+                foreach (var each in generated)
+                    names.Add(each.Name, each);
+            }
         }
 
-        public override bool Equals(object obj)
+        public static IEnumerable<ActorInterface> Registered() => names.Values;
+
+        internal readonly ActorInterfaceMapping Mapping;
+        internal readonly Type Grain;
+
+        public readonly int TypeCode;
+        public readonly ushort Version;
+        public readonly string Name;
+
+        Func<IGrainFactory, string, object> factory;
+
+        internal ActorInterface(ActorInterfaceMapping mapping, Type grain)
         {
-            return !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) 
-                    || obj.GetType() == GetType() && Equals((ActorInterface) obj));
+            Mapping = mapping;
+            Grain = grain;
+
+            TypeCode = grain.TypeCode();
+            Version = grain.InterfaceVersion();
+            Name = Mapping.TypeName;
+
+            Array.ForEach(mapping.Types, ActorTypeName.Register);
         }
 
-        public static bool operator ==(ActorInterface left, ActorInterface right) => Equals(left, right);
-        public static bool operator !=(ActorInterface left, ActorInterface right) => !Equals(left, right);
+        internal Assembly GrainAssembly() => Grain.Assembly;
 
-        public override int GetHashCode() => name.GetHashCode();
-        public override string ToString() => name;
+        internal static void Bind(IGrainFactory factory)
+        {            
+            foreach (var @interface in names.Values)
+            {
+                var method = factory.GetType().GetMethod("GetGrain", new[] {typeof(string), typeof(string)});
+                var invoker = method.MakeGenericMethod(@interface.Grain);
+
+                var @this = Expression.Parameter(typeof(object));
+                var id = Expression.Parameter(typeof(string));
+                var ns = Expression.Constant(null, typeof(string));
+
+                var call = Expression.Call(Expression.Convert(@this, factory.GetType()), invoker, id, ns);
+                var func = Expression.Lambda<Func<object, string, object>>(call, @this, id).Compile();
+
+                @interface.factory = func;
+            }
+        }
+
+        internal IActorEndpoint Proxy(string id, IGrainFactory instance) => (IActorEndpoint) factory(instance, id);
     }
 }

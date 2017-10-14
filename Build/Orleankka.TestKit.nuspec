@@ -16,11 +16,11 @@
     </dependencies>  
   </metadata>
   <files>
-    <file src="Output\Package\Release\Orleankka.TestKit.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.xml" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.Meta.dll" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.Meta.pdb" target="lib/net45" />
-    <file src="Output\Package\Release\Orleankka.TestKit.Meta.xml" target="lib/net45" />
+    <file src="Output\Package\Release\Orleankka.TestKit.dll" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.TestKit.pdb" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.TestKit.xml" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.dll" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.pdb" target="lib/net461" />
+    <file src="Output\Package\Release\Orleankka.TestKit.Meta.xml" target="lib/net461" />
   </files>
 </package>

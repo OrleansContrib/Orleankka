@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E98080C8-5319-4686-BB1C-85413DEDB917}"
 	ProjectSection(SolutionItems) = preProject
@@ -124,6 +124,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoBuf", "Source\Example.Serialization.ProtoBuf\ProtoBuf.csproj", "{E43D9F8D-8EC8-44D3-A334-29B3677B022E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperion", "Source\Example.Serialization.Hyperion\Hyperion.csproj", "{E43D9F8D-8EC8-44D3-A334-29B3655B022E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native", "Source\Example.DependencyInjection.Native\Native.csproj", "{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -378,6 +380,12 @@ Global
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Package|Any CPU.Build.0 = Package|Any CPU
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Package|Any CPU.Build.0 = Release|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -431,5 +439,6 @@ Global
 		{2A3C4C8F-9836-4CE6-8089-08080463BAD1} = {C9B497F6-87DA-40EF-933C-A572A7603991}
 		{E43D9F8D-8EC8-44D3-A334-29B3677B022E} = {2A3C4C8F-9836-4CE6-8089-08080463BAD1}
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E} = {2A3C4C8F-9836-4CE6-8089-08080463BAD1}
+		{6B9C3DE4-2F1E-4ABB-AE36-16D4811B172D} = {85E741A4-D6F4-44C2-955B-F2FE10C0ECA5}
 	EndGlobalSection
 EndGlobal

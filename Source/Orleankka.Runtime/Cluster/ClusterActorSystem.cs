@@ -1,59 +1,81 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 
+using Orleans.Internals;
 using Orleans.Runtime;
 using Orleans.Runtime.Host;
 using Orleans.Runtime.Configuration;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Orleans;
+using Orleans.CodeGeneration;
+
 namespace Orleankka.Cluster
 {
-    public class ClusterActorSystem : ActorSystem
+    using Core;
+    using Utility;
+
+     public class ClusterActorSystem : ActorSystem, IDisposable
     {
+        readonly Action<IServiceCollection> di;
+        internal readonly ActorInvocationPipeline Pipeline;
+
+        [ThreadStatic]
         static ClusterActorSystem current;
 
-        internal static ClusterActorSystem Current 
+        internal ClusterActorSystem(ClusterConfiguration configuration, Action<IServiceCollection> di, ActorInvocationPipeline pipeline, IActorRefInvoker invoker)
+            : base(invoker)
         {
-            get
-            {
-                if (!Initialized)
-                    throw new InvalidOperationException("Cluster actor system hasn't been initialized");
+            this.di = di;
+            Pipeline = pipeline;
 
-                return current;
+            current = this;
+            configuration.UseStartupType<Startup>();
+
+            using (Trace.Execution("Orleans silo initialization"))
+            {
+                Host = new SiloHost(Dns.GetHostName(), configuration);
+                Host.LoadOrleansConfig();
+                Host.InitializeOrleansSilo();
+            }
+
+            Silo = Host.GetSilo();
+            Initialize(Silo.GetServiceProvider());
+        }
+
+        class Startup
+        {
+            public IServiceProvider ConfigureServices(IServiceCollection services)
+            {
+                current.di?.Invoke(services);
+
+                services.AddSingleton<IActorSystem>(current);
+                services.AddSingleton(current);
+                services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
+                services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+
+                return services.BuildServiceProvider();
             }
         }
 
-        internal static bool Initialized => current != null;
+        public bool Started => Host.IsStarted;
 
-        internal ClusterActorSystem(ClusterConfiguration configuration)
-        {
-            current = this;
-            Host = new SiloHost(Dns.GetHostName(), configuration);
-        }
-
-        public bool Started { get; private set; }
-        public SiloHost Host { get; private set; }
-        public Silo Silo { get; private set; }
+        public SiloHost Host { get; }
+        public Silo Silo { get; }
 
         public void Start(bool wait = false)
         {
             if (Started)
                 throw new InvalidOperationException("Cluster already started");
 
-            Host.LoadOrleansConfig();
-            Host.InitializeOrleansSilo();
-
-            var siloField = typeof(SiloHost).GetField("orleans", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (siloField == null)
-                throw new InvalidOperationException("Hey, who moved my cheese? SiloHost don't have private 'orleans' field anymore!");
-
-            Silo = (Silo)siloField.GetValue(Host);
-
-            if (!Host.StartOrleansSilo(catchExceptions: false))
-                throw new Exception("Silo failed to start. Check the logs");
-
-            Started = true;
-
+            using (Trace.Execution("Orleans silo startup"))
+                if (!Host.StartOrleansSilo(catchExceptions: false))
+                    throw new Exception("Silo failed to start. Check the logs");
+            
             if (wait)
                 Host.WaitForOrleansSiloShutdown();
         }
@@ -64,13 +86,18 @@ namespace Orleankka.Cluster
                 throw new InvalidOperationException("Cluster already stopped");
 
             if (force)
+            {
                 Host.StopOrleansSilo();
-            else
-                Host.ShutdownOrleansSilo();
+                return;
+            }
 
-            Host.UnInitializeOrleansSilo();
+            Host.ShutdownOrleansSilo();
+        }
 
-            Started = false;
+        public void Dispose()
+        {
+            Host?.UnInitializeOrleansSilo();
+            Host?.Dispose();
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Orleans;
-using Orleans.Streams;
+using Orleans.Concurrency;
 
 namespace Orleankka
 {
     using Utility;
 
-    [Serializable]
+    [Serializable, Immutable]
     [DebuggerDisplay("{ToString()}")]
     public struct StreamPath : IEquatable<StreamPath>
     {
@@ -38,16 +37,6 @@ namespace Orleankka
             return new StreamPath(provider, id);
         }
 
-        public static StreamPath Deserialize(string path)
-        {
-            var parts = path.Split(Separator, 2, StringSplitOptions.None);
-
-            var provider = parts[0];
-            var id = parts[1];
-
-            return new StreamPath(provider, id);
-        }
-
         public readonly string Provider;
         public readonly string Id;
 
@@ -57,26 +46,8 @@ namespace Orleankka
             Id = id;
         }
 
-        internal IAsyncStream<object> Proxy()
-        {
-            var provider = GrainClient.GetStreamProvider(Provider);
-            return provider.GetStream<object>(Guid.Empty, Id);
-        }
-
-        public string Serialize()
-        {
-            return $"{Provider}{Separator[0]}{Id}";
-        }
-
-        public bool Equals(StreamPath other)
-        {
-            return Provider == other.Provider && string.Equals(Id, other.Id);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return !ReferenceEquals(null, obj) && (obj is StreamPath && Equals((StreamPath)obj));
-        }
+        public bool Equals(StreamPath other) => Provider == other.Provider && string.Equals(Id, other.Id);
+        public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (obj is StreamPath && Equals((StreamPath)obj));
 
         public override int GetHashCode()
         {
@@ -86,9 +57,11 @@ namespace Orleankka
             }
         }
 
+        public static implicit operator string(StreamPath arg) => arg.ToString();
+
         public static bool operator ==(StreamPath left, StreamPath right) => left.Equals(right);
         public static bool operator !=(StreamPath left, StreamPath right) => !left.Equals(right);
 
-        public override string ToString() => Serialize();
+        public override string ToString() => $"{Provider}:{Id}";
     }
 }

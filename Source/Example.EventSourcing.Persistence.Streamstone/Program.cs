@@ -29,15 +29,15 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Bootstrapper<SS.Bootstrap>(new SS.Properties
+                .Cluster(x => x.Bootstrapper<SS.Bootstrap>(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
-                })
+                }))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
 
             try
             {
@@ -52,6 +52,7 @@ namespace Example
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
+            system.Dispose();
             Environment.Exit(0);
         }
 

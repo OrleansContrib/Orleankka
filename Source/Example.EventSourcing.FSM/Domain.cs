@@ -6,7 +6,7 @@ using Orleankka.Behaviors;
 
 namespace Example
 {
-    [Reentrant(typeof(GetDetails))]
+    [Interleave(typeof(GetDetails))]
     public class InventoryItem : EventSourcedFsmActor
     {
         string name;

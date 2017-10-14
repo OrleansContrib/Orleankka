@@ -12,11 +12,11 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        class Received : Query<List<string>>
+        public class Received : Query<List<string>>
         {}
 
         [Serializable]
-        class Deactivate : Command
+        public class Deactivate : Command
         {}
 
         abstract class TestConsumerActorBase : Actor
@@ -30,7 +30,7 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        class Push : Command
+        public class Push : Command
         {
             public readonly StreamRef Stream;
             public readonly object Item;
@@ -295,8 +295,8 @@ namespace Orleankka.Features
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }
 
-            [TestFixture]
-            [Category("Slow"), Explicit]
+            [TestFixture, RequiresSilo]
+            [Category("Slow")]
             public class Tests
             {
                static TestCases Verify() =>

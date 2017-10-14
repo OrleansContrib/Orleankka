@@ -25,7 +25,7 @@ type RequiresSiloAttribute() =
                                  .Done()
       
          TestActorSystem.instance <- system
-         TestActorSystem.instance.Start()
+         TestActorSystem.instance.Start().Wait()
 
 type TeardownSiloAttribute() =
    inherit TestActionAttribute()
@@ -33,7 +33,8 @@ type TeardownSiloAttribute() =
    override this.AfterTest(details:TestDetails) =
       if details.IsSuite then
         if (TestActorSystem.instance <> null) then
-            TestActorSystem.instance.Stop(true)
+            TestActorSystem.instance.Stop(true).Wait()
+            TestActorSystem.instance.Dispose()
             TestActorSystem.instance <- null
 
 [<assembly: TeardownSilo()>]

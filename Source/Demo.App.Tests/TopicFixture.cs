@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.TestKit;
-
-using Orleans.Serialization;
 
 namespace Demo
 {
@@ -27,12 +24,6 @@ namespace Demo
         ActorRefMock facebook;
         ActorRefMock twitter;
 
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-            SerializationManager.InitializeForTesting();
-        }
-        
         [SetUp]
         public override void SetUp()
         {
@@ -47,7 +38,7 @@ namespace Demo
                 {twitter,  TimeSpan.FromMinutes(5)},
             };
             
-            topic = new Topic("42", Runtime, new TopicStorageMock());
+            topic = new Topic(new TopicStorageMock(), "42", Runtime);
         }
 
         [Test]
@@ -253,7 +244,7 @@ namespace Demo
 
             public Task WriteTotalAsync(string id, int total)
             {
-                return TaskDone.Done;
+                return Task.CompletedTask;
             }
         }
     }

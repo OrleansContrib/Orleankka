@@ -9,9 +9,9 @@ namespace Demo
     public class Client
     {
         readonly IActorSystem system;
-        readonly ClientObservable observable;
+        readonly IClientObservable observable;
 
-        public Client(IActorSystem system, ClientObservable observable)
+        public Client(IActorSystem system, IClientObservable observable)
         {
             this.system = system;
             this.observable = observable;
@@ -22,8 +22,8 @@ namespace Demo
             var facebook = system.ActorOf<Api>("facebook");
             var twitter  = system.ActorOf<Api>("twitter");
 
-            await facebook.Tell(new Subscribe(observable));
-            await twitter.Tell(new Subscribe(observable));
+            await facebook.Tell(new Subscribe(observable.Ref));
+            await twitter.Tell(new Subscribe(observable.Ref));
 
             observable.Subscribe(LogToConsole);
 

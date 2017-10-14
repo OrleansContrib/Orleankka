@@ -18,7 +18,7 @@ namespace Example
     public class Read : Query<int>
     {}
 
-    [Reentrant(typeof(Read))]
+    [Interleave(typeof(Read))]
     public class ReaderWriterLock : Actor
     {
         int value;
