@@ -114,7 +114,9 @@ void Pack(string project, string properties = null)
             Push(TestKitProject); 
             break;        
         case "fsharp": 
-            Push(FSharpProject); 
+            Push(FSharpProject);
+            break;
+        case "fsharp.runtime":  
             Push(FSharpRuntimeProject);
             break;
         case "all":
