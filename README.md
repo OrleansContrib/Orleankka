@@ -14,7 +14,7 @@ Orleankka is a functional API for Microsoft Orleans framework. It is highly suit
 + Declarative regex-based stream subscriptions (great for CQRS/ES projections)
 + Content-based filtering support for stream subscriptions (both imperative and declarative)
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
-+ Poweful actor/ref invocation interceptors
++ Poweful actor/proxy invocation interceptors
 
 ### How to install
 
