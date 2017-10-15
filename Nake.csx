@@ -30,7 +30,7 @@ var PackagePath = @"{OutputPath}\Package";
 var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
-var GES = "EventStore-OSS-Win-v3.0.3";
+var GES = "EventStore-OSS-Win-v3.9.4";
 var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
 var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
 var MsBuildExe = GetVisualStudio17MSBuild();
@@ -160,7 +160,7 @@ string Version(string project)
         Info("EventStore binaries were not found. Downloading ...");
 
         new WebClient().DownloadFile(
-            "http://download.geteventstore.com/binaries/{GES}.zip", 
+            "https://eventstore.org/downloads/{GES}.zip", 
             @"{packagesDir}\{GES}.zip"
         );
 
