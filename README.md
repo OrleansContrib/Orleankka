@@ -27,7 +27,8 @@ For server-side library:
 	PM> Install-Package Orleankka.Runtime
 
 Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started--%28C%23%29)
-, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-%28F%23%29).
+, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-F%23-(ver-1.0)
+).
 
 ### Build sources
 
