@@ -26,7 +26,9 @@ For server-side library:
 
 	PM> Install-Package Orleankka.Runtime
 
-Check out "Getting started" [guide](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28C%23%29) ([F#](https://github.com/yevhen/Orleankka/wiki/Getting-Started-%28F%23%29)).
+Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started--%28C%23%29)
+, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-F%23-(ver-1.0)
+).
 
 ### Build sources
 
@@ -65,11 +67,11 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 ##### F&#35;
 
 + Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
-+ Chat  [[demo]](Source/FSharp.Demo.Chat.Server)
++ Chat  [[client]](Source/FSharp.Example.Observers.Chat.Client) [[server]](Source/FSharp.Example.Observers.Chat.Server) [[shared]](Source/FSharp.Example.Observers.Chat.Shared)
 + eCommerce [[demo]](Source/FSharp.Demo.Shop)
-+ Worker actors [[see]](Source/FSharp.Demo.Worker)
-+ Reentrant messages [[see]](Source/FSharp.Demo.Reentrant)
-+ Streams [[chat]](Source/FSharp.Example.Streams.Chat.Actors)
++ Reentrant messages [[demo]](Source/FSharp.Example.Reentrant)
++ Streams [[client]](Source/FSharp.Example.Streams.Chat.Client) [[server]](Source/FSharp.Example.Streams.Chat.Server) [[shared]](Source/FSharp.Example.Streams.Chat.Shared)
++ Suave web server [[see]](Source/FSharp.Example.Suave)
 
 ##### Dependency Injection
 
@@ -78,7 +80,7 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 ### Documentation
 
-Complete documentation could be found on [wiki](https://github.com/yevhen/Orleankka/wiki).
+Complete documentation could be found on [wiki](https://github.com/OrleansContrib/Orleankka/wiki).
 
 ## Known issues
 
