@@ -13,7 +13,7 @@ namespace Orleans.Internals
         readonly Func<object, Task> handler;
 
         public PushExtension(IRuntimeClient client, StreamPubSubMatch match) 
-            : base(FromGrainId(GrainId.NewId(), client))
+            : base(FromGrainId(GrainId.NewId(), client.GrainReferenceRuntime))
         {
             handler = match.Handler;
         }
