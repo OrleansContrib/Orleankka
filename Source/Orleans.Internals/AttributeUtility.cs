@@ -7,6 +7,6 @@ namespace Orleans.Internals
 
     internal static class AttributeUtility
     {
-        public static string CallbackMethodName(this MayInterleaveAttribute att) => att.CallbackMethodName;
+        public static string CallbackMethodName(this MayInterleaveAttribute att) => att.CallbackMethodName();
     }
 }

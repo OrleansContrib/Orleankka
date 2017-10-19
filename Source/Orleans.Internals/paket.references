@@ -2,6 +2,7 @@ Microsoft.CodeAnalysis.Analyzers
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
 Microsoft.Orleans.Core
+Microsoft.Orleans.Core.Abstractions
 Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansRuntime
 Microsoft.Extensions.DependencyInjection
