@@ -27,8 +27,7 @@ For server-side library:
 	PM> Install-Package Orleankka.Runtime
 
 Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp)
-, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-FSharp)
-).
+, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-FSharp).
 
 ### Build sources
 
