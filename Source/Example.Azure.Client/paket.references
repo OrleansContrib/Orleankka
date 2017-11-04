@@ -20,7 +20,7 @@ Microsoft.Data.Services.Client
 Microsoft.jQuery.Unobtrusive.Validation
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansAzureUtils
-Microsoft.Orleans.OrleansCodeGenerator
+Microsoft.Orleans.OrleansCodeGenerator.Build
 Microsoft.Orleans.OrleansProviders
 Microsoft.Owin
 Microsoft.Owin.Host.SystemWeb

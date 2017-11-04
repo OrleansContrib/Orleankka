@@ -3,7 +3,6 @@ redirects: on
 strategy: max
 lowest_matching: false
 
-source https://dotnet.myget.org/F/orleans-prerelease/api/v3/index.json
 source https://api.nuget.org/v3/index.json
 
 nuget FSharp.Core
@@ -50,12 +49,12 @@ nuget Microsoft.CodeAnalysis.CSharp 2.2.0
 nuget System.Collections.Immutable 1.4
 nuget System.Reflection.Metadata 1.5
 
-nuget Microsoft.Orleans.Core 2.0.0-preview3-20170913
-nuget Microsoft.Orleans.Core.Abstractions 2.0.0-preview3-20170913
-nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-preview3-20170913
-nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-preview3-20170913
-nuget Microsoft.Orleans.OrleansProviders 2.0.0-preview3-20170913
-nuget Microsoft.Orleans.OrleansRuntime 2.0.0-preview3-20170913
+nuget Microsoft.Orleans.Core 2.0.0-beta1
+nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta1
+nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta1
+nuget Microsoft.Orleans.OrleansCodeGenerator.Build 2.0.0-beta1
+nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta1
+nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta1
 nuget Microsoft.Extensions.DependencyInjection 2.0
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.0
 
