@@ -38,7 +38,7 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
 {
-    Install();
+    Restore();
     Build();
 }
 
@@ -151,8 +151,10 @@ string Version(string project)
 }
 
 /// Installs binary dependencies 
-[Task] void Install()
+[Task] void Restore()
 {
+    Exec("dotnet", "restore {CoreProject}.sln");
+
     var packagesDir = @"{RootPath}\Packages";
 
     if (!Directory.Exists(@"{packagesDir}\{GES}"))
