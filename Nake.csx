@@ -42,21 +42,9 @@ var MsBuildExe = GetVisualStudio17MSBuild();
     Build();
 }
 
-/// Wipeout all build output and temporary build files
-[Step] void Clean(string path = OutputPath)
-{
-    Delete(@"{path}\*.*|-:*.vshost.exe");
-    RemoveDir(@"**\bin|**\obj|{path}\*|-:*.vshost.exe");
-}
-
-
 /// Builds sources using specified configuration and output path
-[Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false)
-{    
-    Clean(outDir);
-
+[Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false) => 
     Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
-}
 
 /// Runs unit tests 
 [Step] void Test(string outDir = OutputPath, bool slow = false)
@@ -153,7 +141,7 @@ string Version(string project)
 /// Installs binary dependencies 
 [Task] void Restore()
 {
-    Exec("dotnet", "restore {CoreProject}.sln");
+    Exec(Nuget, "restore {CoreProject}.sln");
 
     var packagesDir = @"{RootPath}\Packages";
 
