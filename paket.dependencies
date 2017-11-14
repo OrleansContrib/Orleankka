@@ -7,6 +7,7 @@ source https://api.nuget.org/v3/index.json
 
 nuget Nake
 nuget NuGet.CommandLine
+nuget msdn.4.5.2 0.1.0-alpha-1611021200 
 
 nuget NUnit 2.6.4
 nuget NUnit.Runners 2.6.4

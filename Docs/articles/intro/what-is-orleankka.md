@@ -1,0 +1,5 @@
+Orleankka is a functional API for Microsoft Orleans framework with distinct C# and F# language bindings. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, re-routing, FSM, etc.
+
+Orleankka doesn't hide (cover) Orelans but rather build on top of it. You will stil have access to everything Orleans provides, such as xml configuration, hosts and silos, stream providers, etc.
+
+Although, familiarity with raw Orleans and its concepts is highly recommended you should be able to learn how to use Orleankka effectively by reading its own documentation. Perhaps, "Terminology, Concepts" documentation section should give you a good overview of the basic concepts, such as Virtual Actors, and if you're coming from Orleans you might benefit from reading "Mapping to Orleans concepts" documentation section.

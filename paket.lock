@@ -128,6 +128,7 @@ NUGET
     Microsoft.Win32.Primitives (4.3)
     Microsoft.WindowsAzure.ConfigurationManager (2.0.3)
     Modernizr (2.6.2)
+    msdn.4.5.2 (0.1.0-alpha-1611021200)
     Nake (2.4)
     NETStandard.Library (1.6.1)
       Microsoft.NETCore.Platforms (>= 1.1)
