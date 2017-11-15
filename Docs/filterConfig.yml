@@ -1,4 +1,0 @@
-apiRules:
-- exclude:
-    hasAttribute:
-      uid: Orleankka.Annotations.InternalApiAttribute

@@ -1,1 +1,0 @@
-﻿[assembly: NUnit.Framework.Category("Always")]

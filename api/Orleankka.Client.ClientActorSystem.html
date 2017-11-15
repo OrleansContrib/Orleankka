@@ -1,0 +1,459 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ClientActorSystem
+   | Orleankka Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ClientActorSystem
+   | Orleankka Documentation ">
+    <meta name="generator" content="docfx 2.27.0.0">
+    
+    <link rel="shortcut icon" href="..//images/favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        <style>
+        img.orleankka-logo{
+            height: 51px;
+        }
+        </style>
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg orleankka-logo" src="../Images/Logo.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items"></div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Client.ClientActorSystem">
+  
+  
+  <h1 id="Orleankka_Client_ClientActorSystem" data-uid="Orleankka.Client.ClientActorSystem" class="text-break">Class ClientActorSystem
+  </h1>
+  <div class="markdown level0 summary"><p>Client-side actor system</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
+    <div class="level1"><a class="xref" href="Orleankka.ActorSystem.html">ActorSystem</a></div>
+    <div class="level2"><span class="xref">ClientActorSystem</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Orleankka.Client.IClientActorSystem.html">IClientActorSystem</a></div>
+    <div><a class="xref" href="Orleankka.IActorSystem.html">IActorSystem</a></div>
+    <div><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.idisposable(v=vs.110).aspx">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamProviderManager">ActorSystem.StreamProviderManager</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_GrainFactory">ActorSystem.GrainFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_Initialize_System_IServiceProvider_">ActorSystem.Initialize(IServiceProvider)</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_Configure">ActorSystem.Configure()</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_ActorOf_Orleankka_ActorPath_">ActorSystem.ActorOf(ActorPath)</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamOf_Orleankka_StreamPath_">ActorSystem.StreamOf(StreamPath)</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.ActorSystem.html#Orleankka_ActorSystem_ClientOf_System_String_">ActorSystem.ClientOf(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/w4hkze5k(v=vs.110).aspx">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/hz2a0b8x(v=vs.110).aspx">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/zdee4b3y(v=vs.110).aspx">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/dfwy45w9(v=vs.110).aspx">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/57ctke0a(v=vs.110).aspx">Object.MemberwiseClone()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Client.html">Orleankka.Client</a></h6>
+  <h6><strong>Assembly</strong>: Orleankka.dll</h6>
+  <h5 id="Orleankka_Client_ClientActorSystem_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IActorSystem, IDisposable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_Client.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.Client%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L53">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_Client_" data-uid="Orleankka.Client.ClientActorSystem.Client*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_Client" data-uid="Orleankka.Client.ClientActorSystem.Client">Client</h4>
+  <div class="markdown level1 summary"><p>Returns underlying <span class="xref">Orleans.IClusterClient</span> instance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IClusterClient Client { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Orleans.IClusterClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_Connected.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.Connected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L58">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_Connected_" data-uid="Orleankka.Client.ClientActorSystem.Connected*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_Connected" data-uid="Orleankka.Client.ClientActorSystem.Connected">Connected</h4>
+  <div class="markdown level1 summary"><p>Checks whether this client has been successfully connected (ie initialized)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Connected { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_Connect_System_Int32_System_Nullable_System_TimeSpan__.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.Connect(System.Int32%2CSystem.Nullable%7BSystem.TimeSpan%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L66">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_Connect_" data-uid="Orleankka.Client.ClientActorSystem.Connect*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_Connect_System_Int32_System_Nullable_System_TimeSpan__" data-uid="Orleankka.Client.ClientActorSystem.Connect(System.Int32,System.Nullable{System.TimeSpan})">Connect(Int32, Nullable&lt;TimeSpan&gt;)</h4>
+  <div class="markdown level1 summary"><p>Connects this instance of client actor system to cluster</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task Connect(int retries = 0, TimeSpan? retryTimeout = default (TimeSpan? ))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
+        <td><span class="parametername">retries</span></td>
+        <td><p>Number of retries in case on failure</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/b3h38hb0(v=vs.110).aspx">Nullable</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx">TimeSpan</a>&gt;</td>
+        <td><span class="parametername">retryTimeout</span></td>
+        <td><p>Timeout between retries. Default is 5 seconds</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.argumentoutofrangeexception(v=vs.110).aspx">ArgumentOutOfRangeException</a></td>
+        <td><p>if <code data-dev-comment-type="paramref" class="paramref">retries</code> argument value is less than 0</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_CreateObservable.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.CreateObservable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L44">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_CreateObservable_" data-uid="Orleankka.Client.ClientActorSystem.CreateObservable*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_CreateObservable" data-uid="Orleankka.Client.ClientActorSystem.CreateObservable">CreateObservable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IClientObservable&gt; CreateObservable()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="Orleankka.IClientObservable.html">IClientObservable</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_Disconnect_System_Boolean_.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.Disconnect(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L122">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_Disconnect_" data-uid="Orleankka.Client.ClientActorSystem.Disconnect*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_Disconnect_System_Boolean_" data-uid="Orleankka.Client.ClientActorSystem.Disconnect(System.Boolean)">Disconnect(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Disconnects this instance of client actor system from cluster</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task Disconnect(bool force = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><span class="parametername">force</span></td>
+        <td><p>Set to <code>true</code> to disconnect ungracefully</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem_Dispose.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L137">View Source</a>
+  </span>
+  <a id="Orleankka_Client_ClientActorSystem_Dispose_" data-uid="Orleankka.Client.ClientActorSystem.Dispose*"></a>
+  <h4 id="Orleankka_Client_ClientActorSystem_Dispose" data-uid="Orleankka.Client.ClientActorSystem.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Orleankka.Client.IClientActorSystem.html">IClientActorSystem</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.IActorSystem.html">IActorSystem</a>
+  </div>
+  <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/system.idisposable(v=vs.110).aspx">IDisposable</a>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <span class="xref">Orleankka.ActorSystemExtensions.ActorOf&lt;TActor&gt;(Orleankka.IActorSystem, System.String)</span>
+  </div>
+  <div>
+      <span class="xref">Orleankka.ActorSystemExtensions.WorkerOf``1(Orleankka.IActorSystem)</span>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.ActorOf(IActorSystem, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.ActorOf(IActorSystem, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.WorkerOf(IActorSystem, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.StreamOf(IActorSystem, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedActorOf__1_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.TypedActorOf&lt;TActor&gt;(IActorSystem, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedWorkerOf__1_Orleankka_IActorSystem_">ActorSystemExtensions.TypedWorkerOf&lt;TActor&gt;(IActorSystem)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Client_ClientActorSystem.md&amp;value=---%0Auid%3A%20Orleankka.Client.ClientActorSystem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Client/ClientActorSystem.cs/#L31" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2016-2017 Orleankka project<br>Generated by <strong>DocFX</strong>
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

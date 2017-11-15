@@ -1,0 +1,2104 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Work/OSS/Orleankka/Docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Actor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Actor.html",
+          "hash": "3T1Q0Bv00sJ1PLMgZ/ANQQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorInvoker.html",
+          "hash": "ZAfIKhitF8hS5QE9WM8aWg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorMessage-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorMessage-1.html",
+          "hash": "r3/Vbr6wgHnFaQWbnXJPDw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorMessage-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorMessage-2.html",
+          "hash": "bJ6+NSL7CNGWCpb3PGsD3w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorPath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorPath.html",
+          "hash": "ljDahfTHfPq1YVs+qsKeoQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorPathExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorPathExtensions.html",
+          "hash": "WB1q9h/HDIA/4LzpZJwoiQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorPlacementRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorPlacementRequest.html",
+          "hash": "W1UOeptJCmpsRLcd+tx0aw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorRef-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorRef-1.html",
+          "hash": "TJApK5fWXvO+HjuOdqvAEA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorRef.html",
+          "hash": "0F3cpe4zmeJyhSk3iVxK8w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorRefInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorRefInvoker.html",
+          "hash": "9+OB5BxKyUiZLjiU7Um9UQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorRuntime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorRuntime.html",
+          "hash": "QDe+w2be0Dv/lFzHocJF7Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorStorageProvider-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorStorageProvider-1.html",
+          "hash": "DzlkeNvG3bxLy2SaFuGYoA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorSystem.html",
+          "hash": "lUMJIMzPqHGp0nQ4GXZRKw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorSystemExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorSystemExtensions.html",
+          "hash": "xOallly1KL7sKJjbxXvYrQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ActorTypeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ActorTypeAttribute.html",
+          "hash": "GoPG3V9d0weXEiXOuZhSCg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.ImplicitUseKindFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.ImplicitUseKindFlags.html",
+          "hash": "r/28c3f5LVNeiGw0AKakXg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.ImplicitUseTargetFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.ImplicitUseTargetFlags.html",
+          "hash": "HDdB7PvO6CxHv3kHZvltcg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.MeansImplicitUseAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.MeansImplicitUseAttribute.html",
+          "hash": "vnvr/nP8v16nqPTJL8xhdA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.NotNullAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.NotNullAttribute.html",
+          "hash": "6vWgjqDmpKgBm7yZ0eaZ4w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.PublicAPIAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.PublicAPIAttribute.html",
+          "hash": "LL4wleK7j4dUw4EWnWEVdw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.UsedImplicitlyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.UsedImplicitlyAttribute.html",
+          "hash": "jOh6YaZriTUN+LaaJiqq0Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Annotations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Annotations.html",
+          "hash": "0nGZQH39+Gooa2OH0AsSwg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.AutorunAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.AutorunAttribute.html",
+          "hash": "GaUrJFx1e6kw95rME605ng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.BehaviorAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.BehaviorAttribute.html",
+          "hash": "z7SRJnov+eT8N/KsdHEWFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.ActorBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.ActorBehavior.html",
+          "hash": "Cw0Qi0k+KiiTtPsVZv+55A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.BehaviorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.BehaviorExtensions.html",
+          "hash": "jbkxk7NHBD2gyRSAqlvQ4A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.RequestOrigin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.RequestOrigin.html",
+          "hash": "4NOGA9IpFv4tLMnw5XZ8wA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.Transition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.Transition.html",
+          "hash": "wrBmodHgKFK9jBAPfGpGTg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.UnhandledMessageException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.UnhandledMessageException.html",
+          "hash": "sjn3d3quqdZVGxV1P5JRHw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.UnhandledReminderException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.UnhandledReminderException.html",
+          "hash": "DoHCuyUm0kZIZRFTvUjWdw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Behaviors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Behaviors.html",
+          "hash": "HByh51+3ARUPQLZh3g7YJw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.ClientActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.ClientActorSystem.html",
+          "hash": "5pm4ghxNDf9IPr2/tAoyzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.ClientConfigurator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.ClientConfigurator.html",
+          "hash": "1T0vUefuV5o2mjA+VbIsRA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.ClientConfiguratorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.ClientConfiguratorExtensions.html",
+          "hash": "lw23x+6pHzn8BpDA5YaCug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.IClientActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.IClientActorSystem.html",
+          "hash": "PM8lCe+UTUuBY57wny+yRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.html",
+          "hash": "9XP7vXdxLi/mwlcgwG+/XA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ClientObservableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ClientObservableExtensions.html",
+          "hash": "8FjPj+Fgg327D/xLI1Mw9w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ClientRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ClientRef.html",
+          "hash": "xWDjPXhmPsmsKPj8w6oxDg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.Bootstrapper-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.Bootstrapper-1.html",
+          "hash": "fv7LW8ugZHRkH2PXZ40ngA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.ClusterActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.ClusterActorSystem.html",
+          "hash": "YCKViBsrmRNJiDBAkCY5FA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.ClusterConfigurator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.ClusterConfigurator.html",
+          "hash": "FoOtJvmyoUf3h0UqmC18jg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.ClusterConfiguratorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.ClusterConfiguratorExtensions.html",
+          "hash": "VFZPqU7dWL/hLU6qUr2ymg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.IBootstrapper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.IBootstrapper.html",
+          "hash": "LbB6mGYeABszfS+IAMDfrw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Cluster.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Cluster.html",
+          "hash": "PMrLC1UUUY/2mMqFuffMyA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.ActorEndpoint-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.ActorEndpoint-1.html",
+          "hash": "1N9SnVPMvF49G7CTEh2v0w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.ActorEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.ActorEndpoint.html",
+          "hash": "pHlawfrl8oib7f8aTb3ODQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.ActorInterface.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.ActorInterface.html",
+          "hash": "e9ysef64yr7kBorTg1lHoA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.ActorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.ActorType.html",
+          "hash": "FRpKrCXBI2qPLaSmlludjQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.IActorEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.IActorEndpoint.html",
+          "hash": "UiPB0M1zfewRB+fN0KxTDQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.IActorHost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.IActorHost.html",
+          "hash": "5NeP66YV0x8yQhFyOO5BHA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.IClientEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.IClientEndpoint.html",
+          "hash": "5JY3uphbwSzpvjzIPM7Llw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.StatefulActorEndpoint-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.StatefulActorEndpoint-1.html",
+          "hash": "TTb6RiRXrLbDOjSdnvvceA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.StatefulActorEndpoint-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.StatefulActorEndpoint-2.html",
+          "hash": "krRwtwDBk15QiM1M2IWNIw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Core.html",
+          "hash": "sgUOS8oRvM7uTiIWACsA1Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Dispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Dispatcher.html",
+          "hash": "wkjn5QhHAkjrMoYCUr9ySw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.DuplicateActorTypeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.DuplicateActorTypeException.html",
+          "hash": "9UzMMV0mv/08M1w2r3E8vg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Embedded.EmbeddedActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Embedded.EmbeddedActorSystem.html",
+          "hash": "x69azxO0wICgkFAIg1TlPA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Embedded.EmbeddedConfigurator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Embedded.EmbeddedConfigurator.html",
+          "hash": "oCtRTzF3uUUgMwynecsU1A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Embedded.EmbeddedConfiguratorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Embedded.EmbeddedConfiguratorExtensions.html",
+          "hash": "qt45x/60WY/tEvdyUclgQg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Embedded.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Embedded.html",
+          "hash": "5V1GUk0QZm4q2jMb5Gniyg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Extensions.TimerServiceExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Extensions.TimerServiceExtensions.html",
+          "hash": "u6MhOnvCQTKWVCooc1rZnw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Extensions.html",
+          "hash": "RPGysHoYYaF6AKedLezEpw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActor.html",
+          "hash": "MX1/nNRs7MnPAn+Dn73SHg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorActivator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorActivator.html",
+          "hash": "dRhrIyMwpYkKimiZjHBo5g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorInvoker.html",
+          "hash": "2DQ22aVJP83CmstkA3gN/w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorRefInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorRefInvoker.html",
+          "hash": "hkZCX5R3O4+Dm5E+2z2Sug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorRuntime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorRuntime.html",
+          "hash": "f5zxBe6zYWpirhVG3VzQkQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorSystem.html",
+          "hash": "nwd0NAiM2FN35YLAbm8BCQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IActorSystemConfigurator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IActorSystemConfigurator.html",
+          "hash": "YeP0gdb56G53SsaWTnxLWA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IClientObservable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IClientObservable.html",
+          "hash": "XdZ7OUZkLPYS4obWK+8W6A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.IObserverCollection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.IObserverCollection.html",
+          "hash": "bapeb75hlE6U4ydiYDj1wg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.InterleaveAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.InterleaveAttribute.html",
+          "hash": "Pa9LyO6MIQACpz0eZwr14A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Internals.ActorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Internals.ActorExtensions.html",
+          "hash": "AmeAxmdGy9kCe0NQoEzaPQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Internals.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Internals.html",
+          "hash": "o6eaAbssaxHXALVJZk3iKw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.InvokerAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.InvokerAttribute.html",
+          "hash": "O5Ba7JPWgVETxzwSucZFmg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.KeepAliveAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.KeepAliveAttribute.html",
+          "hash": "AHzySTau4F9k/6HocwQ0Jg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Command-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Command-1.html",
+          "hash": "SY/zucG++Jxj1Rywq7ltRQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Command.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Command.html",
+          "hash": "MFxtKcvod7c5Rc/+syby3A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Event.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Event.html",
+          "hash": "pv6PTUio1Q/xYRujLrnfCA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Extensions.html",
+          "hash": "nbZ/bdr5TKu3evBNUJFmvg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Message.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Message.html",
+          "hash": "xpMvXXyvaFyKDP4cBF9D/Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Query-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Query-1.html",
+          "hash": "Pb4vMAb2rsGvkbwzE9Fi4A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Query-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Query-2.html",
+          "hash": "tNxEEFb4UBcNLOS+41pcXg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Query.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Query.html",
+          "hash": "GNADy87hZKKalikjaBVOwA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.Result.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.Result.html",
+          "hash": "x2bguefvIh9+8zrHA6vy8A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Meta.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Meta.html",
+          "hash": "UvaYDaBFgLYQgtS1epNnag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ObserverCollection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ObserverCollection.html",
+          "hash": "fVHauEPjomWrAxFA5ZMPOQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ObserverRef-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ObserverRef-1.html",
+          "hash": "lnXmzoFLT6cUVtjsCWpw6w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ObserverRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ObserverRef.html",
+          "hash": "KjtVpGxrMvP5TRWxPh9uyQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.OrleankkaException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.OrleankkaException.html",
+          "hash": "CEAC5/c/SQOJ4uErNuaSqw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Playground.PlaygroundConfigurator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Playground.PlaygroundConfigurator.html",
+          "hash": "YWenucRPrif7Id2CKK0Vng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Playground.PlaygroundConfiguratorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Playground.PlaygroundConfiguratorExtensions.html",
+          "hash": "oTMqkKOmnUonmRnl2zgIAg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Playground.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Playground.html",
+          "hash": "DdUN2fc9mkb4wTEBLEFxFA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.ActivationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.ActivationService.html",
+          "hash": "rifdUgGl9yEHTzPTBUylTg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.IActivationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.IActivationService.html",
+          "hash": "VkrbkaI18AsPeeLQmu0B9A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.IReminderService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.IReminderService.html",
+          "hash": "1VRnQTDXn9rckOvSltXDHw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.IStorageService-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.IStorageService-1.html",
+          "hash": "a2ZjRzgZmTJXvsH/kYhVnQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.ITimerService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.ITimerService.html",
+          "hash": "TppkhmPITEMzD2trdWsWFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.html",
+          "hash": "srBpUyPqn9NTz/Ne9+p0tw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StatefulActor-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StatefulActor-1.html",
+          "hash": "P7S+mciFFxs81S1TYHIjWg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StickyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StickyAttribute.html",
+          "hash": "PRBmvlxAB/IX+HYeeWbRjQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamFilter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamFilter.html",
+          "hash": "q0DaPe1OF5lSzxJ62SMLaQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamPath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamPath.html",
+          "hash": "z/QGFhO8zbFNzXsPupSQ0Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamRef.html",
+          "hash": "uZJ+I5LVf1oBEt5pYfW9uA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamRefExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamRefExtensions.html",
+          "hash": "VwBHVrL4EKHzIcIDBEyQbg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamSubscription.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamSubscription.html",
+          "hash": "X/biJtla/KinSZpuJJDH2A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamSubscriptionAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamSubscriptionAttribute.html",
+          "hash": "fKmWUwtau6Z+v5v0G+xwgw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamSubscriptionSpecification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamSubscriptionSpecification.html",
+          "hash": "K9H0AGd3kITzWHvAjMRnrg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActivationServiceMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActivationServiceMock.html",
+          "hash": "noQajL9a7BiJHxIahVTg+g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorBehaviorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorBehaviorExtensions.html",
+          "hash": "0Ig7BZ+0+HlBPsw5PjMk8Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorRefMock-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorRefMock-1.html",
+          "hash": "8iMYO/cg7KpyYHoFiqNxNw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorRefMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorRefMock.html",
+          "hash": "ntZ07R/HXYisDnlbq1aRng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorRuntimeMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorRuntimeMock.html",
+          "hash": "C7CusXU9CfqOlY96LJBnxQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorSystemMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorSystemMock.html",
+          "hash": "5rt/sAOFAF0YnwQ/6P1xXA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ActorSystemMockExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ActorSystemMockExtensions.html",
+          "hash": "dhhY7imkLNjVX+uCkpb4kA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.AskExpectation-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.AskExpectation-1.html",
+          "hash": "iTp+39rjfjli0ARYRnlXbw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ClearStateRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ClearStateRequest.html",
+          "hash": "SifW/J2VjQIER1AYoJCOIA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ClientObservableMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ClientObservableMock.html",
+          "hash": "4sQOMezCk8gAbohQaiHkqg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.DeactivateOnIdle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.DeactivateOnIdle.html",
+          "hash": "v/KvQrpF8le7cqTnhL8Osg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.DelayDeactivation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.DelayDeactivation.html",
+          "hash": "kow8ZvQdYyOptHhlAZpoOw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.DoNotExpectResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.DoNotExpectResult.html",
+          "hash": "QNHjZIuHYUORG4oz2TF4BA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ExpectationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ExpectationException.html",
+          "hash": "bR66WxDSXXmnpIIEvbUQgA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ExpectationExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ExpectationExtensions.html",
+          "hash": "XiEixir4eXJ1LaKy/a0Nng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ExpressionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ExpressionExtensions.html",
+          "hash": "vdQdVqfrzkRV8NbzGrW+jg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.IExpectation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.IExpectation.html",
+          "hash": "8n6ga0A4+RuIIEZXlrBpXg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.IRepeatExpectation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.IRepeatExpectation.html",
+          "hash": "j9eKpsqjAat2xaAde/vghA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.MessageSerialization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.MessageSerialization.html",
+          "hash": "ZpVsgegiSh4LvID4ruoDaQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ObserverCollectionMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ObserverCollectionMock.html",
+          "hash": "c/geb1Ua3wkvRNi0BECIMA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ObserverRefStub.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ObserverRefStub.html",
+          "hash": "RU1+v9oU34ToDhGd9FkxDQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.PushExpectation-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.PushExpectation-1.html",
+          "hash": "ck7WwIQ+0Bo66bhD0uf5uw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ReadStateRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ReadStateRequest.html",
+          "hash": "Nye4GyNI+EPxfjAvuMA4QA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedDeactivationRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedDeactivationRequest.html",
+          "hash": "4UKqTbrsoUiU95liqRmxXQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedItem.html",
+          "hash": "AXAm3Nwq9OGtihRyb6y5sg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedMessage.html",
+          "hash": "TkTlQs9p2/oJWHKBCsjZTw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedReminder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedReminder.html",
+          "hash": "h+OnAwSkDpnhu1x9uC5/dQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedReminderRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedReminderRequest.html",
+          "hash": "xK+NSjXeObLjsR+ZG3405Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedReminderRequestKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedReminderRequestKind.html",
+          "hash": "APewusRm2DZWmDGd6yXMng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedStorageRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedStorageRequest.html",
+          "hash": "amKlJ/hV2EKH+GJDUSYh+g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedTimer-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedTimer-1.html",
+          "hash": "dwKsmMlORQqfkv8j5PNIdA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedTimer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedTimer.html",
+          "hash": "0brLNVOwtWsNPQi/6ZbBiw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedTimerRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedTimerRequest.html",
+          "hash": "qSK0FRTQ3ST2wV/c0aXkHA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecorderTimerRequestKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecorderTimerRequestKind.html",
+          "hash": "JKT+dqr6aLicb4EJuDZQAA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.ReminderServiceMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.ReminderServiceMock.html",
+          "hash": "J2G567bM5nR5bXyLpikvMw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.StorageServiceMock-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.StorageServiceMock-1.html",
+          "hash": "lQEhiOpaPcy+6t3+KKBnbg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.StreamRefMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.StreamRefMock.html",
+          "hash": "nXyu2A5gAK/I6ur9ffItdQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock.html",
+          "hash": "jFj+oIc9akaUDa8EiK3W7A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.TellExpectation-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.TellExpectation-1.html",
+          "hash": "VAHE98YJkh0wfpK3mZ/5/w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.TimerServiceMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.TimerServiceMock.html",
+          "hash": "dRCBjJF81VLT3sJbfkXgng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.WriteStateRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.WriteStateRequest.html",
+          "hash": "Hbvs7qjn/qqBdqFhC9n3AA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.html",
+          "hash": "KjDLBq7AjiiU2VfUo1wjCA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TraitAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TraitAttribute.html",
+          "hash": "fdJJj0qmL0Y8R+CJFaaLTA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Utility.AssemblyExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Utility.AssemblyExtensions.html",
+          "hash": "mI8Y/3cQrq3B0gmdWoCJ7A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Utility.TaskResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Utility.TaskResult.html",
+          "hash": "7NO65cimR+FP4ZroLIxS8w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Utility.Trace.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Utility.Trace.html",
+          "hash": "jvozNU7B2ayCOfAKa9tfWw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Utility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Utility.html",
+          "hash": "1bt7orubt3Q+LsAqo62vPg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.html",
+          "hash": "nwAXJGq+xsI1byzyMuIYbg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "hNwPAhraicAzr/05y7j96Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/configuration/client-server.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/configuration/client-server.html",
+          "hash": "E6NAl0ZDVgh9ZDwjvsWicA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/configuration/embedded.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/configuration/embedded.html",
+          "hash": "L0l6LLUofaWSNebnURR7hQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/configuration/how-to.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/configuration/how-to.html",
+          "hash": "ESyLZPY89LFZ3diycVqBaw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/configuration/playground.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/configuration/playground.html",
+          "hash": "okUxYuXOrNQeMUOSYtWhvg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro/getting-started-csharp.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro/getting-started-csharp.html",
+          "hash": "3/Xs0jDikwwWnmMaxWuH6g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro/getting-started-fsharp.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro/getting-started-fsharp.html",
+          "hash": "dD/0tTFSjRDRDcuU/pN1Lg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro/what-is-orleankka.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro/what-is-orleankka.html",
+          "hash": "IR8Q0L8YHijLGklEiCnGFQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro/why-orleankka.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro/why-orleankka.html",
+          "hash": "oGdS4J6FOngHPe2x27osKw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "hSl7WwMswCkA7YAnu6YLSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Logo.Full.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "images/Logo.Full.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "index",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "S7H1xzK4XAr9jmEPt0KXIA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "B2XwAIPZhmLVYRoKR/hhDw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
