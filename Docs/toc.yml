@@ -2,7 +2,7 @@
   href: articles/
   homepage: articles/intro/what-is-orleankka.md
 - name: API Reference
-  href: api/Orleankka.html
+  href: api/Orleankka.yml
 - name: Project Chat
   href: https://gitter.im/OrleansContrib/Orleankka
 - name: Source Code
