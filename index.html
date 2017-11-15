@@ -60,7 +60,8 @@
     background-color: inherit;
 }
 img.main-logo{
-    width: 700px;
+    max-width: 70%;
+    max-height: 70%;  
     text-align: center;
 }
 h2:before{
@@ -71,22 +72,19 @@ h2:before{
 }
 </style>
 
-<section>
-<div class="container centered">
+<div class="container centered" style="max-height: 40%">
   <img src="images/Logo.Full.jpg" class="main-logo">
-</div></section>
+</div>
 
 <section>
-    <div class="container centered">
+    <div class="container centered" style="max-height: 55%">
         <h2 class="lead">Orleankka is a <strong>functional</strong> API for <a href="http://dotnet.github.io/orleans/" target="_blank">Microsoft Orleans</a> framework. It is highly suitable for scenarios where having <strong>composable</strong>, <strong>uniform</strong> communication interface is preferable, such as: <strong>CQRS</strong>, <strong>event-sourcing</strong>, routing, batching, <strong>FSM</strong>, etc.</h2>
     </div>
 </section>
 
-<section>
-<div class="container centered">
+<div class="container centered" style="max-height: 5%">
   <a class="btn btn-lg btn-primary" href="articles/intro/getting-started-csharp.html">Getting started</a>
 </div>
-</section>
       </div>
       
       <footer>
