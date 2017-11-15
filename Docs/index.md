@@ -12,7 +12,8 @@ tagline: Functional API for Microsoft Orleans
     background-color: inherit;
 }
 img.main-logo{
-    width: 700px;
+    max-width: 70%;
+    max-height: 70%;
     text-align: center;
 }
 h2:before{
