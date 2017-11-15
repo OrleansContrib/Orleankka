@@ -38,6 +38,7 @@ _ReSharper*
 /Output/
 /Packages/
 /Packages/!Repositories.config
+/node_modules/
 
 #ignore codegen stuff
 orleans.codegen.cs

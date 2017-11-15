@@ -1,0 +1,23 @@
+{
+  "name": "orleankka",
+  "version": "1.0.0",
+  "description": "whatever",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrleansContrib/Orleankka.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OrleansContrib/Orleankka/issues"
+  },
+  "homepage": "https://github.com/OrleansContrib/Orleankka#readme"
+}
