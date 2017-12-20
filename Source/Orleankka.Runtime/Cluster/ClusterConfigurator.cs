@@ -143,7 +143,7 @@ namespace Orleankka.Cluster
         {
             Configure();
 
-            return new ClusterActorSystem(Configuration, di, pipeline, invoker);
+            return new ClusterActorSystem(Configuration, registry.Assemblies, di, pipeline, invoker);
         }
 
         void Configure()

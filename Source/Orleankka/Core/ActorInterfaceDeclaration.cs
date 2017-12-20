@@ -14,6 +14,10 @@ namespace Orleankka.Core
 {
     class ActorInterfaceDeclaration
     {
+        public static IEnumerable<PortableExecutableReference> CreateNetCoreReferences() => 
+            Directory.GetFiles(@"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\ref\netcoreapp2.0", "*.dll")
+                     .Select(dllFile => MetadataReference.CreateFromFile(dllFile));
+
         public static IEnumerable<ActorInterface> Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
             var declarations = mappings.Select(m => new ActorInterfaceDeclaration(m)).Select(d => new
@@ -53,8 +57,7 @@ namespace Orleankka.Core
                 throw new Exception("Bad type.\n\n" + string.Join("\n", failures));
             }
 
-            var assemblyName = AssemblyName.GetAssemblyName(binary);
-            AppDomain.CurrentDomain.Load(assemblyName);
+            Assembly.LoadFrom(binary);
 
             var existentInterfaces = existent.Select(x => x.Interface);
             var generatedInterfaces = missing.Select(x => x.Declaration.Find());

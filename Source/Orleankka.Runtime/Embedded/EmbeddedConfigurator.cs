@@ -61,7 +61,7 @@ namespace Orleankka.Embedded
 
     public static class EmbeddedConfiguratorExtensions
     {
-        public static EmbeddedConfigurator Embedded(this IActorSystemConfigurator root, AppDomainSetup setup = null)
+        public static EmbeddedConfigurator Embedded(this IActorSystemConfigurator root)
         {
             return new EmbeddedConfigurator();
         }

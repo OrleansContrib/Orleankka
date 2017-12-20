@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 using Orleankka.Features.Stateful_actors;
 
@@ -22,9 +23,9 @@ namespace Orleankka.Testing
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
-        public override void BeforeTest(TestDetails details)
+        public override void BeforeTest(ITest test)
         {
-            if (!details.IsSuite)
+            if (!test.IsSuite)
                 return;
 
             if (TestActorSystem.Instance != null)
@@ -67,15 +68,15 @@ namespace Orleankka.Testing
 
     public class TeardownSiloAttribute : TestActionAttribute
     {
-        public override void AfterTest(TestDetails details)
+        public override void AfterTest(ITest test)
         {
-            if (!details.IsSuite)
+            if (!test.IsSuite)
                 return;
 
             if (TestActorSystem.Instance == null)
                 return;
 
-            TestActorSystem.Instance.Stop(true).Wait();
+            TestActorSystem.Instance.Stop().Wait();
             TestActorSystem.Instance.Dispose();
             TestActorSystem.Instance = null;
         }

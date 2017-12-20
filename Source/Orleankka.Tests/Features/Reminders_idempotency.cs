@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,11 +61,11 @@ namespace Orleankka.Features
             public async Task When_unregistering_never_registered()
             {
                 var actor = system.FreshActorOf<TestActor>();
-                Assert.DoesNotThrow(async ()=> await actor.Tell(new UnregisterReminder {Name = "unknown"}));
+                Assert.DoesNotThrowAsync(async ()=> await actor.Tell(new UnregisterReminder {Name = "unknown"}));
 
-                actor = system.FreshActorOf<TestActor>();
-                Assert.False(await actor.Ask(new IsReminderRegistered {Name = "unknown"}));
-                Assert.DoesNotThrow(async ()=> await actor.Tell(new UnregisterReminder {Name = "unknown"}));
+                var another = system.FreshActorOf<TestActor>();
+                Assert.False(await another.Ask(new IsReminderRegistered {Name = "unknown"}));
+                Assert.DoesNotThrowAsync(async ()=> await another.Tell(new UnregisterReminder {Name = "unknown"}));
             }
 
             [Test]
@@ -74,7 +75,7 @@ namespace Orleankka.Features
 
                 await actor.Tell(new RegisterReminder {Name = "test"});
                 await actor.Tell(new UnregisterReminder {Name = "test"});
-                Assert.DoesNotThrow(async ()=> await actor.Tell(new UnregisterReminder {Name = "test"}));
+                Assert.DoesNotThrowAsync(async ()=> await actor.Tell(new UnregisterReminder {Name = "test"}));
             }
 
             [Test]
@@ -88,15 +89,15 @@ namespace Orleankka.Features
                 
                 CleanRemindersTable();
 
-                Assert.DoesNotThrow(async () => await actor.Tell(new UnregisterReminder {Name = "deleted" }));
+                Assert.DoesNotThrowAsync(async () => await actor.Tell(new UnregisterReminder {Name = "deleted" }));
                 Assert.False(await actor.Ask(new IsReminderRegistered { Name = "deleted" }));
             }
 
             static void CleanRemindersTable()
             {
                 var reminders = CloudStorageAccount.DevelopmentStorageAccount.CreateCloudTableClient().GetTableReference("OrleansReminders");
-                var rows = reminders.ExecuteQuery(reminders.CreateQuery<DynamicTableEntity>()).ToList();
-                rows.ForEach(x => reminders.Execute(TableOperation.Delete(x)));
+                var rows = reminders.ExecuteQuerySegmentedAsync(new TableQuery<DynamicTableEntity>(), null).Result;
+                rows.Results.ForEach(x => reminders.ExecuteAsync(TableOperation.Delete(x)).Wait());
             }
         }
     }

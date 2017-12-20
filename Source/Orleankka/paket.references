@@ -2,6 +2,8 @@ Microsoft.CodeAnalysis.Analyzers
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
 Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
+Microsoft.Orleans.OrleansCodeGenerator.Build
 Microsoft.Orleans.OrleansProviders
 Newtonsoft.Json
 System.Collections.Immutable

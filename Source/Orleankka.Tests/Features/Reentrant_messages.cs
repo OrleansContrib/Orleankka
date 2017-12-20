@@ -190,8 +190,8 @@ namespace Orleankka.Features
                 Assert.That(state.NonReentrantInProgress, Has.Count.EqualTo(1), "Should still have single message");
                 Assert.That(state.NonReentrantInProgress[0], Is.EqualTo(1), "Should still be the first message");
 
-                Assert.DoesNotThrow(async () => await nr1);
-                Assert.DoesNotThrow(async () => await nr2);
+                Assert.DoesNotThrowAsync(async () => await nr1);
+                Assert.DoesNotThrowAsync(async () => await nr2);
             }
 
             [Test]

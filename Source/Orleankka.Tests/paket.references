@@ -12,9 +12,10 @@ Microsoft.Orleans.OrleansAzureUtils
 Microsoft.Orleans.OrleansCodeGenerator.Build
 Microsoft.Orleans.OrleansProviders
 Microsoft.Orleans.OrleansRuntime
-Microsoft.WindowsAzure.ConfigurationManager
+Microsoft.NET.Test.Sdk
 Newtonsoft.Json
 NUnit
+NUnit3TestAdapter
 System.Collections.Immutable
 System.Reflection.Metadata
 System.Spatial

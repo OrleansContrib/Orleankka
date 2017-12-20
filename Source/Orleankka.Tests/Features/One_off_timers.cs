@@ -48,7 +48,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_setting_one_off_timer()
+            public async Task When_setting_one_off_timer()
             {
                 var actor = system.FreshActorOf<TestActor>();
 

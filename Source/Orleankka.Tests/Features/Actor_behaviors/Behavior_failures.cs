@@ -125,7 +125,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 actor.Behavior.Initial(from);
 
-                var exception = Assert.Throws<ApplicationException>(async () => await actor.Become(to));
+                var exception = Assert.ThrowsAsync<ApplicationException>(async () => await actor.Become(to));
                 Assert.That(exception.Message, Is.EqualTo(nameof(actor.ThrowInOnTransitioning)));
 
                 Assert.That(actor.PassedTransition.From, Is.EqualTo(from));
@@ -144,7 +144,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 actor.Behavior.Initial(from);
 
-                var exception = Assert.Throws<ApplicationException>(async () => await actor.Become(to));
+                var exception = Assert.ThrowsAsync<ApplicationException>(async () => await actor.Become(to));
                 Assert.That(exception.Message, Is.EqualTo(nameof(actor.OnTransitioned)));
 
                 Assert.That(actor.PassedTransition.From, Is.EqualTo(from));
@@ -157,7 +157,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(from);
 
-                var exception = Assert.Throws<ApplicationException>(async () => await actor.Become(to));
+                var exception = Assert.ThrowsAsync<ApplicationException>(async () => await actor.Become(to));
                 Assert.That(exception.Message, Is.EqualTo(faulty));
 
                 Assert.That(actor.PassedTransition.From, Is.EqualTo(from));

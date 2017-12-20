@@ -19,6 +19,7 @@
 
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);Core\ActorEndpoint.Common*.cs;</DefaultItemExcludes>
+    <RootNamespace>Orleankka</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="Core\ActorEndpoint.cs">

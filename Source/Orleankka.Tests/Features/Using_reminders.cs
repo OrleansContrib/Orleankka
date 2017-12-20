@@ -58,7 +58,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
+            public async Task When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
             {
                 var actor = system.FreshActorOf<TestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());

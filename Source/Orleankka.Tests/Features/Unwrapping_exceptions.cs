@@ -57,7 +57,7 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<TestActor>();
 
-                Assert.Throws<ApplicationException>(async () => await 
+                Assert.ThrowsAsync<ApplicationException>(async () => await 
                     actor.Tell(new Throw {Exception = new ApplicationException("c-a")}));
             }
 
@@ -67,7 +67,7 @@ namespace Orleankka.Features
                 var one = system.FreshActorOf<TestInsideActor>();
                 var another = system.FreshActorOf<TestActor>();
 
-                Assert.Throws<ApplicationException>(async () =>
+                Assert.ThrowsAsync<ApplicationException>(async () =>
                 {
                     var message = new Throw {Exception = new ApplicationException("a-a")};
                     await one.Tell(new DoTell {Target = another, Message = message});

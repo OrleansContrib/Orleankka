@@ -133,7 +133,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Client_to_actor()
+            public async Task Client_to_actor()
             {
                 var actor = system.FreshActorOf<TestActor>();
 
@@ -142,7 +142,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Actor_to_actor()
+            public async Task Actor_to_actor()
             {
                 var one = system.FreshActorOf<TestInsideActor>();
                 var another = system.FreshActorOf<TestActor>();
@@ -152,18 +152,18 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Interrupting_requests()
+            public async Task Interrupting_requests()
             {
                 var actor = system.FreshActorOf<TestActor>();
 
-                Assert.Throws<InvalidOperationException>(async ()=> await 
+                Assert.ThrowsAsync<InvalidOperationException>(async ()=> await 
                     actor.Tell(new SetText { Text = "interrupt" }));
 
                 Assert.AreEqual("", await actor.Ask(new GetText()));
             }
 
             [Test]
-            public async void Intercepting_stream_messages()
+            public async Task Intercepting_stream_messages()
             {
                 var stream = system.StreamOf("sms", "test-stream-interception");
                 
@@ -179,7 +179,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Intercepting_actor_ref()
+            public async Task Intercepting_actor_ref()
             {
                 var actor = system.FreshActorOf<TestActor>();
                 var result = await actor.Ask<string>(new CheckRef());

@@ -1,4 +1,3 @@
-framework: netstandard2.0
 redirects: on
 strategy: max
 lowest_matching: false
@@ -9,8 +8,10 @@ nuget FSharp.Core
 nuget Nake
 nuget NuGet.CommandLine
 
-nuget NUnit 2.6.4
-nuget NUnit.Runners 2.6.4
+nuget NUnit 3.9.0
+nuget NUnit.Runners 3.7.0
+nuget NUnit3TestAdapter 3.9.0
+nuget "Microsoft.NET.Test.Sdk 15.5.0
 nuget PowerAssert
 
 nuget FsPickler 1.2.5
@@ -49,22 +50,23 @@ nuget Microsoft.CodeAnalysis.CSharp 2.2.0
 nuget System.Collections.Immutable 1.4
 nuget System.Reflection.Metadata 1.5
 
-nuget Microsoft.Orleans.Core 2.0.0-beta1
-nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta1
-nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta1
-nuget Microsoft.Orleans.OrleansCodeGenerator.Build 2.0.0-beta1
-nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta1
-nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta1
+nuget Microsoft.Orleans.Core 2.0.0-beta2
+nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta2
+nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta2
+nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-beta2
+nuget Microsoft.Orleans.OrleansCodeGenerator.Build 2.0.0-beta2
+nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta2
+nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta2
 nuget Microsoft.Extensions.DependencyInjection 2.0
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.0
 
-nuget WindowsAzure.Storage 8.2.1
-nuget Microsoft.WindowsAzure.ConfigurationManager 2.0.3
-nuget Microsoft.Azure.KeyVault.Core 1.0.0
-nuget Microsoft.Data.Edm 5.8.2
-nuget Microsoft.Data.OData 5.8.2
-nuget Microsoft.Data.Services.Client 5.8.2
-nuget System.Spatial 5.8.2
+nuget WindowsAzure.Storage 8.6.0
+nuget Microsoft.WindowsAzure.ConfigurationManager 3.2.3
+nuget Microsoft.Azure.KeyVault.Core 2.0.4
+nuget Microsoft.Data.Edm
+nuget Microsoft.Data.OData
+nuget Microsoft.Data.Services.Client
+nuget System.Spatial
 
 nuget Hyperion
 nuget Google.Protobuf

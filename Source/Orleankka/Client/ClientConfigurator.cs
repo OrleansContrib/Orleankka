@@ -103,7 +103,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, di, invoker);
+            return new ClientActorSystem(Configuration, registry.Assemblies, di, invoker);
         }
 
         void RegisterStreamProviders()

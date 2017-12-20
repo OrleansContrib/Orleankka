@@ -13,16 +13,22 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
+        public class Activate : Command
+        {}
+
+        [Serializable]
         public class Deactivate : Command
         {}
 
         [Sticky]
         public class TestActor : Actor
         {
-            public override Task OnActivate()
+            void On(Activate x) {}
+
+            public override async Task OnActivate()
             {
                 var stream = System.StreamOf("sms", "sticky");
-                return stream.Push("alive!");
+                await stream.Push("alive!");
             }
 
             void On(Deactivate q) => Activation.DeactivateOnIdle();
@@ -41,7 +47,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Sticky_actors_shoud_be_automatically_resurrected()
+            public async Task Sticky_actors_shoud_be_automatically_resurrected()
             {
                 var events = new List<string>();
 
@@ -49,13 +55,16 @@ namespace Orleankka.Features
                 await stream.Subscribe<string>(e => events.Add(e));
 
                 var sticky = system.ActorOf<TestActor>("sticky");
-                await sticky.Tell(new Deactivate());
+                await sticky.Tell(new Activate());
 
-                // first activation (from Deactivate message)
+                // first activation (from Activate message)
                 Assert.That(events.Count, Is.EqualTo(1));
 
-                // wait until min reminder timeout (1 minute)
-                Thread.Sleep(TimeSpan.FromMinutes(1.5));
+                // deactivate
+                await sticky.Tell(new Deactivate());
+
+                // wait until reminder timeout (1 minute min)
+                await Task.Delay(TimeSpan.FromMinutes(2));
 
                 // auto-reactivation (from automatically registered reminder message)
                 Assert.That(events.Count, Is.EqualTo(2));

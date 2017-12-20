@@ -54,7 +54,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_just_activated()
+            public async Task When_just_activated()
             {
                 var actor = system.FreshActorOf<TestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
@@ -66,7 +66,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_external_request_arrives()
+            public async Task When_external_request_arrives()
             {
                 // global keepalive timeout is 1 minute,  per-type timeout is 2 minutes
                 // we wait 1.5 minute, and then 0.5 minutes are still left from per-type specified timeout
@@ -87,7 +87,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_reminder_request()
+            public async Task When_reminder_request()
             {
                 // global keepalive timeout is 1 minute,  per-type timeout is 2 minutes
                 // we set reminder to fire in 1.5 minutes

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E98080C8-5319-4686-BB1C-85413DEDB917}"
 	ProjectSection(SolutionItems) = preProject
@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Observers", "Observers", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka", "Source\Orleankka\Orleankka.csproj", "{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orleankka.Tests", "Source\Orleankka.Tests\Orleankka.Tests.csproj", "{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Tests", "Source\Orleankka.Tests\Orleankka.Tests.csproj", "{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.App", "Source\Demo.App\Demo.App.csproj", "{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}"
 EndProject
@@ -142,8 +142,8 @@ Global
 		{944568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Package|Any CPU.ActiveCfg = Package|Any CPU
-		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Package|Any CPU.Build.0 = Package|Any CPU
+		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Package|Any CPU.Build.0 = Release|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA1AE3D2-77A6-46EA-81CD-00D0603AADE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

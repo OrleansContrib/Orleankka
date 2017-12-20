@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.Internals;
 using Orleans.MultiCluster;
 using Orleans.Placement;
 using Orleans.Providers;
@@ -62,7 +63,7 @@ namespace Orleankka.Features
             public float PFloat { get; }
 
             public CustomPlacementAttribute(Type pType, ConsoleColor pEnum, string pString, bool pBool, short pShort, int pInt, long pLong, double pDouble, float pFloat)
-                : base(new HashBasedPlacement())
+                : base(new MockPlacement())
             {
                 PType = pType;
                 PEnum = pEnum;

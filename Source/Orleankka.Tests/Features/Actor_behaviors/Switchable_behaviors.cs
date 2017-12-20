@@ -178,7 +178,7 @@ namespace Orleankka.Features.Actor_behaviors
 
             [Test]
             public void When_trying_to_become_other_without_setting_initial_first() =>
-                Assert.Throws<InvalidOperationException>(async () => await actor.Behavior.Become(actor.A));
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await actor.Behavior.Become(actor.A));
 
             [Test]
             public void When_setting_initial()
@@ -276,7 +276,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.Initial));
 
-                Assert.Throws<InvalidOperationException>(async () => await
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await
                     actor.Behavior.Become(actor.CyclicSuperA));
             }
 
@@ -295,7 +295,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 var a = new TestDefaultActor();
 
-                Assert.Throws<UnhandledMessageException>(async () => await 
+                Assert.ThrowsAsync<UnhandledMessageException>(async () => await 
                     a.OnReceive(new Y()), "Should throw by default");
             }
 
@@ -328,7 +328,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 var a = new TestDefaultActor();
 
-                Assert.Throws<UnhandledReminderException>(async () => await 
+                Assert.ThrowsAsync<UnhandledReminderException>(async () => await 
                     a.OnReminder("test"));
             }
 
@@ -377,7 +377,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.Initial));
 
-                Assert.Throws<InvalidOperationException>(async () => await actor.Become(actor.BecomeOtherOnBecome));
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await actor.Become(actor.BecomeOtherOnBecome));
             }
 
             [Test]
@@ -385,7 +385,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.BecomeOtherOnUnbecome));
 
-                Assert.Throws<InvalidOperationException>(async () => await actor.Become(actor.A));
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await actor.Become(actor.A));
             }
 
             [Test]
@@ -393,7 +393,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 actor.Behavior.Initial(nameof(TestActor.BecomeOtherOnDeactivate));
 
-                Assert.Throws<InvalidOperationException>(async () => await actor.Become(actor.A));
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await actor.Become(actor.A));
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 
