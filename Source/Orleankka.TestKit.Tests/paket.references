@@ -7,5 +7,7 @@ Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator.Build
 Newtonsoft.Json
 NUnit
+NUnit3TestAdapter
+Microsoft.NET.Test.Sdk
 System.Collections.Immutable
 System.Reflection.Metadata
