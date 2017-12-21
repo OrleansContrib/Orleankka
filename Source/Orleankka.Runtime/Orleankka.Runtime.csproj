@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <RootNamespace>Orleankka</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
 
     <TransformOnBuild>True</TransformOnBuild>
@@ -11,11 +12,6 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="..\Product.cs">
-      <Link>Properties\Product.cs</Link>
-    </Compile>
-  </ItemGroup>
 
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);Core\ActorEndpoint.Common*.cs;</DefaultItemExcludes>

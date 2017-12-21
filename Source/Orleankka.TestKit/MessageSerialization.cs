@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.Runtime.Configuration;
 using Orleans.Serialization;
-using Orleans.Runtime;
 
 namespace Orleankka.TestKit
 {
@@ -31,8 +30,6 @@ namespace Orleankka.TestKit
             {
                 GatewayProvider = ClientConfiguration.GatewayProviderType.Config,
                 Gateways = { new IPEndPoint(0, 0) },
-                TraceToConsole = false,
-                DefaultTraceLevel = Severity.Off
             };
 
             if (serializers.Length > 0)

@@ -4,11 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Product.cs">
-      <Link>Properties\Product.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
   </ItemGroup>
   <ItemGroup>

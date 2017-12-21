@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Orleankka.Meta
-{
-    using TestKit;
+using Orleankka.Meta;
 
+namespace Orleankka.TestKit.Meta
+{
     public static class Extensions
     {
         public static TellExpectation<TCommand> ExpectCommand<TCommand>(
