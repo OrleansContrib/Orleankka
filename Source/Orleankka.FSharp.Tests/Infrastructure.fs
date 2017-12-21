@@ -5,6 +5,7 @@ open NUnit.Framework
 open Orleankka
 open Orleankka.Playground
 open Orleankka.Embedded
+open NUnit.Framework.Interfaces
 
 module TestActorSystem =    
    let mutable instance:EmbeddedActorSystem = null
@@ -13,7 +14,7 @@ module TestActorSystem =
 type RequiresSiloAttribute() =
    inherit TestActionAttribute()
 
-   override this.BeforeTest(details:TestDetails) =
+   override this.BeforeTest(details:ITest) =
       if details.IsSuite then this.StartNew()
 
    member private this.StartNew() =
@@ -30,10 +31,10 @@ type RequiresSiloAttribute() =
 type TeardownSiloAttribute() =
    inherit TestActionAttribute()
 
-   override this.AfterTest(details:TestDetails) =
+   override this.AfterTest(details:ITest) =
       if details.IsSuite then
         if (TestActorSystem.instance <> null) then
-            TestActorSystem.instance.Stop(true).Wait()
+            TestActorSystem.instance.Stop().Wait()
             TestActorSystem.instance.Dispose()
             TestActorSystem.instance <- null
 

@@ -98,11 +98,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Shared", "Source\FSharp.Exa
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Shared", "Source\FSharp.Example.Observers.Chat.Shared\Shared.fsproj", "{134F64E7-DC9A-4560-873A-74EB16D0D7F0}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp", "Source\Orleankka.FSharp\Orleankka.FSharp.fsproj", "{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Orleankka.FSharp", "Source\Orleankka.FSharp\Orleankka.FSharp.fsproj", "{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp.Runtime", "Source\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj", "{AB4305C5-3139-4E62-95C1-E367CFEA8A6C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Orleankka.FSharp.Runtime", "Source\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj", "{AB4305C5-3139-4E62-95C1-E367CFEA8A6C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Orleankka.FSharp.Tests", "Source\Orleankka.FSharp.Tests\Orleankka.FSharp.Tests.fsproj", "{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Orleankka.FSharp.Tests", "Source\Orleankka.FSharp.Tests\Orleankka.FSharp.Tests.fsproj", "{ADD939F9-5362-4CF8-9A8C-AF7C3AACAC8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSM", "Source\Example.EventSourcing.FSM\FSM.csproj", "{D4EA085E-732B-475B-A5DA-766D4EF8692E}"
 EndProject
@@ -309,8 +309,8 @@ Global
 		{134F64E7-DC9A-4560-873A-74EB16D0D7F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Package|Any CPU.ActiveCfg = Package|Any CPU
-		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Package|Any CPU.Build.0 = Package|Any CPU
+		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Package|Any CPU.Build.0 = Release|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E41FDB70-5193-4C2D-9DDD-B0D243E21E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB4305C5-3139-4E62-95C1-E367CFEA8A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
