@@ -8,4 +8,3 @@ Microsoft.Orleans.OrleansProviders
 Newtonsoft.Json
 System.Collections.Immutable
 System.Reflection.Metadata
-Google.Protobuf
