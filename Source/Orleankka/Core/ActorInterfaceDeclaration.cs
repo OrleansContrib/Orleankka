@@ -14,10 +14,6 @@ namespace Orleankka.Core
 {
     class ActorInterfaceDeclaration
     {
-        public static IEnumerable<PortableExecutableReference> CreateNetCoreReferences() => 
-            Directory.GetFiles(@"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\ref\netcoreapp2.0", "*.dll")
-                     .Select(dllFile => MetadataReference.CreateFromFile(dllFile));
-
         public static IEnumerable<ActorInterface> Generate(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
             var declarations = mappings.Select(m => new ActorInterfaceDeclaration(m)).Select(d => new

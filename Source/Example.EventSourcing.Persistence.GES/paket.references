@@ -1,4 +1,4 @@
-EventStore.Client
+EventStore.ClientAPI.NetCore
 Microsoft.CodeAnalysis.Analyzers
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp

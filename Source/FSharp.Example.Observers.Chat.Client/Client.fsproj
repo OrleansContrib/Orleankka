@@ -2,6 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Demo</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
@@ -19,7 +20,6 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.Build\build\Microsoft.Orleans.OrleansCodeGenerator.Build.targets" Condition="Exists('..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.Build\build\Microsoft.Orleans.OrleansCodeGenerator.Build.targets')" Label="Paket" />
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 
 </Project>

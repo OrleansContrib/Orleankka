@@ -1,8 +1,8 @@
+FSharp.Core
 Microsoft.CodeAnalysis.Analyzers
 Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator
-Microsoft.Orleans.OrleansCodeGenerator.Build
 System.Collections.Immutable
 System.Reflection.Metadata

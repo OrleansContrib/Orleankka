@@ -14,8 +14,8 @@ nuget NUnit3TestAdapter 3.9.0
 nuget "Microsoft.NET.Test.Sdk 15.5.0
 nuget PowerAssert
 
-nuget FsPickler 1.2.5
-nuget Suave 0.31.0
+nuget FsPickler
+nuget Suave
 
 nuget Antlr 3.5.0.2
 nuget Microsoft.AspNet.Mvc 5.2.0
@@ -39,10 +39,10 @@ nuget Microsoft.Owin.Security 2.0.1
 nuget Microsoft.Web.Infrastructure 1.0.0.0
 nuget Owin 1.0
 
-nuget Autofac 3.5.2
-nuget EventStore.Client 3.0.2
+nuget Autofac
+nuget EventStore.ClientAPI.NetCore
 nuget Newtonsoft.Json 10.0.3
-nuget Streamstone 0.9.5.0
+nuget Streamstone
 
 nuget Microsoft.CodeAnalysis.Analyzers 1.1.0
 nuget Microsoft.CodeAnalysis.Common 2.2.0
