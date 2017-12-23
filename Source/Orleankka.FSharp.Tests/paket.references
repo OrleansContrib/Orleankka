@@ -4,6 +4,9 @@ Microsoft.CodeAnalysis.CSharp
 Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
+Microsoft.Orleans.OrleansCodeGenerator.Build
+Microsoft.Orleans.OrleansRuntime
 Newtonsoft.Json
 NUnit
 NUnit3TestAdapter

@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Infrastructure.fs" />
     <Compile Include="TaskBuilderTests.fs" />
@@ -13,14 +12,12 @@
     <Content Include="paket.references" />
     <Content Include="app.config" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj"/>
-    <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj"/>
-    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj"/>
-    <ProjectReference Include="..\Orleankka\Orleankka.csproj"/>
+    <ProjectReference Include="..\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj" />
+    <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj" />
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-
+  <Import Project="..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.Build\build\Microsoft.Orleans.OrleansCodeGenerator.Build.targets" Condition="Exists('..\..\packages\Microsoft.Orleans.OrleansCodeGenerator.Build\build\Microsoft.Orleans.OrleansCodeGenerator.Build.targets')" Label="Paket" />
   <Import Project="..\..\.paket\Paket.Restore.targets" />
-
 </Project>

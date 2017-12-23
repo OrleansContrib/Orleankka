@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <RootNamespace>Orleankka</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
-
     <TransformOnBuild>True</TransformOnBuild>
     <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
@@ -12,11 +12,11 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
-
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);Core\ActorEndpoint.Common*.cs;</DefaultItemExcludes>
     <RootNamespace>Orleankka</RootNamespace>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Update="Core\ActorEndpoint.cs">
       <DesignTime>True</DesignTime>
@@ -59,4 +59,5 @@
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  
 </Project>

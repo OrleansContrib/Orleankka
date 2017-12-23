@@ -8,6 +8,7 @@ Microsoft.Data.Services.Client
 Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansCodeGenerator.Build
 Microsoft.Orleans.OrleansRuntime
 Microsoft.WindowsAzure.ConfigurationManager
