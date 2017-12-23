@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
 
+using Example;
+
 using Orleankka.Meta;
 
 namespace FSM.Infrastructure

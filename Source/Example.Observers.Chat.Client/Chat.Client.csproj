@@ -8,6 +8,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Example.Observers.Chat.Shared\Chat.Shared.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 

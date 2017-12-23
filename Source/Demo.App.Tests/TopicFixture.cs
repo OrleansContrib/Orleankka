@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleankka;
-using Orleankka.Meta;
 using Orleankka.TestKit;
+using Orleankka.TestKit.Meta;
 
 namespace Demo
 {

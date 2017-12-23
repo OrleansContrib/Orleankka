@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 using NUnit.Framework;
 
-using Orleankka.Meta;
 using Orleankka.TestKit;
+using Orleankka.TestKit.Meta;
 
 namespace Demo
 {

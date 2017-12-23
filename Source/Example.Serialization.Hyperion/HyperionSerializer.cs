@@ -17,8 +17,8 @@ namespace Example
     {
         static readonly Type BaseInterfaceType = typeof(Message);
 
-        Serializer serializer;
-        Serializer copier;
+        Hyperion.Serializer serializer;
+        Hyperion.Serializer copier;
 
         IActorSystem system;
 
@@ -38,14 +38,14 @@ namespace Example
                 preserveObjectReferences: true,
                 surrogates: surogates);
 
-            serializer = new Serializer(options);
+            serializer = new Hyperion.Serializer(options);
 
             options = new SerializerOptions(
                 versionTolerance: false,
                 preserveObjectReferences: true,
                 surrogates: surogates);
 
-            copier = new Serializer(options);
+            copier = new Hyperion.Serializer(options);
         }
 
         public bool IsSupportedType(Type itemType)

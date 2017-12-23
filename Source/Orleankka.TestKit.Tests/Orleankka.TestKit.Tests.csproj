@@ -7,9 +7,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
    <ItemGroup>
-    <ProjectReference Include="..\Orleankka.Meta\Orleankka.Meta.csproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
-    <ProjectReference Include="..\Orleankka.TestKit.Meta\Orleankka.TestKit.Meta.csproj" />
     <ProjectReference Include="..\Orleankka.TestKit\Orleankka.TestKit.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup> 

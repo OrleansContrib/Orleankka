@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Demo.App\Demo.App.csproj" />
+    <ProjectReference Include="..\Orleankka.TestKit\Orleankka.TestKit.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
   </ItemGroup>
