@@ -1,16 +1,12 @@
-﻿open System.Reflection            
+﻿module Demo
+
+open System.Reflection            
 open Newtonsoft.Json
 
 open Suave                 
 open Suave.Web
 open Suave.Http
-open Suave.Http.Successful
-open Suave.Http.RequestErrors
-open Suave.Http.Applicatives
-open Suave.Types
-open Suave.Utils
 
-open Orleankka
 open Orleankka.Http
 open Orleankka.FSharp.Configuration
 open Orleankka.FSharp.Runtime

@@ -1,4 +1,6 @@
-﻿open System
+﻿module Demo
+
+open System
 open System.Reflection
 
 open Orleankka

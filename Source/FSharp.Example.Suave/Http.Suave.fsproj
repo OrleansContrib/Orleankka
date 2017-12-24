@@ -2,17 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Demo</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Infrastructure.fs" />
     <Compile Include="TestActor.fs" />
-    <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="paket.references" />
     <Content Include="readme.txt" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

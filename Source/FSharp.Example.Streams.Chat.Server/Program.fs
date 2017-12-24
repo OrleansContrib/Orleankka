@@ -1,4 +1,6 @@
-﻿open System.Reflection
+﻿module Demo
+
+open System.Reflection
 
 open Orleans.Providers.Streams.SimpleMessageStream
 open Orleankka.FSharp.Runtime
