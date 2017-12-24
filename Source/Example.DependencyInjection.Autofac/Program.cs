@@ -10,8 +10,6 @@ using Orleankka.Playground;
 
 namespace Example
 {
-    using Properties; 
-
     class Program
     {
         public static void Main()
@@ -22,7 +20,7 @@ namespace Example
             {
                 builder.RegisterType<SomeService>()
                        .AsImplementedInterfaces()
-                       .WithParameter("connectionString", Settings.Default.ConnectionString)
+                       .WithParameter("connectionString", "Account=SomeConfigurationValue")
                        .SingleInstance();
 
                 builder.RegisterType<DIActor>();

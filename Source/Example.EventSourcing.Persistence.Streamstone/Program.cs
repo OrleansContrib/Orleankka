@@ -62,9 +62,9 @@ namespace Example
                 .GetTableReference("ssexample");
 
             if (!resume)
-                table.DeleteIfExists();
+                table.DeleteIfExistsAsync().Wait();
 
-            table.CreateIfNotExists();
+            table.CreateIfNotExistsAsync().Wait();
         }
 
         static async Task Run()

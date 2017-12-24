@@ -33,14 +33,14 @@ namespace FSM.Infrastructure
             FloatParseHandling = FloatParseHandling.Decimal
         };
 
-        int version = ExpectedVersion.NoStream;
+        long version = ExpectedVersion.NoStream;
 
         public override async Task OnActivate()
         {
             var stream = StreamName();
 
             StreamEventsSlice currentSlice;
-            var nextSliceStart = StreamPosition.Start;
+            long nextSliceStart = StreamPosition.Start;
 
             do
             {

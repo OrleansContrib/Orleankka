@@ -60,7 +60,7 @@ namespace Example
         {
             var partition = new Partition(SS.Table, StreamName());
 
-            var existent = Stream.TryOpen(partition);
+            var existent = await Stream.TryOpenAsync(partition);
             if (!existent.Found)
             {
                 stream = new Stream(partition);
@@ -74,7 +74,11 @@ namespace Example
             do
             {
                 slice = await Stream.ReadAsync<EventEntity>(partition, nextSliceStart);
-                nextSliceStart = slice.NextEventNumber;
+                
+                nextSliceStart = slice.HasEvents
+                    ? slice.Events.Last().Version + 1
+                    : -1;
+
                 await Replay(slice.Events);
             }
             while (!slice.IsEndOfStream);
@@ -159,6 +163,7 @@ namespace Example
             public string Id   { get; set; }
             public string Type { get; set; }
             public string Data { get; set; }
+            public int Version { get; set; }
         }
 
         protected override Task<object> HandleQuery(Query query)
