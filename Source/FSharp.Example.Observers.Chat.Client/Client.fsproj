@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program.fs" />
     <EmbeddedResource Include="Client.xml" />
     <None Include="App.config" />
     <Content Include="paket.references" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

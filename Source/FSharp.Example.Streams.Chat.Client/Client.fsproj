@@ -2,16 +2,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChatClient.fs" />
-    <Compile Include="Program.fs" />
     <None Include="App.config" />
     <EmbeddedResource Include="Client.xml" />
     <None Include="paket.references" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

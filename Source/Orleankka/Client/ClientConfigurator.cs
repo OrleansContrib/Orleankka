@@ -81,7 +81,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        internal ClientConfigurator ActorTypes(params string[] types)
+        public ClientConfigurator ActorTypes(params string[] types)
         {
             Requires.NotNull(types, nameof(types));
 

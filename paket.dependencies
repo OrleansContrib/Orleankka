@@ -11,11 +11,8 @@ nuget NuGet.CommandLine
 nuget NUnit 3.9.0
 nuget NUnit.Runners 3.7.0
 nuget NUnit3TestAdapter 3.9.0
-nuget "Microsoft.NET.Test.Sdk 15.5.0
+nuget Microsoft.NET.Test.Sdk 15.5.0
 nuget PowerAssert
-
-nuget FsPickler
-nuget Suave
 
 nuget Antlr 3.5.0.2
 nuget Microsoft.AspNet.Mvc 5.2.0

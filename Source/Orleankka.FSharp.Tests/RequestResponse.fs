@@ -48,7 +48,7 @@ type Tests() =
    [<SetUp>]
    member this.SetUp() = 
       this.system <- TestActorSystem.instance
-
+    
    [<Test>]
    member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
       let actor = ActorSystem.actorOf<TestActor>(this.system, "test")

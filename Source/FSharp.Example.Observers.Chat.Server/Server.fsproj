@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <Compile Include="ChatServer.fs" />
-    <Compile Include="Program.fs" />
     <EmbeddedResource Include="Server.xml" />
     <None Include="App.config" />
     <Content Include="paket.references" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

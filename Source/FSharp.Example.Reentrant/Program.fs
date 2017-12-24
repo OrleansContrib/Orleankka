@@ -4,9 +4,8 @@ open System
 open System.Reflection
 
 open Orleankka
+open Orleankka.Playground
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
-open Orleankka.FSharp.Runtime
 
 open RealTimeCounter
 
@@ -18,15 +17,20 @@ let main argv =
    
    printfn "Running demo. Booting cluster might take some time ...\n"
 
-   // setup actor system
-   use system = [|Assembly.GetExecutingAssembly()|]
-                |> ActorSystem.createPlayground
-                |> ActorSystem.start   
+   use system = 
+    ActorSystem
+     .Configure()
+     .Playground()
+     .Assemblies([|Assembly.GetExecutingAssembly()|])
+     .Done() 
+   
+   system.Start().Wait()
    
    // get uniq actor by name
    let counter = ActorSystem.actorOf<Counter>(system, "realtime-consistent-counter")
 
    let writeJob() = task {
+
       Console.ForegroundColor <- ConsoleColor.Red 
       printfn "\n send Increment message which should take 5 sec to finish. \n"
       do! counter <! Increment // this message is not reentrant which means blocking operation
@@ -54,7 +58,7 @@ let main argv =
       printfn "\n job is finished."
 
    }
-      
+     
    writeJob() |> ignore
    Task.run(readJob) |> ignore
 

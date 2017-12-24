@@ -2,15 +2,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="RealTimeCounter.fs" />
-    <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="paket.references" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
