@@ -5,14 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+
     <Compile Include="Task.fs" />
-    <Compile Include="Api.fs" />
-    <Compile Include="Configuration.fs" />
+    <Compile Include="References.fs" />
+    <Compile Include="System.fs" />
     <Content Include="paket.references" />
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka\Orleankka.csproj"/>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
   
   <Import Project="..\..\.paket\Paket.Restore.targets" />

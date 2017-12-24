@@ -19,7 +19,6 @@ type ActorRef<'TMsg>(ref:ActorRef) =
    static member (<?) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Ask<'TResponse>(message)
    static member (<*) (ref:ActorRef<'TMsg>, message:'TMsg) = ref.Notify(message)
 
-
 type StreamRef<'TMsg>(ref:StreamRef) = 
    member this.Path = ref.Path
    member this.Push(item:'TMsg) = ref.Push(item) |> Task.awaitTask
@@ -34,10 +33,3 @@ type StreamRef<'TMsg>(ref:StreamRef) =
    override this.GetHashCode() = ref.GetHashCode()
 
    static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Push(item)
-
-   
-////todo: should be replaced with StreamSubscription<'TMsg>
-[<AutoOpen>]
-module StreamSubscription =  
-   
-   let inline unsubscribe (sb:StreamSubscription) = sb.Unsubscribe() |> Task.awaitTask
