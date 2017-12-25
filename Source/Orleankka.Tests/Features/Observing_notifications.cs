@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 using NUnit.Framework;
 
@@ -63,7 +64,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Client_to_actor()
+            public async Task Client_to_actor()
             {
                 var actor = system.FreshActorOf<TestActor>();
 
@@ -94,7 +95,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Actor_to_actor()
+            public async Task Actor_to_actor()
             {
                 var actor = system.FreshActorOf<TestActor>();
                 var observer = system.FreshActorOf<TestInsideActor>();

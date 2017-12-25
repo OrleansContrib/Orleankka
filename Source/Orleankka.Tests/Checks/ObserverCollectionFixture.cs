@@ -29,7 +29,7 @@ namespace Orleankka.Checks
         }
 
         [Test]
-        public async void Notifies_all_observers()
+        public async Task Notifies_all_observers()
         {
             var observer1 = await TestObserver.Create();
             var observer2 = await TestObserver.Create();
@@ -49,7 +49,7 @@ namespace Orleankka.Checks
         }
         
         [Test]
-        public async void Add_is_idempotent()
+        public async Task Add_is_idempotent()
         {
             var observer = await TestObserver.Create();
             collection.Add(observer);
@@ -59,7 +59,7 @@ namespace Orleankka.Checks
         }
 
         [Test]
-        public async void Remove_is_also_idempotent()
+        public async Task Remove_is_also_idempotent()
         {
             var observer = await TestObserver.Create();
             

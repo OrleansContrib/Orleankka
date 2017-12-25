@@ -81,7 +81,7 @@ namespace Orleankka.Client
             return this;
         }
 
-        internal ClientConfigurator ActorTypes(params string[] types)
+        public ClientConfigurator ActorTypes(params string[] types)
         {
             Requires.NotNull(types, nameof(types));
 
@@ -103,7 +103,7 @@ namespace Orleankka.Client
             RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, di, invoker);
+            return new ClientActorSystem(Configuration, registry.Assemblies, di, invoker);
         }
 
         void RegisterStreamProviders()

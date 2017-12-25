@@ -10,7 +10,6 @@ Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator
 Microsoft.Orleans.OrleansRuntime
-Microsoft.WindowsAzure.ConfigurationManager
 Newtonsoft.Json
 Streamstone
 System.Collections.Immutable

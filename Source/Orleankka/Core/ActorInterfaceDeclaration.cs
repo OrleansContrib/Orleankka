@@ -53,8 +53,7 @@ namespace Orleankka.Core
                 throw new Exception("Bad type.\n\n" + string.Join("\n", failures));
             }
 
-            var assemblyName = AssemblyName.GetAssemblyName(binary);
-            AppDomain.CurrentDomain.Load(assemblyName);
+            Assembly.LoadFrom(binary);
 
             var existentInterfaces = existent.Select(x => x.Interface);
             var generatedInterfaces = missing.Select(x => x.Declaration.Find());

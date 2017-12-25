@@ -77,7 +77,7 @@ namespace Demo
 
         protected static void Throws<TException>([InstantHandle] Func<Task> action, string message = null) where TException : Exception
         {
-            Assert.Throws<TException>(async ()=> await action(), message);
+            Assert.ThrowsAsync<TException>(async ()=> await action(), message);
         }
 
         protected RecordedTimer Timer(string id)

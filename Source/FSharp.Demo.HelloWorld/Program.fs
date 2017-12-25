@@ -1,9 +1,11 @@
-﻿open System
+﻿module Demo
+
+open System
 open System.Reflection
 
+open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
-open Orleankka.FSharp.Runtime
+open Orleankka.Playground
 
 type Message = 
    | Greet of string
@@ -25,14 +27,18 @@ type Greeter() =
 let main argv = 
 
    printfn "Running demo. Booting cluster might take some time ...\n"
-
-   use system = [|Assembly.GetExecutingAssembly()|]
-                |> ActorSystem.createPlayground
-                |> ActorSystem.start
-
-   let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
-
+   
+   use system = 
+    ActorSystem
+     .Configure()
+     .Playground()
+     .Assemblies([|Assembly.GetExecutingAssembly()|])
+     .Done()
+   
    let job() = task {
+      do! Task.awaitTask(system.Start())
+      
+      let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"      

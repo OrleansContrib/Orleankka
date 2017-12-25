@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.ApplicationParts;
+using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
@@ -31,12 +36,18 @@ namespace Orleankka.Client
     public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
         readonly ClientConfiguration configuration;
+        readonly Assembly[] assemblies;
         readonly Action<IServiceCollection> di;
 
-        internal ClientActorSystem(ClientConfiguration configuration, Action<IServiceCollection> di, IActorRefInvoker invoker) 
+        internal ClientActorSystem(
+            ClientConfiguration configuration, 
+            Assembly[] assemblies,
+            Action<IServiceCollection> di, 
+            IActorRefInvoker invoker) 
             : base(invoker)
         {
             this.configuration = configuration;
+            this.assemblies = assemblies;
             this.di = di;
         }
 
@@ -102,17 +113,24 @@ namespace Orleankka.Client
         IClusterClient Build()
         {
             using (Trace.Execution("Orleans client initialization"))
-            return new ClientBuilder()
-                .UseConfiguration(configuration)
-                .ConfigureServices(services =>
-                {
-                    services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
-                    services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
-                    services.Add(ServiceDescriptor.Singleton(this));
+            {
+                var builder = new ClientBuilder()
+                    .UseConfiguration(configuration)
+                    .ConfigureServices(services =>
+                    {
+                        services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
+                        services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
+                        services.Add(ServiceDescriptor.Singleton(this));
 
-                    di?.Invoke(services);
-                })
-                .Build();
+                        di?.Invoke(services);
+                    });
+
+                builder.ConfigureApplicationParts(apm => apm
+                    .AddFromAppDomain()
+                    .WithCodeGeneration());
+
+                return builder.Build();
+            }
         }
 
         /// <summary>

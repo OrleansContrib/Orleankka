@@ -1,9 +1,9 @@
-﻿open System
-open System.Reflection
+﻿module Demo
+
+open System
 
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
 
 open Messages
 open Client.ChatClient
@@ -38,8 +38,9 @@ let startChatClient (system:IActorSystem) userName roomName = task {
    return! handleUserInput joinedClient
 }
 
-open ClientConfig
+open Orleankka.Client
 open Orleans.Providers.Streams.SimpleMessageStream
+open Orleans.Runtime.Configuration
 
 [<EntryPoint>]
 let main argv = 
@@ -47,15 +48,17 @@ let main argv =
    printfn "Please wait until Chat Server has completed boot and then press enter. \n"
    Console.ReadLine() |> ignore
 
-   let assembly = Assembly.GetExecutingAssembly()   
+   let system = 
+    ActorSystem
+     .Configure()
+     .Client()
+     .From(ClientConfiguration.LocalhostSilo())
+     .StreamProvider<SimpleMessageStreamProvider>("rooms")
+     .Assemblies([|typeof<ChatRoomMessage>.Assembly|])
+     .ActorTypes([|"ChatUser"|])
+     .Done() 
    
-
-   let config = loadFromResource assembly "Client.xml"   
-                |> registerStreamProvider<SimpleMessageStreamProvider> "rooms" Map.empty
-
-   use system = [|typeof<ChatRoomMessage>.Assembly|]   
-                |> ActorSystem.createConfiguredClient config [|"ChatUser"|]
-                |> ActorSystem.connect
+   system.Connect().Wait()
 
    printfn "Enter your user name..."
    let userName = Console.ReadLine();

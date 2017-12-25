@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-
-[assembly: AssemblyTitle("Orleankka")]
+﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Orleankka.Tests")]
 [assembly: InternalsVisibleTo("Orleankka.Azure")]

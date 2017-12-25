@@ -3,7 +3,6 @@
 open Messages
 open Orleankka
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
    
 [<ActorType("ChatUser")>]
 type ChatUser() =

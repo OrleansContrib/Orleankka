@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -25,15 +24,8 @@ namespace Orleankka.Features
         {
             string text = "";
 
-            public void On(SetText cmd)
-            {
-                text = cmd.Text;
-            }
-
-            public string On(GetText q)
-            {
-                return text;
-            }
+            public void On(SetText cmd) => text = cmd.Text;
+            public string On(GetText q) => text;
         }
 
         [Serializable]
@@ -76,7 +68,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Client_to_actor()
+            public async Task Client_to_actor()
             {
                 var actor = system.FreshActorOf<TestActor>();
 
@@ -85,7 +77,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Actor_to_actor()
+            public async Task Actor_to_actor()
             {
                 var one = system.FreshActorOf<TestInsideActor>();
                 var another = system.FreshActorOf<TestActor>();

@@ -53,14 +53,14 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Request_response()
+            public async Task Request_response()
             {
                 var actor = system.TypedActorOf<ITestActor>("foo");
 
                 // below won't compile
                 // actor.Tell(new object());
 
-                Assert.DoesNotThrow(async () => await actor.Tell(new TestActorCommand()));
+                Assert.DoesNotThrowAsync(async () => await actor.Tell(new TestActorCommand()));
                 Assert.That(await actor.Ask(new TestActorQuery()), Is.EqualTo(42));
             }
 
@@ -74,7 +74,7 @@ namespace Orleankka.Features
                     Ref = system.TypedActorOf<ITestActor>("foo")
                 };
 
-                Assert.DoesNotThrow(async () => await actor.Tell(cmd));
+                Assert.DoesNotThrowAsync(async () => await actor.Tell(cmd));
             }
         }
     }

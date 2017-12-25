@@ -43,7 +43,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void Autorun_actors_shoud_be_automatically_activated_during_boot()
+            public async Task Autorun_actors_shoud_be_automatically_activated_during_boot()
             {
                 // wait a bit
                 Thread.Sleep(TimeSpan.FromSeconds(5));

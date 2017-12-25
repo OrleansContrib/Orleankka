@@ -9,8 +9,6 @@ using Orleankka.Playground;
 
 namespace Example
 {
-    using Properties; 
-
     class Program
     {
         public static void Main()
@@ -22,7 +20,7 @@ namespace Example
                 .Playground()
                 .Cluster(c => c
                     .Services(di => di
-                        .AddSingleton(new SomeService.Options(Settings.Default.ConnectionString))
+                        .AddSingleton(new SomeService.Options("Account=SomeConfigurationValue"))
                         .AddSingleton<ISomeService, SomeService>()))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();

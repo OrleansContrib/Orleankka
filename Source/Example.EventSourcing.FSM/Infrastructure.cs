@@ -53,7 +53,7 @@ namespace Example
             FloatParseHandling = FloatParseHandling.Decimal,
         };
 
-        int version = ExpectedVersion.NoStream;
+        long version = ExpectedVersion.NoStream;
 
         protected EventSourcedFsmActor(string initial)
         {
@@ -74,7 +74,7 @@ namespace Example
         async Task Replay(string stream)
         {
             StreamEventsSlice currentSlice;
-            var nextSliceStart = StreamPosition.Start;
+            long nextSliceStart = StreamPosition.Start;
 
             do
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.Remoting.Messaging;
 
 using Orleans;
 using Orleans.Internals;
@@ -135,8 +135,9 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
-        static void SetExecuting() => CallContext.LogicalSetData("#ORLKKA_TMR", true);
-        internal static bool IsExecuting() => CallContext.LogicalGetData("#ORLKKA_TMR") != null;
+        static AsyncLocal<bool> ExecutingFlag = new AsyncLocal<bool>();
+        static void SetExecuting() => ExecutingFlag.Value = true;
+        internal static bool IsExecuting() => ExecutingFlag.Value;
 
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ITimerRegistry registry;

@@ -1,0 +1,7 @@
+Microsoft.CodeAnalysis.Analyzers
+Microsoft.CodeAnalysis.Common
+Microsoft.CodeAnalysis.CSharp
+Microsoft.Orleans.Core
+Microsoft.Orleans.OrleansCodeGenerator
+System.Collections.Immutable
+System.Reflection.Metadata

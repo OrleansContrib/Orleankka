@@ -17,19 +17,16 @@ namespace Orleankka.Embedded
         public ClientActorSystem Client { get; }
         public ClusterActorSystem Cluster { get; }
 
-        public async Task Start(bool wait = false)
+        public async Task Start()
         {
-            Cluster.Start();
+            await Cluster.Start();
             await Client.Connect(); 
-
-            if (wait)
-                Cluster.Host.WaitForOrleansSiloShutdown();
         }
 
-        public async Task Stop(bool force = false)
+        public async Task Stop()
         {
-            Cluster.Stop(force);
-            await Client.Disconnect(force);
+            await Cluster.Stop();
+            await Client.Disconnect();
         }
 
         public ActorRef ActorOf(ActorPath path) => Client.ActorOf(path);
@@ -40,7 +37,6 @@ namespace Orleankka.Embedded
         public void Dispose()
         {
             Client?.Dispose();
-            Cluster?.Dispose();
         }
     }
 }

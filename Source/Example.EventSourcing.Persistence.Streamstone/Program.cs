@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -63,9 +62,9 @@ namespace Example
                 .GetTableReference("ssexample");
 
             if (!resume)
-                table.DeleteIfExists();
+                table.DeleteIfExistsAsync().Wait();
 
-            table.CreateIfNotExists();
+            table.CreateIfNotExistsAsync().Wait();
         }
 
         static async Task Run()

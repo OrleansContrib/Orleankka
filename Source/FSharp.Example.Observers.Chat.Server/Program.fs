@@ -1,5 +1,6 @@
-﻿open System.Reflection
+﻿module Demo
 
+open System.Reflection
 open Orleankka.FSharp.Runtime
 
 open Messages

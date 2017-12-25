@@ -30,16 +30,16 @@ namespace Orleankka.Checks
             Assert.That(await dispatcher.Dispatch(target, new HandleResultMessage()), Is.EqualTo("42"));
             Assert.That(await dispatcher.Dispatch(target, new HandleAsyncResultMessage()), Is.EqualTo("42"));
 
-            Assert.DoesNotThrow(
+            Assert.DoesNotThrowAsync(
                 async () => await dispatcher.Dispatch(target, new PrivateHandlerMessage()));
 
-            Assert.DoesNotThrow(
+            Assert.DoesNotThrowAsync(
                 async () => await dispatcher.Dispatch(target, new InternalHandlerMessage()));
 
-            Assert.Throws<Dispatcher.HandlerNotFoundException>(
+            Assert.ThrowsAsync<Dispatcher.HandlerNotFoundException>(
                 async () => await dispatcher.Dispatch(target, new NonSingleArgumentHandlerMessage()));
 
-            Assert.Throws<Dispatcher.HandlerNotFoundException>(
+            Assert.ThrowsAsync<Dispatcher.HandlerNotFoundException>(
                 async () => await dispatcher.Dispatch(target, "custom handler name"));
         }
 
@@ -51,7 +51,7 @@ namespace Orleankka.Checks
             var unknownMessage = new UnknownMessage();
             object bouncedMessage = null;
 
-            Assert.DoesNotThrow(async () => await dispatcher.Dispatch(target, unknownMessage, message =>
+            Assert.DoesNotThrowAsync(async () => await dispatcher.Dispatch(target, unknownMessage, message =>
             {
                 bouncedMessage = message;
                 return Task.FromResult((object)42);

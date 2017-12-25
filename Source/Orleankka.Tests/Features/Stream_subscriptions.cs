@@ -110,7 +110,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe());
 
                 var stream = system.StreamOf(provider, $"{provider}-42");
-                Assert.DoesNotThrow(async ()=> await stream.Push(123), 
+                Assert.DoesNotThrowAsync(async ()=> await stream.Push(123), 
                     "Should not throw handler not found exception");
                 await stream.Push("e-123");
                 await Task.Delay(timeout);

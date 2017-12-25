@@ -1,9 +1,12 @@
-﻿open System
+﻿module Demo
+
+open System
 open System.Reflection
 
+open Orleankka
+open Orleankka.Playground
 open Orleankka.FSharp
-open Orleankka.FSharp.Configuration
-open Orleankka.FSharp.Runtime
+
 open Shop
 open Account
 
@@ -12,14 +15,19 @@ let main argv =
 
    printfn "Running demo. Booting cluster might take some time ...\n"
    
-   use system = [|Assembly.GetExecutingAssembly()|]
-                |> ActorSystem.createPlayground
-                |> ActorSystem.start
-                  
-   let shop = ActorSystem.actorOf<Shop>(system, "amazon")
-   let account = ActorSystem.actorOf<Account>(system, "antya")
-   
+   use system = 
+    ActorSystem
+     .Configure()
+     .Playground()
+     .Assemblies([|Assembly.GetExecutingAssembly()|])
+     .Done()
+                     
    let job() = task {
+      do! Task.awaitTask(system.Start())
+  
+      let shop = ActorSystem.actorOf<Shop>(system, "amazon")
+      let account = ActorSystem.actorOf<Account>(system, "antya")
+
       let! stock = shop <? Stock
       printfn "Shop has %i items in stock \n" stock
 

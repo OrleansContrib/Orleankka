@@ -73,7 +73,7 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async void When_using_custom_actor_storage_service()
+            public async Task When_using_custom_actor_storage_service()
             {
                 var actor = system.FreshActorOf<TestActor>();
 

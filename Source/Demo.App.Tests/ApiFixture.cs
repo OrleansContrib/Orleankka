@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 using NUnit.Framework;
 
-using Orleankka.Meta;
 using Orleankka.TestKit;
+using Orleankka.TestKit.Meta;
 
 namespace Demo
 {
@@ -35,9 +34,9 @@ namespace Demo
         {
             worker.ThrowException = true;
 
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
-            Assert.Throws<ApiUnavailableException>(async ()=> await api.Handle(query));
+            Assert.ThrowsAsync<ApiUnavailableException>(async ()=> await api.Handle(query));
+            Assert.ThrowsAsync<ApiUnavailableException>(async ()=> await api.Handle(query));
+            Assert.ThrowsAsync<ApiUnavailableException>(async ()=> await api.Handle(query));
             
             IsTrue(()=> observers.Events().Count() == 1);
             IsTrue(()=> observers.FirstEvent<AvailabilityChanged>().Available == false);

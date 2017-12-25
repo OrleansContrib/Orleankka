@@ -9,10 +9,12 @@ Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.DependencyInjection.Abstractions
 Microsoft.Orleans.Core
 Microsoft.Orleans.OrleansCodeGenerator
+
 Microsoft.Orleans.OrleansRuntime
-Microsoft.WindowsAzure.ConfigurationManager
 Newtonsoft.Json
 NUnit
+NUnit3TestAdapter
+Microsoft.NET.Test.Sdk
 PowerAssert
 System.Collections.Immutable
 System.Reflection.Metadata

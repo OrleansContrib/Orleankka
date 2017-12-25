@@ -54,10 +54,8 @@ namespace Orleankka.Core
                 throw new Exception("Bad type.\n\n" + string.Join("\n", failures));
             }
 
-            var assemblyName = AssemblyName.GetAssemblyName(binary);
-            var assembly = AppDomain.CurrentDomain.Load(assemblyName);
-
-            return declarations.Select(x => x.From(assembly, conventions));
+            var assembly = Assembly.LoadFrom(binary);
+            return declarations.Select(x => x.From(assembly, conventions)).ToArray();
         }
 
         static PortableExecutableReference ToMetadataReference(Assembly x) => 

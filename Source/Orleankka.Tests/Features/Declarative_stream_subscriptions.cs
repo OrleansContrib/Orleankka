@@ -115,7 +115,7 @@ namespace Orleankka.Features
             public async Task Declared_handler_only_automatic_item_filtering<T>() where T : Actor
             {
                 var stream = system.StreamOf(provider, "declared-auto");
-                Assert.DoesNotThrow(async ()=> await Push(stream, 123),
+                Assert.DoesNotThrowAsync(async ()=> await Push(stream, 123),
                     "Should not throw handler not found exception");
 
                 await Push(stream, "e-123");

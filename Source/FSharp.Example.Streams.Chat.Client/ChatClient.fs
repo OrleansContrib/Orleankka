@@ -23,7 +23,7 @@ let join (client:ChatClient) = task {
 }
 
 let leave (client:ChatClient) = task {
-   do! unsubscribe client.Subscription.Value
+   do! client.Subscription.Value.Unsubscribe() |> Task.awaitTask
    do! client.User <! Leave(client.RoomName)
 }
 
