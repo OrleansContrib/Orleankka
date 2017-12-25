@@ -51,7 +51,6 @@ nuget Microsoft.Orleans.Core 2.0.0-beta2
 nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta2
 nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta2
 nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-beta2
-nuget Microsoft.Orleans.OrleansCodeGenerator.Build 2.0.0-beta2
 nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta2
 nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta2
 nuget Microsoft.Extensions.DependencyInjection 2.0
