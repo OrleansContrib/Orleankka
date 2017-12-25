@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Orleans;
+using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
 
 namespace Orleankka.Cluster
@@ -47,16 +48,9 @@ namespace Orleankka.Cluster
                         di?.Invoke(services);
                     });
 
-                var parts = new List<Assembly>(assemblies);
-                parts.AddRange(ActorInterface.Registered().Select(x => x.Grain.Assembly).Distinct());
-                parts.AddRange(ActorType.Registered().Select(x => x.Grain.Assembly).Distinct());
-
-                builder.ConfigureApplicationParts(m =>
-                {
-                    var asm = m.AddFromAppDomain().WithReferences();
-                    parts.ForEach(x => asm.AddApplicationPart(x));
-                    asm.WithCodeGeneration();
-                });
+                builder.ConfigureApplicationParts(apm => apm
+                    .AddFromAppDomain()
+                    .WithCodeGeneration());
 
                 Host = builder.Build();
             }

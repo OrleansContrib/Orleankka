@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.ApplicationParts;
 using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
 
@@ -124,15 +125,9 @@ namespace Orleankka.Client
                         di?.Invoke(services);
                     });
 
-                var parts = new List<Assembly>(assemblies);
-                parts.AddRange(ActorInterface.Registered().Select(x => x.Grain.Assembly).Distinct());
-
-                builder.ConfigureApplicationParts(m =>
-                {
-                    var asm = m.AddFromAppDomain().WithReferences();
-                    parts.ForEach(x => asm.AddApplicationPart(x));
-                    asm.WithCodeGeneration();
-                });
+                builder.ConfigureApplicationParts(apm => apm
+                    .AddFromAppDomain()
+                    .WithCodeGeneration());
 
                 return builder.Build();
             }
