@@ -6,6 +6,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>FS0988</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="paket.references" />
     <None Include="app.config" />
