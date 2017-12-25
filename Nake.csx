@@ -21,11 +21,10 @@ const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
 
-const string Beta = "";
-
 const string RootPath = "%NakeScriptDirectory%";
 const string OutputPath = RootPath + @"\Output";
 
+var Version = "0.0.0-dev";
 var PackagePath = @"{OutputPath}\Package";
 var ReleasePath = @"{PackagePath}\Release";
 
@@ -57,7 +56,7 @@ var MsBuildExe = GetVisualStudio17MSBuild();
     try
     {
         Exec("dotnet", 
-            @"vstest {tests} --logger:trx;LogFileName=nunit-test-results.xml " +
+            @"vstest {tests} --logger:trx;LogFileName={results} " +
             (AppVeyor||slow ? "" : "--TestCaseFilter:TestCategory!=Slow"));
     }
     finally
@@ -74,74 +73,34 @@ var MsBuildExe = GetVisualStudio17MSBuild();
     Build("Package", ReleasePath);
 
     Pack(CoreProject);    
-    Pack(RuntimeProject,        "core_version={Version(CoreProject)}");    
-    Pack(TestKitProject,        "core_version={Version(CoreProject)}");
-    Pack(FSharpProject,         "core_version={Version(CoreProject)}");
-    Pack(FSharpRuntimeProject,  "core_version={Version(CoreProject)}");
+    Pack(RuntimeProject);    
+    Pack(TestKitProject);
+    Pack(FSharpProject);
+    Pack(FSharpRuntimeProject);
 }
 
-void Pack(string project, string properties = null)
-{
-    Cmd(@"{Nuget} pack Build\{project}.nuspec -Version {Version(project)} " +
-         "-OutputDirectory {PackagePath} -BasePath {RootPath} -NoPackageAnalysis " + 
-         (properties != null ? "-Properties {properties}" : ""));
-}
+void Pack(string project) =>
+    Cmd(@"{Nuget} pack Build\{project}.nuspec -Version {Version} " +
+         "-OutputDirectory {PackagePath} -BasePath {RootPath} -NoPackageAnalysis");
 
 /// Publishes package to NuGet gallery
-[Step] void Publish(string project)
+[Step] void Publish()
 {
-    switch (project)
-    {
-        case "core":         
-            Push(CoreProject); 
-            break;
-        case "runtime": 
-            Push(RuntimeProject); 
-            break;            
-        case "testkit": 
-            Push(TestKitProject); 
-            break;        
-        case "fsharp": 
-            Push(FSharpProject);
-            break;
-        case "fsharp.runtime":  
-            Push(FSharpRuntimeProject);
-            break;
-        case "all":
-            Push(CoreProject); 
-            Push(RuntimeProject); 
-            Push(TestKitProject); 
-            Push(FSharpProject);
-            Push(FSharpRuntimeProject);
-            break;      
-        default:
-            throw new ArgumentException("Available values are: core, runtime, testkit, fsharp or all");   
-    }
+    Push(CoreProject); 
+    Push(RuntimeProject); 
+    Push(TestKitProject); 
+    Push(FSharpProject);
+    Push(FSharpRuntimeProject);
 }
 
-void Push(string project)
-{
-    Cmd(@"{Nuget} push {PackagePath}\{project}.{Version(project)}.nupkg %NuGetApiKey% -Source https://nuget.org/");
-}
-
-string Version(string project)
-{
-    var result = FileVersionInfo
-        .GetVersionInfo(@"{ReleasePath}\{project}.dll")
-        .FileVersion;
-
-    result = result.Substring(0, result.LastIndexOf("."));
-
-    if (Beta != "")
-        result += "-{Beta}";
-
-    return result;
-}
+void Push(string package) => 
+    Cmd(@"{Nuget} push {PackagePath}\{package}.{Version}.nupkg " + 
+        "%NuGetApiKey% -Source https://nuget.org/");
 
 /// Installs binary dependencies 
 [Task] void Restore()
 {
-    Exec(Nuget, "restore {CoreProject}.sln");
+    Exec("dotnet", "restore {CoreProject}.sln");
 
     var packagesDir = @"{RootPath}\Packages";
 

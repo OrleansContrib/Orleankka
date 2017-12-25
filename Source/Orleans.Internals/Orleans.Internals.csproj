@@ -6,6 +6,11 @@
     <AssemblyName>OrleansManager</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 
 </Project>
