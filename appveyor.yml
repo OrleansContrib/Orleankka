@@ -10,6 +10,7 @@ build_script:
     "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
     
     Nake.bat restore
+    
     Nake.bat package
 test: off
 artifacts:
