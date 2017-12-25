@@ -1,20 +1,19 @@
 ![Orleankka Logo](Logo.Wide.jpg)
 
-Orleankka is a functional API for Microsoft Orleans framework. It is highly suitable for scenarios where having composable, uniform communication interface is preferable, such as: CQRS, event-sourcing, re-routing, FSM, etc. 
+Orleankka is a functional extension for Microsoft Orleans framework. It provides a message-based API similar to Akka/Erlang, carefully layered on top of the Orleans (that's what in a name). Orleankka is an excellent choice for use-cases which can benefit from composable, uniform communication interface, such as CQRS, event-sourcing, FSM, etc.
 
 > References: [intro](https://www.youtube.com/watch?v=07Up88bpl20), [features](https://www.youtube.com/watch?v=FKL-PS8Q9ac), [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
 
 ### Features
 
-+ Message-based api with auto-generation of Orleans' interfaces
-+ Special api bindings for C# and F# (DU, Pattern Matching, Tasks, Custom DSL)
-+ Simplified programmatic configuration via fluent DSL (client, cluster, embedded, playground)
++ Message-based API with zero performance overhead
++ Custom F# DSL and bindings (DU, Pattern Matching, Tasks)
 + Convenient unit testing kit (stubs, mocks, expectations)
-+ Redesigned streams api (actor subscriptions)
++ Simplified streams API (actor subscriptions)
 + Declarative regex-based stream subscriptions (great for CQRS/ES projections)
-+ Content-based filtering support for stream subscriptions (both imperative and declarative)
++ Content-based filtering support for stream subscriptions (imperative/declarative)
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
-+ Poweful actor/proxy invocation interceptors
++ Poweful actor/proxy middlewares (interceptors)
 
 ### How to install
 
@@ -59,7 +58,6 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 	+ Persistence: GetEventStore [[see]](Source/Example.EventSourcing.Persistence.GES)
 	+ Persistence: Streamstone [[see]](Source/Example.EventSourcing.Persistence.Streamstone)
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
-+ Azure cloud service [[hub]](Source/Example.Azure.Cluster)
 + Client-side observers [[chat]](Source/Example.Observers.Chat.Client)
 + Streams [[chat]](Source/Example.Streams.Chat.Server)
 
@@ -70,24 +68,10 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + eCommerce [[demo]](Source/FSharp.Demo.Shop)
 + Reentrant messages [[demo]](Source/FSharp.Example.Reentrant)
 + Streams [[client]](Source/FSharp.Example.Streams.Chat.Client) [[server]](Source/FSharp.Example.Streams.Chat.Server) [[shared]](Source/FSharp.Example.Streams.Chat.Shared)
-+ Suave web server [[see]](Source/FSharp.Example.Suave)
-
-##### Dependency Injection
-
-+ Service Locator [[see]](Source/Demo.App)
-+ Autofac [[see]](Source/Example.DependencyInjection.Autofac)
 
 ### Documentation
 
-Complete documentation could be found on [wiki](https://github.com/OrleansContrib/Orleankka/wiki).
-
-## Known issues
-
-Integration tests (those using real actor system) won't work with XUnit visual studio runner due to inability to disable shadow copy https://github.com/xunit/visualstudio.xunit/pull/9
-
-## Contributing
-
-Bug-fix pull requests are always welcome. For new features or modifications, please first create an issue, so we can discuss it before any effort is wasted.
+Documentation can be found [here](http://orleanscontrib.github.io/Orleankka/).
 
 ## Community
 
