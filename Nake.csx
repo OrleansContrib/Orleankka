@@ -56,9 +56,9 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 
     try
     {
-        Cmd(@"Packages\NUnit.Runners\tools\nunit-console.exe " + 
-            @"/process:Multiple /xml:{results} /framework:net-4.0 /noshadow /labels /nologo {tests} " +
-            (AppVeyor||slow ? "/include:Always,Slow" : "/exclude:Slow"));
+        Exec("dotnet", 
+            @"vstest {tests} --logger:trx;LogFileName=nunit-test-results.xml " +
+            (AppVeyor||slow ? "--TestCaseFilter TestCategory=Always,Slow" : "--TestCaseFilter TestCategory=Always"));
     }
     finally
     {    	
