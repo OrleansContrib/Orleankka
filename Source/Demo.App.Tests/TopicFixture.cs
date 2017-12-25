@@ -42,7 +42,7 @@ namespace Demo
         }
 
         [Test]
-        public async void When_created()
+        public async Task When_created()
         {
             await TopicCreated();
 
@@ -63,7 +63,7 @@ namespace Demo
         }
 
         [Test]
-        public async void When_receives_reminder()
+        public async Task When_receives_reminder()
         {
             // given
             await TopicCreated();
@@ -77,7 +77,7 @@ namespace Demo
         }
        
         [Test]
-        public async void Aggregates_results_received_from_api()
+        public async Task Aggregates_results_received_from_api()
         {
             // arrange
             await TopicCreated();
@@ -96,7 +96,7 @@ namespace Demo
 
         [Test]
         [Ignore("FIX")]
-        public async void Flushes_state_after_every_successful_search()
+        public async Task Flushes_state_after_every_successful_search()
         {
             // arrange
             await TopicCreated();
@@ -116,7 +116,7 @@ namespace Demo
         }
 
         [Test]
-        public async void Schedules_periodic_retries_on_first_api_failure()
+        public async Task Schedules_periodic_retries_on_first_api_failure()
         {
             // arrange
             await TopicCreated();
@@ -137,7 +137,7 @@ namespace Demo
         }
 
         [Test]
-        public async void Ignores_executing_scheduled_searches_while_retrying()
+        public async Task Ignores_executing_scheduled_searches_while_retrying()
         {
             // arrange
             await TopicCreated();
@@ -151,7 +151,7 @@ namespace Demo
         }
 
         [Test]
-        public async void Continue_executing_scheduled_searches_if_retry_succeeds()
+        public async Task Continue_executing_scheduled_searches_if_retry_succeeds()
         {
             // arrange
             await TopicCreated();
@@ -185,7 +185,7 @@ namespace Demo
         }
 
         [Test]
-        public async void Disables_scheduled_searches_after_3_consecutive_failed_retries()
+        public async Task Disables_scheduled_searches_after_3_consecutive_failed_retries()
         {
             // arrange
             await TopicCreated();
@@ -206,7 +206,7 @@ namespace Demo
         }
 
         [Test]
-        public async void Rethrows_unknown_exceptions()
+        public async Task Rethrows_unknown_exceptions()
         {
             // arrange
             await TopicCreated();

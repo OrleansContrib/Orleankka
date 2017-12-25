@@ -51,13 +51,14 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 {
     Build("Debug", outDir);
 
-    var tests = new FileSet{@"{outDir}\Orleankka.Tests.dll|-:Orleankka.FSharp.Tests.dll"}.ToString(" ");
+    var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
     var results = @"{outDir}\nunit-test-results.xml";
 
     try
     {
         Exec("dotnet", 
-            @"vstest {tests} --logger:trx;LogFileName=nunit-test-results.xml");
+            @"vstest {tests} --logger:trx;LogFileName=nunit-test-results.xml " +
+            (AppVeyor||slow ? "" : "--TestCaseFilter:TestCategory!=Slow"));
     }
     finally
     {    	

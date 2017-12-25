@@ -1,6 +1,7 @@
 ﻿module Orleankka.FSharp.Tests.Infrastructure
 
 open System
+open System.Reflection
 open NUnit.Framework
 open Orleankka
 open Orleankka.Playground
@@ -22,7 +23,7 @@ type RequiresSiloAttribute() =
          let system = ActorSystem.Configure()
                                  .Playground()
                                  .UseInMemoryPubSubStore()
-                                 .Assemblies(this.GetType().Assembly)
+                                 .Assemblies([|Assembly.GetExecutingAssembly()|])
                                  .Done()
       
          TestActorSystem.instance <- system

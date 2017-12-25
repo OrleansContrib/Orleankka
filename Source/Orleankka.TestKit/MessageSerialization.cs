@@ -37,6 +37,7 @@ namespace Orleankka.TestKit
 
             var client = new ClientBuilder()
                 .UseConfiguration(configuration)
+                .ConfigureApplicationParts(apm => apm.AddFromAppDomain())
                 .Build();
 
             Manager = client.ServiceProvider.GetRequiredService<SerializationManager>();
