@@ -1,8 +1,0 @@
-Microsoft.CodeAnalysis.Analyzers
-Microsoft.CodeAnalysis.Common
-Microsoft.CodeAnalysis.CSharp
-Microsoft.Orleans.Core
-Microsoft.Orleans.OrleansCodeGenerator.Build
-Newtonsoft.Json
-System.Collections.Immutable
-System.Reflection.Metadata

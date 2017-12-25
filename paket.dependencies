@@ -14,28 +14,6 @@ nuget NUnit3TestAdapter 3.9.0
 nuget Microsoft.NET.Test.Sdk 15.5.0
 nuget PowerAssert
 
-nuget Antlr 3.5.0.2
-nuget Microsoft.AspNet.Mvc 5.2.0
-nuget Microsoft.AspNet.Razor 3.2.0
-nuget Microsoft.AspNet.SignalR 2.0.0
-nuget Microsoft.AspNet.SignalR.Core 2.1.2
-nuget Microsoft.AspNet.SignalR.JS 2.0.1
-nuget Microsoft.AspNet.SignalR.SystemWeb 2.0.1
-nuget Microsoft.AspNet.Web.Optimization 1.1.3
-nuget Microsoft.AspNet.WebPages 3.2.0
-nuget Microsoft.jQuery.Unobtrusive.Validation 3.2.0
-nuget jQuery 1.10.2
-nuget jQuery.Validation 1.11.1
-nuget bootstrap 3.0.0
-nuget Modernizr 2.6.2
-nuget Respond 1.2.0
-nuget WebGrease 1.5.2
-nuget Microsoft.Owin 2.0.1
-nuget Microsoft.Owin.Host.SystemWeb 2.0.0
-nuget Microsoft.Owin.Security 2.0.1
-nuget Microsoft.Web.Infrastructure 1.0.0.0
-nuget Owin 1.0
-
 nuget Autofac
 nuget EventStore.ClientAPI.NetCore
 nuget Newtonsoft.Json 10.0.3
@@ -47,18 +25,17 @@ nuget Microsoft.CodeAnalysis.CSharp 2.2.0
 nuget System.Collections.Immutable 1.4
 nuget System.Reflection.Metadata 1.5
 
-nuget Microsoft.Orleans.Core 2.0.0-beta2
-nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta2
-nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta2
-nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-beta2
-nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta2
-nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta2
+nuget Microsoft.Orleans.Core 2.0.0-beta3
+nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta3
+nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta3
+nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-beta3
+nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta3
+nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta3
 nuget Microsoft.Extensions.DependencyInjection 2.0
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.0
 
 nuget WindowsAzure.Storage 8.6.0
-nuget Microsoft.WindowsAzure.ConfigurationManager 3.2.3
-nuget Microsoft.Azure.KeyVault.Core 2.0.4
+nuget Microsoft.Azure.KeyVault.Core
 nuget Microsoft.Data.Edm
 nuget Microsoft.Data.OData
 nuget Microsoft.Data.Services.Client
