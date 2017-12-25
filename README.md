@@ -75,7 +75,8 @@ Documentation can be found [here](http://orleanscontrib.github.io/Orleankka/).
 
 ## Community
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OrleansContrib/Orleankka?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
++ Join [Gitter](https://gitter.im/OrleansContrib/Orleankka) chat
++ Follow the [@Orleankka](https://twitter.com/Orleankka) Twitter account for announcements
 
 ## License
 
