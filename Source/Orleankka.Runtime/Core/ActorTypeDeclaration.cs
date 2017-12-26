@@ -83,6 +83,7 @@ namespace Orleankka.Core
         static readonly string[] separator = {".", "+"};
 
         readonly Type actor;
+        readonly string typeName;
         readonly ActorInterface @interface;
         readonly string clazz;
         readonly IList<string> namespaces;
@@ -91,7 +92,7 @@ namespace Orleankka.Core
         {
             this.actor = actor;
 
-            var typeName = ActorTypeName.Of(actor);
+            typeName = ActorTypeName.Of(actor);
             @interface = ActorInterface.Of(typeName);
 
             var path = typeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
@@ -104,13 +105,12 @@ namespace Orleankka.Core
         GenerateResult Generate()
         {
             var src = new StringBuilder();
-            var references = new List<Assembly>();
 
             StartNamespace(src);
-            GenerateImplementation(src, references);
+            GenerateImplementation(src);
             EndNamespace(src);
 
-            return new GenerateResult(src.ToString(), references);
+            return new GenerateResult(src.ToString(), new List<Assembly>());
         }
 
         void StartNamespace(StringBuilder src) =>
@@ -119,21 +119,20 @@ namespace Orleankka.Core
         static void EndNamespace(StringBuilder src) =>
             src.AppendLine("}");
 
-        void GenerateImplementation(StringBuilder src, List<Assembly> references)
+        void GenerateImplementation(StringBuilder src)
         {
             CopyAttributes(src);
 
             var reentrant = InterleaveAttribute.IsReentrant(actor);
             if (reentrant)
-                src.AppendLine($"[global::{typeof(Orleans.Concurrency.ReentrantAttribute).FullName}]");
+                src.AppendLine($"[global::{typeof(ReentrantAttribute).FullName}]");
 
             var mayInterleave = InterleaveAttribute.MayInterleavePredicate(actor) != null;
             if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 
-            var impl = $"Orleankka.Core.ActorEndpoint<I{clazz}>";
-            src.AppendLine($"public class {clazz} : global::{impl}, I{clazz} {{");
-            src.AppendLine($"public static bool MayInterleave(InvokeMethodRequest req) => type.MayInterleave(req);");
+            src.AppendLine($"public class {clazz} : global::Orleankka.Core.ActorEndpoint, I{clazz} {{");
+            src.AppendLine($"public static bool MayInterleave(InvokeMethodRequest req) => ActorType.MayInterleave(\"{typeName}\", req);");
             src.AppendLine("}");
         }
 

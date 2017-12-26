@@ -23,12 +23,27 @@ namespace Orleankka.Core
 
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
+        
+        static readonly Dictionary<Type, ActorType> grains =
+                    new Dictionary<Type, ActorType>();
 
         static readonly Dictionary<int, ActorType> typeCodes =
                     new Dictionary<int, ActorType>();
 
         public static ActorType Of<T>() => Of(typeof(T));
         public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
+        
+        internal static ActorType OfGrain(Type grainType)
+        {
+            Requires.NotNull(grainType, nameof(grainType));
+
+            var result = grains.Find(grainType);
+            if (result == null)
+                throw new InvalidOperationException(
+                    $"Unable to map grain type '{grainType}' to the corresponding actor implementation class");
+
+            return result;
+        }
 
         public static ActorType Of(string name)
         {
@@ -65,6 +80,7 @@ namespace Orleankka.Core
                 foreach (var actor in actors)
                 {
                     types.Add(actor.Name, actor);
+                    grains.Add(actor.Grain, actor);
                     typeCodes.Add(actor.TypeCode, actor);
                     typeCodes.Add(actor.Interface.TypeCode, actor);
                 }
@@ -98,17 +114,6 @@ namespace Orleankka.Core
             
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
-
-            Init(grain);            
-        }
-
-        void Init(Type grain)
-        {
-            Debug.Assert(grain.BaseType != null);
-            var field = grain.BaseType.GetField("type", BindingFlags.NonPublic | BindingFlags.Static);
-
-            Debug.Assert(field != null);
-            field.SetValue(null, this);
         }
 
         internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
@@ -120,12 +125,15 @@ namespace Orleankka.Core
 
         internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
             pipeline.GetInvoker(Class, invoker);
-
+        
         /// <summary> 
         /// FOR INTERNAL USE ONLY!
         /// </summary>
         [UsedImplicitly]
-        public bool MayInterleave(InvokeMethodRequest request)
+        public static bool MayInterleave(string typeName, InvokeMethodRequest request) => 
+            Of(typeName).MayInterleave(request);
+
+        bool MayInterleave(InvokeMethodRequest request)
         {
             if (request?.Arguments == null)
                 return false;

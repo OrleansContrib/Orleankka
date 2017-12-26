@@ -24,24 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Core\ActorEndpoint.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActorEndpoint.tt</DependentUpon>
-    </Compile>
-
-    <None Include="Core\ActorEndpoint.Common.cs" />
-    <None Include="Core\ActorEndpoint.Common.T.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Core\ActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <!-- t4 emplating -->
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>

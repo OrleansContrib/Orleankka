@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Orleans;
@@ -20,6 +20,9 @@ namespace Orleankka.Core
 
         Actor instance;
         IActorInvoker invoker;
+
+        ActorType actor;
+        ActorType Actor => actor ?? (actor = ActorType.OfGrain(GetType()));
 
         public Task Autorun()
         {
@@ -91,22 +94,5 @@ namespace Orleankka.Core
 
         static string IdentityOf(IGrain grain) => 
             (grain as IGrainWithStringKey).GetPrimaryKeyString();
-
-        protected abstract ActorType Actor { get; }  
-    }
-
-    /// <summary> 
-    /// FOR INTERNAL USE ONLY!
-    /// </summary>
-    public abstract class ActorEndpoint<TInterface> : ActorEndpoint
-    {
-        #pragma warning disable 649
-        // ReSharper disable once StaticMemberInGenericType
-        // ReSharper disable once UnassignedField.Global
-        // ReSharper disable once MemberCanBePrivate.Global
-        protected static ActorType type;
-        #pragma warning restore 649
-
-        protected override ActorType Actor => type;  
     }
 }
