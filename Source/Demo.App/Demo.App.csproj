@@ -2,16 +2,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-  	<RootNamespace>Demo</RootNamespace>
+    <RootNamespace>Demo</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Demo.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
   </ItemGroup>
-
+  
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 
 </Project>

@@ -26,7 +26,7 @@ namespace Demo
             worker = new MockApiWorker();
             observers = new ObserverCollectionMock();
 
-            api = new Api(observers, worker, Runtime);
+            api = new Api(worker, observers, Runtime);
         }
 
         [Test]

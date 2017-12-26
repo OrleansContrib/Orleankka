@@ -34,7 +34,7 @@ namespace Demo
         static readonly TimeSpan RetryPeriod = TimeSpan.FromSeconds(5);
         readonly IDictionary<string, int> retrying = new Dictionary<string, int>();
 
-        internal int total;
+        public int total;
         string query;
 
         public Topic(ITopicStorage storage, string id = null, IActorRuntime runtime = null) 

@@ -22,8 +22,7 @@ namespace Demo
                 Account = CloudStorageAccount.DevelopmentStorageAccount
             };
 
-            var activator = new DI();
-            activator.Init(options).Wait();
+            var storage = TopicStorage.Init(options.Account).GetAwaiter().GetResult();
 
             EmbeddedActorSystem system;
             using (Trace.Execution("Full system startup"))
@@ -32,7 +31,7 @@ namespace Demo
                     .Playground()
                     .Cluster(c => c
                         .Services(s => s
-                            .AddSingleton<IActorActivator>(activator)))
+                            .AddSingleton(storage)))
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 

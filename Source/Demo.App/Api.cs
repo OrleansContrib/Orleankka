@@ -63,22 +63,29 @@ namespace Demo
     {
         const int FailureThreshold = 3;
 
-        readonly IObserverCollection observers;
-        readonly IApiWorker worker;
+        IObserverCollection observers;
+        IApiWorker worker;
 
         int failures;
         bool available = true;
 
-        public Api(            
-            IObserverCollection observers, 
-            IApiWorker worker,
+        public Api( 
+            IApiWorker worker = null,
+            IObserverCollection observers = null,
             IActorRuntime runtime = null)
             : base(runtime)
         {
-            this.observers = observers;
             this.worker = worker;
+            this.observers = observers;
         }
-    
+
+        public override Task OnActivate()
+        {
+            observers = observers ?? new ObserverCollection();
+            worker = worker ?? ApiWorkerFactory.Create(Id);
+            return base.OnActivate();
+        }
+
         public void Handle(Subscribe cmd)
         {
             observers.Add(cmd.Observer);

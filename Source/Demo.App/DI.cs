@@ -23,7 +23,7 @@ namespace Demo
         public ActorGrain Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             if (type == typeof(Api))
-                return new Api(new ObserverCollection(), ApiWorkerFactory.Create(id));
+                return new Api();
 
             if (type == typeof(Topic))
                 return new Topic(storage);
