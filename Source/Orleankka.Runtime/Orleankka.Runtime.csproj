@@ -29,11 +29,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ActorEndpoint.tt</DependentUpon>
     </Compile>
-    <Compile Update="Core\StatefulActorEndpoint.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StatefulActorEndpoint.tt</DependentUpon>
-    </Compile>
 
     <None Include="Core\ActorEndpoint.Common.cs" />
     <None Include="Core\ActorEndpoint.Common.T.cs" />
@@ -43,10 +38,6 @@
     <None Update="Core\ActorEndpoint.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActorEndpoint.cs</LastGenOutput>
-    </None>
-    <None Update="Core\StatefulActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StatefulActorEndpoint.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
