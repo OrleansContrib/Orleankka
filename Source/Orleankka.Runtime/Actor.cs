@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka
@@ -12,40 +11,27 @@ namespace Orleankka
     public abstract class Actor
     {
         ActorRef self;
-        
-        protected Actor()
-        {
+
+        protected Actor() => 
             Behavior = ActorBehavior.Null(this);
-        }
 
-        /// <summary>
-        /// Provided only for unit-testing purposes
-        /// </summary>
-        protected Actor(Dispatcher dispatcher = null)
-            : this(null, null, dispatcher)
+        /// <inheritdoc />
+        protected Actor(IActorRuntime runtime) 
+            : this(null, runtime)
+        {}
+        
+        /// <inheritdoc />
+        protected Actor(string id) 
+            : this(id, null)
         {}
 
         /// <summary>
         /// Provided only for unit-testing purposes
         /// </summary>
-        protected Actor(IActorRuntime runtime = null, Dispatcher dispatcher = null) 
-            : this(null, runtime, dispatcher)
-        {}
-
-        /// <summary>
-        /// Provided only for unit-testing purposes
-        /// </summary>
-        protected Actor(string id = null, Dispatcher dispatcher = null) 
-            : this(id, null, dispatcher)
-        {}
-
-        /// <summary>
-        /// Provided only for unit-testing purposes
-        /// </summary>
-        protected Actor(string id = null, IActorRuntime runtime = null, Dispatcher dispatcher = null) : this()
+        protected Actor(string id = null, IActorRuntime runtime = null) : this()
         {
             Runtime = runtime;
-            Dispatcher = dispatcher ?? ActorType.Dispatcher(GetType());
+            Dispatcher = ActorType.Dispatcher(GetType());
             Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
         }
 
@@ -53,7 +39,7 @@ namespace Orleankka
         {
             Path = path;
             Runtime = runtime;
-            Dispatcher = Dispatcher ?? dispatcher;
+            Dispatcher = dispatcher;
             Host = host;
         }
 
