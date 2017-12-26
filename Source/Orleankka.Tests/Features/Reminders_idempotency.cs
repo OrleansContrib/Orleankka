@@ -35,8 +35,11 @@ namespace Orleankka.Features
         {
             public string Name;
         }
-        
-        class TestActor : ActorGrain
+
+        public interface ITestActor : IActorGrain
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {
             Task On(RegisterReminder x) => Reminders.Register(x.Name, TimeSpan.FromHours(10), TimeSpan.FromHours(10));
             Task On(UnregisterReminder x) => Reminders.Unregister(x.Name);

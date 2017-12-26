@@ -20,7 +20,10 @@ namespace Orleankka.Features
         public class GetText : Query<string>
         {}
 
-        public class TestActor : ActorGrain
+        public interface ITestActor : IActorGrain
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {
             string text = "";
 
@@ -42,17 +45,13 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : ActorGrain
-        {
-            public async Task Handle(DoTell cmd)
-            {
-                await cmd.Target.Tell(cmd.Message);
-            }
+        public interface ITestInsideActor : IActorGrain
+        {}
 
-            public Task<string> Handle(DoAsk query)
-            {
-                return query.Target.Ask<string>(query.Message);
-            }
+        public class TestInsideActor : ActorGrain, ITestInsideActor
+        {
+            public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
+            public Task<string> Handle(DoAsk query) => query.Target.Ask<string>(query.Message);
         }
 
         [TestFixture]

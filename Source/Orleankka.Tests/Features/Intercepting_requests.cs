@@ -26,8 +26,11 @@ namespace Orleankka.Features
         public class CheckRef : Query<string>
         {}
 
+        public interface ITestActor : IActorGrain
+        {}
+
         [Invoker("test_actor_interception")]
-        public class TestActor : ActorGrain
+        public class TestActor : ActorGrain, ITestActor
         {
             string text = "";
 
@@ -51,17 +54,13 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : ActorGrain
-        {
-            public async Task Handle(DoTell cmd)
-            {
-                await cmd.Target.Tell(cmd.Message);
-            }
+        public interface ITestInsideActor : IActorGrain
+        {}
 
-            public Task<string> Handle(DoAsk query)
-            {
-                return query.Target.Ask<string>(query.Message);
-            }
+        public class TestInsideActor : ActorGrain, ITestInsideActor
+        {
+            public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
+            public Task<string> Handle(DoAsk query) => query.Target.Ask<string>(query.Message);
         }
 
         [Serializable]
@@ -74,8 +73,11 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
+        public interface ITestStreamActor  : IActorGrain
+        {}
+
         [Invoker("test_stream_interception")]
-        class TestStreamActor : ActorGrain
+        public class TestStreamActor : ActorGrain, ITestStreamActor
         {
             readonly List<string> received = new List<string>();
             List<string> On(Received x) => received;

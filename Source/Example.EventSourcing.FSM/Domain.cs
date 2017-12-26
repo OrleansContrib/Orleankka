@@ -6,8 +6,11 @@ using Orleankka.Behaviors;
 
 namespace Example
 {
+    public interface IInventoryItem : IActorGrain
+    {}
+
     [Interleave(typeof(GetDetails))]
-    public class InventoryItem : EventSourcedFsmActor
+    public class InventoryItem : EventSourcedFsmActor, IInventoryItem
     {
         string name;
         int total;

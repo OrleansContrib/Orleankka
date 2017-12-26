@@ -29,7 +29,10 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<long>
         {}
 
-        class TestActor : ActorGrain
+        interface ITestActor : IActorGrain
+        {}
+
+        class TestActor : ActorGrain, ITestActor
         {
             bool reminded;
 

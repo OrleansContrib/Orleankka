@@ -33,8 +33,11 @@ namespace Orleankka.Features
             public readonly List<int> NonReentrantInProgress = new List<int>();
         }
 
+        public interface ITestActor : IActorGrain
+        {}
+
         [Interleave(typeof(ReentrantMessage))]
-        class TestActor : ActorGrain
+        public  class TestActor : ActorGrain, ITestActor
         {
             readonly ActorState state = new ActorState();
 
@@ -62,9 +65,12 @@ namespace Orleankka.Features
         [Serializable] class Activate : Command {}
         [Serializable] class GetStreamMessagesInProgress : Query<List<object>> {}
 
+        public interface ITestReentrantStreamConsumerActor : IActorGrain
+        {}
+
         [Interleave(typeof(GetStreamMessagesInProgress))]
         [Interleave(typeof(int))]   // 1-st stream message type        
-        class TestReentrantStreamConsumerActor : ActorGrain
+        public class TestReentrantStreamConsumerActor : ActorGrain, ITestReentrantStreamConsumerActor
         {
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
@@ -88,8 +94,11 @@ namespace Orleankka.Features
             }
         }
 
-        [MayInterleave(nameof(IsReentrant))]
-        class TestReentrantByCallbackMethodActor : ActorGrain
+        public interface ITestReentrantByCallbackMethodActor : IActorGrain
+        {}
+
+        //[MayInterleave(nameof(IsReentrant))]
+        public class TestReentrantByCallbackMethodActor : ActorGrain, ITestReentrantByCallbackMethodActor
         {
             public static bool IsReentrant(object msg) => msg is ReentrantMessage;
 
@@ -116,8 +125,11 @@ namespace Orleankka.Features
             }
         }
 
+        public interface ITestReentrantByCallbackMethodActorFromAnotherActor : IActorGrain
+        {}
+
         [Reentrant]
-        class TestReentrantByCallbackMethodActorFromAnotherActor : ActorGrain
+        public class TestReentrantByCallbackMethodActorFromAnotherActor : ActorGrain, ITestReentrantByCallbackMethodActorFromAnotherActor
         {
             ActorRef receiver;
 

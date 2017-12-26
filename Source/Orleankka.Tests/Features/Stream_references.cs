@@ -47,12 +47,12 @@ namespace Orleankka.Features
         class Received : Query<List<Item>>
         {}
 
-        abstract class TestProducerActorBase : ActorGrain
+        public abstract class TestProducerActorBase : ActorGrain
         {
             Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
-        abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : ActorGrain
         {
             readonly List<Item> received = new List<Item>();
 
@@ -64,8 +64,8 @@ namespace Orleankka.Features
         }
 
         class TestCases<TProducer, TConsumer> 
-            where TProducer : TestProducerActorBase 
-            where TConsumer : TestConsumerActorBase
+            where TProducer : TestProducerActorBase, IActorGrain 
+            where TConsumer : TestConsumerActorBase, IActorGrain
         {
             readonly string provider;
             readonly TimeSpan timeout;
@@ -144,8 +144,11 @@ namespace Orleankka.Features
 
         namespace SimpleMessageStreamProviderVerification
         {
-            class TestProducerActor : TestProducerActorBase {}
-            class TestConsumerActor : TestConsumerActorBase {}
+            public interface ITestProducerActor : IActorGrain {}
+            public interface ITestConsumerActor : IActorGrain {}
+
+            public class TestProducerActor : TestProducerActorBase, ITestProducerActor {}
+            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor {}
 
             [TestFixture, RequiresSilo]
             class Tests
@@ -161,8 +164,11 @@ namespace Orleankka.Features
 
         namespace AzureQueueStreamProviderVerification
         {
-            class TestProducerActor : TestProducerActorBase { }
-            class TestConsumerActor : TestConsumerActorBase { }
+            public interface ITestProducerActor : IActorGrain {}
+            public interface ITestConsumerActor : IActorGrain {}
+
+            public class TestProducerActor : TestProducerActorBase, ITestProducerActor {}
+            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor {}
 
             [TestFixture, RequiresSilo]
             [Category("Slow")]

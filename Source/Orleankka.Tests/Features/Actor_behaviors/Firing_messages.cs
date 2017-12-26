@@ -27,8 +27,11 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class GetReceived : Query<List<string>> {}
             [Serializable] class GetFired : Query<List<string>> {}
 
+            public interface ITestInterleaveFireActor : IActorGrain
+            {}
+
             [Interleave(typeof(string))]
-            class TestInterleaveFireActor : ActorGrain
+            public class TestInterleaveFireActor : ActorGrain, ITestInterleaveFireActor
             {
                 readonly List<string> received = new List<string>();
                 readonly List<string> fired = new List<string>();
@@ -77,7 +80,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class CheckUnhandledFiring : Command {}
             [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
 
-            class TestUnhandledFireActor : ActorGrain
+            public interface ITestUnhandledFireActor : IActorGrain
+            {}
+
+            public class TestUnhandledFireActor : ActorGrain, ITestUnhandledFireActor
             {
                 readonly List<Tuple<string, bool>> origins = new List<Tuple<string, bool>>();
 

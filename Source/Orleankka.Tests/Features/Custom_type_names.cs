@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Orleankka.Features
 {
@@ -33,14 +30,20 @@ namespace Orleankka.Features
     namespace TypeCode1
     {
         [ActorType("T1")]
-        class TestActor : ActorGrain
+        public interface ITestActor : IActorGrain 
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {}
     }
 
     namespace TypeCode2
     {
         [ActorType("T2")]
-        class TestActor : ActorGrain
+        public interface ITestActor : IActorGrain 
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {}
     }
 }

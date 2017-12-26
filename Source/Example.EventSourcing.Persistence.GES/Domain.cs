@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Meta;
 
 namespace Example
 {
+    public interface IInventoryItem : IActorGrain
+    {}
+
     [Interleave(typeof(GetDetails))]
-    public class InventoryItem : EventSourcedActor
+    public class InventoryItem : EventSourcedActor, IInventoryItem
     {
         int total;
         string name;

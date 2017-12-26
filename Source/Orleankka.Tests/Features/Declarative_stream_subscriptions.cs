@@ -19,7 +19,7 @@ namespace Orleankka.Features
         public class Deactivate : Command
         {}
 
-        abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : ActorGrain
         {
             protected readonly List<string> received = new List<string>();
 
@@ -42,7 +42,10 @@ namespace Orleankka.Features
             }
         }
 
-        class TestProducerActor : ActorGrain
+        public interface ITestProducerActor : IActorGrain
+        {}
+
+        public class TestProducerActor : ActorGrain, ITestProducerActor
         {
             Task On(Push x) => x.Stream.Push(x.Item);
         }
@@ -60,7 +63,7 @@ namespace Orleankka.Features
                 system = TestActorSystem.Instance;
             }
 
-            public async Task Client_to_stream<T>() where T : ActorGrain
+            public async Task Client_to_stream<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "cs");
 
@@ -72,7 +75,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ce"}));
             }
 
-            public async Task Actor_to_stream<T>() where T : ActorGrain
+            public async Task Actor_to_stream<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "as");
 
@@ -84,7 +87,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ae"}));
             }
 
-            public async Task Multistream_subscription_with_fixed_ids<T>() where T : ActorGrain
+            public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActorGrain
             {
                 var a = system.StreamOf(provider, "a");
                 var b = system.StreamOf(provider, "b");
@@ -98,7 +101,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
 
-            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : ActorGrain
+            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActorGrain
             {
                 var s1 = system.StreamOf(provider, "INV-001");
                 var s2 = system.StreamOf(provider, "INV-002");
@@ -112,7 +115,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
-            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : ActorGrain
+            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "declared-auto");
                 Assert.DoesNotThrowAsync(async ()=> await Push(stream, 123),
@@ -127,7 +130,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("e-123"));
             }
 
-            public async Task Select_all_filter<T>() where T : ActorGrain
+            public async Task Select_all_filter<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "select-all");
 
@@ -141,7 +144,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("42"));
             }
 
-            public async Task Explicit_filter<T>() where T : ActorGrain
+            public async Task Explicit_filter<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "filtered");
 
@@ -154,7 +157,7 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            public async Task Dynamic_target_selection<T>() where T : ActorGrain
+            public async Task Dynamic_target_selection<T>() where T : IActorGrain
             {
                 var stream = system.StreamOf(provider, "dynamic-target");
 
@@ -178,29 +181,47 @@ namespace Orleankka.Features
 
         namespace SimpleMessageStreamProviderVerification
         {
+            public interface ITestClientToStreamConsumerActor : IActorGrain 
+            {}
+
             [StreamSubscription(Source = "sms:cs", Target = "#")]
-            class TestClientToStreamConsumerActor : TestConsumerActorBase
+            public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
+            {}
+
+            public interface ITestActorToStreamConsumerActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "sms:as", Target = "#")]
-            class TestActorToStreamConsumerActor : TestConsumerActorBase
+            public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
+            {}
+
+            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "sms:a", Target = "#")]
             [StreamSubscription(Source = "sms:b", Target = "#")]
-            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
+            public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
+            {}
+
+            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#")]
-            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
+            public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
+            {}
+
+            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "sms:declared-auto", Target = "#")]
-            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
+            {}
+
+            public interface ITestSelectAllFilterActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
-            class TestSelectAllFilterActor : TestConsumerActorBase
+            public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
                 {
@@ -214,14 +235,20 @@ namespace Orleankka.Features
                 }
             }
 
+            public interface ITestExplicitFilterActor : IActorGrain
+            {}
+
             [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
-            class TestExplicitFilterActor : TestConsumerActorBase
+            public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
             }
 
+            public interface ITestDynamicTargetSelectorActor : IActorGrain
+            {}
+
             [StreamSubscription(Source = "sms:dynamic-target", Target = "ComputeTarget()")]
-            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            public class TestDynamicTargetSelectorActor : TestConsumerActorBase, ITestDynamicTargetSelectorActor
             {
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }
@@ -247,29 +274,47 @@ namespace Orleankka.Features
 
         namespace AzureQueueStreamProviderVerification
         {
+            public interface ITestClientToStreamConsumerActor : IActorGrain 
+            {}
+
             [StreamSubscription(Source = "aqp:cs", Target = "#")]
-            class TestClientToStreamConsumerActor : TestConsumerActorBase
+            public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
+            {}
+
+            public interface ITestActorToStreamConsumerActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "aqp:as", Target = "#")]
-            class TestActorToStreamConsumerActor : TestConsumerActorBase
+            public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
+            {}
+
+            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "aqp:a", Target = "#")]
             [StreamSubscription(Source = "aqp:b", Target = "#")]
-            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
+            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
+            {}
+
+            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#")]
-            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
+            public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
+            {}
+
+            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "aqp:declared-auto", Target = "#")]
-            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
+            {}
+
+            public interface ITestSelectAllFilterActor : IActorGrain
             {}
 
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
-            class TestSelectAllFilterActor : TestConsumerActorBase
+            public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
                 {
@@ -283,14 +328,20 @@ namespace Orleankka.Features
                 }
             }
 
+            public interface ITestExplicitFilterActor : IActorGrain
+            {}
+
             [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
-            class TestExplicitFilterActor : TestConsumerActorBase
+            public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
             }
 
+            public interface ITestDynamicTargetSelectorActor : IActorGrain
+            {}
+
             [StreamSubscription(Source = "aqp:dynamic-target", Target = "ComputeTarget()")]
-            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            public class TestDynamicTargetSelectorActor : TestConsumerActorBase, ITestDynamicTargetSelectorActor
             {
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }

@@ -25,7 +25,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
         
-        abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : ActorGrain
         {
             readonly List<string> received = new List<string>();
 
@@ -52,7 +52,7 @@ namespace Orleankka.Features
             }
         }
 
-        class TestCases<TConsumer> where TConsumer : ActorGrain
+        class TestCases<TConsumer> where TConsumer : IActorGrain
         {
             readonly string provider;
             readonly TimeSpan timeout;
@@ -167,7 +167,10 @@ namespace Orleankka.Features
                 [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
             }
 
-            class TestConsumerActor : TestConsumerActorBase
+            public interface ITestConsumerActor : IActorGrain
+            {}
+
+            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
             {
                 protected override string Provider => "sms";
             }
@@ -175,7 +178,10 @@ namespace Orleankka.Features
 
         namespace AzureQueueStreamProviderVerification
         {
-            class TestConsumerActor : TestConsumerActorBase
+            public interface ITestConsumerActor : IActorGrain
+            {}
+
+            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
             {
                 protected override string Provider => "aqp";
             }

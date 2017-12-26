@@ -17,12 +17,12 @@ namespace Orleankka.Features
             public Exception Exception;
         }
 
-        public class TestActor : ActorGrain
+        public interface ITestActor : IActorGrain
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {
-            public void Handle(Throw cmd)
-            {
-                throw cmd.Exception;
-            }
+            public void Handle(Throw cmd) => throw cmd.Exception;
         }
 
         [Serializable]
@@ -32,12 +32,12 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : ActorGrain
+        public interface ITestInsideActor : IActorGrain
+        {}
+
+        public class TestInsideActor : ActorGrain, ITestInsideActor
         {
-            public async Task Handle(DoTell cmd)
-            {
-                await cmd.Target.Tell(cmd.Message);
-            }
+            public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
         }
 
         [TestFixture]

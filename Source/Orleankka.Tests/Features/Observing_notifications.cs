@@ -31,7 +31,10 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        public class TestActor : ActorGrain
+        public interface ITestActor : IActorGrain
+        {}
+
+        public class TestActor : ActorGrain, ITestActor
         {
             ObserverRef observer;
 
@@ -43,7 +46,10 @@ namespace Orleankka.Features
         public class ReceivedNotifications : Query<Notification[]>
         {}
 
-        public class TestInsideActor : ActorGrain
+        public interface ITestInsideActor : IActorGrain
+        {}
+
+        public class TestInsideActor : ActorGrain, ITestInsideActor
         {
             readonly List<Notification> notifications = new List<Notification>();
 

@@ -20,8 +20,11 @@ namespace Orleankka.Features
         public class Deactivate : Command
         {}
 
+        public interface ITestActor : IActorGrain
+        {}
+
         [Sticky]
-        public class TestActor : ActorGrain
+        public class TestActor : ActorGrain, ITestActor
         {
             void On(Activate x) {}
 

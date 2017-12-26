@@ -25,8 +25,11 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<long>
         {}
 
+        public interface ITestActor : IActorGrain
+        {}
+
         [KeepAlive(Minutes = 2)]
-        public class TestActor : ActorGrain
+        public class TestActor : ActorGrain, ITestActor
         {
             bool reminded;
 

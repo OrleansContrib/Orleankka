@@ -39,7 +39,10 @@ namespace Orleankka.TestKit
             Assert.AreSame(mock1, mock2);
         }
 
-        class TestActor : ActorGrain
+        interface ITestActor : IActorGrain
+        {}
+
+        class TestActor : ActorGrain, ITestActor
         {}
     }
 }

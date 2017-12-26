@@ -22,8 +22,11 @@ namespace Demo
         }
     }
 
+    public interface ITopic : IActorGrain
+    {}
+
     [ActivationCountBasedPlacement]
-    public class Topic : ActorGrain
+    public class Topic : ActorGrain, ITopic
     {
         readonly ITopicStorage storage;
 
