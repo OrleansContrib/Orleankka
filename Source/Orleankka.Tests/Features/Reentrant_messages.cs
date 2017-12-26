@@ -34,7 +34,7 @@ namespace Orleankka.Features
         }
 
         [Interleave(typeof(ReentrantMessage))]
-        class TestActor : Actor
+        class TestActor : ActorGrain
         {
             readonly ActorState state = new ActorState();
 
@@ -64,7 +64,7 @@ namespace Orleankka.Features
 
         [Interleave(typeof(GetStreamMessagesInProgress))]
         [Interleave(typeof(int))]   // 1-st stream message type        
-        class TestReentrantStreamConsumerActor : Actor
+        class TestReentrantStreamConsumerActor : ActorGrain
         {
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
@@ -89,7 +89,7 @@ namespace Orleankka.Features
         }
 
         [MayInterleave(nameof(IsReentrant))]
-        class TestReentrantByCallbackMethodActor : Actor
+        class TestReentrantByCallbackMethodActor : ActorGrain
         {
             public static bool IsReentrant(object msg) => msg is ReentrantMessage;
 
@@ -117,7 +117,7 @@ namespace Orleankka.Features
         }
 
         [Reentrant]
-        class TestReentrantByCallbackMethodActorFromAnotherActor : Actor
+        class TestReentrantByCallbackMethodActorFromAnotherActor : ActorGrain
         {
             ActorRef receiver;
 

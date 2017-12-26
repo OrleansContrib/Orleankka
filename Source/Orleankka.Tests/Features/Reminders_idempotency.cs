@@ -36,7 +36,7 @@ namespace Orleankka.Features
             public string Name;
         }
         
-        class TestActor : Actor
+        class TestActor : ActorGrain
         {
             Task On(RegisterReminder x) => Reminders.Register(x.Name, TimeSpan.FromHours(10), TimeSpan.FromHours(10));
             Task On(UnregisterReminder x) => Reminders.Unregister(x.Name);

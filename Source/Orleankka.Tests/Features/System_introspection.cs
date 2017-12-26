@@ -18,10 +18,10 @@ namespace Orleankka.Features
         public class CheckTypeCodeResolution : Query<string>
         {}
 
-        public interface ITestActor : IActor
+        public interface ITestActor : Orleankka.IActorGrain
         {}
 
-        public class TestActor : Actor, ITestActor
+        public class TestActor : ActorGrain, ITestActor
         {
             string On(CheckTypeCodeResolution x)
             {

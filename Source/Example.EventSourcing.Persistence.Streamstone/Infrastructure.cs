@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Example
 {
-    public abstract class CqsActor : Actor
+    public abstract class CqsActor : ActorGrain
     {
         public override Task<object> OnReceive(object message)
         {

@@ -19,7 +19,7 @@ namespace Orleankka.Features
         public class NumberOfTimesTimerFired : Query<int>
         {}
 
-        public class TestActor : Actor
+        public class TestActor : ActorGrain
         {
             int fired;
 

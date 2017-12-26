@@ -4,7 +4,7 @@ using Orleankka;
 
 namespace Example
 {
-    public class InventoryItem : Actor
+    public class InventoryItem : ActorGrain
     {
         int total;
         string name;

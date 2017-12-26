@@ -7,7 +7,7 @@ using Orleankka.Meta;
 
 namespace FSM.Infrastructure
 {
-    public abstract class CqsActor : Actor, IActor
+    public abstract class CqsActor : ActorGrain, IActorGrain
     {
         public override Task<object> OnReceive(object message)
         {

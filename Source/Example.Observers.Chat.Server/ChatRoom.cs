@@ -5,7 +5,7 @@ using Orleankka;
 
 namespace Example
 {
-    public class ChatRoom : Actor, IChatRoom
+    public class ChatRoom : ActorGrain, IChatRoom
     {
         readonly HashSet<string> members =
              new HashSet<string>();

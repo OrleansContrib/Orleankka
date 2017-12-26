@@ -14,12 +14,12 @@ namespace Orleankka.Cluster
             if (method == null)
                 return "Unknown";
 
-            if (!(grain is IActorEndpoint))
+            if (!(grain is IActorGrain))
                 return method.Name;
 
-            if (method.Name != nameof(IActorEndpoint.Receive) && 
-                method.Name != nameof(IActorEndpoint.ReceiveVoid) && 
-                method.Name != nameof(IActorEndpoint.Notify))
+            if (method.Name != nameof(IActorGrain.Receive) && 
+                method.Name != nameof(IActorGrain.ReceiveVoid) && 
+                method.Name != nameof(IActorGrain.Notify))
                 return method.Name;
 
             return request.Arguments[0]?.GetType().Name ?? $"{method.Name}(NULL)";

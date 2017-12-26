@@ -5,7 +5,7 @@ using Orleankka;
 namespace Example
 {
     [ActorType("ChatUser")]
-    public interface IChatUser : IActor
+    public interface IChatUser : IActorGrain
     {}
 
     [Serializable]

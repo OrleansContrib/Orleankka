@@ -9,7 +9,7 @@ namespace Orleankka
 
     public interface IActorActivator
     {
-        Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher);
+        ActorGrain Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher);
     }
 
     class DefaultActorActivator : IActorActivator
@@ -27,10 +27,10 @@ namespace Orleankka
                 factories.Add(type.Class, ActivatorUtilities.CreateFactory(type.Class, Type.EmptyTypes));
         }
 
-        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public ActorGrain Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             var factory = factories[type];
-            return (Actor) factory(services, null);
+            return (ActorGrain) factory(services, null);
         }
     }
 }

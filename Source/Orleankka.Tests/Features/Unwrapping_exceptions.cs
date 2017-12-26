@@ -17,7 +17,7 @@ namespace Orleankka.Features
             public Exception Exception;
         }
 
-        public class TestActor : Actor
+        public class TestActor : ActorGrain
         {
             public void Handle(Throw cmd)
             {
@@ -32,7 +32,7 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : Actor
+        public class TestInsideActor : ActorGrain
         {
             public async Task Handle(DoTell cmd)
             {

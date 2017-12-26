@@ -19,7 +19,7 @@ namespace Example
     {}
 
     [Interleave(typeof(Read))]
-    public class ReaderWriterLock : Actor
+    public class ReaderWriterLock : ActorGrain
     {
         int value;
         ConsolePosition indicator;

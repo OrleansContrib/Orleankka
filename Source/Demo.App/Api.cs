@@ -56,7 +56,7 @@ namespace Demo
     }
 
     [ActorType("Api")]
-    public class Api : Actor
+    public class Api : ActorGrain
     {
         const int FailureThreshold = 3;
 

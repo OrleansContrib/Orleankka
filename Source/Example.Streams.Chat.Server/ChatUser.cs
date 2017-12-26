@@ -6,7 +6,7 @@ using Orleankka;
 namespace Example
 {
     [ActorType("ChatUser")]
-    public class ChatUser : Actor, IChatUser
+    public class ChatUser : ActorGrain, IChatUser
     {
         Task On(Join x)   => Send(x.Room, $"{Id} joined the room {x.Room} ...");
         Task On(Leave x)  => Send(x.Room, $"{Id} left the room {x.Room}!");

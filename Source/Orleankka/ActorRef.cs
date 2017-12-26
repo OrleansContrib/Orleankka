@@ -19,7 +19,7 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        [NonSerialized] readonly IActorEndpoint endpoint;
+        [NonSerialized] readonly IActorGrain endpoint;
         [NonSerialized] readonly IActorRefInvoker invoker;
 
         protected ActorRef(ActorPath path)
@@ -27,7 +27,7 @@ namespace Orleankka
             Path = path;
         }
 
-        internal ActorRef(ActorPath path, IActorEndpoint endpoint, IActorRefInvoker invoker)
+        internal ActorRef(ActorPath path, IActorGrain endpoint, IActorRefInvoker invoker)
             : this(path)
         {
             this.endpoint = endpoint;
@@ -120,7 +120,7 @@ namespace Orleankka
 
     [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActor
+    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActorGrain
     {
         readonly ActorRef @ref;
 

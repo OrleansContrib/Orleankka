@@ -25,7 +25,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
         
-        abstract class TestConsumerActorBase : Actor
+        abstract class TestConsumerActorBase : ActorGrain
         {
             readonly List<string> received = new List<string>();
 
@@ -52,7 +52,7 @@ namespace Orleankka.Features
             }
         }
 
-        class TestCases<TConsumer> where TConsumer : Actor
+        class TestCases<TConsumer> where TConsumer : ActorGrain
         {
             readonly string provider;
             readonly TimeSpan timeout;

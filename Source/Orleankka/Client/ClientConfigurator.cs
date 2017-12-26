@@ -81,23 +81,6 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator ActorTypes(params string[] types)
-        {
-            Requires.NotNull(types, nameof(types));
-
-            if (types.Length == 0)
-                throw new ArgumentException("types array is empty", nameof(types));
-
-            foreach (var type in types)
-            {
-                var mapping = ActorInterfaceMapping.Of(type);
-                if (registry.IsRegistered(mapping.TypeName))
-                    throw new ArgumentException($"Actor type '{type}' has been already registered");
-            }
-
-            return this;
-        }
-
         public ClientActorSystem Done()
         {
             RegisterStreamProviders();
@@ -112,7 +95,7 @@ namespace Orleankka.Client
                 each.Register(Configuration);
         }
 
-        void RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
+        void RegisterActorInterfaces() => ActorInterface.Register(registry.Mappings);
     }
 
     public static class ClientConfiguratorExtensions

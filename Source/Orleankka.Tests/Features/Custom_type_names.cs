@@ -33,14 +33,14 @@ namespace Orleankka.Features
     namespace TypeCode1
     {
         [ActorType("T1")]
-        class TestActor : Actor
+        class TestActor : ActorGrain
         {}
     }
 
     namespace TypeCode2
     {
         [ActorType("T2")]
-        class TestActor : Actor
+        class TestActor : ActorGrain
         {}
     }
 }

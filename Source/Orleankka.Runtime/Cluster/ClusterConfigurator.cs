@@ -157,7 +157,7 @@ namespace Orleankka.Cluster
             RegisterBehaviors();
         }
 
-        void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
+        void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
 
         void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
 
@@ -168,8 +168,12 @@ namespace Orleankka.Cluster
             foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
             {
                 var ids = AutorunAttribute.From(actor);
-                if (ids.Length > 0)
-                    autoruns.Add(ActorTypeName.Of(actor), ids);
+                if (ids.Length <= 0) 
+                    continue;
+                
+                var typeName = ActorTypeName.Of(actor);
+                if (registry.IsRegistered(typeName))
+                    autoruns.Add(typeName, ids);
             }
 
             Bootstrapper<AutorunBootstrapper>(autoruns);

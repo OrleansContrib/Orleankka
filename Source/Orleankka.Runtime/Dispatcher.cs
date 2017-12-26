@@ -14,7 +14,7 @@ namespace Orleankka
     public class Dispatcher
     {
         static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
-        static readonly Type[] DefaultRoots = {typeof(Actor), typeof(object)};
+        static readonly Type[] DefaultRoots = {typeof(ActorGrain), typeof(object)};
 
         readonly Dictionary<Type, Action<object, object>> actions =
              new Dictionary<Type, Action<object, object>>();

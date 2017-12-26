@@ -18,7 +18,7 @@ namespace Orleankka.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            class TestActor : Actor
+            class TestActor : ActorGrain
             {
                 TestActor()
                 {}
@@ -139,7 +139,7 @@ namespace Orleankka.Features.Actor_behaviors
                 [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
-            class TestDefaultActor : Actor
+            class TestDefaultActor : ActorGrain
             {
                 public TestDefaultActor()
                 {

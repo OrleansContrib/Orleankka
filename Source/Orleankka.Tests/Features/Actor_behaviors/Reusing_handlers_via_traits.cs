@@ -15,7 +15,7 @@ namespace Orleankka.Features.Actor_behaviors
             class X { }
             class Y { }
 
-            class TestActor : Actor
+            class TestActor : ActorGrain
             {
                 public readonly List<string> Events = new List<string>();
 

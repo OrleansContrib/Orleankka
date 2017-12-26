@@ -73,16 +73,23 @@ namespace Orleankka.Core
                 .SelectMany(x => x.ActorTypes())
                 .Where(x => !types.ContainsKey(ActorTypeName.Of(x)));
 
-            using (Trace.Execution("Generation of actor implementation assemblies"))
+            foreach (var each in ActorTypes(unregistered))
             {
-                var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
+                types.Add(each.Name, each);
+                grains.Add(each.Grain, each);
+                typeCodes.Add(each.TypeCode, each);
+                typeCodes.Add(each.Interface.TypeCode, each);
+            }
 
-                foreach (var actor in actors)
+            IEnumerable<ActorType> ActorTypes(IEnumerable<Type> types)
+            {
+                foreach (var each in types)
                 {
-                    types.Add(actor.Name, actor);
-                    grains.Add(actor.Grain, actor);
-                    typeCodes.Add(actor.TypeCode, actor);
-                    typeCodes.Add(actor.Interface.TypeCode, actor);
+                    var typeName = ActorTypeName.Of(each);
+                    var @interface = ActorInterface.Of(typeName);
+                    if (@interface == null)
+                        continue;
+                    yield return new ActorType(each, @interface, each, conventions);
                 }
             }
         }
@@ -98,7 +105,7 @@ namespace Orleankka.Core
         readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly string invoker;
-        readonly Dispatcher dispatcher;
+        internal readonly Dispatcher dispatcher;
 
         internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
         {
@@ -116,7 +123,7 @@ namespace Orleankka.Core
             dispatchers.Add(@class, dispatcher);
         }
 
-        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
+        internal ActorGrain Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
         {
             var instance = activator.Activate(Class, path.Id, runtime, dispatcher);
             instance.Initialize(host, path, runtime, dispatcher);

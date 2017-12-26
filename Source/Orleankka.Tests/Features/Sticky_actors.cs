@@ -21,7 +21,7 @@ namespace Orleankka.Features
         {}
 
         [Sticky]
-        public class TestActor : Actor
+        public class TestActor : ActorGrain
         {
             void On(Activate x) {}
 

@@ -156,7 +156,7 @@ namespace Orleankka
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
         {
             return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath(id)));
         }
@@ -167,7 +167,7 @@ namespace Orleankka
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActor
+        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
         {
             return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath("#")));
         }

@@ -44,8 +44,8 @@ namespace Orleankka.Core
         internal static Type CustomInterface(Type type)
         {
             var interfaces = type
-                .GetInterfaces().Except(new[] {typeof(IActor)})
-                .Where(each => each.GetInterfaces().Contains(typeof(IActor)))
+                .GetInterfaces().Except(new[] {typeof(Orleankka.IActorGrain)})
+                .Where(each => each.GetInterfaces().Contains(typeof(Orleankka.IActorGrain)))
                 .ToArray();
 
             if (interfaces.Length > 1)

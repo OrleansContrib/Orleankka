@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
 
 using Orleans;
 using Orleans.Internals;
@@ -23,15 +22,17 @@ namespace Orleankka.Core
             Requires.NotNull(name, nameof(name));
 
             var result = names.Find(name);
+
+            /*
             if (result == null)
                 throw new InvalidOperationException(
                     $"Unable to map actor type name '{name}' to the corresponding actor. " +
                         "Make sure that you've registered an actor type or the assembly containing this type");
-
+            */
             return result;
         }
 
-        internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
+        internal static void Register(IEnumerable<ActorInterfaceMapping> mappings)
         {
             var unregistered = new List<ActorInterfaceMapping>();
 
@@ -48,22 +49,17 @@ namespace Orleankka.Core
                     throw new DuplicateActorTypeException(existing.Mapping, each);
             }
 
-            using (Trace.Execution("Generation of actor interface assemblies"))
+            foreach (var each in unregistered)
             {
-                var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
-
-                foreach (var each in generated)
-                    names.Add(each.Name, each);
+                var @interface = new ActorInterface(each, each.CustomInterface);
+                names.Add(@interface.Name, @interface);
             }
         }
-
-        public static IEnumerable<ActorInterface> Registered() => names.Values;
 
         internal readonly ActorInterfaceMapping Mapping;
         internal readonly Type Grain;
 
         public readonly int TypeCode;
-        public readonly ushort Version;
         public readonly string Name;
 
         Func<IGrainFactory, string, object> factory;
@@ -74,13 +70,11 @@ namespace Orleankka.Core
             Grain = grain;
 
             TypeCode = grain.TypeCode();
-            Version = grain.InterfaceVersion();
+            grain.InterfaceVersion();
             Name = Mapping.TypeName;
 
             Array.ForEach(mapping.Types, ActorTypeName.Register);
         }
-
-        internal Assembly GrainAssembly() => Grain.Assembly;
 
         internal static void Bind(IGrainFactory factory)
         {            
@@ -100,6 +94,6 @@ namespace Orleankka.Core
             }
         }
 
-        internal IActorEndpoint Proxy(string id, IGrainFactory instance) => (IActorEndpoint) factory(instance, id);
+        internal IActorGrain Proxy(string id, IGrainFactory instance) => (IActorGrain) factory(instance, id);
     }
 }

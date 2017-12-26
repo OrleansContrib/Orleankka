@@ -26,7 +26,7 @@ namespace Orleankka.Features
         {}
 
         [KeepAlive(Minutes = 2)]
-        public class TestActor : Actor
+        public class TestActor : ActorGrain
         {
             bool reminded;
 

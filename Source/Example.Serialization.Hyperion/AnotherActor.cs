@@ -21,7 +21,7 @@ namespace Example
         public Item Item;
     }
 
-    public class AnotherActor : Actor
+    public class AnotherActor : ActorGrain
     {
         void On(Notify x) => x.Observer.Notify(x.Item);
         Task On(Push x) => x.Stream.Push(x.Item);

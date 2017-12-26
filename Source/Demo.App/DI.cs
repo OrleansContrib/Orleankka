@@ -20,7 +20,7 @@ namespace Demo
             storage = await TopicStorage.Init(options.Account);
         }
 
-        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public ActorGrain Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
         {
             if (type == typeof(Api))
                 return new Api(new ObserverCollection(), ApiWorkerFactory.Create(id));

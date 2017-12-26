@@ -3,6 +3,6 @@
 namespace Example
 {
     [ActorType("ChatRoom")]
-    public interface IChatRoom : IActor
+    public interface IChatRoom : IActorGrain
     {}
 }

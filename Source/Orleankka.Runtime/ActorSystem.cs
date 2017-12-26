@@ -12,7 +12,7 @@
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : Actor
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : ActorGrain
         {
             return system.ActorOf(typeof(TActor).ToActorPath(id));
         }
@@ -23,7 +23,7 @@
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : Actor
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : ActorGrain
         {
             return system.ActorOf(typeof(TActor).ToActorPath("#"));
         }

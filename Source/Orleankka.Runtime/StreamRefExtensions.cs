@@ -8,7 +8,7 @@ namespace Orleankka
 {
     public static class StreamRefExtensions
     {
-        public static async Task Subscribe(this StreamRef stream, Actor actor, StreamFilter filter = null)
+        public static async Task Subscribe(this StreamRef stream, ActorGrain actor, StreamFilter filter = null)
         {
             Requires.NotNull(actor, nameof(actor));
 
@@ -22,7 +22,7 @@ namespace Orleankka
             await stream.Subscribe(x => actor.Host.Receive(x), filter ?? DeclaredHandlerOnlyFilter(actor));
         }
 
-        public static async Task Unsubscribe(this StreamRef stream, Actor actor)
+        public static async Task Unsubscribe(this StreamRef stream, ActorGrain actor)
         {
             Requires.NotNull(actor, nameof(actor));
 
@@ -36,7 +36,7 @@ namespace Orleankka
             await subscriptions[0].Unsubscribe();
         }
 
-        public static async Task Resume(this StreamRef stream, Actor actor)
+        public static async Task Resume(this StreamRef stream, ActorGrain actor)
         {
             Requires.NotNull(actor, nameof(actor));
 
@@ -50,7 +50,7 @@ namespace Orleankka
             await subscriptions[0].Resume(x => actor.Host.Receive(x));
         }
 
-        static StreamFilter DeclaredHandlerOnlyFilter(Actor actor) => 
+        static StreamFilter DeclaredHandlerOnlyFilter(ActorGrain actor) => 
            new StreamFilter(actor.Dispatcher.Handlers);
     }
 }

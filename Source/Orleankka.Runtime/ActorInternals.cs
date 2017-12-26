@@ -6,7 +6,7 @@ namespace Orleankka
     {
         public static class ActorExtensions
         {
-            public static IActorHost Host(this Actor actor) => actor.Host;
+            public static IActorHost Host(this ActorGrain actor) => actor.Host;
         }
     }
 }

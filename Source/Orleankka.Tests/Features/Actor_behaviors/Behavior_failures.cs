@@ -12,7 +12,7 @@ namespace Orleankka.Features.Actor_behaviors
         [TestFixture]
         public class Tests
         {
-            class TestActor : Actor
+            class TestActor : ActorGrain
             {
                 TestActor()
                 {}

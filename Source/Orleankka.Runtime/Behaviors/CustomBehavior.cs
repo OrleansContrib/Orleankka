@@ -22,7 +22,7 @@ namespace Orleankka.Behaviors
             Null.OnReminder((actor, id) => 
             {
                 throw new NotImplementedException(
-                    $"Override {nameof(Actor.OnReminder)}(string id) method in " +
+                    $"Override {nameof(ActorGrain.OnReminder)}(string id) method in " +
                     $"class {actor.GetType()} to implement corresponding behavior");
             });
 
@@ -38,11 +38,11 @@ namespace Orleankka.Behaviors
         Func<Task> onActivate;
         Func<Task> onDeactivate;
 
-        readonly Dictionary<Type, Func<Actor, object, Task<object>>> onReceive = new Dictionary<Type, Func<Actor, object, Task<object>>>();
-        Func<Actor, object, Task<object>> onReceiveAny;
+        readonly Dictionary<Type, Func<ActorGrain, object, Task<object>>> onReceive = new Dictionary<Type, Func<ActorGrain, object, Task<object>>>();
+        Func<ActorGrain, object, Task<object>> onReceiveAny;
 
-        readonly Dictionary<string, Func<Actor, string, Task>> onReminder = new Dictionary<string, Func<Actor, string, Task>>();
-        Func<Actor, string, Task> onReminderAny;
+        readonly Dictionary<string, Func<ActorGrain, string, Task>> onReminder = new Dictionary<string, Func<ActorGrain, string, Task>>();
+        Func<ActorGrain, string, Task> onReminderAny;
 
         CustomBehavior()
         {}
@@ -86,7 +86,7 @@ namespace Orleankka.Behaviors
             onDeactivate = action;
         }
 
-        public void OnReceive(Func<Actor, object, Task<object>> action)
+        public void OnReceive(Func<ActorGrain, object, Task<object>> action)
         {
             if (onReceiveAny != null)
                 throw new InvalidOperationException($"OnReceive(*) action has been already configured for behavior '{Name}'");
@@ -94,7 +94,7 @@ namespace Orleankka.Behaviors
             onReceiveAny = action;
         }
 
-        public void OnReceive<TMessage>(Func<Actor, TMessage, Task<object>> action)
+        public void OnReceive<TMessage>(Func<ActorGrain, TMessage, Task<object>> action)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace Orleankka.Behaviors
             }
         }
 
-        public void OnReminder(Func<Actor, string, Task> action)
+        public void OnReminder(Func<ActorGrain, string, Task> action)
         {
             if (onReminderAny != null)
                 throw new InvalidOperationException($"OnReminder(*) action has been already configured for behavior '{Name}'");
@@ -114,7 +114,7 @@ namespace Orleankka.Behaviors
             onReminderAny = action;
         }
 
-        public void OnReminder(string id, Func<Actor, Task> action)
+        public void OnReminder(string id, Func<ActorGrain, Task> action)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace Orleankka.Behaviors
                 await super.HandleDeactivate(transition);
         }
 
-        public Task<object> HandleReceive(Actor actor, object message, RequestOrigin origin)
+        public Task<object> HandleReceive(ActorGrain actor, object message, RequestOrigin origin)
         {
             if (IsNull())
                 return onReceiveAny(actor, message);
@@ -189,16 +189,16 @@ namespace Orleankka.Behaviors
                        : actor.OnUnhandledReceive(origin, message);
         }
 
-        Func<Actor, object, Task<object>> TryFindReceiveHandler(object message)
+        Func<ActorGrain, object, Task<object>> TryFindReceiveHandler(object message)
         {
             var handler = onReceive.Find(message.GetType());
             return handler ?? super?.TryFindReceiveHandler(message);
         }
 
-        Func<Actor, object, Task<object>> TryFindReceiveAnyHandler() => 
+        Func<ActorGrain, object, Task<object>> TryFindReceiveAnyHandler() => 
             onReceiveAny ?? super?.TryFindReceiveAnyHandler();
 
-        public Task HandleReminder(Actor actor, string id)
+        public Task HandleReminder(ActorGrain actor, string id)
         {
             if (IsNull())
                 return onReminderAny(actor, id);
@@ -213,13 +213,13 @@ namespace Orleankka.Behaviors
                        : actor.OnUnhandledReminder(id);
         }
 
-        Func<Actor, string, Task> TryFindReminderHandler(string id)
+        Func<ActorGrain, string, Task> TryFindReminderHandler(string id)
         {
             var handler = onReminder.Find(id);
             return handler ?? super?.TryFindReminderHandler(id);
         }
 
-        Func<Actor, string, Task> TryFindReminderAnyHandler() =>
+        Func<ActorGrain, string, Task> TryFindReminderAnyHandler() =>
             onReminderAny ?? super?.TryFindReminderAnyHandler();
 
         public void Super(CustomBehavior super)

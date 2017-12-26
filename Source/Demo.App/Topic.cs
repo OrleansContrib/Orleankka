@@ -23,7 +23,7 @@ namespace Demo
     }
 
     [ActivationCountBasedPlacement]
-    public class Topic : Actor
+    public class Topic : ActorGrain
     {
         readonly ITopicStorage storage;
 

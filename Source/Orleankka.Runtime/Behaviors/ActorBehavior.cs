@@ -24,7 +24,7 @@ namespace Orleankka.Behaviors
             var config = new Dictionary<string, Action<object>>();
             var current = actor;
 
-            while (current != typeof(Actor))
+            while (current != typeof(ActorGrain))
             {
                 Debug.Assert(current != null);
 
@@ -78,18 +78,18 @@ namespace Orleankka.Behaviors
             return action;
         }
 
-        internal static ActorBehavior Null(Actor actor) => new ActorBehavior(actor)
+        internal static ActorBehavior Null(ActorGrain actor) => new ActorBehavior(actor)
         {
             current = CustomBehavior.Null
         };
        
         internal bool mocked;
-        internal readonly Actor actor;
+        internal readonly ActorGrain actor;
 
         CustomBehavior current;
         CustomBehavior next;
 
-        ActorBehavior(Actor actor)
+        ActorBehavior(ActorGrain actor)
         {
             this.actor = actor;
         }

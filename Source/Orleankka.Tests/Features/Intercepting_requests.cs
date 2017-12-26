@@ -27,7 +27,7 @@ namespace Orleankka.Features
         {}
 
         [Invoker("test_actor_interception")]
-        public class TestActor : Actor
+        public class TestActor : ActorGrain
         {
             string text = "";
 
@@ -51,7 +51,7 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : Actor
+        public class TestInsideActor : ActorGrain
         {
             public async Task Handle(DoTell cmd)
             {
@@ -75,7 +75,7 @@ namespace Orleankka.Features
         {}
 
         [Invoker("test_stream_interception")]
-        class TestStreamActor : Actor
+        class TestStreamActor : ActorGrain
         {
             readonly List<string> received = new List<string>();
             List<string> On(Received x) => received;
@@ -86,7 +86,7 @@ namespace Orleankka.Features
 
         public class TestActorInterceptionInvoker : ActorInvoker
         {
-            public override Task<object> OnReceive(Actor actor, object message)
+            public override Task<object> OnReceive(ActorGrain actor, object message)
             {
                 var setText = message as SetText;
                 if (setText == null)
@@ -102,7 +102,7 @@ namespace Orleankka.Features
 
         public class TestStreamInterceptionInvoker : ActorInvoker
         {
-            public override Task<object> OnReceive(Actor actor, object message)
+            public override Task<object> OnReceive(ActorGrain actor, object message)
             {
                 var item = message as string;                    
                 return base.OnReceive(actor, item == null ? message : item + ".intercepted");

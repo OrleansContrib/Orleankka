@@ -17,10 +17,10 @@ namespace Orleankka.Features
         [Serializable]
         public class TestActorQuery : Query<ITestActor, long> {}
 
-        public interface ITestActor : IActor
+        public interface ITestActor : IActorGrain
         {}
 
-        public class TestActor : Actor, ITestActor
+        public class TestActor : ActorGrain, ITestActor
         {
             void On(TestActorCommand x) {}
             long On(TestActorQuery x) => 42;
@@ -32,10 +32,10 @@ namespace Orleankka.Features
             public ActorRef<ITestActor> Ref;
         }
 
-        public interface ITestAnotherActor : IActor
+        public interface ITestAnotherActor : IActorGrain
         {}
 
-        public class TestAnotherActor : Actor, ITestAnotherActor
+        public class TestAnotherActor : ActorGrain, ITestAnotherActor
         {
             Task On(TestAnotherActorCommand x) => x.Ref.Tell(new TestActorCommand());
         }
