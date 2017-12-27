@@ -11,8 +11,12 @@ type Message =
    | Hi
 
 [<ActorType("test_actor")>]
+type ITestActor = 
+    inherit IActorGrain<Message>
+
 type TestActor() = 
-   inherit Actor<Message>()
+   inherit ActorGrain<Message>()
+   interface ITestActor
 
    override this.Receive message = task {
       match message with
@@ -20,19 +24,23 @@ type TestActor() =
       | Hi        -> return response(sprintf "Receive Hi")
    }
 
+type ITestActorUntyped = 
+    inherit IActorGrain
+
 type TestActorUntyped() = 
-   inherit Actor<obj>()   
+   inherit ActorGrain<obj>()
 
    let handleMessage = function
       | Greet who -> sprintf "Receive Hello %s" who
       | Hi -> sprintf "Receive Hi"
 
    let handleInt value = sprintf "Got int %i" value
-
    let handleStr value = sprintf "Got string %s" value
 
+   interface ITestActorUntyped
+
    override this.Receive message = task {
-      match message with
+      match message:obj with
       | :? Message as m -> return m |> handleMessage |> response
       | :? int as i     -> return i |> handleInt     |> response
       | :? string as s  -> return s |> handleStr     |> response

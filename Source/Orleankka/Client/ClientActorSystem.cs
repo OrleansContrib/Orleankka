@@ -36,7 +36,6 @@ namespace Orleankka.Client
     public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
         readonly ClientConfiguration configuration;
-        readonly Assembly[] assemblies;
         readonly Action<IServiceCollection> di;
 
         internal ClientActorSystem(
@@ -44,10 +43,9 @@ namespace Orleankka.Client
             Assembly[] assemblies,
             Action<IServiceCollection> di, 
             IActorRefInvoker invoker) 
-            : base(invoker)
+            : base(assemblies, invoker)
         {
             this.configuration = configuration;
-            this.assemblies = assemblies;
             this.di = di;
         }
 
@@ -123,11 +121,8 @@ namespace Orleankka.Client
                         services.Add(ServiceDescriptor.Singleton(this));
 
                         di?.Invoke(services);
-                    });
-
-                builder.ConfigureApplicationParts(apm => apm
-                    .AddFromAppDomain()
-                    .WithCodeGeneration());
+                    })
+                    .ConfigureApplicationParts(RegisterAssemblies);
 
                 return builder.Build();
             }

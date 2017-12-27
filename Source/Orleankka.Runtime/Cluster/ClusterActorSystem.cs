@@ -30,7 +30,7 @@ namespace Orleankka.Cluster
             Action<IServiceCollection> di,
             ActorInvocationPipeline pipeline,
             IActorRefInvoker invoker)
-            : base(invoker)
+            : base(assemblies, invoker)
         {
             Pipeline = pipeline;
 
@@ -46,11 +46,8 @@ namespace Orleankka.Cluster
                         services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
 
                         di?.Invoke(services);
-                    });
-
-                builder.ConfigureApplicationParts(apm => apm
-                    .AddFromAppDomain()
-                    .WithCodeGeneration());
+                    })
+                    .ConfigureApplicationParts(RegisterAssemblies);
 
                 Host = builder.Build();
             }

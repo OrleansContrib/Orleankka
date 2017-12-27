@@ -10,7 +10,7 @@ type AccountMessage =
    | Withdraw of int 
 
 type Account() = 
-   inherit Actor<AccountMessage>()
+   inherit ActorGrain<AccountMessage>()
 
    let mutable balance = 0   
    

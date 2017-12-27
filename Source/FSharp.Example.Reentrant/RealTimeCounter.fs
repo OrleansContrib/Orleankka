@@ -9,11 +9,16 @@ type Message =
    | Decrement
    | GetCount
 
+type ICounter = 
+    inherit IActorGrain<Message>
+
 [<MayInterleave("IsReentrant")>]
 type Counter() =
-   inherit Actor<Message>()
+   inherit ActorGrain<Message>()
 
    let mutable count = 0
+
+   interface ICounter
 
    override this.Receive msg = task {
       match msg with

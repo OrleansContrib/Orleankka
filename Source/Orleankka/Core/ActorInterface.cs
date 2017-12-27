@@ -72,22 +72,22 @@ namespace Orleankka.Core
             TypeCode = grain.TypeCode();
             grain.InterfaceVersion();
             Name = Mapping.TypeName;
-
+            
             Array.ForEach(mapping.Types, ActorTypeName.Register);
         }
 
-        internal static void Bind(IGrainFactory factory)
+        internal static void Bind()
         {            
             foreach (var @interface in names.Values)
             {
-                var method = factory.GetType().GetMethod("GetGrain", new[] {typeof(string), typeof(string)});
+                var method = typeof(IGrainFactory).GetMethod("GetGrain", new[] {typeof(string), typeof(string)});
                 var invoker = method.MakeGenericMethod(@interface.Grain);
 
                 var @this = Expression.Parameter(typeof(object));
                 var id = Expression.Parameter(typeof(string));
                 var ns = Expression.Constant(null, typeof(string));
 
-                var call = Expression.Call(Expression.Convert(@this, factory.GetType()), invoker, id, ns);
+                var call = Expression.Call(Expression.Convert(@this, typeof(IGrainFactory)), invoker, id, ns);
                 var func = Expression.Lambda<Func<object, string, object>>(call, @this, id).Compile();
 
                 @interface.factory = func;

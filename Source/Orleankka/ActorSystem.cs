@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.ApplicationParts;
+using Orleans.Hosting;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -42,13 +45,15 @@ namespace Orleankka
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
+        readonly Assembly[] assemblies;
         readonly IActorRefInvoker invoker;
 
         protected IStreamProviderManager StreamProviderManager { get; private set; }
         protected IGrainFactory GrainFactory { get; private set; }
 
-        protected ActorSystem(IActorRefInvoker invoker = null)
+        protected ActorSystem(Assembly[] assemblies, IActorRefInvoker invoker = null)
         {
+            this.assemblies = assemblies;
             this.invoker = invoker ?? DefaultActorRefInvoker.Instance;
         }
 
@@ -57,7 +62,19 @@ namespace Orleankka
             StreamProviderManager = provider.GetRequiredService<IStreamProviderManager>();
             GrainFactory = provider.GetRequiredService<IGrainFactory>();
 
-            ActorInterface.Bind(GrainFactory);
+            ActorInterface.Bind();
+        }
+
+        protected void RegisterAssemblies(IApplicationPartManager apm)
+        {
+            apm.AddApplicationPart(typeof(IClientEndpoint).Assembly)
+               .WithCodeGeneration();
+
+            foreach (var each in assemblies)
+            {
+                apm.AddApplicationPart(each)
+                   .WithCodeGeneration();
+            }
         }
 
         /// <summary>

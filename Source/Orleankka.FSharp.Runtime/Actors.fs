@@ -3,16 +3,14 @@
 open System.Threading.Tasks   
 open Orleankka
 
-
 [<AbstractClass>]
-type Actor<'TMsg> =
-   inherit Actor    
-   interface IActor   
+type ActorGrain<'TMsg> =
+   inherit ActorGrain
 
-   new () = { inherit Orleankka.Actor(); }
+   new () = { inherit Orleankka.ActorGrain(); }
 
    new (id:string, runtime:IActorRuntime) = {
-      inherit Orleankka.Actor(id, runtime, null); 
+      inherit Orleankka.ActorGrain(id, runtime); 
    }
 
    abstract Receive: message:'TMsg -> Task<obj>      
