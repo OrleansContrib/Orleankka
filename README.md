@@ -7,7 +7,6 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 ### Features
 
 + Message-based API with zero performance overhead
-+ Custom F# DSL and bindings (DU, Pattern Matching, Tasks)
 + Convenient unit testing kit (stubs, mocks, expectations)
 + Simplified streams API (actor subscriptions)
 + Declarative regex-based stream subscriptions (great for CQRS/ES projections)
@@ -25,8 +24,7 @@ For server-side library:
 
 	PM> Install-Package Orleankka.Runtime
 
-Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp)
-, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-FSharp).
+Check out "Getting started" [guide](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp).
 
 ### Build sources
 
@@ -44,12 +42,8 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 | Orleankka | [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Core and client lib
 | Orleankka.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Server-side runtime lib
 | Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
-| Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
-| Orleankka.FSharp.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
 
 ### Examples
-
-##### C&#35;
 
 + "WebScan" [[demo]](Source/Demo.App)
 + TestKit [[demo]](Source/Demo.App.Tests)
@@ -60,14 +54,6 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + Reentrant messages [[rw-x]](Source/Example.Reentrant)
 + Client-side observers [[chat]](Source/Example.Observers.Chat.Client)
 + Streams [[chat]](Source/Example.Streams.Chat.Server)
-
-##### F&#35;
-
-+ Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
-+ Chat  [[client]](Source/FSharp.Example.Observers.Chat.Client) [[server]](Source/FSharp.Example.Observers.Chat.Server) [[shared]](Source/FSharp.Example.Observers.Chat.Shared)
-+ eCommerce [[demo]](Source/FSharp.Demo.Shop)
-+ Reentrant messages [[demo]](Source/FSharp.Example.Reentrant)
-+ Streams [[client]](Source/FSharp.Example.Streams.Chat.Client) [[server]](Source/FSharp.Example.Streams.Chat.Server) [[shared]](Source/FSharp.Example.Streams.Chat.Shared)
 
 ### Documentation
 

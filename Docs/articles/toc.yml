@@ -5,10 +5,8 @@
   - name: Why Orleankka?
     href: intro/why-orleankka.md
   - name: Prerequisites  
-  - name: Getting started (C#)
+  - name: Getting started
     href: intro/getting-started-csharp.md
-  - name: Getting started (F#)
-    href: intro/getting-started-fsharp.md
   - name: Examples  
 - name: Concepts
   items:
