@@ -5,14 +5,19 @@ using System.Linq;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+
 namespace Example
 {
     public interface IInventoryItem : IActorGrain
     {}
 
-    [Interleave(typeof(GetDetails))]
+    [MayInterleave(nameof(Interleave))]
     public class InventoryItem : EventSourcedActor, IInventoryItem
     {
+        public static bool Interleave(InvokeMethodRequest req) => req.Message() is GetDetails;
+
         int total;
         string name;
         bool active;

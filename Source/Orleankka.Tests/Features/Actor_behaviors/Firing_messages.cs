@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+
 namespace Orleankka.Features.Actor_behaviors
 {   
     using Meta;
@@ -30,9 +33,11 @@ namespace Orleankka.Features.Actor_behaviors
             public interface ITestInterleaveFireActor : IActorGrain
             {}
 
-            [Interleave(typeof(string))]
+            [MayInterleave(nameof(Interleave))]
             public class TestInterleaveFireActor : ActorGrain, ITestInterleaveFireActor
             {
+                public static bool Interleave(InvokeMethodRequest req) => req.Message() is string;
+
                 readonly List<string> received = new List<string>();
                 readonly List<string> fired = new List<string>();
 

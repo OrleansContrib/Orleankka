@@ -4,14 +4,19 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Behaviors;
 
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+
 namespace Example
 {
     public interface IInventoryItem : IActorGrain
     {}
 
-    [Interleave(typeof(GetDetails))]
+    [MayInterleave(nameof(Interleave))]
     public class InventoryItem : EventSourcedFsmActor, IInventoryItem
     {
+        public static bool Interleave(InvokeMethodRequest req) => req.Message() is GetDetails;
+
         string name;
         int total;
 

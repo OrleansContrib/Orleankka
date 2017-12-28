@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
+
+using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Orleankka.Features
@@ -36,9 +38,11 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        [Interleave(typeof(ReentrantMessage))]
+        [MayInterleave(nameof(Interleave))]
         public  class TestActor : ActorGrain, ITestActor
         {
+            public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
+
             readonly ActorState state = new ActorState();
 
             async Task On(NonReentrantMessage x)
@@ -68,10 +72,13 @@ namespace Orleankka.Features
         public interface ITestReentrantStreamConsumerActor : IActorGrain
         {}
 
-        [Interleave(typeof(GetStreamMessagesInProgress))]
-        [Interleave(typeof(int))]   // 1-st stream message type        
+        [MayInterleave(nameof(Interleave))]
         public class TestReentrantStreamConsumerActor : ActorGrain, ITestReentrantStreamConsumerActor
         {
+            public static bool Interleave(InvokeMethodRequest req) => req.Any(
+                typeof(GetStreamMessagesInProgress), 
+                typeof(int)); // 1-st stream message type
+
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
 
@@ -97,10 +104,10 @@ namespace Orleankka.Features
         public interface ITestReentrantByCallbackMethodActor : IActorGrain
         {}
 
-        //[MayInterleave(nameof(IsReentrant))]
+        [MayInterleave(nameof(Interleave))]
         public class TestReentrantByCallbackMethodActor : ActorGrain, ITestReentrantByCallbackMethodActor
         {
-            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
+            public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
 
             readonly ActorState state = new ActorState();
 

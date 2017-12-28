@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
+
 namespace Example
 {
     [Serializable]
@@ -21,9 +24,11 @@ namespace Example
     public interface IReaderWriterLock : IActorGrain
     {}
 
-    [Interleave(typeof(Read))]
+    [MayInterleave(nameof(Interleave))]
     public class ReaderWriterLock : ActorGrain, IReaderWriterLock
     {
+        public static bool Interleave(InvokeMethodRequest req) => req.Message() is Read;
+
         int value;
         ConsolePosition indicator;
 

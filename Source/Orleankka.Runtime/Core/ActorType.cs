@@ -12,7 +12,6 @@ using Orleans.Concurrency;
 namespace Orleankka.Core
 {
     using Utility;
-    using Annotations;
 
     public class ActorType
     {
@@ -30,10 +29,7 @@ namespace Orleankka.Core
         static readonly Dictionary<int, ActorType> typeCodes =
                     new Dictionary<int, ActorType>();
 
-        public static ActorType Of<T>() => Of(typeof(T));
-        public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
-        
-        internal static ActorType OfGrain(Type grainType)
+        internal static ActorType Of(Type grainType)
         {
             Requires.NotNull(grainType, nameof(grainType));
 
@@ -76,8 +72,8 @@ namespace Orleankka.Core
             foreach (var each in ActorTypes(unregistered))
             {
                 types.Add(each.Name, each);
-                grains.Add(each.Grain, each);
-                typeCodes.Add(each.TypeCode, each);
+                grains.Add(each.grain, each);
+                typeCodes.Add(each.typeCode, each);
                 typeCodes.Add(each.Interface.TypeCode, each);
             }
 
@@ -99,63 +95,32 @@ namespace Orleankka.Core
 
         public readonly Type Class;
         public readonly ActorInterface Interface;
-        public readonly int TypeCode;
-        internal readonly Type Grain;
-
-        readonly TimeSpan keepAliveTimeout;
-        readonly Func<object, bool> interleavePredicate;
-        readonly string invoker;
         internal readonly Dispatcher dispatcher;
+        
+        readonly int typeCode;
+        readonly Type grain;
+        readonly TimeSpan keepAliveTimeout;
+        readonly string invoker;
 
-        internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
+        ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
         {
+            this.grain = grain;
+            
             Class = @class;
             Interface = @interface;
-            Grain = grain;
-            TypeCode = grain.TypeCode();
+            typeCode = grain.TypeCode();
             
             Sticky = StickyAttribute.IsApplied(@class);
             keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
-            interleavePredicate = InterleaveAttribute.MayInterleavePredicate(@class);
             invoker = InvokerAttribute.From(@class);
             
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
         }
 
-        internal ActorGrain Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
-        {
-            var instance = activator.Activate(Class, path.Id, runtime, dispatcher);
-            instance.Initialize(host, path, runtime, dispatcher);
-            return instance;
-        }
-
         internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
             pipeline.GetInvoker(Class, invoker);
         
-        /// <summary> 
-        /// FOR INTERNAL USE ONLY!
-        /// </summary>
-        [UsedImplicitly]
-        public static bool MayInterleave(string typeName, InvokeMethodRequest request) => 
-            Of(typeName).MayInterleave(request);
-
-        bool MayInterleave(InvokeMethodRequest request)
-        {
-            if (request?.Arguments == null)
-                return false;
-
-            var receiveMessage = request.Arguments.Length == 1;
-            if (receiveMessage)
-                return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
-
-            var streamMessage = request.Arguments.Length == 5;
-            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[2]));
-        }
-
-        static object UnwrapImmutable(object item) => 
-            item is Immutable<object> ? ((Immutable<object>)item).Value : item;
-
         internal void KeepAlive(Grain grain)
         {
             if (keepAliveTimeout == TimeSpan.Zero)

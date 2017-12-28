@@ -25,7 +25,7 @@ namespace Orleankka
         IActorInvoker invoker;
 
         ActorType actorType;
-        ActorType ActorType => actorType ?? (actorType = ActorType.OfGrain(GetType()));
+        ActorType ActorType => actorType ?? (actorType = ActorType.Of(GetType()));
 
         public Task Autorun()
         {
