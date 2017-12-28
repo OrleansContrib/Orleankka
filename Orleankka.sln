@@ -90,6 +90,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtoBuf", "Source\Example.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyperion", "Source\Example.Serialization.Hyperion\Hyperion.csproj", "{E43D9F8D-8EC8-44D3-A334-29B3655B022E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "Source\Demo.HelloWorld\HelloWorld.csproj", "{EAD1E298-6890-4B21-A656-6EC23028933D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +279,12 @@ Global
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Package|Any CPU.Build.0 = Release|Any CPU
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Package|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Package|Any CPU.Build.0 = Debug|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD1E298-6890-4B21-A656-6EC23028933D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -314,6 +322,7 @@ Global
 		{2A3C4C8F-9836-4CE6-8089-08080463BAD1} = {C9B497F6-87DA-40EF-933C-A572A7603991}
 		{E43D9F8D-8EC8-44D3-A334-29B3677B022E} = {2A3C4C8F-9836-4CE6-8089-08080463BAD1}
 		{E43D9F8D-8EC8-44D3-A334-29B3655B022E} = {2A3C4C8F-9836-4CE6-8089-08080463BAD1}
+		{EAD1E298-6890-4B21-A656-6EC23028933D} = {C26887B5-311F-4271-B5F3-34AB6E3F291C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF14123-7EA4-465F-8AC8-E0B952C1CAE1}
