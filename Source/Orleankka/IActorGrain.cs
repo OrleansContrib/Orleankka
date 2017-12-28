@@ -14,11 +14,4 @@ namespace Orleankka
 
     public interface IActorGrain : IActor, IGrainWithStringKey, IRemindable
     {}
-
-    /// <summary>
-    /// This for F# api
-    /// </summary>
-    /// <typeparam name="TMessage">Type of DU</typeparam>
-    public interface IActorGrain<TMessage> : IActorGrain
-    {}
 }
