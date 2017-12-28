@@ -18,7 +18,7 @@ namespace Orleankka
 {
 	using Cluster;
 
-    public abstract class ActorGrain : Grain, IRemindable, IActor, IActorHost
+    public abstract class ActorGrain : Grain, IRemindable, IActor
     {
         const string StickyReminderName = "##sticky##";
 
@@ -82,7 +82,7 @@ namespace Orleankka
 
             var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
             var runtime = new ActorRuntime(system, this);
-            Initialize(this, path, runtime, ActorType.dispatcher);
+            Initialize(path, runtime, ActorType.dispatcher);
 
             invoker = ActorType.Invoker(system.Pipeline);
             return invoker.OnActivate(this);
@@ -90,10 +90,6 @@ namespace Orleankka
 
         static string IdentityOf(IGrain grain) => 
             (grain as IGrainWithStringKey).GetPrimaryKeyString();
-
-        // ------ ACTOR HOST--------- //
-
-        IGrainRuntime IActorHost.Runtime => this.Runtime();
 
         // ------ ACTOR --------- //
 
@@ -122,16 +118,14 @@ namespace Orleankka
             Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
         }
 
-        internal void Initialize(IActorHost host, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
+        internal void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
         {
             Path = path;
             Runtime = runtime;
             Dispatcher = dispatcher;
-            Host = host;
         }
 
         public string Id => Path.Id;
-        internal IActorHost Host        {get; private set;}
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
