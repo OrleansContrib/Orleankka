@@ -8,6 +8,10 @@
     <StartupObject>Demo.Program</StartupObject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />

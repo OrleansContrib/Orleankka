@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Embedded;
@@ -14,15 +15,12 @@ namespace Demo
     {
         static Client client;
 
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
-            var options = new Options {
-                Account = CloudStorageAccount.DevelopmentStorageAccount
-            };
-
-            var storage = TopicStorage.Init(options.Account).GetAwaiter().GetResult();
+            var account = CloudStorageAccount.DevelopmentStorageAccount;
+            var storage = await TopicStorage.Init(account);
 
             EmbeddedActorSystem system;
             using (Trace.Execution("Full system startup"))
