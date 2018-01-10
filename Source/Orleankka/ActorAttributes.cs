@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
-
-using Orleankka.Utility;
 
 namespace Orleankka
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    using Utility;
+
+    [AttributeUsage(AttributeTargets.Interface)]
     public class ActorTypeAttribute : Attribute
     {
         internal readonly string Name;

@@ -55,10 +55,10 @@ namespace Demo
         {}
     }
 
+    [ActorType("Api")]
     public interface IApi : IActorGrain
     {}
-
-    [ActorType("Api")]
+    
     public class Api : ActorGrain, IApi
     {
         const int FailureThreshold = 3;
