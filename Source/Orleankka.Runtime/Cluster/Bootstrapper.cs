@@ -48,13 +48,13 @@ namespace Orleankka.Cluster
 
         Task IProvider.Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
         {
-            Name = name;
+             Name = name;
 
             var type = Type.GetType(configuration.Properties[TypeKey]);
             Debug.Assert(type != null);
 
             var bootstrapper = (IBootstrapper)Activator.CreateInstance(type);
-            var system = runtime.ServiceProvider.GetRequiredService<IActorSystem>(); ;
+            var system = runtime.ServiceProvider.GetRequiredService<IActorSystem>();
 
             return bootstrapper.Run(system, Deserialize(configuration.Properties[PropertiesKey]));
         }

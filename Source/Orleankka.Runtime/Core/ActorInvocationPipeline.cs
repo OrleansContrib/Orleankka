@@ -5,7 +5,7 @@ namespace Orleankka.Core
 {
     using Utility;
 
-    class ActorInvocationPipeline
+    public class ActorInvocationPipeline
     {
         readonly Dictionary<string, IActorInvoker> invokers = 
              new Dictionary<string, IActorInvoker>();

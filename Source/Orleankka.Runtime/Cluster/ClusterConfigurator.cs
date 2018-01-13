@@ -4,10 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleans.Streams;
-using Orleans.Runtime.Configuration;
-
 using Microsoft.Extensions.DependencyInjection;
+
+using Orleans;
+using Orleans.CodeGeneration;
+using Orleans.Hosting;
+using Orleans.Internals;
+using Orleans.Runtime.Configuration;
+using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
@@ -22,39 +26,16 @@ namespace Orleankka.Cluster
         readonly ActorInterfaceRegistry registry =
              new ActorInterfaceRegistry();
 
-        readonly HashSet<string> conventions = new HashSet<string>();
+        readonly HashSet<string> conventions = 
+             new HashSet<string>();
 
         readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
              new HashSet<BootstrapProviderConfiguration>();
 
-        readonly HashSet<StreamProviderConfiguration> streamProviders =
-             new HashSet<StreamProviderConfiguration>();
-
-        readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
-
+        readonly ActorInvocationPipeline pipeline = 
+             new ActorInvocationPipeline();
+        
         IActorRefInvoker invoker;
-        Action<IServiceCollection> di;
-
-        internal ClusterConfigurator()
-        {
-            Configuration = new ClusterConfiguration();
-        }
-
-        public ClusterConfiguration Configuration { get; set; }
-
-        public ClusterConfigurator From(ClusterConfiguration config)
-        {
-            Requires.NotNull(config, nameof(config));
-            Configuration = config;
-            return this;
-        }
-
-        public ClusterConfigurator Assemblies(params Assembly[] assemblies)
-        {
-            registry.Register(assemblies, a => a.ActorTypes());
-
-            return this;
-        }
 
         public ClusterConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
         {
@@ -63,28 +44,6 @@ namespace Orleankka.Cluster
             if (!bootstrapProviders.Add(configuration))
                 throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
 
-            return this;
-        }
-
-        public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
-        {
-            Requires.NotNullOrWhitespace(name, nameof(name));
-
-            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
-            if (!streamProviders.Add(configuration))
-                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
-
-            return this;
-        }
-
-        public ClusterConfigurator Services(Action<IServiceCollection> configure)
-        {
-            Requires.NotNull(configure, nameof(configure));
-
-            if (di != null)
-                throw new InvalidOperationException("Services configurator has been already set");
-
-            di = configure;
             return this;
         }
 
@@ -139,22 +98,45 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterActorSystem Done()
+        internal void Configure(ISiloHostBuilder builder, IServiceCollection services)
         {
-            Configure();
+            var cluster = GetClusterConfiguration(services);
 
-            return new ClusterActorSystem(Configuration, registry.Assemblies, di, pipeline, invoker);
-        }
-
-        void Configure()
-        {
+            RegisterAssemblies(builder);
             RegisterInterfaces();
             RegisterTypes();
             RegisterAutoruns();
-            RegisterStreamProviders();
-            RegisterStreamSubscriptions();
-            RegisterBootstrappers();
+            
+            var persistentStreamProviders = RegisterStreamProviders(cluster);
+            RegisterStreamSubscriptions(cluster, persistentStreamProviders);
+
+            RegisterBootstrappers(cluster);
             RegisterBehaviors();
+            RegisterDependencies(services);
+        }
+
+        void RegisterAssemblies(ISiloHostBuilder builder) => 
+            registry.Register(builder.GetApplicationPartManager(), x => x.ActorTypes());
+
+        static ClusterConfiguration GetClusterConfiguration(IServiceCollection services)
+        {
+            if (!(services.SingleOrDefault(service =>
+                service.ServiceType == typeof(ClusterConfiguration)).ImplementationInstance is ClusterConfiguration configuration))
+                throw new InvalidOperationException("Cannot configure Orleankka before cluster configuration is set");
+
+            return configuration;
+        }
+
+        void RegisterDependencies(IServiceCollection services)
+        {
+            services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
+
+            services.AddSingleton(sp => new ClusterActorSystem(
+                sp.GetService<IStreamProviderManager>(), 
+                sp.GetService<IGrainFactory>(), 
+                pipeline, invoker));
+
+            services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
         }
 
         void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
@@ -179,16 +161,55 @@ namespace Orleankka.Cluster
             Bootstrapper<AutorunBootstrapper>(autoruns);
         }
 
-        void RegisterStreamProviders()
+        static string[] RegisterStreamProviders(ClusterConfiguration configuration)
         {
-            foreach (var each in streamProviders)
-                each.Register(Configuration);
+            Type GetType(string partialTypeName)
+            {
+                var type = Type.GetType(partialTypeName);
+                if (type != null) 
+                    return type;
+
+                foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    type = a.GetType(partialTypeName);
+                    if (type != null)
+                        return type;
+                }
+                
+                return null ;
+            }
+
+            if (!configuration.Globals.ProviderConfigurations.TryGetValue(ProviderCategoryConfiguration.STREAM_PROVIDER_CATEGORY_NAME, out ProviderCategoryConfiguration pcc))
+                return Array.Empty<string>();
+
+            var persistentStreamProviders = new List<string>();
+            var allStreamProviders = pcc.Providers.ToArray();
+            
+            foreach (var each in allStreamProviders)
+            {                
+                var provider = each.Value;
+             
+                var type = GetType(provider.Type);
+                if (type.IsPersistentStreamProvider())
+                {
+                    persistentStreamProviders.Add(each.Key);
+                    continue;
+                }
+
+                pcc.Providers.Remove(each.Key);
+
+                var properties = provider.Properties.ToDictionary(k => k.Key, v => v.Value);
+                var spc = new StreamProviderConfiguration(provider.Name, type, properties);
+                spc.Register(configuration);
+            }
+
+            return persistentStreamProviders.ToArray();
         }
 
-        void RegisterBootstrappers()
+        void RegisterBootstrappers(ClusterConfiguration cluster)
         {
             foreach (var each in bootstrapProviders)
-                each.Register(Configuration.Globals);
+                each.Register(cluster.Globals);
         }
 
         void RegisterBehaviors()
@@ -197,19 +218,19 @@ namespace Orleankka.Cluster
                 ActorBehavior.Register(actor);
         }
 
-        void RegisterStreamSubscriptions()
+        static void RegisterStreamSubscriptions(ClusterConfiguration cluster, IEnumerable<string> persistentStreamProviders)
         {
             foreach (var actor in ActorType.Registered())
                 StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
 
             const string id = "stream-subscription-boot";
 
-            var properties = new Dictionary<string, string>();
-            properties["providers"] = string.Join(";", streamProviders
-                .Where(x => x.IsPersistentStreamProvider())
-                .Select(x => x.Name));
+            var properties = new Dictionary<string, string>
+            {
+                ["providers"] = string.Join(";", persistentStreamProviders)
+            };
 
-            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
+            cluster.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
         [UsedImplicitly]
@@ -223,38 +244,21 @@ namespace Orleankka.Cluster
         }
     }
 
-    public static class ClusterConfiguratorExtensions
+    public static class SiloHostBuilderExtension
     {
-        public static ClusterConfigurator Cluster(this IActorSystemConfigurator root)
-        {
-            return new ClusterConfigurator();
-        }
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder) => 
+            ConfigureOrleankka(builder, new ClusterConfigurator());
 
-        public static ClusterConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ClusterConfiguration config, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, typeof(TNamespaceScope), resourceName);
-        }
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, Func<ClusterConfigurator, ClusterConfigurator> configure) => 
+            ConfigureOrleankka(builder, configure(new ClusterConfigurator()));
 
-        public static ClusterConfiguration LoadFromEmbeddedResource(this ClusterConfiguration config, Type namespaceScope, string resourceName)
-        {
-            if (namespaceScope.Namespace == null)
-                throw new ArgumentException("Resource assembly and scope cannot be determined from type '0' since it has no namespace.\nUse overload that takes Assembly and string path to provide full path of the embedded resource");
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, ClusterConfigurator cfg) => 
+            builder
+            .ConfigureServices(services => cfg.Configure(builder, services))
+            .ConfigureApplicationParts(apm => apm
+                .AddApplicationPart(typeof(IClientEndpoint).Assembly)
+                .WithCodeGeneration());
 
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, $"{namespaceScope.Namespace}.{resourceName}");
-        }
-
-        public static ClusterConfiguration LoadFromEmbeddedResource(this ClusterConfiguration config, Assembly assembly, string fullResourcePath)
-        {
-            var result = new ClusterConfiguration();
-            result.Load(assembly.LoadEmbeddedResource(fullResourcePath));
-            return result;
-        }
-
-        public static ClusterConfiguration DefaultKeepAliveTimeout(this ClusterConfiguration config, TimeSpan idle)
-        {
-            Requires.NotNull(config, nameof(config));
-            config.Globals.Application.SetDefaultCollectionAgeLimit(idle);
-            return config;
-        }
+        public static IActorSystem ActorSystem(this ISiloHost host) => host.Services.GetRequiredService<IActorSystem>();
     }
 }

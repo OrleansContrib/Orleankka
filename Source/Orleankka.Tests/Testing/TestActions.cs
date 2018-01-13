@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+
+using Microsoft.WindowsAzure.Storage;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-using Orleans.Storage;
-using Orleans.Providers.Streams.AzureQueue;
+using Orleans;
+using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
 
 using Orleankka.Testing;
@@ -13,9 +14,9 @@ using Orleankka.Testing;
 
 namespace Orleankka.Testing
 {
+    using Client;
     using Cluster;
-    using Playground;
-    using Utility;
+
     using Features.Intercepting_requests;
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -29,37 +30,52 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            using (Trace.Execution("Full system startup"))
-            {
-                var system = ActorSystem.Configure()
-                    .Playground()
-                    .UseInMemoryPubSubStore()
-                    .StreamProvider<AzureQueueStreamProviderV2>("aqp", new Dictionary<string, string>
-                    {
-                        {"DataConnectionString", "UseDevelopmentStorage=true"},
-                        {"DeploymentId", "test"},
-                    })
-                    .Cluster(x =>
-                    {
-                        x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
-                        x.Configuration.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
+            var sc = ClusterConfiguration.LocalhostPrimarySilo();            
+            sc.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
+            
+            sc.AddMemoryStorageProvider();
+            sc.AddMemoryStorageProvider("PubSubStore");
 
-                        x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
-                        x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
+            sc.AddSimpleMessageStreamProvider("sms");
+            sc.AddAzureQueueStreamProviderV2("aqp",
+                $"{CloudStorageAccount.DevelopmentStorageAccount}", 
+                clusterId: "test");
 
-                        x.Configuration.Globals.DataConnectionStringForReminders = "UseDevelopmentStorage=true";
-                        x.Configuration.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
+            sc.Globals.DataConnectionStringForReminders = $"{CloudStorageAccount.DevelopmentStorageAccount}";
+            sc.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
 
-                    })
-                    .Client(x =>
-                    {
-                        x.ActorRefInvoker(new TestActorRefInvoker());
-                    })
-                    .Assemblies(GetType().Assembly);
+            var sb = new SiloHostBuilder()
+                .UseConfiguration(sc)
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(GetType().Assembly)
+                    .WithCodeGeneration())
+                .ConfigureOrleankka(x => x
+                    .ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker())
+                    .ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker()));
 
-                TestActorSystem.Instance = system.Done();
-                TestActorSystem.Instance.Start().Wait();
-            }
+            var host = sb.Build();
+            host.StartAsync().Wait();
+
+            var cc = ClientConfiguration.LocalhostSilo();
+            cc.AddSimpleMessageStreamProvider("sms");
+            cc.AddAzureQueueStreamProviderV2("aqp",
+                $"{CloudStorageAccount.DevelopmentStorageAccount}", 
+                clusterId: "test");
+
+            var cb = new ClientBuilder()
+                .UseConfiguration(cc)
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(GetType().Assembly)
+                    .WithCodeGeneration())
+                .ConfigureOrleankka(x => x
+                    .ActorRefInvoker(new TestActorRefInvoker()));
+
+            var client = cb.Build();
+            client.Connect().Wait();
+
+            TestActorSystem.Host = host;
+            TestActorSystem.Client = client;
+            TestActorSystem.Instance = client.ActorSystem();
         }
     }
 
@@ -73,8 +89,13 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance == null)
                 return;
 
-            TestActorSystem.Instance.Stop().Wait();
-            TestActorSystem.Instance.Dispose();
+            TestActorSystem.Client.Close().Wait();
+            TestActorSystem.Client.Dispose();
+            TestActorSystem.Host.StopAsync().Wait();
+            TestActorSystem.Host.Dispose();
+            
+            TestActorSystem.Client = null;
+            TestActorSystem.Host = null;
             TestActorSystem.Instance = null;
         }
     }

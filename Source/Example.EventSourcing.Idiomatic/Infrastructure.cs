@@ -11,13 +11,13 @@ namespace Example
     {
         public override Task<object> OnReceive(object message)
         {
-            var cmd = message as Command;
-            if (cmd != null)
-                return HandleCommand(cmd);
-
-            var query = message as Query;
-            if (query != null)
-                return HandleQuery(query);
+            switch (message)
+            {
+                case Command cmd:
+                    return HandleCommand(cmd);
+                case Query query:
+                    return HandleQuery(query);
+            }
 
             throw new InvalidOperationException("Unknown message type: " + message.GetType());
         }
@@ -65,7 +65,5 @@ namespace Example
             var envelopeType = typeof(EventEnvelope<>).MakeGenericType(@event.GetType());
             return Activator.CreateInstance(envelopeType, Id, @event);
         }
-
-        protected ActorRef Projection { get; set; }
     }
 }

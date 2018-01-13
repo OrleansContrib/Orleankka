@@ -1,42 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Orleankka;
-using Orleankka.Client;
+using Orleans;
+using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
+using Orleankka.Client;
 
 namespace Example
 {
-    internal class Program
+    class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
-
-            var config = new ClientConfiguration()
-                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
-
-            var system = ActorSystem.Configure()
-                .Client()
-                .From(config)
-                .Assemblies(typeof(Join).Assembly)
-                .Done();
-
-            var task = Task.Run(async () => await RunChatClient(system));
-            task.Wait();
-        }
-
-        private static async Task RunChatClient(ClientActorSystem system)
-        {
-            const string room = "Orleankka";
-
+            
             Console.WriteLine("Connecting to server ...");
-            await system.Connect(retries: 5);
+
+            var config = ClientConfiguration.LocalhostSilo();
+            var system = await Connect(config, retries: 2);            
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
 
+            const string room = "Orleankka";
+            
             var client = new ChatClient(system, userName, room);
             await client.Join();
 
@@ -51,6 +39,44 @@ namespace Example
                 }
 
                 await client.Say(message);
+            }
+        }
+
+        static async Task<IClientActorSystem> Connect(ClientConfiguration config, int retries = 0, TimeSpan? retryTimeout = null)
+        {
+            if (retryTimeout == null)
+                retryTimeout = TimeSpan.FromSeconds(5);
+
+            if (retries < 0)
+                throw new ArgumentOutOfRangeException(nameof(retries), 
+                    "retries should be greater than or equal to 0");
+
+            while (true)
+            {
+                try
+                {
+                    var client = new ClientBuilder()
+                        .UseConfiguration(config)
+                        .ConfigureApplicationParts(x => x
+                            .AddApplicationPart(typeof(Join).Assembly)
+                            .WithCodeGeneration())
+                        .ConfigureOrleankka()
+                        .Build();
+
+                    await client.Connect();
+                    return client.ActorSystem();
+                }
+                catch (Exception ex)
+                {
+                    if (retries-- == 0)
+                    {
+                        Console.WriteLine("Can't connect to cluster. Max retries reached.");
+                        throw;
+                    }
+
+                    Console.WriteLine($"Can't connect to cluster: '{ex.Message}'. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ...");
+                    await Task.Delay(retryTimeout.Value);
+                }
             }
         }
     }

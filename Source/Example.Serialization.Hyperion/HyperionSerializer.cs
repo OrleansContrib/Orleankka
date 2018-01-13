@@ -5,8 +5,6 @@ using Hyperion;
 
 using Orleankka;
 using Orleankka.Meta;
-
-using Orleans.Runtime;
 using Orleans.Serialization;
 
 namespace Example
@@ -17,12 +15,12 @@ namespace Example
     {
         static readonly Type BaseInterfaceType = typeof(Message);
 
-        Hyperion.Serializer serializer;
-        Hyperion.Serializer copier;
+        readonly Hyperion.Serializer serializer;
+        readonly Hyperion.Serializer copier;
 
         IActorSystem system;
 
-        public void Initialize(Logger logger)
+        public HyperionSerializer()
         {
             var surogates = new[]
             {

@@ -3,40 +3,38 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Client;
+using Orleankka.Cluster;
 using Orleankka.Meta;
-using Orleankka.Playground;
+
+using Orleans;
+using Orleans.Hosting;
+using Orleans.Runtime.Configuration;
 
 namespace Example
 {
     public static class Program
     {   
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Make sure you've started local GES node using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var system = ActorSystem.Configure()
-                .Playground()
-                .Cluster(x => x.Bootstrapper<ES.Bootstrap>())
-                .Assemblies(Assembly.GetExecutingAssembly())
-                .Done();
+            var host = await new SiloHostBuilder()
+                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka(x => x.Bootstrapper<ES.Bootstrap>())
+                .Start();
 
-            system.Start().Wait();
-
-            try
-            {
-                Run(system).Wait();
-            }
-            catch (AggregateException e)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.InnerException.Message);
-            }
+            var client = await host.Connect();
+            await Run(client.ActorSystem());
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();
+            host.Dispose();
             Environment.Exit(0);
         }
 

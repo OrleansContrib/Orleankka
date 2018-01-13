@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Orleans.ApplicationParts;
+
 namespace Orleankka.Core
 {
     using Utility;
@@ -15,6 +17,22 @@ namespace Orleankka.Core
 
         internal Assembly[] Assemblies => assemblies.ToArray();
         internal ActorInterfaceMapping[] Mappings => mappings.ToArray();
+
+        internal void Register(IApplicationPartManager apm, Func<Assembly, IEnumerable<Type>> selector)
+        {
+            bool IsCodeGenAssembly(Assembly assembly) => assembly.FullName.StartsWith("OrleansCodeGen");
+            
+            var parts = apm.ApplicationParts.OfType<AssemblyPart>()
+                .Where(x => !x.IsFrameworkAssembly)
+                .Select(x => x.Assembly)
+                .Where(x => !IsCodeGenAssembly(x))
+                .ToArray();
+
+            if (parts.Length == 0)
+                throw new InvalidOperationException("Cannot configure Orleankka before application assemblies (parts) are registered");
+
+            Register(parts, selector);
+        }
 
         internal void Register(Assembly[] assemblies, Func<Assembly, IEnumerable<Type>> selector)
         {

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Reflection;
-
-using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
-using Orleans.ApplicationParts;
-using Orleans.Hosting;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -41,47 +36,23 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Runtime implementation of <see cref="IActorSystem"/>
+    /// Runtime implementation of <see cref="T:Orleankka.IActorSystem" />
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
-        readonly Assembly[] assemblies;
+        readonly IStreamProviderManager streamProviderManager;
+        readonly IGrainFactory grainFactory;
         readonly IActorRefInvoker invoker;
 
-        protected IStreamProviderManager StreamProviderManager { get; private set; }
-        protected IGrainFactory GrainFactory { get; private set; }
-
-        protected ActorSystem(Assembly[] assemblies, IActorRefInvoker invoker = null)
+        protected ActorSystem(
+            IStreamProviderManager streamProviderManager, 
+            IGrainFactory grainFactory, 
+            IActorRefInvoker invoker = null)
         {
-            this.assemblies = assemblies;
+            this.streamProviderManager = streamProviderManager;
+            this.grainFactory = grainFactory;
             this.invoker = invoker ?? DefaultActorRefInvoker.Instance;
         }
-
-        protected void Initialize(IServiceProvider provider)
-        {
-            StreamProviderManager = provider.GetRequiredService<IStreamProviderManager>();
-            GrainFactory = provider.GetRequiredService<IGrainFactory>();
-
-            ActorInterface.Bind();
-        }
-
-        protected void RegisterAssemblies(IApplicationPartManager apm)
-        {
-            apm.AddApplicationPart(typeof(IClientEndpoint).Assembly)
-               .WithCodeGeneration();
-
-            foreach (var each in assemblies)
-            {
-                apm.AddApplicationPart(each)
-                   .WithCodeGeneration();
-            }
-        }
-
-        /// <summary>
-        /// Entry-point method for fluent configuration
-        /// </summary>
-        /// <returns>An instance of actor system configurator</returns>
-        public static IActorSystemConfigurator Configure() => default(IActorSystemConfigurator);
 
         /// <inheritdoc />
         public ActorRef ActorOf(ActorPath path)
@@ -90,7 +61,7 @@ namespace Orleankka
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
             var @interface = ActorInterface.Of(path.Type);
-            var proxy = @interface.Proxy(path.Id, GrainFactory);
+            var proxy = @interface.Proxy(path.Id, grainFactory);
 
             return new ActorRef(path, proxy, invoker);
         }
@@ -101,7 +72,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            var provider = StreamProviderManager.GetStreamProvider(path.Provider);
+            var provider = streamProviderManager.GetStreamProvider(path.Provider);
             return new StreamRef(path, provider);
         }
 
@@ -110,7 +81,7 @@ namespace Orleankka
         {
             Requires.NotNullOrWhitespace(path, nameof(path));
 
-            var endpoint = ClientEndpoint.Proxy(path, GrainFactory);
+            var endpoint = ClientEndpoint.Proxy(path, grainFactory);
             return new ClientRef(endpoint);
         }
     }

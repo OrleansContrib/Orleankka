@@ -1,73 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
-using Orleans.Runtime;
-using Orleans.Runtime.Configuration;
-using Orleans.Hosting;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Orleankka.Core;
 
 using Orleans;
-using Orleans.ApplicationParts;
-using Orleans.CodeGeneration;
+using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
-    using Core;
-    using Utility;
-
-     public class ClusterActorSystem : ActorSystem
+    class ClusterActorSystem : ActorSystem
     {
         internal readonly ActorInvocationPipeline Pipeline;
 
         internal ClusterActorSystem(
-            ClusterConfiguration configuration,
-            Assembly[] assemblies,
-            Action<IServiceCollection> di,
-            ActorInvocationPipeline pipeline,
-            IActorRefInvoker invoker)
-            : base(assemblies, invoker)
+            IStreamProviderManager streamProviderManager, 
+            IGrainFactory grainFactory, 
+            ActorInvocationPipeline pipeline, 
+            IActorRefInvoker invoker = null)
+            : base(streamProviderManager, grainFactory, invoker)
         {
             Pipeline = pipeline;
-
-            using (Trace.Execution("Orleans silo initialization"))
-            {
-                var builder = new SiloHostBuilder()
-                    .UseConfiguration(configuration)
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingleton<IActorSystem>(this);
-                        services.AddSingleton(this);
-                        services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
-
-                        di?.Invoke(services);
-                    })
-                    .ConfigureApplicationParts(RegisterAssemblies);
-
-                Host = builder.Build();
-            }
-
-            Silo = Host.Services.GetRequiredService<Silo>();
-            Initialize(Host.Services);
-        }
-
-        public ISiloHost Host { get; }
-        public Silo Silo { get; }
-
-        public async Task Start()
-        {
-            using (Trace.Execution("Orleans silo startup"))
-                await Host.StartAsync();
-        }
-
-        public async Task Stop()
-        {
-            using (Trace.Execution("Orleans silo shutdown"))
-                await Host.StopAsync();
         }
     }
 }

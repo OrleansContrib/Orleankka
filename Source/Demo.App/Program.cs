@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Orleankka;
-using Orleankka.Embedded;
-using Orleankka.Playground;
-using Orleankka.Utility;
-
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.Extensions.DependencyInjection;
+
+using Orleankka;
+using Orleankka.Client;
+using Orleankka.Cluster;
+
+using Orleans;
+using Orleans.Hosting;
+using Orleans.Runtime.Configuration;
 
 namespace Demo
 {
     public static class Program
     {
-        static Client client;
+        static App app;
 
         public static async Task Main()
         {
@@ -22,27 +25,27 @@ namespace Demo
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             var storage = await TopicStorage.Init(account);
 
-            EmbeddedActorSystem system;
-            using (Trace.Execution("Full system startup"))
-            {
-                system = ActorSystem.Configure()
-                    .Playground()
-                    .Cluster(c => c
-                        .Services(s => s
-                            .AddSingleton(storage)))
-                    .Assemblies(typeof(Api).Assembly)
-                    .Done();
+            var host = await new SiloHostBuilder()
+                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
+                .ConfigureServices(x => x
+                    .AddSingleton(storage))
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(typeof(Api).Assembly)
+                    .WithCodeGeneration())
+                .ConfigureOrleankka()
+                .Start();
 
-                system.Start().Wait();
-                
-            }
-            client = new Client(system, system.CreateObservable().Result);
-            client.Run();
+            var client = await host.Connect();
+            var system = client.ActorSystem();
+
+            app = new App(system, await system.CreateObservable());
+            app.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
 
-            system.Dispose();
+            client.Dispose();
+            host.Dispose();
         }
     }
 }

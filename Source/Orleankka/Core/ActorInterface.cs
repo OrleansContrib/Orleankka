@@ -54,6 +54,8 @@ namespace Orleankka.Core
                 var @interface = new ActorInterface(each, each.CustomInterface);
                 names.Add(@interface.Name, @interface);
             }
+
+            Bind();
         }
 
         internal readonly ActorInterfaceMapping Mapping;

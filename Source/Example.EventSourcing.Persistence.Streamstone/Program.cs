@@ -2,21 +2,25 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleankka;
-using Orleankka.Embedded;
-using Orleankka.Meta;
-using Orleankka.Playground;
-
 using Microsoft.WindowsAzure.Storage;
+
+using Orleankka;
+using Orleankka.Meta;
+using Orleankka.Client;
+using Orleankka.Cluster;
+
+using Orleans;
+using Orleans.Hosting;
+using Orleans.Runtime.Configuration;
 
 namespace Example
 {
     public static class Program
     {
         static bool resume;
-        static EmbeddedActorSystem system;
+        static IClientActorSystem system;
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             resume = args.Length == 1 && args[0] == "resume";
 
@@ -26,17 +30,23 @@ namespace Example
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             SetupTable(account);
 
-            system = ActorSystem.Configure()
-                .Playground()
-                .Cluster(x => x.Bootstrapper<SS.Bootstrap>(new SS.Properties
-                {
-                    StorageAccount = account.ToString(true),
-                    TableName = "ssexample"
-                }))
-                .Assemblies(Assembly.GetExecutingAssembly())
-                .Done();
+            var properties = new SS.Properties
+            {
+                StorageAccount = account.ToString(true),
+                TableName = "ssexample"
+            };
 
-            system.Start().Wait();
+            var host = await new SiloHostBuilder()
+                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka(x => x
+                    .Bootstrapper<SS.Bootstrap>(properties))
+                .Start();
+
+            var client = await host.Connect();
+            system = client.ActorSystem();
 
             try
             {
@@ -51,7 +61,7 @@ namespace Example
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();
+            host.Dispose();
             Environment.Exit(0);
         }
 

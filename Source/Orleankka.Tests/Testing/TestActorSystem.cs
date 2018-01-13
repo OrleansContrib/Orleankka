@@ -1,12 +1,17 @@
 ﻿using System;
 
+using Orleans;
+using Orleans.Hosting;
+
 namespace Orleankka.Testing
 {
-    using Embedded;
+    using Client;
 
     public static class TestActorSystem
     {
-        public static EmbeddedActorSystem Instance;
+        public static ISiloHost Host;
+        public static IClusterClient Client;
+        public static IClientActorSystem Instance;
 
         public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : IActorGrain
         {

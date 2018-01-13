@@ -15,14 +15,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Remove="Server.xml" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Include="Server.xml" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\Example.Streams.Chat.Shared\Chat.Shared.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />

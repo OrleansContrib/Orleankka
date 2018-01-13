@@ -3,32 +3,44 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Client;
+using Orleankka.Cluster;
 using Orleankka.Meta;
-using Orleankka.Playground;
+
+using Orleans;
+using Orleans.Hosting;
+using Orleans.Runtime.Configuration;
 
 namespace Example
 {
     public static class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var system = ActorSystem.Configure()
-                .Playground()
-                .UseInMemoryPubSubStore()
-                .Client(x => x.Configuration.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
-                .Cluster(x => x.Configuration.Globals.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
-                .Assemblies(Assembly.GetExecutingAssembly())
-                .Done();
+            var config = ClusterConfiguration
+                .LocalhostPrimarySilo()
+                .UseSerializer<ProtobufSerializer>();
 
-            system.Start().Wait();
-            Run(system).Wait();
+            config.AddMemoryStorageProvider("PubSubStore");
+            config.AddSimpleMessageStreamProvider("sms");
+
+            var host = await new SiloHostBuilder()
+                .UseConfiguration(config)
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka()
+                .Start();
+
+            var client = await host.Connect(x => x.UseSerializer<ProtobufSerializer>());
+            await Run(client.ActorSystem());
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();
+            host.Dispose();
             Environment.Exit(0);
         }
 

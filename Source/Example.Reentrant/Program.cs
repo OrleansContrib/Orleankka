@@ -8,29 +8,36 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleankka;
+using Orleankka.Client;
+using Orleankka.Cluster;
 using Orleankka.Meta;
-using Orleankka.Playground;
+
+using Orleans.Hosting;
+using Orleans.Runtime.Configuration;
 
 namespace Example
 {
     public static class Program
     {   
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var system = ActorSystem.Configure()
-                .Playground()
-                .Assemblies(Assembly.GetExecutingAssembly())
-                .Done();
+            var host = await new SiloHostBuilder()
+                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka()
+                .Start();
 
-            system.Start().Wait();
-            Run(system).Wait();
+            var client = await host.Connect();
+            await Run(client.ActorSystem());
 
             Console.Write("\n\nPress any key to terminate ...");
             Console.ReadKey(true);
 
-            system.Dispose();
+            host.Dispose();
             Environment.Exit(0);
         }
 

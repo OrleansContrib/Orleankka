@@ -85,7 +85,7 @@ namespace Example
 
         [Behavior] void Deactivated()
         {
-            this.OnReceive(_ => { throw new InvalidOperationException(Id + " item is deactivated"); });
+            this.OnReceive(_ => throw new InvalidOperationException(Id + " item is deactivated"));
         }
     }
 }

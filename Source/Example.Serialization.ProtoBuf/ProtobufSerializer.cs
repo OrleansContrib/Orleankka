@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Reflection;
 
 using Google.Protobuf;
-
-using Orleans.Runtime;
 using Orleans.Serialization;
 
 namespace Example
@@ -12,9 +10,6 @@ namespace Example
     public class ProtobufSerializer : IExternalSerializer
     {
         static readonly ConcurrentDictionary<RuntimeTypeHandle, MessageParser> Parsers = new ConcurrentDictionary<RuntimeTypeHandle, MessageParser>();
-
-        public void Initialize(Logger logger)
-        {}
 
         public bool IsSupportedType(Type itemType)
         {
@@ -56,8 +51,7 @@ namespace Example
                 return;
             }
 
-            var iMessage = item as IMessage;
-            if (iMessage == null)
+            if (!(item is IMessage iMessage))
                 throw new ArgumentException("The provided item for serialization in not an instance of " + typeof(IMessage), nameof(item));
 
             var outBytes = iMessage.ToByteArray();
@@ -69,8 +63,7 @@ namespace Example
         {
             var typeHandle = expectedType.TypeHandle;
 
-            MessageParser parser;
-            if (!Parsers.TryGetValue(typeHandle, out parser))
+            if (!Parsers.TryGetValue(typeHandle, out var parser))
                 throw new ArgumentException("No parser found for the expected type " + expectedType, nameof(expectedType));
 
             var reader = context.StreamReader;

@@ -149,12 +149,14 @@ namespace Orleankka.Features
                 var stream = system.StreamOf(provider, "filtered");
 
                 await Push(stream, "f-001");
+                await Push(stream, "selected");
                 await Push(stream, "f-002");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
                 var received = await consumer.Ask(new Received());
-                Assert.That(received.Count, Is.EqualTo(0));
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("selected"));
             }
 
             public async Task Dynamic_target_selection<T>() where T : IActorGrain
@@ -241,7 +243,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
             public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
-                public static bool SelectItem(object item) => false;
+                public static bool SelectItem(object item) => item?.ToString() == "selected";
             }
 
             public interface ITestDynamicTargetSelectorActor : IActorGrain
@@ -293,7 +295,7 @@ namespace Orleankka.Features
 
             [StreamSubscription(Source = "aqp:a", Target = "#")]
             [StreamSubscription(Source = "aqp:b", Target = "#")]
-            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
+            public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
 
             public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain
@@ -334,7 +336,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
             public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
-                public static bool SelectItem(object item) => false;
+                public static bool SelectItem(object item) => item?.ToString() == "selected";
             }
 
             public interface ITestDynamicTargetSelectorActor : IActorGrain

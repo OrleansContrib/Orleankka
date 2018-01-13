@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Orleankka;
-using Orleankka.Client;
-
 using Orleans;
+using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
+using Orleankka.Client;
 
 namespace Example
 {
@@ -15,38 +14,24 @@ namespace Example
     {
         public static event Action OnClusterConnectionLost = () => {};
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration()
-                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
-
-            var system = ActorSystem.Configure()
-                .Client()
-                .From(config)
-                .Assemblies(typeof(IChatUser).Assembly)
-                .Services(x => x
-                    .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost()))
-                .Done();
-
-            var task = Task.Run(async () => await RunChatClient(system));
-            task.Wait();
-        }
-
-        static async Task RunChatClient(ClientActorSystem system)
-        {
-            const string room = "Orleankka";
+            var config = ClientConfiguration.LocalhostSilo();
+            config.AddSimpleMessageStreamProvider("sms");
 
             Console.WriteLine("Connecting to server ...");
-            await system.Connect(retries: 2);
+            var system = await Connect(config, retries: 2);
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
             
+            const string room = "Orleankka";
+
             var client = new ChatClient(system, userName, room);
-            OnClusterConnectionLost += ()=> client.Resubscribe().Wait();
+            OnClusterConnectionLost += async ()=> await client.Resubscribe();
 
             await client.Join();
 
@@ -67,6 +52,46 @@ namespace Example
                 }
 
                 await client.Say(message);
+            }
+        }
+
+        static async Task<IClientActorSystem> Connect(ClientConfiguration config, int retries = 0, TimeSpan? retryTimeout = null)
+        {
+            if (retryTimeout == null)
+                retryTimeout = TimeSpan.FromSeconds(5);
+
+            if (retries < 0)
+                throw new ArgumentOutOfRangeException(nameof(retries), 
+                    "retries should be greater than or equal to 0");
+
+            while (true)
+            {
+                try
+                {
+                    var client = new ClientBuilder()
+                        .UseConfiguration(config)
+                        .ConfigureServices(x => x
+                            .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost()))
+                        .ConfigureApplicationParts(x => x
+                            .AddApplicationPart(typeof(IChatUser).Assembly)
+                            .WithCodeGeneration())
+                        .ConfigureOrleankka()
+                        .Build();
+
+                    await client.Connect();
+                    return client.ActorSystem();
+                }
+                catch (Exception ex)
+                {
+                    if (retries-- == 0)
+                    {
+                        Console.WriteLine("Can't connect to cluster. Max retries reached.");
+                        throw;
+                    }
+
+                    Console.WriteLine($"Can't connect to cluster: '{ex.Message}'. Trying again in {(int)retryTimeout.Value.TotalSeconds} seconds ...");
+                    await Task.Delay(retryTimeout.Value);
+                }
             }
         }
     }
