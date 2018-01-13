@@ -5,7 +5,22 @@
     <RootNamespace>Example</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="Server.xml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Server.xml" />
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Example.Streams.Chat.Shared\Chat.Shared.csproj" />
