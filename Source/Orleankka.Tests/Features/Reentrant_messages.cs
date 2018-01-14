@@ -66,7 +66,7 @@ namespace Orleankka.Features
             }
         }
 
-        [Serializable] class Activate : Command {}
+        [Serializable] class Subscribe : Command {}
         [Serializable] class GetStreamMessagesInProgress : Query<List<object>> {}
 
         public interface ITestReentrantStreamConsumerActor : IActorGrain
@@ -82,7 +82,7 @@ namespace Orleankka.Features
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
 
-            async Task On(Activate x)
+            async Task On(Subscribe x)
             {
                 var stream1 = System.StreamOf("sms", "s1");
                 var stream2 = System.StreamOf("sms", "s2");
@@ -140,15 +140,20 @@ namespace Orleankka.Features
         {
             ActorRef receiver;
 
-            public override Task OnActivate()
+            public override Task<object> Receive(object message)
             {
-                receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
-                return base.OnActivate();
-            }
+                switch (message)
+                {
+                    case Activate _: 
+                        receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                        break;
+                    case Message _:
+                        return receiver.Ask<object>(message);
+                    default: 
+                        return base.Receive(message);
+                }
 
-            public override Task<object> OnReceive(object message)
-            {
-                return receiver.Ask<object>(message);
+                return Done;
             }
         }
 
@@ -217,7 +222,7 @@ namespace Orleankka.Features
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
-                await actor.Tell(new Activate());
+                await actor.Tell(new Subscribe());
 
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");
@@ -241,7 +246,7 @@ namespace Orleankka.Features
             public async Task When_actor_received_non_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
-                await actor.Tell(new Activate());
+                await actor.Tell(new Subscribe());
 
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");

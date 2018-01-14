@@ -90,25 +90,25 @@ namespace Orleankka.Features
 
         public class TestActorInterceptionInvoker : ActorInvoker
         {
-            public override Task<object> OnReceive(ActorGrain actor, object message)
+            public override Task<object> ReceiveRequest(ActorGrain actor, object message)
             {
                 if (!(message is SetText msg))
-                    return base.OnReceive(actor, message);
+                    return base.ReceiveRequest(actor, message);
 
                 if (msg.Text == "interrupt")
                     throw new InvalidOperationException();
 
                 msg.Text += ".intercepted";
-                return base.OnReceive(actor, message);
+                return base.ReceiveRequest(actor, message);
             }
         }
 
         public class TestStreamInterceptionInvoker : ActorInvoker
         {
-            public override Task<object> OnReceive(ActorGrain actor, object message)
+            public override Task<object> ReceiveRequest(ActorGrain actor, object message)
             {
                 var item = message as string;                    
-                return base.OnReceive(actor, item == null ? message : item + ".intercepted");
+                return base.ReceiveRequest(actor, item == null ? message : item + ".intercepted");
             }
         }
 

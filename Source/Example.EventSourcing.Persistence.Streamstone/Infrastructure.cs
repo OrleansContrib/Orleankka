@@ -7,20 +7,16 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Cluster;
 
 using Streamstone;
-
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-
 using Newtonsoft.Json;
 
 namespace Example
 {
     public abstract class CqsActor : ActorGrain
     {
-        public override Task<object> OnReceive(object message)
+        public override Task<object> Receive(object message)
         {
             var cmd = message as Command;
             if (cmd != null)
@@ -56,7 +52,7 @@ namespace Example
 
         Stream stream;
 
-        public override async Task OnActivate()
+        async Task On(Activate _)
         {
             var partition = new Partition(SS.Table, StreamName());
 

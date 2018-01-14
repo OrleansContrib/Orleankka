@@ -66,7 +66,7 @@ namespace Example
             total -= cmd.Quantity;
         }
 
-        void Handle(Deactivate cmd)
+        void Handle(DeactivateItem cmd)
         {
             CheckIsActive();
 

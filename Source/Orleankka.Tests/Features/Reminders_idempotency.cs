@@ -16,9 +16,6 @@ namespace Orleankka.Features
         using Testing;
 
         [Serializable]
-        public class Deactivate : Command {}
-
-        [Serializable]
         public class RegisterReminder : Command
         {
             public string Name;
@@ -44,7 +41,6 @@ namespace Orleankka.Features
             Task On(RegisterReminder x) => Reminders.Register(x.Name, TimeSpan.FromHours(10), TimeSpan.FromHours(10));
             Task On(UnregisterReminder x) => Reminders.Unregister(x.Name);
             Task<bool> On(IsReminderRegistered x) => Reminders.IsRegistered(x.Name);
-            void On(Deactivate x) => Activation.DeactivateOnIdle();
         }
 
         [TestFixture]

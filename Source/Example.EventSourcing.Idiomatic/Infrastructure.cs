@@ -9,7 +9,7 @@ namespace Example
 {
     public abstract class CqsActor : ActorGrain
     {
-        public override Task<object> OnReceive(object message)
+        public override Task<object> Receive(object message)
         {
             switch (message)
             {
@@ -30,11 +30,8 @@ namespace Example
     {
         StreamRef stream;
 
-        public override Task OnActivate()
-        {
+        void On(Activate _) => 
             stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
-            return base.OnActivate();
-        }
 
         protected override Task<object> HandleQuery(Query query)
         {

@@ -18,7 +18,7 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        public class Deactivate : Command
+        public class Kill : Command
         {}
 
         [Serializable]
@@ -30,25 +30,28 @@ namespace Orleankka.Features
             readonly List<string> received = new List<string>();
 
             Task On(Subscribe x) => Stream().Subscribe(this, x.Filter);
-            void On(Deactivate x) => Activation.DeactivateOnIdle();
+            void On(Kill x) => DeactivateOnIdle();
 
             void On(string x) => received.Add(x);
             List<string> On(Received x) => received;
 
-            public override Task OnActivate() => Stream().Resume(this);
+            Task On(Activate _) => Stream().Resume(this);
 
             StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
             protected abstract string Provider { get; }
 
-            public override Task<object> OnReceive(object message)
+            public override Task<object> Receive(object message)
             {
-                if (message is int)
+                switch (message)
                 {
-                    received.Add(message.ToString());
-                    return Task.FromResult<object>(null);
+                    case int x:
+                        received.Add(x.ToString());
+                        break;
+                    default:
+                        return base.Receive(message);
                 }
 
-                return base.OnReceive(message);
+                return Done;
             }
         }
 
@@ -78,7 +81,7 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("e-123"));
 
-                await consumer.Tell(new Deactivate());
+                await consumer.Tell(new Kill());
                 await Task.Delay(TimeSpan.FromSeconds(61));
 
                 await stream.Push("e-456");

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
@@ -79,17 +78,13 @@ namespace Demo
             this.observers = observers;
         }
 
-        public override Task OnActivate()
+        void On(Activate _)
         {
             observers = observers ?? new ObserverCollection();
             worker = worker ?? ApiWorkerFactory.Create(Id);
-            return base.OnActivate();
         }
 
-        public void Handle(Subscribe cmd)
-        {
-            observers.Add(cmd.Observer);
-        }
+        public void Handle(Subscribe cmd) => observers.Add(cmd.Observer);
 
         public async Task<int> Handle(Search search)
         {

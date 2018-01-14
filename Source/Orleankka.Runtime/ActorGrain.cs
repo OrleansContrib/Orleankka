@@ -6,16 +6,17 @@ using Orleans.Runtime;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Orleankka.Core;
-using Orleankka.Services;
-using Orleankka.Utility;
-
-using IReminderService = Orleankka.Services.IReminderService;
-
 namespace Orleankka
 {
+    using Core;
+    using Services;
+    using Utility;
+
     public abstract class ActorGrain : Grain, IRemindable, IActor
     {
+        public static readonly Task<object> Done = Task.FromResult<object>(0);
+        public static Task<object> Result<T>(T value) => Task.FromResult<object>(value);
+
         ActorType actor;
         ActorType Actor => actor ?? (actor = ActorType.Of(GetType()));
 
@@ -56,20 +57,29 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
-        Task<object> IActor.ReceiveAsk(object message) => ReceiveAsk(message);
-        Task IActor.ReceiveTell(object message) => ReceiveAsk(message);
-        Task IActor.ReceiveNotify(object message) => ReceiveAsk(message);
-
-        internal Task<object> ReceiveAsk(object message)
+        Task<object> IActor.ReceiveAsk(object message) => ReceiveRequest(message);
+        Task IActor.ReceiveTell(object message) => ReceiveRequest(message);
+        Task IActor.ReceiveNotify(object message) => ReceiveRequest(message);
+       
+        internal async Task<object> ReceiveRequest(object message)
         {
             Actor.KeepAlive(this);
-            return Actor.Invoker.OnReceive(this, message);
+
+            var response = await Actor.Invoker.ReceiveRequest(this, message);
+            if (ReferenceEquals(response, Done))
+                return null;
+
+            if (response is Task)
+                throw new InvalidOperationException("Can't return Task as actor response");
+            
+            return response;
         }
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
             Actor.KeepAlive(this);
-            return Actor.Invoker.OnReminder(this, name);
+
+            return Actor.Invoker.ReceiveRequest(this, Reminder.Message(name, status));
         }
 
         public override Task OnActivateAsync()
@@ -78,24 +88,60 @@ namespace Orleankka
             Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
             Dispatcher = ActorType.Dispatcher(GetType());
 
-            return Actor.Invoker.OnActivate(this);
+            return Actor.Invoker.ReceiveRequest(this, Activate.Message);
         }
 
-        public override Task OnDeactivateAsync() => Actor.Invoker.OnDeactivate(this);
+        public override Task OnDeactivateAsync()
+        {
+            return Actor.Invoker.ReceiveRequest(this, Deactivate.Message);
+        }
 
-        public virtual Task OnActivate() => Task.CompletedTask;
-        public virtual Task OnDeactivate() => Task.CompletedTask;
+        public virtual Task<object> Receive(object message) => Dispatch(message);
 
-        public virtual Task<object> OnReceive(object message) => Dispatch(message);
-        public virtual Task OnReminder(string id) => throw new NotImplementedException("Override OnReminder(string) method in order to process reminder ticks");
+        public async Task<TResult> Dispatch<TResult>(object message) => (TResult) await Dispatch(message);
 
-        public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
-            (TResult)await Dispatch(message, fallback);
-
-        public Task<object> Dispatch(object message, Func<object, Task<object>> fallback = null)
+        public Task<object> Dispatch(object message)
         {
             Requires.NotNull(message, nameof(message));
-            return Dispatcher.Dispatch(this, message, fallback);
+
+            return Dispatcher.Dispatch(this, message, x =>
+            {
+                if (x is LifecycleMessage)
+                    return Done;
+
+                throw new Dispatcher.HandlerNotFoundException(this, x.GetType());
+            });
+        }
+
+        public interface LifecycleMessage
+        {}
+
+        public sealed class Activate : LifecycleMessage
+        {
+            public static readonly Activate Message = new Activate();
+        }
+
+        public sealed class Deactivate : LifecycleMessage
+        {
+            public static readonly Deactivate Message = new Deactivate();
+        }
+
+        public struct Reminder
+        {
+            public static readonly Reminder Invalid = 
+                new Reminder();
+
+            public static Reminder Message(string name, TickStatus status) => 
+                new Reminder(name, status);
+
+            public string Name { get; }
+            public TickStatus Status { get; }
+
+            public Reminder(string name, TickStatus status = default(TickStatus))
+            {
+                Name = name;
+                Status = status;
+            }
         }
     }
 }

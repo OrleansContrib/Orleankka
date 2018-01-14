@@ -15,18 +15,12 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        [Serializable]
-        public class Deactivate : Command
-        {}
-
         public abstract class TestConsumerActorBase : ActorGrain
         {
             protected readonly List<string> received = new List<string>();
 
             void On(string x) => received.Add(x);
             List<string> On(Received x) => received;
-
-            void On(Deactivate x) => Activation.DeactivateOnIdle();
         }
 
         [Serializable]
@@ -225,7 +219,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                public override Task<object> OnReceive(object message)
+                public override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {
@@ -233,7 +227,7 @@ namespace Orleankka.Features
                         return Task.FromResult<object>(null);
                     }
 
-                    return base.OnReceive(message);
+                    return base.Receive(message);
                 }
             }
 
@@ -318,7 +312,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                public override Task<object> OnReceive(object message)
+                public override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {
@@ -326,7 +320,7 @@ namespace Orleankka.Features
                         return Task.FromResult<object>(null);
                     }
 
-                    return base.OnReceive(message);
+                    return base.Receive(message);
                 }
             }
 

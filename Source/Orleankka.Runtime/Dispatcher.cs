@@ -126,7 +126,7 @@ namespace Orleankka
                 return handler(target, message);
 
             if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
+                throw new HandlerNotFoundException(target, message.GetType());
 
             return fallback(message);
         }
@@ -142,7 +142,7 @@ namespace Orleankka
             }
 
             if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
+                throw new HandlerNotFoundException(target, message.GetType());
 
             fallback(message);
         }
@@ -155,7 +155,7 @@ namespace Orleankka
                 return handler(target, message);
 
             if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
+                throw new HandlerNotFoundException(target, message.GetType());
 
             return fallback(message);
         }
@@ -163,12 +163,12 @@ namespace Orleankka
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException
         {
-            const string description = "Can't find handler for '{0}'.\r\n" +
+            const string description = "Can't find handler for '{1}'.\r\n on actor '{0}'." +
                                        "Check that handler method has single argument and " +
                                        "named 'On', 'Handle', 'Answer' or 'Apply'";
 
-            internal HandlerNotFoundException(Type message)
-                : base(string.Format(description, message))
+            internal HandlerNotFoundException(object target, Type message)
+                : base(string.Format(description, target.GetType(), message))
             {}
 
             protected HandlerNotFoundException(SerializationInfo info, StreamingContext context)

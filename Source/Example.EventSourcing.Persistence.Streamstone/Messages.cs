@@ -50,7 +50,7 @@ namespace Example
     }
 
     [Serializable]
-    public class Deactivate : Command
+    public class DeactivateItem : Command
     {}
 
     [Serializable]

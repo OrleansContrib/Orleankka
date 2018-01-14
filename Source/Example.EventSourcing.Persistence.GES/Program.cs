@@ -60,7 +60,7 @@ namespace Example
             await item.Tell(new Rename("XBOX360"));
             await Print(item);
 
-            await item.Tell(new Deactivate());
+            await item.Tell(new DeactivateItem());
             await Print(item);
         }
 

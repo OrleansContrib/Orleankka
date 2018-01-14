@@ -18,7 +18,7 @@ message CheckOut {
   int32 quantity = 1;
 }
 
-message Deactivate {}
+message DeactivateItem {}
 
 message GetDetails {}
 

@@ -227,7 +227,7 @@ namespace Demo
 
         Task ReceiveReminder(string id)
         {
-            return topic.OnReminder(id);
+            return topic.Receive(new ActorGrain.Reminder(id));
         }
 
         void RetriesScheduled(string api)

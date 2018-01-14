@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -32,11 +31,10 @@ namespace Example
         int value;
         ConsolePosition indicator;
 
-        public override Task OnActivate()
+        void On(Activate _)
         {
             Console.Write("\nWrites: ");
             indicator = ConsolePosition.Current();
-            return base.OnActivate();
         }
 
         async Task On(Write req)

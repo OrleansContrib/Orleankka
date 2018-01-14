@@ -18,7 +18,7 @@ namespace Orleankka.Features
         }
         
         [Serializable]
-        public class Deactivate : Command
+        public class Kill : Command
         {}
 
         [Serializable]
@@ -36,16 +36,12 @@ namespace Orleankka.Features
         {
             bool reminded;
 
+            void On(Reminder _)             => reminded = true;
             bool On(HasBeenReminded x)      => reminded;
             void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
-            void On(Deactivate x)           => Activation.DeactivateOnIdle();
+            void On(Kill x)                 => Activation.DeactivateOnIdle();
             long On(GetInstanceHashcode x)  => RuntimeHelpers.GetHashCode(this);
             
-            public override Task OnReminder(string id)
-            {
-                reminded = true;
-                return Task.CompletedTask;
-            }
         }
 
         [TestFixture, RequiresSilo]
@@ -67,7 +63,7 @@ namespace Orleankka.Features
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});
-                await actor.Tell(new Deactivate());
+                await actor.Tell(new Kill());
                 await Task.Delay(TimeSpan.FromMinutes(2.0));
 
                 Assert.True(await actor.Ask<bool>(new HasBeenReminded()));

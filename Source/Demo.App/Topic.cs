@@ -43,10 +43,8 @@ namespace Demo
             this.storage = storage;
         }
 
-        public override async Task OnActivate()
-        {
+        async Task On(Activate _) => 
             total = await storage.ReadTotalAsync(Id);
-        }
 
         public async Task Handle(CreateTopic cmd)
         {
@@ -56,16 +54,16 @@ namespace Demo
                 await Reminders.Register(entry.Key.Path.Id, TimeSpan.Zero, entry.Value);
         }
 
-        public override async Task OnReminder(string id)
+        async Task On(Reminder x)
         {
             try
             {
-                if (!IsRetrying(id))
-                    await Search(id);
+                if (!IsRetrying(x.Name))
+                    await Search(x.Name);
             }
             catch (ApiUnavailableException)
             {
-                ScheduleRetries(id);
+                ScheduleRetries(x.Name);
             }
         }
 

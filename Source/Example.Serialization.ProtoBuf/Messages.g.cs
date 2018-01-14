@@ -35,7 +35,7 @@ namespace Example {
             new pbr::GeneratedClrTypeInfo(typeof(global::Example.Rename), global::Example.Rename.Parser, new[]{ "NewName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Example.CheckIn), global::Example.CheckIn.Parser, new[]{ "Quantity" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Example.CheckOut), global::Example.CheckOut.Parser, new[]{ "Quantity" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Example.Deactivate), global::Example.Deactivate.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Example.DeactivateItem), global::Example.DeactivateItem.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Example.GetDetails), global::Example.GetDetails.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Example.InventoryItemDetails), global::Example.InventoryItemDetails.Parser, new[]{ "Name", "Total", "Active" }, null, null, null)
           }));
@@ -512,10 +512,10 @@ namespace Example {
 
   }
 
-  public sealed partial class Deactivate : pb::IMessage<Deactivate> {
-    private static readonly pb::MessageParser<Deactivate> _parser = new pb::MessageParser<Deactivate>(() => new Deactivate());
+  public sealed partial class DeactivateItem : pb::IMessage<DeactivateItem> {
+    private static readonly pb::MessageParser<DeactivateItem> _parser = new pb::MessageParser<DeactivateItem>(() => new DeactivateItem());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Deactivate> Parser { get { return _parser; } }
+    public static pb::MessageParser<DeactivateItem> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -528,28 +528,28 @@ namespace Example {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Deactivate() {
+    public DeactivateItem() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Deactivate(Deactivate other) : this() {
+    public DeactivateItem(DeactivateItem other) : this() {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Deactivate Clone() {
-      return new Deactivate(this);
+    public DeactivateItem Clone() {
+      return new DeactivateItem(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as Deactivate);
+      return Equals(other as DeactivateItem);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Deactivate other) {
+    public bool Equals(DeactivateItem other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -581,7 +581,7 @@ namespace Example {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Deactivate other) {
+    public void MergeFrom(DeactivateItem other) {
       if (other == null) {
         return;
       }

@@ -28,7 +28,7 @@ namespace Example
         readonly List<Item> received = new List<Item>();
         StreamRef stream;
 
-        public override async Task OnActivate()
+        async Task On(Activate _)
         {
             stream = System.StreamOf("sms", "test");
             await stream.Subscribe(this);

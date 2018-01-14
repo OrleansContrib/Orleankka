@@ -75,7 +75,7 @@ namespace Example
             yield return new InventoryItemCheckedOut(cmd.Quantity);
         }
 
-        IEnumerable<Event> Handle(Deactivate cmd)
+        IEnumerable<Event> Handle(DeactivateItem cmd)
         {
             CheckIsActive();
 

@@ -18,7 +18,7 @@ namespace Example
 {
     public abstract class CqsActor : ActorGrain
     {
-        public override Task<object> OnReceive(object message)
+        public override Task<object> Receive(object message)
         {
             switch (message)
             {
@@ -53,7 +53,7 @@ namespace Example
 
         long version = ExpectedVersion.NoStream;
 
-        public override async Task OnActivate()
+        async Task On(Activate _)
         {
             var stream = StreamName();
 
