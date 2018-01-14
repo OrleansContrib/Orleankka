@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Cluster;
 
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
@@ -22,13 +20,13 @@ namespace Example
     {
         public override Task<object> OnReceive(object message)
         {
-            var cmd = message as Command;
-            if (cmd != null)
-                return HandleCommand(cmd);
-
-            var query = message as Query;
-            if (query != null)
-                return HandleQuery(query);
+            switch (message)
+            {
+                case Command cmd:
+                    return HandleCommand(cmd);
+                case Query query:
+                    return HandleQuery(query);
+            }
 
             throw new InvalidOperationException("Unknown message type: " + message.GetType());
         }
@@ -168,16 +166,7 @@ namespace Example
     {
         public static IEventStoreConnection Connection
         {
-            get; private set;
-        }
-
-        public class Bootstrap : IBootstrapper
-        {
-            public async Task Run(IActorSystem system, object properties)
-            {
-                Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
-                await Connection.ConnectAsync();
-            }
+            get; set;
         }
     }
 }

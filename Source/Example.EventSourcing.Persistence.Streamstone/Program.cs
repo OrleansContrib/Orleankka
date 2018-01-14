@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 using Orleankka;
 using Orleankka.Meta;
@@ -28,21 +29,14 @@ namespace Example
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
-            SetupTable(account);
-
-            var properties = new SS.Properties
-            {
-                StorageAccount = account.ToString(true),
-                TableName = "ssexample"
-            };
+            SS.Table = await SetupTable(account);
 
             var host = await new SiloHostBuilder()
                 .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka(x => x
-                    .Bootstrapper<SS.Bootstrap>(properties))
+                .ConfigureOrleankka()
                 .Start();
 
             var client = await host.Connect();
@@ -65,16 +59,17 @@ namespace Example
             Environment.Exit(0);
         }
 
-        static void SetupTable(CloudStorageAccount account)
+        static async Task<CloudTable> SetupTable(CloudStorageAccount account)
         {
             var table = account
                 .CreateCloudTableClient()
                 .GetTableReference("ssexample");
 
             if (!resume)
-                table.DeleteIfExistsAsync().Wait();
+                await table.DeleteIfExistsAsync();
 
-            table.CreateIfNotExistsAsync().Wait();
+            await table.CreateIfNotExistsAsync();
+            return table;
         }
 
         static async Task Run()

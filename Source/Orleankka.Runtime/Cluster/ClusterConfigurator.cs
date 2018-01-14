@@ -10,6 +10,7 @@ using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
 using Orleans.Internals;
+using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 using Orleans.Streams;
 
@@ -29,23 +30,10 @@ namespace Orleankka.Cluster
         readonly HashSet<string> conventions = 
              new HashSet<string>();
 
-        readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
-             new HashSet<BootstrapProviderConfiguration>();
-
         readonly ActorInvocationPipeline pipeline = 
              new ActorInvocationPipeline();
         
         IActorRefInvoker invoker;
-
-        public ClusterConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
-        {
-            var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
-
-            if (!bootstrapProviders.Add(configuration))
-                throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
-
-            return this;
-        }
 
         /// <summary>
         /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
@@ -105,12 +93,11 @@ namespace Orleankka.Cluster
             RegisterAssemblies(builder);
             RegisterInterfaces();
             RegisterTypes();
-            RegisterAutoruns();
+            RegisterAutoruns(cluster);
             
             var persistentStreamProviders = RegisterStreamProviders(cluster);
             RegisterStreamSubscriptions(cluster, persistentStreamProviders);
 
-            RegisterBootstrappers(cluster);
             RegisterBehaviors();
             RegisterDependencies(services);
         }
@@ -143,9 +130,9 @@ namespace Orleankka.Cluster
 
         void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
 
-        void RegisterAutoruns()
+        void RegisterAutoruns(ClusterConfiguration config)
         {
-            var autoruns = new Dictionary<string, string[]>();
+            var autoruns = new Dictionary<string, string>();
 
             foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
             {
@@ -155,13 +142,13 @@ namespace Orleankka.Cluster
                 
                 var typeName = ActorTypeName.Of(actor);
                 if (registry.IsRegistered(typeName))
-                    autoruns.Add(typeName, ids);
+                    autoruns.Add(typeName, string.Join(";", ids));
             }
 
-            Bootstrapper<AutorunBootstrapper>(autoruns);
+           config.Globals.RegisterBootstrapProvider<AutorunBootstrapper>("autoboot", autoruns);
         }
 
-        static string[] RegisterStreamProviders(ClusterConfiguration configuration)
+        static IEnumerable<string> RegisterStreamProviders(ClusterConfiguration configuration)
         {
             Type GetType(string partialTypeName)
             {
@@ -206,12 +193,6 @@ namespace Orleankka.Cluster
             return persistentStreamProviders.ToArray();
         }
 
-        void RegisterBootstrappers(ClusterConfiguration cluster)
-        {
-            foreach (var each in bootstrapProviders)
-                each.Register(cluster.Globals);
-        }
-
         void RegisterBehaviors()
         {
             foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
@@ -232,16 +213,26 @@ namespace Orleankka.Cluster
 
             cluster.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
+    }
 
-        [UsedImplicitly]
-        class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
+    [UsedImplicitly]
+    public class AutorunBootstrapper : IBootstrapProvider
+    {
+        public string Name { get; private set; }
+
+        public async Task Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
-            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) =>
-                Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
+            Name = name;
 
-            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
+            var system = providerRuntime.ServiceProvider.GetRequiredService<IActorSystem>();
+
+            IEnumerable<Task> Autorun(string type, IEnumerable<string> ids) =>
                 ids.Select(id => system.ActorOf(type, id).Autorun());
+
+            await Task.WhenAll(config.Properties.SelectMany(x => Autorun(x.Key, x.Value.Split(';'))));
         }
+
+        public Task Close() => Task.CompletedTask;
     }
 
     public static class SiloHostBuilderExtension
@@ -257,6 +248,7 @@ namespace Orleankka.Cluster
             .ConfigureServices(services => cfg.Configure(builder, services))
             .ConfigureApplicationParts(apm => apm
                 .AddApplicationPart(typeof(IClientEndpoint).Assembly)
+                .AddApplicationPart(typeof(AutorunBootstrapper).Assembly)
                 .WithCodeGeneration());
 
         public static IActorSystem ActorSystem(this ISiloHost host) => host.Services.GetRequiredService<IActorSystem>();

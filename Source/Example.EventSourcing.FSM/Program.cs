@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using EventStore.ClientAPI;
 
 using Orleankka;
 using Orleankka.Client;
@@ -21,12 +24,15 @@ namespace Example
             Console.WriteLine("Make sure you've started local GES node using \".\\Nake.bat run\"!");
             Console.WriteLine("You may need to first run \".\\Nake.bat restore\" to download GES binaries\n");
 
+            ES.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+            await ES.Connection.ConnectAsync();
+
             var host = await new SiloHostBuilder()
                 .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka(x => x.Bootstrapper<ES.Bootstrap>())
+                .ConfigureOrleankka()
                 .Start();
 
             var client = await host.Connect();

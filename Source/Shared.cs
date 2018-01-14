@@ -11,6 +11,7 @@ using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
 
 using Orleankka.Client;
+using Orleans.Providers;
 
 namespace Orleankka
 {
@@ -61,5 +62,20 @@ namespace Orleankka
             cfg.SerializationProviders.Add(typeof(T).GetTypeInfo());
             return cfg;
         }
+    }
+
+    public abstract class BootstrapProvider : IBootstrapProvider
+    {
+        public string Name { get; private set; }
+
+        Task IProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
+        {
+            Name = name;
+            return Init(providerRuntime, config);
+        }
+
+        protected abstract Task Init(IProviderRuntime runtime, IProviderConfiguration config);
+
+        Task IProvider.Close() => Task.CompletedTask;
     }
 }

@@ -176,24 +176,7 @@ namespace Example
     {
         public static CloudTable Table
         {
-            get; private set;
-        }
-
-        public class Bootstrap : Bootstrapper<Properties>
-        {
-            protected override Task Run(IActorSystem system, Properties properties)
-            {
-                var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
-                Table = client.GetTableReference(properties.TableName);
-                return Task.CompletedTask;
-            }
-        }
-
-        [Serializable]
-        public class Properties
-        {
-            public string StorageAccount;
-            public string TableName;
+            get; set;
         }
     }
 }
