@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +9,6 @@ using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
 using Orleans.Internals;
-using Orleans.Providers;
 using Orleans.Runtime.Configuration;
 using Orleans.Streams;
 
@@ -20,7 +18,6 @@ namespace Orleankka.Cluster
     using Core.Streams;
     using Behaviors;
     using Utility;
-    using Annotations;
 
     public sealed class ClusterConfigurator
     {
@@ -93,7 +90,6 @@ namespace Orleankka.Cluster
             RegisterAssemblies(builder);
             RegisterInterfaces();
             RegisterTypes();
-            RegisterAutoruns(cluster);
             
             var persistentStreamProviders = RegisterStreamProviders(cluster);
             RegisterStreamSubscriptions(cluster, persistentStreamProviders);
@@ -129,24 +125,6 @@ namespace Orleankka.Cluster
         void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
 
         void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
-
-        void RegisterAutoruns(ClusterConfiguration config)
-        {
-            var autoruns = new Dictionary<string, string>();
-
-            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-            {
-                var ids = AutorunAttribute.From(actor);
-                if (ids.Length <= 0) 
-                    continue;
-                
-                var typeName = ActorTypeName.Of(actor);
-                if (registry.IsRegistered(typeName))
-                    autoruns.Add(typeName, string.Join(";", ids));
-            }
-
-           config.Globals.RegisterBootstrapProvider<AutorunBootstrapper>("autoboot", autoruns);
-        }
 
         static IEnumerable<string> RegisterStreamProviders(ClusterConfiguration configuration)
         {
@@ -215,26 +193,6 @@ namespace Orleankka.Cluster
         }
     }
 
-    [UsedImplicitly]
-    public class AutorunBootstrapper : IBootstrapProvider
-    {
-        public string Name { get; private set; }
-
-        public async Task Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
-        {
-            Name = name;
-
-            var system = providerRuntime.ServiceProvider.GetRequiredService<IActorSystem>();
-
-            IEnumerable<Task> Autorun(string type, IEnumerable<string> ids) =>
-                ids.Select(id => system.ActorOf(type, id).Autorun());
-
-            await Task.WhenAll(config.Properties.SelectMany(x => Autorun(x.Key, x.Value.Split(';'))));
-        }
-
-        public Task Close() => Task.CompletedTask;
-    }
-
     public static class SiloHostBuilderExtension
     {
         public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder) => 
@@ -248,7 +206,6 @@ namespace Orleankka.Cluster
             .ConfigureServices(services => cfg.Configure(builder, services))
             .ConfigureApplicationParts(apm => apm
                 .AddApplicationPart(typeof(IClientEndpoint).Assembly)
-                .AddApplicationPart(typeof(AutorunBootstrapper).Assembly)
                 .WithCodeGeneration());
     }
 }
