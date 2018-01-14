@@ -18,7 +18,7 @@ namespace Orleankka.Features
         public class CheckTypeCodeResolution : Query<string>
         {}
 
-        public interface ITestActor : Orleankka.IActorGrain
+        public interface ITestActor : IActorGrain
         {}
 
         public class TestActor : ActorGrain, ITestActor
