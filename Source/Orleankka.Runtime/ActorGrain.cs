@@ -21,8 +21,6 @@ namespace Orleankka
     {
         // ------ GRAIN --------- //
 
-        const string StickyReminderName = "##sticky##";
-
         IActorInvoker invoker;
 
         ActorType actorType;
@@ -49,10 +47,6 @@ namespace Orleankka
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
             KeepAlive();
-
-            if (name == StickyReminderName)
-                return;
-
             await invoker.OnReminder(this, name);
         }
 
@@ -61,23 +55,9 @@ namespace Orleankka
             return invoker.OnDeactivate(this);
         }
 
-        async Task HandleStickyness()
-        {
-            var period = TimeSpan.FromMinutes(1);
-            await RegisterOrUpdateReminder(StickyReminderName, period, period);
-        }
-
         void KeepAlive() => ActorType.KeepAlive(this);
 
-        public override async Task OnActivateAsync()
-        {
-            if (ActorType.Sticky)
-                await HandleStickyness();
-
-            await Activate();
-        }
-
-        Task Activate()
+        public override Task OnActivateAsync()
         {
             var path = ActorPath.From(ActorType.Name, IdentityOf(this));
 

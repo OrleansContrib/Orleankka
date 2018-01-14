@@ -107,8 +107,7 @@ namespace Orleankka.Core
             Interface = @interface;
             typeCode = grain.TypeCode();
             
-            Sticky = StickyAttribute.IsApplied(@class);
-            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
+            keepAliveTimeout = KeepAliveAttribute.Timeout(@class);
             invoker = InvokerAttribute.From(@class);
             
             dispatcher = new Dispatcher(@class, conventions);
@@ -128,7 +127,5 @@ namespace Orleankka.Core
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
             StreamSubscriptionSpecification.From(Class, dispatcher);
-
-        internal bool Sticky { get; }
     }
 }
