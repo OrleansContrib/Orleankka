@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Runtime;
-using Orleans.Internals;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +19,8 @@ namespace Orleankka
 
     public abstract class ActorGrain : Grain, IRemindable, IActor
     {
+        // ------ GRAIN --------- //
+
         const string StickyReminderName = "##sticky##";
 
         IActorInvoker invoker;
@@ -118,7 +119,7 @@ namespace Orleankka
             Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
         }
 
-        internal void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
+        void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
         {
             Path = path;
             Runtime = runtime;

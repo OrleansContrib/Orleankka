@@ -14,22 +14,12 @@ namespace Orleankka.Core
         static readonly Dictionary<string, ActorInterface> names =
                     new Dictionary<string, ActorInterface>();
 
-        public static ActorInterface Of<T>() => Of(typeof(T));
         public static ActorInterface Of(Type type) => Of(ActorTypeName.Of(type));
 
         public static ActorInterface Of(string name)
         {
             Requires.NotNull(name, nameof(name));
-
-            var result = names.Find(name);
-
-            /*
-            if (result == null)
-                throw new InvalidOperationException(
-                    $"Unable to map actor type name '{name}' to the corresponding actor. " +
-                        "Make sure that you've registered an actor type or the assembly containing this type");
-            */
-            return result;
+            return names.Find(name);
         }
 
         internal static void Register(IEnumerable<ActorInterfaceMapping> mappings)

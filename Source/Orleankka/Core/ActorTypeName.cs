@@ -32,13 +32,9 @@ namespace Orleankka.Core
                 .Cast<ActorTypeAttribute>()
                 .SingleOrDefault();
 
-            if (customAttribute == null)
-                return type.FullName;
-
-            var name = customAttribute.Name;
-            ActorInterfaceDeclaration.CheckValidIdentifier(name);
-
-            return name;
+            return customAttribute == null 
+                ? type.FullName 
+                : customAttribute.Name;
         }
 
         internal static Type CustomInterface(Type type)

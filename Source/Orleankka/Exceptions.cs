@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Orleankka.Core;
-
 namespace Orleankka
 {
+    using Core;
+
     public abstract class OrleankkaException : Exception 
     {
         protected OrleankkaException(string message, Exception innerException = null)
@@ -11,7 +11,7 @@ namespace Orleankka
         {}
     }
 
-    public class DuplicateActorTypeException : Exception 
+    public class DuplicateActorTypeException : OrleankkaException 
     {
         internal DuplicateActorTypeException(ActorInterfaceMapping existing, ActorInterfaceMapping duplicate)
             : base($"Type {duplicate.Types[0]} specifies '{existing.TypeName}' actor type code or implements same custom interface " +

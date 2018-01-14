@@ -34,7 +34,7 @@ namespace Orleankka.Core
             Register(parts, selector);
         }
 
-        internal void Register(Assembly[] assemblies, Func<Assembly, IEnumerable<Type>> selector)
+        void Register(Assembly[] assemblies, Func<Assembly, IEnumerable<Type>> selector)
         {
             Requires.NotNull(assemblies, nameof(assemblies));
 

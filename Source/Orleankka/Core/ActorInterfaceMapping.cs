@@ -7,8 +7,6 @@ namespace Orleankka.Core
 {
     class ActorInterfaceMapping : IEquatable<ActorInterfaceMapping>
     {
-        public static ActorInterfaceMapping Of(string typeName) => new ActorInterfaceMapping(typeName, null, null);
-
         public static ActorInterfaceMapping Of(Type type, IEnumerable<Assembly> assemblies)
         {
             var name = ActorTypeName.Of(type);

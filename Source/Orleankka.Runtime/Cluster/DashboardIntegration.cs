@@ -5,8 +5,6 @@ using Orleans.CodeGeneration;
 
 namespace Orleankka.Cluster
 {
-    using Core;
-
     static class DashboardIntegration
     {
         public static string Format(MethodInfo method, InvokeMethodRequest request, IGrain grain)

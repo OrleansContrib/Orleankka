@@ -250,7 +250,5 @@ namespace Orleankka.Cluster
                 .AddApplicationPart(typeof(IClientEndpoint).Assembly)
                 .AddApplicationPart(typeof(AutorunBootstrapper).Assembly)
                 .WithCodeGeneration());
-
-        public static IActorSystem ActorSystem(this ISiloHost host) => host.Services.GetRequiredService<IActorSystem>();
     }
 }
