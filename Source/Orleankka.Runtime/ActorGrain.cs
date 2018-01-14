@@ -19,35 +19,8 @@ namespace Orleankka
         ActorType actor;
         ActorType Actor => actor ?? (actor = ActorType.Of(GetType()));
 
-        public Task ReceiveTell(object message) => ReceiveAsk(message);
-        public Task ReceiveNotify(object message) => ReceiveAsk(message);
-
-        public Task<object> ReceiveAsk(object message)
-        {
-            Actor.KeepAlive(this);
-
-            return Actor.Invoker.OnReceive(this, message);
-        }
-
-        Task IRemindable.ReceiveReminder(string name, TickStatus status)
-        {
-            Actor.KeepAlive(this);
-
-            return Actor.Invoker.OnReminder(this, name);
-        }
-
-        public override Task OnActivateAsync()
-        {
-            Path = ActorPath.From(Actor.Name, this.GetPrimaryKeyString());
-            Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
-            Dispatcher = ActorType.Dispatcher(GetType());
-
-            return Actor.Invoker.OnActivate(this);
-        }
-
-        public override Task OnDeactivateAsync() => Actor.Invoker.OnDeactivate(this);
-
-        // ------ ACTOR --------- //
+        ActorRef self;
+        public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
         protected ActorGrain()
         {}
@@ -83,8 +56,32 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
-        ActorRef self;
-        public ActorRef Self => self ?? (self = System.ActorOf(Path));
+        Task<object> IActor.ReceiveAsk(object message) => ReceiveAsk(message);
+        Task IActor.ReceiveTell(object message) => ReceiveAsk(message);
+        Task IActor.ReceiveNotify(object message) => ReceiveAsk(message);
+
+        internal Task<object> ReceiveAsk(object message)
+        {
+            Actor.KeepAlive(this);
+            return Actor.Invoker.OnReceive(this, message);
+        }
+
+        Task IRemindable.ReceiveReminder(string name, TickStatus status)
+        {
+            Actor.KeepAlive(this);
+            return Actor.Invoker.OnReminder(this, name);
+        }
+
+        public override Task OnActivateAsync()
+        {
+            Path = ActorPath.From(Actor.Name, this.GetPrimaryKeyString());
+            Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
+            Dispatcher = ActorType.Dispatcher(GetType());
+
+            return Actor.Invoker.OnActivate(this);
+        }
+
+        public override Task OnDeactivateAsync() => Actor.Invoker.OnDeactivate(this);
 
         public virtual Task OnActivate() => Task.CompletedTask;
         public virtual Task OnDeactivate() => Task.CompletedTask;
