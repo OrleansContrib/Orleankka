@@ -39,9 +39,9 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 |  |  | [inside]
 | ------- |:----:| ---------- |
-| Orleankka | [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Core and client lib
-| Orleankka.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Server-side runtime lib
-| Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
+| Orleankka | [NuGet](https://www.nuget.org/packages/Orleankka/) | Core and client lib
+| Orleankka.Runtime | [NuGet](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
+| Orleankka.TestKit | [NuGet](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
 
 ### Examples
 
