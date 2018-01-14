@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Orleankka.Core
 {
@@ -7,8 +8,8 @@ namespace Orleankka.Core
 
     public class ActorInvocationPipeline
     {
-        readonly Dictionary<string, IActorInvoker> invokers = 
-             new Dictionary<string, IActorInvoker>();
+        readonly List<(Type type, IActorInvoker invoker)> invokers = 
+             new List<(Type, IActorInvoker)>();
 
         IActorInvoker DefaultInvoker { get; set; } = DefaultActorInvoker.Instance;
 
@@ -18,24 +19,21 @@ namespace Orleankka.Core
             DefaultInvoker = invoker;
         }
 
-        public void Register(string name, IActorInvoker invoker)
+        public void Register(Type actor, IActorInvoker invoker)
         {
-            Requires.NotNullOrWhitespace(name, nameof(name));
+            Requires.NotNull(actor, nameof(actor));
             Requires.NotNull(invoker, nameof(invoker));
 
-            invokers[name] = invoker;
+            if (invokers.Any(x => x.type == actor))
+                throw new InvalidOperationException($"Invoker for {actor} is already registered");
+
+            invokers.Add((actor, invoker));
         }
 
-        public IActorInvoker GetInvoker(Type actor, string name = null)
+        public IActorInvoker GetInvoker(Type actor)
         {
-            if (name == null)
-                return DefaultInvoker;
-
-            var invoker = invokers.Find(name);
-            if (invoker == null)
-                throw new InvalidOperationException($"Invoker '{name}' specified for '{actor}' is not registered");
-
-            return invoker;
+            var registered = invokers.FirstOrDefault(x => x.type.IsAssignableFrom(actor));
+            return registered.invoker ?? DefaultInvoker;
         }
     }
 }

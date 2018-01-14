@@ -50,8 +50,8 @@ namespace Orleankka.Testing
                     .AddApplicationPart(GetType().Assembly)
                     .WithCodeGeneration())
                 .ConfigureOrleankka(x => x
-                    .ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker())
-                    .ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker()));
+                    .ActorInvoker(typeof(TestActorBase), new TestActorInterceptionInvoker())
+                    .ActorInvoker(typeof(TestStreamActor), new TestStreamInterceptionInvoker()));
 
             var host = sb.Build();
             host.StartAsync().Wait();

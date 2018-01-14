@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Orleankka
 {
-    using Utility;
-
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]		
     public class StreamSubscriptionAttribute : Attribute		
     {		
@@ -35,21 +32,6 @@ namespace Orleankka
 
         public double Minutes;
         public double Hours;
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class InvokerAttribute : Attribute
-    {
-        internal static string From(Type actor) => 
-            actor.GetCustomAttribute<InvokerAttribute>(inherit: true)?.Name;
-
-        public readonly string Name;
-
-        public InvokerAttribute(string name)
-        {
-            Requires.NotNullOrWhitespace(name, nameof(name));
-            Name = name;
-        }
     }
 
     [AttributeUsage(AttributeTargets.Method)]

@@ -29,8 +29,11 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        [Invoker("test_actor_interception")]
-        public class TestActor : ActorGrain, ITestActor
+        public abstract class TestActorBase : ActorGrain
+        {}
+
+        /// middleware is set for the base actor type
+        public class TestActor : TestActorBase, ITestActor
         {
             string text = "";
 
@@ -76,7 +79,6 @@ namespace Orleankka.Features
         public interface ITestStreamActor  : IActorGrain
         {}
 
-        [Invoker("test_stream_interception")]
         public class TestStreamActor : ActorGrain, ITestStreamActor
         {
             readonly List<string> received = new List<string>();
@@ -90,14 +92,13 @@ namespace Orleankka.Features
         {
             public override Task<object> OnReceive(ActorGrain actor, object message)
             {
-                var setText = message as SetText;
-                if (setText == null)
+                if (!(message is SetText msg))
                     return base.OnReceive(actor, message);
 
-                if (setText.Text == "interrupt")
+                if (msg.Text == "interrupt")
                     throw new InvalidOperationException();
 
-                setText.Text += ".intercepted";
+                msg.Text += ".intercepted";
                 return base.OnReceive(actor, message);
             }
         }

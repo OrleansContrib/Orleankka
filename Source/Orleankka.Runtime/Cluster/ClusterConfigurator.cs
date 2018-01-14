@@ -34,7 +34,7 @@ namespace Orleankka.Cluster
 
         /// <summary>
         /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
-        /// which doesn't specify an individual invoker via <see cref="InvokerAttribute"/> attribute.
+        /// which doesn't specify an individual invoker via call to <see cref="ActorInvoker(Type, IActorInvoker)"/>.
         /// </summary>
         /// <param name="global">The invoker.</param>
         public ClusterConfigurator ActorInvoker(IActorInvoker global)
@@ -44,15 +44,14 @@ namespace Orleankka.Cluster
         }
 
         /// <summary>
-        /// Registers named actor invoker (interceptor). For this invoker to be used an actor need 
-        /// to specify its name via <see cref="InvokerAttribute"/> attribute. 
+        /// Registers type-based actor invoker (interceptor). 
         /// The invoker is inherited by all subclasses.
         /// </summary>
-        /// <param name="name">The name of the invoker</param>
+        /// <param name="type">The actor type (could be the base class)</param>
         /// <param name="invoker">The invoker.</param>
-        public ClusterConfigurator ActorInvoker(string name, IActorInvoker invoker)
+        public ClusterConfigurator ActorInvoker(Type type, IActorInvoker invoker)
         {
-            pipeline.Register(name, invoker);
+            pipeline.Register(type, invoker);
             return this;
         }
 
@@ -124,7 +123,7 @@ namespace Orleankka.Cluster
 
         void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
 
-        void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
+        void RegisterTypes() => ActorType.Register(pipeline, registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
 
         static IEnumerable<string> RegisterStreamProviders(ClusterConfiguration configuration)
         {

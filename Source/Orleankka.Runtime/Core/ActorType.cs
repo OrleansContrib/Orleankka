@@ -60,7 +60,7 @@ namespace Orleankka.Core
             return result;
         }
         
-        internal static void Register(Assembly[] assemblies, string[] conventions)
+        internal static void Register(ActorInvocationPipeline pipeline, Assembly[] assemblies, string[] conventions)
         {
             var unregistered = assemblies
                 .SelectMany(x => x.ActorTypes())
@@ -79,10 +79,13 @@ namespace Orleankka.Core
                 foreach (var each in types)
                 {
                     var typeName = ActorTypeName.Of(each);
+                    
                     var @interface = ActorInterface.Of(typeName);
                     if (@interface == null)
                         continue;
-                    yield return new ActorType(each, @interface, each, conventions);
+
+                    var invoker = pipeline.GetInvoker(each);
+                    yield return new ActorType(each, @interface, each, invoker, conventions);
                 }
             }
         }
@@ -97,25 +100,22 @@ namespace Orleankka.Core
         readonly int typeCode;
         readonly Type grain;
         readonly TimeSpan keepAliveTimeout;
-        readonly string invoker;
+        public readonly IActorInvoker Invoker;
 
-        ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
+        ActorType(Type @class, ActorInterface @interface, Type grain, IActorInvoker invoker, string[] conventions)
         {
             this.grain = grain;
             
             Class = @class;
             Interface = @interface;
             typeCode = grain.TypeCode();
+            Invoker = invoker;
             
             keepAliveTimeout = KeepAliveAttribute.Timeout(@class);
-            invoker = InvokerAttribute.From(@class);
             
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
         }
-
-        internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
-            pipeline.GetInvoker(Class, invoker);
         
         internal void KeepAlive(Grain grain)
         {

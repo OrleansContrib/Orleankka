@@ -21,8 +21,6 @@ namespace Orleankka
     {
         // ------ GRAIN --------- //
 
-        IActorInvoker invoker;
-
         ActorType actorType;
         ActorType ActorType => actorType ?? (actorType = ActorType.Of(GetType()));
 
@@ -36,8 +34,7 @@ namespace Orleankka
         public Task<object> Receive(object message)
         {
             KeepAlive();
-
-            return invoker.OnReceive(this, message);
+            return ActorType.Invoker.OnReceive(this, message);
         }
 
         public Task ReceiveVoid(object message) => Receive(message);
@@ -47,13 +44,11 @@ namespace Orleankka
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
             KeepAlive();
-            await invoker.OnReminder(this, name);
+            await ActorType.Invoker.OnReminder(this, name);
         }
 
-        public override Task OnDeactivateAsync()
-        {
-            return invoker.OnDeactivate(this);
-        }
+        public override Task OnDeactivateAsync() => 
+            ActorType.Invoker.OnDeactivate(this);
 
         void KeepAlive() => ActorType.KeepAlive(this);
 
@@ -65,8 +60,7 @@ namespace Orleankka
             var runtime = new ActorRuntime(system, this);
             Initialize(path, runtime, ActorType.dispatcher);
 
-            invoker = ActorType.Invoker(system.Pipeline);
-            return invoker.OnActivate(this);
+            return ActorType.Invoker.OnActivate(this);
         }
 
         static string IdentityOf(IGrain grain) => 
