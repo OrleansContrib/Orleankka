@@ -6,7 +6,6 @@ using Orleans.Runtime;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Orleankka.Behaviors;
 using Orleankka.Core;
 using Orleankka.Services;
 using Orleankka.Utility;
@@ -50,10 +49,8 @@ namespace Orleankka
 
         // ------ ACTOR --------- //
 
-        ActorRef self;
-
-        protected ActorGrain() => 
-            Behavior = ActorBehavior.Null(this);
+        protected ActorGrain()
+        {}
 
         /// <inheritdoc />
         protected ActorGrain(IActorRuntime runtime) 
@@ -79,7 +76,6 @@ namespace Orleankka
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
-        public ActorBehavior Behavior   {get; private set;}
         public Dispatcher Dispatcher    {get; private set;}
         
         public IActorSystem System           => Runtime.System;
@@ -87,13 +83,14 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
+        ActorRef self;
         public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
-        public virtual Task OnActivate() => Behavior.HandleActivate();
-        public virtual Task OnDeactivate() => Behavior.HandleDeactivate();
+        public virtual Task OnActivate() => Task.CompletedTask;
+        public virtual Task OnDeactivate() => Task.CompletedTask;
 
-        public virtual Task<object> OnReceive(object message) => Behavior.HandleReceive(message);
-        public virtual Task OnReminder(string id) => Behavior.HandleReminder(id);
+        public virtual Task<object> OnReceive(object message) => Dispatch(message);
+        public virtual Task OnReminder(string id) => throw new NotImplementedException("Override OnReminder(string) method in order to process reminder ticks");
 
         public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
             (TResult)await Dispatch(message, fallback);
@@ -103,15 +100,5 @@ namespace Orleankka
             Requires.NotNull(message, nameof(message));
             return Dispatcher.Dispatch(this, message, fallback);
         }
-
-        public virtual Task<object> OnUnhandledReceive(RequestOrigin origin, object message) =>
-            throw new UnhandledMessageException(this, message);
-
-        public virtual Task OnUnhandledReminder(string id) =>
-            throw new UnhandledReminderException(this, id);
-
-        public virtual Task OnTransitioning(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitioned(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitionFailure(Transition transition, Exception exception) => Task.CompletedTask;
     }
 }
