@@ -6,10 +6,9 @@ namespace Orleankka
 {
     public interface IActor
     {
-        Task Autorun();
-        Task<object> Receive(object message);
-        Task ReceiveVoid(object message);
-        Task Notify(object message);
+        Task<object> ReceiveAsk(object message);
+        Task ReceiveTell(object message);
+        Task ReceiveNotify(object message);
     }
 
     public interface IActorGrain : IActor, IGrainWithStringKey, IRemindable

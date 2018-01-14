@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     [Serializable, Immutable]
@@ -42,7 +41,7 @@ namespace Orleankka
 
             return invoker.Send<object>(Path, message, async x =>
             {
-                await endpoint.ReceiveVoid(x);
+                await endpoint.ReceiveTell(x);
                 return null;
             });
         }
@@ -51,7 +50,7 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Send<TResult>(Path, message, endpoint.Receive);
+            return invoker.Send<TResult>(Path, message, endpoint.ReceiveAsk);
         }
 
         public override void Notify(object message)
@@ -60,14 +59,9 @@ namespace Orleankka
 
             invoker.Send<object>(Path, message, async x =>
             {
-                await endpoint.Notify(x);
+                await endpoint.ReceiveNotify(x);
                 return null;
             });
-        }
-
-        internal Task Autorun()
-        {
-            return endpoint.Autorun();
         }
 
         public bool Equals(ActorRef other)

@@ -15,56 +15,38 @@ using IReminderService = Orleankka.Services.IReminderService;
 
 namespace Orleankka
 {
-	using Cluster;
-
     public abstract class ActorGrain : Grain, IRemindable, IActor
     {
-        // ------ GRAIN --------- //
+        ActorType actor;
+        ActorType Actor => actor ?? (actor = ActorType.Of(GetType()));
 
-        ActorType actorType;
-        ActorType ActorType => actorType ?? (actorType = ActorType.Of(GetType()));
+        public Task ReceiveTell(object message) => ReceiveAsk(message);
+        public Task ReceiveNotify(object message) => ReceiveAsk(message);
 
-        public Task Autorun()
+        public Task<object> ReceiveAsk(object message)
         {
-            KeepAlive();
+            Actor.KeepAlive(this);
 
-            return Task.CompletedTask;
+            return Actor.Invoker.OnReceive(this, message);
         }
 
-        public Task<object> Receive(object message)
+        Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
-            KeepAlive();
-            return ActorType.Invoker.OnReceive(this, message);
+            Actor.KeepAlive(this);
+
+            return Actor.Invoker.OnReminder(this, name);
         }
-
-        public Task ReceiveVoid(object message) => Receive(message);
-
-        public Task Notify(object message) => Receive(message);
-
-        async Task IRemindable.ReceiveReminder(string name, TickStatus status)
-        {
-            KeepAlive();
-            await ActorType.Invoker.OnReminder(this, name);
-        }
-
-        public override Task OnDeactivateAsync() => 
-            ActorType.Invoker.OnDeactivate(this);
-
-        void KeepAlive() => ActorType.KeepAlive(this);
 
         public override Task OnActivateAsync()
         {
-            var path = ActorPath.From(ActorType.Name, IdentityOf(this));
+            Path = ActorPath.From(Actor.Name, this.GetPrimaryKeyString());
+            Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
+            Dispatcher = ActorType.Dispatcher(GetType());
 
-            var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
-            var runtime = new ActorRuntime(system, this);
-            Initialize(path, runtime, ActorType.dispatcher);
-
-            return ActorType.Invoker.OnActivate(this);
+            return Actor.Invoker.OnActivate(this);
         }
 
-        static string IdentityOf(IGrain grain) => 
-            (grain as IGrainWithStringKey).GetPrimaryKeyString();
+        public override Task OnDeactivateAsync() => Actor.Invoker.OnDeactivate(this);
 
         // ------ ACTOR --------- //
 
@@ -91,13 +73,6 @@ namespace Orleankka
             Runtime = runtime;
             Dispatcher = ActorType.Dispatcher(GetType());
             Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
-        }
-
-        void Initialize(ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)
-        {
-            Path = path;
-            Runtime = runtime;
-            Dispatcher = dispatcher;
         }
 
         public string Id => Path.Id;
