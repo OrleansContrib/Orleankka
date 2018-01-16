@@ -50,8 +50,7 @@ namespace Orleankka.Testing
                     .AddApplicationPart(GetType().Assembly)
                     .WithCodeGeneration())
                 .ConfigureOrleankka(x => x
-                    .ActorInvoker(typeof(TestActorBase), new TestActorInterceptionInvoker())
-                    .ActorInvoker(typeof(TestStreamActor), new TestStreamInterceptionInvoker()));
+                    .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware()));
 
             var host = sb.Build();
             host.StartAsync().Wait();
@@ -68,7 +67,7 @@ namespace Orleankka.Testing
                     .AddApplicationPart(GetType().Assembly)
                     .WithCodeGeneration())
                 .ConfigureOrleankka(x => x
-                    .ActorRefInvoker(new TestActorRefInvoker()));
+                    .ActorRefMiddleware(new TestActorRefMiddleware()));
 
             var client = cb.Build();
             client.Connect().Wait();

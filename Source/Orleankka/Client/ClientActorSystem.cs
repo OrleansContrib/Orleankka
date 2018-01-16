@@ -29,8 +29,8 @@ namespace Orleankka.Client
         internal ClientActorSystem(
             IStreamProviderManager streamProviderManager, 
             IGrainFactory grainFactory, 
-            IActorRefInvoker invoker = null)
-            : base(streamProviderManager, grainFactory, invoker)
+            IActorRefMiddleware middleware = null)
+            : base(streamProviderManager, grainFactory, middleware)
         {
             this.grainFactory = grainFactory;
         }

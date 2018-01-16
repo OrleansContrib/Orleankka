@@ -12,7 +12,12 @@ namespace Orleankka
     using Services;
     using Utility;
 
-    public abstract class ActorGrain : Grain, IRemindable, IActor
+    public interface IActorReceiver
+    {
+        Task<object> Receive(object message);
+    }
+
+    public abstract class ActorGrain : Grain, IRemindable, IActor, IActorReceiver
     {
         public static readonly Task<object> Done = Task.FromResult<object>(0);
         public static Task<object> Result<T>(T value) => Task.FromResult<object>(value);
@@ -57,15 +62,16 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
-        Task<object> IActor.ReceiveAsk(object message) => ReceiveRequest(message);
-        Task IActor.ReceiveTell(object message) => ReceiveRequest(message);
-        Task IActor.ReceiveNotify(object message) => ReceiveRequest(message);
-       
-        internal async Task<object> ReceiveRequest(object message)
+        Task<object> IActorReceiver.Receive(object message) => ReceiveInternal(message);
+        Task<object> IActor.ReceiveAsk(object message) => ReceiveInternal(message);
+        Task IActor.ReceiveTell(object message) => ReceiveInternal(message);
+        Task IActor.ReceiveNotify(object message) => ReceiveInternal(message);
+
+        internal async Task<object> ReceiveInternal(object message)
         {
             Actor.KeepAlive(this);
 
-            var response = await Actor.Invoker.ReceiveRequest(this, message);
+            var response = await Actor.Middleware.Receive(this, message, Receive);
             if (ReferenceEquals(response, Done))
                 return null;
 
@@ -79,7 +85,7 @@ namespace Orleankka
         {
             Actor.KeepAlive(this);
 
-            return Actor.Invoker.ReceiveRequest(this, Reminder.Message(name, status));
+            return Actor.Middleware.Receive(this, Reminder.Message(name, status), Receive);
         }
 
         public override Task OnActivateAsync()
@@ -88,12 +94,12 @@ namespace Orleankka
             Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
             Dispatcher = ActorType.Dispatcher(GetType());
 
-            return Actor.Invoker.ReceiveRequest(this, Activate.Message);
+            return Actor.Middleware.Receive(this, Activate.Message, Receive);
         }
 
         public override Task OnDeactivateAsync()
         {
-            return Actor.Invoker.ReceiveRequest(this, Deactivate.Message);
+            return Actor.Middleware.Receive(this, Deactivate.Message, Receive);
         }
 
         public virtual Task<object> Receive(object message) => Dispatch(message);

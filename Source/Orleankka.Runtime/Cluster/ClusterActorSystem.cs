@@ -14,8 +14,8 @@ namespace Orleankka.Cluster
             IStreamProviderManager streamProviderManager, 
             IGrainFactory grainFactory, 
             ActorInvocationPipeline pipeline, 
-            IActorRefInvoker invoker = null)
-            : base(streamProviderManager, grainFactory, invoker)
+            IActorRefMiddleware middleware = null)
+            : base(streamProviderManager, grainFactory, middleware)
         {
             Pipeline = pipeline;
         }

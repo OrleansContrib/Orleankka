@@ -16,20 +16,20 @@ namespace Orleankka.Client
         readonly ActorInterfaceRegistry registry =
              new ActorInterfaceRegistry();
 
-        IActorRefInvoker invoker;
+        IActorRefMiddleware middleware;
 
         /// <summary>
-        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// Registers global <see cref="ActorRef"/> middleware (interceptor)
         /// </summary>
-        /// <param name="invoker">The invoker.</param>
-        public ClientConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        /// <param name="middleware">The middleware.</param>
+        public ClientConfigurator ActorRefMiddleware(IActorRefMiddleware middleware)
         {
-            Requires.NotNull(invoker, nameof(invoker));
+            Requires.NotNull(middleware, nameof(middleware));
 
-            if (this.invoker != null)
-                throw new InvalidOperationException("ActorRef invoker has been already registered");
+            if (this.middleware != null)
+                throw new InvalidOperationException("ActorRef middleware has been already registered");
 
-            this.invoker = invoker;
+            this.middleware = middleware;
             return this;
         }
 
@@ -51,7 +51,7 @@ namespace Orleankka.Client
             services.AddSingleton(sp => new ClientActorSystem(
                 sp.GetService<IStreamProviderManager>(), 
                 sp.GetService<IGrainFactory>(), 
-                invoker));
+                middleware));
         }
 
         void RegisterActorInterfaces() => ActorInterface.Register(registry.Mappings);

@@ -84,8 +84,8 @@ namespace Orleankka.Core
                     if (@interface == null)
                         continue;
 
-                    var invoker = pipeline.GetInvoker(each);
-                    yield return new ActorType(each, @interface, each, invoker, conventions);
+                    var middleware = pipeline.Middleware(each);
+                    yield return new ActorType(each, @interface, each, middleware, conventions);
                 }
             }
         }
@@ -100,16 +100,16 @@ namespace Orleankka.Core
         readonly int typeCode;
         readonly Type grain;
         readonly TimeSpan keepAliveTimeout;
-        public readonly IActorInvoker Invoker;
+        public readonly IActorMiddleware Middleware;
 
-        ActorType(Type @class, ActorInterface @interface, Type grain, IActorInvoker invoker, string[] conventions)
+        ActorType(Type @class, ActorInterface @interface, Type grain, IActorMiddleware middleware, string[] conventions)
         {
             this.grain = grain;
             
             Class = @class;
             Interface = @interface;
             typeCode = grain.TypeCode();
-            Invoker = invoker;
+            Middleware = middleware;
             
             keepAliveTimeout = KeepAliveAttribute.Timeout(@class);
             

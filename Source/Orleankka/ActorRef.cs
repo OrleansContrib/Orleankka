@@ -19,18 +19,18 @@ namespace Orleankka
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
         [NonSerialized] readonly IActorGrain endpoint;
-        [NonSerialized] readonly IActorRefInvoker invoker;
+        [NonSerialized] readonly IActorRefMiddleware middleware;
 
         protected ActorRef(ActorPath path)
         {
             Path = path;
         }
 
-        internal ActorRef(ActorPath path, IActorGrain endpoint, IActorRefInvoker invoker)
+        internal ActorRef(ActorPath path, IActorGrain endpoint, IActorRefMiddleware middleware)
             : this(path)
         {
             this.endpoint = endpoint;
-            this.invoker = invoker;
+            this.middleware = middleware;
         }
 
         public ActorPath Path { get; }
@@ -39,7 +39,7 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Send<object>(Path, message, async x =>
+            return middleware.Send<object>(Path, message, async x =>
             {
                 await endpoint.ReceiveTell(x);
                 return null;
@@ -50,14 +50,14 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Send<TResult>(Path, message, endpoint.ReceiveAsk);
+            return middleware.Send<TResult>(Path, message, endpoint.ReceiveAsk);
         }
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            invoker.Send<object>(Path, message, async x =>
+            middleware.Send<object>(Path, message, async x =>
             {
                 await endpoint.ReceiveNotify(x);
                 return null;

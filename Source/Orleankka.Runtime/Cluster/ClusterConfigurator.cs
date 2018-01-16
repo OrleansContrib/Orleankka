@@ -29,43 +29,43 @@ namespace Orleankka.Cluster
         readonly ActorInvocationPipeline pipeline = 
              new ActorInvocationPipeline();
         
-        IActorRefInvoker invoker;
+        IActorRefMiddleware middleware;
 
         /// <summary>
-        /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
-        /// which doesn't specify an individual invoker via call to <see cref="ActorInvoker(Type, IActorInvoker)"/>.
+        /// Registers global actor middleware (interceptor). This middleware will be used for every actor 
+        /// which doesn't specify an individual middleware via call to <see cref="ActorMiddleware(Type,IActorMiddleware) "/>.
         /// </summary>
-        /// <param name="global">The invoker.</param>
-        public ClusterConfigurator ActorInvoker(IActorInvoker global)
+        /// <param name="global">The middleware.</param>
+        public ClusterConfigurator ActorMiddleware(IActorMiddleware global)
         {
             pipeline.Register(global);
             return this;
         }
 
         /// <summary>
-        /// Registers type-based actor invoker (interceptor). 
-        /// The invoker is inherited by all subclasses.
+        /// Registers type-based actor middleware (interceptor). 
+        /// The middleware is inherited by all subclasses.
         /// </summary>
         /// <param name="type">The actor type (could be the base class)</param>
-        /// <param name="invoker">The invoker.</param>
-        public ClusterConfigurator ActorInvoker(Type type, IActorInvoker invoker)
+        /// <param name="middleware">The middleware.</param>
+        public ClusterConfigurator ActorMiddleware(Type type, IActorMiddleware middleware)
         {
-            pipeline.Register(type, invoker);
+            pipeline.Register(type, middleware);
             return this;
         }
 
         /// <summary>
-        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// Registers global <see cref="ActorRef"/> middleware (interceptor)
         /// </summary>
-        /// <param name="invoker">The invoker.</param>
-        public ClusterConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        /// <param name="middleware">The middleware.</param>
+        public ClusterConfigurator ActorRefMiddleware(IActorRefMiddleware middleware)
         {
-            Requires.NotNull(invoker, nameof(invoker));
+            Requires.NotNull(middleware, nameof(middleware));
 
-            if (this.invoker != null)
-                throw new InvalidOperationException("ActorRef invoker has been already registered");
+            if (this.middleware != null)
+                throw new InvalidOperationException("ActorRef middleware has been already registered");
 
-            this.invoker = invoker;
+            this.middleware = middleware;
             return this;
         }
 
@@ -114,7 +114,7 @@ namespace Orleankka.Cluster
             services.AddSingleton(sp => new ClusterActorSystem(
                 sp.GetService<IStreamProviderManager>(), 
                 sp.GetService<IGrainFactory>(), 
-                pipeline, invoker));
+                pipeline, middleware));
 
             services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
         }

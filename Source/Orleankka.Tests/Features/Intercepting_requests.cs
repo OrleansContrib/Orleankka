@@ -26,6 +26,12 @@ namespace Orleankka.Features
         public class CheckRef : Query<string>
         {}
 
+        [Serializable]
+        public class StreamItem : Event
+        {
+            public string Text;
+        }
+
         public interface ITestActor : IActorGrain
         {}
 
@@ -40,7 +46,13 @@ namespace Orleankka.Features
             void On(SetText cmd) => text = cmd.Text;
             string On(GetText q) => text;
 
-            string On(CheckRef cmd) => (string) RequestContext.Get("SetByActorRefInvoker");
+            string On(CheckRef cmd) => (string) RequestContext.Get("SetByActorRefMiddleware");
+
+            readonly List<string> fromStream = new List<string>();
+            List<string> On(GetReceivedFromStream x) => fromStream;
+
+            Task On(Subscribe x) => x.Stream.Subscribe(this);
+            void On(StreamItem x) => fromStream.Add(x.Text);
         }
 
         [Serializable]
@@ -73,53 +85,40 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        public class Received : Query<List<string>>
+        public class GetReceivedFromStream : Query<List<string>>
         {}
 
-        public interface ITestStreamActor  : IActorGrain
-        {}
-
-        public class TestStreamActor : ActorGrain, ITestStreamActor
+        public class TestActorMiddleware : ActorMiddleware
         {
-            readonly List<string> received = new List<string>();
-            List<string> On(Received x) => received;
-
-            Task On(Subscribe x) => x.Stream.Subscribe(this);
-            void On(string x) => received.Add(x);
-        }
-
-        public class TestActorInterceptionInvoker : ActorInvoker
-        {
-            public override Task<object> ReceiveRequest(ActorGrain actor, object message)
+            public override Task<object> Receive(ActorGrain actor, object message, Func<object, Task<object>> receiver)
             {
-                if (!(message is SetText msg))
-                    return base.ReceiveRequest(actor, message);
+                switch (message)
+                {
+                    case SetText msg:
+                        
+                        if (msg.Text == "interrupt")
+                            throw new InvalidOperationException();
+                        
+                        msg.Text += ".intercepted";
+                        break;
 
-                if (msg.Text == "interrupt")
-                    throw new InvalidOperationException();
+                    case StreamItem item:
+                        item.Text += ".intercepted";
+                        break;
+                }
 
-                msg.Text += ".intercepted";
-                return base.ReceiveRequest(actor, message);
+                return Next.Receive(actor, message, receiver);
             }
         }
 
-        public class TestStreamInterceptionInvoker : ActorInvoker
+        public class TestActorRefMiddleware : ActorRefMiddleware
         {
-            public override Task<object> ReceiveRequest(ActorGrain actor, object message)
-            {
-                var item = message as string;                    
-                return base.ReceiveRequest(actor, item == null ? message : item + ".intercepted");
-            }
-        }
-
-        public class TestActorRefInvoker : ActorRefInvoker
-        {
-            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> invoke)
+            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> sender)
             {
                 if (message is CheckRef)
-                    RequestContext.Set("SetByActorRefInvoker", "it works!");
+                    RequestContext.Set("SetByActorRefMiddleware", "it works!");
 
-                return base.Send<TResult>(actor, message, invoke);
+                return base.Send<TResult>(actor, message, sender);
             }
         }
 
@@ -170,13 +169,13 @@ namespace Orleankka.Features
             {
                 var stream = system.StreamOf("sms", "test-stream-interception");
                 
-                var actor = system.FreshActorOf<TestStreamActor>();
+                var actor = system.FreshActorOf<TestActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
-                await stream.Push("foo");
+                await stream.Push(new StreamItem {Text = "foo"});
                 await Task.Delay(TimeSpan.FromMilliseconds(10));
 
-                var received = await actor.Ask(new Received());
+                var received = await actor.Ask(new GetReceivedFromStream());
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("foo.intercepted"));
             }

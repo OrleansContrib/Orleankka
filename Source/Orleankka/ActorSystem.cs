@@ -42,16 +42,16 @@ namespace Orleankka
     {
         readonly IStreamProviderManager streamProviderManager;
         readonly IGrainFactory grainFactory;
-        readonly IActorRefInvoker invoker;
+        readonly IActorRefMiddleware middleware;
 
         protected ActorSystem(
             IStreamProviderManager streamProviderManager, 
             IGrainFactory grainFactory, 
-            IActorRefInvoker invoker = null)
+            IActorRefMiddleware middleware = null)
         {
             this.streamProviderManager = streamProviderManager;
             this.grainFactory = grainFactory;
-            this.invoker = invoker ?? DefaultActorRefInvoker.Instance;
+            this.middleware = middleware ?? DefaultActorRefMiddleware.Instance;
         }
 
         /// <inheritdoc />
@@ -63,7 +63,7 @@ namespace Orleankka
             var @interface = ActorInterface.Of(path.Type);
             var proxy = @interface.Proxy(path.Id, grainFactory);
 
-            return new ActorRef(path, proxy, invoker);
+            return new ActorRef(path, proxy, middleware);
         }
         
         /// <inheritdoc />
