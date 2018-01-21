@@ -14,73 +14,58 @@ namespace Example
 
     public class Lightbulb : ActorGrain, ILightbulb
     {
-        readonly Behavior behavior;
         bool smashed;
 
         public Lightbulb()
         {
-            behavior = new Behavior();
-            behavior.Become(Off);
+            Behavior.Initial(Off);
         }
 
-        public override Task<object> Receive(object message)
+        public override async Task<object> Receive(object message)
         {
             // any "global" message handling here
             switch (message)
             {
                 case HitWithHammer _:
                     smashed = true;
-                    return Result("Smashed!");
+                    return "Smashed!";
                 case PressSwitch _ when smashed:
-                    return Result("Broken");
+                    return "Broken";
                 case Touch _ when smashed:
-                    return Result("OW!");
+                    return "OW!";
             }
 
             // if not handled, use behavior specific
-            return behavior.Receive(message);
+            return await base.Receive(message);
         }
 
-        Task<object> Off(object message)
+        [Behavior] async Task<object> Off(object message)
         {
             switch (message)
             {
                 case PressSwitch _:
-                    behavior.Become(On);
-                    return Result("Turning on");
+                    await Behavior.Become(On);
+                    return "Turning on";
                 case Touch _:
-                    return Result("Cold");
+                    return "Cold";
+                default:
+                    return Unhandled;
             }
-            
-            return Done;
         }
-        
-        Task<object> On(object message)
+
+        [Behavior] async Task<object> On(object message)
         {
             switch (message)
             {
                 case PressSwitch _:
-                    behavior.Become(Off);
-                    return Result("Turning off");
+                    await Behavior.Become(Off);
+                    return "Turning off";
                 case Touch _:
-                    return Result("Hot!");
+                    return "Hot!";
+                default:
+                    return Unhandled;
             }
-            
-            return Done;
         }
 
-    }
-
-    class Behavior
-    {
-        public Task<object> Receive(object message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Become(Func<object, Task<object>> behavior)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

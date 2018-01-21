@@ -37,8 +37,4 @@ namespace Orleankka
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class BehaviorAttribute : Attribute
     {}
-
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class TraitAttribute : Attribute
-    {}
 }
