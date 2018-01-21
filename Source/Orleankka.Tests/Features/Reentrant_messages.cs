@@ -140,20 +140,18 @@ namespace Orleankka.Features
         {
             ActorRef receiver;
 
-            public override Task<object> Receive(object message)
+            public override async Task<object> Receive(object message)
             {
                 switch (message)
                 {
                     case Activate _: 
                         receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
-                        break;
+                        return Done;
                     case Message _:
                         return receiver.Ask<object>(message);
                     default: 
-                        return base.Receive(message);
+                        return await base.Receive(message);
                 }
-
-                return Done;
             }
         }
 

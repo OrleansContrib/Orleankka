@@ -12,11 +12,6 @@ namespace Orleankka.Core
 
     public class ActorType
     {
-        internal static Dispatcher Dispatcher(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
-
-        static readonly Dictionary<Type, Dispatcher> dispatchers =
-                    new Dictionary<Type, Dispatcher>();
-
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
         
@@ -95,7 +90,6 @@ namespace Orleankka.Core
 
         public readonly Type Class;
         public readonly ActorInterface Interface;
-        internal readonly Dispatcher dispatcher;
         
         readonly int typeCode;
         readonly Type grain;
@@ -112,9 +106,6 @@ namespace Orleankka.Core
             Middleware = middleware;
             
             keepAliveTimeout = KeepAliveAttribute.Timeout(@class);
-            
-            dispatcher = new Dispatcher(@class, conventions);
-            dispatchers.Add(@class, dispatcher);
         }
         
         internal void KeepAlive(Grain grain)
@@ -126,6 +117,6 @@ namespace Orleankka.Core
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
-            StreamSubscriptionSpecification.From(Class, dispatcher);
+            StreamSubscriptionSpecification.From(Class);
     }
 }

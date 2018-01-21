@@ -41,18 +41,24 @@ namespace Orleankka.Features
         /// middleware is set for the base actor type
         public class TestActor : TestActorBase, ITestActor
         {
+            readonly List<string> fromStream = new List<string>();
             string text = "";
 
-            void On(SetText cmd) => text = cmd.Text;
-            string On(GetText q) => text;
+            public override async Task<object> Receive(object message)
+            {
+                switch (message)
+                {
+                    case SetText x:  text = x.Text; break;
+                    case GetText _:  return text;
+                    case CheckRef _: return RequestContext.Get("SetByActorRefMiddleware");
+                    case Subscribe x: await x.Stream.Subscribe(this); break;
+                    case StreamItem item: fromStream.Add(item.Text); break;
+                    case GetReceivedFromStream _: return fromStream;
+                    default: return await base.Receive(message);
+                }
 
-            string On(CheckRef cmd) => (string) RequestContext.Get("SetByActorRefMiddleware");
-
-            readonly List<string> fromStream = new List<string>();
-            List<string> On(GetReceivedFromStream x) => fromStream;
-
-            Task On(Subscribe x) => x.Stream.Subscribe(this);
-            void On(StreamItem x) => fromStream.Add(x.Text);
+                return Done;
+            }
         }
 
         [Serializable]
@@ -74,8 +80,17 @@ namespace Orleankka.Features
 
         public class TestInsideActor : ActorGrain, ITestInsideActor
         {
-            public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
-            public Task<string> Handle(DoAsk query) => query.Target.Ask<string>(query.Message);
+            public override async Task<object> Receive(object message)
+            {
+                switch (message)
+                {
+                    case DoTell x: await x.Target.Tell(x.Message); break;
+                    case DoAsk x: return await x.Target.Ask<string>(x.Message);
+                    default: return await base.Receive(message);
+                }
+
+                return Done;
+            }
         }
 
         [Serializable]
