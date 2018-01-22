@@ -15,7 +15,7 @@ namespace Orleankka
 
     public delegate Task<object> Receive(object message);
 
-    public interface IActorReceiver
+    public interface IActorGrainReceiver
     {
         Task<object> Receive(object message);
     }
@@ -35,7 +35,7 @@ namespace Orleankka
         public static readonly Unhandled Message = new Unhandled();
     }       
 
-    public abstract class ActorGrain : Grain, IRemindable, IActor, IActorReceiver
+    public abstract class ActorGrain : Grain, IRemindable, IActor, IActorGrainReceiver
     {
         public static readonly Task<object> Done = Task.FromResult<object>(Orleankka.Done.Message);
         public static readonly Task<object> Unhandled = Task.FromResult<object>(Orleankka.Unhandled.Message);
@@ -82,7 +82,7 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
-        Task<object> IActorReceiver.Receive(object message) => ReceiveInternal(message);
+        Task<object> IActorGrainReceiver.Receive(object message) => ReceiveInternal(message);
         Task<object> IActor.ReceiveAsk(object message) => ReceiveInternal(message);
         Task IActor.ReceiveTell(object message) => ReceiveInternal(message);
         Task IActor.ReceiveNotify(object message) => ReceiveInternal(message);
