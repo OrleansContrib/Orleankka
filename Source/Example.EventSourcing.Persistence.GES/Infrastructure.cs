@@ -16,7 +16,26 @@ using Newtonsoft.Json;
 
 namespace Example
 {
-    public abstract class EventSourcedActor : ActorGrain
+    public abstract class CqsActor : ActorGrain
+    {
+        public override Task<object> Receive(object message)
+        {
+            switch (message)
+            {
+                case Command cmd:
+                    return HandleCommand(cmd);
+                case Query query:
+                    return HandleQuery(query);
+            }
+
+            throw new InvalidOperationException("Unknown message type: " + message.GetType());
+        }
+
+        protected abstract Task<object> HandleCommand(Command cmd);
+        protected abstract Task<object> HandleQuery(Query query);
+    }
+
+    public abstract class EventSourcedActor : CqsActor
     {
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
@@ -34,26 +53,7 @@ namespace Example
 
         long version = ExpectedVersion.NoStream;
 
-        public override async Task<object> Receive(object message)
-        {
-            switch (message)
-            {
-                case Activate _:
-                    await Load();
-                    return Done;
-
-                case Command cmd:
-                    return await HandleCommand(cmd);
-                
-                case Query query:
-                    return await HandleQuery(query);
-
-                default:
-                    return await base.Receive(message);
-            }
-        }
-
-        async Task Load()
+        async Task On(Activate _)
         {
             var stream = StreamName();
 
@@ -72,7 +72,7 @@ namespace Example
                     throw new InvalidOperationException("Stream '" + stream + "' has beed unexpectedly deleted");
 
                 nextSliceStart = currentSlice.NextEventNumber;
-                Replay(currentSlice.Events);
+                await Replay(currentSlice.Events);
             } 
             while (!currentSlice.IsEndOfStream);
         }
@@ -82,33 +82,31 @@ namespace Example
             return GetType().Name + "-" + Id;
         }
 
-        void Replay(IEnumerable<ResolvedEvent> events)
+        async Task Replay(IEnumerable<ResolvedEvent> events)
         {
             var deserialized = events.Select(x => DeserializeEvent(x.Event)).ToArray();
-            Apply(deserialized);
+            await Apply(deserialized);
         }
 
-        Task<object> HandleQuery(Query query) => Result((dynamic)this).Handle((dynamic)query);
-
-        async Task<object> HandleCommand(Command cmd)
+        protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = ((IEnumerable<Event>)((dynamic)this).Handle((dynamic)cmd)).ToArray();
+            var events = (await Dispatch<IEnumerable<Event>>(cmd)).ToArray();
             
             await Store(events);
-            Apply(events);
+            await Apply(events);
             
             return events;
         }
 
-        void Apply(IEnumerable<Event> events)
+        async Task Apply(IEnumerable<Event> events)
         {
             foreach (var @event in events)
-                Apply(@event);
+                await Apply(@event);
         }
 
-        void Apply(object @event)
+        async Task Apply(object @event)
         {
-            ((dynamic)this).On((dynamic)@event);
+            await Dispatch(@event);
             version++;
         }
 
@@ -156,6 +154,11 @@ namespace Example
 
             var eventTypeName = evnt.GetType().AssemblyQualifiedName;
             return new EventData(eventId, eventTypeName, true, data, metadata);
+        }
+
+        protected override Task<object> HandleQuery(Query query)
+        {
+            return Dispatch(query);
         }
     }
 

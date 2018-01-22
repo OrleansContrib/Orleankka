@@ -19,19 +19,8 @@ namespace Orleankka.Features
         {
             protected readonly List<string> received = new List<string>();
 
-            public override async Task<object> Receive(object message)
-            {
-                switch (message)
-                {
-                    case string x:
-                        received.Add(x);
-                        return Done;
-                    case Received _:
-                        return received;
-                }
-
-                return await base.Receive(message);
-            }
+            void On(string x) => received.Add(x);
+            List<string> On(Received x) => received;
         }
 
         [Serializable]
@@ -52,17 +41,7 @@ namespace Orleankka.Features
 
         public class TestProducerActor : ActorGrain, ITestProducerActor
         {
-            public override async Task<object> Receive(object message)
-            {
-                switch (message)
-                {
-                    case Push x:
-                        await x.Stream.Push(x.Item);
-                        return Done;
-                    default:
-                        return base.Receive(message);
-                }
-            }
+            Task On(Push x) => x.Stream.Push(x.Item);
         }
 
         class TestCases
@@ -242,14 +221,13 @@ namespace Orleankka.Features
             {
                 public override Task<object> Receive(object message)
                 {
-                    switch (message)
+                    if (message is int)
                     {
-                        case int _:
-                            received.Add(message.ToString());
-                            return Result(Done);    
-                        default: 
-                            return base.Receive(message);
+                        received.Add(message.ToString());
+                        return Task.FromResult<object>(null);
                     }
+
+                    return base.Receive(message);
                 }
             }
 
@@ -336,14 +314,13 @@ namespace Orleankka.Features
             {
                 public override Task<object> Receive(object message)
                 {
-                    switch (message)
+                    if (message is int)
                     {
-                        case int _:
-                            received.Add(message.ToString());
-                            return Result(Done);    
-                        default: 
-                            return base.Receive(message);
+                        received.Add(message.ToString());
+                        return Task.FromResult<object>(null);
                     }
+
+                    return base.Receive(message);
                 }
             }
 

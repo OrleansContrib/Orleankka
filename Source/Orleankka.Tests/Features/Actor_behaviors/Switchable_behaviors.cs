@@ -59,8 +59,7 @@ namespace Orleankka.Features.Actor_behaviors
                 [Behavior] public Task<object> Initial(object message)
                 {
                     RecordTransitions(nameof(Initial), message);
-
-                    return Result(Unhandled);
+                    return Unhandled;
                 }
 
                 [Behavior] public async Task<object> A(object message)

@@ -85,12 +85,7 @@ namespace Orleankka.Behaviors
         internal async Task<object> HandleReceive(object message)
         {
             if (Default())
-            {
-                if (message is ActorGrain.LifecycleMessage)
-                    return ActorGrain.Done;
-
-                return await actor.OnUnhandledReceive(message);
-            }
+                return await actor.Dispatch(message);
 
             switch (message)
             {

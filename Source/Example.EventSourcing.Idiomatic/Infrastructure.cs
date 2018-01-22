@@ -7,38 +7,44 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    public abstract class EventSourcedActor : ActorGrain
+    public abstract class CqsActor : ActorGrain
     {
-        StreamRef stream;
-
         public override Task<object> Receive(object message)
         {
             switch (message)
             {
-                case Activate _:
-                    stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
-                    return Result(Done);
-
                 case Command cmd:
                     return HandleCommand(cmd);
-                
                 case Query query:
                     return HandleQuery(query);
-                    
-                default:
-                    return base.Receive(message);
             }
+
+            throw new InvalidOperationException("Unknown message type: " + message.GetType());
         }
 
-        Task<object> HandleQuery(Query query) => Result((dynamic)this).Handle((dynamic)query);
+        protected abstract Task<object> HandleCommand(Command cmd);
+        protected abstract Task<object> HandleQuery(Query query);
+    }
 
-        async Task<object> HandleCommand(Command cmd)
+    public abstract class EventSourcedActor : CqsActor
+    {
+        StreamRef stream;
+
+        void On(Activate _) => 
+            stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
+
+        protected override Task<object> HandleQuery(Query query)
         {
-            var events = (IEnumerable<Event>)((dynamic)this).Handle((dynamic)cmd);
+            return Dispatch(query);
+        }
+
+        protected override async Task<object> HandleCommand(Command cmd)
+        {
+            var events = await Dispatch<IEnumerable<Event>>(cmd);
 
             foreach (var @event in events)
             {
-                ((dynamic)this).On((dynamic)@event);
+                await Dispatch(@event);
                 await Project(@event);
             }
 
