@@ -99,7 +99,6 @@ namespace Orleankka.Core
         
         readonly int typeCode;
         readonly Type grain;
-        readonly TimeSpan keepAliveTimeout;
         public readonly IActorMiddleware Middleware;
 
         ActorType(Type @class, ActorInterface @interface, Type grain, IActorMiddleware middleware, string[] conventions)
@@ -111,18 +110,8 @@ namespace Orleankka.Core
             typeCode = grain.TypeCode();
             Middleware = middleware;
             
-            keepAliveTimeout = KeepAliveAttribute.Timeout(@class);
-            
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
-        }
-        
-        internal void KeepAlive(Grain grain)
-        {
-            if (keepAliveTimeout == TimeSpan.Zero)
-                return;
-
-            grain.Runtime().DelayDeactivation(grain, keepAliveTimeout);
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 

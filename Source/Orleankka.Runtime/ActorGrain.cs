@@ -87,24 +87,11 @@ namespace Orleankka
         Task IActor.ReceiveTell(object message) => ReceiveInternal(message);
         Task IActor.ReceiveNotify(object message) => ReceiveInternal(message);
 
-        internal async Task<object> ReceiveInternal(object message)
-        {
-            Actor.KeepAlive(this);
+        internal Task<object> ReceiveInternal(object message) => 
+            Actor.Middleware.Receive(this, message, Receive);
 
-            var response = await Actor.Middleware.Receive(this, message, Receive);
-            if (response is Task)
-                throw new InvalidOperationException(
-                    $"Actor '{GetType().Name}:{Id}' tries to return Task in response to '{message.GetType()}' message");
-  
-            return response;
-        }
-
-        Task IRemindable.ReceiveReminder(string name, TickStatus status)
-        {
-            Actor.KeepAlive(this);
-
-            return Actor.Middleware.Receive(this, Reminder.Message(name, status), Receive);
-        }
+        Task IRemindable.ReceiveReminder(string name, TickStatus status) => 
+            Actor.Middleware.Receive(this, Reminder.Message(name, status), Receive);
 
         public override Task OnActivateAsync()
         {
