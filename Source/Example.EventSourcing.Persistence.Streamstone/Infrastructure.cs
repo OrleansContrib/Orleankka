@@ -14,26 +14,7 @@ using Newtonsoft.Json;
 
 namespace Example
 {
-    public abstract class CqsActor : ActorGrain
-    {
-        public override Task<object> Receive(object message)
-        {
-            var cmd = message as Command;
-            if (cmd != null)
-                return HandleCommand(cmd);
-
-            var query = message as Query;
-            if (query != null)
-                return HandleQuery(query);
-
-            throw new InvalidOperationException("Unknown message type: " + message.GetType());
-        }
-
-        protected abstract Task<object> HandleCommand(Command cmd);
-        protected abstract Task<object> HandleQuery(Query query);
-    }
-
-    public abstract class EventSourcedActor : CqsActor
+    public abstract class EventSourcedActor : ActorGrain
     {
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
@@ -52,7 +33,26 @@ namespace Example
 
         Stream stream;
 
-        async Task On(Activate _)
+        public override async Task<object> Receive(object message)
+        {
+            switch (message)
+            {
+                case Activate _:
+                    await Load();
+                    return Done;
+
+                case Command cmd:
+                    return await HandleCommand(cmd);
+                
+                case Query query:
+                    return await HandleQuery(query);
+
+                default:
+                    return await base.Receive(message);
+            }
+        }
+
+        async Task Load()
         {
             var partition = new Partition(SS.Table, StreamName());
 
@@ -75,7 +75,7 @@ namespace Example
                     ? slice.Events.Last().Version + 1
                     : -1;
 
-                await Replay(slice.Events);
+                Replay(slice.Events);
             }
             while (!slice.IsEndOfStream);
         }
@@ -85,26 +85,28 @@ namespace Example
             return GetType().Name + "-" + Id;
         }
 
-        async Task Replay(IEnumerable<EventEntity> events)
+        void Replay(IEnumerable<EventEntity> events)
         {
             var deserialized = events.Select(DeserializeEvent).ToArray();
-            await Apply(deserialized);
+            Apply(deserialized);
         }
 
-        protected override async Task<object> HandleCommand(Command cmd)
+        Task<object> HandleQuery(Query query) => Result((dynamic)this).Handle((dynamic)query);
+
+        async Task<object> HandleCommand(Command cmd)
         {
-            var events = (await Dispatch<IEnumerable<object>>(cmd)).ToArray();
+            var events = ((IEnumerable<Event>)((dynamic)this).Handle((dynamic)cmd)).ToArray();
             
             await Store(events);
-            await Apply(events);
+            Apply(events);
             
             return events;
         }
 
-        async Task Apply(IEnumerable<object> events)
+        void Apply(IEnumerable<object> events)
         {
             foreach (var @event in events)
-                await Dispatch(@event);
+                ((dynamic)this).On((dynamic)@event);
         }
 
         async Task Store(ICollection<object> events)
@@ -160,11 +162,6 @@ namespace Example
             public string Type { get; set; }
             public string Data { get; set; }
             public int Version { get; set; }
-        }
-
-        protected override Task<object> HandleQuery(Query query)
-        {
-            return Dispatch(query);
         }
     }
 

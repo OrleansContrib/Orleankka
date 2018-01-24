@@ -37,8 +37,8 @@ namespace Orleankka
 
     public abstract class ActorGrain : Grain, IRemindable, IActor, IActorGrainReceiver
     {
-        public static readonly Task<object> Done = Task.FromResult<object>(Orleankka.Done.Message);
-        public static readonly Task<object> Unhandled = Task.FromResult<object>(Orleankka.Unhandled.Message);
+        public static readonly Done Done = Done.Message;
+        public static readonly Unhandled Unhandled = Unhandled.Message;
         public static Task<object> Result<T>(T value) => Task.FromResult<object>(value);
 
         ActorType actor;
@@ -74,8 +74,8 @@ namespace Orleankka
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
-        public ActorBehavior Behavior   {get; private set;}
-        public Dispatcher Dispatcher    {get; private set;}
+        public ActorBehavior Behavior   {get; }
+        Dispatcher Dispatcher           {get; set;}
         
         public IActorSystem System           => Runtime.System;
         public IActivationService Activation => Runtime.Activation;
@@ -87,22 +87,11 @@ namespace Orleankka
         Task IActor.ReceiveTell(object message) => ReceiveInternal(message);
         Task IActor.ReceiveNotify(object message) => ReceiveInternal(message);
 
-        internal async Task<object> ReceiveInternal(object message)
+        internal Task<object> ReceiveInternal(object message)
         {
             Actor.KeepAlive(this);
 
-            var response = await Actor.Middleware.Receive(this, message, Receive);
-            
-            if (ReferenceEquals(response, Done))
-                return Orleankka.Done.Message;
-
-            if (ReferenceEquals(response, Unhandled))
-                return Orleankka.Unhandled.Message;
-
-            if (response is Task)
-                throw new InvalidOperationException("Can't return Task as actor response");
-            
-            return response;
+            return Actor.Middleware.Receive(this, message, Receive);
         }
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status)
@@ -128,19 +117,12 @@ namespace Orleankka
 
         public virtual Task<object> Receive(object message) => Behavior.HandleReceive(message);
 
-        public async Task<TResult> Dispatch<TResult>(object message) => (TResult) await Dispatch(message);
-
-        public Task<object> Dispatch(object message)
+        internal Task<object> Dispatch(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            return Dispatcher.Dispatch(this, message, x =>
-            {
-                if (x is LifecycleMessage)
-                    return Done;
-
-                throw new Dispatcher.HandlerNotFoundException(this, x.GetType());
-            });
+            return Dispatcher.DispatchAsync(this, message, x => 
+                x is LifecycleMessage ? Result(Done) : Result(Unhandled));
         }
 
         public virtual Task<object> OnUnhandledReceive(object message) =>

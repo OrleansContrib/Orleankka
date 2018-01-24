@@ -20,27 +20,27 @@ namespace Orleankka.Checks
         {
             var dispatcher = new Dispatcher(typeof(TestActor));
 
-            Assert.That(await dispatcher.Dispatch(target, new OnVoidMessage()), Is.Null);
-            Assert.That(await dispatcher.Dispatch(target, new OnAsyncVoidMessage()), Is.Null);
-            Assert.That(await dispatcher.Dispatch(target, new OnResultMessage()), Is.EqualTo("42"));
-            Assert.That(await dispatcher.Dispatch(target, new OnAsyncResultMessage()), Is.EqualTo("42"));
+            Assert.That(await dispatcher.DispatchAsync(target, new OnVoidMessage()), Is.Null);
+            Assert.That(await dispatcher.DispatchAsync(target, new OnAsyncVoidMessage()), Is.Null);
+            Assert.That(await dispatcher.DispatchAsync(target, new OnResultMessage()), Is.EqualTo("42"));
+            Assert.That(await dispatcher.DispatchAsync(target, new OnAsyncResultMessage()), Is.EqualTo("42"));
 
-            Assert.That(await dispatcher.Dispatch(target, new HandleVoidMessage()), Is.Null);
-            Assert.That(await dispatcher.Dispatch(target, new HandleAsyncVoidMessage()), Is.Null);
-            Assert.That(await dispatcher.Dispatch(target, new HandleResultMessage()), Is.EqualTo("42"));
-            Assert.That(await dispatcher.Dispatch(target, new HandleAsyncResultMessage()), Is.EqualTo("42"));
-
-            Assert.DoesNotThrowAsync(
-                async () => await dispatcher.Dispatch(target, new PrivateHandlerMessage()));
+            Assert.That(await dispatcher.DispatchAsync(target, new HandleVoidMessage()), Is.Null);
+            Assert.That(await dispatcher.DispatchAsync(target, new HandleAsyncVoidMessage()), Is.Null);
+            Assert.That(await dispatcher.DispatchAsync(target, new HandleResultMessage()), Is.EqualTo("42"));
+            Assert.That(await dispatcher.DispatchAsync(target, new HandleAsyncResultMessage()), Is.EqualTo("42"));
 
             Assert.DoesNotThrowAsync(
-                async () => await dispatcher.Dispatch(target, new InternalHandlerMessage()));
+                async () => await dispatcher.DispatchAsync(target, new PrivateHandlerMessage()));
+
+            Assert.DoesNotThrowAsync(
+                async () => await dispatcher.DispatchAsync(target, new InternalHandlerMessage()));
 
             Assert.ThrowsAsync<Dispatcher.HandlerNotFoundException>(
-                async () => await dispatcher.Dispatch(target, new NonSingleArgumentHandlerMessage()));
+                async () => await dispatcher.DispatchAsync(target, new NonSingleArgumentHandlerMessage()));
 
             Assert.ThrowsAsync<Dispatcher.HandlerNotFoundException>(
-                async () => await dispatcher.Dispatch(target, "custom handler name"));
+                async () => await dispatcher.DispatchAsync(target, "custom handler name"));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Orleankka.Checks
             var unknownMessage = new UnknownMessage();
             object bouncedMessage = null;
 
-            Assert.DoesNotThrowAsync(async () => await dispatcher.Dispatch(target, unknownMessage, message =>
+            Assert.DoesNotThrowAsync(async () => await dispatcher.DispatchAsync(target, unknownMessage, message =>
             {
                 bouncedMessage = message;
                 return Task.FromResult((object)42);
@@ -64,7 +64,7 @@ namespace Orleankka.Checks
         public async Task Custom_naming_conventions()
         {
             var dispatcher = new Dispatcher(typeof(TestActor), new[] {"CustomHandler"});
-            Assert.That(await dispatcher.Dispatch(target, "custom handler name"), Is.EqualTo(42));
+            Assert.That(await dispatcher.DispatchAsync(target, "custom handler name"), Is.EqualTo(42));
         }
 
         [Serializable]
