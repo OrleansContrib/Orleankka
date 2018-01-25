@@ -11,7 +11,7 @@ namespace Example
     {
         StreamRef stream;
 
-        public override Task<object> Receive(object message)
+        protected override Task<object> Receive(object message)
         {
             switch (message)
             {

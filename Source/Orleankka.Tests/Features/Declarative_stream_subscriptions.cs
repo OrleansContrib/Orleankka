@@ -197,12 +197,12 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                public override Task<object> Receive(object message)
+                protected override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {
                         received.Add(message.ToString());
-                        return Task.FromResult<object>(null);
+                        return Result(null);
                     }
 
                     return base.Receive(message);
@@ -282,7 +282,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                public override Task<object> Receive(object message)
+                protected override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {

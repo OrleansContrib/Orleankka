@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Orleankka.Behaviors
+namespace Orleankka
 {
     [Serializable]
     public class UnhandledMessageException : Exception

@@ -15,7 +15,7 @@ namespace Orleankka.Features
 
         public class TestActor : ActorGrain, ITestActor
         {
-            public override async Task<object> Receive(object message)
+            protected override async Task<object> Receive(object message)
             {
                 switch (message)
                 {

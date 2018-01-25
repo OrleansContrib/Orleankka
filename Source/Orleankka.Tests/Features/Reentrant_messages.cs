@@ -140,7 +140,7 @@ namespace Orleankka.Features
         {
             ActorRef receiver;
 
-            public override async Task<object> Receive(object message)
+            protected override async Task<object> Receive(object message)
             {
                 switch (message)
                 {

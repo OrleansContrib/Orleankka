@@ -19,7 +19,7 @@ namespace Orleankka
             Debug.Assert(subscriptions.Count == 0,
                 "We should keep only one active subscription per-stream per-actor");
 
-            await stream.Subscribe(actor.ReceiveInternal, filter);
+            await stream.Subscribe(actor.MiddlewareReceive, filter);
         }
 
         public static async Task Unsubscribe(this StreamRef stream, ActorGrain actor)
@@ -47,7 +47,7 @@ namespace Orleankka
             Debug.Assert(subscriptions.Count == 1,
                 "We should keep only one active subscription per-stream per-actor");
 
-            await subscriptions[0].Resume(actor.ReceiveInternal);
+            await subscriptions[0].Resume(actor.MiddlewareReceive);
         }
     }
 }

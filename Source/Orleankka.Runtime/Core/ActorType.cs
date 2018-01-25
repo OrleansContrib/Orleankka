@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleans;
 using Orleans.Internals;
 
 namespace Orleankka.Core

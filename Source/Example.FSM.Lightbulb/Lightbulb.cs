@@ -21,7 +21,7 @@ namespace Example
             Behavior.Initial(Off);
         }
 
-        public override async Task<object> Receive(object message)
+        protected override async Task<object> Receive(object message)
         {
             // any "global" message handling here
             switch (message)
