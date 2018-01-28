@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Concurrency;
 
 namespace Orleankka
 {
@@ -8,7 +9,7 @@ namespace Orleankka
     {
         Task<object> ReceiveAsk(object message);
         Task ReceiveTell(object message);
-        Task ReceiveNotify(object message);
+        [OneWay] Task ReceiveNotify(object message);
     }
 
     public interface IActorGrain : IActor, IGrainWithStringKey, IRemindable

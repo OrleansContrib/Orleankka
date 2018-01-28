@@ -15,7 +15,7 @@ namespace Orleankka.Features
 
         public class TestActor : ActorGrain, ITestActor
         {
-            protected override async Task<object> Receive(object message)
+            protected override async Task<object> OnReceive(object message)
             {
                 switch (message)
                 {
@@ -23,7 +23,7 @@ namespace Orleankka.Features
                         return Task.FromResult(1);
                 }
 
-                return await base.Receive(message);
+                return await base.OnReceive(message);
             }
         }
 

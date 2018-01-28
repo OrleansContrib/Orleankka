@@ -16,14 +16,14 @@ namespace Orleankka.Features
         public interface ICallBaseReceiveActor : IActorGrain {}
         public class CallBaseReceiveActor : ActorGrain, ICallBaseReceiveActor
         {
-            protected override Task<object> Receive(object message) => 
-                message is null ? null : base.Receive(message);
+            protected override Task<object> OnReceive(object message) => 
+                message is null ? null : base.OnReceive(message);
         }        
         
         public interface IReceiveReturnsUnhandledActor : IActorGrain {}
         public class ReceiveReturnsUnhandledActor : ActorGrain, IReceiveReturnsUnhandledActor
         {
-            protected override Task<object> Receive(object message) => Result(Unhandled);
+            protected override Task<object> OnReceive(object message) => Result(Unhandled);
         }
         
         [TestFixture]

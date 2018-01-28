@@ -35,10 +35,8 @@ namespace Orleankka
 
         static IEnumerable<MethodInfo> GetMethods(Type type, Type[] roots, string[] conventions)
         {
-            while (true)
+            while (type != null)
             {
-                Debug.Assert(type != null);
-
                 if (roots.Contains(type))
                     yield break;
 

@@ -40,7 +40,7 @@ namespace Orleankka.Features
             StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
             protected abstract string Provider { get; }
 
-            protected override async Task<object> Receive(object message)
+            protected override async Task<object> OnReceive(object message)
             {
                 switch (message)
                 {
@@ -48,7 +48,7 @@ namespace Orleankka.Features
                         received.Add(x.ToString());
                         break;
                     default:
-                        return await base.Receive(message);
+                        return await base.OnReceive(message);
                 }
 
                 return Done;

@@ -21,7 +21,7 @@ namespace Example
             Behavior.Initial(Off);
         }
 
-        protected override async Task<object> Receive(object message)
+        protected override async Task<object> OnReceive(object message)
         {
             // any "global" message handling here
             switch (message)
@@ -36,7 +36,7 @@ namespace Example
             }
 
             // if not handled, use behavior specific
-            return await base.Receive(message);
+            return await base.OnReceive(message);
         }
 
         [Behavior] async Task<object> Off(object message)

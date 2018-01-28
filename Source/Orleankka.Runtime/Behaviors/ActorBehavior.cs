@@ -23,10 +23,8 @@ namespace Orleankka.Behaviors
             var config = new Dictionary<string, Func<object, object, Task<object>>>();
             var current = actor;
 
-            while (current != typeof(ActorGrain))
+            while (current != typeof(ActorGrain) && current != null)
             {
-                Debug.Assert(current != null);
-
                 const BindingFlags scope = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
                 foreach (var method in current.GetMethods(scope).Where(IsBehavioral))
                 {
@@ -82,10 +80,10 @@ namespace Orleankka.Behaviors
             this.actor = actor;
         }
 
-        internal async Task<object> HandleReceive(object message)
+        internal async Task<object> OnReceive(object message)
         {
             if (Default())
-                return await actor.Dispatch(message);
+                return ActorGrain.Unhandled;
 
             switch (message)
             {
@@ -154,7 +152,7 @@ namespace Orleankka.Behaviors
             }
             catch (Exception exception)
             {
-                await actor.OnTransitionFailure(transition, exception);
+                await actor.OnTransitionError(transition, exception);
                 actor.Activation.DeactivateOnIdle();
                 
                 ExceptionDispatchInfo.Capture(exception).Throw();

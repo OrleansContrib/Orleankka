@@ -33,7 +33,7 @@ namespace Example
 
         Stream stream;
 
-        protected override async Task<object> Receive(object message)
+        protected override async Task<object> OnReceive(object message)
         {
             switch (message)
             {
@@ -48,7 +48,7 @@ namespace Example
                     return await HandleQuery(query);
 
                 default:
-                    return await base.Receive(message);
+                    return await base.OnReceive(message);
             }
         }
 

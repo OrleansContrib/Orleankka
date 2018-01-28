@@ -140,7 +140,7 @@ namespace Orleankka.Features
         {
             ActorRef receiver;
 
-            protected override async Task<object> Receive(object message)
+            protected override async Task<object> OnReceive(object message)
             {
                 switch (message)
                 {
@@ -150,7 +150,7 @@ namespace Orleankka.Features
                     case Message _:
                         return await receiver.Ask<object>(message);
                     default: 
-                        return await base.Receive(message);
+                        return await base.OnReceive(message);
                 }
 
                 return Done;

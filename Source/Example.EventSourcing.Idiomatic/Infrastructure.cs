@@ -11,7 +11,7 @@ namespace Example
     {
         StreamRef stream;
 
-        protected override Task<object> Receive(object message)
+        protected override Task<object> OnReceive(object message)
         {
             switch (message)
             {
@@ -26,7 +26,7 @@ namespace Example
                     return HandleQuery(query);
                     
                 default:
-                    return base.Receive(message);
+                    return base.OnReceive(message);
             }
         }
 

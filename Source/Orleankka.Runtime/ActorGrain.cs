@@ -1,24 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-
+﻿using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.Runtime;
-
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace Orleankka
 {
+    using Behaviors;
     using Core;
     using Services;
     using Utility;
-    using Behaviors;
 
     public delegate Task<object> Receive(object message);
-
-    public interface IActorMiddlewareReceiver
-    {
-        Task<object> Receive(object message);
-    }
 
     public interface ReceiveResult
     {}
@@ -35,7 +28,7 @@ namespace Orleankka
         public static readonly Unhandled Message = new Unhandled();
     }       
 
-    public abstract class ActorGrain : Grain, IRemindable, IActor, IActorMiddlewareReceiver
+    public abstract class ActorGrain : Grain, IRemindable, IActor
     {
         public static readonly Done Done = Done.Message;
         public static readonly Unhandled Unhandled = Unhandled.Message;
@@ -83,19 +76,18 @@ namespace Orleankka
         public IReminderService Reminders    => Runtime.Reminders;
         public ITimerService Timers          => Runtime.Timers;
 
-        Task<object> IActorMiddlewareReceiver.Receive(object message) => MiddlewareReceive(message);
-        Task<object> IActor.ReceiveAsk(object message) => MiddlewareReceive(message);
-        Task IActor.ReceiveTell(object message) => MiddlewareReceive(message);
-        Task IActor.ReceiveNotify(object message) => MiddlewareReceive(message);
+        Task<object> IActor.ReceiveAsk(object message) => ReceiveRequest(message);
+        Task IActor.ReceiveTell(object message) => ReceiveRequest(message);
+        Task IActor.ReceiveNotify(object message) => ReceiveRequest(message);
 
-        internal Task<object> MiddlewareReceive(object message) => 
-            Actor.Middleware.Receive(this, message, HandleReceive);
+        internal Task<object> ReceiveRequest(object message) => 
+            Actor.Middleware.Receive(this, message, Receive);
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status) => 
-            Actor.Middleware.Receive(this, Reminder.Message(name, status), HandleReceive);
+            Actor.Middleware.Receive(this, Reminder.Message(name, status), Receive);
 
         public override Task OnDeactivateAsync() => 
-            Actor.Middleware.Receive(this, Deactivate.Message, HandleReceive);
+            Actor.Middleware.Receive(this, Deactivate.Message, Receive);
 
         public override Task OnActivateAsync()
         {
@@ -103,26 +95,35 @@ namespace Orleankka
             Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
             Dispatcher = ActorType.Dispatcher(GetType());
 
-            return Actor.Middleware.Receive(this, Activate.Message, HandleReceive);
+            return Actor.Middleware.Receive(this, Activate.Message, Receive);
         }
 
-        internal async Task<object> HandleReceive(object message)
+        public async Task<object> Receive(object message)
         {
-            var response = await Receive(message);
+            var response = await OnReceive(message);
 
             switch (response)
             {
                 case Task _:
                     throw new InvalidOperationException(
                         $"Actor '{GetType().Name}:{Id}' tries to return Task in response to '{message.GetType()}' message");
+                case Done _:
+                    return null;
                 case Unhandled _:
-                    throw new UnhandledMessageException(this, message);
+                    return await OnUnhandledReceive(message);
             }
 
             return response;
         }
 
-        protected virtual Task<object> Receive(object message) => Behavior.HandleReceive(message);
+        protected virtual Task<object> OnReceive(object message) => Behavior.OnReceive(message);
+
+        public virtual Task<object> OnUnhandledReceive(object message) => 
+            throw new UnhandledMessageException(this, message);
+        
+        public virtual Task OnTransitioning(Transition transition) => Task.CompletedTask;
+        public virtual Task OnTransitioned(Transition transition) => Task.CompletedTask;
+        public virtual Task OnTransitionError(Transition transition, Exception exception) => Task.CompletedTask;			
 
         internal Task<object> Dispatch(object message)
         {
@@ -131,10 +132,6 @@ namespace Orleankka
             return Dispatcher.DispatchAsync(this, message, x => 
                 x is LifecycleMessage ? Result(Done) : Result(Unhandled));
         }
-
-        public virtual Task OnTransitioning(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitioned(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitionFailure(Transition transition, Exception exception) => Task.CompletedTask;			
 
         public interface LifecycleMessage
         {}
@@ -179,11 +176,5 @@ namespace Orleankka
                 Status = status;
             }
         }
-    }
-
-    public static class ActorGrainExtensions
-    {
-        public static Task<object> Receive(this ActorGrain grain, object message) =>
-            grain.HandleReceive(message);
     }
 }
