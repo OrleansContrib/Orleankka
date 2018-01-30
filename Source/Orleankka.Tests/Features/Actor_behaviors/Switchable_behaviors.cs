@@ -19,23 +19,22 @@ namespace Orleankka.Features.Actor_behaviors
 
             class TestActor : ActorGrain
             {
-                public TestActor(IActorRuntime runtime)
-                    : base(runtime)
-                {}
+                public TestActor(IActorRuntime runtime) : base(runtime)
+                {
+                    Behavior.OnTransitioning = transition =>
+                    {
+                        Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
+                        return Task.CompletedTask;
+                    };
+
+                    Behavior.OnTransitioned = transition =>
+                    {
+                        Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
+                        return Task.CompletedTask;
+                    };
+                }
 
                 public readonly List<string> Events = new List<string>();
-
-                public override Task OnTransitioning(Transition transition)
-                {
-                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
-                    return Task.CompletedTask;
-                }
-
-                public override Task OnTransitioned(Transition transition)
-                {
-                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
-                    return Task.CompletedTask;
-                }
 
                 void RecordTransitions(string behavior, object message)
                 {

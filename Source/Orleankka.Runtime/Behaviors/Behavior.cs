@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -11,7 +10,7 @@ namespace Orleankka.Behaviors
 {
     using Utility;
 
-    public sealed class ActorBehavior
+    public sealed class Behavior
     {
         static readonly Dictionary<Type, Dictionary<string, Func<object, object, Task<object>>>> behaviors =
                     new Dictionary<Type, Dictionary<string, Func<object, object, Task<object>>>>();
@@ -70,15 +69,19 @@ namespace Orleankka.Behaviors
             return action;
         }
 
-        internal static ActorBehavior Default(ActorGrain actor) => new ActorBehavior(actor);
+        internal static Behavior Default(ActorGrain actor) => new Behavior(actor);
        
         readonly ActorGrain actor;
         CustomBehavior current;
-
-        ActorBehavior(ActorGrain actor)
+        
+        Behavior(ActorGrain actor)
         {
             this.actor = actor;
         }
+
+        public Func<Transition, Task> OnTransitioning { get; set; } = t => Task.CompletedTask;
+        public Func<Transition, Task> OnTransitioned  { get; set; } = t => Task.CompletedTask;
+        public Func<Transition, Exception, Task> OnTransitionError { get; set; } = (t, e) => Task.CompletedTask;
 
         internal async Task<object> OnReceive(object message)
         {
@@ -139,7 +142,7 @@ namespace Orleankka.Behaviors
 
             try
             {
-                await actor.OnTransitioning(transition);
+                await OnTransitioning(transition);
 
                 await current.HandleDeactivate(transition);
                 await current.HandleUnbecome(transition);
@@ -148,11 +151,11 @@ namespace Orleankka.Behaviors
                 await next.HandleActivate(transition);
 
                 current = next;
-                await actor.OnTransitioned(transition);
+                await OnTransitioned(transition);
             }
             catch (Exception exception)
             {
-                await actor.OnTransitionError(transition, exception);
+                await OnTransitionError(transition, exception);
                 actor.Activation.DeactivateOnIdle();
                 
                 ExceptionDispatchInfo.Capture(exception).Throw();

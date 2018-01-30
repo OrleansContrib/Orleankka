@@ -42,7 +42,7 @@ namespace Orleankka
         public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
         protected ActorGrain() => 
-            Behavior = ActorBehavior.Default(this);
+            Behavior = Behaviors.Behavior.Default(this);
 
         /// <inheritdoc />
         protected ActorGrain(IActorRuntime runtime) 
@@ -68,7 +68,7 @@ namespace Orleankka
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
-        public ActorBehavior Behavior   {get; }
+        public Behavior Behavior   {get; }
         Dispatcher Dispatcher           {get; set;}
         
         public IActorSystem System           => Runtime.System;
@@ -121,10 +121,6 @@ namespace Orleankka
         public virtual Task<object> OnUnhandledReceive(object message) => 
             throw new UnhandledMessageException(this, message);
         
-        public virtual Task OnTransitioning(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitioned(Transition transition) => Task.CompletedTask;
-        public virtual Task OnTransitionError(Transition transition, Exception exception) => Task.CompletedTask;			
-
         internal Task<object> Dispatch(object message)
         {
             Requires.NotNull(message, nameof(message));

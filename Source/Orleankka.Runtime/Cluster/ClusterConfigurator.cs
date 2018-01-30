@@ -173,7 +173,7 @@ namespace Orleankka.Cluster
         void RegisterBehaviors()
         {
             foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-                ActorBehavior.Register(actor);
+                Behavior.Register(actor);
         }
 
         static void RegisterStreamSubscriptions(ClusterConfiguration cluster, IEnumerable<string> persistentStreamProviders)
