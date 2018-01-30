@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
@@ -73,8 +72,8 @@ namespace Orleankka.Behaviors
        
         readonly ActorGrain actor;
         CustomBehavior current;
-        
-        Behavior(ActorGrain actor)
+
+        public Behavior(ActorGrain actor)
         {
             this.actor = actor;
         }
@@ -156,9 +155,6 @@ namespace Orleankka.Behaviors
             catch (Exception exception)
             {
                 await OnTransitionError(transition, exception);
-                actor.Activation.DeactivateOnIdle();
-                
-                ExceptionDispatchInfo.Capture(exception).Throw();
             }
         }
     }
