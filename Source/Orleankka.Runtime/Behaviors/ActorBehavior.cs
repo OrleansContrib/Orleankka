@@ -83,7 +83,7 @@ namespace Orleankka.Behaviors
         internal async Task<object> OnReceive(object message)
         {
             if (Default())
-                return ActorGrain.Unhandled;
+                return await actor.Dispatch(message);
 
             switch (message)
             {
