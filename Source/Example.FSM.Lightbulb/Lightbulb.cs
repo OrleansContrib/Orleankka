@@ -41,7 +41,7 @@ namespace Example
             return await behavior.OnReceive(message);
         }
 
-        [Behavior] async Task<object> Off(object message)
+        async Task<object> Off(object message)
         {
             switch (message)
             {
@@ -55,7 +55,7 @@ namespace Example
             }
         }
 
-        [Behavior] async Task<object> On(object message)
+        async Task<object> On(object message)
         {
             switch (message)
             {

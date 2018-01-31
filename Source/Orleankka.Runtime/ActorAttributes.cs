@@ -9,8 +9,4 @@ namespace Orleankka
         public string Target;		
         public string Filter;		
     }
-
-    [AttributeUsage(AttributeTargets.Method)]
-    public sealed class BehaviorAttribute : Attribute
-    {}
 }

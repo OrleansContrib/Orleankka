@@ -2,16 +2,16 @@
 {
     public struct Transition
     {
-        internal readonly CustomBehavior from;
-        internal readonly CustomBehavior to;
+        internal readonly Receive from;
+        internal readonly Receive to;
 
-        internal Transition(CustomBehavior from, CustomBehavior to)
+        internal Transition(Receive from, Receive to)
         {
             this.from = from;
             this.to = to;
         }
 
-        public string From => from.Name;
-        public string To => to.Name;
+        public string From => from.Method.Name;
+        public string To => to.Method.Name;
     }
 }

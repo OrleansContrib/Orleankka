@@ -61,14 +61,14 @@ namespace Orleankka.Features.Actor_behaviors
                     }
                 }
 
-                [Behavior] public Task<object> Initial(object message)
+                public Task<object> Initial(object message)
                 {
                     RecordTransitions(nameof(Initial), message);
 
                     return Result(Unhandled);
                 }
 
-                [Behavior] public async Task<object> A(object message)
+                public async Task<object> A(object message)
                 {
                     RecordTransitions(nameof(A), message);
                     
@@ -85,7 +85,7 @@ namespace Orleankka.Features.Actor_behaviors
                     }
                 }
 
-                [Behavior] public async Task<object> B(object message)
+                public async Task<object> B(object message)
                 {
                     RecordTransitions(nameof(B), message);
 
@@ -110,21 +110,13 @@ namespace Orleankka.Features.Actor_behaviors
 
             [Test]
             public void When_not_specified() =>
-                Assert.That(actor.behavior.Current, Is.Null);
-
-            [Test]
-            public void When_setting_initial_and_method_doesnt_exists() =>
-                Assert.Throws<InvalidOperationException>(() => actor.behavior.Initial("Initial_"));
-
-            [Test]
-            public void When_setting_initial_and_method_doesnt_conform() =>
-                Assert.Throws<InvalidOperationException>(() => actor.behavior.Initial("Setup"));
+                Assert.That(actor.behavior.CurrentName, Is.Null);
 
             [Test]
             public void When_setting_initial_more_than_once()
             {
-                actor.behavior.Initial(nameof(TestActor.Initial));
-                Assert.Throws<InvalidOperationException>(() => actor.behavior.Initial(nameof(TestActor.Initial)));
+                actor.behavior.Initial(actor.Initial);
+                Assert.Throws<InvalidOperationException>(() => actor.behavior.Initial(actor.Initial));
             }
 
             [Test]
@@ -134,9 +126,9 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public void When_setting_initial()
             {
-                actor.behavior.Initial(nameof(TestActor.Initial));
+                actor.behavior.Initial(actor.Initial);
 
-                Assert.That(actor.behavior.Current, Is.EqualTo(nameof(actor.Initial)));
+                Assert.That(actor.behavior.CurrentName, Is.EqualTo(nameof(actor.Initial)));
                 Assert.That(actor.Events, Has.Count.EqualTo(0),
                     "OnBecome should not be called when setting initial");
             }
@@ -144,10 +136,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public async Task When_transitioning()
             {
-                actor.behavior.Initial(nameof(TestActor.Initial));
+                actor.behavior.Initial(actor.Initial);
 
                 await actor.behavior.Become(actor.A);
-                Assert.That(actor.behavior.Current, Is.EqualTo(nameof(actor.A)));
+                Assert.That(actor.behavior.CurrentName, Is.EqualTo(nameof(actor.A)));
 
                 var expected = new[]
                 {
@@ -165,11 +157,11 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public async Task When_receiving_message()
             {
-                actor.behavior.Initial(nameof(TestActor.A));
+                actor.behavior.Initial(actor.A);
 
                 await actor.Receive(new X());
 
-                Assert.That(actor.behavior.Current, Is.EqualTo(nameof(actor.B)));
+                Assert.That(actor.behavior.CurrentName, Is.EqualTo(nameof(actor.B)));
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 

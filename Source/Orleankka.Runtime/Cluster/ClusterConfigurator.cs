@@ -93,7 +93,6 @@ namespace Orleankka.Cluster
             var persistentStreamProviders = RegisterStreamProviders(cluster);
             RegisterStreamSubscriptions(cluster, persistentStreamProviders);
 
-            RegisterBehaviors();
             RegisterDependencies(services);
         }
 
@@ -168,12 +167,6 @@ namespace Orleankka.Cluster
             }
 
             return persistentStreamProviders.ToArray();
-        }
-
-        void RegisterBehaviors()
-        {
-            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-                Behavior.Register(actor);
         }
 
         static void RegisterStreamSubscriptions(ClusterConfiguration cluster, IEnumerable<string> persistentStreamProviders)
