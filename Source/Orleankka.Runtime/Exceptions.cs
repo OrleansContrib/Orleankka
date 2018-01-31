@@ -6,8 +6,8 @@ namespace Orleankka
     [Serializable]
     public class UnhandledMessageException : Exception
     {
-        public UnhandledMessageException(ActorGrain actor, object message)
-            : base($"An actor '{actor.GetType()}::{actor.Id}' cannot handle '{message.GetType()}' in its current behavior '{actor.Behavior.Current}'")
+        public UnhandledMessageException(ActorGrain actor, object message, string details = "")
+            : base($"An actor '{actor.GetType()}::{actor.Id}' cannot handle '{message.GetType()}'")
         {}
 
         UnhandledMessageException(SerializationInfo info, StreamingContext context)

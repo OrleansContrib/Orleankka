@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 
 using Orleankka;
+using Orleankka.Behaviors;
 
 namespace Example
 {
@@ -14,11 +15,12 @@ namespace Example
 
     public class Lightbulb : ActorGrain, ILightbulb
     {
+        readonly Behavior behavior;
         bool smashed;
 
         public Lightbulb()
         {
-            Behavior.Initial(Off);
+            behavior = new Behavior(this, Off);
         }
 
         protected override async Task<object> OnReceive(object message)
@@ -36,7 +38,7 @@ namespace Example
             }
 
             // if not handled, use behavior specific
-            return await base.OnReceive(message);
+            return await behavior.OnReceive(message);
         }
 
         [Behavior] async Task<object> Off(object message)
@@ -44,7 +46,7 @@ namespace Example
             switch (message)
             {
                 case PressSwitch _:
-                    await Behavior.Become(On);
+                    await behavior.Become(On);
                     return "Turning on";
                 case Touch _:
                     return "Cold";
@@ -58,7 +60,7 @@ namespace Example
             switch (message)
             {
                 case PressSwitch _:
-                    await Behavior.Become(Off);
+                    await behavior.Become(Off);
                     return "Turning off";
                 case Touch _:
                     return "Hot!";

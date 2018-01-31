@@ -55,9 +55,8 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(behavior, nameof(behavior));
 
-            var config = behaviors.Find(actor.GetType());
-            if (config == null && !(actor.Runtime is ActorRuntime))
-                config = Register(actor.GetType());
+            var config = behaviors.Find(actor.GetType()) 
+                         ?? Register(actor.GetType());
 
             var action = config.Find(behavior);
             if (action == null)
@@ -68,24 +67,41 @@ namespace Orleankka.Behaviors
             return action;
         }
 
-        internal static Behavior Default(ActorGrain actor) => new Behavior(actor);
-       
         readonly ActorGrain actor;
         CustomBehavior current;
 
         public Behavior(ActorGrain actor)
         {
+            Requires.NotNull(actor, nameof(actor));
             this.actor = actor;
+        }
+
+        public Behavior(ActorGrain actor, string initial)
+        {
+            Requires.NotNull(actor, nameof(initial));
+            Requires.NotNull(initial, nameof(initial));
+
+            this.actor = actor;
+            Initial(initial);
+        }
+
+        public Behavior(ActorGrain actor, Receive initial)
+        {
+            Requires.NotNull(actor, nameof(initial));
+            Requires.NotNull(initial, nameof(initial));
+
+            this.actor = actor;
+            Initial(initial.Method.Name);
         }
 
         public Func<Transition, Task> OnTransitioning { get; set; } = t => Task.CompletedTask;
         public Func<Transition, Task> OnTransitioned  { get; set; } = t => Task.CompletedTask;
         public Func<Transition, Exception, Task> OnTransitionError { get; set; } = (t, e) => Task.CompletedTask;
 
-        internal async Task<object> OnReceive(object message)
+        public async Task<object> OnReceive(object message)
         {
-            if (Default())
-                return await actor.Dispatch(message);
+            if (!Initialized())
+                throw new InvalidOperationException($"Initial behavior should be set for actor '{actor}' in order to receive messages");
 
             switch (message)
             {
@@ -109,16 +125,15 @@ namespace Orleankka.Behaviors
 
         public void Initial(string behavior)
         {
-            if (!Default())
+            if (Initialized())
                 throw new InvalidOperationException($"Initial behavior has been already set to '{Current}'");
 
             var action = RegisteredAction(behavior);
             current = new CustomBehavior(behavior, x => action(actor, x));
         }
 
-        bool Default() => current == null;
-
         public string Current => current?.Name;
+        bool Initialized() => current != null;
 
         public Task Become(Receive behavior)
         {
@@ -128,11 +143,11 @@ namespace Orleankka.Behaviors
 
         public async Task Become(string behavior)
         {
-            if (Default())
-                throw new InvalidOperationException("Initial behavior should be set before calling Become");
+            if (!Initialized())
+                throw new InvalidOperationException($"Initial behavior should be set for actor '{actor}' before calling Become");
 
             if (Current == behavior)
-                throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
+                throw new InvalidOperationException($"Actor '{actor}' is already behaving as '{behavior}'");
 
             var action = RegisteredAction(behavior);
             var next = new CustomBehavior(behavior, x => action(actor, x));

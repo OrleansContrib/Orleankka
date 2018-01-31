@@ -41,9 +41,6 @@ namespace Orleankka
         ActorRef self;
         public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
-        protected ActorGrain() => 
-            Behavior = Behaviors.Behavior.Default(this);
-
         /// <inheritdoc />
         protected ActorGrain(IActorRuntime runtime) 
             : this(null, runtime)
@@ -57,7 +54,7 @@ namespace Orleankka
         /// <summary>
         /// Provided only for unit-testing purposes
         /// </summary>
-        protected ActorGrain(string id = null, IActorRuntime runtime = null) : this()
+        protected ActorGrain(string id = null, IActorRuntime runtime = null)
         {
             Runtime = runtime;
             Dispatcher = ActorType.Dispatcher(GetType());
@@ -68,7 +65,6 @@ namespace Orleankka
 
         public ActorPath Path           {get; private set;}
         public IActorRuntime Runtime    {get; private set;}
-        public Behavior Behavior   {get; }
         Dispatcher Dispatcher           {get; set;}
         
         public IActorSystem System           => Runtime.System;
@@ -116,7 +112,7 @@ namespace Orleankka
             return response;
         }
 
-        protected virtual Task<object> OnReceive(object message) => Behavior.OnReceive(message);
+        protected virtual Task<object> OnReceive(object message) => Dispatch(message);
 
         public virtual Task<object> OnUnhandledReceive(object message) => 
             throw new UnhandledMessageException(this, message);
