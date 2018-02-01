@@ -13,13 +13,13 @@ namespace Orleankka
 
     public class StreamSubscriptionSpecification
     {
-        internal static IEnumerable<StreamSubscriptionSpecification> From(Type actor, Dispatcher dispatcher)
+        internal static IEnumerable<StreamSubscriptionSpecification> From(Type actor)
         {
             return actor.GetCustomAttributes<StreamSubscriptionAttribute>(inherit: true)
-                        .Select(attribute => From(actor, attribute, dispatcher));
+                        .Select(attribute => From(actor, attribute));
         }
 
-        internal static StreamSubscriptionSpecification From(Type actor, StreamSubscriptionAttribute attribute, Dispatcher dispatcher)
+        internal static StreamSubscriptionSpecification From(Type actor, StreamSubscriptionAttribute attribute)
         {
             if (string.IsNullOrWhiteSpace(attribute.Source))
                 throw InvalidSpecification(actor, "has null or whitespace only value of Source");
@@ -34,7 +34,7 @@ namespace Orleankka
             if (parts.Length != 2)
                 throw InvalidSpecification(actor, $"has invalid Source specification: {attribute.Source}");
 
-            var filter = BuildFilter(attribute.Filter, actor, dispatcher);
+            var filter = BuildFilter(attribute.Filter, actor);
             var selector = BuildTargetSelector(attribute.Target, actor);
 
             var provider = parts[0];
@@ -56,12 +56,9 @@ namespace Orleankka
             return new InvalidOperationException(message);
         }
 
-        static Func<object, bool> BuildFilter(string filter, Type actor, Dispatcher dispatcher)
+        static Func<object, bool> BuildFilter(string filter, Type actor)
         {
-            if (filter == null)
-                return item => dispatcher.CanHandle(item.GetType());
-
-            if (filter == "*")
+            if (filter == null || filter == "*")
                 return item => true;
 
             if (!filter.EndsWith("()"))

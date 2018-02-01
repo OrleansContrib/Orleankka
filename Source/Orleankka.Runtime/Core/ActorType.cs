@@ -94,7 +94,6 @@ namespace Orleankka.Core
             dispatchers.Add(@class, dispatcher);
         }
 
-        internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
-            StreamSubscriptionSpecification.From(Class, dispatcher);
+        internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => StreamSubscriptionSpecification.From(Class);
     }
 }
