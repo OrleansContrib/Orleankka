@@ -97,4 +97,5 @@ namespace Orleankka
                 throw new UnhandledMessageException(this, message);
             });
         }
+    }
 }
