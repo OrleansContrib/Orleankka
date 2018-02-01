@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using Orleans;
-using Orleans.Internals;
 
 namespace Orleankka.Core
 {
@@ -57,7 +56,7 @@ namespace Orleankka.Core
 
         ActorInterface(ActorInterfaceMapping mapping, Type grain)
         {
-            Name = Mapping.TypeName;
+            Name = mapping.TypeName;
 
             Mapping = mapping;
             Grain = grain;
