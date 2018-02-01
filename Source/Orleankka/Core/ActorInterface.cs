@@ -48,27 +48,24 @@ namespace Orleankka.Core
             Bind();
         }
 
+        public readonly string Name;
+
         internal readonly ActorInterfaceMapping Mapping;
         internal readonly Type Grain;
 
-        public readonly int TypeCode;
-        public readonly string Name;
-
         Func<IGrainFactory, string, object> factory;
 
-        internal ActorInterface(ActorInterfaceMapping mapping, Type grain)
+        ActorInterface(ActorInterfaceMapping mapping, Type grain)
         {
+            Name = Mapping.TypeName;
+
             Mapping = mapping;
             Grain = grain;
 
-            TypeCode = grain.TypeCode();
-            grain.InterfaceVersion();
-            Name = Mapping.TypeName;
-            
             Array.ForEach(mapping.Types, ActorTypeName.Register);
         }
 
-        internal static void Bind()
+        static void Bind()
         {            
             foreach (var @interface in names.Values)
             {

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleans.Internals;
-
 namespace Orleankka.Core
 {
     using Utility;
@@ -21,9 +19,6 @@ namespace Orleankka.Core
         
         static readonly Dictionary<Type, ActorType> grains =
                     new Dictionary<Type, ActorType>();
-
-        static readonly Dictionary<int, ActorType> typeCodes =
-                    new Dictionary<int, ActorType>();
 
         internal static ActorType Of(Type grainType)
         {
@@ -49,16 +44,6 @@ namespace Orleankka.Core
             return result;
         }
 
-        public static ActorType Of(int typeCode)
-        {
-            var result = typeCodes.Find(typeCode);
-            if (result == null)
-                throw new InvalidOperationException(
-                    $"Unable to map actor type code '{typeCode}' to the corresponding actor type");
-
-            return result;
-        }
-        
         internal static void Register(ActorInvocationPipeline pipeline, Assembly[] assemblies, string[] conventions)
         {
             var unregistered = assemblies
@@ -69,8 +54,6 @@ namespace Orleankka.Core
             {
                 types.Add(each.Name, each);
                 grains.Add(each.grain, each);
-                typeCodes.Add(each.typeCode, each);
-                typeCodes.Add(each.Interface.TypeCode, each);
             }
 
             IEnumerable<ActorType> ActorTypes(IEnumerable<Type> types)
@@ -96,7 +79,6 @@ namespace Orleankka.Core
         public readonly ActorInterface Interface;
         internal readonly Dispatcher dispatcher;
         
-        readonly int typeCode;
         readonly Type grain;
         public readonly IActorMiddleware Middleware;
 
@@ -106,8 +88,7 @@ namespace Orleankka.Core
             
             Class = @class;
             Interface = @interface;
-            typeCode = grain.TypeCode();
-            Middleware = middleware;
+            Middleware = middleware;            
             
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
