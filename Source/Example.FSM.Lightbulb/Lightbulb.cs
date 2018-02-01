@@ -13,7 +13,7 @@ namespace Example
     public interface ILightbulb : IActorGrain
     {}
 
-    public class Lightbulb : ActorGrain, ILightbulb
+    public class Lightbulb : DispatchActorGrain, ILightbulb
     {
         readonly Behavior behavior;
         bool smashed;
@@ -23,7 +23,7 @@ namespace Example
             behavior = new Behavior(this, Off);
         }
 
-        protected override async Task<object> OnReceive(object message)
+        public override async Task<object> Receive(object message)
         {
             // any "global" message handling here
             switch (message)

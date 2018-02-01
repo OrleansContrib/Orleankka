@@ -15,7 +15,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        public abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : DispatchActorGrain
         {
             protected readonly List<string> received = new List<string>();
 
@@ -39,7 +39,7 @@ namespace Orleankka.Features
         public interface ITestProducerActor : IActorGrain
         {}
 
-        public class TestProducerActor : ActorGrain, ITestProducerActor
+        public class TestProducerActor : DispatchActorGrain, ITestProducerActor
         {
             Task On(Push x) => x.Stream.Push(x.Item);
         }
@@ -197,7 +197,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                protected override Task<object> OnReceive(object message)
+                public override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {
@@ -205,7 +205,7 @@ namespace Orleankka.Features
                         return Result(null);
                     }
 
-                    return base.OnReceive(message);
+                    return base.Receive(message);
                 }
             }
 
@@ -282,7 +282,7 @@ namespace Orleankka.Features
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
-                protected override Task<object> OnReceive(object message)
+                public override Task<object> Receive(object message)
                 {
                     if (message is int)
                     {
@@ -290,7 +290,7 @@ namespace Orleankka.Features
                         return Task.FromResult<object>(null);
                     }
 
-                    return base.OnReceive(message);
+                    return base.Receive(message);
                 }
             }
 

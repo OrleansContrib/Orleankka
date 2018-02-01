@@ -22,7 +22,7 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        public class TestActor : ActorGrain, ITestActor
+        public class TestActor : DispatchActorGrain, ITestActor
         {
             int fired;
 

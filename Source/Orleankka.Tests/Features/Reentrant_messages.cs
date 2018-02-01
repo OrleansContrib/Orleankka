@@ -39,7 +39,7 @@ namespace Orleankka.Features
         {}
 
         [MayInterleave(nameof(Interleave))]
-        public  class TestActor : ActorGrain, ITestActor
+        public  class TestActor : DispatchActorGrain, ITestActor
         {
             public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
 
@@ -73,7 +73,7 @@ namespace Orleankka.Features
         {}
 
         [MayInterleave(nameof(Interleave))]
-        public class TestReentrantStreamConsumerActor : ActorGrain, ITestReentrantStreamConsumerActor
+        public class TestReentrantStreamConsumerActor : DispatchActorGrain, ITestReentrantStreamConsumerActor
         {
             public static bool Interleave(InvokeMethodRequest req) => req.Any(
                 typeof(GetStreamMessagesInProgress), 
@@ -105,7 +105,7 @@ namespace Orleankka.Features
         {}
 
         [MayInterleave(nameof(Interleave))]
-        public class TestReentrantByCallbackMethodActor : ActorGrain, ITestReentrantByCallbackMethodActor
+        public class TestReentrantByCallbackMethodActor : DispatchActorGrain, ITestReentrantByCallbackMethodActor
         {
             public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
 
@@ -136,11 +136,11 @@ namespace Orleankka.Features
         {}
 
         [Reentrant]
-        public class TestReentrantByCallbackMethodActorFromAnotherActor : ActorGrain, ITestReentrantByCallbackMethodActorFromAnotherActor
+        public class TestReentrantByCallbackMethodActorFromAnotherActor : DispatchActorGrain, ITestReentrantByCallbackMethodActorFromAnotherActor
         {
             ActorRef receiver;
 
-            protected override async Task<object> OnReceive(object message)
+            public override async Task<object> Receive(object message)
             {
                 switch (message)
                 {
@@ -150,7 +150,7 @@ namespace Orleankka.Features
                     case Message _:
                         return await receiver.Ask<object>(message);
                     default: 
-                        return await base.OnReceive(message);
+                        return await base.Receive(message);
                 }
 
                 return Done;

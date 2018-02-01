@@ -25,7 +25,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
         
-        public abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : DispatchActorGrain
         {
             readonly List<string> received = new List<string>();
 
@@ -40,7 +40,7 @@ namespace Orleankka.Features
             StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
             protected abstract string Provider { get; }
 
-            protected override async Task<object> OnReceive(object message)
+            public override async Task<object> Receive(object message)
             {
                 switch (message)
                 {
@@ -48,7 +48,7 @@ namespace Orleankka.Features
                         received.Add(x.ToString());
                         break;
                     default:
-                        return await base.OnReceive(message);
+                        return await base.Receive(message);
                 }
 
                 return Done;

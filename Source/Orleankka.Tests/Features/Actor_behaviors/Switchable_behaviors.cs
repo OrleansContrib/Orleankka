@@ -17,7 +17,7 @@ namespace Orleankka.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            class TestActor : ActorGrain
+            class TestActor : DispatchActorGrain
             {
                 public readonly Behavior behavior;
 
@@ -38,7 +38,7 @@ namespace Orleankka.Features.Actor_behaviors
                     };
                 }
 
-                protected override Task<object> OnReceive(object message) => behavior.OnReceive(message);
+                public override Task<object> Receive(object message) => behavior.OnReceive(message);
 
                 public readonly List<string> Events = new List<string>();
 

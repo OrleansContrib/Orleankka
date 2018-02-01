@@ -20,7 +20,7 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        public class TestActor : ActorGrain, ITestActor
+        public class TestActor : DispatchActorGrain, ITestActor
         {
             void On(TestActorCommand x) {}
             long On(TestActorQuery x) => 42;
@@ -35,7 +35,7 @@ namespace Orleankka.Features
         public interface ITestAnotherActor : IActorGrain
         {}
 
-        public class TestAnotherActor : ActorGrain, ITestAnotherActor
+        public class TestAnotherActor : DispatchActorGrain, ITestAnotherActor
         {
             Task On(TestAnotherActorCommand x) => x.Ref.Tell(new TestActorCommand());
         }

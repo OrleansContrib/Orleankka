@@ -7,7 +7,7 @@ namespace Example
     public interface IInventoryItem : IActorGrain
     {}
 
-    public class InventoryItem : ActorGrain, IInventoryItem
+    public class InventoryItem : DispatchActorGrain, IInventoryItem
     {
         int total;
         string name;

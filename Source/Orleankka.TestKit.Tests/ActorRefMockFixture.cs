@@ -120,7 +120,7 @@ namespace Orleankka.TestKit
                 Is.EqualTo(222));
         }
 
-        class TestActor : ActorGrain
+        class TestActor : DispatchActorGrain
         {}
 
         class TestCommand

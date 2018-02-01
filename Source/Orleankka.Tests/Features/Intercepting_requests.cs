@@ -35,7 +35,7 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        public abstract class TestActorBase : ActorGrain
+        public abstract class TestActorBase : DispatchActorGrain
         {}
 
         /// middleware is set for the base actor type
@@ -72,7 +72,7 @@ namespace Orleankka.Features
         public interface ITestInsideActor : IActorGrain
         {}
 
-        public class TestInsideActor : ActorGrain, ITestInsideActor
+        public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
             public Task<string> Handle(DoAsk query) => query.Target.Ask<string>(query.Message);

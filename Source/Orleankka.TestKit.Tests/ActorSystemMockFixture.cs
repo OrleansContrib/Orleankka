@@ -42,7 +42,7 @@ namespace Orleankka.TestKit
         interface ITestActor : IActorGrain
         {}
 
-        class TestActor : ActorGrain, ITestActor
+        class TestActor : DispatchActorGrain, ITestActor
         {}
     }
 }

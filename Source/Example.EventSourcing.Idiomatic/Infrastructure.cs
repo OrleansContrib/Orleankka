@@ -7,11 +7,11 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    public abstract class EventSourcedActor : ActorGrain
+    public abstract class EventSourcedActor : DispatchActorGrain
     {
         StreamRef stream;
 
-        protected override Task<object> OnReceive(object message)
+        public override Task<object> Receive(object message)
         {
             switch (message)
             {
@@ -26,7 +26,7 @@ namespace Example
                     return HandleQuery(query);
                     
                 default:
-                    return base.OnReceive(message);
+                    return base.Receive(message);
             }
         }
 

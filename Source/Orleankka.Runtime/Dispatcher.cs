@@ -7,14 +7,25 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Orleankka.Utility;
-
 namespace Orleankka
 {
-    class Dispatcher
+    using Utility;
+
+    public class Dispatcher
     {
-        static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
-        static readonly Type[] DefaultRoots = {typeof(ActorGrain), typeof(object)};
+        public static void Register(Type type, string[] conventions)
+        {
+            var dispatcher = new Dispatcher(type, conventions);
+            dispatchers.Add(type, dispatcher);
+        }
+
+        public static Dispatcher For(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
+
+        static readonly Dictionary<Type, Dispatcher> dispatchers =
+                    new Dictionary<Type, Dispatcher>();
+
+        public static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
+        public static readonly Type[] DefaultRoots = {typeof(ActorGrain), typeof(object)};
 
         readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
              new Dictionary<Type, Func<object, object, Task<object>>>();

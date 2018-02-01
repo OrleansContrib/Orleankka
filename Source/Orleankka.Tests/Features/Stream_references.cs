@@ -47,12 +47,12 @@ namespace Orleankka.Features
         class Received : Query<List<Item>>
         {}
 
-        public abstract class TestProducerActorBase : ActorGrain
+        public abstract class TestProducerActorBase : DispatchActorGrain
         {
             Task On(Produce x) => x.Stream.Push(x.Item);
         }
 
-        public abstract class TestConsumerActorBase : ActorGrain
+        public abstract class TestConsumerActorBase : DispatchActorGrain
         {
             readonly List<Item> received = new List<Item>();
 

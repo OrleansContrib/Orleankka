@@ -22,7 +22,7 @@ namespace Demo
 
     public interface IGreeter : IActorGrain {}
 
-    public class Greeter : ActorGrain, IGreeter
+    public class Greeter : DispatchActorGrain, IGreeter
     {
         void On(Greet msg) => WriteLine($"Hello, {msg.Who}!");
     }

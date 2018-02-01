@@ -98,7 +98,7 @@ namespace Example
     {}
 
     [StreamSubscription(Source = "sms:/InventoryItem-.*/", Target = "#")]
-    public class Inventory : ActorGrain, IInventory
+    public class Inventory : DispatchActorGrain, IInventory
     {
         readonly Dictionary<string, InventoryItemDetails> items =
              new Dictionary<string, InventoryItemDetails>();

@@ -23,7 +23,7 @@ namespace Example
     public interface ISomeActor : IActorGrain
     {}
 
-    public class SomeActor : ActorGrain, ISomeActor
+    public class SomeActor : DispatchActorGrain, ISomeActor
     {
         readonly List<Item> received = new List<Item>();
         StreamRef stream;

@@ -24,7 +24,7 @@ namespace Example
     {}
 
     [MayInterleave(nameof(Interleave))]
-    public class ReaderWriterLock : ActorGrain, IReaderWriterLock
+    public class ReaderWriterLock : DispatchActorGrain, IReaderWriterLock
     {
         public static bool Interleave(InvokeMethodRequest req) => req.Message() is Read;
 

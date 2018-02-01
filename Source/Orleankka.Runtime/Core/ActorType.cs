@@ -9,11 +9,6 @@ namespace Orleankka.Core
 
     public class ActorType
     {
-        internal static Dispatcher Dispatcher(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
-
-        static readonly Dictionary<Type, Dispatcher> dispatchers =
-                    new Dictionary<Type, Dispatcher>();
-
         static readonly Dictionary<string, ActorType> types =
                     new Dictionary<string, ActorType>();
         
@@ -77,7 +72,6 @@ namespace Orleankka.Core
 
         public readonly Type Class;
         public readonly ActorInterface Interface;
-        internal readonly Dispatcher dispatcher;
         
         readonly Type grain;
         public readonly IActorMiddleware Middleware;
@@ -90,8 +84,7 @@ namespace Orleankka.Core
             Interface = @interface;
             Middleware = middleware;            
             
-            dispatcher = new Dispatcher(@class, conventions);
-            dispatchers.Add(@class, dispatcher);
+            Dispatcher.Register(@class, conventions); 
         }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => StreamSubscriptionSpecification.From(Class);

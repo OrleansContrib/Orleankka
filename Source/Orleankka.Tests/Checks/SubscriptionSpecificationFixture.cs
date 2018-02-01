@@ -106,10 +106,10 @@ namespace Orleankka.Checks
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
-        class TestActor : ActorGrain {}
+        class TestActor : DispatchActorGrain {}
 
         [StreamSubscription(Source = "sms:foo", Target = "ComputeSubscriptionTarget()")]
-        class DynamicTargetSelectorActor : ActorGrain
+        class DynamicTargetSelectorActor : DispatchActorGrain
         {
             public static string ComputeSubscriptionTarget(object item) => "bar";
         }

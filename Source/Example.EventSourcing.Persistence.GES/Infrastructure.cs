@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Example
 {
-    public abstract class EventSourcedActor : ActorGrain
+    public abstract class EventSourcedActor : DispatchActorGrain
     {
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
@@ -34,7 +34,7 @@ namespace Example
 
         long version = ExpectedVersion.NoStream;
 
-        protected override async Task<object> OnReceive(object message)
+        public override async Task<object> Receive(object message)
         {
             switch (message)
             {
@@ -49,7 +49,7 @@ namespace Example
                     return await HandleQuery(query);
 
                 default:
-                    return await base.OnReceive(message);
+                    return await base.Receive(message);
             }
         }
 

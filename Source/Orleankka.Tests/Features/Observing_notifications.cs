@@ -34,7 +34,7 @@ namespace Orleankka.Features
         public interface ITestActor : IActorGrain
         {}
 
-        public class TestActor : ActorGrain, ITestActor
+        public class TestActor : DispatchActorGrain, ITestActor
         {
             ObserverRef observer;
 
@@ -49,7 +49,7 @@ namespace Orleankka.Features
         public interface ITestInsideActor : IActorGrain
         {}
 
-        public class TestInsideActor : ActorGrain, ITestInsideActor
+        public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             readonly List<Notification> notifications = new List<Notification>();
 
