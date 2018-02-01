@@ -8,15 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
-using Orleans.Internals;
-using Orleans.Runtime.Configuration;
 using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
     using Core;
-    using Core.Streams;
-    using Behaviors;
     using Utility;
 
     public sealed class ClusterConfigurator
@@ -84,29 +80,14 @@ namespace Orleankka.Cluster
 
         internal void Configure(ISiloHostBuilder builder, IServiceCollection services)
         {
-            var cluster = GetClusterConfiguration(services);
-
             RegisterAssemblies(builder);
             RegisterInterfaces();
-            RegisterTypes();
-            
-            var persistentStreamProviders = RegisterStreamProviders(cluster);
-            RegisterStreamSubscriptions(cluster, persistentStreamProviders);
-
+            RegisterTypes();           
             RegisterDependencies(services);
         }
 
         void RegisterAssemblies(ISiloHostBuilder builder) => 
             registry.Register(builder.GetApplicationPartManager(), x => x.ActorTypes());
-
-        static ClusterConfiguration GetClusterConfiguration(IServiceCollection services)
-        {
-            if (!(services.SingleOrDefault(service =>
-                service.ServiceType == typeof(ClusterConfiguration)).ImplementationInstance is ClusterConfiguration configuration))
-                throw new InvalidOperationException("Cannot configure Orleankka before cluster configuration is set");
-
-            return configuration;
-        }
 
         void RegisterDependencies(IServiceCollection services)
         {
@@ -123,66 +104,6 @@ namespace Orleankka.Cluster
         void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
 
         void RegisterTypes() => ActorType.Register(pipeline, registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
-
-        static IEnumerable<string> RegisterStreamProviders(ClusterConfiguration configuration)
-        {
-            Type GetType(string partialTypeName)
-            {
-                var type = Type.GetType(partialTypeName);
-                if (type != null) 
-                    return type;
-
-                foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    type = a.GetType(partialTypeName);
-                    if (type != null)
-                        return type;
-                }
-                
-                return null ;
-            }
-
-            if (!configuration.Globals.ProviderConfigurations.TryGetValue(ProviderCategoryConfiguration.STREAM_PROVIDER_CATEGORY_NAME, out ProviderCategoryConfiguration pcc))
-                return Array.Empty<string>();
-
-            var persistentStreamProviders = new List<string>();
-            var allStreamProviders = pcc.Providers.ToArray();
-            
-            foreach (var each in allStreamProviders)
-            {                
-                var provider = each.Value;
-             
-                var type = GetType(provider.Type);
-                if (type.IsPersistentStreamProvider())
-                {
-                    persistentStreamProviders.Add(each.Key);
-                    continue;
-                }
-
-                pcc.Providers.Remove(each.Key);
-
-                var properties = provider.Properties.ToDictionary(k => k.Key, v => v.Value);
-                var spc = new StreamProviderConfiguration(provider.Name, type, properties);
-                spc.Register(configuration);
-            }
-
-            return persistentStreamProviders.ToArray();
-        }
-
-        static void RegisterStreamSubscriptions(ClusterConfiguration cluster, IEnumerable<string> persistentStreamProviders)
-        {
-            foreach (var actor in ActorType.Registered())
-                StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
-
-            const string id = "stream-subscription-boot";
-
-            var properties = new Dictionary<string, string>
-            {
-                ["providers"] = string.Join(";", persistentStreamProviders)
-            };
-
-            cluster.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
-        }
     }
 
     public static class SiloHostBuilderExtension

@@ -86,7 +86,5 @@ namespace Orleankka.Core
             
             Dispatcher.Register(@class, conventions); 
         }
-
-        internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => StreamSubscriptionSpecification.From(Class);
     }
 }

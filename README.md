@@ -7,12 +7,9 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 ### Features
 
 + Message-based API with zero performance overhead
-+ Convenient unit testing kit (stubs, mocks, expectations)
-+ Simplified streams API (actor subscriptions)
-+ Declarative regex-based stream subscriptions (great for CQRS/ES projections)
-+ Content-based filtering support for stream subscriptions (imperative/declarative)
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
 + Poweful actor/proxy middlewares (interceptors)
++ Convenient unit testing kit (stubs, mocks, expectations)
 
 ### How to install
 
