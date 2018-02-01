@@ -6,27 +6,11 @@ using System.Threading.Tasks;
 
 namespace Orleankka
 {
-    using Behaviors;
     using Core;
     using Services;
     using Utility;
 
     public delegate Task<object> Receive(object message);
-
-    public interface ReceiveResult
-    {}
-	
-    [Serializable]
-    public sealed class Done : ReceiveResult
-    {
-        public static readonly Done Message = new Done();
-    }
-
-    [Serializable]
-    public sealed class Unhandled : ReceiveResult
-    {
-        public static readonly Unhandled Message = new Unhandled();
-    }       
 
     public abstract class ActorGrain : Grain, IRemindable, IActor
     {
@@ -125,48 +109,5 @@ namespace Orleankka
                 x is LifecycleMessage ? Result(Done) : Result(Unhandled));
         }
 
-        public interface LifecycleMessage
-        {}
-		
-        public sealed class Activate : LifecycleMessage
-        {
-            public static readonly Activate Message = new Activate();
-        }
-
-        public sealed class Deactivate : LifecycleMessage
-        {
-            public static readonly Deactivate Message = new Deactivate();
-        }       
-
-        public interface BehaviorMessage
-        {}
-
-        public sealed class Become : BehaviorMessage, LifecycleMessage
-        {
-            public static readonly Become Message = new Become();
-        }
-
-        public sealed class Unbecome : BehaviorMessage, LifecycleMessage
-        {
-            public static readonly Unbecome Message = new Unbecome();
-        }
-
-        public struct Reminder
-        {
-            public static readonly Reminder Invalid = 
-                new Reminder();
-
-            public static Reminder Message(string name, TickStatus status) => 
-                new Reminder(name, status);
-
-            public string Name { get; }
-            public TickStatus Status { get; }
-
-            public Reminder(string name, TickStatus status = default(TickStatus))
-            {
-                Name = name;
-                Status = status;
-            }
-        }
     }
 }

@@ -67,11 +67,11 @@ namespace Orleankka.Behaviors
             {
                 await OnTransitioning(transition);
 
-                await Current(ActorGrain.Deactivate.Message);
-                await Current(ActorGrain.Unbecome.Message);
+                await Current(Deactivate.Message);
+                await Current(Unbecome.Message);
 
-                await behavior(ActorGrain.Become.Message);
-                await behavior(ActorGrain.Activate.Message);
+                await behavior(Behaviors.Become.Message);
+                await behavior(Activate.Message);
 
                 Current = behavior;
                 await OnTransitioned(transition);
