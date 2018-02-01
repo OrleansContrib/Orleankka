@@ -80,28 +80,12 @@ namespace Orleankka
 
         public async Task<object> Receive(object message)
         {
-            var response = await OnReceive(message);
-
-            switch (response)
-            {
-                case Task _:
-                    throw new InvalidOperationException(
-                        $"Actor '{GetType().Name}:{Id}' tries to return Task in response to '{message.GetType()}' message");
-                case Done _:
-                    return null;
-                case Unhandled _:
-                    return await OnUnhandledReceive(message);
-            }
-
-            return response;
+            return await OnReceive(message);
         }
 
         protected virtual Task<object> OnReceive(object message) => Dispatch(message);
 
-        public virtual Task<object> OnUnhandledReceive(object message) => 
-            throw new UnhandledMessageException(this, message);
-        
-        internal Task<object> Dispatch(object message)
+        Task<object> Dispatch(object message)
         {
             Requires.NotNull(message, nameof(message));
 
@@ -113,5 +97,4 @@ namespace Orleankka
                 throw new UnhandledMessageException(this, message);
             });
         }
-    }
 }
