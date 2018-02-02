@@ -1,10 +1,15 @@
 ﻿using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka
 {
+    using Utility;
+
     public abstract class DispatchActorGrain : ActorGrain
     {
-        public Dispatcher Dispatcher { get; private set; }
+        Dispatcher dispatcher;
+        public Dispatcher Dispatcher => dispatcher ?? (dispatcher = new Dispatcher(GetType()));
 
         /// <inheritdoc />
         protected DispatchActorGrain(IActorRuntime runtime)
@@ -17,15 +22,27 @@ namespace Orleankka
         {}
 
         /// <inheritdoc />
-        protected DispatchActorGrain(string id = null, IActorRuntime runtime = null)
+        protected DispatchActorGrain(Dispatcher dispatcher)
+        {
+            Requires.NotNull(dispatcher, nameof(dispatcher));
+            this.dispatcher = dispatcher;
+        }
+
+        /// <inheritdoc />
+        protected DispatchActorGrain(string id = null, IActorRuntime runtime = null, Dispatcher dispatcher = null)
             : base(id, runtime)
         {
-            Dispatcher = Dispatcher.For(GetType());
+            this.dispatcher = dispatcher;
         }
 
         public override Task OnActivateAsync()
         {
-            Dispatcher = Dispatcher.For(GetType());
+            if (dispatcher == null)
+            {
+                var registry = ServiceProvider?.GetService<IDispatcherRegistry>();
+                dispatcher = registry?.GetDispatcher(GetType());
+            }
+
             return base.OnActivateAsync();
         }
 

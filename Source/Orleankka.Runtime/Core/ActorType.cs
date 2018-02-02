@@ -39,7 +39,7 @@ namespace Orleankka.Core
             return result;
         }
 
-        internal static void Register(ActorInvocationPipeline pipeline, Assembly[] assemblies, string[] conventions)
+        internal static void Register(ActorInvocationPipeline pipeline, Assembly[] assemblies)
         {
             var unregistered = assemblies
                 .SelectMany(x => x.ActorTypes())
@@ -62,7 +62,7 @@ namespace Orleankka.Core
                         continue;
 
                     var middleware = pipeline.Middleware(each);
-                    yield return new ActorType(each, @interface, each, middleware, conventions);
+                    yield return new ActorType(each, @interface, each, middleware);
                 }
             }
         }
@@ -76,15 +76,13 @@ namespace Orleankka.Core
         readonly Type grain;
         public readonly IActorMiddleware Middleware;
 
-        ActorType(Type @class, ActorInterface @interface, Type grain, IActorMiddleware middleware, string[] conventions)
+        ActorType(Type @class, ActorInterface @interface, Type grain, IActorMiddleware middleware)
         {
             this.grain = grain;
             
             Class = @class;
             Interface = @interface;
-            Middleware = middleware;            
-            
-            Dispatcher.Register(@class, conventions); 
+            Middleware = middleware;                       
         }
     }
 }

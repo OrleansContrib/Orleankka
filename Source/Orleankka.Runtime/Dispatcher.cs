@@ -11,21 +11,23 @@ namespace Orleankka
 {
     using Utility;
 
+    public interface IDispatcherRegistry
+    {
+        Dispatcher GetDispatcher(Type type);
+    }
+
+    class DispatcherRegistry : IDispatcherRegistry
+    {
+        static readonly Dictionary<Type, Dispatcher> dispatchers = new Dictionary<Type, Dispatcher>();
+
+        public void Register(Type type, Dispatcher dispatcher) => dispatchers.Add(type, dispatcher);
+        public Dispatcher GetDispatcher(Type type) => dispatchers[type];
+    }
+
     public class Dispatcher
     {
-        public static void Register(Type type, string[] conventions)
-        {
-            var dispatcher = new Dispatcher(type, conventions);
-            dispatchers.Add(type, dispatcher);
-        }
-
-        public static Dispatcher For(Type actor) => dispatchers.Find(actor) ?? new Dispatcher(actor);
-
-        static readonly Dictionary<Type, Dispatcher> dispatchers =
-                    new Dictionary<Type, Dispatcher>();
-
-        public static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
-        public static readonly Type[] DefaultRoots = {typeof(ActorGrain), typeof(object)};
+        public static readonly string[] DefaultHandlerNamingConventions = {"On", "Handle", "Answer", "Apply"};
+        public static readonly Type[] DefaultRootTypes = {typeof(ActorGrain), typeof(object)};
 
         readonly Dictionary<Type, Action<object, object>> actions =
              new Dictionary<Type, Action<object, object>>();
@@ -38,13 +40,13 @@ namespace Orleankka
 
         readonly Type type;
         
-        public Dispatcher(Type type, string[] conventions = null, Type[] roots = null)
+        public Dispatcher(Type type, string[] handlerNamingConventions = null, Type[] rootTypes = null)
         {
             this.type = type;
 
             var methods = GetMethods(type, 
-                roots ?? DefaultRoots, 
-                conventions ?? DefaultConventions);
+                rootTypes ?? DefaultRootTypes, 
+                handlerNamingConventions ?? DefaultHandlerNamingConventions);
 
             foreach (var method in methods)
                 Register(method);

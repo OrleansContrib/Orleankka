@@ -84,6 +84,7 @@ namespace Orleankka.Cluster
             RegisterInterfaces();
             RegisterTypes();           
             RegisterDependencies(services);
+            RegisterDispatchers();
         }
 
         void RegisterAssemblies(ISiloHostBuilder builder) => 
@@ -102,8 +103,19 @@ namespace Orleankka.Cluster
         }
 
         void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
+        void RegisterTypes() => ActorType.Register(pipeline, registry.Assemblies);
 
-        void RegisterTypes() => ActorType.Register(pipeline, registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
+        void RegisterDispatchers()
+        {
+            var dispatchActors = registry.Assemblies.SelectMany(x => x.GetTypes())
+                                         .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
+
+            var dispatcherRegistry = new DispatcherRegistry();
+            var handlerNamingConventions = conventions.ToArray();
+
+            foreach (var actor in dispatchActors)
+                dispatcherRegistry.Register(actor, new Dispatcher(actor, handlerNamingConventions));
+        }
     }
 
     public static class SiloHostBuilderExtension
