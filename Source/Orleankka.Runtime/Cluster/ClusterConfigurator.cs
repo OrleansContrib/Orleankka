@@ -6,25 +6,22 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
 using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
-    using Core;
     using Utility;
 
     public sealed class ClusterConfigurator
     {
-        readonly ActorInterfaceRegistry registry =
-             new ActorInterfaceRegistry();
-
         readonly HashSet<string> conventions = 
              new HashSet<string>();
 
-        readonly ActorInvocationPipeline pipeline = 
-             new ActorInvocationPipeline();
+        readonly ActorMiddlewarePipeline pipeline = 
+             new ActorMiddlewarePipeline();
         
         IActorRefMiddleware middleware;
 
@@ -80,41 +77,34 @@ namespace Orleankka.Cluster
 
         internal void Configure(ISiloHostBuilder builder, IServiceCollection services)
         {
-            RegisterAssemblies(builder);
-            RegisterInterfaces();
-            RegisterTypes();           
-            RegisterDependencies(services);
-            RegisterDispatchers();
-        }
+            var assemblies = builder.GetApplicationPartManager().ApplicationParts
+                                    .OfType<AssemblyPart>().Select(x => x.Assembly)
+                                    .ToArray();
 
-        void RegisterAssemblies(ISiloHostBuilder builder) => 
-            registry.Register(builder.GetApplicationPartManager(), x => x.ActorTypes());
-
-        void RegisterDependencies(IServiceCollection services)
-        {
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
 
-            services.AddSingleton(sp => new ClusterActorSystem(
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies,
                 sp.GetService<IStreamProviderManager>(), 
                 sp.GetService<IGrainFactory>(), 
                 pipeline, middleware));
 
             services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+
+            services.AddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
         }
 
-        void RegisterInterfaces() => ActorInterface.Register(registry.Mappings);
-        void RegisterTypes() => ActorType.Register(pipeline, registry.Assemblies);
-
-        void RegisterDispatchers()
+        DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
         {
-            var dispatchActors = registry.Assemblies.SelectMany(x => x.GetTypes())
-                                         .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
+            var dispatchActors = assemblies.SelectMany(x => x.GetTypes())
+                                           .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
 
             var dispatcherRegistry = new DispatcherRegistry();
-            var handlerNamingConventions = conventions.ToArray();
+            var handlerNamingConventions = conventions.Count > 0 ? conventions.ToArray() : null;
 
             foreach (var actor in dispatchActors)
                 dispatcherRegistry.Register(actor, new Dispatcher(actor, handlerNamingConventions));
+
+            return dispatcherRegistry;
         }
     }
 

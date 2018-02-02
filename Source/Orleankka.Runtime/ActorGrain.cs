@@ -8,9 +8,9 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
-    using Core;
+    using Cluster;
     using Services;
-
+    
     public delegate Task<object> Receive(object message);
 
     public abstract class ActorGrain : Grain, IRemindable, IActor
@@ -20,10 +20,9 @@ namespace Orleankka
 
         public static Task<object> Result(object value) => Task.FromResult(value);
 
-        ActorType actor;
-        ActorType Actor => actor ?? (actor = ActorType.Of(GetType()));
-
+        IActorMiddleware middleware;
         ActorRef self;
+
         public ActorRef Self => self ?? (self = System.ActorOf(Path));
 
         /// <inheritdoc />
@@ -41,8 +40,9 @@ namespace Orleankka
         /// </summary>
         protected ActorGrain(string id = null, IActorRuntime runtime = null)
         {
-            Runtime = runtime;            
-            Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
+            var @interface = ActorGrainImplementation.InterfaceOf(GetType());
+            Path = ActorPath.For(@interface, id ?? Guid.NewGuid().ToString("N"));
+            Runtime = runtime;
         }
 
         public string Id => Path.Id;
@@ -59,21 +59,26 @@ namespace Orleankka
         Task IActor.ReceiveTell(object message) => ReceiveRequest(message);
         Task IActor.ReceiveNotify(object message) => ReceiveRequest(message);
 
-        internal Task<object> ReceiveRequest(object message) =>
-            Actor.Middleware.Receive(this, message, Receive);
+        internal Task<object> ReceiveRequest(object message) => 
+            middleware.Receive(this, message, Receive);
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status) =>
-            Actor.Middleware.Receive(this, Reminder.Message(name, status), Receive);
+            middleware.Receive(this, Reminder.Message(name, status), Receive);
 
         public override Task OnDeactivateAsync() =>
-            Actor.Middleware.Receive(this, Deactivate.Message, Receive);
+            middleware.Receive(this, Deactivate.Message, Receive);
 
         public override Task OnActivateAsync()
         {
-            Path = ActorPath.From(Actor.Name, this.GetPrimaryKeyString());
-            Runtime = new ActorRuntime(ServiceProvider.GetRequiredService<IActorSystem>(), this);
+            var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
+
+            var implementation = system.ImplementationOf(GetType());
+            middleware = implementation.Middleware;
+
+            Path = ActorPath.For(implementation.Interface, this.GetPrimaryKeyString());
+            Runtime = new ActorRuntime(system, this);
             
-            return Actor.Middleware.Receive(this, Activate.Message, Receive);
+            return middleware.Receive(this, Activate.Message, Receive);
         }
 
         public abstract Task<object> Receive(object message);

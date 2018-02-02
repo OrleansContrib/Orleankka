@@ -1,4 +1,8 @@
-﻿namespace Orleankka
+﻿using System;
+
+using Orleankka.Utility;
+
+namespace Orleankka
 {
     /// <summary>
     /// The actor system extensions.
@@ -14,7 +18,9 @@
         /// <returns>An actor reference</returns>
         public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
         {
-            return system.ActorOf(typeof(TActor).ToActorPath(id));
+            Type tempQualifier = typeof(TActor);
+            Requires.NotNull(tempQualifier, nameof(tempQualifier));
+            return system.ActorOf(ActorPath.For(tempQualifier, id));
         }
 
         /// <summary>
@@ -25,7 +31,9 @@
         /// <returns>An actor reference</returns>
         public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
         {
-            return system.ActorOf(typeof(TActor).ToActorPath("#"));
+            Type tempQualifier = typeof(TActor);
+            Requires.NotNull(tempQualifier, nameof(tempQualifier));
+            return system.ActorOf(ActorPath.For(tempQualifier, "#"));
         }
     }
 }

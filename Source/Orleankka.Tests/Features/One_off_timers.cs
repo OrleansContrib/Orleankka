@@ -53,7 +53,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_setting_one_off_timer()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new SetOneOffTimer());
                 Thread.Sleep(100);

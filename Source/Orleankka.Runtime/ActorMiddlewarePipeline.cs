@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Orleankka.Core
-{
-    using Utility;
+using Orleankka.Utility;
 
-    class ActorInvocationPipeline
+namespace Orleankka
+{
+    class ActorMiddlewarePipeline
     {
         readonly List<(Type type, IActorMiddleware middleware)> middlewares = 
              new List<(Type, IActorMiddleware)>();
@@ -24,7 +24,7 @@ namespace Orleankka.Core
             Requires.NotNull(actor, nameof(actor));
             Requires.NotNull(middleware, nameof(middleware));
 
-            if (middlewares.Any(x => x.type == actor))
+            if (Enumerable.Any<(Type type, IActorMiddleware middleware)>(middlewares, x => x.type == actor))
                 throw new InvalidOperationException($"Middleware for {actor} is already registered");
 
             middlewares.Add((actor, middleware));
@@ -32,7 +32,7 @@ namespace Orleankka.Core
 
         public IActorMiddleware Middleware(Type actor)
         {
-            var registered = middlewares.FirstOrDefault(x => x.type.IsAssignableFrom(actor));
+            var registered = Enumerable.FirstOrDefault<(Type type, IActorMiddleware middleware)>(middlewares, x => x.type.IsAssignableFrom(actor));
             return registered.middleware ?? DefaultMiddleware;
         }
     }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Orleankka.Utility;
+
 namespace Orleankka.TestKit
 {
     using Client;
@@ -26,7 +28,9 @@ namespace Orleankka.TestKit
 
         public ActorRefMock MockActorOf<TActor>(string id)
         {
-            var path = typeof(TActor).ToActorPath(id);
+            Type tempQualifier = typeof(TActor);
+            Requires.NotNull(tempQualifier, nameof(tempQualifier));
+            var path = ActorPath.For(tempQualifier, id);
             return GetOrCreateMock(path);
         }
 

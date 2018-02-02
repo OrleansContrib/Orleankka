@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using System.Reflection;
 
 using Orleans.Runtime;
 
-namespace Orleankka.Core
+namespace Orleankka
 {
     partial class ClientEndpoint
     {

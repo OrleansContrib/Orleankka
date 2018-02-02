@@ -13,7 +13,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            actor = new ActorRefMock(ActorPath.From("Orleankka.TestKit.TestActor", Guid.NewGuid().ToString("D")));
+            actor = new ActorRefMock(ActorPath.For<ITestActor>(Guid.NewGuid().ToString("D")));
         }
 
         [Test]
@@ -120,7 +120,10 @@ namespace Orleankka.TestKit
                 Is.EqualTo(222));
         }
 
-        class TestActor : DispatchActorGrain
+        interface ITestActor : IActorGrain
+        {}
+
+        class TestActor : DispatchActorGrain, ITestActor
         {}
 
         class TestCommand

@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.ApplicationParts;
 using Orleans.Streams;
 
 namespace Orleankka.Client
 {
-    using Core;
-
     /// <summary>
     /// Client-side actor system interface
     /// </summary>
@@ -27,10 +27,11 @@ namespace Orleankka.Client
         readonly IGrainFactory grainFactory;
 
         internal ClientActorSystem(
-            IStreamProviderManager streamProviderManager, 
-            IGrainFactory grainFactory, 
+            Assembly[] assemblies,
+            IStreamProviderManager streamProviderManager,
+            IGrainFactory grainFactory,
             IActorRefMiddleware middleware = null)
-            : base(streamProviderManager, grainFactory, middleware)
+            : base(assemblies, streamProviderManager, grainFactory, middleware)
         {
             this.grainFactory = grainFactory;
         }

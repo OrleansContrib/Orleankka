@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using Orleans;
 
-using Orleans;
-
-namespace Orleankka.Core
+namespace Orleankka
 {
     /// <summary> 
     /// FOR INTERNAL USE ONLY! 

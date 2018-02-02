@@ -19,8 +19,8 @@ namespace Demo
 
         public async void Run()
         {
-            var facebook = system.ActorOf<Api>("facebook");
-            var twitter  = system.ActorOf<Api>("twitter");
+            var facebook = system.ActorOf<IApi>("facebook");
+            var twitter  = system.ActorOf<IApi>("twitter");
 
             await facebook.Tell(new Subscribe(observable.Ref));
             await twitter.Tell(new Subscribe(observable.Ref));
@@ -29,7 +29,7 @@ namespace Demo
 
             foreach (var i in Enumerable.Range(1, 25))
             {
-                var topic = system.ActorOf<Topic>(i.ToString());
+                var topic = system.ActorOf<ITopic>(i.ToString());
 
                 await topic.Tell(new CreateTopic("[" + i + "]", new Dictionary<ActorRef, TimeSpan>
                 {

@@ -5,7 +5,6 @@ using Orleans.Concurrency;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
     
     [Serializable, Immutable]

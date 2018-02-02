@@ -74,7 +74,7 @@ namespace Example
 
         static async Task Run()
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var item = system.ActorOf<IInventoryItem>("12345");
 
             await item.Tell(new Create("XBOX1"));
             await Print(item);
@@ -91,7 +91,7 @@ namespace Example
 
         static async Task Resume()
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var item = system.ActorOf<IInventoryItem>("12345");
 
             await item.Tell(new CheckIn(100));
             await Print(item);

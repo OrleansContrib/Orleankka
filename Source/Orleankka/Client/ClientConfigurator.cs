@@ -1,21 +1,19 @@
 using System;
+using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.ApplicationParts;
 using Orleans.Hosting;
 using Orleans.Streams;
 
 namespace Orleankka.Client
 {
-    using Core;
     using Utility;
 
     public sealed class ClientConfigurator
     {
-        readonly ActorInterfaceRegistry registry =
-             new ActorInterfaceRegistry();
-
         IActorRefMiddleware middleware;
 
         /// <summary>
@@ -35,26 +33,18 @@ namespace Orleankka.Client
 
         internal void Configure(IClientBuilder builder, IServiceCollection services)
         {
-            RegisterAssemblies(builder);
-            RegisterActorInterfaces();
-            RegisterDependencies(services);
-        }
+            var assemblies = builder.GetApplicationPartManager().ApplicationParts
+                                    .OfType<AssemblyPart>().Select(x => x.Assembly)
+                                    .ToArray();
 
-        void RegisterAssemblies(IClientBuilder builder) => 
-            registry.Register(builder.GetApplicationPartManager(), x => x.ActorInterfaces());
-
-        void RegisterDependencies(IServiceCollection services)
-        {
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClientActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
 
-            services.AddSingleton(sp => new ClientActorSystem(
+            services.AddSingleton(sp => new ClientActorSystem(assemblies, 
                 sp.GetService<IStreamProviderManager>(), 
                 sp.GetService<IGrainFactory>(), 
                 middleware));
         }
-
-        void RegisterActorInterfaces() => ActorInterface.Register(registry.Mappings);
     }
 
     public static class ClientBuilderExtension

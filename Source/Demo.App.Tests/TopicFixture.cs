@@ -29,8 +29,8 @@ namespace Demo
         {
             base.SetUp();
 
-            facebook = System.MockActorOf(ActorPath.From("Api", "facebook"));
-            twitter = System.MockActorOf(ActorPath.From("Api", "twitter"));
+            facebook = System.MockActorOf(ActorPath.For<IApi>("facebook"));
+            twitter = System.MockActorOf(ActorPath.For<IApi>("twitter"));
 
             schedule = new Dictionary<ActorRef, TimeSpan>
             {

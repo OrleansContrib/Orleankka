@@ -137,7 +137,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Client_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new SetText {Text = "c-a"});
                 Assert.AreEqual("c-a.intercepted", await actor.Ask(new GetText()));
@@ -146,8 +146,8 @@ namespace Orleankka.Features
             [Test]
             public async Task Actor_to_actor()
             {
-                var one = system.FreshActorOf<TestInsideActor>();
-                var another = system.FreshActorOf<TestActor>();
+                var one = system.FreshActorOf<ITestInsideActor>();
+                var another = system.FreshActorOf<ITestActor>();
 
                 await one.Tell(new DoTell {Target = another, Message = new SetText {Text = "a-a"}});
                 Assert.AreEqual("a-a.intercepted", await one.Ask(new DoAsk {Target = another, Message = new GetText()}));
@@ -156,7 +156,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Interrupting_requests()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 Assert.ThrowsAsync<InvalidOperationException>(async ()=> await 
                     actor.Tell(new SetText { Text = "interrupt" }));
@@ -169,7 +169,7 @@ namespace Orleankka.Features
             {
                 var stream = system.StreamOf("sms", "test-stream-interception");
                 
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
                 await stream.Push(new StreamItem {Text = "foo"});
@@ -183,7 +183,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Intercepting_actor_ref()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 var result = await actor.Ask<string>(new CheckRef());
                 Assert.That(result, Is.EqualTo("it works!"));
             }

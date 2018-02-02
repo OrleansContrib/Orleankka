@@ -145,7 +145,7 @@ namespace Orleankka.Features
                 switch (message)
                 {
                     case Activate _: 
-                        receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                        receiver = System.FreshActorOf<ITestReentrantByCallbackMethodActor>();
                         break;
                     case Message _:
                         return await receiver.Ask<object>(message);
@@ -171,21 +171,21 @@ namespace Orleankka.Features
             [Test]
             public async Task When_reentrant_determined_by_message_type()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 await TestReentrantReceive(actor);
             }
 
             [Test]
             public async Task When_reentrant_determined_by_callback_method()
             {
-                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActor>();
                 await TestReentrantReceive(actor);
             }
 
             [Test]
             public async Task When_reentrant_determined_by_callback_method_sent_from_another_actor()
             {
-                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActorFromAnotherActor>();
+                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActorFromAnotherActor>();
                 await TestReentrantReceive(actor);
             }
             
@@ -221,7 +221,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
-                var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
+                var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Subscribe());
 
                 var stream1 = system.StreamOf("sms", "s1");
@@ -245,7 +245,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_actor_received_non_reentrant_message_via_Stream()
             {
-                var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
+                var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Subscribe());
 
                 var stream1 = system.StreamOf("sms", "s1");

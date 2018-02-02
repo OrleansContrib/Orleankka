@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using Orleankka.Utility;
 
 namespace Orleankka.TestKit
 {
@@ -138,7 +139,9 @@ namespace Orleankka.TestKit
     {
         public static ActorRefMock<TActor> MockTypedActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActorGrain
         {
-            var path = typeof(TActor).ToActorPath(id);
+            Type tempQualifier = typeof(TActor);
+            Requires.NotNull(tempQualifier, nameof(tempQualifier));
+            var path = ActorPath.For(tempQualifier, id);
             return new ActorRefMock<TActor>(system.MockActorOf(path));
         }
     }

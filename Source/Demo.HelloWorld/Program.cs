@@ -44,8 +44,8 @@ namespace Demo
             var client = await host.Connect();
             var system = client.ActorSystem();
             
-            var greeter = system.ActorOf<Greeter>("id");
-            greeter.Tell(new Greet {Who = "world"}).Wait();
+            var greeter = system.ActorOf<IGreeter>("id");
+            await greeter.Tell(new Greet {Who = "world"});
 
             Write("\n\nPress any key to terminate ...");
             ReadKey(true);

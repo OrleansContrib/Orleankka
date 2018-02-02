@@ -64,8 +64,8 @@ namespace Orleankka.Features
         }
 
         class TestCases<TProducer, TConsumer> 
-            where TProducer : TestProducerActorBase, IActorGrain 
-            where TConsumer : TestConsumerActorBase, IActorGrain
+            where TProducer : IActorGrain 
+            where TConsumer : IActorGrain
         {
             readonly string provider;
             readonly TimeSpan timeout;
@@ -153,8 +153,8 @@ namespace Orleankka.Features
             [TestFixture, RequiresSilo]
             class Tests
             {
-                static TestCases<TestProducerActor, TestConsumerActor> Verify() =>
-                   new TestCases<TestProducerActor, TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
+                static TestCases<ITestProducerActor, ITestConsumerActor> Verify() =>
+                   new TestCases<ITestProducerActor, ITestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
                 [Test] public async Task Client_to_stream() => await Verify().Client_to_stream();
                 [Test] public async Task Actor_to_stream()  => await Verify().Actor_to_stream();
@@ -174,8 +174,8 @@ namespace Orleankka.Features
             [Category("Slow")]
             class Tests
             {
-                static TestCases<TestProducerActor, TestConsumerActor> Verify() =>
-                   new TestCases<TestProducerActor, TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
+                static TestCases<ITestProducerActor, ITestConsumerActor> Verify() =>
+                   new TestCases<ITestProducerActor, ITestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
                 [Test] public async Task Client_to_stream() => await Verify().Client_to_stream();
                 [Test] public async Task Actor_to_stream()  => await Verify().Actor_to_stream();

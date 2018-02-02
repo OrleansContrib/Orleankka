@@ -118,7 +118,7 @@ namespace Demo
 
         async Task Search(string api)
         {
-            var provider = System.ActorOf<Api>(api);
+            var provider = System.ActorOf<IApi>(api);
 
             total += await provider.Ask(new Search(query));
             Log.Message(ConsoleColor.DarkGray, "[{0}] succesfully obtained results from {1} ...", Id, api);
