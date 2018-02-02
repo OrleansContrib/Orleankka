@@ -17,7 +17,10 @@ namespace Orleankka.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            class TestActor : DispatchActorGrain
+            public interface ITestActor : IActorGrain
+            { }
+
+            public class TestActor : DispatchActorGrain, ITestActor
             {
                 public readonly Behavior behavior;
 

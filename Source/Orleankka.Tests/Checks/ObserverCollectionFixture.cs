@@ -70,7 +70,10 @@ namespace Orleankka.Checks
             Assert.AreEqual(0, collection.Count());
         }
 
-        class TestObservableActor : DispatchActorGrain
+        interface ITestObservableActor : IActorGrain
+        {}
+
+        class TestObservableActor : DispatchActorGrain, ITestObservableActor
         {}
 
         class TestObserver

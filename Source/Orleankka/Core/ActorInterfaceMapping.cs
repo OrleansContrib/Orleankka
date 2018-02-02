@@ -17,7 +17,18 @@ namespace Orleankka.Core
             if (type.IsClass)
             {
                 @class = type;
-                @interface = ActorTypeName.CustomInterface(type);
+                var interfaces = type
+                    .GetInterfaces().Except(new[]{typeof(IActorGrain)})
+                    .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
+                    .Where(each => !each.IsConstructedGenericType)
+                    .ToArray();
+
+                if (interfaces.Length > 1)
+                    throw new InvalidOperationException("Type can only implement single custom IActor interface. Type: " + type.FullName);
+
+                @interface = interfaces.Length == 1
+                                 ? interfaces[0]
+                                 : null;
             }
 
             if (type.IsInterface)

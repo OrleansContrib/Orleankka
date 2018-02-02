@@ -54,7 +54,6 @@ namespace Demo
         {}
     }
 
-    [ActorType("Api")]
     public interface IApi : IActorGrain
     {}
     

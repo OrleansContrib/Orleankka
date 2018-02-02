@@ -8,37 +8,36 @@ namespace Orleankka.Core
 
     class ActorTypeName
     {
-        static readonly Dictionary<Type, string> map =
+        static readonly Dictionary<Type, string> names =
                     new Dictionary<Type, string>();
+
+        static readonly Dictionary<string, Type> types =
+                    new Dictionary<string, Type>();
 
         internal static void Register(Type type)
         {
             var name = Name(type);
-            map[type]= name;
+            names[type]= name;
+            types[name]= type;
         }
 
         internal static string Of(Type type)
         {
-            var name = map.Find(type);
+            var name = names.Find(type);
             return name ?? Name(type);
+        }
+
+        internal static Type Of(string name)
+        {
+            var type = types.Find(name);
+            return type ?? Type(name);
         }
 
         static string Name(Type type)
         {
-            type = CustomInterface(type) ?? type;
+            if (type.IsInterface && typeof(IActorGrain).IsAssignableFrom(type))
+                return type.FullName;
 
-            var customAttribute = type
-                .GetCustomAttributes(typeof(ActorTypeAttribute), false)
-                .Cast<ActorTypeAttribute>()
-                .SingleOrDefault();
-
-            return customAttribute == null 
-                ? type.FullName 
-                : customAttribute.Name;
-        }
-
-        internal static Type CustomInterface(Type type)
-        {
             var interfaces = type
                 .GetInterfaces().Except(new[]{typeof(IActorGrain)})
                 .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
@@ -46,11 +45,14 @@ namespace Orleankka.Core
                 .ToArray();
 
             if (interfaces.Length > 1)
-                throw new InvalidOperationException("Type can only implement single custom IActor interface. Type: " + type.FullName);
+                throw new InvalidOperationException($"Type '{type.FullName}' can only implement single custom IActorGrain interface");
 
-            return interfaces.Length == 1
-                       ? interfaces[0]
-                       : null;
+            if (interfaces.Length == 0)
+                throw new InvalidOperationException($"Type '{type.FullName}' does not implement custom IActorGrain interface");
+
+            return interfaces[0].FullName;
         }
+
+        static Type Type(string name) => System.Type.GetType(name);
     }
 }
