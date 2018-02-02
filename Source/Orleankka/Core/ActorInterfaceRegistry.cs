@@ -65,7 +65,5 @@ namespace Orleankka.Core
                 mappings.Add(mapping);
             }
         }
-
-        internal bool IsRegistered(string typeName) => interfaces.Contains(typeName);
     }
 }
