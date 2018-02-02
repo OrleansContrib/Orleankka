@@ -27,7 +27,13 @@ namespace Orleankka
         public static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
         public static readonly Type[] DefaultRoots = {typeof(ActorGrain), typeof(object)};
 
-        readonly Dictionary<Type, Func<object, object, Task<object>>> handlers =
+        readonly Dictionary<Type, Action<object, object>> actions =
+             new Dictionary<Type, Action<object, object>>();
+
+        readonly Dictionary<Type, Func<object, object, object>> funcs =
+             new Dictionary<Type, Func<object, object, object>>();
+
+        readonly Dictionary<Type, Func<object, object, Task<object>>> uniform =
              new Dictionary<Type, Func<object, object, Task<object>>>();
 
         readonly Type type;
@@ -75,6 +81,7 @@ namespace Orleankka
         void Register(MethodInfo method)
         {
             RegisterUniform(method);
+            RegisterNonUniform(method);
         }
 
         void RegisterUniform(MethodInfo method)
@@ -82,26 +89,100 @@ namespace Orleankka
             var message = method.GetParameters()[0].ParameterType;
             var handler = Bind.Uniform.Handler(method, type);
 
-            if (handlers.ContainsKey(message))
+            if (uniform.ContainsKey(message))
                 throw new InvalidOperationException(
                     $"Handler for {message} has been already defined by {type}");
 
-            handlers.Add(message, handler);
+            uniform.Add(message, handler);
         }
 
-        public bool CanHandle(Type message) => handlers.Find(message) != null;
-
-        public Task<object> DispatchAsync(object target, object message, Func<object, Task<object>> fallback = null)
+        void RegisterNonUniform(MethodInfo method)
         {
-            var handler = handlers.Find(message.GetType());
+            if (typeof(Task).IsAssignableFrom(method.ReturnType))
+                return;
+
+            if (method.ReturnType == typeof(void))
+            {
+                RegisterAction(method);
+                return;
+            }
+
+            RegisterFunc(method);
+        }
+
+        void RegisterAction(MethodInfo method)
+        {
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.NonUniform.ActionHandler(method, type);
+            actions.Add(message, handler);
+        }
+
+        void RegisterFunc(MethodInfo method)
+        {
+            var message = method.GetParameters()[0].ParameterType;
+            var handler = Bind.NonUniform.FuncHandler(method, type);
+            funcs.Add(message, handler);
+        }
+
+        public bool CanHandle(Type message) => uniform.Find(message) != null;
+        public IEnumerable<Type> Handlers   => uniform.Keys;
+
+        public Task<object> DispatchResultAsync(object target, object message, Func<object, Task<object>> fallback = null) => 
+            DispatchResultAsync<object>(target, message, fallback);
+
+        public async Task<T> DispatchResultAsync<T>(object target, object message, Func<object, Task<T>> fallback = null)
+        {
+            var handler = uniform.Find(message.GetType());
 
             if (handler != null)
-                return handler(target, message);
+                return (T) await handler(target, message);
+
+            if (fallback == null)
+                throw new HandlerNotFoundException(target, message.GetType());
+
+            return await fallback(message);
+        }
+
+        public async Task DispatchAsync(object target, object message, Func<object, Task> fallback = null)
+        {
+            await DispatchResultAsync<object>(target, message, async x =>
+            {
+                if (fallback != null) 
+                    await fallback(x);
+                return null;
+            });
+        }
+
+        public object DispatchResult(object target, object message, Func<object, object> fallback = null) =>
+            DispatchResult<object>(target, message, fallback);
+
+        public T DispatchResult<T>(object target, object message, Func<object, T> fallback = null)
+        {
+            var handler = funcs.Find(message.GetType());
+
+            if (handler != null)
+                return (T) handler(target, message);
 
             if (fallback == null)
                 throw new HandlerNotFoundException(target, message.GetType());
 
             return fallback(message);
+        }
+
+        public void Dispatch(object target, object message, Action<object> fallback = null)
+        {
+            var handler = actions.Find(message.GetType());
+
+            if (handler != null)
+            {
+                handler(target, message);
+                return;
+            }
+
+            if (fallback == null)
+                throw new HandlerNotFoundException(target, message.GetType());
+
+            fallback(message);
         }
 
         [Serializable]

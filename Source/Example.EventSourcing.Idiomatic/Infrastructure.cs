@@ -30,15 +30,15 @@ namespace Example
             }
         }
 
-        Task<object> HandleQuery(Query query) => Result((dynamic)this).Handle((dynamic)query);
+        Task<object> HandleQuery(Query query) => Result(Dispatcher.DispatchResult(this, query));
 
         async Task<object> HandleCommand(Command cmd)
         {
-            var events = (IEnumerable<Event>)((dynamic)this).Handle((dynamic)cmd);
+            var events = Dispatcher.DispatchResult<IEnumerable<Event>>(this, cmd);
 
             foreach (var @event in events)
             {
-                ((dynamic)this).On((dynamic)@event);
+                Dispatcher.Dispatch(this, @event);
                 await Project(@event);
             }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
@@ -97,7 +98,7 @@ namespace Example
     public interface IInventory : IActorGrain
     {}
 
-    [StreamSubscription(Source = "sms:/InventoryItem-.*/", Target = "#")]
+    [RegexImplicitStreamSubscription("/InventoryItem-.*/")]
     public class Inventory : DispatchActorGrain, IInventory
     {
         readonly Dictionary<string, InventoryItemDetails> items =

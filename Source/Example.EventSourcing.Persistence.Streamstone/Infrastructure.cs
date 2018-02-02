@@ -91,11 +91,11 @@ namespace Example
             Apply(deserialized);
         }
 
-        Task<object> HandleQuery(Query query) => Result((dynamic)this).Handle((dynamic)query);
+        Task<object> HandleQuery(Query query) => Result(Dispatcher.DispatchResult(this, query));
 
         async Task<object> HandleCommand(Command cmd)
         {
-            var events = ((IEnumerable<Event>)((dynamic)this).Handle((dynamic)cmd)).ToArray();
+            var events = Dispatcher.DispatchResult<IEnumerable<Event>>(this, cmd).ToArray();
             
             await Store(events);
             Apply(events);
@@ -106,7 +106,7 @@ namespace Example
         void Apply(IEnumerable<object> events)
         {
             foreach (var @event in events)
-                ((dynamic)this).On((dynamic)@event);
+                Dispatcher.Dispatch(this, @event);
         }
 
         async Task Store(ICollection<object> events)

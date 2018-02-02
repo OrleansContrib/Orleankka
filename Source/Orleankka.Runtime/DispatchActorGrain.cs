@@ -4,7 +4,7 @@ namespace Orleankka
 {
     public abstract class DispatchActorGrain : ActorGrain
     {
-        Dispatcher Dispatcher { get; set; }
+        public Dispatcher Dispatcher { get; private set; }
 
         /// <inheritdoc />
         protected DispatchActorGrain(IActorRuntime runtime)
@@ -31,7 +31,7 @@ namespace Orleankka
 
         public override Task<object> Receive(object message) => Dispatch(message);
 
-        Task<object> Dispatch(object message) => Dispatcher.DispatchAsync(this, message, x =>
+        Task<object> Dispatch(object message) => Dispatcher.DispatchResultAsync(this, message, x =>
         {
             if (x is LifecycleMessage)
                 return Result(Done);
