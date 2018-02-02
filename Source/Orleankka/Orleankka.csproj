@@ -11,10 +11,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 
 </Project>

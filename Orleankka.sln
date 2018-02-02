@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{C26887B5-311F-4271-B5F3-34AB6E3F291C}"
 EndProject
@@ -41,8 +41,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Server", "Source\Example.Observers.Chat.Server\Chat.Server.csproj", "{355B546C-C246-4CEE-A302-7D453A81D3A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Client", "Source\Example.Observers.Chat.Client\Chat.Client.csproj", "{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleans.Internals", "Source\Orleans.Internals\Orleans.Internals.csproj", "{97E4FE27-27FD-499B-8737-0F293807C297}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Shared", "Source\Example.Observers.Chat.Shared\Chat.Shared.csproj", "{355B546C-C246-5CEE-A302-7D453A81D3A2}"
 EndProject
@@ -145,12 +143,6 @@ Global
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Package|Any CPU.Build.0 = Release|Any CPU
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71F8DF3F-5D69-4E23-8AB7-937E2F3A01F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.ActiveCfg = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Package|Any CPU.Build.0 = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97E4FE27-27FD-499B-8737-0F293807C297}.Release|Any CPU.Build.0 = Release|Any CPU
 		{355B546C-C246-5CEE-A302-7D453A81D3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{355B546C-C246-5CEE-A302-7D453A81D3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355B546C-C246-5CEE-A302-7D453A81D3A2}.Package|Any CPU.ActiveCfg = Release|Any CPU

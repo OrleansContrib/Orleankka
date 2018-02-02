@@ -3,14 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Internals;
 using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
     using Utility;
 
-    class ClientEndpoint : IClientEndpoint, IDisposable
+    partial class ClientEndpoint : IClientEndpoint, IDisposable
     {
         public static async Task<ClientEndpoint> Create(IGrainFactory factory)
         {
@@ -87,7 +86,7 @@ namespace Orleankka.Core
 
         internal static IClientEndpoint Proxy(string path, IGrainFactory factory)
         {
-            var reference = GrainReferenceUtility.FromKeyString(path);
+            var reference = GrainReferenceInternals.FromKeyString(path);
             factory.BindGrainReference(reference);
             return reference.AsReference<IClientEndpoint>();
         }
