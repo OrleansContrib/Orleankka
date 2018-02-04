@@ -167,9 +167,7 @@ namespace Orleankka
         /// <param name="id">The id</param>
         public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
         {
-            Type tempQualifier = typeof(TActor);
-            Requires.NotNull(tempQualifier, nameof(tempQualifier));
-            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(tempQualifier, id)));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), id)));
         }
 
         /// <summary>
@@ -180,9 +178,7 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
         {
-            Type tempQualifier = typeof(TActor);
-            Requires.NotNull(tempQualifier, nameof(tempQualifier));
-            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(tempQualifier, "#")));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), "#")));
         }
     }
 }

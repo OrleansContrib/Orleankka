@@ -139,9 +139,7 @@ namespace Orleankka.TestKit
     {
         public static ActorRefMock<TActor> MockTypedActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActorGrain
         {
-            Type tempQualifier = typeof(TActor);
-            Requires.NotNull(tempQualifier, nameof(tempQualifier));
-            var path = ActorPath.For(tempQualifier, id);
+            var path = ActorPath.For(typeof(TActor), id);
             return new ActorRefMock<TActor>(system.MockActorOf(path));
         }
     }
