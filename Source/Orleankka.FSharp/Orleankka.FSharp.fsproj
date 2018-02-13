@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>$(OutDir)\Orleankka.FSharp.xml</DocumentationFile>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Task.fs" />
+    <Compile Include="References.fs" />
+    <Compile Include="System.fs" />
+    <Content Include="paket.references" />
+    <Content Include="app.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+  </ItemGroup>
+  
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

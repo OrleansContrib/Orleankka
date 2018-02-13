@@ -18,6 +18,8 @@ using System.IO.Compression;
 const string CoreProject = "Orleankka";
 const string RuntimeProject = "Orleankka.Runtime";
 const string TestKitProject = "Orleankka.TestKit";
+const string FSharpProject = "Orleankka.FSharp";
+const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
 
 const string RootPath = "%NakeScriptDirectory%";
 const string OutputPath = RootPath + @"\Output";
@@ -73,6 +75,8 @@ var MsBuildExe = GetVisualStudio17MSBuild();
     Pack(CoreProject);    
     Pack(RuntimeProject);    
     Pack(TestKitProject);
+    Pack(FSharpProject);
+    Pack(FSharpRuntimeProject);
 }
 
 void Pack(string project) =>
@@ -85,6 +89,8 @@ void Pack(string project) =>
     Push(CoreProject); 
     Push(RuntimeProject); 
     Push(TestKitProject); 
+    Push(FSharpProject);
+    Push(FSharpRuntimeProject);
 }
 
 void Push(string package) => 

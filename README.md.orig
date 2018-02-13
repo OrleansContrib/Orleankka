@@ -7,7 +7,14 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 ### Features
 
 + Message-based API with zero performance overhead
+<<<<<<< HEAD
+=======
 + Custom F# DSL and bindings (DU, Pattern Matching, Tasks)
++ Convenient unit testing kit (stubs, mocks, expectations)
++ Simplified streams API (actor subscriptions)
++ Declarative regex-based stream subscriptions (great for CQRS/ES projections)
++ Content-based filtering support for stream subscriptions (imperative/declarative)
+>>>>>>> parent of 0fd6892... Get rid of F#
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
 + Poweful actor/proxy middlewares (interceptors)
 + Convenient unit testing kit (stubs, mocks, expectations)
@@ -38,11 +45,17 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 |  |  | [inside]
 | ------- |:----:| ---------- |
+<<<<<<< HEAD
 | Orleankka | [NuGet](https://www.nuget.org/packages/Orleankka/) | Core and client lib
 | Orleankka.Runtime | [NuGet](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
 | Orleankka.TestKit | [NuGet](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
+=======
+| Orleankka | [![NuGet](https://img.shields.io/nuget/v/Orleankka.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Core and client lib
+| Orleankka.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka/) | Server-side runtime lib
+| Orleankka.TestKit | [![NuGet](https://img.shields.io/nuget/v/Orleankka.TestKit.svg?style=flat)](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
 | Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
 | Orleankka.FSharp.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
+>>>>>>> parent of 0fd6892... Get rid of F#
 
 ### Examples
 

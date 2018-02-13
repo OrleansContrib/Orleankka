@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ClientConfiguration xmlns="urn:orleans">
+  <StreamProviders>
+    <Provider Type="Orleans.Providers.Streams.SimpleMessageStream.SimpleMessageStreamProvider" Name="sms"/>
+  </StreamProviders>
+  <Gateway Address="localhost" Port="30000" />
+  <Tracing DefaultTraceLevel="Error" TraceToConsole="true" TraceToFile="">
+    <TraceLevelOverride LogPrefix="Application" TraceLevel="Info" />
+  </Tracing>
+</ClientConfiguration>

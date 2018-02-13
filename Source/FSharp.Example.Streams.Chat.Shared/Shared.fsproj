@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Messages.fs" />
+    <None Include="paket.references" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj" />
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+</Project>
