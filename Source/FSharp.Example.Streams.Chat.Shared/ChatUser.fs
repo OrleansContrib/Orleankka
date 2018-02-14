@@ -1,13 +1,11 @@
 ﻿namespace Messages
 
-open System
+open Orleankka.FSharp
    
-type ChatRoomMessage = {
-   UserName:string
-   Text:string
-}
-
 type ChatUserMessage =
    | Join  of room:string
    | Leave of room:string
    | Say   of room:string * message:string
+
+type IChatUser =
+   inherit IActorGrain<ChatUserMessage>

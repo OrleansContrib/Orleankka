@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FSharp.Example.Streams.Chat.Shared\Shared.fsproj" />
+    <ProjectReference Include="..\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj" />
     <ProjectReference Include="..\Orleankka.FSharp\Orleankka.FSharp.fsproj" />
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />

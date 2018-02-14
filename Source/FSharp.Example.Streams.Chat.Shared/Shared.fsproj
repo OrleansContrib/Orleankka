@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Messages.fs" />
-    <None Include="paket.references" />
+    <Compile Include="ChatUser.fs" />
+    <Compile Include="ChatRoom.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChatClient.fs" />
     <None Include="App.config" />
     <None Include="paket.references" />
