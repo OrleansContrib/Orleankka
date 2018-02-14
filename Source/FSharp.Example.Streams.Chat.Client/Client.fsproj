@@ -10,7 +10,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ChatClient.fs" />
     <None Include="App.config" />
-    <EmbeddedResource Include="Client.xml" />
     <None Include="paket.references" />
     <Compile Include="Program.fs" />
   </ItemGroup>

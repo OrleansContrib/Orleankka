@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <None Include="paket.references" />
-    <Compile Include="Actors.fs" />
+    <Compile Include="Grains.fs" />
   </ItemGroup>
 
   <ItemGroup>

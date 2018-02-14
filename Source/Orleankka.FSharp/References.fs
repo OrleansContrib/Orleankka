@@ -4,7 +4,7 @@ open Orleankka
 
 type ActorRef<'TMsg>(ref:ActorRef) =    
    member this.Path = ref.Path
-   member this.Tell(message:'TMsg) = ref.Tell(message) |> Task.awaitTask 
+   member this.Tell(message:'TMsg) = ref.Tell(message)
    member this.Ask(message:'TMsg) = ref.Ask<'TResponse>(message)
    member this.Notify(message:'TMsg) = ref.Notify(message)
    
@@ -21,7 +21,7 @@ type ActorRef<'TMsg>(ref:ActorRef) =
 
 type StreamRef<'TMsg>(ref:StreamRef) = 
    member this.Path = ref.Path
-   member this.Push(item:'TMsg) = ref.Push(item) |> Task.awaitTask
+   member this.Push(item:'TMsg) = ref.Push(item)
    member this.Subscribe(callback:'TMsg -> unit) = ref.Subscribe<'TMsg>(callback)
    member this.Subscribe(callback:'TMsg -> unit, filter:StreamFilter) = ref.Subscribe<'TMsg>(callback, filter)   
 

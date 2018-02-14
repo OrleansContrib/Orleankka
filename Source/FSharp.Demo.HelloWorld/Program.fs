@@ -3,6 +3,7 @@
 open System
 open System.Reflection
 
+open FSharp.Control.Tasks
 open Orleankka
 open Orleankka.FSharp
 open Orleankka.Client
@@ -16,19 +17,19 @@ type Message =
    | Hi
 
 type IGreeter = 
-   inherit IActorGrain
+   inherit IActorGrain<Message>
 
 type Greeter() = 
-   inherit FSharpActorGrain()
+   inherit FsActorGrain()
    interface IGreeter
 
-   override this.Receive(message, _) = task {
+   override this.Receive(message, response) = task {
       match message with
         | :? Message as m -> 
             match m with
             | Greet who -> printfn "Hello %s" who
             | Hi        -> printfn "Hello from F#!"
-        | _ -> ignore()
+        | _ -> response <? ActorGrain.Unhandled
    }
 
 [<EntryPoint>]
@@ -47,7 +48,7 @@ let main argv =
     sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
     sb.ConfigureOrleankka() |> ignore
 
-    let host = sb.Build()
+    use host = sb.Build()
     host.StartAsync().Wait()
 
     let cc = ClientConfiguration.LocalhostSilo()
@@ -58,20 +59,19 @@ let main argv =
     cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
     cb.ConfigureOrleankka() |> ignore
 
-    let client = cb.Build()
+    use client = cb.Build()
     client.Connect().Wait()
    
-    let system = client.ActorSystem()
-   
-    let job() = task {
-        let actor = ActorSystem.actorOf<IGreeter>(system, "actor_id")
+    let t = task {
+
+        let system = client.ActorSystem()
+        let actor = ActorSystem.typedActorOf<IGreeter, Message>(system, "good-citizen")
       
         do! actor <! Hi
         do! actor <! Greet "Yevhen"
-        do! actor <! Greet "AntyaDev"      
+        do! actor <! Greet "World"      
     }
+    t.Wait()
     
-    Task.run(job) |> ignore
-    
-    Console.ReadLine() |> ignore 
+    Console.ReadKey() |> ignore 
     0

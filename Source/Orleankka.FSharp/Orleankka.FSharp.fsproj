@@ -11,11 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Task.fs" />
+    <Compile Include="Grains.fs" />
     <Compile Include="References.fs" />
     <Compile Include="System.fs" />
     <Content Include="paket.references" />
-    <Content Include="app.config" />
   </ItemGroup>
 
   <ItemGroup>

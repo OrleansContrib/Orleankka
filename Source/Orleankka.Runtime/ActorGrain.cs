@@ -10,13 +10,11 @@ namespace Orleankka
 {
     using Cluster;
     using Services;
-    
-    public delegate Task<object> Receive(object message);
 
     public abstract class ActorGrain : Grain, IRemindable, IActor
     {
-        public static readonly Done Done = Done.Message;
-        public static readonly Unhandled Unhandled = Unhandled.Message;
+        public static readonly Done Done = Done.Result;
+        public static readonly Unhandled Unhandled = Unhandled.Result;
 
         public static Task<object> Result(object value) => Task.FromResult(value);
 

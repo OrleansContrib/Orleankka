@@ -8,12 +8,12 @@ namespace Orleankka
     [Serializable]
     public sealed class Done : ReceiveResult
     {
-        public static readonly Done Message = new Done();
+        public static readonly Done Result = new Done();
     }
 
     [Serializable]
     public sealed class Unhandled : ReceiveResult
     {
-        public static readonly Unhandled Message = new Unhandled();
+        public static readonly Unhandled Result = new Unhandled();
     }
 }

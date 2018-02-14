@@ -6,3 +6,4 @@ Microsoft.Orleans.Core
 Newtonsoft.Json
 System.Collections.Immutable
 System.Reflection.Metadata
+TaskBuilder.fs
