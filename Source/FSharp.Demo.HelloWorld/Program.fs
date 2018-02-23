@@ -12,24 +12,28 @@ open Orleans
 open Orleans.Hosting
 open Orleans.Runtime.Configuration
 
-type Message = 
+type GreeterMessage = 
    | Greet of string
    | Hi
 
 type IGreeter = 
-   inherit IActorGrain<Message>
+   inherit IActorGrain<GreeterMessage>
 
 type Greeter() = 
-   inherit FsActorGrain()
+   inherit ActorGrain()
    interface IGreeter
 
-   override this.Receive(message, response) = task {
+   override this.Receive(message) = task {
       match message with
-        | :? Message as m -> 
+        | :? GreeterMessage as m -> 
             match m with
             | Greet who -> printfn "Hello %s" who
+                           return none()
+
             | Hi        -> printfn "Hello from F#!"
-        | _ -> response <? ActorGrain.Unhandled
+                           return none()
+
+        |_ -> return unhandled()
    }
 
 [<EntryPoint>]
@@ -65,7 +69,7 @@ let main argv =
     let t = task {
 
         let system = client.ActorSystem()
-        let actor = ActorSystem.typedActorOf<IGreeter, Message>(system, "good-citizen")
+        let actor = ActorSystem.typedActorOf<IGreeter, GreeterMessage>(system, "good-citizen")
       
         do! actor <! Hi
         do! actor <! Greet "Yevhen"

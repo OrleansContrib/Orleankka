@@ -13,21 +13,23 @@ type IAccount =
    inherit IActorGrain<AccountMessage>
 
 type Account() = 
-    inherit FsActorGrain()
+    inherit ActorGrain()
 
     let mutable balance = 0   
     
     interface IAccount
-    override this.Receive(message, response) = task {
+    override this.Receive(message) = task {
         match message with
         | :? AccountMessage as m -> 
             match m with
-            | Balance         -> response <? balance
+            | Balance         -> return some(balance)
             
             | Deposit amount  -> balance <- balance + amount
+                                 return none()
             
             | Withdraw amount -> if balance >= amount then balance <- balance - amount         
                                  else invalidOp "Amount may not be larger than account balance. \n"
+                                 return none()
 
-        | _ -> response <? ActorGrain.Unhandled
+        | _ -> return unhandled()
     }

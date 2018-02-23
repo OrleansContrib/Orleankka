@@ -14,6 +14,8 @@ namespace Orleankka
             return messages.Any(x => x == message);
         }
 
+        public static T Message<T>(this InvokeMethodRequest request) => (T) request.Message();
+
         public static object Message(this InvokeMethodRequest request)
         {
             if (request?.Arguments == null)
