@@ -18,6 +18,6 @@
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup> 
   
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  
 
 </Project>

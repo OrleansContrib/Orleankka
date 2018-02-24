@@ -21,6 +21,6 @@
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
   </ItemGroup>
   
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  
 
 </Project>
