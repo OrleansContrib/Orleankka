@@ -14,12 +14,10 @@
     <Compile Include="Grains.fs" />
     <Compile Include="References.fs" />
     <Compile Include="System.fs" />
-    <Content Include="paket.references" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-  
   
 </Project>

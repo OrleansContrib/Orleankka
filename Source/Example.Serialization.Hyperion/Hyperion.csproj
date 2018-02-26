@@ -11,12 +11,13 @@
     <StartupObject />
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  
   <ItemGroup>
     <Compile Include="..\Shared.cs" Link="Shared.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Hyperion" Version="0.9.8" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.0-beta3" />
   </ItemGroup>
   
   <ItemGroup>

@@ -24,8 +24,11 @@ namespace Orleankka.Features
         [Serializable]
         public class Received : Query<List<string>>
         {}
-        
-        public abstract class TestConsumerActorBase : DispatchActorGrain
+
+        public interface ITestConsumerActor : IActorGrain
+        {}
+
+        public class TesITestConsumerActorActor : DispatchActorGrain, ITestConsumerActor
         {
             readonly List<string> received = new List<string>();
 
@@ -37,8 +40,7 @@ namespace Orleankka.Features
 
             Task On(Activate _) => Stream().Resume(this);
 
-            StreamRef Stream() => System.StreamOf(Provider, $"{Provider}-42");
-            protected abstract string Provider { get; }
+            StreamRef Stream() => System.StreamOf("sms", "sms-42");
 
             public override async Task<object> Receive(object message)
             {
@@ -55,25 +57,22 @@ namespace Orleankka.Features
             }
         }
 
-        class TestCases<TConsumer> where TConsumer : IActorGrain
+        [TestFixture] 
+        class Tests
         {
-            readonly string provider;
-            readonly TimeSpan timeout;
-            readonly IActorSystem system;
+            static readonly TimeSpan timeout = TimeSpan.FromMilliseconds(100);
+            IActorSystem system;
 
-            public TestCases(string provider, TimeSpan timeout)
-            {
-                this.provider = provider;
-                this.timeout = timeout;
+            [SetUp] public void SetUp() => 
                 system = TestActorSystem.Instance;
-            }
 
+            [Test, Category("Slow")]
             public async Task Resuming_on_reactivation()
             {
-                var consumer = system.ActorOf<TConsumer>("cons");
+                var consumer = system.ActorOf<ITestConsumerActor>("cons");
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf(provider, $"{provider}-42");
+                var stream = system.StreamOf("sms", "sms-42");
                 await stream.Push("e-123");
                 await Task.Delay(timeout);
 
@@ -92,14 +91,15 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("e-456"));
             }
 
+            [Test] 
             public async Task Subscription_is_idempotent()
             {
-                var consumer = system.ActorOf<TConsumer>("idempotent");
+                var consumer = system.ActorOf<ITestConsumerActor>("idempotent");
 
                 await consumer.Tell(new Subscribe());
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf(provider, $"{provider}-42");
+                var stream = system.StreamOf("sms", "sms-42");
                 await stream.Push("e-123");
                 await Task.Delay(timeout);
 
@@ -107,12 +107,13 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(1));
             }
 
+            [Test] 
             public async Task Select_all_filter()
             {
-                var consumer = system.ActorOf<TConsumer>("select-all");
+                var consumer = system.ActorOf<ITestConsumerActor>("select-all");
                 await consumer.Tell(new Subscribe {Filter = StreamFilter.ReceiveAll});
 
-                var stream = system.StreamOf(provider, $"{provider}-42");
+                var stream = system.StreamOf("sms", "sms-42");
                 await stream.Push(123);
                 await Task.Delay(timeout);
 
@@ -121,14 +122,15 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("123"));
             }
 
+            [Test] 
             public async Task Explicit_filter()
             {
-                var consumer = system.ActorOf<TConsumer>("fff");
+                var consumer = system.ActorOf<ITestConsumerActor>("fff");
 
                 var filter = new StreamFilter(DropAll);
                 await consumer.Tell(new Subscribe { Filter = filter });
 
-                var stream = system.StreamOf(provider, $"{provider}-filtered");
+                var stream = system.StreamOf("sms", $"{"sms"}-filtered");
                 await stream.Push("e-123");
                 await Task.Delay(timeout);
 
@@ -137,53 +139,6 @@ namespace Orleankka.Features
             }
 
             static bool DropAll(object item) => false;
-        }
-
-        namespace SimpleMessageStreamProviderVerification
-        {
-            [TestFixture, RequiresSilo]
-            class Tests
-            {
-                static TestCases<ITestConsumerActor> Verify() => 
-                   new TestCases<ITestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
-
-                [Test, Category("Slow")] public async Task Resuming_on_reactivation()       => await Verify().Resuming_on_reactivation();
-                [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
-                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
-            }
-
-            public interface ITestConsumerActor : IActorGrain
-            {}
-
-            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
-            {
-                protected override string Provider => "sms";
-            }
-        }
-
-        namespace AzureQueueStreamProviderVerification
-        {
-            public interface ITestConsumerActor : IActorGrain
-            {}
-
-            public class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
-            {
-                protected override string Provider => "aqp";
-            }
-
-            [TestFixture, RequiresSilo]
-            [Category("Slow")]
-            class Tests
-            {
-                static TestCases<ITestConsumerActor> Verify() => 
-                   new TestCases<ITestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
-
-                [Test] public async Task Resuming_on_reactivation()                         => await Verify().Resuming_on_reactivation();
-                [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
-                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter();
-                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
-            }
         }
     }
 }

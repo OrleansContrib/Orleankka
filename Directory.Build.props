@@ -1,0 +1,8 @@
+<Project>
+
+    <PropertyGroup>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+
+</Project>

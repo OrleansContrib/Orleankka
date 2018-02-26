@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="paket.references" />
     <Compile Include="Grains.fs" />
   </ItemGroup>
 
@@ -21,7 +20,5 @@
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-
-  
 
 </Project>

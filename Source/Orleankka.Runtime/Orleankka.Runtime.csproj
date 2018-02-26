@@ -15,18 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="2.0.0-beta3" />
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="2.0.0-beta3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <DefaultItemExcludes>$(DefaultItemExcludes);Core\ActorEndpoint.Common*.cs;</DefaultItemExcludes>
-    <RootNamespace>Orleankka</RootNamespace>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- t4 emplating -->
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
 
   
   

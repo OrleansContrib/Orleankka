@@ -9,8 +9,11 @@
   <ItemGroup>
     <Compile Include="ChatUser.fs" />
     <Compile Include="Program.fs" />
-    <None Include="App.config" />
-    <None Include="paket.references" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.0-beta3" />
+    <PackageReference Include="TaskBuilder.fs" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>

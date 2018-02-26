@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.WindowsAzure.Storage;
-
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -35,14 +33,10 @@ namespace Orleankka.Testing
             
             sc.AddMemoryStorageProvider();
             sc.AddMemoryStorageProvider("PubSubStore");
-
             sc.AddSimpleMessageStreamProvider("sms");
-            sc.AddAzureQueueStreamProviderV2("aqp",
-                $"{CloudStorageAccount.DevelopmentStorageAccount}", 
-                clusterId: "test");
 
-            sc.Globals.DataConnectionStringForReminders = $"{CloudStorageAccount.DevelopmentStorageAccount}";
-            sc.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
+            sc.Globals.ReminderServiceType = GlobalConfiguration
+                .ReminderServiceProviderType.ReminderTableGrain;
 
             var sb = new SiloHostBuilder()
                 .UseConfiguration(sc)
@@ -57,9 +51,6 @@ namespace Orleankka.Testing
 
             var cc = ClientConfiguration.LocalhostSilo();
             cc.AddSimpleMessageStreamProvider("sms");
-            cc.AddAzureQueueStreamProviderV2("aqp",
-                $"{CloudStorageAccount.DevelopmentStorageAccount}", 
-                clusterId: "test");
 
             var cb = new ClientBuilder()
                 .UseConfiguration(cc)

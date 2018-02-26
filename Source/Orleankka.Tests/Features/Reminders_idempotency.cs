@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-
 using NUnit.Framework;
+
+using Orleans;
 
 namespace Orleankka.Features
 {
@@ -48,11 +47,7 @@ namespace Orleankka.Features
             IActorSystem system;
 
             [SetUp]
-            public void SetUp()
-            {
-                system = TestActorSystem.Instance;
-                CleanRemindersTable();
-            }
+            public void SetUp() => system = TestActorSystem.Instance;
 
             [Test]
             public async Task When_unregistering_never_registered()
@@ -84,17 +79,18 @@ namespace Orleankka.Features
                 await actor.Tell(new RegisterReminder {Name = "deleted"});
                 Assert.True(await actor.Ask(new IsReminderRegistered { Name = "deleted" }));
                 
-                CleanRemindersTable();
+                await CleanRemindersTable();
 
                 Assert.DoesNotThrowAsync(async () => await actor.Tell(new UnregisterReminder {Name = "deleted" }));
                 Assert.False(await actor.Ask(new IsReminderRegistered { Name = "deleted" }));
             }
 
-            static void CleanRemindersTable()
+            static async Task CleanRemindersTable()
             {
-                var reminders = CloudStorageAccount.DevelopmentStorageAccount.CreateCloudTableClient().GetTableReference("OrleansReminders");
-                var rows = reminders.ExecuteQuerySegmentedAsync(new TableQuery<DynamicTableEntity>(), null).Result;
-                rows.Results.ForEach(x => reminders.ExecuteAsync(TableOperation.Delete(x)).Wait());
+                var getGrainGeneric = typeof(IGrainFactory).GetMethod("GetGrain", new[]{typeof(long), typeof(string)});
+                var getGrain = getGrainGeneric.MakeGenericMethod(typeof(IReminderTable).Assembly.GetType("Orleans.IReminderTableGrain"));
+                var grain = (IReminderTable)getGrain.Invoke(TestActorSystem.Client, new object[]{12345, null});
+                await grain.TestOnlyClearTable();
             }
         }
     }
