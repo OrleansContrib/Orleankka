@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="RealTimeCounter.fs" />
+    <None Include="App.config" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.0-beta3" />
+    <PackageReference Include="TaskBuilder.fs" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Source\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj" />
+    <ProjectReference Include="..\..\..\Source\Orleankka.FSharp\Orleankka.FSharp.fsproj" />
+    <ProjectReference Include="..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
+    <ProjectReference Include="..\..\..\Source\Orleankka\Orleankka.csproj" />
+  </ItemGroup>
+
+  
+
+</Project>

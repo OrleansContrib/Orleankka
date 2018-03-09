@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Demo</RootNamespace>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+    <PackageReference Include="PowerAssert" Version="1.0.79" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.App\Demo.App.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Orleankka.TestKit\Orleankka.TestKit.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Orleankka\Orleankka.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
+  </ItemGroup>
+
+  
+
+</Project>

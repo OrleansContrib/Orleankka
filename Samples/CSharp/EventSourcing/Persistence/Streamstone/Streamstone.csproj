@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example.EventSourcing.Streamstone</AssemblyName>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\..\Shared.cs" Link="Shared.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.0-beta3" />
+    <PackageReference Include="Streamstone" Version="2.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Source\Orleankka\Orleankka.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
+  </ItemGroup>
+  
+  
+
+</Project>
