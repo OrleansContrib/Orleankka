@@ -30,9 +30,7 @@ var ReleasePath = @"{PackagePath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.9.4";
-var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
-var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
-var MsBuildExe = GetVisualStudio17MSBuild();
+var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\4.5.1\tools\Nuget.exe";
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -43,7 +41,7 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 
 /// Builds sources using specified configuration and output path
 [Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false) => 
-    Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
+    Exec("dotnet", "build {CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
 
 /// Runs unit tests 
 [Step] void Test(string outDir = OutputPath, bool slow = false)
@@ -123,26 +121,7 @@ void Push(string package) =>
 }
 
 /// Runs 3rd party software, on which samples are dependent upon
-[Task] void Run(string what = "all")
-{
-    switch (what)
-    {
-        case "all":
-            RunAzure();
-            RunGES();
-            break;            
-        case "ges":
-            RunGES();
-            break;
-        case "azure":
-            RunAzure(); 
-            break;            
-        default:
-            throw new ArgumentException("Available values are: all, ges, azure ...");
-    }
-}
-
-void RunGES() 
+[Task] void Run()
 {
     if (IsRunning("EventStore.ClusterNode"))
         return;
@@ -151,32 +130,8 @@ void RunGES()
     Exec(@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
 }
 
-void RunAzure()
-{
-    if (IsRunning("AzureStorageEmulator"))
-        return;
-
-    Info("Starting storage emulator ...");
-    Exec(@"C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe", "start");
-}
-
 bool IsRunning(string processName)
 {
     var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
     return (processes.Any(p => p == processName));
-}
-
-string GetVisualStudio17MSBuild()
-{
-    foreach (var each in Vs17Versions) 
-    {
-        var msBuildPath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\{each}\MSBuild\15.0\Bin\MSBuild.exe";
-        if (File.Exists(msBuildPath))
-            return msBuildPath;
-    }
-
-    Error("MSBuild not found!");
-    Exit();
-
-    return null;
 }

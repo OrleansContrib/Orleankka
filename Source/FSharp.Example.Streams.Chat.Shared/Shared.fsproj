@@ -3,6 +3,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>FSharp.Example.Streams.Chat.Shared</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

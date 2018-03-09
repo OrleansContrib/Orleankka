@@ -4,6 +4,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>FSharp.Example.Streams.Chat.Server</AssemblyName>    
   </PropertyGroup>
 
   <ItemGroup>

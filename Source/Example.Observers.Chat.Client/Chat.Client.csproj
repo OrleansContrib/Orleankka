@@ -5,9 +5,8 @@
     <RootNamespace>Example</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject />
+    <AssemblyName>Example.Observers.Chat.Client</AssemblyName>
   </PropertyGroup>
   
   <ItemGroup>
