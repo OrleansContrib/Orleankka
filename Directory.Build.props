@@ -5,4 +5,31 @@
         <LangVersion>7.2</LangVersion>
     </PropertyGroup>
 
+    <!-- Shared Package Versions -->
+    <PropertyGroup>
+    	
+        <!-- Orleans packages -->
+        <MicrosoftOrleansClientVersion>2.0.0-beta3</MicrosoftOrleansClientVersion>
+    	<MicrosoftOrleansServerVersion>2.0.0-beta3</MicrosoftOrleansServerVersion>
+    	<MicrosoftOrleansCodeGeneratorVersion>2.0.0-beta3</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>2.0.0-beta3</MicrosoftOrleansRuntimeVersion>
+
+        <!-- Testing packages -->
+        <NUnitVersion>3.9.0</NUnitVersion>
+        <NUnit3TestAdapterVersion>3.9.0</NUnit3TestAdapterVersion>
+        <MicrosoftNETTestSdkVersion>15.6.0</MicrosoftNETTestSdkVersion>
+        <PowerAssertVersion>1.0.79</PowerAssertVersion>
+
+        <!-- 3rd party packages used in Samples -->
+        <WindowsAzureStorageVersion>9.0.0</WindowsAzureStorageVersion>
+        <EventStoreClientAPINetCoreVersion>4.1.0.23</EventStoreClientAPINetCoreVersion>
+        <StreamstoneVersion>2.0.0</StreamstoneVersion>
+        <HyperionVersion>0.9.8</HyperionVersion>
+        <GoogleProtobufVersion>3.5.1</GoogleProtobufVersion>
+
+        <!-- 3rd part F# libs used in Samples -->
+        <TaskBuilderfsVersion>1.1.1</TaskBuilderfsVersion>
+
+    </PropertyGroup>    
+
 </Project>

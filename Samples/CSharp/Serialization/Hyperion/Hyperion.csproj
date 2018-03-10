@@ -16,15 +16,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Hyperion" Version="0.9.8" />
-    <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.0-beta3" />
+    <PackageReference Include="Hyperion" Version="$(HyperionVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Source\Orleankka\Orleankka.csproj" />
     <ProjectReference Include="..\..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
   </ItemGroup>
-  
-  
 
 </Project>
