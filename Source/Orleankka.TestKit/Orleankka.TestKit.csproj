@@ -3,14 +3,16 @@
 
   <PropertyGroup>
     <RootNamespace>Orleankka.TestKit</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup>
+    <PackageId>Orleankka.TestKit</PackageId>
+    <Title>Orleankka test kit library</Title>
+    <Description>Unit testing kit for Orleankka. Allows to unit test actors in a full isolation.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DocumentationFile>$(OutDir)\Orleankka.TestKit.xml</DocumentationFile>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

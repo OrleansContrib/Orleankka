@@ -35,6 +35,7 @@ _ReSharper*
 
 #ignore certain folders
 /paket-files/
+/Artifacts/
 /Output/
 /Packages/
 /Packages/!Repositories.config
@@ -44,3 +45,4 @@ _ReSharper*
 orleans.codegen.cs
 
 .vs/
+.vscode/

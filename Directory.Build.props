@@ -1,8 +1,44 @@
 <Project>
 
+    <!-- Set the repository root into a variable -->
+    <PropertyGroup>
+        <SourceRoot>$(MSBuildThisFileDirectory)</SourceRoot>
+    </PropertyGroup>
+
+    <!-- Set common properties regarding assembly information and nuget packages -->
+    <PropertyGroup>
+        <Authors>Yevhen Bobrov</Authors>
+        <Product>Orleankka</Product>
+        <Copyright>since 2016 © Yevhen Bobrov. All rights reserved.</Copyright>
+        <PackageLicenseUrl>https://github.com/OrleansContrib/Orleankka/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/OrleansContrib/Orleankka</PackageProjectUrl>
+        <PackageIconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</PackageIconUrl>
+        <PackageTags>Orleans Distributed-Systems Messaging Actor Concurrency CQRS Functional F#</PackageTags>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <RepositoryUrl>https://github.com/OrleansContrib/Orleankka</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <IncludeSymbols>true</IncludeSymbols>
+        <IncludeSource>true</IncludeSource>
+    </PropertyGroup>
+
+    <!-- Common compile parameters -->
+    <PropertyGroup>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <!-- Common project props -->
     <PropertyGroup>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <LangVersion>7.2</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ConsoleProjectTargetFramework>netcoreapp2.0</ConsoleProjectTargetFramework>
+        <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 
     <!-- Shared Package Versions -->
@@ -20,16 +56,67 @@
         <MicrosoftNETTestSdkVersion>15.6.0</MicrosoftNETTestSdkVersion>
         <PowerAssertVersion>1.0.79</PowerAssertVersion>
 
-        <!-- 3rd party packages used in Samples -->
+        <!-- 3rd party packages -->
         <WindowsAzureStorageVersion>9.0.0</WindowsAzureStorageVersion>
         <EventStoreClientAPINetCoreVersion>4.1.0.23</EventStoreClientAPINetCoreVersion>
         <StreamstoneVersion>2.0.0</StreamstoneVersion>
         <HyperionVersion>0.9.8</HyperionVersion>
         <GoogleProtobufVersion>3.5.1</GoogleProtobufVersion>
 
-        <!-- 3rd part F# libs used in Samples -->
+        <!-- 3rd party F# libs -->
         <TaskBuilderfsVersion>1.1.1</TaskBuilderfsVersion>
 
-    </PropertyGroup>    
+        <!-- Tooling related packages -->
+        <SourceLinkVersion>2.7.6</SourceLinkVersion>
+
+    </PropertyGroup>
+
+    <!-- Versioning properties -->
+    <PropertyGroup>
+        <VersionPrefix Condition=" '$(VersionPrefix)'=='' ">2.0.0</VersionPrefix>
+        <VersionSuffix Condition=" '$(VersionSuffix)'=='' ">dev</VersionSuffix>
+    </PropertyGroup>
+
+    <!-- For Debug builds generated a date/time dependent version suffix -->
+    <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+        <VersionSuffix Condition=" '$(VersionSuffix)'=='' ">dev</VersionSuffix>
+        <VersionSuffix Condition=" '$(VersionDateSuffix)'!='' ">$(VersionSuffix)-$(VersionDateSuffix)</VersionSuffix>
+    </PropertyGroup>
+
+    <!-- Set output folder for created NuGet packages -->
+    <PropertyGroup>
+        <PackageOutputPath Condition=" '$(PackageOutputPath)'=='' ">$(SourceRoot)Artifacts\$(Configuration)</PackageOutputPath>
+    </PropertyGroup>
+
+    <Choose>
+        <When Condition="'$(OfficialBuild)' != 'true'">
+            <!-- On non-official builds we don't burn in a git sha.  In large part because it
+                 hurts our determinism efforts as binaries which should be the same between
+                builds will not (due to developers building against different HEAD values -->
+            <PropertyGroup>
+                <GitHeadSha>&lt;developer build&gt;</GitHeadSha>
+            </PropertyGroup>
+        </When>
+        <When Condition="'$(BUILD_SOURCEVERSION)' != ''">
+            <PropertyGroup>
+                <GitHeadSha>$(BUILD_SOURCEVERSION)</GitHeadSha>
+            </PropertyGroup>
+        </When>
+        <When Condition="'$(BUILD_SOURCEVERSION)' == '' AND '$(GIT_COMMIT)' != ''">
+            <PropertyGroup>
+                <GitHeadSha>$(GIT_COMMIT)</GitHeadSha>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <GitHeadSha>Not found</GitHeadSha>
+                <DotGitDir>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).git'))</DotGitDir>
+                <HeadFileContent Condition="Exists('$(DotGitDir)/HEAD')">$([System.IO.File]::ReadAllText('$(DotGitDir)/HEAD').Trim())</HeadFileContent>
+                <RefPath Condition="$(HeadFileContent.StartsWith('ref: '))">$(DotGitDir)/$(HeadFileContent.Substring(5))</RefPath>
+                <GitHeadSha Condition="'$(RefPath)' != '' AND Exists('$(RefPath)')">$([System.IO.File]::ReadAllText('$(RefPath)').Trim())</GitHeadSha>
+                <GitHeadSha Condition="'$(HeadFileContent)' != '' AND '$(RefPath)' == ''">$(HeadFileContent)</GitHeadSha>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>        
 
 </Project>

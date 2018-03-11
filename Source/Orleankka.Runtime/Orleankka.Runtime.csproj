@@ -3,15 +3,16 @@
   
   <PropertyGroup>
     <RootNamespace>Orleankka</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <TransformOnBuild>True</TransformOnBuild>
-    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup>
+    <PackageId>Orleankka.Runtime</PackageId>
+    <Title>Orleankka runtime library</Title>
+    <Description>Functional API for MSR Orleans. Server-side library.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DocumentationFile>$(OutDir)\Orleankka.Runtime.xml</DocumentationFile>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
