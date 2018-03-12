@@ -37,7 +37,17 @@ namespace Orleankka
             return new StreamPath(provider, id);
         }
 
+        /// <summary>
+        /// Name of the stream provider.
+        /// </summary>
         public readonly string Provider;
+
+        /// <summary>
+        /// Unique stream id.
+        /// </summary>
+        /// <remarks>
+        /// This maps to Orleans' stream namespace.
+        /// The GUID is not used by Orleankka's stream references and is always Guid.Empty.</remarks>
         public readonly string Id;
 
         StreamPath(string provider, string id)

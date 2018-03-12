@@ -2,18 +2,20 @@
 
   <PropertyGroup>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup>
+    <PackageId>Orleankka.FSharp.Runtime</PackageId>
+    <Title>Orleankka F# api runtime library</Title>
+    <Description>F# api for Orleankka. Server-side library.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DocumentationFile>$(OutDir)\Orleankka.FSharp.Runtime.xml</DocumentationFile>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="paket.references" />
-    <Compile Include="Actors.fs" />
+    <Compile Include="Grains.fs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +23,5 @@
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 
 </Project>

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.Runtime;
 using Orleans.Streams;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     /// <summary>
@@ -38,33 +41,39 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Runtime implementation of <see cref="IActorSystem"/>
+    /// Runtime implementation of <see cref="T:Orleankka.IActorSystem" />
     /// </summary>
     public abstract class ActorSystem : IActorSystem
     {
-        readonly IActorRefInvoker invoker;
+        readonly Dictionary<string, ActorGrainInterface> interfaces =
+             new Dictionary<string, ActorGrainInterface>();
 
-        protected IStreamProviderManager StreamProviderManager { get; private set; }
-        protected IGrainFactory GrainFactory { get; private set; }
+        readonly IServiceProvider serviceProvider;
+        readonly IGrainFactory grainFactory;
+        readonly IActorRefMiddleware middleware;
 
-        protected ActorSystem(IActorRefInvoker invoker = null)
+        protected ActorSystem(
+            Assembly[] assemblies,
+            IServiceProvider serviceProvider,
+            IActorRefMiddleware middleware = null)
         {
-            this.invoker = invoker ?? DefaultActorRefInvoker.Instance;
+            this.serviceProvider = serviceProvider;
+            this.grainFactory = serviceProvider.GetService<IGrainFactory>();
+            this.middleware = middleware ?? DefaultActorRefMiddleware.Instance;
+
+            Register(assemblies);
         }
 
-        protected void Initialize(IServiceProvider provider)
+        void Register(IEnumerable<Assembly> assemblies)
         {
-            StreamProviderManager = provider.GetRequiredService<IStreamProviderManager>();
-            GrainFactory = provider.GetRequiredService<IGrainFactory>();
+            foreach (var each in assemblies.SelectMany(x => x.GetTypes().Where(IsActorGrain)))
+            {
+                var @interface = new ActorGrainInterface(each);
+                interfaces.Add(each.FullName, @interface);
+            }
 
-            ActorInterface.Bind(GrainFactory);
+            bool IsActorGrain(Type type) => type != typeof(IActorGrain) && type.IsInterface && typeof(IActorGrain).IsAssignableFrom(type);
         }
-
-        /// <summary>
-        /// Entry-point method for fluent configuration
-        /// </summary>
-        /// <returns>An instance of actor system configurator</returns>
-        public static IActorSystemConfigurator Configure() => default(IActorSystemConfigurator);
 
         /// <inheritdoc />
         public ActorRef ActorOf(ActorPath path)
@@ -72,10 +81,12 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
-            var @interface = ActorInterface.Of(path.Type);
-            var proxy = @interface.Proxy(path.Id, GrainFactory);
+            if (!interfaces.TryGetValue(path.Interface, out ActorGrainInterface @interface))
+                throw new Exception($"Can't find registered interface for '{path.Interface}'");
 
-            return new ActorRef(path, proxy, invoker);
+            var proxy = @interface.Proxy(path.Id, grainFactory);
+
+            return new ActorRef(path, proxy, middleware);
         }
         
         /// <inheritdoc />
@@ -84,7 +95,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            var provider = StreamProviderManager.GetStreamProvider(path.Provider);
+            var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
             return new StreamRef(path, provider);
         }
 
@@ -93,7 +104,7 @@ namespace Orleankka
         {
             Requires.NotNullOrWhitespace(path, nameof(path));
 
-            var endpoint = ClientEndpoint.Proxy(path, GrainFactory);
+            var endpoint = ClientEndpoint.Proxy(path, grainFactory);
             return new ClientRef(endpoint);
         }
     }
@@ -107,12 +118,24 @@ namespace Orleankka
         /// Acquires the actor reference for the given actor type and id.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="type">The actor type</param>
+        /// <param name="interface">The actor interface</param>
         /// <param name="id">The actor id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf(this IActorSystem system, string type, string id)
+        public static ActorRef ActorOf(this IActorSystem system, Type @interface, string id)
         {
-            return system.ActorOf(ActorPath.From(type, id));
+            return system.ActorOf(ActorPath.For(@interface, id));
+        }
+        
+        /// <summary>
+        /// Acquires the actor reference for the given actor type and id.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The actor id</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
+        {
+            return system.ActorOf(typeof(TActor), id);
         }
 
         /// <summary>
@@ -130,11 +153,22 @@ namespace Orleankka
         /// Acquires the actor reference for the given worker type.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="type">The type</param>
+        /// <param name="interface">The worker interface</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef WorkerOf(this IActorSystem system, string type)
+        public static ActorRef WorkerOf(this IActorSystem system, Type @interface)
         {
-            return system.ActorOf(ActorPath.From(type, "#"));
+            return system.ActorOf(ActorPath.For(@interface, "#"));
+        }
+        
+        /// <summary>
+        /// Acquires the actor reference for the given worker type.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
+        {
+            return system.WorkerOf(typeof(TActor));
         }
 
         /// <summary>
@@ -156,9 +190,9 @@ namespace Orleankka
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
         {
-            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath(id)));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), id)));
         }
 
         /// <summary>
@@ -167,9 +201,9 @@ namespace Orleankka
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActor
+        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
         {
-            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath("#")));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), "#")));
         }
     }
 }

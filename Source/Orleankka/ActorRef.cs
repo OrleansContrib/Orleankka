@@ -12,26 +12,25 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
     {
-        [NonSerialized] readonly IActorEndpoint endpoint;
-        [NonSerialized] readonly IActorRefInvoker invoker;
+        [NonSerialized] readonly IActorGrain endpoint;
+        [NonSerialized] readonly IActorRefMiddleware middleware;
 
         protected ActorRef(ActorPath path)
         {
             Path = path;
         }
 
-        internal ActorRef(ActorPath path, IActorEndpoint endpoint, IActorRefInvoker invoker)
+        internal ActorRef(ActorPath path, IActorGrain endpoint, IActorRefMiddleware middleware)
             : this(path)
         {
             this.endpoint = endpoint;
-            this.invoker = invoker;
+            this.middleware = middleware;
         }
 
         public ActorPath Path { get; }
@@ -40,9 +39,9 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Send<object>(Path, message, async x =>
+            return middleware.Send<object>(Path, message, async x =>
             {
-                await endpoint.ReceiveVoid(x);
+                await endpoint.ReceiveTell(x);
                 return null;
             });
         }
@@ -51,23 +50,18 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return invoker.Send<TResult>(Path, message, endpoint.Receive);
+            return middleware.Send<TResult>(Path, message, endpoint.ReceiveAsk);
         }
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            invoker.Send<object>(Path, message, async x =>
+            middleware.Send<object>(Path, message, async x =>
             {
-                await endpoint.Notify(x);
+                await endpoint.ReceiveNotify(x);
                 return null;
             });
-        }
-
-        internal Task Autorun()
-        {
-            return endpoint.Autorun();
         }
 
         public bool Equals(ActorRef other)
@@ -120,7 +114,7 @@ namespace Orleankka
 
     [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActor
+    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActorGrain
     {
         readonly ActorRef @ref;
 

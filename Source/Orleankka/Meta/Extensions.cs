@@ -4,12 +4,12 @@ namespace Orleankka.Meta
 {
     public static class Extensions
     {
-        public static Task Tell<TActor>(this ActorRef<TActor> @ref, Command<TActor> cmd) where TActor : IActor
+        public static Task Tell<TActor>(this ActorRef<TActor> @ref, Command<TActor> cmd) where TActor : IActorGrain
         {
             return @ref.Tell(cmd);
         }
 
-        public static Task<TResult> Ask<TActor, TResult>(this ActorRef<TActor> @ref, Query<TActor, TResult> query) where TActor : IActor
+        public static Task<TResult> Ask<TActor, TResult>(this ActorRef<TActor> @ref, Query<TActor, TResult> query) where TActor : IActorGrain
         {
             return @ref.Ask(query);
         }

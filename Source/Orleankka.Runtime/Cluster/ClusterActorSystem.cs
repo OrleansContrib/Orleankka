@@ -2,76 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-
-using Orleans.Runtime;
-using Orleans.Runtime.Configuration;
-using Orleans.Hosting;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-
-using Orleans;
-using Orleans.ApplicationParts;
-using Orleans.CodeGeneration;
 
 namespace Orleankka.Cluster
 {
-    using Core;
     using Utility;
-
-     public class ClusterActorSystem : ActorSystem
+    
+    class ClusterActorSystem : ActorSystem
     {
-        internal readonly ActorInvocationPipeline Pipeline;
+        readonly Dictionary<Type, ActorGrainImplementation> implementations = 
+             new Dictionary<Type, ActorGrainImplementation>();
 
         internal ClusterActorSystem(
-            ClusterConfiguration configuration,
             Assembly[] assemblies,
-            Action<IServiceCollection> di,
-            ActorInvocationPipeline pipeline,
-            IActorRefInvoker invoker)
-            : base(invoker)
+            IServiceProvider serviceProvider,
+            ActorMiddlewarePipeline pipeline,
+            IActorRefMiddleware middleware = null)
+            : base(assemblies, serviceProvider, middleware)
         {
-            Pipeline = pipeline;
+            Register(pipeline, assemblies);
+        }
 
-            using (Trace.Execution("Orleans silo initialization"))
+        void Register(ActorMiddlewarePipeline pipeline, IEnumerable<Assembly> assemblies)
+        {
+            foreach (var each in assemblies.SelectMany(x => x.GetTypes().Where(IsActorGrain)))
             {
-                var builder = new SiloHostBuilder()
-                    .UseConfiguration(configuration)
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingleton<IActorSystem>(this);
-                        services.AddSingleton(this);
-                        services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
-                        services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
-
-                        di?.Invoke(services);
-                    });
-
-                builder.ConfigureApplicationParts(apm => apm
-                    .AddFromAppDomain()
-                    .WithCodeGeneration());
-
-                Host = builder.Build();
+                var implementation = new ActorGrainImplementation(each, pipeline.Middleware(each));
+                implementations.Add(each, implementation);
             }
 
-            Silo = Host.Services.GetRequiredService<Silo>();
-            Initialize(Host.Services);
+            bool IsActorGrain(Type type) => !type.IsAbstract && typeof(ActorGrain).IsAssignableFrom(type);
         }
 
-        public ISiloHost Host { get; }
-        public Silo Silo { get; }
-
-        public async Task Start()
-        {
-            using (Trace.Execution("Orleans silo startup"))
-                await Host.StartAsync();
-        }
-
-        public async Task Stop()
-        {
-            using (Trace.Execution("Orleans silo shutdown"))
-                await Host.StopAsync();
-        }
+        internal ActorGrainImplementation ImplementationOf(Type grain) => implementations.Find(grain);        
     }
 }

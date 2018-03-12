@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Internals;
 using Orleans.Timers;
 
 namespace Orleankka.Services
@@ -135,10 +133,6 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
-        static AsyncLocal<bool> ExecutingFlag = new AsyncLocal<bool>();
-        static void SetExecuting() => ExecutingFlag.Value = true;
-        internal static bool IsExecuting() => ExecutingFlag.Value;
-
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ITimerRegistry registry;
         readonly Grain grain;
@@ -160,12 +154,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s =>
-            {
-                SetExecuting();
-                await callback();
-            }, 
-            null, due, period));
+            timers.Add(id, registry.RegisterTimer(grain, async s => await callback(), null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
@@ -179,12 +168,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s =>
-            {
-                SetExecuting();
-                await callback((TState) s);
-            }, 
-            state, due, period));
+            timers.Add(id, registry.RegisterTimer(grain, async s => await callback((TState) s), state, due, period));
         }
 
         void ITimerService.Unregister(string id)

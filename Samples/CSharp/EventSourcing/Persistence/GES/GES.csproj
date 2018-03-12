@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example.EventSourcing.GES</AssemblyName>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  
+  <ItemGroup>
+    <Compile Include="..\..\..\Shared.cs" Link="Shared.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="EventStore.ClientAPI.NetCore" Version="$(EventStoreClientAPINetCoreVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Source\Orleankka\Orleankka.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
+  </ItemGroup>
+  
+  
+
+</Project>

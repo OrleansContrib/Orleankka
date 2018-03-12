@@ -2,7 +2,6 @@
 
 namespace Orleankka
 {
-    using Core;
     using Utility;
 
     public interface IClientObservable : IObservable<object>, IDisposable

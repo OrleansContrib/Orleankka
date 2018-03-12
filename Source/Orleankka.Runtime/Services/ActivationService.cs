@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Orleans;
-using Orleans.Internals;
 
 namespace Orleankka.Services
 {

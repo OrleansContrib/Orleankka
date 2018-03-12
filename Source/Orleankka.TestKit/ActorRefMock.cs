@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using Orleankka.Utility;
 
 namespace Orleankka.TestKit
 {
@@ -96,7 +97,7 @@ namespace Orleankka.TestKit
     }
 
     [Serializable]
-    public class ActorRefMock<T> : ActorRef<T> where T : IActor
+    public class ActorRefMock<T> : ActorRef<T> where T : IActorGrain
     {
         readonly ActorRefMock @ref;
 
@@ -136,9 +137,9 @@ namespace Orleankka.TestKit
 
     public static class ActorSystemMockExtensions
     {
-        public static ActorRefMock<TActor> MockTypedActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActor
+        public static ActorRefMock<TActor> MockTypedActorOf<TActor>(this ActorSystemMock system, string id) where TActor : IActorGrain
         {
-            var path = typeof(TActor).ToActorPath(id);
+            var path = ActorPath.For(typeof(TActor), id);
             return new ActorRefMock<TActor>(system.MockActorOf(path));
         }
     }

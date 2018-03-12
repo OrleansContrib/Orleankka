@@ -3,67 +3,28 @@
   
   <PropertyGroup>
     <RootNamespace>Orleankka</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <TransformOnBuild>True</TransformOnBuild>
-    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutDir)\Orleankka.Runtime.xml</DocumentationFile>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <PackageId>Orleankka.Runtime</PackageId>
+    <Title>Orleankka runtime library</Title>
+    <Description>Functional API for MSR Orleans. Server-side library.</Description>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>$(OutDir)\Orleankka.Runtime.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="$(MicrosoftOrleansRuntimeVersion)" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <DefaultItemExcludes>$(DefaultItemExcludes);Core\ActorEndpoint.Common*.cs;</DefaultItemExcludes>
-    <RootNamespace>Orleankka</RootNamespace>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="Core\ActorEndpoint.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActorEndpoint.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Core\StatefulActorEndpoint.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StatefulActorEndpoint.tt</DependentUpon>
-    </Compile>
-
-    <None Include="Core\ActorEndpoint.Common.cs" />
-    <None Include="Core\ActorEndpoint.Common.T.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Core\ActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActorEndpoint.cs</LastGenOutput>
-    </None>
-    <None Update="Core\StatefulActorEndpoint.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StatefulActorEndpoint.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- t4 emplating -->
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Playground\Cluster.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  
   
 </Project>

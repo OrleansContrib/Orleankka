@@ -7,14 +7,27 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Orleankka.Utility;
-
 namespace Orleankka
 {
+    using Utility;
+
+    public interface IDispatcherRegistry
+    {
+        Dispatcher GetDispatcher(Type type);
+    }
+
+    class DispatcherRegistry : IDispatcherRegistry
+    {
+        static readonly Dictionary<Type, Dispatcher> dispatchers = new Dictionary<Type, Dispatcher>();
+
+        public void Register(Type type, Dispatcher dispatcher) => dispatchers.Add(type, dispatcher);
+        public Dispatcher GetDispatcher(Type type) => dispatchers[type];
+    }
+
     public class Dispatcher
     {
-        static readonly string[] DefaultConventions = {"On", "Handle", "Answer", "Apply"};
-        static readonly Type[] DefaultRoots = {typeof(Actor), typeof(object)};
+        public static readonly string[] DefaultHandlerNamingConventions = {"On", "Handle", "Answer", "Apply"};
+        public static readonly Type[] DefaultRootTypes = {typeof(ActorGrain), typeof(object)};
 
         readonly Dictionary<Type, Action<object, object>> actions =
              new Dictionary<Type, Action<object, object>>();
@@ -27,13 +40,13 @@ namespace Orleankka
 
         readonly Type type;
         
-        public Dispatcher(Type type, string[] conventions = null, Type[] roots = null)
+        public Dispatcher(Type type, string[] handlerNamingConventions = null, Type[] rootTypes = null)
         {
             this.type = type;
 
             var methods = GetMethods(type, 
-                roots ?? DefaultRoots, 
-                conventions ?? DefaultConventions);
+                rootTypes ?? DefaultRootTypes, 
+                handlerNamingConventions ?? DefaultHandlerNamingConventions);
 
             foreach (var method in methods)
                 Register(method);
@@ -41,10 +54,8 @@ namespace Orleankka
 
         static IEnumerable<MethodInfo> GetMethods(Type type, Type[] roots, string[] conventions)
         {
-            while (true)
+            while (type != null)
             {
-                Debug.Assert(type != null);
-
                 if (roots.Contains(type))
                     yield break;
 
@@ -118,20 +129,49 @@ namespace Orleankka
         public bool CanHandle(Type message) => uniform.Find(message) != null;
         public IEnumerable<Type> Handlers   => uniform.Keys;
 
-        public Task<object> Dispatch(object target, object message, Func<object, Task<object>> fallback = null)
+        public Task<object> DispatchResultAsync(object target, object message, Func<object, Task<object>> fallback = null) => 
+            DispatchResultAsync<object>(target, message, fallback);
+
+        public async Task<T> DispatchResultAsync<T>(object target, object message, Func<object, Task<T>> fallback = null)
         {
             var handler = uniform.Find(message.GetType());
 
             if (handler != null)
-                return handler(target, message);
+                return (T) await handler(target, message);
 
             if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
+                throw new HandlerNotFoundException(target, message.GetType());
+
+            return await fallback(message);
+        }
+
+        public async Task DispatchAsync(object target, object message, Func<object, Task> fallback = null)
+        {
+            await DispatchResultAsync<object>(target, message, async x =>
+            {
+                if (fallback != null) 
+                    await fallback(x);
+                return null;
+            });
+        }
+
+        public object DispatchResult(object target, object message, Func<object, object> fallback = null) =>
+            DispatchResult<object>(target, message, fallback);
+
+        public T DispatchResult<T>(object target, object message, Func<object, T> fallback = null)
+        {
+            var handler = funcs.Find(message.GetType());
+
+            if (handler != null)
+                return (T) handler(target, message);
+
+            if (fallback == null)
+                throw new HandlerNotFoundException(target, message.GetType());
 
             return fallback(message);
         }
 
-        public void DispatchAction(object target, object message, Func<object, Task<object>> fallback = null)
+        public void Dispatch(object target, object message, Action<object> fallback = null)
         {
             var handler = actions.Find(message.GetType());
 
@@ -142,33 +182,20 @@ namespace Orleankka
             }
 
             if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
+                throw new HandlerNotFoundException(target, message.GetType());
 
             fallback(message);
-        }
-
-        public object DispatchFunc(object target, object message, Func<object, Task<object>> fallback = null)
-        {
-            var handler = funcs.Find(message.GetType());
-
-            if (handler != null)
-                return handler(target, message);
-
-            if (fallback == null)
-                throw new HandlerNotFoundException(message.GetType());
-
-            return fallback(message);
         }
 
         [Serializable]
         internal class HandlerNotFoundException : ApplicationException
         {
-            const string description = "Can't find handler for '{0}'.\r\n" +
+            const string description = "Can't find handler for '{1}'.\r\n on actor '{0}'." +
                                        "Check that handler method has single argument and " +
                                        "named 'On', 'Handle', 'Answer' or 'Apply'";
 
-            internal HandlerNotFoundException(Type message)
-                : base(string.Format(description, message))
+            internal HandlerNotFoundException(object target, Type message)
+                : base(string.Format(description, target.GetType(), message))
             {}
 
             protected HandlerNotFoundException(SerializationInfo info, StreamingContext context)

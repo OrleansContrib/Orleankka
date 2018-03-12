@@ -1,8 +1,12 @@
-﻿#r "System.Xml"
+﻿#r "Packages/Nake/2.4.0/tools/net45/Meta.dll"
+#r "Packages/Nake/2.4.0/tools/net45/Utility.dll"
+
+#r "System.Xml"
 #r "System.Xml.Linq"
 #r "System.IO.Compression"
 #r "System.IO.Compression.FileSystem"
 
+using Nake;
 using static Nake.FS;
 using static Nake.Run;
 using static Nake.Log;
@@ -21,18 +25,14 @@ const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
 
-const string RootPath = "%NakeScriptDirectory%";
-const string OutputPath = RootPath + @"\Output";
-
-var Version = "0.0.0-dev";
-var PackagePath = @"{OutputPath}\Package";
-var ReleasePath = @"{PackagePath}\Release";
+var RootPath = "%NakeScriptDirectory%";
+var ArtifactsPath = $@"{RootPath}\Artifacts";
+var ReleasePackagesPath = $@"{ArtifactsPath}\Release";
 
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.9.4";
-var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
-var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
-var MsBuildExe = GetVisualStudio17MSBuild();
+
+var Version = "2.0.0-dev";
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -41,22 +41,22 @@ var MsBuildExe = GetVisualStudio17MSBuild();
     Build();
 }
 
-/// Builds sources using specified configuration and output path
-[Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false) => 
-    Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
+/// Builds sources using specified configuration
+[Step] void Build(string config = "Debug", bool verbose = false) => 
+    Exec("dotnet", $"build {CoreProject}.sln /p:Configuration={config}" + (verbose ? "/v:d" : ""));
 
 /// Runs unit tests 
-[Step] void Test(string outDir = OutputPath, bool slow = false)
+[Step] void Test(bool slow = false)
 {
-    Build("Debug", outDir);
+    Build("Debug");
 
-    var tests = new FileSet{@"{outDir}\*.Tests.dll"}.ToString(" ");
-    var results = @"{outDir}\nunit-test-results.xml";
+    var tests = new FileSet{$@"{RootPath}\**\bin\Debug\**\*.Tests.dll"}.ToString(" ");
+    var results = $@"{ArtifactsPath}\nunit-test-results.xml";
 
     try
     {
         Exec("dotnet", 
-            @"vstest {tests} --logger:trx;LogFileName={results} " +
+            $@"vstest {tests} --logger:trx;LogFileName={results} " +
             (AppVeyor||slow ? "" : "--TestCaseFilter:TestCategory!=Slow"));
     }
     finally
@@ -69,19 +69,10 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 /// Builds official NuGet packages 
 [Step] void Package(bool skipFullCheck = false)
 {
-    Test(@"{PackagePath}\Debug", !skipFullCheck);
-    Build("Package", ReleasePath);
-
-    Pack(CoreProject);    
-    Pack(RuntimeProject);    
-    Pack(TestKitProject);
-    Pack(FSharpProject);
-    Pack(FSharpRuntimeProject);
+    Test(!skipFullCheck);
+    Build("Release");
+    Exec("dotnet", $"pack --no-build -c Release -p:PackageVersion={Version} {CoreProject}.sln");
 }
-
-void Pack(string project) =>
-    Cmd(@"{Nuget} pack Build\{project}.nuspec -Version {Version} " +
-         "-OutputDirectory {PackagePath} -BasePath {RootPath} -NoPackageAnalysis");
 
 /// Publishes package to NuGet gallery
 [Step] void Publish()
@@ -93,90 +84,49 @@ void Pack(string project) =>
     Push(FSharpRuntimeProject);
 }
 
-void Push(string package) => 
-    Cmd(@"{Nuget} push {PackagePath}\{package}.{Version}.nupkg " + 
-        "%NuGetApiKey% -Source https://nuget.org/");
+void Push(string package) => Exec("dotnet", 
+    @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
+    "-k %NuGetApiKey% -s https://nuget.org/");
 
 /// Installs binary dependencies 
 [Task] void Restore()
 {
     Exec("dotnet", "restore {CoreProject}.sln");
+    RestoreGetEventStoreBinaries();
+}
 
-    var packagesDir = @"{RootPath}\Packages";
+void RestoreGetEventStoreBinaries()
+{
+    if (Directory.Exists($@"{RootPath}/Packages/{GES}"))
+        return;
 
-    if (!Directory.Exists(@"{packagesDir}\{GES}"))
-    {
-        Info("EventStore binaries were not found. Downloading ...");
+    Info("EventStore binaries were not found. Downloading ...");
 
-        new WebClient().DownloadFile(
-            "https://eventstore.org/downloads/{GES}.zip", 
-            @"{packagesDir}\{GES}.zip"
-        );
+    new WebClient().DownloadFile(
+        "https://eventstore.org/downloads/{GES}.zip",
+        $@"{RootPath}/Packages/{GES}.zip"
+    );
 
-        Info("Success! Extracting ...");
+    Info("Success! Extracting ...");
 
-        ZipFile.ExtractToDirectory(@"{packagesDir}\{GES}.zip", @"{packagesDir}\{GES}");
-        File.Delete(@"{packagesDir}\{GES}.zip");
+    ZipFile.ExtractToDirectory($@"{RootPath}/Packages/{GES}.zip", $@"{RootPath}/Packages/{GES}");
+    File.Delete($@"{RootPath}/Packages/{GES}.zip");
 
-        Info("Done!");
-    }
+    Info("Done!");
 }
 
 /// Runs 3rd party software, on which samples are dependent upon
-[Task] void Run(string what = "all")
-{
-    switch (what)
-    {
-        case "all":
-            RunAzure();
-            RunGES();
-            break;            
-        case "ges":
-            RunGES();
-            break;
-        case "azure":
-            RunAzure(); 
-            break;            
-        default:
-            throw new ArgumentException("Available values are: all, ges, azure ...");
-    }
-}
-
-void RunGES() 
+[Task] void Run()
 {
     if (IsRunning("EventStore.ClusterNode"))
         return;
 
     Info("Starting local GES node ...");
-    Exec(@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
-}
-
-void RunAzure()
-{
-    if (IsRunning("AzureStorageEmulator"))
-        return;
-
-    Info("Starting storage emulator ...");
-    Exec(@"C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe", "start");
+    Exec($@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
 }
 
 bool IsRunning(string processName)
 {
     var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
     return (processes.Any(p => p == processName));
-}
-
-string GetVisualStudio17MSBuild()
-{
-    foreach (var each in Vs17Versions) 
-    {
-        var msBuildPath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\{each}\MSBuild\15.0\Bin\MSBuild.exe";
-        if (File.Exists(msBuildPath))
-            return msBuildPath;
-    }
-
-    Error("MSBuild not found!");
-    Exit();
-
-    return null;
 }

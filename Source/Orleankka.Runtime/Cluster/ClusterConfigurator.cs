@@ -2,128 +2,64 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-
-using Orleans.Streams;
-using Orleans.Runtime.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Orleans;
+using Orleans.ApplicationParts;
+using Orleans.CodeGeneration;
+using Orleans.Hosting;
+using Orleans.Streams;
+
 namespace Orleankka.Cluster
 {
-    using Core;
-    using Core.Streams;
-    using Behaviors;
     using Utility;
-    using Annotations;
 
     public sealed class ClusterConfigurator
     {
-        readonly ActorInterfaceRegistry registry =
-             new ActorInterfaceRegistry();
+        readonly HashSet<string> conventions = 
+             new HashSet<string>();
 
-        readonly HashSet<string> conventions = new HashSet<string>();
-
-        readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
-             new HashSet<BootstrapProviderConfiguration>();
-
-        readonly HashSet<StreamProviderConfiguration> streamProviders =
-             new HashSet<StreamProviderConfiguration>();
-
-        readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
-
-        IActorRefInvoker invoker;
-        Action<IServiceCollection> di;
-
-        internal ClusterConfigurator()
-        {
-            Configuration = new ClusterConfiguration();
-        }
-
-        public ClusterConfiguration Configuration { get; set; }
-
-        public ClusterConfigurator From(ClusterConfiguration config)
-        {
-            Requires.NotNull(config, nameof(config));
-            Configuration = config;
-            return this;
-        }
-
-        public ClusterConfigurator Assemblies(params Assembly[] assemblies)
-        {
-            registry.Register(assemblies, a => a.ActorTypes());
-
-            return this;
-        }
-
-        public ClusterConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
-        {
-            var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
-
-            if (!bootstrapProviders.Add(configuration))
-                throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
-
-            return this;
-        }
-
-        public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
-        {
-            Requires.NotNullOrWhitespace(name, nameof(name));
-
-            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
-            if (!streamProviders.Add(configuration))
-                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
-
-            return this;
-        }
-
-        public ClusterConfigurator Services(Action<IServiceCollection> configure)
-        {
-            Requires.NotNull(configure, nameof(configure));
-
-            if (di != null)
-                throw new InvalidOperationException("Services configurator has been already set");
-
-            di = configure;
-            return this;
-        }
+        readonly ActorMiddlewarePipeline pipeline = 
+             new ActorMiddlewarePipeline();
+        
+        IActorRefMiddleware middleware;
 
         /// <summary>
-        /// Registers global actor invoker (interceptor). This invoker will be used for every actor 
-        /// which doesn't specify an individual invoker via <see cref="InvokerAttribute"/> attribute.
+        /// Registers global actor middleware (interceptor). This middleware will be used for every actor 
+        /// which doesn't specify an individual middleware via call to <see cref="ActorMiddleware(Type,IActorMiddleware) "/>.
         /// </summary>
-        /// <param name="global">The invoker.</param>
-        public ClusterConfigurator ActorInvoker(IActorInvoker global)
+        /// <param name="global">The middleware.</param>
+        public ClusterConfigurator ActorMiddleware(IActorMiddleware global)
         {
             pipeline.Register(global);
             return this;
         }
 
         /// <summary>
-        /// Registers named actor invoker (interceptor). For this invoker to be used an actor need 
-        /// to specify its name via <see cref="InvokerAttribute"/> attribute. 
-        /// The invoker is inherited by all subclasses.
+        /// Registers type-based actor middleware (interceptor). 
+        /// The middleware is inherited by all subclasses.
         /// </summary>
-        /// <param name="name">The name of the invoker</param>
-        /// <param name="invoker">The invoker.</param>
-        public ClusterConfigurator ActorInvoker(string name, IActorInvoker invoker)
+        /// <param name="type">The actor type (could be the base class)</param>
+        /// <param name="middleware">The middleware.</param>
+        public ClusterConfigurator ActorMiddleware(Type type, IActorMiddleware middleware)
         {
-            pipeline.Register(name, invoker);
+            pipeline.Register(type, middleware);
             return this;
         }
 
         /// <summary>
-        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// Registers global <see cref="ActorRef"/> middleware (interceptor)
         /// </summary>
-        /// <param name="invoker">The invoker.</param>
-        public ClusterConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        /// <param name="middleware">The middleware.</param>
+        public ClusterConfigurator ActorRefMiddleware(IActorRefMiddleware middleware)
         {
-            Requires.NotNull(invoker, nameof(invoker));
+            Requires.NotNull(middleware, nameof(middleware));
 
-            if (this.invoker != null)
-                throw new InvalidOperationException("ActorRef invoker has been already registered");
+            if (this.middleware != null)
+                throw new InvalidOperationException("ActorRef middleware has been already registered");
 
-            this.invoker = invoker;
+            this.middleware = middleware;
             return this;
         }
 
@@ -139,118 +75,46 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterActorSystem Done()
+        internal void Configure(ISiloHostBuilder builder, IServiceCollection services)
         {
-            Configure();
+            var assemblies = builder.GetApplicationPartManager().ApplicationParts
+                                    .OfType<AssemblyPart>().Select(x => x.Assembly)
+                                    .ToArray();
 
-            return new ClusterActorSystem(Configuration, registry.Assemblies, di, pipeline, invoker);
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, middleware));
+            services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
+            services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+            services.AddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
         }
 
-        void Configure()
+        DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
         {
-            RegisterInterfaces();
-            RegisterTypes();
-            RegisterAutoruns();
-            RegisterStreamProviders();
-            RegisterStreamSubscriptions();
-            RegisterBootstrappers();
-            RegisterBehaviors();
-        }
+            var dispatchActors = assemblies.SelectMany(x => x.GetTypes())
+                                           .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
 
-        void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
+            var dispatcherRegistry = new DispatcherRegistry();
+            var handlerNamingConventions = conventions.Count > 0 ? conventions.ToArray() : null;
 
-        void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
+            foreach (var actor in dispatchActors)
+                dispatcherRegistry.Register(actor, new Dispatcher(actor, handlerNamingConventions));
 
-        void RegisterAutoruns()
-        {
-            var autoruns = new Dictionary<string, string[]>();
-
-            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-            {
-                var ids = AutorunAttribute.From(actor);
-                if (ids.Length > 0)
-                    autoruns.Add(ActorTypeName.Of(actor), ids);
-            }
-
-            Bootstrapper<AutorunBootstrapper>(autoruns);
-        }
-
-        void RegisterStreamProviders()
-        {
-            foreach (var each in streamProviders)
-                each.Register(Configuration);
-        }
-
-        void RegisterBootstrappers()
-        {
-            foreach (var each in bootstrapProviders)
-                each.Register(Configuration.Globals);
-        }
-
-        void RegisterBehaviors()
-        {
-            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-                ActorBehavior.Register(actor);
-        }
-
-        void RegisterStreamSubscriptions()
-        {
-            foreach (var actor in ActorType.Registered())
-                StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
-
-            const string id = "stream-subscription-boot";
-
-            var properties = new Dictionary<string, string>();
-            properties["providers"] = string.Join(";", streamProviders
-                .Where(x => x.IsPersistentStreamProvider())
-                .Select(x => x.Name));
-
-            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
-        }
-
-        [UsedImplicitly]
-        class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
-        {
-            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) =>
-                Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
-
-            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
-                ids.Select(id => system.ActorOf(type, id).Autorun());
+            return dispatcherRegistry;
         }
     }
 
-    public static class ClusterConfiguratorExtensions
+    public static class SiloHostBuilderExtension
     {
-        public static ClusterConfigurator Cluster(this IActorSystemConfigurator root)
-        {
-            return new ClusterConfigurator();
-        }
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder) => 
+            ConfigureOrleankka(builder, new ClusterConfigurator());
 
-        public static ClusterConfiguration LoadFromEmbeddedResource<TNamespaceScope>(this ClusterConfiguration config, string resourceName)
-        {
-            return LoadFromEmbeddedResource(config, typeof(TNamespaceScope), resourceName);
-        }
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, Func<ClusterConfigurator, ClusterConfigurator> configure) => 
+            ConfigureOrleankka(builder, configure(new ClusterConfigurator()));
 
-        public static ClusterConfiguration LoadFromEmbeddedResource(this ClusterConfiguration config, Type namespaceScope, string resourceName)
-        {
-            if (namespaceScope.Namespace == null)
-                throw new ArgumentException("Resource assembly and scope cannot be determined from type '0' since it has no namespace.\nUse overload that takes Assembly and string path to provide full path of the embedded resource");
-
-            return LoadFromEmbeddedResource(config, namespaceScope.Assembly, $"{namespaceScope.Namespace}.{resourceName}");
-        }
-
-        public static ClusterConfiguration LoadFromEmbeddedResource(this ClusterConfiguration config, Assembly assembly, string fullResourcePath)
-        {
-            var result = new ClusterConfiguration();
-            result.Load(assembly.LoadEmbeddedResource(fullResourcePath));
-            return result;
-        }
-
-        public static ClusterConfiguration DefaultKeepAliveTimeout(this ClusterConfiguration config, TimeSpan idle)
-        {
-            Requires.NotNull(config, nameof(config));
-            config.Globals.Application.SetDefaultCollectionAgeLimit(idle);
-            return config;
-        }
+        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, ClusterConfigurator cfg) => 
+            builder
+            .ConfigureServices(services => cfg.Configure(builder, services))
+            .ConfigureApplicationParts(apm => apm
+                .AddApplicationPart(typeof(IClientEndpoint).Assembly)
+                .WithCodeGeneration());
     }
 }

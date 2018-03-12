@@ -11,6 +11,8 @@ using Orleans.Streams;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Orleans.Runtime;
+
 namespace Orleankka
 {
     using Utility;
@@ -185,8 +187,8 @@ namespace Orleankka
         {
             var reader = context.StreamReader;
             var path = StreamPath.Parse(reader.ReadString());
-            var manager = context.ServiceProvider.GetRequiredService<IStreamProviderManager>();
-            return new StreamRef(path, manager.GetStreamProvider(path.Provider));
+            var provider = context.ServiceProvider.GetServiceByName<IStreamProvider>(path.Provider);
+            return new StreamRef(path, provider);
         }
 
         #endregion
