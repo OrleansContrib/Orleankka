@@ -10,7 +10,6 @@ using Orleankka.Cluster;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
 
 namespace Example
 {
@@ -20,15 +19,8 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var config = ClusterConfiguration
-                .LocalhostPrimarySilo()
-                .UseSerializer<HyperionSerializer>();
-
-            config.AddMemoryStorageProvider("PubSubStore");
-            config.AddSimpleMessageStreamProvider("sms");
-
             var host = await new SiloHostBuilder()
-                .UseConfiguration(config)
+                .UseSerializer<HyperionSerializer>()
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())

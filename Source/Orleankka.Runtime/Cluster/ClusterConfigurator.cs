@@ -81,15 +81,9 @@ namespace Orleankka.Cluster
                                     .OfType<AssemblyPart>().Select(x => x.Assembly)
                                     .ToArray();
 
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, middleware));
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
-
-            services.AddSingleton(sp => new ClusterActorSystem(assemblies,
-                sp.GetService<IStreamProviderManager>(), 
-                sp.GetService<IGrainFactory>(), 
-                pipeline, middleware));
-
             services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
-
             services.AddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
         }
 

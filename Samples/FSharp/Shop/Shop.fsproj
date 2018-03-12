@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Shared.fs" Link="Shared.fs" />
     <Compile Include="Account.fs" />
     <Compile Include="Shop.fs" />
     <Compile Include="Program.fs" />

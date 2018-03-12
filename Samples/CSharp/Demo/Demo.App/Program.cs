@@ -10,7 +10,6 @@ using Orleankka.Cluster;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
 
 namespace Demo
 {
@@ -20,13 +19,13 @@ namespace Demo
 
         public static async Task Main()
         {
+            Console.WriteLine("Make sure you've started Azure storage emulator!");
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             var storage = await TopicStorage.Init(account);
 
             var host = await new SiloHostBuilder()
-                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
                 .ConfigureServices(x => x
                     .AddSingleton(storage))
                 .ConfigureApplicationParts(x => x

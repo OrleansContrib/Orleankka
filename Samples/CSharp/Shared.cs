@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -8,74 +9,79 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.ApplicationParts;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
+using Orleans.Configuration;
+using Orleans.Runtime;
+using Orleans.Storage;
 
 using Orleankka.Client;
-using Orleans.Providers;
 
 namespace Orleankka
 {
     static class DemoExtensions
     {
+        const string DemoClusterId = "localhost-demo";
+        const int LocalhostSiloPort = 11111;
+        const int LocalhostGatewayPort = 30000;
+        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
+
+        static ISiloHostBuilder ConfigureDemoClustering(this ISiloHostBuilder builder) => builder
+            .Configure(options => options.ClusterId = DemoClusterId)
+            .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
+            .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort);
+
+        static IClientBuilder ConfigureDemoClustering(this IClientBuilder builder) => builder
+            .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+            .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
+
         public static async Task<ISiloHost> Start(this ISiloHostBuilder builder)
         {
-            var host = builder.Build();
+            var host = builder
+                .ConfigureDemoClustering()
+                .AddMemoryGrainStorageAsDefault()
+                .AddMemoryGrainStorage("PubSubStore")
+                .AddSimpleMessageStreamProvider("sms")
+                .ConfigureApplicationParts(x => x.AddApplicationPart(typeof(MemoryGrainStorage).Assembly))
+                .ConfigureServices(services => services.UseInMemoryReminderService())
+                .Build();
+
             await host.StartAsync();
             return host;
         }
 
-        public static async Task<IClusterClient> Connect(this ISiloHost host, Action<ClientConfiguration> configure = null)
+        public static async Task<IClusterClient> Connect(this ISiloHost host, Action<IClientBuilder> configure = null)
         {
-            var config = ClientConfiguration.LocalhostSilo();
-            configure?.Invoke(config);
-
-            var cluster = host.Services.GetRequiredService<ClusterConfiguration>();
-            if (cluster.Globals.ProviderConfigurations.TryGetValue(ProviderCategoryConfiguration.STREAM_PROVIDER_CATEGORY_NAME, out ProviderCategoryConfiguration pcc))
-            {
-                foreach (var each in pcc.Providers)
-                    config.RegisterStreamProvider(each.Value.Type, each.Key, each.Value.Properties);
-            }
-
-            var client = new ClientBuilder()
-                .UseConfiguration(config)
+            var builder = new ClientBuilder()
+                .ConfigureDemoClustering()
+                .AddSimpleMessageStreamProvider("sms")
                 .ConfigureApplicationParts(x =>
                 {
-                    var apm = host.Services.GetRequiredService<ApplicationPartManager>();
+                    var apm = host.Services.GetRequiredService<IApplicationPartManager>();
                     foreach (var part in apm.ApplicationParts.OfType<AssemblyPart>())
                         x.AddApplicationPart(part.Assembly);
                 })
-                .ConfigureOrleankka()
-                .Build();
+                .ConfigureOrleankka();
+
+            configure?.Invoke(builder);
+            var client = builder.Build();
 
             await client.Connect();
             return client;
         }
 
-        public static ClusterConfiguration UseSerializer<T>(this ClusterConfiguration cfg)
+        public static ISiloHostBuilder UseSerializer<T>(this ISiloHostBuilder builder)
         {
-            cfg.Globals.SerializationProviders.Add(typeof(T).GetTypeInfo());
-            return cfg;
+            return builder.ConfigureServices(services => services.Configure<SerializationProviderOptions>(options =>
+            {
+                options.SerializationProviders.Add(typeof(T).GetTypeInfo());
+            }));
         }
         
-        public static ClientConfiguration UseSerializer<T>(this ClientConfiguration cfg)
+        public static IClientBuilder UseSerializer<T>(this IClientBuilder builder)
         {
-            cfg.SerializationProviders.Add(typeof(T).GetTypeInfo());
-            return cfg;
+            return builder.ConfigureServices(services => services.Configure<SerializationProviderOptions>(options =>
+            {
+                options.SerializationProviders.Add(typeof(T).GetTypeInfo());
+            }));
         }
-    }
-
-    public abstract class BootstrapProvider : IBootstrapProvider
-    {
-        public string Name { get; private set; }
-
-        Task IProvider.Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
-        {
-            Name = name;
-            return Init(providerRuntime, config);
-        }
-
-        protected abstract Task Init(IProviderRuntime runtime, IProviderConfiguration config);
-
-        Task IProvider.Close() => Task.CompletedTask;
     }
 }

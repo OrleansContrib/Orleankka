@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Orleans;
-using Orleans.Streams;
-
 namespace Orleankka.Cluster
 {
     using Utility;
@@ -17,11 +14,10 @@ namespace Orleankka.Cluster
 
         internal ClusterActorSystem(
             Assembly[] assemblies,
-            IStreamProviderManager streamProviderManager,
-            IGrainFactory grainFactory,
+            IServiceProvider serviceProvider,
             ActorMiddlewarePipeline pipeline,
             IActorRefMiddleware middleware = null)
-            : base(assemblies, streamProviderManager, grainFactory, middleware)
+            : base(assemblies, serviceProvider, middleware)
         {
             Register(pipeline, assemblies);
         }

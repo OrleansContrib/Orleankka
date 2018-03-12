@@ -40,10 +40,7 @@ namespace Orleankka.Client
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClientActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
 
-            services.AddSingleton(sp => new ClientActorSystem(assemblies, 
-                sp.GetService<IStreamProviderManager>(), 
-                sp.GetService<IGrainFactory>(), 
-                middleware));
+            services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, middleware));
         }
     }
 

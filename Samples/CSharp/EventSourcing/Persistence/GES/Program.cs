@@ -12,7 +12,6 @@ using Orleankka.Meta;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
 
 namespace Example
 {
@@ -27,7 +26,6 @@ namespace Example
             await ES.Connection.ConnectAsync();
 
             var host = await new SiloHostBuilder()
-                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())

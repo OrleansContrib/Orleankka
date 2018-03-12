@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
+using Orleans.Runtime;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -45,18 +48,17 @@ namespace Orleankka
         readonly Dictionary<string, ActorGrainInterface> interfaces =
              new Dictionary<string, ActorGrainInterface>();
 
-        readonly IStreamProviderManager streamProviderManager;
+        readonly IServiceProvider serviceProvider;
         readonly IGrainFactory grainFactory;
         readonly IActorRefMiddleware middleware;
 
         protected ActorSystem(
             Assembly[] assemblies,
-            IStreamProviderManager streamProviderManager,
-            IGrainFactory grainFactory,
+            IServiceProvider serviceProvider,
             IActorRefMiddleware middleware = null)
         {
-            this.streamProviderManager = streamProviderManager;
-            this.grainFactory = grainFactory;
+            this.serviceProvider = serviceProvider;
+            this.grainFactory = serviceProvider.GetService<IGrainFactory>();
             this.middleware = middleware ?? DefaultActorRefMiddleware.Instance;
 
             Register(assemblies);
@@ -93,7 +95,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            var provider = streamProviderManager.GetStreamProvider(path.Provider);
+            var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
             return new StreamRef(path, provider);
         }
 
@@ -123,6 +125,18 @@ namespace Orleankka
         {
             return system.ActorOf(ActorPath.For(@interface, id));
         }
+        
+        /// <summary>
+        /// Acquires the actor reference for the given actor type and id.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The actor id</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
+        {
+            return system.ActorOf(typeof(TActor), id);
+        }
 
         /// <summary>
         /// Acquires the actor reference for the given actor path string.
@@ -144,6 +158,17 @@ namespace Orleankka
         public static ActorRef WorkerOf(this IActorSystem system, Type @interface)
         {
             return system.ActorOf(ActorPath.For(@interface, "#"));
+        }
+        
+        /// <summary>
+        /// Acquires the actor reference for the given worker type.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
+        {
+            return system.WorkerOf(typeof(TActor));
         }
 
         /// <summary>

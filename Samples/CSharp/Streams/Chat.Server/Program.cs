@@ -1,29 +1,38 @@
 ﻿using System;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
+using Orleans.Configuration;
+using Orleans.Storage;
+
 using Orleankka.Cluster;
 
 namespace Example
 {
     class Program
     {
+        const string DemoClusterId = "localhost-demo";
+        const int LocalhostSiloPort = 11111;
+        const int LocalhostGatewayPort = 30000;
+        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
+
         static async Task Main(string[] args)
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
-            var config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.AddMemoryStorageProvider("PubSubStore");
-            config.AddSimpleMessageStreamProvider("sms");
-
             var host = new SiloHostBuilder()
-                .UseConfiguration(config)
+                .Configure(options => options.ClusterId = DemoClusterId)
+                .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
+                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
+                .AddMemoryGrainStorage("PubSubStore")
+                .AddSimpleMessageStreamProvider("sms")
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .AddApplicationPart(typeof(Join).Assembly)
+                    .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
                 .ConfigureOrleankka()
                 .Build();

@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
+using Orleans.Runtime;
 using Orleankka.Client;
 
 namespace Example
 {
     class Program
     {
+        const string DemoClusterId = "localhost-demo";
+        const int LocalhostGatewayPort = 30000;
+        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
+        
         static async Task Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
@@ -17,8 +22,7 @@ namespace Example
             
             Console.WriteLine("Connecting to server ...");
 
-            var config = ClientConfiguration.LocalhostSilo();
-            var system = await Connect(config, retries: 2);            
+            var system = await Connect(retries: 2);            
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
@@ -42,7 +46,7 @@ namespace Example
             }
         }
 
-        static async Task<IClientActorSystem> Connect(ClientConfiguration config, int retries = 0, TimeSpan? retryTimeout = null)
+        static async Task<IClientActorSystem> Connect(int retries = 0, TimeSpan? retryTimeout = null)
         {
             if (retryTimeout == null)
                 retryTimeout = TimeSpan.FromSeconds(5);
@@ -56,7 +60,8 @@ namespace Example
                 try
                 {
                     var client = new ClientBuilder()
-                        .UseConfiguration(config)
+                        .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+                        .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                         .ConfigureApplicationParts(x => x
                             .AddApplicationPart(typeof(Join).Assembly)
                             .WithCodeGeneration())

@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
-using Orleans.ApplicationParts;
-using Orleans.Streams;
 
 namespace Orleankka.Client
 {
@@ -28,12 +29,11 @@ namespace Orleankka.Client
 
         internal ClientActorSystem(
             Assembly[] assemblies,
-            IStreamProviderManager streamProviderManager,
-            IGrainFactory grainFactory,
+            IServiceProvider serviceProvider,
             IActorRefMiddleware middleware = null)
-            : base(assemblies, streamProviderManager, grainFactory, middleware)
+            : base(assemblies, serviceProvider, middleware)
         {
-            this.grainFactory = grainFactory;
+            grainFactory = serviceProvider.GetService<IGrainFactory>();
         }
 
         /// <inheritdoc />

@@ -9,7 +9,6 @@ using Orleankka.Meta;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
 
 namespace Example
 {
@@ -19,12 +18,7 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.AddSimpleMessageStreamProvider("sms");
-            config.AddMemoryStorageProvider("PubSubStore");
-
             var host = await new SiloHostBuilder()
-                .UseConfiguration(config)
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())

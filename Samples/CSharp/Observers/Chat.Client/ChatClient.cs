@@ -17,7 +17,7 @@ namespace Example
         {
             this.system = system;
             this.user = user;
-            this.room = system.ActorOf($"ChatRoom:{room}");
+            this.room = system.ActorOf<IChatRoom>(room);
         }
 
         public async Task Join()

@@ -8,7 +8,6 @@ using Orleankka.Cluster;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime.Configuration;
 
 using static System.Console;
 
@@ -34,7 +33,6 @@ namespace Demo
             WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var host = await new SiloHostBuilder()
-                .UseConfiguration(ClusterConfiguration.LocalhostPrimarySilo())
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())

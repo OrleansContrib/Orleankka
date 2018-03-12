@@ -6,7 +6,8 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
-using Orleans.Runtime.Configuration;
+using Orleans.Configuration;
+using Orleans.Runtime;
 using Orleans.Serialization;
 
 namespace Orleankka.TestKit
@@ -26,20 +27,20 @@ namespace Orleankka.TestKit
             if (!roundtrip)
                 return;
 
-            var configuration = new ClientConfiguration
-            {
-                GatewayProvider = ClientConfiguration.GatewayProviderType.Config,
-                Gateways = { new IPEndPoint(0, 0) },
-            };
+            var builder = new ClientBuilder()
+                .ConfigureCluster(x => x.ClusterId = "test")
+                .UseStaticClustering(x => x.Gateways.Add(new IPEndPoint(0, 0).ToGatewayUri()))
+                .ConfigureApplicationParts(apm => apm.AddFromAppDomain());
 
             if (serializers.Length > 0)
-                configuration.SerializationProviders.AddRange(serializers.Select(x => x.GetTypeInfo()));
+            {
+                builder.ConfigureServices(services => services.Configure<SerializationProviderOptions>(options =>
+                {
+                    options.SerializationProviders.AddRange(serializers.Select(x => x.GetTypeInfo()));
+                }));
+            }
 
-            var client = new ClientBuilder()
-                .UseConfiguration(configuration)
-                .ConfigureApplicationParts(apm => apm.AddFromAppDomain())
-                .Build();
-
+            var client = builder.Build();
             Manager = client.ServiceProvider.GetRequiredService<SerializationManager>();
         }
 

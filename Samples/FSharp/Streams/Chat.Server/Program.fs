@@ -1,33 +1,43 @@
 ﻿module Demo
 
-open System
+open Microsoft.Extensions.DependencyInjection
+open System.Net
 open System.Reflection
 open Orleankka.Cluster
 open Orleans
 open Orleans.Hosting
-open Orleans.Runtime.Configuration
 open Orleans.ApplicationParts
+open Orleans.Configuration
+open Orleans.Storage
 
 open Messages
+
+let DemoClusterId = "localhost-demo"
+let LocalhostSiloPort = 11111
+let LocalhostGatewayPort = 30000
+let LocalhostSiloAddress = IPAddress.Loopback
 
 [<EntryPoint>]
 let main argv = 
    
     printfn "Running demo. Booting cluster might take some time ...\n"
    
-    let sc = ClusterConfiguration.LocalhostPrimarySilo()
-                  
-    sc.AddMemoryStorageProvider()
-    sc.AddMemoryStorageProvider("PubSubStore")
-    sc.AddSimpleMessageStreamProvider("rooms")
-
     let configureAssemblies (apm:IApplicationPartManager) =
-        apm.AddApplicationPart(typedefof<IChatUser>.Assembly).WithCodeGeneration() |> ignore
+        apm.AddApplicationPart(typeof<IChatUser>.Assembly).WithCodeGeneration() |> ignore
+        apm.AddApplicationPart(typeof<MemoryGrainStorage>.Assembly).WithCodeGeneration() |> ignore
         apm.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore
 
-    let sb = new SiloHostBuilder()
-    sb.UseConfiguration(sc) |> ignore
+    let sb = SiloHostBuilder()
+    sb.Configure<ClusterOptions>(fun options -> options.ClusterId <- DemoClusterId) |> ignore
+    sb.UseDevelopmentClustering(fun (options:DevelopmentMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
+    sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
+
+    sb.AddMemoryGrainStorageAsDefault() |> ignore
+    sb.AddMemoryGrainStorage("PubSubStore") |> ignore
+    sb.AddSimpleMessageStreamProvider("sms") |> ignore
+
     sb.ConfigureApplicationParts(fun x -> configureAssemblies x) |> ignore
+    sb.ConfigureServices(fun (services:IServiceCollection) -> services.UseInMemoryReminderService() |> ignore) |> ignore
     sb.ConfigureOrleankka() |> ignore
 
     use host = sb.Build()

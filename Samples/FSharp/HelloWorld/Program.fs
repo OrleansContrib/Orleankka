@@ -5,12 +5,10 @@ open System.Reflection
 
 open FSharp.Control.Tasks
 open Orleankka
-open Orleankka.FSharp
 open Orleankka.Client
+open Orleankka.FSharp
 open Orleankka.Cluster
-open Orleans
 open Orleans.Hosting
-open Orleans.Runtime.Configuration
 
 type GreeterMessage = 
    | Greet of string
@@ -41,30 +39,12 @@ let main argv =
 
     printfn "Running demo. Booting cluster might take some time ...\n"
 
-    let sc = ClusterConfiguration.LocalhostPrimarySilo()
-                  
-    sc.AddMemoryStorageProvider()
-    sc.AddMemoryStorageProvider("PubSubStore")
-    sc.AddSimpleMessageStreamProvider("sms")
-
     let sb = new SiloHostBuilder()
-    sb.UseConfiguration(sc) |> ignore
-    sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
+    sb.AddAssembly(Assembly.GetExecutingAssembly())
     sb.ConfigureOrleankka() |> ignore
 
-    use host = sb.Build()
-    host.StartAsync().Wait()
-
-    let cc = ClientConfiguration.LocalhostSilo()
-    cc.AddSimpleMessageStreamProvider("sms")
-
-    let cb = new ClientBuilder()
-    cb.UseConfiguration(cc) |> ignore
-    cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
-    cb.ConfigureOrleankka() |> ignore
-
-    use client = cb.Build()
-    client.Connect().Wait()
+    use host = sb.Start().Result
+    use client = host.Connect().Result
    
     let t = task {
 

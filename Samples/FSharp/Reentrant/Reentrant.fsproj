@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Shared.fs" Link="Shared.fs" />
     <Compile Include="RealTimeCounter.fs" />
     <None Include="App.config" />
     <Compile Include="Program.fs" />
