@@ -86,7 +86,7 @@ var Version = "2.0.0-dev";
 
 void Push(string package) => Exec("dotnet", 
     @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
-    "-k %NuGetApiKey% -s https://nuget.org/");
+    "-k %NuGetApiKey% -s https://nuget.org/ -ss https://nuget.smbsrc.net");
 
 /// Installs binary dependencies 
 [Task] void Restore()
