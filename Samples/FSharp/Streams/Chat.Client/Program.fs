@@ -62,11 +62,7 @@ let main argv =
 
     let client = cb.Build()
     client.Connect().Wait()
-   
-    // TODO: this call misteriously fails. Correct assembly has been registered above!
-    let bugger = client.GetGrain<IChatUser>("weird")
-    Trace.TraceInformation(bugger.ToString())
-
+      
     printfn "Enter your user name..."
     let userName = Console.ReadLine();
 
