@@ -36,13 +36,13 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 ### Packages
 
-|  |  | [inside]
-| ------- |:----:| ---------- |
-| Orleankka | [NuGet](https://www.nuget.org/packages/Orleankka/) | Core and client lib
-| Orleankka.Runtime | [NuGet](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
-| Orleankka.TestKit | [NuGet](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
-| Orleankka.FSharp | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
-| Orleankka.FSharp.Runtime | [![NuGet](https://img.shields.io/nuget/v/Orleankka.FSharp.Runtime.svg?style=flat)](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
+|  |[inside]
+| ------- |---------- |
+| [Orleankka](https://www.nuget.org/packages/Orleankka) | Core and client lib
+| [Orleankka.Runtime](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
+| [Orleankka.TestKit](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
+| [Orleankka.FSharp](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
+| [Orleankka.FSharp.Runtime](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
 
 ### Examples
 
