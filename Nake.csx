@@ -63,7 +63,11 @@ var Version = "2.0.0-dev";
     finally
     {    	
 	    if (AppVeyorJobId != null)
-	        new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
+        {
+            Info($"Uploading {results} to appveyor using job id {AppVeyorJobId}");
+	        var response = new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
+            Info("\nResponse Received.The contents of the file uploaded are:\n{0}", System.Text.Encoding.ASCII.GetString(response));
+        }
 	}
 }
 
