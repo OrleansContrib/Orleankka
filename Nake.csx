@@ -30,7 +30,7 @@ var RootPath = "%NakeScriptDirectory%";
 var ArtifactsPath = $@"{RootPath}\Artifacts";
 var ReleasePackagesPath = $@"{ArtifactsPath}\Release";
 
-var AppVeyor = Var["APPVEYOR"] == "True";
+var AppVeyor = false;
 var GES = "EventStore-OSS-Win-v3.9.4";
 
 var Version = "2.0.0-dev";
@@ -89,10 +89,14 @@ void Push(string package) => Exec("dotnet",
     @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
     "-k %NuGetApiKey% -s https://nuget.org/ -ss https://nuget.smbsrc.net");
 
-/// Installs binary dependencies 
-[Task] void Restore()
+/// Restores build-time packages and 3rd party dependencies used in demo projects
+[Task] void Restore(bool packagesOnly = false)
 {
     Exec("dotnet", "restore {CoreProject}.sln");
+    
+    if (packagesOnly)
+        return;
+    
     RestoreGetEventStoreBinaries();
 }
 
