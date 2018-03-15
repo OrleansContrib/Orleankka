@@ -68,7 +68,7 @@ var Version = "2.0.0-dev";
 }
 
 /// Builds official NuGet packages 
-[Step] void Package(bool skipFullCheck = false)
+[Step] void Pack(bool skipFullCheck = false)
 {
     Test(!skipFullCheck);
     Build("Release");
