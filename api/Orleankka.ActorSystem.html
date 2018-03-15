@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ActorSystem
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.27.0.0">
+    <meta name="generator" content="docfx 2.32.2.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,7 +91,6 @@
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
     <div class="level1"><span class="xref">ActorSystem</span></div>
       <div class="level2"><a class="xref" href="Orleankka.Client.ClientActorSystem.html">ClientActorSystem</a></div>
-      <div class="level2"><a class="xref" href="Orleankka.Cluster.ClusterActorSystem.html">ClusterActorSystem</a></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
@@ -100,25 +99,25 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
+      <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/w4hkze5k(v=vs.110).aspx">Object.Equals(Object, Object)</a>
+      <span class="xref">System.Object.GetHashCode()</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/hz2a0b8x(v=vs.110).aspx">Object.ReferenceEquals(Object, Object)</a>
+      <span class="xref">System.Object.GetType()</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/zdee4b3y(v=vs.110).aspx">Object.GetHashCode()</a>
+      <span class="xref">System.Object.MemberwiseClone()</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/dfwy45w9(v=vs.110).aspx">Object.GetType()</a>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
     </div>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/57ctke0a(v=vs.110).aspx">Object.MemberwiseClone()</a>
+      <span class="xref">System.Object.ToString()</span>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
@@ -131,18 +130,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem__ctor_Orleankka_IActorRefInvoker_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.%23ctor(Orleankka.IActorRefInvoker)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem__ctor_System_Reflection_Assembly___System_IServiceProvider_Orleankka_IActorRefMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.%23ctor(System.Reflection.Assembly%5B%5D%2CSystem.IServiceProvider%2COrleankka.IActorRefMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L50">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L55">View Source</a>
   </span>
   <a id="Orleankka_ActorSystem__ctor_" data-uid="Orleankka.ActorSystem.#ctor*"></a>
-  <h4 id="Orleankka_ActorSystem__ctor_Orleankka_IActorRefInvoker_" data-uid="Orleankka.ActorSystem.#ctor(Orleankka.IActorRefInvoker)">ActorSystem(IActorRefInvoker)</h4>
+  <h4 id="Orleankka_ActorSystem__ctor_System_Reflection_Assembly___System_IServiceProvider_Orleankka_IActorRefMiddleware_" data-uid="Orleankka.ActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider,Orleankka.IActorRefMiddleware)">ActorSystem(Assembly[], IServiceProvider, IActorRefMiddleware)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected ActorSystem(IActorRefInvoker invoker = null)</code></pre>
+    <pre><code class="lang-csharp hljs">protected ActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider, IActorRefMiddleware middleware = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -155,70 +154,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.IActorRefInvoker.html">IActorRefInvoker</a></td>
-        <td><span class="parametername">invoker</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.reflection.assembly(v=vs.110).aspx">Assembly</a>[]</td>
+        <td><span class="parametername">assemblies</span></td>
         <td></td>
       </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_GrainFactory.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.GrainFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L48">View Source</a>
-  </span>
-  <a id="Orleankka_ActorSystem_GrainFactory_" data-uid="Orleankka.ActorSystem.GrainFactory*"></a>
-  <h4 id="Orleankka_ActorSystem_GrainFactory" data-uid="Orleankka.ActorSystem.GrainFactory">GrainFactory</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected IGrainFactory GrainFactory { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Orleans.IGrainFactory</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.iserviceprovider(v=vs.110).aspx">IServiceProvider</a></td>
+        <td><span class="parametername">serviceProvider</span></td>
         <td></td>
       </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_StreamProviderManager.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.StreamProviderManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L47">View Source</a>
-  </span>
-  <a id="Orleankka_ActorSystem_StreamProviderManager_" data-uid="Orleankka.ActorSystem.StreamProviderManager*"></a>
-  <h4 id="Orleankka_ActorSystem_StreamProviderManager" data-uid="Orleankka.ActorSystem.StreamProviderManager">StreamProviderManager</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected IStreamProviderManager StreamProviderManager { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Orleans.Streams.IStreamProviderManager</span></td>
+        <td><a class="xref" href="Orleankka.IActorRefMiddleware.html">IActorRefMiddleware</a></td>
+        <td><span class="parametername">middleware</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -230,7 +177,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_ActorOf_Orleankka_ActorPath_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.ActorOf(Orleankka.ActorPath)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L70">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L79">View Source</a>
   </span>
   <a id="Orleankka_ActorSystem_ActorOf_" data-uid="Orleankka.ActorSystem.ActorOf*"></a>
   <h4 id="Orleankka_ActorSystem_ActorOf_Orleankka_ActorPath_" data-uid="Orleankka.ActorSystem.ActorOf(Orleankka.ActorPath)">ActorOf(ActorPath)</h4>
@@ -280,7 +227,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_ClientOf_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.ClientOf(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L92">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L103">View Source</a>
   </span>
   <a id="Orleankka_ActorSystem_ClientOf_" data-uid="Orleankka.ActorSystem.ClientOf*"></a>
   <h4 id="Orleankka_ActorSystem_ClientOf_System_String_" data-uid="Orleankka.ActorSystem.ClientOf(System.String)">ClientOf(String)</h4>
@@ -327,74 +274,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_Configure.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.Configure%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L67">View Source</a>
-  </span>
-  <a id="Orleankka_ActorSystem_Configure_" data-uid="Orleankka.ActorSystem.Configure*"></a>
-  <h4 id="Orleankka_ActorSystem_Configure" data-uid="Orleankka.ActorSystem.Configure">Configure()</h4>
-  <div class="markdown level1 summary"><p>Entry-point method for fluent configuration</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IActorSystemConfigurator Configure()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.IActorSystemConfigurator.html">IActorSystemConfigurator</a></td>
-        <td><p>An instance of actor system configurator</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_Initialize_System_IServiceProvider_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.Initialize(System.IServiceProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L55">View Source</a>
-  </span>
-  <a id="Orleankka_ActorSystem_Initialize_" data-uid="Orleankka.ActorSystem.Initialize*"></a>
-  <h4 id="Orleankka_ActorSystem_Initialize_System_IServiceProvider_" data-uid="Orleankka.ActorSystem.Initialize(System.IServiceProvider)">Initialize(IServiceProvider)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected void Initialize(IServiceProvider provider)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.iserviceprovider(v=vs.110).aspx">IServiceProvider</a></td>
-        <td><span class="parametername">provider</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem_StreamOf_Orleankka_StreamPath_.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L82">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L93">View Source</a>
   </span>
   <a id="Orleankka_ActorSystem_StreamOf_" data-uid="Orleankka.ActorSystem.StreamOf*"></a>
   <h4 id="Orleankka_ActorSystem_StreamOf_Orleankka_StreamPath_" data-uid="Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)">StreamOf(StreamPath)</h4>
@@ -445,19 +328,19 @@
   </div>
   <h3 id="extensionmethods">Extension Methods</h3>
   <div>
-      <span class="xref">Orleankka.ActorSystemExtensions.ActorOf&lt;TActor&gt;(Orleankka.IActorSystem, System.String)</span>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_Orleankka_IActorSystem_System_Type_System_String_">ActorSystemExtensions.ActorOf(IActorSystem, Type, String)</a>
   </div>
   <div>
-      <span class="xref">Orleankka.ActorSystemExtensions.WorkerOf``1(Orleankka.IActorSystem)</span>
-  </div>
-  <div>
-      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.ActorOf(IActorSystem, String, String)</a>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf__1_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.ActorOf&lt;TActor&gt;(IActorSystem, String)</a>
   </div>
   <div>
       <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.ActorOf(IActorSystem, String)</a>
   </div>
   <div>
-      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.WorkerOf(IActorSystem, String)</a>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf_Orleankka_IActorSystem_System_Type_">ActorSystemExtensions.WorkerOf(IActorSystem, Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf__1_Orleankka_IActorSystem_">ActorSystemExtensions.WorkerOf&lt;TActor&gt;(IActorSystem)</a>
   </div>
   <div>
       <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.StreamOf(IActorSystem, String, String)</a>
@@ -479,7 +362,7 @@
                     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorSystem.md&amp;value=---%0Auid%3A%20Orleankka.ActorSystem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L43" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L46" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -498,7 +381,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            Copyright © 2016-2017 Orleankka project<br>Generated by <strong>DocFX</strong>
+            Copyright © 2016-2018 Orleankka project<br>Generated by <strong>DocFX</strong>
             
           </div>
         </div>
