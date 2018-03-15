@@ -11,7 +11,7 @@ environment:
     secure: B5VQnP9LQP9stxxvu2G/3MCKhVySoSVf/mvyqHY5K8M=
 
 build_script:
-  - C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe start    
+  - "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start    
   - Nake.bat restore    
   - Nake.bat package
 
