@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
@@ -129,4 +130,18 @@ bool IsRunning(string processName)
 {
     var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
     return (processes.Any(p => p == processName));
+}
+
+class Docs
+{
+    const string RootPath = "%NakeScriptDirectory%";
+
+    /// Builds documentation
+    [Task] void Build() => Exec("bash", "build.sh", workingDirectory: $@"{RootPath}/Docs");
+
+    /// Releases documentation
+    [Task] void Release() => Exec("bash", "release.sh 'https://github.com/OrleansContrib/Orleankka'", workingDirectory: $@"{RootPath}/Docs");
+
+    /// Serves documentation from local _site folder
+    [Task] void Serve() => Exec("bash", "serve.sh", workingDirectory: $@"{RootPath}/Docs");
 }

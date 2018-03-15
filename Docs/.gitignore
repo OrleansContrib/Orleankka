@@ -6,5 +6,6 @@
 /**/packages/
 /**/bin/
 /**/obj/
+_gh-pages
 _site
 api

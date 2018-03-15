@@ -1,17 +1,40 @@
-version: '{build}'
-image: Visual Studio 2017
-install:
-- cmd: >-
-    curl -O https://download.microsoft.com/download/2/9/3/293BC432-348C-4D1C-B628-5AC8AB7FA162/dotnet-sdk-2.1.3-win-x64.exe
+skip_tags: true
 
-    dotnet-sdk-2.1.3-win-x64.exe /install /quiet /norestart /log install.log
+version: 2.0.{build}
+
+image: Visual Studio 2017
+
+environment:
+  github_access_token:
+    secure: EMJUnvkJwGXaFnohUmpxqyNd0R4hpMCeUtl5aVtHqFerhd0UdYc+lTJV3H3sIhg6
+  github_email:
+    secure: B5VQnP9LQP9stxxvu2G/3MCKhVySoSVf/mvyqHY5K8M=
+
 build_script:
 - cmd: >-
-    "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
-    
-    Nake.bat restore
-    
-    Nake.bat package
+    - "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start    
+    - Nake.bat restore    
+    - Nake.bat package
+
 test: off
+
 artifacts:
 - path: Output\Package\*.nupkg
+
+for:
+
+-
+  branches:
+    only:
+      - master
+
+  install:
+    - cinst docfx
+
+  deploy_script:
+    - Nake.bat docs.build
+    - git config --global credential.helper store
+    - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:github_access_token):x-oauth-basic@github.com`n"
+    - git config --global user.email %github_email%
+    - git config --global user.name "yevhen"
+    - Nake.bat docs.release
