@@ -13,7 +13,7 @@ environment:
 build_script:
   - call "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
   - Nake.bat restore --packagesOnly
-  - Nake.bat AppVeyor=true pack
+  - Nake.bat AppVeyorJobId=$($env:APPVEYOR_JOB_ID) pack
 
 test: off
 

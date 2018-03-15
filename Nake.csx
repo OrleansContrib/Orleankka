@@ -30,7 +30,7 @@ var RootPath = "%NakeScriptDirectory%";
 var ArtifactsPath = $@"{RootPath}\Artifacts";
 var ReleasePackagesPath = $@"{ArtifactsPath}\Release";
 
-var AppVeyor = false;
+string AppVeyorJobId = null;
 var GES = "EventStore-OSS-Win-v3.9.4";
 
 var Version = "2.0.0-dev";
@@ -58,12 +58,12 @@ var Version = "2.0.0-dev";
     {
         Exec("dotnet", 
             $@"vstest {tests} --logger:trx;LogFileName={results} " +
-            (AppVeyor||slow ? "" : "--TestCaseFilter:TestCategory!=Slow"));
+            (AppVeyorJobId != null||slow ? "" : "--TestCaseFilter:TestCategory!=Slow"));
     }
     finally
     {    	
-	    if (AppVeyor)
-	        new WebClient().UploadFile("https://ci.appveyor.com/api/testresults/nunit/%APPVEYOR_JOB_ID%", results);
+	    if (AppVeyorJobId != null)
+	        new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
 	}
 }
 
