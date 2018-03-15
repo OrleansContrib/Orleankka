@@ -62,12 +62,16 @@ var Version = "2.0.0-dev";
     }
     finally
     {    	
-	    if (AppVeyorJobId != null)
-        {
-            Info($"Uploading {results} to appveyor using job id {AppVeyorJobId}");
-	        var response = new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
-            Info("\nResponse Received.The contents of the file uploaded are:\n{0}" + System.Text.Encoding.ASCII.GetString(response));
-        }
+	    if (AppVeyorJobId == null)
+            return;
+
+        Info($"Uploading {results} to appveyor ...");
+        
+        var response = new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
+        var result = System.Text.Encoding.ASCII.GetString(response);
+        
+        if (result != "0")
+            Info("Failed to upload test results. Response is: {result}");
 	}
 }
 
