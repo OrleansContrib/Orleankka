@@ -11,10 +11,9 @@ environment:
     secure: B5VQnP9LQP9stxxvu2G/3MCKhVySoSVf/mvyqHY5K8M=
 
 build_script:
-- cmd: >-
-    - "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start    
-    - Nake.bat restore    
-    - Nake.bat package
+  - cmd: "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start    
+  - ps: Nake.bat restore    
+  - ps: Nake.bat package
 
 test: off
 
@@ -32,9 +31,9 @@ for:
     - cinst docfx
 
   deploy_script:
-    - Nake.bat docs.build
+    - ps: Nake.bat docs.build
     - git config --global credential.helper store
     - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:github_access_token):x-oauth-basic@github.com`n"
     - git config --global user.email %github_email%
     - git config --global user.name "yevhen"
-    - Nake.bat docs.release
+    - ps: Nake.bat docs.release
