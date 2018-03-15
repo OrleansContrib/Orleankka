@@ -64,13 +64,13 @@ var Version = "2.0.0-dev";
     {    	
 	    if (AppVeyorJobId != null)
         {
-            Info($"Uploading {results} to appveyor using job id {AppVeyorJobId} ...");
+            var workerApi = "https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}";
+            Info($"Uploading {results} to {workerApi} using job id {AppVeyorJobId} ...");
             
-            var response = new WebClient().UploadFile($@"https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}", results);
-            var result = System.Text.Encoding.ASCII.GetString(response);
-            
-            if (result != "0")
-                Info("Failed to upload test results. Response is: {result}");
+            var response = new WebClient().UploadFile(workerApi, results);
+            var result = System.Text.Encoding.UTF8.GetString(response);
+                      
+            Info($"Appveyor response is: {result}");
         }
 	}
 }
