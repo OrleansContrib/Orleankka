@@ -1481,59 +1481,11 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "articles/configuration/client-server.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/configuration/client-server.html",
-          "hash": "3aWqNkp7S0Rarh+AafOW4Q=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/configuration/embedded.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/configuration/embedded.html",
-          "hash": "3fDxCoOPzobW54E4XvMDFQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/configuration/how-to.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/configuration/how-to.html",
-          "hash": "HAVokFgY7L7/IDpu/OY26g=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/configuration/playground.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/configuration/playground.html",
-          "hash": "mL4+JCMVLk+jmDf5zHRM8w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
       "source_relative_path": "articles/intro/getting-started-csharp.md",
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-csharp.html",
-          "hash": "CiS43+q2+wJLxbr4OYhqOg=="
+          "hash": "A3WGZncOGBRkVYad+XaKEQ=="
         }
       },
       "is_incremental": false,
@@ -1557,19 +1509,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/what-is-orleankka.html",
-          "hash": "oaOhF4RgsJp2XJwPzaGMWQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/intro/why-orleankka.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/intro/why-orleankka.html",
-          "hash": "xNIhEJ4kBRuW9dQyHv0Z9w=="
+          "hash": "Dv+nJUh+7Sp9g5ibRScpcw=="
         }
       },
       "is_incremental": false,
@@ -1581,7 +1521,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "hSl7WwMswCkA7YAnu6YLSQ=="
+          "hash": "iGgghxW0eJjUEwonlzPghw=="
         }
       },
       "is_incremental": false,
@@ -1626,7 +1566,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "sNTzN1z5zDRhD7mvmAlGtQ=="
+          "hash": "r9c7Y4vZbsmoJPxJfnwtCg=="
         }
       },
       "is_incremental": false,
