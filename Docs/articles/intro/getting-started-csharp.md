@@ -6,30 +6,31 @@ Start Visual Studio and create a new C# Console Application.
 Once we have our console application, we need to open up the Package Manager Console and type:
 
 ```PM
-PM> Install-Package Orleankka
+PM> Install-Package Orleankka.Runtime
+PM> Install-Package Microsoft.Orleans.Server
 ```
+This will install all client and server-side packages required for demo app.
+
 ## Create your first actor
 
 First, we need to create a message type that our actor will respond to:
 
 ```csharp
-using System;
-
-using Orleankka;
-
 namespace ConsoleApplication11
 {
-    // Create an (immutable) message type that your actor will respond to
-    // and mark it with [Serializable] attribute
-    [Serializable]
+    // Create a message types that your actor will respond to
+    // and mark them with [Serializable] attribute. This is smilar to
+    // object-oriented interface signatures (eg Greet(string who)) but with classes
+
+    [Serializable] 
     public class Greet
     {
-        public Greet(string who)
-        {
-            Who = who;
-        }
-        public string Who { get; }
+        public string Who { get; set; }
     }
+
+    [Serializable] 
+    public class Sleep
+    {}
 }
 ```
 
@@ -42,26 +43,34 @@ using Orleankka;
 
 namespace ConsoleApplication11
 {
-    [Serializable]
-    public class Greet
-    {
-        public Greet(string who)
-        {
-            Who = who;
-        }
-        public string Who { get; }
-    }
+    // Create custom actor interface and implement IActorGrain
+    public interface IGreeter : IActorGrain {}
 
-    // Create actor class by inheriting from Actor
-    public class GreetingActor : Actor
+    // Create actor class by inheriting from ActorGrain and implementing custom actor interface
+    public class Greeter : ActorGrain, IGreeter
     {
-        // Declare hander method for message type defined above
-        void On(Greet greet) { Console.WriteLine("Hello {0}", greet.Who); }
+        // Implement receive function (use pattern matching or any other message matching approach)
+        public override Task<object> Receive(object message)
+        {
+            switch (message)
+            {
+                case Greet greet:
+                    Console.WriteLine($"Hello, {msg.Who}!");
+                    break;
+
+                case Sleep _:
+                    Console.WriteLine("Sleeeeping ...");
+                    break;
+                                    
+                default:
+                    return Unhandled;
+            }
+        }        
     }
 }
 ```
 
-Now it's time to consume our actor. We do so by configuring and starting `ActorSystem` and using `ActorOf` method to get proxy reference to our actor. For this tutorial we'll use playground actor system configuration suitable for demos, but in real project you will use more elaborate setups, you can learn about other possible deployment and configuration options in "Configuration" section.
+Now it's time to consume our actor. We need to configure Orleans and then register Orleankka. We'll be using simple localhost configuration suitable for demos.
 
 ```csharp
 using System;
@@ -71,49 +80,85 @@ using Orleankka.Playground;
 
 namespace ConsoleApplication11
 {
-    [Serializable]
+    [Serializable] 
     public class Greet
     {
-        public Greet(string who)
-        {
-            Who = who;
-        }
-        public string Who { get; }
+        public string Who { get; set; }
     }
 
-    public class GreetingActor : Actor
+    [Serializable] 
+    public class Sleep
+    {}
+
+    public class Greeter : ActorGrain, IGreeter
     {
-        void On(Greet greet) { Console.WriteLine("Hello {0}", greet.Who); }
+        public override Task<object> Receive(object message)
+        {
+            switch (message)
+            {
+                case Greet greet:
+                    Console.WriteLine($"Hello, {msg.Who}!");
+                    break;
+
+                case Sleep _:
+                    Console.WriteLine("Sleeeeping ...");
+                    break;
+                                    
+                default:
+                    return Unhandled;
+            }
+        }        
     }
 
     class Program
     {
+        const string DemoClusterId = "localhost-demo";
+        const int LocalhostSiloPort = 11111;
+        const int LocalhostGatewayPort = 30000;
+        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
+
         static void Main(string[] args)
         {
-            // Configure a new actor system (a container for your actors)
-            var system = ActorSystem.Configure()
-                // Use playground actor system configuration suitable for demos
-                .Playground()
-                // Use special extension method to register all actors in a given assembly
-                .Register(Assembly.GetExecutingAssembly())
-                // Complete configuration and start actor system
-                .Done();
+            var host = await new SiloHostBuilder()
+                .Configure(options => options.ClusterId = DemoClusterId)
+                .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
+                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)            
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka()  // register Orleankka extension
+                .Build();
 
-            // Note: It can take several seconds to start an actor system
-            
-            // Get a proxy reference to an actor.
-            // You don't need to pre-create an actor -
-            // it will be automatically activated by the system
-            var greeter = system.ActorOf<GreetingActor>("greeter");
+            // start Orleans server (silo)
+            await host.StartAsync();
 
-            // Send a message to the actor and 
-            // wait until message is processed
-            greeter.Tell(new Greet("World")).Wait();
+            var client = new ClientBuilder()
+                .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+                .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
+                .ConfigureApplicationParts(x => x
+                    .AddApplicationPart(Assembly.GetExecutingAssembly())
+                    .WithCodeGeneration())
+                .ConfigureOrleankka()
+                .Build();
+
+            // start (connect) Orleans client
+            await client.Connect();
+
+            // get reference to ActorSystem
+            var system = client.ActorSystem();
             
-            Console.ReadLine();
+            // get proxy reference for IGreeter actor
+            var greeter = system.ActorOf<IGreeter>("id");
+
+            // send messages to the actor
+            await greeter.Tell(new Greet {Who = "world"});
+            await greeter.Tell(new Sleep());
+
+            Console.Write("\n\nPress any key to terminate ...");
+            Console.ReadKey(true);
         }
     }
 }
 ```
 
-That is it, your actor is now ready to consume messages.
+That is it. See more examples in a Samples directory.

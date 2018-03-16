@@ -31,7 +31,7 @@ h2:before{
 
 <section>
     <div class="container centered">
-        <h2 class="lead">Orleankka is a <strong>functional</strong> API for <a href="http://dotnet.github.io/orleans/" target="_blank">Microsoft Orleans</a> framework. It is highly suitable for scenarios where having <strong>composable</strong>, <strong>uniform</strong> communication interface is preferable, such as: <strong>CQRS</strong>, <strong>event-sourcing</strong>, routing, batching, <strong>FSM</strong>, etc.</h2>
+        <h2 class="lead">Orleankka is a <strong>functional</strong> extension for <a href="http://dotnet.github.io/orleans/" target="_blank">Microsoft Orleans</a> framework. It provides a message-based API similar to Akka/ProtoActor, carefully layered on top of Microsoft Orleans (that's what in a name). Orleankka is an excellent choice for use-cases which can benefit from <strong>composable</strong>, <strong>uniform</strong> communication interface, such as <strong>CQRS</strong>, <strong>event-sourcing</strong>, <strong>FSM</strong>, etc.</h2>
     </div>
 </section>
 

@@ -1,3 +1,0 @@
-Besides improved language support, Orleankka features convinient configuration and hosting model with full support for embedded scenarios, such as client and server running within same process, and many other new features not currently present in Orleans' programming model.
-
-Orleankka might look more familiar to developers with Akka background due to similar programming API. Also, Orleankka's api was designed from the ground to be easier to understand and use for newcomers, compared to native Orleans api. 
