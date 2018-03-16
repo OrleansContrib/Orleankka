@@ -1485,7 +1485,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-csharp.html",
-          "hash": "A3WGZncOGBRkVYad+XaKEQ=="
+          "hash": "alaQ3bi2+Y0kenAOZIjGeA=="
         }
       },
       "is_incremental": false,
@@ -1598,6 +1598,10 @@
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
@@ -1605,10 +1609,6 @@
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }
