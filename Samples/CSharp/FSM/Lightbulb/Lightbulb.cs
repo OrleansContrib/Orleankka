@@ -13,7 +13,7 @@ namespace Example
     public interface ILightbulb : IActorGrain
     {}
 
-    public class Lightbulb : DispatchActorGrain, ILightbulb
+    public class Lightbulb : ActorGrain, ILightbulb
     {
         readonly Behavior behavior;
         bool smashed;
