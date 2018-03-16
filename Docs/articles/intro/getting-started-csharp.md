@@ -55,11 +55,11 @@ namespace ConsoleApplication11
             switch (message)
             {
                 case Greet greet:
-                    Console.WriteLine($"Hello, {msg.Who}!");
-                    break;
+                    return Result("Hello, {msg.Who}!");
 
                 case Sleep _:
                     Console.WriteLine("Sleeeeping ...");
+                    return TaskResult.Done;
                     break;
                                     
                 default:
@@ -97,12 +97,11 @@ namespace ConsoleApplication11
             switch (message)
             {
                 case Greet greet:
-                    Console.WriteLine($"Hello, {msg.Who}!");
-                    break;
+                    return Result("Hello, {msg.Who}!");
 
                 case Sleep _:
                     Console.WriteLine("Sleeeeping ...");
-                    break;
+                    return TaskResult.Done;
                                     
                 default:
                     return Unhandled;
@@ -150,8 +149,10 @@ namespace ConsoleApplication11
             // get proxy reference for IGreeter actor
             var greeter = system.ActorOf<IGreeter>("id");
 
-            // send messages to the actor
-            await greeter.Tell(new Greet {Who = "world"});
+            // send query to actor (ie Ask)
+            Console.WriteLine(await greeter.Ask<string>(new Greet {Who = "world"}));
+
+            // send command to actor (ie Tell)
             await greeter.Tell(new Sleep());
 
             Console.Write("\n\nPress any key to terminate ...");
