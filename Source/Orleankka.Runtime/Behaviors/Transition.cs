@@ -2,16 +2,13 @@
 {
     public struct Transition
     {
-        internal readonly Receive from;
-        internal readonly Receive to;
-
-        internal Transition(Receive from, Receive to)
+        internal Transition(State from, State to)
         {
-            this.from = from;
-            this.to = to;
+            From = from;
+            To = to;
         }
 
-        public string From => from.Method.Name;
-        public string To => to.Method.Name;
+        public State From { get; }
+        public State To { get; }
     }
 }

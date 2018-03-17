@@ -20,7 +20,8 @@ namespace Example
 
         public Lightbulb()
         {
-            behavior = new Behavior(this, Off);
+            behavior = new Behavior();
+            behavior.Initial(Off);
         }
 
         public override async Task<object> Receive(object message)
@@ -38,7 +39,7 @@ namespace Example
             }
 
             // if not handled, use behavior specific
-            return await behavior.OnReceive(message);
+            return await behavior.Receive(message);
         }
 
         async Task<object> Off(object message)

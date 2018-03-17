@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
@@ -7,78 +8,111 @@ namespace Orleankka.Behaviors
 
     public sealed class Behavior
     {
-        readonly ActorGrain actor;
+        State current;
 
-        public Behavior(ActorGrain actor)
+        readonly Dictionary<string, State> states;
+        readonly Func<Transition, Task> onTransitioning = t => Task.CompletedTask;
+        readonly Func<Transition, Task> onTransitioned  = t => Task.CompletedTask;
+        readonly Func<Transition, Exception, Task> onTransitionError = (t, e) => Task.CompletedTask;
+
+        public Behavior(
+            Dictionary<string, State> states = null,
+            Func<Transition, Task> onTransitioning = null,
+            Func<Transition, Task> onTransitioned = null,
+            Func<Transition, Exception, Task> onTransitionError = null)
         {
-            Requires.NotNull(actor, nameof(actor));
-            this.actor = actor;
-        }
-
-        public Behavior(ActorGrain actor, Receive initial)
-        {
-            Requires.NotNull(actor, nameof(initial));
-            Requires.NotNull(initial, nameof(initial));
-
-            this.actor = actor;
-            Initial(initial);
-        }
-
-        public Func<Transition, Task> OnTransitioning { get; set; } = t => Task.CompletedTask;
-        public Func<Transition, Task> OnTransitioned  { get; set; } = t => Task.CompletedTask;
-        public Func<Transition, Exception, Task> OnTransitionError { get; set; } = (t, e) => Task.CompletedTask;
-
-        public Task<object> OnReceive(object message)
-        {
-            if (!Initialized())
-                throw new InvalidOperationException($"Initial behavior should be set for actor '{actor}' in order to receive messages");
-
-            return Current(message);
+            this.states = states ?? new Dictionary<string, State>();
+            this.onTransitioning = onTransitioning ?? this.onTransitioning;
+            this.onTransitioned = onTransitioned ?? this.onTransitioned;
+            this.onTransitionError = onTransitionError ?? this.onTransitionError;            
         }
 
         public void Initial(Receive behavior)
         {
             Requires.NotNull(behavior, nameof(behavior));
+            var name = behavior.Method.Name;
 
-            if (Initialized())
-                throw new InvalidOperationException($"Initial behavior has been already set to '{CurrentName}'");
-
-            Current = behavior;
+            var configured = states.Find(name);
+            Initial(configured ?? new State(name, behavior));
         }
 
-        bool Initialized() => Current != null;
-
-        public Receive Current { get; private set; }
-        public string CurrentName => Current?.Method.Name;
-
-        public async Task Become(Receive behavior)
+        public void Initial(string behavior)
         {
             Requires.NotNull(behavior, nameof(behavior));
 
+            var configured = states.Find(behavior);
+            if (configured == null)
+                throw new InvalidOperationException($"Missing configured behavior for '{behavior}'");
+
+            Initial(configured);
+        }
+
+        void Initial(State state)
+        {
+            if (Initialized())
+                throw new InvalidOperationException($"Initial behavior has been already set to '{Current}'");
+
+            current = state;
+        }
+
+        bool Initialized() => Current != null;
+        public string Current => current?.Name;
+
+        public Task<object> Receive(object message)
+        {
             if (!Initialized())
-                throw new InvalidOperationException($"Initial behavior should be set for actor '{actor}' before calling Become");
+                throw new InvalidOperationException("Initial behavior should be set before receiving messages");
 
-            if (CurrentName == behavior.Method.Name)
-                throw new InvalidOperationException($"Actor '{actor}' is already behaving as '{behavior}'");
+            return current.Receive(message);
+        }
 
-            var transition = new Transition(Current, behavior);
+        public Task Become(Receive behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            var name = behavior.Method.Name;
+
+            var configured = states.Find(name);
+            return Become(configured ?? new State(name, behavior));
+        }
+
+        public Task Become(string behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+
+            var configured = states.Find(behavior);
+            if (configured == null)
+                throw new InvalidOperationException($"Missing configured behavior for '{behavior}'");
+
+            return Become(configured);
+        }
+
+        async Task Become(State next)
+        {
+            if (!Initialized())
+                throw new InvalidOperationException("Initial behavior should be set before calling Become");
+
+            if (current.Name == next.Name)
+                throw new InvalidOperationException($"Already behaving as '{next.Name}'");
+
+            var transition = new Transition(from: current, to: next);
 
             try
             {
-                await OnTransitioning(transition);
+                await onTransitioning(transition);
 
-                await Current(Deactivate.Message);
-                await Current(Unbecome.Message);
+                await current.HandleDeactivate(transition);
+                await current.HandleUnbecome(transition);
 
-                await behavior(Behaviors.Become.Message);
-                await behavior(Activate.Message);
+                await next.HandleBecome(transition);
+                await next.HandleActivate(transition);
 
-                Current = behavior;
-                await OnTransitioned(transition);
+                current = next;
+                
+                await onTransitioned(transition);
             }
             catch (Exception exception)
             {
-                await OnTransitionError(transition, exception);
+                await onTransitionError(transition, exception);
             }
         }
     }
