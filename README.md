@@ -65,7 +65,7 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 ##### F&#35;
 
-+ Hello, world! [[demo]]Samples/FSharp/HelloWorld) 
++ Hello, world! [[demo]](Samples/FSharp/HelloWorld) 
 + eCommerce [[demo]](Samples/FSharp/Shop)
 + Reentrant messages [[demo]](Samples/FSharp/Reentrant)
 + Streams [[demo]](Samples/FSharp/Streams)
