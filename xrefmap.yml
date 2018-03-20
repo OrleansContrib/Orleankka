@@ -47,6 +47,7 @@ references:
   name: ActorGrain
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain__ctor_
   commentId: Overload:Orleankka.ActorGrain.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.ActorGrain
   nameWithType: ActorGrain.ActorGrain
 - uid: Orleankka.ActorGrain.Activation
@@ -59,6 +60,7 @@ references:
   name: Activation
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Activation_
   commentId: Overload:Orleankka.ActorGrain.Activation
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Activation
   nameWithType: ActorGrain.Activation
 - uid: Orleankka.ActorGrain.Done
@@ -77,6 +79,7 @@ references:
   name: Id
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Id_
   commentId: Overload:Orleankka.ActorGrain.Id
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Id
   nameWithType: ActorGrain.Id
 - uid: Orleankka.ActorGrain.OnActivateAsync
@@ -89,6 +92,7 @@ references:
   name: OnActivateAsync
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_OnActivateAsync_
   commentId: Overload:Orleankka.ActorGrain.OnActivateAsync
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.OnActivateAsync
   nameWithType: ActorGrain.OnActivateAsync
 - uid: Orleankka.ActorGrain.OnDeactivateAsync
@@ -101,6 +105,7 @@ references:
   name: OnDeactivateAsync
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_OnDeactivateAsync_
   commentId: Overload:Orleankka.ActorGrain.OnDeactivateAsync
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.OnDeactivateAsync
   nameWithType: ActorGrain.OnDeactivateAsync
 - uid: Orleankka.ActorGrain.Orleankka#IActor#ReceiveAsk(System.Object)
@@ -115,6 +120,7 @@ references:
   name: IActor.ReceiveAsk
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveAsk_
   commentId: Overload:Orleankka.ActorGrain.Orleankka#IActor#ReceiveAsk
+  isSpec: "True"
   name.vb: Orleankka.IActor.ReceiveAsk
   fullName: Orleankka.ActorGrain.Orleankka.IActor.ReceiveAsk
   nameWithType: ActorGrain.IActor.ReceiveAsk
@@ -131,6 +137,7 @@ references:
   name: IActor.ReceiveNotify
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveNotify_
   commentId: Overload:Orleankka.ActorGrain.Orleankka#IActor#ReceiveNotify
+  isSpec: "True"
   name.vb: Orleankka.IActor.ReceiveNotify
   fullName: Orleankka.ActorGrain.Orleankka.IActor.ReceiveNotify
   nameWithType: ActorGrain.IActor.ReceiveNotify
@@ -147,6 +154,7 @@ references:
   name: IActor.ReceiveTell
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveTell_
   commentId: Overload:Orleankka.ActorGrain.Orleankka#IActor#ReceiveTell
+  isSpec: "True"
   name.vb: Orleankka.IActor.ReceiveTell
   fullName: Orleankka.ActorGrain.Orleankka.IActor.ReceiveTell
   nameWithType: ActorGrain.IActor.ReceiveTell
@@ -163,6 +171,7 @@ references:
   name: IRemindable.ReceiveReminder
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleans_IRemindable_ReceiveReminder_
   commentId: Overload:Orleankka.ActorGrain.Orleans#IRemindable#ReceiveReminder
+  isSpec: "True"
   name.vb: Orleans.IRemindable.ReceiveReminder
   fullName: Orleankka.ActorGrain.Orleans.IRemindable.ReceiveReminder
   nameWithType: ActorGrain.IRemindable.ReceiveReminder
@@ -177,6 +186,7 @@ references:
   name: Path
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Path_
   commentId: Overload:Orleankka.ActorGrain.Path
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Path
   nameWithType: ActorGrain.Path
 - uid: Orleankka.ActorGrain.Receive(System.Object)
@@ -189,6 +199,7 @@ references:
   name: Receive
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_
   commentId: Overload:Orleankka.ActorGrain.Receive
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Receive
   nameWithType: ActorGrain.Receive
 - uid: Orleankka.ActorGrain.Reminders
@@ -201,6 +212,7 @@ references:
   name: Reminders
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Reminders_
   commentId: Overload:Orleankka.ActorGrain.Reminders
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Reminders
   nameWithType: ActorGrain.Reminders
 - uid: Orleankka.ActorGrain.Result(System.Object)
@@ -213,6 +225,7 @@ references:
   name: Result
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Result_
   commentId: Overload:Orleankka.ActorGrain.Result
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Result
   nameWithType: ActorGrain.Result
 - uid: Orleankka.ActorGrain.Runtime
@@ -225,6 +238,7 @@ references:
   name: Runtime
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Runtime_
   commentId: Overload:Orleankka.ActorGrain.Runtime
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Runtime
   nameWithType: ActorGrain.Runtime
 - uid: Orleankka.ActorGrain.Self
@@ -237,6 +251,7 @@ references:
   name: Self
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Self_
   commentId: Overload:Orleankka.ActorGrain.Self
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Self
   nameWithType: ActorGrain.Self
 - uid: Orleankka.ActorGrain.System
@@ -249,6 +264,7 @@ references:
   name: System
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_System_
   commentId: Overload:Orleankka.ActorGrain.System
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.System
   nameWithType: ActorGrain.System
 - uid: Orleankka.ActorGrain.Timers
@@ -261,6 +277,7 @@ references:
   name: Timers
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Timers_
   commentId: Overload:Orleankka.ActorGrain.Timers
+  isSpec: "True"
   fullName: Orleankka.ActorGrain.Timers
   nameWithType: ActorGrain.Timers
 - uid: Orleankka.ActorGrain.Unhandled
@@ -303,6 +320,7 @@ references:
   name: ActorMiddleware
   href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware__ctor_
   commentId: Overload:Orleankka.ActorMiddleware.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorMiddleware.ActorMiddleware
   nameWithType: ActorMiddleware.ActorMiddleware
 - uid: Orleankka.ActorMiddleware.Next
@@ -324,6 +342,7 @@ references:
   name: Receive
   href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Receive_
   commentId: Overload:Orleankka.ActorMiddleware.Receive
+  isSpec: "True"
   fullName: Orleankka.ActorMiddleware.Receive
   nameWithType: ActorMiddleware.Receive
 - uid: Orleankka.ActorPath
@@ -354,6 +373,7 @@ references:
   name: Equals
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_Equals_
   commentId: Overload:Orleankka.ActorPath.Equals
+  isSpec: "True"
   fullName: Orleankka.ActorPath.Equals
   nameWithType: ActorPath.Equals
 - uid: Orleankka.ActorPath.For(System.Type,System.String)
@@ -366,6 +386,7 @@ references:
   name: For
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_For_
   commentId: Overload:Orleankka.ActorPath.For
+  isSpec: "True"
   fullName: Orleankka.ActorPath.For
   nameWithType: ActorPath.For
 - uid: Orleankka.ActorPath.For``1(System.String)
@@ -387,6 +408,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_GetHashCode_
   commentId: Overload:Orleankka.ActorPath.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.ActorPath.GetHashCode
   nameWithType: ActorPath.GetHashCode
 - uid: Orleankka.ActorPath.Id
@@ -411,6 +433,7 @@ references:
   name: Equality
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_op_Equality_
   commentId: Overload:Orleankka.ActorPath.op_Equality
+  isSpec: "True"
   fullName: Orleankka.ActorPath.Equality
   nameWithType: ActorPath.Equality
 - uid: Orleankka.ActorPath.op_Implicit(Orleankka.ActorPath)~System.String
@@ -426,6 +449,7 @@ references:
   name: Implicit
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_op_Implicit_
   commentId: Overload:Orleankka.ActorPath.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.ActorPath.Implicit
   fullName.vb: Orleankka.ActorPath.Widening
@@ -441,6 +465,7 @@ references:
   name: Inequality
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_op_Inequality_
   commentId: Overload:Orleankka.ActorPath.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.ActorPath.Inequality
   nameWithType: ActorPath.Inequality
 - uid: Orleankka.ActorPath.Parse(System.String)
@@ -453,6 +478,7 @@ references:
   name: Parse
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_Parse_
   commentId: Overload:Orleankka.ActorPath.Parse
+  isSpec: "True"
   fullName: Orleankka.ActorPath.Parse
   nameWithType: ActorPath.Parse
 - uid: Orleankka.ActorPath.Separator
@@ -471,6 +497,7 @@ references:
   name: ToString
   href: api/Orleankka.ActorPath.html#Orleankka_ActorPath_ToString_
   commentId: Overload:Orleankka.ActorPath.ToString
+  isSpec: "True"
   fullName: Orleankka.ActorPath.ToString
   nameWithType: ActorPath.ToString
 - uid: Orleankka.ActorRef
@@ -489,12 +516,14 @@ references:
   name: ActorRef
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef__ctor_
   commentId: Overload:Orleankka.ActorRef.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorRef.ActorRef
   nameWithType: ActorRef.ActorRef
 - uid: Orleankka.ActorRef.Ask*
   name: Ask
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_Ask_
   commentId: Overload:Orleankka.ActorRef.Ask
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Ask
   nameWithType: ActorRef.Ask
 - uid: Orleankka.ActorRef.Ask``1(System.Object)
@@ -528,6 +557,7 @@ references:
   name: Equals
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_Equals_
   commentId: Overload:Orleankka.ActorRef.Equals
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Equals
   nameWithType: ActorRef.Equals
 - uid: Orleankka.ActorRef.GetHashCode
@@ -540,6 +570,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_GetHashCode_
   commentId: Overload:Orleankka.ActorRef.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.ActorRef.GetHashCode
   nameWithType: ActorRef.GetHashCode
 - uid: Orleankka.ActorRef.Notify(System.Object)
@@ -552,6 +583,7 @@ references:
   name: Notify
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_Notify_
   commentId: Overload:Orleankka.ActorRef.Notify
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Notify
   nameWithType: ActorRef.Notify
 - uid: Orleankka.ActorRef.op_Equality(Orleankka.ActorRef,Orleankka.ActorRef)
@@ -564,6 +596,7 @@ references:
   name: Equality
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_op_Equality_
   commentId: Overload:Orleankka.ActorRef.op_Equality
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Equality
   nameWithType: ActorRef.Equality
 - uid: Orleankka.ActorRef.op_Implicit(Orleankka.ActorRef)~Orleankka.ActorPath
@@ -588,6 +621,7 @@ references:
   name: Implicit
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_op_Implicit_
   commentId: Overload:Orleankka.ActorRef.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.ActorRef.Implicit
   fullName.vb: Orleankka.ActorRef.Widening
@@ -603,6 +637,7 @@ references:
   name: Inequality
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_op_Inequality_
   commentId: Overload:Orleankka.ActorRef.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Inequality
   nameWithType: ActorRef.Inequality
 - uid: Orleankka.ActorRef.Path
@@ -615,6 +650,7 @@ references:
   name: Path
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_Path_
   commentId: Overload:Orleankka.ActorRef.Path
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Path
   nameWithType: ActorRef.Path
 - uid: Orleankka.ActorRef.Tell(System.Object)
@@ -627,6 +663,7 @@ references:
   name: Tell
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_Tell_
   commentId: Overload:Orleankka.ActorRef.Tell
+  isSpec: "True"
   fullName: Orleankka.ActorRef.Tell
   nameWithType: ActorRef.Tell
 - uid: Orleankka.ActorRef.ToString
@@ -639,6 +676,7 @@ references:
   name: ToString
   href: api/Orleankka.ActorRef.html#Orleankka_ActorRef_ToString_
   commentId: Overload:Orleankka.ActorRef.ToString
+  isSpec: "True"
   fullName: Orleankka.ActorRef.ToString
   nameWithType: ActorRef.ToString
 - uid: Orleankka.ActorRef`1
@@ -662,6 +700,7 @@ references:
   name: ActorRef
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1__ctor_
   commentId: Overload:Orleankka.ActorRef`1.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.ActorRef
   fullName.vb: Orleankka.ActorRef(Of TActor).ActorRef
   nameWithType: ActorRef<TActor>.ActorRef
@@ -670,6 +709,7 @@ references:
   name: Ask
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Ask_
   commentId: Overload:Orleankka.ActorRef`1.Ask
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Ask
   fullName.vb: Orleankka.ActorRef(Of TActor).Ask
   nameWithType: ActorRef<TActor>.Ask
@@ -712,6 +752,7 @@ references:
   name: Equals
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Equals_
   commentId: Overload:Orleankka.ActorRef`1.Equals
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Equals
   fullName.vb: Orleankka.ActorRef(Of TActor).Equals
   nameWithType: ActorRef<TActor>.Equals
@@ -728,6 +769,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_GetHashCode_
   commentId: Overload:Orleankka.ActorRef`1.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.GetHashCode
   fullName.vb: Orleankka.ActorRef(Of TActor).GetHashCode
   nameWithType: ActorRef<TActor>.GetHashCode
@@ -745,6 +787,7 @@ references:
   name: Notify
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Notify_
   commentId: Overload:Orleankka.ActorRef`1.Notify
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Notify
   fullName.vb: Orleankka.ActorRef(Of TActor).Notify
   nameWithType: ActorRef<TActor>.Notify
@@ -762,6 +805,7 @@ references:
   name: Equality
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_op_Equality_
   commentId: Overload:Orleankka.ActorRef`1.op_Equality
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Equality
   fullName.vb: Orleankka.ActorRef(Of TActor).Equality
   nameWithType: ActorRef<TActor>.Equality
@@ -806,6 +850,7 @@ references:
   name: Implicit
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_op_Implicit_
   commentId: Overload:Orleankka.ActorRef`1.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.ActorRef<TActor>.Implicit
   fullName.vb: Orleankka.ActorRef(Of TActor).Widening
@@ -824,6 +869,7 @@ references:
   name: Inequality
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_op_Inequality_
   commentId: Overload:Orleankka.ActorRef`1.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Inequality
   fullName.vb: Orleankka.ActorRef(Of TActor).Inequality
   nameWithType: ActorRef<TActor>.Inequality
@@ -840,6 +886,7 @@ references:
   name: Path
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Path_
   commentId: Overload:Orleankka.ActorRef`1.Path
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Path
   fullName.vb: Orleankka.ActorRef(Of TActor).Path
   nameWithType: ActorRef<TActor>.Path
@@ -857,6 +904,7 @@ references:
   name: Tell
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Tell_
   commentId: Overload:Orleankka.ActorRef`1.Tell
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.Tell
   fullName.vb: Orleankka.ActorRef(Of TActor).Tell
   nameWithType: ActorRef<TActor>.Tell
@@ -873,6 +921,7 @@ references:
   name: ToString
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_ToString_
   commentId: Overload:Orleankka.ActorRef`1.ToString
+  isSpec: "True"
   fullName: Orleankka.ActorRef<TActor>.ToString
   fullName.vb: Orleankka.ActorRef(Of TActor).ToString
   nameWithType: ActorRef<TActor>.ToString
@@ -893,12 +942,14 @@ references:
   name: ActorRefMiddleware
   href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware__ctor_
   commentId: Overload:Orleankka.ActorRefMiddleware.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorRefMiddleware.ActorRefMiddleware
   nameWithType: ActorRefMiddleware.ActorRefMiddleware
 - uid: Orleankka.ActorRefMiddleware.Send*
   name: Send
   href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Send_
   commentId: Overload:Orleankka.ActorRefMiddleware.Send
+  isSpec: "True"
   fullName: Orleankka.ActorRefMiddleware.Send
   nameWithType: ActorRefMiddleware.Send
 - uid: Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
@@ -926,6 +977,7 @@ references:
   name: Activation
   href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Activation_
   commentId: Overload:Orleankka.ActorRuntime.Activation
+  isSpec: "True"
   fullName: Orleankka.ActorRuntime.Activation
   nameWithType: ActorRuntime.Activation
 - uid: Orleankka.ActorRuntime.Reminders
@@ -938,6 +990,7 @@ references:
   name: Reminders
   href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Reminders_
   commentId: Overload:Orleankka.ActorRuntime.Reminders
+  isSpec: "True"
   fullName: Orleankka.ActorRuntime.Reminders
   nameWithType: ActorRuntime.Reminders
 - uid: Orleankka.ActorRuntime.System
@@ -950,6 +1003,7 @@ references:
   name: System
   href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_System_
   commentId: Overload:Orleankka.ActorRuntime.System
+  isSpec: "True"
   fullName: Orleankka.ActorRuntime.System
   nameWithType: ActorRuntime.System
 - uid: Orleankka.ActorRuntime.Timers
@@ -962,6 +1016,7 @@ references:
   name: Timers
   href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Timers_
   commentId: Overload:Orleankka.ActorRuntime.Timers
+  isSpec: "True"
   fullName: Orleankka.ActorRuntime.Timers
   nameWithType: ActorRuntime.Timers
 - uid: Orleankka.ActorSystem
@@ -983,6 +1038,7 @@ references:
   name: ActorSystem
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem__ctor_
   commentId: Overload:Orleankka.ActorSystem.#ctor
+  isSpec: "True"
   fullName: Orleankka.ActorSystem.ActorSystem
   nameWithType: ActorSystem.ActorSystem
 - uid: Orleankka.ActorSystem.ActorOf(Orleankka.ActorPath)
@@ -995,6 +1051,7 @@ references:
   name: ActorOf
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_ActorOf_
   commentId: Overload:Orleankka.ActorSystem.ActorOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystem.ActorOf
   nameWithType: ActorSystem.ActorOf
 - uid: Orleankka.ActorSystem.ClientOf(System.String)
@@ -1007,6 +1064,7 @@ references:
   name: ClientOf
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_ClientOf_
   commentId: Overload:Orleankka.ActorSystem.ClientOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystem.ClientOf
   nameWithType: ActorSystem.ClientOf
 - uid: Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)
@@ -1019,6 +1077,7 @@ references:
   name: StreamOf
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamOf_
   commentId: Overload:Orleankka.ActorSystem.StreamOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystem.StreamOf
   nameWithType: ActorSystem.StreamOf
 - uid: Orleankka.ActorSystemExtensions
@@ -1043,6 +1102,7 @@ references:
   name: ActorOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_ActorOf_
   commentId: Overload:Orleankka.ActorSystemExtensions.ActorOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.ActorOf
   nameWithType: ActorSystemExtensions.ActorOf
 - uid: Orleankka.ActorSystemExtensions.ActorOf``1(Orleankka.IActorSystem,System.String)
@@ -1064,12 +1124,14 @@ references:
   name: StreamOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_
   commentId: Overload:Orleankka.ActorSystemExtensions.StreamOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.StreamOf
   nameWithType: ActorSystemExtensions.StreamOf
 - uid: Orleankka.ActorSystemExtensions.TypedActorOf*
   name: TypedActorOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedActorOf_
   commentId: Overload:Orleankka.ActorSystemExtensions.TypedActorOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.TypedActorOf
   nameWithType: ActorSystemExtensions.TypedActorOf
 - uid: Orleankka.ActorSystemExtensions.TypedActorOf``1(Orleankka.IActorSystem,System.String)
@@ -1085,6 +1147,7 @@ references:
   name: TypedWorkerOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedWorkerOf_
   commentId: Overload:Orleankka.ActorSystemExtensions.TypedWorkerOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.TypedWorkerOf
   nameWithType: ActorSystemExtensions.TypedWorkerOf
 - uid: Orleankka.ActorSystemExtensions.TypedWorkerOf``1(Orleankka.IActorSystem)
@@ -1106,6 +1169,7 @@ references:
   name: WorkerOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf_
   commentId: Overload:Orleankka.ActorSystemExtensions.WorkerOf
+  isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.WorkerOf
   nameWithType: ActorSystemExtensions.WorkerOf
 - uid: Orleankka.ActorSystemExtensions.WorkerOf``1(Orleankka.IActorSystem)
@@ -1211,6 +1275,7 @@ references:
   name: MeansImplicitUseAttribute
   href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute__ctor_
   commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.#ctor
+  isSpec: "True"
   fullName: Orleankka.Annotations.MeansImplicitUseAttribute.MeansImplicitUseAttribute
   nameWithType: MeansImplicitUseAttribute.MeansImplicitUseAttribute
 - uid: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
@@ -1223,6 +1288,7 @@ references:
   name: TargetFlags
   href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_TargetFlags_
   commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
+  isSpec: "True"
   fullName: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
   nameWithType: MeansImplicitUseAttribute.TargetFlags
 - uid: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
@@ -1235,6 +1301,7 @@ references:
   name: UseKindFlags
   href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_UseKindFlags_
   commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
+  isSpec: "True"
   fullName: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
   nameWithType: MeansImplicitUseAttribute.UseKindFlags
 - uid: Orleankka.Annotations.NotNullAttribute
@@ -1265,6 +1332,7 @@ references:
   name: PublicAPIAttribute
   href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute__ctor_
   commentId: Overload:Orleankka.Annotations.PublicAPIAttribute.#ctor
+  isSpec: "True"
   fullName: Orleankka.Annotations.PublicAPIAttribute.PublicAPIAttribute
   nameWithType: PublicAPIAttribute.PublicAPIAttribute
 - uid: Orleankka.Annotations.PublicAPIAttribute.Comment
@@ -1277,6 +1345,7 @@ references:
   name: Comment
   href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute_Comment_
   commentId: Overload:Orleankka.Annotations.PublicAPIAttribute.Comment
+  isSpec: "True"
   fullName: Orleankka.Annotations.PublicAPIAttribute.Comment
   nameWithType: PublicAPIAttribute.Comment
 - uid: Orleankka.Annotations.UsedImplicitlyAttribute
@@ -1307,6 +1376,7 @@ references:
   name: UsedImplicitlyAttribute
   href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute__ctor_
   commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.#ctor
+  isSpec: "True"
   fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UsedImplicitlyAttribute
   nameWithType: UsedImplicitlyAttribute.UsedImplicitlyAttribute
 - uid: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
@@ -1319,6 +1389,7 @@ references:
   name: TargetFlags
   href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_TargetFlags_
   commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
+  isSpec: "True"
   fullName: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
   nameWithType: UsedImplicitlyAttribute.TargetFlags
 - uid: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
@@ -1331,6 +1402,7 @@ references:
   name: UseKindFlags
   href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_UseKindFlags_
   commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
+  isSpec: "True"
   fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
   nameWithType: UsedImplicitlyAttribute.UseKindFlags
 - uid: Orleankka.Behaviors
@@ -1373,6 +1445,7 @@ references:
   name: Behavior
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior__ctor_
   commentId: Overload:Orleankka.Behaviors.Behavior.#ctor
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Behavior
   nameWithType: Behavior.Behavior
 - uid: Orleankka.Behaviors.Behavior.Become(Orleankka.Receive)
@@ -1385,6 +1458,7 @@ references:
   name: Become
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Become_
   commentId: Overload:Orleankka.Behaviors.Behavior.Become
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Become
   nameWithType: Behavior.Become
 - uid: Orleankka.Behaviors.Behavior.Current
@@ -1397,6 +1471,7 @@ references:
   name: Current
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Current_
   commentId: Overload:Orleankka.Behaviors.Behavior.Current
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Current
   nameWithType: Behavior.Current
 - uid: Orleankka.Behaviors.Behavior.CurrentName
@@ -1409,6 +1484,7 @@ references:
   name: CurrentName
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_CurrentName_
   commentId: Overload:Orleankka.Behaviors.Behavior.CurrentName
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.CurrentName
   nameWithType: Behavior.CurrentName
 - uid: Orleankka.Behaviors.Behavior.Initial(Orleankka.Receive)
@@ -1421,6 +1497,7 @@ references:
   name: Initial
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Initial_
   commentId: Overload:Orleankka.Behaviors.Behavior.Initial
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Initial
   nameWithType: Behavior.Initial
 - uid: Orleankka.Behaviors.Behavior.OnReceive(System.Object)
@@ -1433,6 +1510,7 @@ references:
   name: OnReceive
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_OnReceive_
   commentId: Overload:Orleankka.Behaviors.Behavior.OnReceive
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.OnReceive
   nameWithType: Behavior.OnReceive
 - uid: Orleankka.Behaviors.Behavior.OnTransitioned
@@ -1445,6 +1523,7 @@ references:
   name: OnTransitioned
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_OnTransitioned_
   commentId: Overload:Orleankka.Behaviors.Behavior.OnTransitioned
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.OnTransitioned
   nameWithType: Behavior.OnTransitioned
 - uid: Orleankka.Behaviors.Behavior.OnTransitionError
@@ -1457,6 +1536,7 @@ references:
   name: OnTransitionError
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_OnTransitionError_
   commentId: Overload:Orleankka.Behaviors.Behavior.OnTransitionError
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.OnTransitionError
   nameWithType: Behavior.OnTransitionError
 - uid: Orleankka.Behaviors.Behavior.OnTransitioning
@@ -1469,6 +1549,7 @@ references:
   name: OnTransitioning
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_OnTransitioning_
   commentId: Overload:Orleankka.Behaviors.Behavior.OnTransitioning
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.OnTransitioning
   nameWithType: Behavior.OnTransitioning
 - uid: Orleankka.Behaviors.BehaviorMessage
@@ -1493,6 +1574,7 @@ references:
   name: From
   href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_From_
   commentId: Overload:Orleankka.Behaviors.Transition.From
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Transition.From
   nameWithType: Transition.From
 - uid: Orleankka.Behaviors.Transition.To
@@ -1505,6 +1587,7 @@ references:
   name: To
   href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_To_
   commentId: Overload:Orleankka.Behaviors.Transition.To
+  isSpec: "True"
   fullName: Orleankka.Behaviors.Transition.To
   nameWithType: Transition.To
 - uid: Orleankka.Behaviors.Unbecome
@@ -1541,6 +1624,7 @@ references:
   name: CreateObservable
   href: api/Orleankka.Client.ClientActorSystem.html#Orleankka_Client_ClientActorSystem_CreateObservable_
   commentId: Overload:Orleankka.Client.ClientActorSystem.CreateObservable
+  isSpec: "True"
   fullName: Orleankka.Client.ClientActorSystem.CreateObservable
   nameWithType: ClientActorSystem.CreateObservable
 - uid: Orleankka.Client.ClientBuilderExtension
@@ -1559,6 +1643,7 @@ references:
   name: ActorSystem
   href: api/Orleankka.Client.ClientBuilderExtension.html#Orleankka_Client_ClientBuilderExtension_ActorSystem_
   commentId: Overload:Orleankka.Client.ClientBuilderExtension.ActorSystem
+  isSpec: "True"
   fullName: Orleankka.Client.ClientBuilderExtension.ActorSystem
   nameWithType: ClientBuilderExtension.ActorSystem
 - uid: Orleankka.Client.ClientBuilderExtension.ConfigureOrleankka(Orleans.IClientBuilder)
@@ -1586,6 +1671,7 @@ references:
   name: ConfigureOrleankka
   href: api/Orleankka.Client.ClientBuilderExtension.html#Orleankka_Client_ClientBuilderExtension_ConfigureOrleankka_
   commentId: Overload:Orleankka.Client.ClientBuilderExtension.ConfigureOrleankka
+  isSpec: "True"
   fullName: Orleankka.Client.ClientBuilderExtension.ConfigureOrleankka
   nameWithType: ClientBuilderExtension.ConfigureOrleankka
 - uid: Orleankka.Client.ClientConfigurator
@@ -1604,6 +1690,7 @@ references:
   name: ActorRefMiddleware
   href: api/Orleankka.Client.ClientConfigurator.html#Orleankka_Client_ClientConfigurator_ActorRefMiddleware_
   commentId: Overload:Orleankka.Client.ClientConfigurator.ActorRefMiddleware
+  isSpec: "True"
   fullName: Orleankka.Client.ClientConfigurator.ActorRefMiddleware
   nameWithType: ClientConfigurator.ActorRefMiddleware
 - uid: Orleankka.Client.IClientActorSystem
@@ -1622,6 +1709,7 @@ references:
   name: CreateObservable
   href: api/Orleankka.Client.IClientActorSystem.html#Orleankka_Client_IClientActorSystem_CreateObservable_
   commentId: Overload:Orleankka.Client.IClientActorSystem.CreateObservable
+  isSpec: "True"
   fullName: Orleankka.Client.IClientActorSystem.CreateObservable
   nameWithType: IClientActorSystem.CreateObservable
 - uid: Orleankka.ClientObservableExtensions
@@ -1643,6 +1731,7 @@ references:
   name: Subscribe
   href: api/Orleankka.ClientObservableExtensions.html#Orleankka_ClientObservableExtensions_Subscribe_
   commentId: Overload:Orleankka.ClientObservableExtensions.Subscribe
+  isSpec: "True"
   fullName: Orleankka.ClientObservableExtensions.Subscribe
   nameWithType: ClientObservableExtensions.Subscribe
 - uid: Orleankka.ClientObservableExtensions.Subscribe``1(Orleankka.IClientObservable,System.Action{``0})
@@ -1682,6 +1771,7 @@ references:
   name: Equals
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_Equals_
   commentId: Overload:Orleankka.ClientRef.Equals
+  isSpec: "True"
   fullName: Orleankka.ClientRef.Equals
   nameWithType: ClientRef.Equals
 - uid: Orleankka.ClientRef.GetHashCode
@@ -1694,6 +1784,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_GetHashCode_
   commentId: Overload:Orleankka.ClientRef.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.ClientRef.GetHashCode
   nameWithType: ClientRef.GetHashCode
 - uid: Orleankka.ClientRef.Notify(System.Object)
@@ -1706,6 +1797,7 @@ references:
   name: Notify
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_Notify_
   commentId: Overload:Orleankka.ClientRef.Notify
+  isSpec: "True"
   fullName: Orleankka.ClientRef.Notify
   nameWithType: ClientRef.Notify
 - uid: Orleankka.ClientRef.op_Equality(Orleankka.ClientRef,Orleankka.ClientRef)
@@ -1718,6 +1810,7 @@ references:
   name: Equality
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_op_Equality_
   commentId: Overload:Orleankka.ClientRef.op_Equality
+  isSpec: "True"
   fullName: Orleankka.ClientRef.Equality
   nameWithType: ClientRef.Equality
 - uid: Orleankka.ClientRef.op_Implicit(Orleankka.ClientRef)~System.String
@@ -1733,6 +1826,7 @@ references:
   name: Implicit
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_op_Implicit_
   commentId: Overload:Orleankka.ClientRef.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.ClientRef.Implicit
   fullName.vb: Orleankka.ClientRef.Widening
@@ -1748,6 +1842,7 @@ references:
   name: Inequality
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_op_Inequality_
   commentId: Overload:Orleankka.ClientRef.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.ClientRef.Inequality
   nameWithType: ClientRef.Inequality
 - uid: Orleankka.ClientRef.Path
@@ -1760,6 +1855,7 @@ references:
   name: Path
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_Path_
   commentId: Overload:Orleankka.ClientRef.Path
+  isSpec: "True"
   fullName: Orleankka.ClientRef.Path
   nameWithType: ClientRef.Path
 - uid: Orleankka.ClientRef.ToString
@@ -1772,6 +1868,7 @@ references:
   name: ToString
   href: api/Orleankka.ClientRef.html#Orleankka_ClientRef_ToString_
   commentId: Overload:Orleankka.ClientRef.ToString
+  isSpec: "True"
   fullName: Orleankka.ClientRef.ToString
   nameWithType: ClientRef.ToString
 - uid: Orleankka.Cluster
@@ -1802,6 +1899,7 @@ references:
   name: ActorMiddleware
   href: api/Orleankka.Cluster.ClusterConfigurator.html#Orleankka_Cluster_ClusterConfigurator_ActorMiddleware_
   commentId: Overload:Orleankka.Cluster.ClusterConfigurator.ActorMiddleware
+  isSpec: "True"
   fullName: Orleankka.Cluster.ClusterConfigurator.ActorMiddleware
   nameWithType: ClusterConfigurator.ActorMiddleware
 - uid: Orleankka.Cluster.ClusterConfigurator.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
@@ -1814,6 +1912,7 @@ references:
   name: ActorRefMiddleware
   href: api/Orleankka.Cluster.ClusterConfigurator.html#Orleankka_Cluster_ClusterConfigurator_ActorRefMiddleware_
   commentId: Overload:Orleankka.Cluster.ClusterConfigurator.ActorRefMiddleware
+  isSpec: "True"
   fullName: Orleankka.Cluster.ClusterConfigurator.ActorRefMiddleware
   nameWithType: ClusterConfigurator.ActorRefMiddleware
 - uid: Orleankka.Cluster.ClusterConfigurator.HandlerNamingConventions(System.String[])
@@ -1829,6 +1928,7 @@ references:
   name: HandlerNamingConventions
   href: api/Orleankka.Cluster.ClusterConfigurator.html#Orleankka_Cluster_ClusterConfigurator_HandlerNamingConventions_
   commentId: Overload:Orleankka.Cluster.ClusterConfigurator.HandlerNamingConventions
+  isSpec: "True"
   fullName: Orleankka.Cluster.ClusterConfigurator.HandlerNamingConventions
   nameWithType: ClusterConfigurator.HandlerNamingConventions
 - uid: Orleankka.Cluster.SiloHostBuilderExtension
@@ -1862,6 +1962,7 @@ references:
   name: ConfigureOrleankka
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_
   commentId: Overload:Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka
+  isSpec: "True"
   fullName: Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka
   nameWithType: SiloHostBuilderExtension.ConfigureOrleankka
 - uid: Orleankka.Deactivate
@@ -1910,6 +2011,7 @@ references:
   name: DispatchActorGrain
   href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain__ctor_
   commentId: Overload:Orleankka.DispatchActorGrain.#ctor
+  isSpec: "True"
   fullName: Orleankka.DispatchActorGrain.DispatchActorGrain
   nameWithType: DispatchActorGrain.DispatchActorGrain
 - uid: Orleankka.DispatchActorGrain.Dispatcher
@@ -1922,6 +2024,7 @@ references:
   name: Dispatcher
   href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_Dispatcher_
   commentId: Overload:Orleankka.DispatchActorGrain.Dispatcher
+  isSpec: "True"
   fullName: Orleankka.DispatchActorGrain.Dispatcher
   nameWithType: DispatchActorGrain.Dispatcher
 - uid: Orleankka.DispatchActorGrain.OnActivateAsync
@@ -1934,6 +2037,7 @@ references:
   name: OnActivateAsync
   href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_OnActivateAsync_
   commentId: Overload:Orleankka.DispatchActorGrain.OnActivateAsync
+  isSpec: "True"
   fullName: Orleankka.DispatchActorGrain.OnActivateAsync
   nameWithType: DispatchActorGrain.OnActivateAsync
 - uid: Orleankka.DispatchActorGrain.Receive(System.Object)
@@ -1946,6 +2050,7 @@ references:
   name: Receive
   href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_Receive_
   commentId: Overload:Orleankka.DispatchActorGrain.Receive
+  isSpec: "True"
   fullName: Orleankka.DispatchActorGrain.Receive
   nameWithType: DispatchActorGrain.Receive
 - uid: Orleankka.Dispatcher
@@ -1967,6 +2072,7 @@ references:
   name: Dispatcher
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher__ctor_
   commentId: Overload:Orleankka.Dispatcher.#ctor
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.Dispatcher
   nameWithType: Dispatcher.Dispatcher
 - uid: Orleankka.Dispatcher.CanHandle(System.Type)
@@ -1979,6 +2085,7 @@ references:
   name: CanHandle
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_CanHandle_
   commentId: Overload:Orleankka.Dispatcher.CanHandle
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.CanHandle
   nameWithType: Dispatcher.CanHandle
 - uid: Orleankka.Dispatcher.DefaultHandlerNamingConventions
@@ -2006,6 +2113,7 @@ references:
   name: Dispatch
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_Dispatch_
   commentId: Overload:Orleankka.Dispatcher.Dispatch
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.Dispatch
   nameWithType: Dispatcher.Dispatch
 - uid: Orleankka.Dispatcher.DispatchAsync(System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task})
@@ -2021,6 +2129,7 @@ references:
   name: DispatchAsync
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_DispatchAsync_
   commentId: Overload:Orleankka.Dispatcher.DispatchAsync
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.DispatchAsync
   nameWithType: Dispatcher.DispatchAsync
 - uid: Orleankka.Dispatcher.DispatchResult(System.Object,System.Object,System.Func{System.Object,System.Object})
@@ -2036,6 +2145,7 @@ references:
   name: DispatchResult
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_DispatchResult_
   commentId: Overload:Orleankka.Dispatcher.DispatchResult
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.DispatchResult
   nameWithType: Dispatcher.DispatchResult
 - uid: Orleankka.Dispatcher.DispatchResult``1(System.Object,System.Object,System.Func{System.Object,``0})
@@ -2060,6 +2170,7 @@ references:
   name: DispatchResultAsync
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_DispatchResultAsync_
   commentId: Overload:Orleankka.Dispatcher.DispatchResultAsync
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.DispatchResultAsync
   nameWithType: Dispatcher.DispatchResultAsync
 - uid: Orleankka.Dispatcher.DispatchResultAsync``1(System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{``0}})
@@ -2081,6 +2192,7 @@ references:
   name: Handlers
   href: api/Orleankka.Dispatcher.html#Orleankka_Dispatcher_Handlers_
   commentId: Overload:Orleankka.Dispatcher.Handlers
+  isSpec: "True"
   fullName: Orleankka.Dispatcher.Handlers
   nameWithType: Dispatcher.Handlers
 - uid: Orleankka.Done
@@ -2111,6 +2223,7 @@ references:
   name: ReceiveAsk
   href: api/Orleankka.IActor.html#Orleankka_IActor_ReceiveAsk_
   commentId: Overload:Orleankka.IActor.ReceiveAsk
+  isSpec: "True"
   fullName: Orleankka.IActor.ReceiveAsk
   nameWithType: IActor.ReceiveAsk
 - uid: Orleankka.IActor.ReceiveNotify(System.Object)
@@ -2123,6 +2236,7 @@ references:
   name: ReceiveNotify
   href: api/Orleankka.IActor.html#Orleankka_IActor_ReceiveNotify_
   commentId: Overload:Orleankka.IActor.ReceiveNotify
+  isSpec: "True"
   fullName: Orleankka.IActor.ReceiveNotify
   nameWithType: IActor.ReceiveNotify
 - uid: Orleankka.IActor.ReceiveTell(System.Object)
@@ -2135,6 +2249,7 @@ references:
   name: ReceiveTell
   href: api/Orleankka.IActor.html#Orleankka_IActor_ReceiveTell_
   commentId: Overload:Orleankka.IActor.ReceiveTell
+  isSpec: "True"
   fullName: Orleankka.IActor.ReceiveTell
   nameWithType: IActor.ReceiveTell
 - uid: Orleankka.IActorGrain
@@ -2162,6 +2277,7 @@ references:
   name: Receive
   href: api/Orleankka.IActorMiddleware.html#Orleankka_IActorMiddleware_Receive_
   commentId: Overload:Orleankka.IActorMiddleware.Receive
+  isSpec: "True"
   fullName: Orleankka.IActorMiddleware.Receive
   nameWithType: IActorMiddleware.Receive
 - uid: Orleankka.IActorRefMiddleware
@@ -2174,6 +2290,7 @@ references:
   name: Send
   href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Send_
   commentId: Overload:Orleankka.IActorRefMiddleware.Send
+  isSpec: "True"
   fullName: Orleankka.IActorRefMiddleware.Send
   nameWithType: IActorRefMiddleware.Send
 - uid: Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
@@ -2201,6 +2318,7 @@ references:
   name: Activation
   href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Activation_
   commentId: Overload:Orleankka.IActorRuntime.Activation
+  isSpec: "True"
   fullName: Orleankka.IActorRuntime.Activation
   nameWithType: IActorRuntime.Activation
 - uid: Orleankka.IActorRuntime.Reminders
@@ -2213,6 +2331,7 @@ references:
   name: Reminders
   href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Reminders_
   commentId: Overload:Orleankka.IActorRuntime.Reminders
+  isSpec: "True"
   fullName: Orleankka.IActorRuntime.Reminders
   nameWithType: IActorRuntime.Reminders
 - uid: Orleankka.IActorRuntime.System
@@ -2225,6 +2344,7 @@ references:
   name: System
   href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_System_
   commentId: Overload:Orleankka.IActorRuntime.System
+  isSpec: "True"
   fullName: Orleankka.IActorRuntime.System
   nameWithType: IActorRuntime.System
 - uid: Orleankka.IActorRuntime.Timers
@@ -2237,6 +2357,7 @@ references:
   name: Timers
   href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Timers_
   commentId: Overload:Orleankka.IActorRuntime.Timers
+  isSpec: "True"
   fullName: Orleankka.IActorRuntime.Timers
   nameWithType: IActorRuntime.Timers
 - uid: Orleankka.IActorSystem
@@ -2255,6 +2376,7 @@ references:
   name: ActorOf
   href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_ActorOf_
   commentId: Overload:Orleankka.IActorSystem.ActorOf
+  isSpec: "True"
   fullName: Orleankka.IActorSystem.ActorOf
   nameWithType: IActorSystem.ActorOf
 - uid: Orleankka.IActorSystem.ClientOf(System.String)
@@ -2267,6 +2389,7 @@ references:
   name: ClientOf
   href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_ClientOf_
   commentId: Overload:Orleankka.IActorSystem.ClientOf
+  isSpec: "True"
   fullName: Orleankka.IActorSystem.ClientOf
   nameWithType: IActorSystem.ClientOf
 - uid: Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)
@@ -2279,6 +2402,7 @@ references:
   name: StreamOf
   href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_StreamOf_
   commentId: Overload:Orleankka.IActorSystem.StreamOf
+  isSpec: "True"
   fullName: Orleankka.IActorSystem.StreamOf
   nameWithType: IActorSystem.StreamOf
 - uid: Orleankka.IClientEndpoint
@@ -2297,6 +2421,7 @@ references:
   name: Receive
   href: api/Orleankka.IClientEndpoint.html#Orleankka_IClientEndpoint_Receive_
   commentId: Overload:Orleankka.IClientEndpoint.Receive
+  isSpec: "True"
   fullName: Orleankka.IClientEndpoint.Receive
   nameWithType: IClientEndpoint.Receive
 - uid: Orleankka.IClientObservable
@@ -2315,6 +2440,7 @@ references:
   name: Ref
   href: api/Orleankka.IClientObservable.html#Orleankka_IClientObservable_Ref_
   commentId: Overload:Orleankka.IClientObservable.Ref
+  isSpec: "True"
   fullName: Orleankka.IClientObservable.Ref
   nameWithType: IClientObservable.Ref
 - uid: Orleankka.IDispatcherRegistry
@@ -2333,6 +2459,7 @@ references:
   name: GetDispatcher
   href: api/Orleankka.IDispatcherRegistry.html#Orleankka_IDispatcherRegistry_GetDispatcher_
   commentId: Overload:Orleankka.IDispatcherRegistry.GetDispatcher
+  isSpec: "True"
   fullName: Orleankka.IDispatcherRegistry.GetDispatcher
   nameWithType: IDispatcherRegistry.GetDispatcher
 - uid: Orleankka.InvokeMethodRequestExtensions
@@ -2354,6 +2481,7 @@ references:
   name: Any
   href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Any_
   commentId: Overload:Orleankka.InvokeMethodRequestExtensions.Any
+  isSpec: "True"
   fullName: Orleankka.InvokeMethodRequestExtensions.Any
   nameWithType: InvokeMethodRequestExtensions.Any
 - uid: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest)
@@ -2366,6 +2494,7 @@ references:
   name: Message
   href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message_
   commentId: Overload:Orleankka.InvokeMethodRequestExtensions.Message
+  isSpec: "True"
   fullName: Orleankka.InvokeMethodRequestExtensions.Message
   nameWithType: InvokeMethodRequestExtensions.Message
 - uid: Orleankka.InvokeMethodRequestExtensions.Message``1(Orleans.CodeGeneration.InvokeMethodRequest)
@@ -2393,6 +2522,7 @@ references:
   name: Add
   href: api/Orleankka.IObserverCollection.html#Orleankka_IObserverCollection_Add_
   commentId: Overload:Orleankka.IObserverCollection.Add
+  isSpec: "True"
   fullName: Orleankka.IObserverCollection.Add
   nameWithType: IObserverCollection.Add
 - uid: Orleankka.IObserverCollection.Notify(System.Object)
@@ -2405,6 +2535,7 @@ references:
   name: Notify
   href: api/Orleankka.IObserverCollection.html#Orleankka_IObserverCollection_Notify_
   commentId: Overload:Orleankka.IObserverCollection.Notify
+  isSpec: "True"
   fullName: Orleankka.IObserverCollection.Notify
   nameWithType: IObserverCollection.Notify
 - uid: Orleankka.IObserverCollection.Remove(Orleankka.ObserverRef)
@@ -2417,6 +2548,7 @@ references:
   name: Remove
   href: api/Orleankka.IObserverCollection.html#Orleankka_IObserverCollection_Remove_
   commentId: Overload:Orleankka.IObserverCollection.Remove
+  isSpec: "True"
   fullName: Orleankka.IObserverCollection.Remove
   nameWithType: IObserverCollection.Remove
 - uid: Orleankka.LifecycleMessage
@@ -2462,6 +2594,7 @@ references:
   name: Ask
   href: api/Orleankka.Meta.Extensions.html#Orleankka_Meta_Extensions_Ask_
   commentId: Overload:Orleankka.Meta.Extensions.Ask
+  isSpec: "True"
   fullName: Orleankka.Meta.Extensions.Ask
   nameWithType: Extensions.Ask
 - uid: Orleankka.Meta.Extensions.Ask``1(Orleankka.ActorRef,Orleankka.Meta.Query{``0})
@@ -2486,6 +2619,7 @@ references:
   name: Notify
   href: api/Orleankka.Meta.Extensions.html#Orleankka_Meta_Extensions_Notify_
   commentId: Overload:Orleankka.Meta.Extensions.Notify
+  isSpec: "True"
   fullName: Orleankka.Meta.Extensions.Notify
   nameWithType: Extensions.Notify
 - uid: Orleankka.Meta.Extensions.Notify``1(Orleankka.ObserverRef,``0)
@@ -2501,6 +2635,7 @@ references:
   name: Tell
   href: api/Orleankka.Meta.Extensions.html#Orleankka_Meta_Extensions_Tell_
   commentId: Overload:Orleankka.Meta.Extensions.Tell
+  isSpec: "True"
   fullName: Orleankka.Meta.Extensions.Tell
   nameWithType: Extensions.Tell
 - uid: Orleankka.Meta.Extensions.Tell``1(Orleankka.ActorRef,``0)
@@ -2573,6 +2708,7 @@ references:
   name: GetEnumerator
   href: api/Orleankka.ObserverCollection.html#Orleankka_ObserverCollection_GetEnumerator_
   commentId: Overload:Orleankka.ObserverCollection.GetEnumerator
+  isSpec: "True"
   fullName: Orleankka.ObserverCollection.GetEnumerator
   nameWithType: ObserverCollection.GetEnumerator
 - uid: Orleankka.ObserverCollection.Orleankka#IObserverCollection#Add(Orleankka.ObserverRef)
@@ -2587,6 +2723,7 @@ references:
   name: IObserverCollection.Add
   href: api/Orleankka.ObserverCollection.html#Orleankka_ObserverCollection_Orleankka_IObserverCollection_Add_
   commentId: Overload:Orleankka.ObserverCollection.Orleankka#IObserverCollection#Add
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Add
   fullName: Orleankka.ObserverCollection.Orleankka.IObserverCollection.Add
   nameWithType: ObserverCollection.IObserverCollection.Add
@@ -2603,6 +2740,7 @@ references:
   name: IObserverCollection.Notify
   href: api/Orleankka.ObserverCollection.html#Orleankka_ObserverCollection_Orleankka_IObserverCollection_Notify_
   commentId: Overload:Orleankka.ObserverCollection.Orleankka#IObserverCollection#Notify
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Notify
   fullName: Orleankka.ObserverCollection.Orleankka.IObserverCollection.Notify
   nameWithType: ObserverCollection.IObserverCollection.Notify
@@ -2619,6 +2757,7 @@ references:
   name: IObserverCollection.Remove
   href: api/Orleankka.ObserverCollection.html#Orleankka_ObserverCollection_Orleankka_IObserverCollection_Remove_
   commentId: Overload:Orleankka.ObserverCollection.Orleankka#IObserverCollection#Remove
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Remove
   fullName: Orleankka.ObserverCollection.Orleankka.IObserverCollection.Remove
   nameWithType: ObserverCollection.IObserverCollection.Remove
@@ -2635,6 +2774,7 @@ references:
   name: IEnumerable.GetEnumerator
   href: api/Orleankka.ObserverCollection.html#Orleankka_ObserverCollection_System_Collections_IEnumerable_GetEnumerator_
   commentId: Overload:Orleankka.ObserverCollection.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
   name.vb: System.Collections.IEnumerable.GetEnumerator
   fullName: Orleankka.ObserverCollection.System.Collections.IEnumerable.GetEnumerator
   nameWithType: ObserverCollection.IEnumerable.GetEnumerator
@@ -2655,6 +2795,7 @@ references:
   name: Notify
   href: api/Orleankka.ObserverRef.html#Orleankka_ObserverRef_Notify_
   commentId: Overload:Orleankka.ObserverRef.Notify
+  isSpec: "True"
   fullName: Orleankka.ObserverRef.Notify
   nameWithType: ObserverRef.Notify
 - uid: Orleankka.ObserverRef`1
@@ -2679,6 +2820,7 @@ references:
   name: Notify
   href: api/Orleankka.ObserverRef-1.html#Orleankka_ObserverRef_1_Notify_
   commentId: Overload:Orleankka.ObserverRef`1.Notify
+  isSpec: "True"
   fullName: Orleankka.ObserverRef<TActor>.Notify
   fullName.vb: Orleankka.ObserverRef(Of TActor).Notify
   nameWithType: ObserverRef<TActor>.Notify
@@ -2711,6 +2853,7 @@ references:
   name: Reminder
   href: api/Orleankka.Reminder.html#Orleankka_Reminder__ctor_
   commentId: Overload:Orleankka.Reminder.#ctor
+  isSpec: "True"
   fullName: Orleankka.Reminder.Reminder
   nameWithType: Reminder.Reminder
 - uid: Orleankka.Reminder.Invalid
@@ -2729,6 +2872,7 @@ references:
   name: Message
   href: api/Orleankka.Reminder.html#Orleankka_Reminder_Message_
   commentId: Overload:Orleankka.Reminder.Message
+  isSpec: "True"
   fullName: Orleankka.Reminder.Message
   nameWithType: Reminder.Message
 - uid: Orleankka.Reminder.Name
@@ -2741,6 +2885,7 @@ references:
   name: Name
   href: api/Orleankka.Reminder.html#Orleankka_Reminder_Name_
   commentId: Overload:Orleankka.Reminder.Name
+  isSpec: "True"
   fullName: Orleankka.Reminder.Name
   nameWithType: Reminder.Name
 - uid: Orleankka.Reminder.Status
@@ -2753,6 +2898,7 @@ references:
   name: Status
   href: api/Orleankka.Reminder.html#Orleankka_Reminder_Status_
   commentId: Overload:Orleankka.Reminder.Status
+  isSpec: "True"
   fullName: Orleankka.Reminder.Status
   nameWithType: Reminder.Status
 - uid: Orleankka.Services
@@ -2779,6 +2925,7 @@ references:
   name: IActivationService.DeactivateOnIdle
   href: api/Orleankka.Services.ActivationService.html#Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DeactivateOnIdle_
   commentId: Overload:Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DeactivateOnIdle
+  isSpec: "True"
   name.vb: Orleankka.Services.IActivationService.DeactivateOnIdle
   fullName: Orleankka.Services.ActivationService.Orleankka.Services.IActivationService.DeactivateOnIdle
   nameWithType: ActivationService.IActivationService.DeactivateOnIdle
@@ -2795,6 +2942,7 @@ references:
   name: IActivationService.DelayDeactivation
   href: api/Orleankka.Services.ActivationService.html#Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DelayDeactivation_
   commentId: Overload:Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DelayDeactivation
+  isSpec: "True"
   name.vb: Orleankka.Services.IActivationService.DelayDeactivation
   fullName: Orleankka.Services.ActivationService.Orleankka.Services.IActivationService.DelayDeactivation
   nameWithType: ActivationService.IActivationService.DelayDeactivation
@@ -2815,6 +2963,7 @@ references:
   name: Runtime
   href: api/Orleankka.Services.GrainInternals.html#Orleankka_Services_GrainInternals_Runtime_
   commentId: Overload:Orleankka.Services.GrainInternals.Runtime
+  isSpec: "True"
   fullName: Orleankka.Services.GrainInternals.Runtime
   nameWithType: GrainInternals.Runtime
 - uid: Orleankka.Services.IActivationService
@@ -2833,6 +2982,7 @@ references:
   name: DeactivateOnIdle
   href: api/Orleankka.Services.IActivationService.html#Orleankka_Services_IActivationService_DeactivateOnIdle_
   commentId: Overload:Orleankka.Services.IActivationService.DeactivateOnIdle
+  isSpec: "True"
   fullName: Orleankka.Services.IActivationService.DeactivateOnIdle
   nameWithType: IActivationService.DeactivateOnIdle
 - uid: Orleankka.Services.IActivationService.DelayDeactivation(System.TimeSpan)
@@ -2845,6 +2995,7 @@ references:
   name: DelayDeactivation
   href: api/Orleankka.Services.IActivationService.html#Orleankka_Services_IActivationService_DelayDeactivation_
   commentId: Overload:Orleankka.Services.IActivationService.DelayDeactivation
+  isSpec: "True"
   fullName: Orleankka.Services.IActivationService.DelayDeactivation
   nameWithType: IActivationService.DelayDeactivation
 - uid: Orleankka.Services.IReminderService
@@ -2863,6 +3014,7 @@ references:
   name: IsRegistered
   href: api/Orleankka.Services.IReminderService.html#Orleankka_Services_IReminderService_IsRegistered_
   commentId: Overload:Orleankka.Services.IReminderService.IsRegistered
+  isSpec: "True"
   fullName: Orleankka.Services.IReminderService.IsRegistered
   nameWithType: IReminderService.IsRegistered
 - uid: Orleankka.Services.IReminderService.Register(System.String,System.TimeSpan,System.TimeSpan)
@@ -2875,6 +3027,7 @@ references:
   name: Register
   href: api/Orleankka.Services.IReminderService.html#Orleankka_Services_IReminderService_Register_
   commentId: Overload:Orleankka.Services.IReminderService.Register
+  isSpec: "True"
   fullName: Orleankka.Services.IReminderService.Register
   nameWithType: IReminderService.Register
 - uid: Orleankka.Services.IReminderService.Registered
@@ -2887,6 +3040,7 @@ references:
   name: Registered
   href: api/Orleankka.Services.IReminderService.html#Orleankka_Services_IReminderService_Registered_
   commentId: Overload:Orleankka.Services.IReminderService.Registered
+  isSpec: "True"
   fullName: Orleankka.Services.IReminderService.Registered
   nameWithType: IReminderService.Registered
 - uid: Orleankka.Services.IReminderService.Unregister(System.String)
@@ -2899,6 +3053,7 @@ references:
   name: Unregister
   href: api/Orleankka.Services.IReminderService.html#Orleankka_Services_IReminderService_Unregister_
   commentId: Overload:Orleankka.Services.IReminderService.Unregister
+  isSpec: "True"
   fullName: Orleankka.Services.IReminderService.Unregister
   nameWithType: IReminderService.Unregister
 - uid: Orleankka.Services.ITimerService
@@ -2917,6 +3072,7 @@ references:
   name: IsRegistered
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_IsRegistered_
   commentId: Overload:Orleankka.Services.ITimerService.IsRegistered
+  isSpec: "True"
   fullName: Orleankka.Services.ITimerService.IsRegistered
   nameWithType: ITimerService.IsRegistered
 - uid: Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
@@ -2941,6 +3097,7 @@ references:
   name: Register
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Register_
   commentId: Overload:Orleankka.Services.ITimerService.Register
+  isSpec: "True"
   fullName: Orleankka.Services.ITimerService.Register
   nameWithType: ITimerService.Register
 - uid: Orleankka.Services.ITimerService.Register``1(System.String,System.TimeSpan,``0,System.Func{``0,System.Threading.Tasks.Task})
@@ -2971,6 +3128,7 @@ references:
   name: Registered
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Registered_
   commentId: Overload:Orleankka.Services.ITimerService.Registered
+  isSpec: "True"
   fullName: Orleankka.Services.ITimerService.Registered
   nameWithType: ITimerService.Registered
 - uid: Orleankka.Services.ITimerService.Unregister(System.String)
@@ -2983,6 +3141,7 @@ references:
   name: Unregister
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Unregister_
   commentId: Overload:Orleankka.Services.ITimerService.Unregister
+  isSpec: "True"
   fullName: Orleankka.Services.ITimerService.Unregister
   nameWithType: ITimerService.Unregister
 - uid: Orleankka.StreamFilter
@@ -3022,6 +3181,7 @@ references:
   name: StreamFilter
   href: api/Orleankka.StreamFilter.html#Orleankka_StreamFilter__ctor_
   commentId: Overload:Orleankka.StreamFilter.#ctor
+  isSpec: "True"
   fullName: Orleankka.StreamFilter.StreamFilter
   nameWithType: StreamFilter.StreamFilter
 - uid: Orleankka.StreamFilter.Equals(Orleankka.StreamFilter)
@@ -3040,6 +3200,7 @@ references:
   name: Equals
   href: api/Orleankka.StreamFilter.html#Orleankka_StreamFilter_Equals_
   commentId: Overload:Orleankka.StreamFilter.Equals
+  isSpec: "True"
   fullName: Orleankka.StreamFilter.Equals
   nameWithType: StreamFilter.Equals
 - uid: Orleankka.StreamFilter.GetHashCode
@@ -3052,6 +3213,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.StreamFilter.html#Orleankka_StreamFilter_GetHashCode_
   commentId: Overload:Orleankka.StreamFilter.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.StreamFilter.GetHashCode
   nameWithType: StreamFilter.GetHashCode
 - uid: Orleankka.StreamFilter.op_Equality(Orleankka.StreamFilter,Orleankka.StreamFilter)
@@ -3064,6 +3226,7 @@ references:
   name: Equality
   href: api/Orleankka.StreamFilter.html#Orleankka_StreamFilter_op_Equality_
   commentId: Overload:Orleankka.StreamFilter.op_Equality
+  isSpec: "True"
   fullName: Orleankka.StreamFilter.Equality
   nameWithType: StreamFilter.Equality
 - uid: Orleankka.StreamFilter.op_Inequality(Orleankka.StreamFilter,Orleankka.StreamFilter)
@@ -3076,6 +3239,7 @@ references:
   name: Inequality
   href: api/Orleankka.StreamFilter.html#Orleankka_StreamFilter_op_Inequality_
   commentId: Overload:Orleankka.StreamFilter.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.StreamFilter.Inequality
   nameWithType: StreamFilter.Inequality
 - uid: Orleankka.StreamFilter.ReceiveAll
@@ -3112,6 +3276,7 @@ references:
   name: Equals
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_Equals_
   commentId: Overload:Orleankka.StreamPath.Equals
+  isSpec: "True"
   fullName: Orleankka.StreamPath.Equals
   nameWithType: StreamPath.Equals
 - uid: Orleankka.StreamPath.From(System.String,System.String)
@@ -3124,6 +3289,7 @@ references:
   name: From
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_From_
   commentId: Overload:Orleankka.StreamPath.From
+  isSpec: "True"
   fullName: Orleankka.StreamPath.From
   nameWithType: StreamPath.From
 - uid: Orleankka.StreamPath.GetHashCode
@@ -3136,6 +3302,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_GetHashCode_
   commentId: Overload:Orleankka.StreamPath.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.StreamPath.GetHashCode
   nameWithType: StreamPath.GetHashCode
 - uid: Orleankka.StreamPath.Id
@@ -3154,6 +3321,7 @@ references:
   name: Equality
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_op_Equality_
   commentId: Overload:Orleankka.StreamPath.op_Equality
+  isSpec: "True"
   fullName: Orleankka.StreamPath.Equality
   nameWithType: StreamPath.Equality
 - uid: Orleankka.StreamPath.op_Implicit(Orleankka.StreamPath)~System.String
@@ -3169,6 +3337,7 @@ references:
   name: Implicit
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_op_Implicit_
   commentId: Overload:Orleankka.StreamPath.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.StreamPath.Implicit
   fullName.vb: Orleankka.StreamPath.Widening
@@ -3184,6 +3353,7 @@ references:
   name: Inequality
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_op_Inequality_
   commentId: Overload:Orleankka.StreamPath.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.StreamPath.Inequality
   nameWithType: StreamPath.Inequality
 - uid: Orleankka.StreamPath.Parse(System.String)
@@ -3196,6 +3366,7 @@ references:
   name: Parse
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_Parse_
   commentId: Overload:Orleankka.StreamPath.Parse
+  isSpec: "True"
   fullName: Orleankka.StreamPath.Parse
   nameWithType: StreamPath.Parse
 - uid: Orleankka.StreamPath.Provider
@@ -3220,6 +3391,7 @@ references:
   name: ToString
   href: api/Orleankka.StreamPath.html#Orleankka_StreamPath_ToString_
   commentId: Overload:Orleankka.StreamPath.ToString
+  isSpec: "True"
   fullName: Orleankka.StreamPath.ToString
   nameWithType: StreamPath.ToString
 - uid: Orleankka.StreamRef
@@ -3238,6 +3410,7 @@ references:
   name: StreamRef
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef__ctor_
   commentId: Overload:Orleankka.StreamRef.#ctor
+  isSpec: "True"
   fullName: Orleankka.StreamRef.StreamRef
   nameWithType: StreamRef.StreamRef
 - uid: Orleankka.StreamRef.Equals(Orleankka.StreamPath)
@@ -3262,6 +3435,7 @@ references:
   name: Equals
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Equals_
   commentId: Overload:Orleankka.StreamRef.Equals
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Equals
   nameWithType: StreamRef.Equals
 - uid: Orleankka.StreamRef.GetHashCode
@@ -3274,6 +3448,7 @@ references:
   name: GetHashCode
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_GetHashCode_
   commentId: Overload:Orleankka.StreamRef.GetHashCode
+  isSpec: "True"
   fullName: Orleankka.StreamRef.GetHashCode
   nameWithType: StreamRef.GetHashCode
 - uid: Orleankka.StreamRef.op_Equality(Orleankka.StreamRef,Orleankka.StreamRef)
@@ -3286,6 +3461,7 @@ references:
   name: Equality
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Equality_
   commentId: Overload:Orleankka.StreamRef.op_Equality
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Equality
   nameWithType: StreamRef.Equality
 - uid: Orleankka.StreamRef.op_Implicit(Orleankka.StreamRef)~Orleankka.StreamPath
@@ -3301,6 +3477,7 @@ references:
   name: Implicit
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Implicit_
   commentId: Overload:Orleankka.StreamRef.op_Implicit
+  isSpec: "True"
   name.vb: Widening
   fullName: Orleankka.StreamRef.Implicit
   fullName.vb: Orleankka.StreamRef.Widening
@@ -3316,6 +3493,7 @@ references:
   name: Inequality
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Inequality_
   commentId: Overload:Orleankka.StreamRef.op_Inequality
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Inequality
   nameWithType: StreamRef.Inequality
 - uid: Orleankka.StreamRef.Path
@@ -3328,6 +3506,7 @@ references:
   name: Path
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Path_
   commentId: Overload:Orleankka.StreamRef.Path
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Path
   nameWithType: StreamRef.Path
 - uid: Orleankka.StreamRef.Push(System.Object)
@@ -3340,6 +3519,7 @@ references:
   name: Push
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Push_
   commentId: Overload:Orleankka.StreamRef.Push
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Push
   nameWithType: StreamRef.Push
 - uid: Orleankka.StreamRef.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
@@ -3364,6 +3544,7 @@ references:
   name: Subscribe
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_
   commentId: Overload:Orleankka.StreamRef.Subscribe
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Subscribe
   nameWithType: StreamRef.Subscribe
 - uid: Orleankka.StreamRef.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
@@ -3394,6 +3575,7 @@ references:
   name: Subscriptions
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscriptions_
   commentId: Overload:Orleankka.StreamRef.Subscriptions
+  isSpec: "True"
   fullName: Orleankka.StreamRef.Subscriptions
   nameWithType: StreamRef.Subscriptions
 - uid: Orleankka.StreamRef.ToString
@@ -3406,6 +3588,7 @@ references:
   name: ToString
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_ToString_
   commentId: Overload:Orleankka.StreamRef.ToString
+  isSpec: "True"
   fullName: Orleankka.StreamRef.ToString
   nameWithType: StreamRef.ToString
 - uid: Orleankka.StreamRefExtensions
@@ -3424,6 +3607,7 @@ references:
   name: Resume
   href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Resume_
   commentId: Overload:Orleankka.StreamRefExtensions.Resume
+  isSpec: "True"
   fullName: Orleankka.StreamRefExtensions.Resume
   nameWithType: StreamRefExtensions.Resume
 - uid: Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef,Orleankka.ActorGrain,Orleankka.StreamFilter)
@@ -3436,6 +3620,7 @@ references:
   name: Subscribe
   href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe_
   commentId: Overload:Orleankka.StreamRefExtensions.Subscribe
+  isSpec: "True"
   fullName: Orleankka.StreamRefExtensions.Subscribe
   nameWithType: StreamRefExtensions.Subscribe
 - uid: Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef,Orleankka.ActorGrain)
@@ -3448,6 +3633,7 @@ references:
   name: Unsubscribe
   href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Unsubscribe_
   commentId: Overload:Orleankka.StreamRefExtensions.Unsubscribe
+  isSpec: "True"
   fullName: Orleankka.StreamRefExtensions.Unsubscribe
   nameWithType: StreamRefExtensions.Unsubscribe
 - uid: Orleankka.StreamSubscription
@@ -3469,6 +3655,7 @@ references:
   name: StreamSubscription
   href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription__ctor_
   commentId: Overload:Orleankka.StreamSubscription.#ctor
+  isSpec: "True"
   fullName: Orleankka.StreamSubscription.StreamSubscription
   nameWithType: StreamSubscription.StreamSubscription
 - uid: Orleankka.StreamSubscription.Resume(System.Action{System.Object})
@@ -3493,6 +3680,7 @@ references:
   name: Resume
   href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume_
   commentId: Overload:Orleankka.StreamSubscription.Resume
+  isSpec: "True"
   fullName: Orleankka.StreamSubscription.Resume
   nameWithType: StreamSubscription.Resume
 - uid: Orleankka.StreamSubscription.Resume``1(System.Action{``0})
@@ -3523,6 +3711,7 @@ references:
   name: Unsubscribe
   href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Unsubscribe_
   commentId: Overload:Orleankka.StreamSubscription.Unsubscribe
+  isSpec: "True"
   fullName: Orleankka.StreamSubscription.Unsubscribe
   nameWithType: StreamSubscription.Unsubscribe
 - uid: Orleankka.TaskResult
@@ -3567,6 +3756,7 @@ references:
   name: IActivationService.DeactivateOnIdle
   href: api/Orleankka.TestKit.ActivationServiceMock.html#Orleankka_TestKit_ActivationServiceMock_Orleankka_Services_IActivationService_DeactivateOnIdle_
   commentId: Overload:Orleankka.TestKit.ActivationServiceMock.Orleankka#Services#IActivationService#DeactivateOnIdle
+  isSpec: "True"
   name.vb: Orleankka.Services.IActivationService.DeactivateOnIdle
   fullName: Orleankka.TestKit.ActivationServiceMock.Orleankka.Services.IActivationService.DeactivateOnIdle
   nameWithType: ActivationServiceMock.IActivationService.DeactivateOnIdle
@@ -3583,6 +3773,7 @@ references:
   name: IActivationService.DelayDeactivation
   href: api/Orleankka.TestKit.ActivationServiceMock.html#Orleankka_TestKit_ActivationServiceMock_Orleankka_Services_IActivationService_DelayDeactivation_
   commentId: Overload:Orleankka.TestKit.ActivationServiceMock.Orleankka#Services#IActivationService#DelayDeactivation
+  isSpec: "True"
   name.vb: Orleankka.Services.IActivationService.DelayDeactivation
   fullName: Orleankka.TestKit.ActivationServiceMock.Orleankka.Services.IActivationService.DelayDeactivation
   nameWithType: ActivationServiceMock.IActivationService.DelayDeactivation
@@ -3597,6 +3788,7 @@ references:
   name: RecordedRequests
   href: api/Orleankka.TestKit.ActivationServiceMock.html#Orleankka_TestKit_ActivationServiceMock_RecordedRequests_
   commentId: Overload:Orleankka.TestKit.ActivationServiceMock.RecordedRequests
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActivationServiceMock.RecordedRequests
   nameWithType: ActivationServiceMock.RecordedRequests
 - uid: Orleankka.TestKit.ActivationServiceMock.Reset
@@ -3609,6 +3801,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ActivationServiceMock.html#Orleankka_TestKit_ActivationServiceMock_Reset_
   commentId: Overload:Orleankka.TestKit.ActivationServiceMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActivationServiceMock.Reset
   nameWithType: ActivationServiceMock.Reset
 - uid: Orleankka.TestKit.ActorRefMock
@@ -3621,6 +3814,7 @@ references:
   name: Ask
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_Ask_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.Ask
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.Ask
   nameWithType: ActorRefMock.Ask
 - uid: Orleankka.TestKit.ActorRefMock.Ask``1(System.Object)
@@ -3636,6 +3830,7 @@ references:
   name: ExpectAsk
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_ExpectAsk_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.ExpectAsk
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.ExpectAsk
   nameWithType: ActorRefMock.ExpectAsk
 - uid: Orleankka.TestKit.ActorRefMock.ExpectAsk``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -3651,6 +3846,7 @@ references:
   name: ExpectNotify
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_ExpectNotify_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.ExpectNotify
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.ExpectNotify
   nameWithType: ActorRefMock.ExpectNotify
 - uid: Orleankka.TestKit.ActorRefMock.ExpectNotify``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -3666,6 +3862,7 @@ references:
   name: ExpectTell
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_ExpectTell_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.ExpectTell
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.ExpectTell
   nameWithType: ActorRefMock.ExpectTell
 - uid: Orleankka.TestKit.ActorRefMock.ExpectTell``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -3687,6 +3884,7 @@ references:
   name: Notify
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_Notify_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.Notify
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.Notify
   nameWithType: ActorRefMock.Notify
 - uid: Orleankka.TestKit.ActorRefMock.RecordedMessages
@@ -3699,6 +3897,7 @@ references:
   name: RecordedMessages
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_RecordedMessages_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.RecordedMessages
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.RecordedMessages
   nameWithType: ActorRefMock.RecordedMessages
 - uid: Orleankka.TestKit.ActorRefMock.Reset
@@ -3711,6 +3910,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_Reset_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.Reset
   nameWithType: ActorRefMock.Reset
 - uid: Orleankka.TestKit.ActorRefMock.Tell(System.Object)
@@ -3723,6 +3923,7 @@ references:
   name: Tell
   href: api/Orleankka.TestKit.ActorRefMock.html#Orleankka_TestKit_ActorRefMock_Tell_
   commentId: Overload:Orleankka.TestKit.ActorRefMock.Tell
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock.Tell
   nameWithType: ActorRefMock.Tell
 - uid: Orleankka.TestKit.ActorRefMock`1
@@ -3746,6 +3947,7 @@ references:
   name: ActorRefMock
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1__ctor_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.ActorRefMock
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).ActorRefMock
   nameWithType: ActorRefMock<T>.ActorRefMock
@@ -3754,6 +3956,7 @@ references:
   name: Ask
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_Ask_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.Ask
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.Ask
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).Ask
   nameWithType: ActorRefMock<T>.Ask
@@ -3771,6 +3974,7 @@ references:
   name: ExpectAsk
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_ExpectAsk_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.ExpectAsk
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.ExpectAsk
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).ExpectAsk
   nameWithType: ActorRefMock<T>.ExpectAsk
@@ -3797,6 +4001,7 @@ references:
   name: ExpectNotify
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_ExpectNotify_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.ExpectNotify
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.ExpectNotify
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).ExpectNotify
   nameWithType: ActorRefMock<T>.ExpectNotify
@@ -3814,6 +4019,7 @@ references:
   name: ExpectTell
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_ExpectTell_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.ExpectTell
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.ExpectTell
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).ExpectTell
   nameWithType: ActorRefMock<T>.ExpectTell
@@ -3840,6 +4046,7 @@ references:
   name: Notify
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_Notify_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.Notify
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.Notify
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).Notify
   nameWithType: ActorRefMock<T>.Notify
@@ -3856,6 +4063,7 @@ references:
   name: RecordedMessages
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_RecordedMessages_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.RecordedMessages
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.RecordedMessages
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).RecordedMessages
   nameWithType: ActorRefMock<T>.RecordedMessages
@@ -3872,6 +4080,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_Reset_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.Reset
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).Reset
   nameWithType: ActorRefMock<T>.Reset
@@ -3889,6 +4098,7 @@ references:
   name: Tell
   href: api/Orleankka.TestKit.ActorRefMock-1.html#Orleankka_TestKit_ActorRefMock_1_Tell_
   commentId: Overload:Orleankka.TestKit.ActorRefMock`1.Tell
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRefMock<T>.Tell
   fullName.vb: Orleankka.TestKit.ActorRefMock(Of T).Tell
   nameWithType: ActorRefMock<T>.Tell
@@ -3909,6 +4119,7 @@ references:
   name: ActorRuntimeMock
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock__ctor_
   commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorRuntimeMock.ActorRuntimeMock
   nameWithType: ActorRuntimeMock.ActorRuntimeMock
 - uid: Orleankka.TestKit.ActorRuntimeMock.Activation
@@ -3929,6 +4140,7 @@ references:
   name: IActorRuntime.Activation
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Activation_
   commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Activation
+  isSpec: "True"
   name.vb: Orleankka.IActorRuntime.Activation
   fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Activation
   nameWithType: ActorRuntimeMock.IActorRuntime.Activation
@@ -3945,6 +4157,7 @@ references:
   name: IActorRuntime.Reminders
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Reminders_
   commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Reminders
+  isSpec: "True"
   name.vb: Orleankka.IActorRuntime.Reminders
   fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Reminders
   nameWithType: ActorRuntimeMock.IActorRuntime.Reminders
@@ -3961,6 +4174,7 @@ references:
   name: IActorRuntime.System
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_System_
   commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#System
+  isSpec: "True"
   name.vb: Orleankka.IActorRuntime.System
   fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.System
   nameWithType: ActorRuntimeMock.IActorRuntime.System
@@ -3977,6 +4191,7 @@ references:
   name: IActorRuntime.Timers
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Timers_
   commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Timers
+  isSpec: "True"
   name.vb: Orleankka.IActorRuntime.Timers
   fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Timers
   nameWithType: ActorRuntimeMock.IActorRuntime.Timers
@@ -4015,6 +4230,7 @@ references:
   name: ActorSystemMock
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock__ctor_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.ActorSystemMock
   nameWithType: ActorSystemMock.ActorSystemMock
 - uid: Orleankka.TestKit.ActorSystemMock.Dispose
@@ -4027,6 +4243,7 @@ references:
   name: Dispose
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Dispose_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Dispose
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.Dispose
   nameWithType: ActorSystemMock.Dispose
 - uid: Orleankka.TestKit.ActorSystemMock.MockActorOf(Orleankka.ActorPath)
@@ -4039,6 +4256,7 @@ references:
   name: MockActorOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockActorOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.MockActorOf
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.MockActorOf
   nameWithType: ActorSystemMock.MockActorOf
 - uid: Orleankka.TestKit.ActorSystemMock.MockActorOf``1(System.String)
@@ -4060,6 +4278,7 @@ references:
   name: MockCreateObservable
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockCreateObservable_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.MockCreateObservable
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.MockCreateObservable
   nameWithType: ActorSystemMock.MockCreateObservable
 - uid: Orleankka.TestKit.ActorSystemMock.MockStreamOf(System.String,System.String)
@@ -4072,6 +4291,7 @@ references:
   name: MockStreamOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockStreamOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.MockStreamOf
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.MockStreamOf
   nameWithType: ActorSystemMock.MockStreamOf
 - uid: Orleankka.TestKit.ActorSystemMock.Orleankka#Client#IClientActorSystem#CreateObservable
@@ -4086,6 +4306,7 @@ references:
   name: IClientActorSystem.CreateObservable
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_Client_IClientActorSystem_CreateObservable_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Orleankka#Client#IClientActorSystem#CreateObservable
+  isSpec: "True"
   name.vb: Orleankka.Client.IClientActorSystem.CreateObservable
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.Client.IClientActorSystem.CreateObservable
   nameWithType: ActorSystemMock.IClientActorSystem.CreateObservable
@@ -4102,6 +4323,7 @@ references:
   name: IActorSystem.ActorOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_ActorOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#ActorOf
+  isSpec: "True"
   name.vb: Orleankka.IActorSystem.ActorOf
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.ActorOf
   nameWithType: ActorSystemMock.IActorSystem.ActorOf
@@ -4118,6 +4340,7 @@ references:
   name: IActorSystem.ClientOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_ClientOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#ClientOf
+  isSpec: "True"
   name.vb: Orleankka.IActorSystem.ClientOf
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.ClientOf
   nameWithType: ActorSystemMock.IActorSystem.ClientOf
@@ -4134,6 +4357,7 @@ references:
   name: IActorSystem.StreamOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_StreamOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf
+  isSpec: "True"
   name.vb: Orleankka.IActorSystem.StreamOf
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.StreamOf
   nameWithType: ActorSystemMock.IActorSystem.StreamOf
@@ -4148,6 +4372,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Reset_
   commentId: Overload:Orleankka.TestKit.ActorSystemMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.Reset
   nameWithType: ActorSystemMock.Reset
 - uid: Orleankka.TestKit.ActorSystemMockExtensions
@@ -4160,6 +4385,7 @@ references:
   name: MockTypedActorOf
   href: api/Orleankka.TestKit.ActorSystemMockExtensions.html#Orleankka_TestKit_ActorSystemMockExtensions_MockTypedActorOf_
   commentId: Overload:Orleankka.TestKit.ActorSystemMockExtensions.MockTypedActorOf
+  isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMockExtensions.MockTypedActorOf
   nameWithType: ActorSystemMockExtensions.MockTypedActorOf
 - uid: Orleankka.TestKit.ActorSystemMockExtensions.MockTypedActorOf``1(Orleankka.TestKit.ActorSystemMock,System.String)
@@ -4193,6 +4419,7 @@ references:
   name: IExpectation.Apply
   href: api/Orleankka.TestKit.AskExpectation-1.html#Orleankka_TestKit_AskExpectation_1_Orleankka_TestKit_IExpectation_Apply_
   commentId: Overload:Orleankka.TestKit.AskExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Apply
   fullName: Orleankka.TestKit.AskExpectation<TMessage>.Orleankka.TestKit.IExpectation.Apply
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply
@@ -4211,6 +4438,7 @@ references:
   name: IExpectation.Match
   href: api/Orleankka.TestKit.AskExpectation-1.html#Orleankka_TestKit_AskExpectation_1_Orleankka_TestKit_IExpectation_Match_
   commentId: Overload:Orleankka.TestKit.AskExpectation`1.Orleankka#TestKit#IExpectation#Match
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Match
   fullName: Orleankka.TestKit.AskExpectation<TMessage>.Orleankka.TestKit.IExpectation.Match
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match
@@ -4229,6 +4457,7 @@ references:
   name: IRepeatExpectation.Times
   href: api/Orleankka.TestKit.AskExpectation-1.html#Orleankka_TestKit_AskExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
   commentId: Overload:Orleankka.TestKit.AskExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IRepeatExpectation.Times
   fullName: Orleankka.TestKit.AskExpectation<TMessage>.Orleankka.TestKit.IRepeatExpectation.Times
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times
@@ -4238,6 +4467,7 @@ references:
   name: Return
   href: api/Orleankka.TestKit.AskExpectation-1.html#Orleankka_TestKit_AskExpectation_1_Return_
   commentId: Overload:Orleankka.TestKit.AskExpectation`1.Return
+  isSpec: "True"
   fullName: Orleankka.TestKit.AskExpectation<TMessage>.Return
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Return
   nameWithType: AskExpectation<TMessage>.Return
@@ -4263,6 +4493,7 @@ references:
   name: Throw
   href: api/Orleankka.TestKit.AskExpectation-1.html#Orleankka_TestKit_AskExpectation_1_Throw_
   commentId: Overload:Orleankka.TestKit.AskExpectation`1.Throw
+  isSpec: "True"
   fullName: Orleankka.TestKit.AskExpectation<TMessage>.Throw
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Throw
   nameWithType: AskExpectation<TMessage>.Throw
@@ -4283,6 +4514,7 @@ references:
   name: Dispose
   href: api/Orleankka.TestKit.ClientObservableMock.html#Orleankka_TestKit_ClientObservableMock_Dispose_
   commentId: Overload:Orleankka.TestKit.ClientObservableMock.Dispose
+  isSpec: "True"
   fullName: Orleankka.TestKit.ClientObservableMock.Dispose
   nameWithType: ClientObservableMock.Dispose
 - uid: Orleankka.TestKit.ClientObservableMock.Disposed
@@ -4295,6 +4527,7 @@ references:
   name: Disposed
   href: api/Orleankka.TestKit.ClientObservableMock.html#Orleankka_TestKit_ClientObservableMock_Disposed_
   commentId: Overload:Orleankka.TestKit.ClientObservableMock.Disposed
+  isSpec: "True"
   fullName: Orleankka.TestKit.ClientObservableMock.Disposed
   nameWithType: ClientObservableMock.Disposed
 - uid: Orleankka.TestKit.ClientObservableMock.Ref
@@ -4307,6 +4540,7 @@ references:
   name: Ref
   href: api/Orleankka.TestKit.ClientObservableMock.html#Orleankka_TestKit_ClientObservableMock_Ref_
   commentId: Overload:Orleankka.TestKit.ClientObservableMock.Ref
+  isSpec: "True"
   fullName: Orleankka.TestKit.ClientObservableMock.Ref
   nameWithType: ClientObservableMock.Ref
 - uid: Orleankka.TestKit.ClientObservableMock.Subscribe(System.IObserver{System.Object})
@@ -4322,6 +4556,7 @@ references:
   name: Subscribe
   href: api/Orleankka.TestKit.ClientObservableMock.html#Orleankka_TestKit_ClientObservableMock_Subscribe_
   commentId: Overload:Orleankka.TestKit.ClientObservableMock.Subscribe
+  isSpec: "True"
   fullName: Orleankka.TestKit.ClientObservableMock.Subscribe
   nameWithType: ClientObservableMock.Subscribe
 - uid: Orleankka.TestKit.ClientObservableMock.Subscribers
@@ -4334,6 +4569,7 @@ references:
   name: Subscribers
   href: api/Orleankka.TestKit.ClientObservableMock.html#Orleankka_TestKit_ClientObservableMock_Subscribers_
   commentId: Overload:Orleankka.TestKit.ClientObservableMock.Subscribers
+  isSpec: "True"
   fullName: Orleankka.TestKit.ClientObservableMock.Subscribers
   nameWithType: ClientObservableMock.Subscribers
 - uid: Orleankka.TestKit.DeactivateOnIdle
@@ -4358,6 +4594,7 @@ references:
   name: DelayDeactivation
   href: api/Orleankka.TestKit.DelayDeactivation.html#Orleankka_TestKit_DelayDeactivation__ctor_
   commentId: Overload:Orleankka.TestKit.DelayDeactivation.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.DelayDeactivation.DelayDeactivation
   nameWithType: DelayDeactivation.DelayDeactivation
 - uid: Orleankka.TestKit.DelayDeactivation.Period
@@ -4391,6 +4628,7 @@ references:
   name: ExpectationException
   href: api/Orleankka.TestKit.ExpectationException.html#Orleankka_TestKit_ExpectationException__ctor_
   commentId: Overload:Orleankka.TestKit.ExpectationException.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.ExpectationException.ExpectationException
   nameWithType: ExpectationException.ExpectationException
 - uid: Orleankka.TestKit.ExpectationExtensions
@@ -4409,6 +4647,7 @@ references:
   name: Once
   href: api/Orleankka.TestKit.ExpectationExtensions.html#Orleankka_TestKit_ExpectationExtensions_Once_
   commentId: Overload:Orleankka.TestKit.ExpectationExtensions.Once
+  isSpec: "True"
   fullName: Orleankka.TestKit.ExpectationExtensions.Once
   nameWithType: ExpectationExtensions.Once
 - uid: Orleankka.TestKit.ExpressionExtensions
@@ -4427,6 +4666,7 @@ references:
   name: ApplyParameter
   href: api/Orleankka.TestKit.ExpressionExtensions.html#Orleankka_TestKit_ExpressionExtensions_ApplyParameter_
   commentId: Overload:Orleankka.TestKit.ExpressionExtensions.ApplyParameter
+  isSpec: "True"
   fullName: Orleankka.TestKit.ExpressionExtensions.ApplyParameter
   nameWithType: ExpressionExtensions.ApplyParameter
 - uid: Orleankka.TestKit.IExpectation
@@ -4445,6 +4685,7 @@ references:
   name: Apply
   href: api/Orleankka.TestKit.IExpectation.html#Orleankka_TestKit_IExpectation_Apply_
   commentId: Overload:Orleankka.TestKit.IExpectation.Apply
+  isSpec: "True"
   fullName: Orleankka.TestKit.IExpectation.Apply
   nameWithType: IExpectation.Apply
 - uid: Orleankka.TestKit.IExpectation.Match(System.Object)
@@ -4457,6 +4698,7 @@ references:
   name: Match
   href: api/Orleankka.TestKit.IExpectation.html#Orleankka_TestKit_IExpectation_Match_
   commentId: Overload:Orleankka.TestKit.IExpectation.Match
+  isSpec: "True"
   fullName: Orleankka.TestKit.IExpectation.Match
   nameWithType: IExpectation.Match
 - uid: Orleankka.TestKit.IRepeatExpectation
@@ -4475,6 +4717,7 @@ references:
   name: Times
   href: api/Orleankka.TestKit.IRepeatExpectation.html#Orleankka_TestKit_IRepeatExpectation_Times_
   commentId: Overload:Orleankka.TestKit.IRepeatExpectation.Times
+  isSpec: "True"
   fullName: Orleankka.TestKit.IRepeatExpectation.Times
   nameWithType: IRepeatExpectation.Times
 - uid: Orleankka.TestKit.MessageSerialization
@@ -4496,6 +4739,7 @@ references:
   name: MessageSerialization
   href: api/Orleankka.TestKit.MessageSerialization.html#Orleankka_TestKit_MessageSerialization__ctor_
   commentId: Overload:Orleankka.TestKit.MessageSerialization.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.MessageSerialization.MessageSerialization
   nameWithType: MessageSerialization.MessageSerialization
 - uid: Orleankka.TestKit.MessageSerialization.Manager
@@ -4514,6 +4758,7 @@ references:
   name: Roundtrip
   href: api/Orleankka.TestKit.MessageSerialization.html#Orleankka_TestKit_MessageSerialization_Roundtrip_
   commentId: Overload:Orleankka.TestKit.MessageSerialization.Roundtrip
+  isSpec: "True"
   fullName: Orleankka.TestKit.MessageSerialization.Roundtrip
   nameWithType: MessageSerialization.Roundtrip
 - uid: Orleankka.TestKit.Meta
@@ -4538,6 +4783,7 @@ references:
   name: Commands
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_Commands_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.Commands
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.Commands
   nameWithType: Extensions.Commands
 - uid: Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyCommands(Orleankka.TestKit.ActorRefMock)
@@ -4550,6 +4796,7 @@ references:
   name: DidNotReceiveAnyCommands
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_DidNotReceiveAnyCommands_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyCommands
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyCommands
   nameWithType: Extensions.DidNotReceiveAnyCommands
 - uid: Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyQueries(Orleankka.TestKit.ActorRefMock)
@@ -4562,6 +4809,7 @@ references:
   name: DidNotReceiveAnyQueries
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_DidNotReceiveAnyQueries_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyQueries
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.DidNotReceiveAnyQueries
   nameWithType: Extensions.DidNotReceiveAnyQueries
 - uid: Orleankka.TestKit.Meta.Extensions.Events(Orleankka.TestKit.ObserverCollectionMock)
@@ -4574,12 +4822,14 @@ references:
   name: Events
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_Events_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.Events
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.Events
   nameWithType: Extensions.Events
 - uid: Orleankka.TestKit.Meta.Extensions.ExpectCommand*
   name: ExpectCommand
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_ExpectCommand_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.ExpectCommand
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.ExpectCommand
   nameWithType: Extensions.ExpectCommand
 - uid: Orleankka.TestKit.Meta.Extensions.ExpectCommand``1(Orleankka.TestKit.ActorRefMock,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -4595,6 +4845,7 @@ references:
   name: ExpectQuery
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_ExpectQuery_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.ExpectQuery
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.ExpectQuery
   nameWithType: Extensions.ExpectQuery
 - uid: Orleankka.TestKit.Meta.Extensions.ExpectQuery``1(Orleankka.TestKit.ActorRefMock,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -4610,6 +4861,7 @@ references:
   name: FirstCommand
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_FirstCommand_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.FirstCommand
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.FirstCommand
   nameWithType: Extensions.FirstCommand
 - uid: Orleankka.TestKit.Meta.Extensions.FirstCommand``1(Orleankka.TestKit.ActorRefMock)
@@ -4625,6 +4877,7 @@ references:
   name: FirstEvent
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_FirstEvent_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.FirstEvent
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.FirstEvent
   nameWithType: Extensions.FirstEvent
 - uid: Orleankka.TestKit.Meta.Extensions.FirstEvent``1(Orleankka.TestKit.ObserverCollectionMock)
@@ -4640,6 +4893,7 @@ references:
   name: FirstQuery
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_FirstQuery_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.FirstQuery
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.FirstQuery
   nameWithType: Extensions.FirstQuery
 - uid: Orleankka.TestKit.Meta.Extensions.FirstQuery``1(Orleankka.TestKit.ActorRefMock)
@@ -4661,6 +4915,7 @@ references:
   name: Queries
   href: api/Orleankka.TestKit.Meta.Extensions.html#Orleankka_TestKit_Meta_Extensions_Queries_
   commentId: Overload:Orleankka.TestKit.Meta.Extensions.Queries
+  isSpec: "True"
   fullName: Orleankka.TestKit.Meta.Extensions.Queries
   nameWithType: Extensions.Queries
 - uid: Orleankka.TestKit.ObserverCollectionMock
@@ -4679,6 +4934,7 @@ references:
   name: GetEnumerator
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.GetEnumerator
+  isSpec: "True"
   fullName: Orleankka.TestKit.ObserverCollectionMock.GetEnumerator
   nameWithType: ObserverCollectionMock.GetEnumerator
 - uid: Orleankka.TestKit.ObserverCollectionMock.Orleankka#IObserverCollection#Add(Orleankka.ObserverRef)
@@ -4693,6 +4949,7 @@ references:
   name: IObserverCollection.Add
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_Orleankka_IObserverCollection_Add_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.Orleankka#IObserverCollection#Add
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Add
   fullName: Orleankka.TestKit.ObserverCollectionMock.Orleankka.IObserverCollection.Add
   nameWithType: ObserverCollectionMock.IObserverCollection.Add
@@ -4709,6 +4966,7 @@ references:
   name: IObserverCollection.Notify
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_Orleankka_IObserverCollection_Notify_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.Orleankka#IObserverCollection#Notify
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Notify
   fullName: Orleankka.TestKit.ObserverCollectionMock.Orleankka.IObserverCollection.Notify
   nameWithType: ObserverCollectionMock.IObserverCollection.Notify
@@ -4725,6 +4983,7 @@ references:
   name: IObserverCollection.Remove
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_Orleankka_IObserverCollection_Remove_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.Orleankka#IObserverCollection#Remove
+  isSpec: "True"
   name.vb: Orleankka.IObserverCollection.Remove
   fullName: Orleankka.TestKit.ObserverCollectionMock.Orleankka.IObserverCollection.Remove
   nameWithType: ObserverCollectionMock.IObserverCollection.Remove
@@ -4739,6 +4998,7 @@ references:
   name: RecordedMessages
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_RecordedMessages_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.RecordedMessages
+  isSpec: "True"
   fullName: Orleankka.TestKit.ObserverCollectionMock.RecordedMessages
   nameWithType: ObserverCollectionMock.RecordedMessages
 - uid: Orleankka.TestKit.ObserverCollectionMock.RecordedSubscriptions
@@ -4751,6 +5011,7 @@ references:
   name: RecordedSubscriptions
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_RecordedSubscriptions_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.RecordedSubscriptions
+  isSpec: "True"
   fullName: Orleankka.TestKit.ObserverCollectionMock.RecordedSubscriptions
   nameWithType: ObserverCollectionMock.RecordedSubscriptions
 - uid: Orleankka.TestKit.ObserverCollectionMock.Reset
@@ -4763,6 +5024,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_Reset_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ObserverCollectionMock.Reset
   nameWithType: ObserverCollectionMock.Reset
 - uid: Orleankka.TestKit.ObserverCollectionMock.System#Collections#IEnumerable#GetEnumerator
@@ -4777,6 +5039,7 @@ references:
   name: IEnumerable.GetEnumerator
   href: api/Orleankka.TestKit.ObserverCollectionMock.html#Orleankka_TestKit_ObserverCollectionMock_System_Collections_IEnumerable_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.ObserverCollectionMock.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
   name.vb: System.Collections.IEnumerable.GetEnumerator
   fullName: Orleankka.TestKit.ObserverCollectionMock.System.Collections.IEnumerable.GetEnumerator
   nameWithType: ObserverCollectionMock.IEnumerable.GetEnumerator
@@ -4797,6 +5060,7 @@ references:
   name: Notify
   href: api/Orleankka.TestKit.ObserverRefStub.html#Orleankka_TestKit_ObserverRefStub_Notify_
   commentId: Overload:Orleankka.TestKit.ObserverRefStub.Notify
+  isSpec: "True"
   fullName: Orleankka.TestKit.ObserverRefStub.Notify
   nameWithType: ObserverRefStub.Notify
 - uid: Orleankka.TestKit.PushExpectation`1
@@ -4821,6 +5085,7 @@ references:
   name: IExpectation.Apply
   href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Apply_
   commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Apply
   fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Apply
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Apply
@@ -4839,6 +5104,7 @@ references:
   name: IExpectation.Match
   href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Match_
   commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Match
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Match
   fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Match
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Match
@@ -4857,6 +5123,7 @@ references:
   name: IRepeatExpectation.Times
   href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
   commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IRepeatExpectation.Times
   fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IRepeatExpectation.Times
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IRepeatExpectation.Times
@@ -4874,6 +5141,7 @@ references:
   name: Throw
   href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Throw_
   commentId: Overload:Orleankka.TestKit.PushExpectation`1.Throw
+  isSpec: "True"
   fullName: Orleankka.TestKit.PushExpectation<TItem>.Throw
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Throw
   nameWithType: PushExpectation<TItem>.Throw
@@ -4900,6 +5168,7 @@ references:
   name: RecordedItem
   href: api/Orleankka.TestKit.RecordedItem.html#Orleankka_TestKit_RecordedItem__ctor_
   commentId: Overload:Orleankka.TestKit.RecordedItem.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedItem.RecordedItem
   nameWithType: RecordedItem.RecordedItem
 - uid: Orleankka.TestKit.RecordedItem.Expected
@@ -4930,6 +5199,7 @@ references:
   name: RecordedMessage
   href: api/Orleankka.TestKit.RecordedMessage.html#Orleankka_TestKit_RecordedMessage__ctor_
   commentId: Overload:Orleankka.TestKit.RecordedMessage.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedMessage.RecordedMessage
   nameWithType: RecordedMessage.RecordedMessage
 - uid: Orleankka.TestKit.RecordedMessage.Expected
@@ -4966,6 +5236,7 @@ references:
   name: RecordedReminder
   href: api/Orleankka.TestKit.RecordedReminder.html#Orleankka_TestKit_RecordedReminder__ctor_
   commentId: Overload:Orleankka.TestKit.RecordedReminder.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedReminder.RecordedReminder
   nameWithType: RecordedReminder.RecordedReminder
 - uid: Orleankka.TestKit.RecordedReminder.Due
@@ -5047,6 +5318,7 @@ references:
   name: RecordedTimer
   href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer__ctor_
   commentId: Overload:Orleankka.TestKit.RecordedTimer.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedTimer.RecordedTimer
   nameWithType: RecordedTimer.RecordedTimer
 - uid: Orleankka.TestKit.RecordedTimer.Callback
@@ -5077,6 +5349,7 @@ references:
   name: IsOneOff
   href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_IsOneOff_
   commentId: Overload:Orleankka.TestKit.RecordedTimer.IsOneOff
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedTimer.IsOneOff
   nameWithType: RecordedTimer.IsOneOff
 - uid: Orleankka.TestKit.RecordedTimer.Period
@@ -5107,6 +5380,7 @@ references:
   name: RecordedTimer
   href: api/Orleankka.TestKit.RecordedTimer-1.html#Orleankka_TestKit_RecordedTimer_1__ctor_
   commentId: Overload:Orleankka.TestKit.RecordedTimer`1.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.RecordedTimer<TState>.RecordedTimer
   fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState).RecordedTimer
   nameWithType: RecordedTimer<TState>.RecordedTimer
@@ -5185,6 +5459,7 @@ references:
   name: GetEnumerator
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.GetEnumerator
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.GetEnumerator
   nameWithType: ReminderServiceMock.GetEnumerator
 - uid: Orleankka.TestKit.ReminderServiceMock.IsRegistered(System.String)
@@ -5197,6 +5472,7 @@ references:
   name: IsRegistered
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_IsRegistered_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.IsRegistered
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.IsRegistered
   nameWithType: ReminderServiceMock.IsRegistered
 - uid: Orleankka.TestKit.ReminderServiceMock.Item(System.Int32)
@@ -5221,6 +5497,7 @@ references:
   name: Item
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Item_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Item
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.Item
   nameWithType: ReminderServiceMock.Item
 - uid: Orleankka.TestKit.ReminderServiceMock.Orleankka#Services#IReminderService#Register(System.String,System.TimeSpan,System.TimeSpan)
@@ -5235,6 +5512,7 @@ references:
   name: IReminderService.Register
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Orleankka_Services_IReminderService_Register_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Orleankka#Services#IReminderService#Register
+  isSpec: "True"
   name.vb: Orleankka.Services.IReminderService.Register
   fullName: Orleankka.TestKit.ReminderServiceMock.Orleankka.Services.IReminderService.Register
   nameWithType: ReminderServiceMock.IReminderService.Register
@@ -5251,6 +5529,7 @@ references:
   name: IReminderService.Unregister
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Orleankka_Services_IReminderService_Unregister_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Orleankka#Services#IReminderService#Unregister
+  isSpec: "True"
   name.vb: Orleankka.Services.IReminderService.Unregister
   fullName: Orleankka.TestKit.ReminderServiceMock.Orleankka.Services.IReminderService.Unregister
   nameWithType: ReminderServiceMock.IReminderService.Unregister
@@ -5265,6 +5544,7 @@ references:
   name: Registered
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Registered_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Registered
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.Registered
   nameWithType: ReminderServiceMock.Registered
 - uid: Orleankka.TestKit.ReminderServiceMock.Requests
@@ -5277,6 +5557,7 @@ references:
   name: Requests
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Requests_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Requests
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.Requests
   nameWithType: ReminderServiceMock.Requests
 - uid: Orleankka.TestKit.ReminderServiceMock.Reset
@@ -5289,6 +5570,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_Reset_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.ReminderServiceMock.Reset
   nameWithType: ReminderServiceMock.Reset
 - uid: Orleankka.TestKit.ReminderServiceMock.System#Collections#IEnumerable#GetEnumerator
@@ -5303,6 +5585,7 @@ references:
   name: IEnumerable.GetEnumerator
   href: api/Orleankka.TestKit.ReminderServiceMock.html#Orleankka_TestKit_ReminderServiceMock_System_Collections_IEnumerable_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.ReminderServiceMock.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
   name.vb: System.Collections.IEnumerable.GetEnumerator
   fullName: Orleankka.TestKit.ReminderServiceMock.System.Collections.IEnumerable.GetEnumerator
   nameWithType: ReminderServiceMock.IEnumerable.GetEnumerator
@@ -5317,6 +5600,7 @@ references:
   name: Expect
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Expect_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.Expect
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.Expect
   nameWithType: StreamRefMock.Expect
 - uid: Orleankka.TestKit.StreamRefMock.Expect``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
@@ -5338,6 +5622,7 @@ references:
   name: Push
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Push_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.Push
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.Push
   nameWithType: StreamRefMock.Push
 - uid: Orleankka.TestKit.StreamRefMock.RecordedItems
@@ -5350,6 +5635,7 @@ references:
   name: RecordedItems
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedItems_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.RecordedItems
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.RecordedItems
   nameWithType: StreamRefMock.RecordedItems
 - uid: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
@@ -5362,6 +5648,7 @@ references:
   name: RecordedSubscriptions
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedSubscriptions_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
   nameWithType: StreamRefMock.RecordedSubscriptions
 - uid: Orleankka.TestKit.StreamRefMock.Reset
@@ -5374,6 +5661,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Reset_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.Reset
   nameWithType: StreamRefMock.Reset
 - uid: Orleankka.TestKit.StreamRefMock.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
@@ -5398,6 +5686,7 @@ references:
   name: Subscribe
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.Subscribe
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.Subscribe
   nameWithType: StreamRefMock.Subscribe
 - uid: Orleankka.TestKit.StreamRefMock.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
@@ -5428,6 +5717,7 @@ references:
   name: Subscriptions
   href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscriptions_
   commentId: Overload:Orleankka.TestKit.StreamRefMock.Subscriptions
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamRefMock.Subscriptions
   nameWithType: StreamRefMock.Subscriptions
 - uid: Orleankka.TestKit.StreamSubscriptionMock
@@ -5446,6 +5736,7 @@ references:
   name: StreamSubscriptionMock
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock__ctor_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.#ctor
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.StreamSubscriptionMock
   nameWithType: StreamSubscriptionMock.StreamSubscriptionMock
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Callback
@@ -5458,6 +5749,7 @@ references:
   name: Callback
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Callback_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Callback
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Callback
   nameWithType: StreamSubscriptionMock.Callback
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Filter
@@ -5470,6 +5762,7 @@ references:
   name: Filter
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Filter_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Filter
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Filter
   nameWithType: StreamSubscriptionMock.Filter
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Action{System.Object})
@@ -5494,6 +5787,7 @@ references:
   name: Resume
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Resume
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume
   nameWithType: StreamSubscriptionMock.Resume
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Resume``1(System.Action{``0})
@@ -5524,6 +5818,7 @@ references:
   name: Resumed
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resumed_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Resumed
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Resumed
   nameWithType: StreamSubscriptionMock.Resumed
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
@@ -5536,6 +5831,7 @@ references:
   name: Unsubscribe
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribe_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
   nameWithType: StreamSubscriptionMock.Unsubscribe
 - uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
@@ -5548,6 +5844,7 @@ references:
   name: Unsubscribed
   href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribed_
   commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
+  isSpec: "True"
   fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
   nameWithType: StreamSubscriptionMock.Unsubscribed
 - uid: Orleankka.TestKit.TellExpectation`1
@@ -5572,6 +5869,7 @@ references:
   name: IExpectation.Apply
   href: api/Orleankka.TestKit.TellExpectation-1.html#Orleankka_TestKit_TellExpectation_1_Orleankka_TestKit_IExpectation_Apply_
   commentId: Overload:Orleankka.TestKit.TellExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Apply
   fullName: Orleankka.TestKit.TellExpectation<TMessage>.Orleankka.TestKit.IExpectation.Apply
   fullName.vb: Orleankka.TestKit.TellExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply
@@ -5590,6 +5888,7 @@ references:
   name: IExpectation.Match
   href: api/Orleankka.TestKit.TellExpectation-1.html#Orleankka_TestKit_TellExpectation_1_Orleankka_TestKit_IExpectation_Match_
   commentId: Overload:Orleankka.TestKit.TellExpectation`1.Orleankka#TestKit#IExpectation#Match
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Match
   fullName: Orleankka.TestKit.TellExpectation<TMessage>.Orleankka.TestKit.IExpectation.Match
   fullName.vb: Orleankka.TestKit.TellExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match
@@ -5608,6 +5907,7 @@ references:
   name: IRepeatExpectation.Times
   href: api/Orleankka.TestKit.TellExpectation-1.html#Orleankka_TestKit_TellExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
   commentId: Overload:Orleankka.TestKit.TellExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
+  isSpec: "True"
   name.vb: Orleankka.TestKit.IRepeatExpectation.Times
   fullName: Orleankka.TestKit.TellExpectation<TMessage>.Orleankka.TestKit.IRepeatExpectation.Times
   fullName.vb: Orleankka.TestKit.TellExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times
@@ -5625,6 +5925,7 @@ references:
   name: Throw
   href: api/Orleankka.TestKit.TellExpectation-1.html#Orleankka_TestKit_TellExpectation_1_Throw_
   commentId: Overload:Orleankka.TestKit.TellExpectation`1.Throw
+  isSpec: "True"
   fullName: Orleankka.TestKit.TellExpectation<TMessage>.Throw
   fullName.vb: Orleankka.TestKit.TellExpectation(Of TMessage).Throw
   nameWithType: TellExpectation<TMessage>.Throw
@@ -5645,6 +5946,7 @@ references:
   name: GetEnumerator
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.GetEnumerator
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.GetEnumerator
   nameWithType: TimerServiceMock.GetEnumerator
 - uid: Orleankka.TestKit.TimerServiceMock.IsRegistered(System.Func{System.Threading.Tasks.Task})
@@ -5666,6 +5968,7 @@ references:
   name: IsRegistered
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_IsRegistered_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.IsRegistered
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.IsRegistered
   nameWithType: TimerServiceMock.IsRegistered
 - uid: Orleankka.TestKit.TimerServiceMock.Item(System.Int32)
@@ -5690,6 +5993,7 @@ references:
   name: Item
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Item_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Item
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.Item
   nameWithType: TimerServiceMock.Item
 - uid: Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
@@ -5714,6 +6018,7 @@ references:
   name: ITimerService.Register
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Register_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register
+  isSpec: "True"
   name.vb: Orleankka.Services.ITimerService.Register
   fullName: Orleankka.TestKit.TimerServiceMock.Orleankka.Services.ITimerService.Register
   nameWithType: TimerServiceMock.ITimerService.Register
@@ -5748,6 +6053,7 @@ references:
   name: ITimerService.Unregister
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Unregister_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Unregister
+  isSpec: "True"
   name.vb: Orleankka.Services.ITimerService.Unregister
   fullName: Orleankka.TestKit.TimerServiceMock.Orleankka.Services.ITimerService.Unregister
   nameWithType: TimerServiceMock.ITimerService.Unregister
@@ -5762,6 +6068,7 @@ references:
   name: Registered
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Registered_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Registered
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.Registered
   nameWithType: TimerServiceMock.Registered
 - uid: Orleankka.TestKit.TimerServiceMock.Requests
@@ -5774,6 +6081,7 @@ references:
   name: Requests
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Requests_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Requests
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.Requests
   nameWithType: TimerServiceMock.Requests
 - uid: Orleankka.TestKit.TimerServiceMock.Reset
@@ -5786,6 +6094,7 @@ references:
   name: Reset
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Reset_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.Reset
+  isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.Reset
   nameWithType: TimerServiceMock.Reset
 - uid: Orleankka.TestKit.TimerServiceMock.System#Collections#IEnumerable#GetEnumerator
@@ -5800,6 +6109,7 @@ references:
   name: IEnumerable.GetEnumerator
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_System_Collections_IEnumerable_GetEnumerator_
   commentId: Overload:Orleankka.TestKit.TimerServiceMock.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
   name.vb: System.Collections.IEnumerable.GetEnumerator
   fullName: Orleankka.TestKit.TimerServiceMock.System.Collections.IEnumerable.GetEnumerator
   nameWithType: TimerServiceMock.IEnumerable.GetEnumerator
@@ -5832,6 +6142,7 @@ references:
   name: UnhandledMessageException
   href: api/Orleankka.UnhandledMessageException.html#Orleankka_UnhandledMessageException__ctor_
   commentId: Overload:Orleankka.UnhandledMessageException.#ctor
+  isSpec: "True"
   fullName: Orleankka.UnhandledMessageException.UnhandledMessageException
   nameWithType: UnhandledMessageException.UnhandledMessageException
 - uid: Orleankka.Utility
@@ -5856,5 +6167,6 @@ references:
   name: LoadEmbeddedResource
   href: api/Orleankka.Utility.AssemblyExtensions.html#Orleankka_Utility_AssemblyExtensions_LoadEmbeddedResource_
   commentId: Overload:Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource
+  isSpec: "True"
   fullName: Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource
   nameWithType: AssemblyExtensions.LoadEmbeddedResource
