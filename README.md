@@ -48,23 +48,27 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 ##### C&#35;
 
-+ "WebScan" [[demo]](Source/Demo.App)
-+ TestKit [[demo]](Source/Demo.App.Tests)
++ Hello, world! [[demo]](Samples/CSharp/HelloWorld)
++ "WebScan" [[demo]](Samples/CSharp/Demo/Demo.App)
++ TestKit [[demo]](Source/CSharp/Demo/Demo.App.Tests)
 + Event Sourcing 
-	+ Idiomatic (CQRS) [[see]](Source/Example.EventSourcing.Idiomatic)
-	+ Persistence: GetEventStore [[see]](Source/Example.EventSourcing.Persistence.GES)
-	+ Persistence: Streamstone [[see]](Source/Example.EventSourcing.Persistence.Streamstone)
-+ Reentrant messages [[rw-x]](Source/Example.Reentrant)
-+ Client-side observers [[chat]](Source/Example.Observers.Chat.Client)
-+ Streams [[chat]](Source/Example.Streams.Chat.Server)
+	+ Idiomatic (CQRS) [[see]](Samples/CSharp/EventSourcing/Idiomatic)
+	+ Persistence: GetEventStore [[see]](Samples/CSharp/EventSourcing/Persistence/GES)
+	+ Persistence: Streamstone [[see]](Samples/CSharp/EventSourcing/Persistence/Streamstone)
++ Serialization
+	+ ProtoBuf [[see]](Samples/CSharp/Serialization/ProtoBuf)
+	+ Hyperion [[see]](Samples/CSharp/Serialization/Hyperion)
++ Reentrant messages [[rw-x]](Samples/CSharp/Reentrant)
++ Client-side observers [[chat]](Samples/CSharp/Observers)
++ Streams [[chat]](Samples/CSharp/Streams)
++ FSM [[simple]](Samples/CSharp/FSM/Lightbulb)
 
 ##### F&#35;
 
-+ Hello, world! [[demo]](Source/FSharp.Demo.HelloWorld) 
-+ Chat  [[client]](Source/FSharp.Example.Observers.Chat.Client) [[server]](Source/FSharp.Example.Observers.Chat.Server) [[shared]](Source/FSharp.Example.Observers.Chat.Shared)
-+ eCommerce [[demo]](Source/FSharp.Demo.Shop)
-+ Reentrant messages [[demo]](Source/FSharp.Example.Reentrant)
-+ Streams [[client]](Source/FSharp.Example.Streams.Chat.Client) [[server]](Source/FSharp.Example.Streams.Chat.Server) [[shared]](Source/FSharp.Example.Streams.Chat.Shared)
++ Hello, world! [[demo]]Samples/FSharp/HelloWorld) 
++ eCommerce [[demo]](Samples/FSharp/Shop)
++ Reentrant messages [[demo]](Samples/FSharp/Reentrant)
++ Streams [[demo]](Samples/FSharp/Streams)
 
 ### Documentation
 
