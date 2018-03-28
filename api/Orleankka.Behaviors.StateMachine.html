@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class SiloHostBuilderExtension
+    <title>Class StateMachine
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class SiloHostBuilderExtension
+    <meta name="title" content="Class StateMachine
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.33.1.0">
     
@@ -78,17 +78,17 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.Cluster.SiloHostBuilderExtension">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Behaviors.StateMachine">
   
   
-  <h1 id="Orleankka_Cluster_SiloHostBuilderExtension" data-uid="Orleankka.Cluster.SiloHostBuilderExtension" class="text-break">Class SiloHostBuilderExtension
+  <h1 id="Orleankka_Behaviors_StateMachine" data-uid="Orleankka.Behaviors.StateMachine" class="text-break">Class StateMachine
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">SiloHostBuilderExtension</span></div>
+    <div class="level1"><span class="xref">StateMachine</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -114,46 +114,29 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Cluster.html">Orleankka.Cluster</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Behaviors.html">Orleankka.Behaviors</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
-  <h5 id="Orleankka_Cluster_SiloHostBuilderExtension_syntax">Syntax</h5>
+  <h5 id="Orleankka_Behaviors_StateMachine_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class SiloHostBuilderExtension</code></pre>
+    <pre><code class="lang-csharp hljs">public class StateMachine</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_Build.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.Build%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterConfigurator.cs/#L107">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L13">View Source</a>
   </span>
-  <a id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka*"></a>
-  <h4 id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder)">ConfigureOrleankka(ISiloHostBuilder)</h4>
+  <a id="Orleankka_Behaviors_StateMachine_Build_" data-uid="Orleankka.Behaviors.StateMachine.Build*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_Build" data-uid="Orleankka.Behaviors.StateMachine.Build">Build()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder)</code></pre>
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, State&gt; Build()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
-        <td><span class="parametername">builder</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -164,25 +147,25 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/xfhwa508(v=vs.110).aspx">Dictionary</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a>, <a class="xref" href="Orleankka.Behaviors.State.html">State</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_Orleankka_Cluster_ClusterConfigurator_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder%2COrleankka.Cluster.ClusterConfigurator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(Orleankka.Receive%2COrleankka.Receive)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterConfigurator.cs/#L113">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L58">View Source</a>
   </span>
-  <a id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka*"></a>
-  <h4 id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_Orleankka_Cluster_ClusterConfigurator_" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder,Orleankka.Cluster.ClusterConfigurator)">ConfigureOrleankka(ISiloHostBuilder, ClusterConfigurator)</h4>
+  <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_" data-uid="Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive)">State(Receive, Receive)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, ClusterConfigurator cfg)</code></pre>
+    <pre><code class="lang-csharp hljs">public StateMachine State(Receive behavior, Receive super = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -195,13 +178,13 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
-        <td><span class="parametername">builder</span></td>
+        <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
+        <td><span class="parametername">behavior</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Orleankka.Cluster.ClusterConfigurator.html">ClusterConfigurator</a></td>
-        <td><span class="parametername">cfg</span></td>
+        <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
+        <td><span class="parametername">super</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -216,25 +199,25 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
+        <td><a class="xref" href="Orleankka.Behaviors.StateMachine.html">StateMachine</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_System_Func_Orleankka_Cluster_ClusterConfigurator_Orleankka_Cluster_ClusterConfigurator__.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder%2CSystem.Func%7BOrleankka.Cluster.ClusterConfigurator%2COrleankka.Cluster.ClusterConfigurator%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(System.String%2COrleankka.Receive%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterConfigurator.cs/#L110">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L46">View Source</a>
   </span>
-  <a id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka*"></a>
-  <h4 id="Orleankka_Cluster_SiloHostBuilderExtension_ConfigureOrleankka_Orleans_Hosting_ISiloHostBuilder_System_Func_Orleankka_Cluster_ClusterConfigurator_Orleankka_Cluster_ClusterConfigurator__" data-uid="Orleankka.Cluster.SiloHostBuilderExtension.ConfigureOrleankka(Orleans.Hosting.ISiloHostBuilder,System.Func{Orleankka.Cluster.ClusterConfigurator,Orleankka.Cluster.ClusterConfigurator})">ConfigureOrleankka(ISiloHostBuilder, Func&lt;ClusterConfigurator, ClusterConfigurator&gt;)</h4>
+  <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_" data-uid="Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String)">State(String, Receive, String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, Func&lt;ClusterConfigurator, ClusterConfigurator&gt; configure)</code></pre>
+    <pre><code class="lang-csharp hljs">public StateMachine State(string name, Receive behavior, string super = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -247,13 +230,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
-        <td><span class="parametername">builder</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">name</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="Orleankka.Cluster.ClusterConfigurator.html">ClusterConfigurator</a>, <a class="xref" href="Orleankka.Cluster.ClusterConfigurator.html">ClusterConfigurator</a>&gt;</td>
-        <td><span class="parametername">configure</span></td>
+        <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
+        <td><span class="parametername">behavior</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">super</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -268,7 +256,56 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Orleans.Hosting.ISiloHostBuilder</span></td>
+        <td><a class="xref" href="Orleankka.Behaviors.StateMachine.html">StateMachine</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_op_Implicit_Orleankka_Behaviors_StateMachine__System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.op_Implicit(Orleankka.Behaviors.StateMachine)~System.Collections.Generic.Dictionary%7BSystem.String%2COrleankka.Behaviors.State%7D%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L23">View Source</a>
+  </span>
+  <a id="Orleankka_Behaviors_StateMachine_op_Implicit_" data-uid="Orleankka.Behaviors.StateMachine.op_Implicit*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_op_Implicit_Orleankka_Behaviors_StateMachine__System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State_" data-uid="Orleankka.Behaviors.StateMachine.op_Implicit(Orleankka.Behaviors.StateMachine)~System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State}">Implicit(StateMachine to Dictionary&lt;String, State&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator Dictionary&lt;string, State&gt;(StateMachine x)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.Behaviors.StateMachine.html">StateMachine</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/xfhwa508(v=vs.110).aspx">Dictionary</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a>, <a class="xref" href="Orleankka.Behaviors.State.html">State</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -281,10 +318,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_SiloHostBuilderExtension.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.SiloHostBuilderExtension%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterConfigurator.cs/#L105" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
