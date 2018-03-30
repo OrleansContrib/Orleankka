@@ -9,6 +9,8 @@ namespace Orleankka.Features.Actor_behaviors
 
     namespace Hierarchical_state_machine
     {
+        using System;
+
         [TestFixture]
         class Tests
         {
@@ -205,6 +207,48 @@ namespace Orleankka.Features.Actor_behaviors
                 };
 
                 AssertEqual(expected, actor.Events);
+            }
+
+            [Test]
+            public async Task When_transitioning_different_super()
+            {
+                actor.Behavior.Initial(actor.Initial);
+
+                await actor.Behavior.Become(actor.A);
+                actor.Events.Clear();
+
+                await actor.Behavior.Become(actor.C);
+                var expected = new[]
+                {
+                    "OnTransitioning_A_C",
+                    "OnDeactivate_A",
+                    "OnDeactivate_S",
+                    "OnDeactivate_SS",
+                    "OnDeactivate_SSS",
+                    "OnUnbecome_A",
+                    "OnUnbecome_S",
+                    "OnUnbecome_SS",
+                    "OnUnbecome_SSS",
+                    "OnBecome_SSSS",
+                    "OnBecome_C",
+                    "OnActivate_SSSS",
+                    "OnActivate_C",
+                    "OnTransitioned_C_A"
+                };
+
+                AssertEqual(expected, actor.Events);
+            }
+
+            [Test]
+            public void When_cyclic_super()
+            {
+                var sm = new StateMachine()
+                    .State("A",  _ => null, super: "S")
+                    .State("S",  _ => null, super: "SS")
+                    .State("SS", _ => null, super: "A");
+
+                var ex = Assert.Throws<InvalidOperationException>(() => sm.Build());
+                Assert.That(ex.Message, Is.EqualTo("Cycle detected: A -> S -> SS !-> A"));
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 

@@ -15,15 +15,18 @@ namespace Orleankka.Behaviors
             var result = new Dictionary<string, State>();
 
             foreach (var each in configuration.Values)
-                Build(each, result);
+                Build(each, result, new List<string>());
 
             return result;
         }
 
         public static implicit operator Dictionary<string, State>(StateMachine x) => x.Build();
 
-        void Build(StateConfiguration state, IDictionary<string, State> states)
+        void Build(StateConfiguration state, IDictionary<string, State> states, ICollection<string> chain)
         {
+            if (chain.Contains(state.Name))
+                throw new InvalidOperationException("Cycle detected: " + string.Join(" -> ", chain) + $" !-> {state.Name}");
+
             if (states.ContainsKey(state.Name))
                 return;
 
@@ -36,9 +39,11 @@ namespace Orleankka.Behaviors
             if (!configuration.TryGetValue(state.Super, out var super))
                 throw new InvalidOperationException($"Super '{state.Super}' specified for state '{state.Name}' hasn't been configured");
 
+            chain.Add(state.Name);
+
             // recurse
-            Build(super, states);
-            
+            Build(super, states, chain);
+
             // now get fully configured super
             states.Add(state.Name, new State(state.Name, state.Behavior, states[state.Super]));
         }
