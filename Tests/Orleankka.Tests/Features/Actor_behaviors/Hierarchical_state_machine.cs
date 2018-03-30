@@ -18,156 +18,31 @@ namespace Orleankka.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            public interface ITestActor : IActorGrain
-            { }
+            List<string> events;
 
-            public class TestActor : ActorGrain, ITestActor
-            {
-                public Behavior Behavior { get; private set; }
-
-                public void Setup(StateMachine sm)
-                {
-                    Behavior = new Behavior(sm, OnTransitioning, OnTransitioned);
-                }
-
-                Task OnTransitioning(Transition transition)
-                {
-                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
-                    return Task.CompletedTask;
-                }
-
-                Task OnTransitioned(Transition transition)
-                {
-                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
-                    return Task.CompletedTask;
-                }
-
-                public override Task<object> Receive(object message) => Behavior.Receive(message);
-
-                public readonly List<string> Events = new List<string>();
-
-                void RecordTransitions(string behavior, object message)
-                {
-                    switch (message)
-                    {
-                        case Become _ :
-                            Events.Add($"OnBecome_{behavior}");
-                            break;
-                        case Unbecome _ :
-                            Events.Add($"OnUnbecome_{behavior}");
-                            break;                        
-                        case Activate _ :
-                            Events.Add($"OnActivate_{behavior}");
-                            break;                        
-                        case Deactivate _ :
-                            Events.Add($"OnDeactivate_{behavior}");
-                            break;
-                    }
-                }
-
-                public Task<object> Initial(object message)
-                {
-                    RecordTransitions(nameof(Initial), message);
-                    return Result(Unhandled);
-                }
-
-                public async Task<object> A(object message)
-                {
-                    RecordTransitions(nameof(A), message);
-                    
-                    switch (message)
-                    {
-                        case X _:
-                            await Behavior.Become(B);
-                            break;
-                    }
-
-                    return Done;
-                }
-
-                public async Task<object> B(object message)
-                {
-                    RecordTransitions(nameof(B), message);
-
-                    switch (message)
-                    {
-                        case Y _:
-                            await Behavior.Become(A);
-                            break;
-                    }
-
-                    return Done;
-                }
-                
-                public Task<object> C(object message)
-                {
-                    RecordTransitions(nameof(C), message);
-                    return Result(Unhandled);
-                }
-
-                public Task<object> S(object message)
-                {
-                    RecordTransitions(nameof(S), message);
-                    return Result(Unhandled);
-                }
-
-                public async Task<object> SS(object message)
-                {
-                    RecordTransitions(nameof(SS), message);
-
-                    switch (message)
-                    {
-                        case Z _:
-                            await Behavior.Become(C);
-                            break;
-                    }
-
-                    return Done;
-                }
-
-                public Task<object> SSS(object message)
-                {
-                    RecordTransitions(nameof(SSS), message);
-                    return Result(Unhandled);
-                }
-                
-                public Task<object> SSSS(object message)
-                {
-                    RecordTransitions(nameof(SSSS), message);
-                    return Result(Unhandled);
-                }
-            }
-
-            TestActor actor;
+            void AssertEvents(params string[] expected) => 
+                CollectionAssert.AreEqual(expected, events);
 
             [SetUp]
-            public void SetUp()
-            {
-                actor = new TestActor();
-                
-                var sm = new StateMachine()
-                    .State(actor.A,  super: actor.S)
-                    .State(actor.C,  super: actor.SSSS)
-                    .State(actor.S,  super: actor.SS)
-                    .State(actor.B,  super: actor.SS)
-                    .State(actor.SS, super: actor.SSS)
-                    .State(actor.SSS)
-                    .State(actor.SSSS);
-
-                actor.Setup(sm);
-            }
+            public void SetUp() => 
+                events = new List<string>();
 
             [Test]
             public async Task When_transitioning()
-            {
-                actor.Behavior.Initial(actor.Initial);
+            {                               
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial")
+                    .State("A",  super: "S")
+                    .State("B",  super: "SS")
+                    .State("S",  super: "SS")
+                    .State("SS", super: "SSS")
+                    .State("SSS")
+                    .Initial("Initial");
                 
-                await actor.Behavior.Become(actor.A);
+                await behavior.Become("A");
+                Assert.That(behavior.Current, Is.EqualTo("A"));
 
-                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.A)));
-                
-                var expected = new[]
-                {
+                AssertEvents(                
                     "OnTransitioning_Initial_A",
                     "OnDeactivate_Initial",
                     "OnUnbecome_Initial",
@@ -180,22 +55,24 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnActivate_S",
                     "OnActivate_A",
                     "OnTransitioned_A_Initial"
-                };
-
-                AssertEqual(expected, actor.Events);
+                );
             }
 
             [Test]
             public async Task When_transitioning_within_same_super()
             {
-                actor.Behavior.Initial(actor.Initial);
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial")
+                    .State("A",  super: "S")
+                    .State("B",  super: "SS")
+                    .State("S",  super: "SS")
+                    .State("SS")
+                    .Initial("A");
                 
-                await actor.Behavior.Become(actor.A);
-                actor.Events.Clear();
+                await behavior.Become("B");
+                Assert.That(behavior.Current, Is.EqualTo("B"));
 
-                await actor.Behavior.Become(actor.B);
-                var expected = new[]
-                {
+                AssertEvents(
                     "OnTransitioning_A_B",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
@@ -204,22 +81,27 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnBecome_B",                    
                     "OnActivate_B",
                     "OnTransitioned_B_A"
-                };
-
-                AssertEqual(expected, actor.Events);
+                );
             }
 
             [Test]
             public async Task When_transitioning_different_super()
             {
-                actor.Behavior.Initial(actor.Initial);
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial")
+                    .State("A",  super: "S")
+                    .State("B",  super: "SS")
+                    .State("S",  super: "SS")
+                    .State("SS", super: "SSS")
+                    .State("C",  super: "SSSS")
+                    .State("SSS")
+                    .State("SSSS")
+                    .Initial("A");
 
-                await actor.Behavior.Become(actor.A);
-                actor.Events.Clear();
+                await behavior.Become("C");
+                Assert.That(behavior.Current, Is.EqualTo("C"));
 
-                await actor.Behavior.Become(actor.C);
-                var expected = new[]
-                {
+                AssertEvents(
                     "OnTransitioning_A_C",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
@@ -234,9 +116,7 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnActivate_SSSS",
                     "OnActivate_C",
                     "OnTransitioned_C_A"
-                };
-
-                AssertEqual(expected, actor.Events);
+                );
             }
 
             [Test]
@@ -249,10 +129,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 var ex = Assert.Throws<InvalidOperationException>(() => sm.Build());
                 Assert.That(ex.Message, Is.EqualTo("Cycle detected: A -> S -> SS !-> A"));
-            }
-
-            static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 
-                CollectionAssert.AreEqual(expected, actual);
+            }            
         }
     }
 }
