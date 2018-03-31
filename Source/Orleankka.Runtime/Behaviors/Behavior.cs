@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
@@ -9,11 +10,18 @@ namespace Orleankka.Behaviors
     public sealed class Behavior
     {
         State current;
+        Transition transition;
 
         readonly Dictionary<string, State> states;
+        
         readonly Func<Transition, Task> onTransitioning = t => Task.CompletedTask;
         readonly Func<Transition, Task> onTransitioned  = t => Task.CompletedTask;
-        readonly Func<Transition, Exception, Task> onTransitionError = (t, e) => Task.CompletedTask;
+
+        readonly Func<Transition, Exception, Task> onTransitionError = (t, e) =>
+        {
+            ExceptionDispatchInfo.Capture(e).Throw();
+            return null;
+        };
 
         public Behavior(
             Dictionary<string, State> states = null,
@@ -55,6 +63,7 @@ namespace Orleankka.Behaviors
             current = state;
         }
 
+        bool Switching => transition != null;
         bool Initialized() => Current != null;
         public string Current => current?.Name;
 
@@ -91,10 +100,13 @@ namespace Orleankka.Behaviors
             if (!Initialized())
                 throw new InvalidOperationException("Initial behavior should be set before calling Become");
 
-            if (current.Name == next.Name)
-                throw new InvalidOperationException($"Already behaving as '{next.Name}'");
+            if (Switching)
+                throw new InvalidOperationException($"Can't become '{next}' while transition is already in progress: {transition}");
 
-            var transition = new Transition(from: current, to: next);
+            if (current.Name == next.Name)
+                throw new InvalidOperationException($"Already behaving as '{next}'");
+
+            transition = new Transition(@from: current, to: next);
 
             try
             {
@@ -107,12 +119,16 @@ namespace Orleankka.Behaviors
                 await next.HandleActivate(transition);
 
                 current = next;
-                
+
                 await onTransitioned(transition);
             }
             catch (Exception exception)
             {
                 await onTransitionError(transition, exception);
+            }
+            finally
+            {
+                transition = null;
             }
         }
     }

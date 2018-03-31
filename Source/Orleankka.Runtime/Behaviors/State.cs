@@ -31,11 +31,11 @@ namespace Orleankka.Behaviors
                     throw new InvalidOperationException("Use specialized Become/Unbecome functions to transition to a different state");
                 
                 case Activate _:
-                    await HandleActivate(default(Transition));
+                    await HandleActivate(Transition.Initial);
                     return Done.Result;
                 
                 case Deactivate _:
-                    await HandleDeactivate(default(Transition));
+                    await HandleDeactivate(Transition.Initial);
                     return Done.Result;
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -90,12 +91,59 @@ namespace Orleankka.Features.Actor_behaviors
                     : Task.FromResult<object>("bar");
 
                 Behavior behavior = new BehaviorTester(events)
-                    .State("A", null, Receive);
+                    .State("A", Receive);
 
                 behavior.Initial("A");
 
                 Assert.That(await behavior.Receive("1"), Is.EqualTo("foo"));
                 Assert.That(await behavior.Receive(1), Is.EqualTo("bar"));
+            }
+
+            [Test]
+            [SuppressMessage("ReSharper", "AccessToModifiedClosure")]
+            public void When_becoming_other_during_transition()
+            {
+                async Task<object> AttemptBecomeDuring<T>(Behavior b, string other, object message)
+                {
+                    if (message is T)
+                        await b.Become(other);
+
+                    return null;
+                }
+
+                Behavior behavior = null;
+
+                behavior = new BehaviorTester(events)
+                    .State("A", x => AttemptBecomeDuring<Deactivate>(behavior, "C", x))
+                    .State("B")
+                    .State("C")
+                    .Initial("A");
+
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
+
+                behavior = new BehaviorTester(events)
+                    .State("A", x => AttemptBecomeDuring<Unbecome>(behavior, "C", x))
+                    .State("B")
+                    .State("C")
+                    .Initial("A");
+               
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
+
+                behavior = new BehaviorTester(events)
+                    .State("A")
+                    .State("B", x => AttemptBecomeDuring<Activate>(behavior, "C", x))
+                    .State("C")
+                    .Initial("A");
+               
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
+
+                behavior = new BehaviorTester(events)
+                    .State("A")
+                    .State("B", x => AttemptBecomeDuring<Become>(behavior, "C", x))
+                    .State("C")
+                    .Initial("A");
+               
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
             }
         }
     }

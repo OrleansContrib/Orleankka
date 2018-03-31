@@ -29,6 +29,8 @@ namespace Orleankka.Features.Actor_behaviors
             return this;
         }
 
+        public BehaviorTester State(string name, Receive receive) => State(name, null, receive);
+
         public BehaviorTester State(string name, string super, Receive receive)
         {
             machine.State(name, x =>
@@ -36,7 +38,7 @@ namespace Orleankka.Features.Actor_behaviors
                 RecordTransitions(name, x);
                 return receive(x);
             }, 
-                super);
+            super);
 
             return this;
         }
