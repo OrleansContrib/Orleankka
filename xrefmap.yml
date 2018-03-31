@@ -1649,6 +1649,12 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Transition.From
   nameWithType: Transition.From
+- uid: Orleankka.Behaviors.Transition.Initial
+  name: Initial
+  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_Initial
+  commentId: F:Orleankka.Behaviors.Transition.Initial
+  fullName: Orleankka.Behaviors.Transition.Initial
+  nameWithType: Transition.Initial
 - uid: Orleankka.Behaviors.Transition.To
   name: To
   href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_To
@@ -1662,6 +1668,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Transition.To
   nameWithType: Transition.To
+- uid: Orleankka.Behaviors.Transition.ToString
+  name: ToString()
+  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_ToString
+  commentId: M:Orleankka.Behaviors.Transition.ToString
+  fullName: Orleankka.Behaviors.Transition.ToString()
+  nameWithType: Transition.ToString()
+- uid: Orleankka.Behaviors.Transition.ToString*
+  name: ToString
+  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_ToString_
+  commentId: Overload:Orleankka.Behaviors.Transition.ToString
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Transition.ToString
+  nameWithType: Transition.ToString
 - uid: Orleankka.Behaviors.Unbecome
   name: Unbecome
   href: api/Orleankka.Behaviors.Unbecome.html

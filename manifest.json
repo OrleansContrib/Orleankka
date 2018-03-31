@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.Behavior.html",
-          "hash": "k6lYWsAf3vMAKS0uXYq6Xw=="
+          "hash": "OAWSrG5BLq5y8xQa8GkA+Q=="
         }
       },
       "is_incremental": false,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.Transition.html",
-          "hash": "45NIqmDqirVlZNQF47hHWQ=="
+          "hash": "GpnyWBu9NroONZX2qBJITQ=="
         }
       },
       "is_incremental": false,
@@ -321,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.html",
-          "hash": "0vUcWsU4KHX+VK866DCGbg=="
+          "hash": "iDP+yNJwCrdK0kYmvG4kPw=="
         }
       },
       "is_incremental": false,
@@ -1617,6 +1617,11 @@
         "incrementalPhase": "build"
       },
       "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
@@ -1628,11 +1633,6 @@
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }
