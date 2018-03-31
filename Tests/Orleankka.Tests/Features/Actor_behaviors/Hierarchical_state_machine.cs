@@ -14,10 +14,6 @@ namespace Orleankka.Features.Actor_behaviors
         [TestFixture]
         class Tests
         {
-            class X {}
-            class Y {}
-            class Z {}
-
             List<string> events;
 
             void AssertEvents(params string[] expected) => 
@@ -129,7 +125,29 @@ namespace Orleankka.Features.Actor_behaviors
 
                 var ex = Assert.Throws<InvalidOperationException>(() => sm.Build());
                 Assert.That(ex.Message, Is.EqualTo("Cycle detected: A -> S -> SS !-> A"));
-            }            
+            }
+            
+            [Test]
+            public async Task When_receiving_message_should_check_handlers_in_a_chain()
+            {
+                Task<object> AReceive(object message) => message is string
+                    ? TaskResult.Done
+                    : TaskResult.Unhandled;
+
+                Task<object> SReceive(object message) => message is int
+                    ? TaskResult.Done
+                    : TaskResult.Unhandled;
+
+                var behavior = new Behavior(new StateMachine()
+                    .State("A", AReceive, super: "S")
+                    .State("S", SReceive));
+
+                behavior.Initial("A");
+
+                Assert.That(await behavior.Receive("1"), Is.SameAs(ActorGrain.Done));
+                Assert.That(await behavior.Receive(1), Is.SameAs(ActorGrain.Done));
+                Assert.That(await behavior.Receive(DateTime.Now), Is.SameAs(ActorGrain.Unhandled));
+            }
         }
     }
 }

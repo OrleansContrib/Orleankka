@@ -39,7 +39,12 @@ namespace Orleankka.Behaviors
                     return Done.Result;
             }
 
-            return await Behavior(message);
+            var result = await Behavior(message);
+
+            if (ReferenceEquals(result, Unhandled.Result) && Super != null)
+                return await Super.Receive(message);
+
+            return result;
         }
 
         internal async Task HandleBecome(Transition transition)
