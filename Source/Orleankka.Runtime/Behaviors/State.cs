@@ -39,7 +39,7 @@ namespace Orleankka.Behaviors
                     return Done.Result;
             }
 
-            var result = await Behavior(message);
+            var result = await CallBehavior(message);
 
             if (ReferenceEquals(result, Unhandled.Result) && Super != null)
                 return await Super.Receive(message);
@@ -55,7 +55,7 @@ namespace Orleankka.Behaviors
             if (Super != null)
                 await Super.HandleBecome(transition);
 
-            await Behavior(Become.Message);
+            await CallBehavior(Become.Message);
         }
 
         internal async Task HandleUnbecome(Transition transition)
@@ -63,7 +63,7 @@ namespace Orleankka.Behaviors
             if (Includes(transition.To))
                 return;
 
-            await Behavior(Unbecome.Message);
+            await CallBehavior(Unbecome.Message);
 
             if (Super != null)
                 await Super.HandleUnbecome(transition);
@@ -77,7 +77,7 @@ namespace Orleankka.Behaviors
             if (Super != null)
                 await Super.HandleActivate(transition);
 
-            await Behavior(Activate.Message); 
+            await CallBehavior(Activate.Message); 
         }
 
         internal async Task HandleDeactivate(Transition transition)
@@ -85,13 +85,23 @@ namespace Orleankka.Behaviors
             if (Includes(transition.To))
                 return;
 
-            await Behavior(Deactivate.Message);
+            await CallBehavior(Deactivate.Message);
 
             if (Super != null)
                 await Super.HandleDeactivate(transition);
         }
-        
-        bool Includes(State state) => state.RootedTo(this);
+
+        Task<object> CallBehavior(object message)
+        {
+            var task = Behavior(message);
+            
+            if (task == null)
+                throw new InvalidOperationException($"Behavior returns null task on handling '{message}' message");
+
+            return task;
+        }
+
+        bool Includes(State state) => state?.RootedTo(this) ?? false;
         bool RootedTo(State state) => Super == state || (Super?.RootedTo(state) ?? false);
 
         string ToDebugString() => Super != null 

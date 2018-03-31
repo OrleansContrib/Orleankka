@@ -84,6 +84,17 @@ namespace Orleankka.Features.Actor_behaviors
             }
 
             [Test]
+            public void When_returns_null_task()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .State("A", x => null)
+                    .Initial("A");
+
+                var exception = Assert.ThrowsAsync<InvalidOperationException>(async ()=> await behavior.Receive("foo"));
+                Assert.That(exception.Message, Is.EqualTo("Behavior returns null task on handling 'foo' message"));
+            }
+
+            [Test]
             public async Task When_receiving_message()
             {
                 Task<object> Receive(object x) => x is string 

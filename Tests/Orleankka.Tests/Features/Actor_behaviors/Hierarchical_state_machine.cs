@@ -126,7 +126,20 @@ namespace Orleankka.Features.Actor_behaviors
                 var ex = Assert.Throws<InvalidOperationException>(() => sm.Build());
                 Assert.That(ex.Message, Is.EqualTo("Cycle detected: A -> S -> SS !-> A"));
             }
-            
+
+            [Test]
+            public void When_receiving_initial_message_no_sm()
+            {
+                var behavior = new Behavior(new StateMachine()
+                    .State("A", _ => TaskResult.Done)
+                    .State("B", _ => TaskResult.Done));
+
+                behavior.Initial("A");
+
+                Assert.DoesNotThrowAsync(
+                    async ()=> await behavior.Receive(Activate.Message));
+            }
+
             [Test]
             public async Task When_receiving_message_should_check_handlers_in_a_chain()
             {
