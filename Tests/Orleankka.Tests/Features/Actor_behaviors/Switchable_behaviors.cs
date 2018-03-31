@@ -13,135 +13,61 @@ namespace Orleankka.Features.Actor_behaviors
         [TestFixture]
         class Tests
         {
-            class X {}
-            class Y {}
-            class Z {}
+            List<string> events;
 
-            public interface ITestActor : IActorGrain
-            { }
-
-            public class TestActor : ActorGrain, ITestActor
-            {
-                public readonly Behavior Behavior;
-
-                public TestActor()
-                {
-                    Behavior = new Behavior(onTransitioning: OnTransitioning, onTransitioned: OnTransitioned);
-                }
-
-                Task OnTransitioning(Transition transition)
-                {
-                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
-                    return Task.CompletedTask;
-                }
-
-                Task OnTransitioned(Transition transition)
-                {
-                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
-                    return Task.CompletedTask;
-                }
-
-                public override Task<object> Receive(object message) => Behavior.Receive(message);
-
-                public readonly List<string> Events = new List<string>();
-                
-                void RecordTransitions(string behavior, object message)
-                {
-                    switch (message)
-                    {
-                        case Become _ :
-                            Events.Add($"OnBecome_{behavior}");
-                            break;
-                        case Unbecome _ :
-                            Events.Add($"OnUnbecome_{behavior}");
-                            break;                        
-                        case Activate _ :
-                            Events.Add($"OnActivate_{behavior}");
-                            break;                        
-                        case Deactivate _ :
-                            Events.Add($"OnDeactivate_{behavior}");
-                            break;
-                    }
-                }
-
-                public Task<object> Initial(object message)
-                {
-                    RecordTransitions(nameof(Initial), message);
-
-                    return Result(Unhandled);
-                }
-
-                public async Task<object> A(object message)
-                {
-                    RecordTransitions(nameof(A), message);
-                    
-                    switch (message)
-                    {
-                        case X _:
-                            await Behavior.Become(B);
-                            break;
-                        case Reminder reminder:
-                            Events.Add($"OnReminder_{reminder.Name}");
-                            break;
-                    }
-
-                    return Done;
-                }
-
-                public async Task<object> B(object message)
-                {
-                    RecordTransitions(nameof(B), message);
-
-                    switch (message)
-                    {
-                        case Y _:
-                            await Behavior.Become(A);
-                            break;
-                    }
-
-                    return Done;
-                }
-            }
-
-            TestActor actor;
+            void AssertEvents(params string[] expected) => 
+                CollectionAssert.AreEqual(expected, events);
 
             [SetUp]
-            public void SetUp()
-            {
-                actor = new TestActor();
-            }
+            public void SetUp() => 
+                events = new List<string>();
 
             [Test]
-            public void When_not_specified() => Assert.That(actor.Behavior.Current, Is.Null);
+            public void When_not_specified()
+            {
+                var behavior = new Behavior();
+                Assert.That(behavior.Current, Is.Null);
+            }
 
             [Test]
             public void When_setting_initial_more_than_once()
             {
-                actor.Behavior.Initial(actor.Initial);
-                Assert.Throws<InvalidOperationException>(() => actor.Behavior.Initial(actor.Initial));
+                var behavior = new Behavior();
+                behavior.Initial(message => TaskResult.Done);
+                Assert.Throws<InvalidOperationException>(() => behavior.Initial(message => TaskResult.Done));
             }
 
             [Test]
-            public void When_trying_to_become_other_without_setting_initial_first() =>
-                Assert.ThrowsAsync<InvalidOperationException>(async () => await actor.Behavior.Become(actor.A));
+            public void When_trying_to_become_other_without_setting_initial_first()
+            {
+                var behavior = new Behavior();
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become(x => TaskResult.Done));
+            }
 
             [Test]
             public void When_setting_initial()
             {
-                actor.Behavior.Initial(actor.Initial);
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial");
 
-                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.Initial)));
-                Assert.That(actor.Events, Has.Count.EqualTo(0),
+                behavior.Initial("Initial");
+
+                Assert.That(behavior.Current, Is.EqualTo("Initial"));
+                Assert.That(events, Has.Count.EqualTo(0),
                     "OnBecome should not be called when setting initial");
             }
             
             [Test]
             public async Task When_transitioning()
             {
-                actor.Behavior.Initial(actor.Initial);
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial")
+                    .State("A");
 
-                await actor.Behavior.Become(actor.A);
-                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.A)));
+                behavior.Initial("Initial");
+
+                await behavior.Become("A");
+                Assert.That(behavior.Current, Is.EqualTo("A"));
 
                 var expected = new[]
                 {
@@ -153,21 +79,24 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnTransitioned_A_Initial"
                 };
 
-                AssertEqual(expected, actor.Events);
+                AssertEvents(expected);
             }
 
             [Test]
             public async Task When_receiving_message()
             {
-                actor.Behavior.Initial(actor.A);
+                Task<object> Receive(object x) => x is string 
+                    ? Task.FromResult<object>("foo") 
+                    : Task.FromResult<object>("bar");
 
-                await actor.Receive(new X());
+                Behavior behavior = new BehaviorTester(events)
+                    .State("A", null, Receive);
 
-                Assert.That(actor.Behavior.Current, Is.EqualTo(nameof(actor.B)));
+                behavior.Initial("A");
+
+                Assert.That(await behavior.Receive("1"), Is.EqualTo("foo"));
+                Assert.That(await behavior.Receive(1), Is.EqualTo("bar"));
             }
-
-            static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) => 
-                CollectionAssert.AreEqual(expected, actual);
         }
     }
 }

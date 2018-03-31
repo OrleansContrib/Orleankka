@@ -131,11 +131,11 @@ namespace Orleankka.Features.Actor_behaviors
             public async Task When_receiving_message_should_check_handlers_in_a_chain()
             {
                 Task<object> AReceive(object message) => message is string
-                    ? TaskResult.Done
+                    ? Task.FromResult<object>("foo") 
                     : TaskResult.Unhandled;
 
                 Task<object> SReceive(object message) => message is int
-                    ? TaskResult.Done
+                    ? Task.FromResult<object>("bar") 
                     : TaskResult.Unhandled;
 
                 var behavior = new Behavior(new StateMachine()
@@ -144,8 +144,8 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("A");
 
-                Assert.That(await behavior.Receive("1"), Is.SameAs(ActorGrain.Done));
-                Assert.That(await behavior.Receive(1), Is.SameAs(ActorGrain.Done));
+                Assert.That(await behavior.Receive("1"), Is.EqualTo("foo"));
+                Assert.That(await behavior.Receive(1), Is.EqualTo("bar"));
                 Assert.That(await behavior.Receive(DateTime.Now), Is.SameAs(ActorGrain.Unhandled));
             }
         }
