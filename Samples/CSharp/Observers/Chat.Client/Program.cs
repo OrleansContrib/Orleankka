@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Hosting;
 using Orleans.Runtime;
+using Orleans.Configuration;
+
 using Orleankka.Client;
 
 namespace Example
@@ -60,7 +62,7 @@ namespace Example
                 try
                 {
                     var client = new ClientBuilder()
-                        .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+                        .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
                         .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                         .ConfigureApplicationParts(x => x
                             .AddApplicationPart(typeof(Join).Assembly)

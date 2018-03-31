@@ -26,8 +26,8 @@ module Shared =
     type ISiloHostBuilder with
   
       member sb.ConfigureDemoClustering() =    
-        sb.Configure<ClusterOptions>(fun options -> options.ClusterId <- DemoClusterId) |> ignore
-        sb.UseDevelopmentClustering(fun (options:DevelopmentMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
+        sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+        sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
         sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
     
       member sb.AddAssembly(assembly:Assembly) =
@@ -39,10 +39,10 @@ module Shared =
         sb.AddMemoryGrainStorageAsDefault() |> ignore
         sb.AddMemoryGrainStorage("PubSubStore") |> ignore
         sb.AddSimpleMessageStreamProvider("sms") |> ignore
+        sb.UseInMemoryReminderService() |> ignore
 
         sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(typeof<MemoryGrainStorage>.Assembly) |> ignore) |> ignore
-        sb.ConfigureServices(fun (services:IServiceCollection) -> services.UseInMemoryReminderService() |> ignore) |> ignore
-
+        
         task {
             let host = sb.Build()
             do! host.StartAsync()
@@ -52,7 +52,7 @@ module Shared =
     type IClientBuilder with
   
       member cb.ConfigureDemoClustering() =
-        cb.ConfigureCluster(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+        cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
         cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -> options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |> ignore
         
       member cb.AddAssembly(assembly:Assembly) =

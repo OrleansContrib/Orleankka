@@ -24,7 +24,7 @@ namespace Example
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
             var host = new SiloHostBuilder()
-                .Configure(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorage("PubSubStore")

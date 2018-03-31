@@ -28,16 +28,16 @@ let main argv =
         apm.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore
 
     let sb = SiloHostBuilder()
-    sb.Configure<ClusterOptions>(fun options -> options.ClusterId <- DemoClusterId) |> ignore
-    sb.UseDevelopmentClustering(fun (options:DevelopmentMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
+    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
     sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
 
     sb.AddMemoryGrainStorageAsDefault() |> ignore
     sb.AddMemoryGrainStorage("PubSubStore") |> ignore
     sb.AddSimpleMessageStreamProvider("sms") |> ignore
+    sb.UseInMemoryReminderService() |> ignore
 
     sb.ConfigureApplicationParts(fun x -> configureAssemblies x) |> ignore
-    sb.ConfigureServices(fun (services:IServiceCollection) -> services.UseInMemoryReminderService() |> ignore) |> ignore
     sb.ConfigureOrleankka() |> ignore
 
     use host = sb.Build()

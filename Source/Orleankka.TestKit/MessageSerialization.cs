@@ -28,7 +28,7 @@ namespace Orleankka.TestKit
                 return;
 
             var builder = new ClientBuilder()
-                .ConfigureCluster(x => x.ClusterId = "test")
+                .Configure<ClusterOptions>(x => x.ClusterId = "test")
                 .UseStaticClustering(x => x.Gateways.Add(new IPEndPoint(0, 0).ToGatewayUri()))
                 .ConfigureApplicationParts(apm => apm.AddFromAppDomain());
 

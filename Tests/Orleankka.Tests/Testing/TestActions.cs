@@ -39,16 +39,16 @@ namespace Orleankka.Testing
                 return;
 
             var sb = new SiloHostBuilder()
-                .Configure(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
                 .AddSimpleMessageStreamProvider("sms")
+                .UseInMemoryReminderService()
                 .ConfigureServices(services =>
                 {
                     services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1));
-                    services.UseInMemoryReminderService();
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
@@ -61,7 +61,7 @@ namespace Orleankka.Testing
             host.StartAsync().Wait();
 
             var cb = new ClientBuilder()
-                .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
                 .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .AddSimpleMessageStreamProvider("sms")
                 .ConfigureApplicationParts(x => x

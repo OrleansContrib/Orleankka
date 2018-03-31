@@ -45,10 +45,10 @@
     <PropertyGroup>
     	
         <!-- Orleans packages -->
-        <MicrosoftOrleansClientVersion>2.0.0-rc1</MicrosoftOrleansClientVersion>
-    	<MicrosoftOrleansServerVersion>2.0.0-rc1</MicrosoftOrleansServerVersion>
-    	<MicrosoftOrleansCodeGeneratorVersion>2.0.0-rc1</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>2.0.0-rc1</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansClientVersion>2.0.0</MicrosoftOrleansClientVersion>
+    	<MicrosoftOrleansServerVersion>2.0.0</MicrosoftOrleansServerVersion>
+    	<MicrosoftOrleansCodeGeneratorVersion>2.0.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>2.0.0</MicrosoftOrleansRuntimeVersion>
 
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>

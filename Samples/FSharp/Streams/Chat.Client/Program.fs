@@ -2,7 +2,6 @@
 
 open System
 open System.Net
-open System.Diagnostics
 
 open FSharp.Control.Tasks
 open Orleankka
@@ -54,7 +53,7 @@ let main argv =
     Console.ReadLine() |> ignore
 
     let cb = new ClientBuilder()
-    cb.ConfigureCluster(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
     cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -> options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |> ignore
     cb.AddSimpleMessageStreamProvider("sms") |> ignore
     cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(typeof<IChatUser>.Assembly).WithCodeGeneration() |> ignore) |> ignore
