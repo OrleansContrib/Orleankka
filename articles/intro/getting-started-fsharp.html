@@ -78,109 +78,129 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
 
-<p>The purpose of this tutorial is to give an introduction to using Orleankka by creating a simple bank account actor using F#.</p>
+<p>This tutorial is intended to give an introduction to using Orleankka by creating a simple greeter actor using F#.</p>
 <h2 id="set-up-your-project">Set up your project</h2>
-<p>Start Visual Studio and create a new F# Console Application. Once we have our console application, we need to open up the Package Manager Console and type:</p>
-<pre><code>PM&gt; Install-Package Orleankka.Fsharp
-</code></pre><p>Then we need to open the relevant namespaces/modules:</p>
+<p>Start Visual Studio and create a new C# Console Application and reference the following packages:</p>
+<pre><code class="lang-PM">PM&gt; Install-Package Orleankka.Runtime
+PM&gt; Install-Package Orleankka.FSharp.Runtime
+PM&gt; Install-Package Microsoft.Orleans.Server
+PM&gt; Install-Package FSharp.Control.Tasks
+</code></pre><p>This will install all client and server-side packages required for demo app.</p>
+<h2 id="create-your-first-actor">Create your first actor</h2>
+<p>First, we need to create a message type that our actor will respond to:</p>
+<pre><code class="lang-fsharp">module Demo
+
+type GreeterMessage = 
+   | Greet of string
+   | Hi
+</code></pre><p>Once we have the message type, we can create our actor:</p>
+<pre><code class="lang-fsharp">module Demo
+
+open FSharp.Control.Tasks  // task CE from Giraffe
+open Orleankka             // base types of Orleankka
+open Orleankka.FSharp
+
+type GreeterMessage = 
+   | Greet of string
+   | Hi
+
+// Create custom actor interface and implement IActorGrain
+type IGreeter = 
+   inherit IActorGrain&lt;GreeterMessage&gt;
+
+// Create actor class by inheriting from ActorGrain and implementing custom actor interface
+type Greeter() = 
+   inherit ActorGrain()
+   interface IGreeter
+
+   // Implement receive function using pattern matching
+   override this.Receive(message) = task {
+      match message with
+        | :? GreeterMessage as m -&gt; 
+            match m with
+            | Greet who -&gt; printfn &quot;Hello %s&quot; who
+                           return none()
+
+            | Hi        -&gt; printfn &quot;Hello from F#!&quot;
+                           return none()
+
+        |_ -&gt; return unhandled()
+   }
+</code></pre><p>Now it&#39;s time to consume our actor. We need to configure Orleans and then register Orleankka. We&#39;ll be using simple localhost configuration suitable for demos.</p>
 <pre><code class="lang-fsharp">open System
+open System.Net
 open System.Reflection
 
-open Orleankka             // base types of Orleankka
-open Orleankka.FSharp      // additional API layer for F#
-open Orleankka.Playground  // default host configuration
-</code></pre><p>First, we need to define a message type that our actor will respond to:</p>
-<pre><code class="lang-fsharp">// create an (immutable) message type that actor will respond to
-type Message = 
-   | Balance
-   | Deposit of amount:int
-   | Withdraw of amount:int
-</code></pre><p>Once we have the message type, we can define our Actor:</p>
-<pre><code class="lang-fsharp">// create the actor class
-type BankAccount() = 
-   inherit Actor&lt;Message&gt;() // tell the actor to respond on Message
-
-   // represent a private local state of actor
-   let mutable balance = 0
-
-   // this method will be called when message arrived
-   override this.Receive message reply = task {
-      match message with
-      | Balance          -&gt; reply balance 
-      | Deposit amount   -&gt; balance &lt;- balance + amount
-      | Withdraw amount  -&gt;
-         if balance &lt; amount then failwith &quot;amount may not be larger than account balance&quot; 
-         else balance &lt;- balance - amount 
-   }
-</code></pre><p>So what do we have here? We have a <strong>Message</strong> type that represents the <strong>Withdraw</strong>, <strong>Balance</strong>, <strong>Deposit</strong> messages. The <strong>BankAccount</strong> actor, is then told to handle the <strong>Withdraw</strong> message of the type <strong>Message</strong> by subtracting the amount from the balance. If the amount is too large, the actor will throws exception to it’s sender telling it that the operation failed due to a too large amount trying to be withdrawn.</p>
-<p>Let&#39;s consume our actor, we do so by getting a proxy reference ActorSystem and calling ActorOf:</p>
-<pre><code class="lang-fsharp">open System
-open System.Reflection
-
-open Orleankka             // base types of Orleankka
-open Orleankka.FSharp      // additional API layer for F#
-open Orleankka.Playground  // default host configuration
-
-// create an (immutable) message type that actor will respond to
-type Message = 
-   | Balance
-   | Deposit of amount:int
-   | Withdraw of amount:int
-
-// create the actor class
-type BankAccount() = 
-   inherit Actor&lt;Message&gt;() // tell the actor to respond on Message
-
-   // represent a private local state of actor
-   let mutable balance = 0
-
-   // this method will be called when message arrived
-   override this.Receive message reply = task {
-      match message with
-      | Balance          -&gt; reply balance
-      | Deposit amount   -&gt; balance &lt;- balance + amount
-      | Withdraw amount  -&gt;
-         if balance &lt; amount then failwith &quot;amount may not be larger than account balance&quot; 
-         else balance &lt;- balance - amount 
-   }
+open FSharp.Control.Tasks
+open Orleans
+open Orleans.Hosting
+open Orleans.Configuration
+open Orleans.Runtime
+open Orleankka
+open Orleankka.Cluster
+open Orleankka.Client
+open Orleankka.FSharp
 
 [&lt;EntryPoint&gt;]
 let main argv = 
 
+    let DemoClusterId = &quot;localhost-demo&quot;
+    let LocalhostSiloPort = 11111
+    let LocalhostGatewayPort = 30000
+    let LocalhostSiloAddress = IPAddress.Loopback
+
     printfn &quot;Running demo. Booting cluster might take some time ...\n&quot;
 
-    // create a new actor system (a container for your actors)
-    use system = ActorSystem.Configure()
-                            .Playground()
-                            .Register(Assembly.GetExecutingAssembly())
-                            .Done()
+    // configure localhost silo
+    let sb = new SiloHostBuilder()
+    sb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId) |&gt; ignore
+    sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -&gt; options.PrimarySiloEndpoint &lt;- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |&gt; ignore
+    sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |&gt; ignore
 
-    // create the BankAccount actor and get a reference to it.
-    // this will be an &quot;ActorRef&quot;, which is not a 
-    // reference to the actual actor instance
-    // but rather a client or proxy to it          
-    let account = system.ActorOf&lt;BankAccount&gt;(&quot;Antya&quot;)
+    // register assembly containing your custom actor grain interfaces
+    sb.ConfigureApplicationParts(fun x -&gt; x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |&gt; ignore) |&gt; ignore
 
-    task {
-      // use (&lt;?) ask operator when you care about result... return type is Task&lt;&#39;Result&gt;
-      let! balance = account &lt;? Balance
-      printfn &quot;Account balance is %i \n&quot; balance
+    // register Orleankka extension
+    sb.ConfigureOrleankka() |&gt; ignore
 
-      printfn &quot;Let&#39;s put 100$ on the account \n&quot;
-      // use (&lt;!) tell operator when you don&#39;t care about result... return type is Task&lt;unit&gt;
-      do! account &lt;! Deposit(100)      
+    // configure localhost silo client
+    let cb = new ClientBuilder()
+    cb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId) |&gt; ignore
+    cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -&gt; options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |&gt; ignore
 
-      printfn &quot;Let&#39;s withdraw 50$ \n&quot;
-      do! account &lt;! Withdraw(50)
+    // register assembly containing your custom actor grain interfaces
+    cb.ConfigureApplicationParts(fun x -&gt; x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |&gt; ignore) |&gt; ignore
 
-      let! balance = account &lt;? Balance
-      printfn &quot;And account balance is %i \n&quot; balance
-    } 
-    |&gt; Task.wait
+    // register Orleankka extension
+    cb.ConfigureOrleankka() |&gt; ignore
 
-    Console.ReadLine() |&gt; ignore
+    let t = task {
+
+        let host = sb.Build()
+        do! host.StartAsync()    // start silo
+
+        let client = cb.Build();
+        do! client.Connect()     // connect client
+
+        // get actor system
+        let system = client.ActorSystem()
+
+        // get a reference to the IGreeter actor
+        // the actor will be automatically activated by Orleans on first use
+        let actor = ActorSystem.typedActorOf&lt;IGreeter, GreeterMessage&gt;(system, &quot;good-citizen&quot;)
+
+        // use (&lt;!) custom operator to send message to actor
+        // this when you don&#39;t care about result (Task&lt;unit&gt;)
+        // to ask for result use (&lt;?)
+        do! actor &lt;! Hi
+        do! actor &lt;! Greet &quot;Yevhen&quot;
+        do! actor &lt;! Greet &quot;World&quot;      
+    }
+    t.Wait()
+
+    Console.ReadKey() |&gt; ignore 
     0
-</code></pre><p>That is it, your actor is now ready to consume messages sent from any number of calling threads. We now have a completely lock free implementation of an bank account.</p>
+</code></pre><p>That is it. See more examples in a Samples directory.</p>
 </article>
           </div>
           

@@ -1509,7 +1509,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-csharp.html",
-          "hash": "4ypE87qqDFcI60V/FTTFoA=="
+          "hash": "Zi2i2QqoHogzesQxchxUMw=="
         }
       },
       "is_incremental": false,
@@ -1521,7 +1521,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-fsharp.html",
-          "hash": "vQzHSrZe/X2Af3U0QcC8Wg=="
+          "hash": "X+2LjBp8H9dxRn5HeNBjrg=="
         }
       },
       "is_incremental": false,
@@ -1622,11 +1622,11 @@
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
