@@ -345,19 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.ClientBuilderExtension.html",
-          "hash": "upWbHZ+wPkNRK/O6VgUzng=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Client.ClientConfigurator.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Client.ClientConfigurator.html",
-          "hash": "G2PDXjPdkN6dN3GhEv+Rfw=="
+          "hash": "SdBy7GPrsZihDFmzzyicqQ=="
         }
       },
       "is_incremental": false,
@@ -377,11 +365,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Client.OrleankkaClientOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Client.OrleankkaClientOptions.html",
+          "hash": "0/E6Wc0FXsYn8DxPadxNEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Client.yml",
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.html",
-          "hash": "QmcZzeE7QWmgTkMKD0mjAQ=="
+          "hash": "UPIqRbhsu4LZQ0AV1eITMw=="
         }
       },
       "is_incremental": false,
@@ -413,11 +413,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Cluster.ClusterConfigurator.yml",
+      "source_relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.Cluster.ClusterConfigurator.html",
-          "hash": "Hm/TU8tH4zrVQUG0TvNpuw=="
+          "relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.html",
+          "hash": "qgUUjdv1Z4byG1CuSb1hqw=="
         }
       },
       "is_incremental": false,
@@ -429,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.html",
-          "hash": "qXZCbacl1zWLZd24eNJtmw=="
+          "hash": "lJ3wGj0l2mZWQn24sceFwA=="
         }
       },
       "is_incremental": false,
@@ -441,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.html",
-          "hash": "tpOd+bG7dUNSLfr10W34ZQ=="
+          "hash": "5xJr51REBvhlJuriJzT7KA=="
         }
       },
       "is_incremental": false,
@@ -1497,7 +1497,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "SvkQPYe86u5vwJg6xplAjA=="
+          "hash": "a0YmL6iKkz6fpgOc7dBJEA=="
         }
       },
       "is_incremental": false,
@@ -1509,7 +1509,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-csharp.html",
-          "hash": "Zi2i2QqoHogzesQxchxUMw=="
+          "hash": "gb8bW23zzZl401zkaHnnTg=="
         }
       },
       "is_incremental": false,
@@ -1521,7 +1521,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro/getting-started-fsharp.html",
-          "hash": "X+2LjBp8H9dxRn5HeNBjrg=="
+          "hash": "xEk6I4X7pwnTxTsaDmE2gw=="
         }
       },
       "is_incremental": false,
@@ -1622,11 +1622,11 @@
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
