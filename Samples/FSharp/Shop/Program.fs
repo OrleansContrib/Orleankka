@@ -20,7 +20,7 @@ let main argv =
    
     let sb = new SiloHostBuilder()
     sb.AddAssembly(Assembly.GetExecutingAssembly())
-    sb.ConfigureOrleankka() |> ignore
+    sb.UseOrleankka() |> ignore
 
     use host = sb.Start().Result
     use client = host.Connect().Result

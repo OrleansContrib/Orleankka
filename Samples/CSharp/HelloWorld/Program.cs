@@ -49,7 +49,7 @@ namespace Demo
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Build();
 
             await host.StartAsync();
@@ -60,7 +60,7 @@ namespace Demo
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Build();
 
             await client.Connect();

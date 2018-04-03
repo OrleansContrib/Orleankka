@@ -81,7 +81,7 @@ namespace Example
                         .ConfigureApplicationParts(x => x
                             .AddApplicationPart(typeof(IChatUser).Assembly)
                             .WithCodeGeneration())
-                        .ConfigureOrleankka()
+                        .UseOrleankka()
                         .Build();
 
                     await client.Connect();

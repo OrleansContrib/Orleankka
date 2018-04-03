@@ -67,7 +67,7 @@ namespace Example
                         .ConfigureApplicationParts(x => x
                             .AddApplicationPart(typeof(Join).Assembly)
                             .WithCodeGeneration())
-                        .ConfigureOrleankka()
+                        .UseOrleankka()
                         .Build();
 
                     await client.Connect();

@@ -22,6 +22,8 @@ namespace Orleankka.Testing
 
     using Features.Intercepting_requests;
 
+    using ClusterOptions = Orleans.Configuration.ClusterOptions;
+
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
@@ -54,7 +56,7 @@ namespace Orleankka.Testing
                     .AddApplicationPart(GetType().Assembly)
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
-                .ConfigureOrleankka(x => x
+                .UseOrleankka(x => x
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware()));
 
             var host = sb.Build();
@@ -67,7 +69,7 @@ namespace Orleankka.Testing
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
                     .WithCodeGeneration())
-                .ConfigureOrleankka(x => x
+                .UseOrleankka(x => x
                     .ActorRefMiddleware(new TestActorRefMiddleware()));
 
             var client = cb.Build();

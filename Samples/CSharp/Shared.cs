@@ -59,7 +59,7 @@ namespace Orleankka
                     foreach (var part in apm.ApplicationParts.OfType<AssemblyPart>())
                         x.AddApplicationPart(part.Assembly);
                 })
-                .ConfigureOrleankka();
+                .UseOrleankka();
 
             configure?.Invoke(builder);
             var client = builder.Build();

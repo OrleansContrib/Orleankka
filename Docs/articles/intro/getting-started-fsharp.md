@@ -98,7 +98,7 @@ let main argv =
     sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
 
     // register Orleankka extension
-    sb.ConfigureOrleankka() |> ignore
+    sb.UseOrleankka() |> ignore
   
     // configure localhost silo client
     let cb = new ClientBuilder()
@@ -109,7 +109,7 @@ let main argv =
     cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
 
     // register Orleankka extension
-    cb.ConfigureOrleankka() |> ignore
+    cb.UseOrleankka() |> ignore
 
     let t = task {
 

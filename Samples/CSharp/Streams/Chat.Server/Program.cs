@@ -12,6 +12,8 @@ using Orleankka.Cluster;
 
 namespace Example
 {
+    using ClusterOptions = Orleans.Configuration.ClusterOptions;
+
     class Program
     {
         const string DemoClusterId = "localhost-demo";
@@ -34,7 +36,7 @@ namespace Example
                     .AddApplicationPart(typeof(Join).Assembly)
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Build();
 
             await host.StartAsync();

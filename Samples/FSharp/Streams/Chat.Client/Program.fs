@@ -57,7 +57,7 @@ let main argv =
     cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -> options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |> ignore
     cb.AddSimpleMessageStreamProvider("sms") |> ignore
     cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(typeof<IChatUser>.Assembly).WithCodeGeneration() |> ignore) |> ignore
-    cb.ConfigureOrleankka() |> ignore
+    cb.UseOrleankka() |> ignore
 
     let client = cb.Build()
     client.Connect().Wait()

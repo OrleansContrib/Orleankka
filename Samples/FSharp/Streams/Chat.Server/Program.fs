@@ -38,7 +38,7 @@ let main argv =
     sb.UseInMemoryReminderService() |> ignore
 
     sb.ConfigureApplicationParts(fun x -> configureAssemblies x) |> ignore
-    sb.ConfigureOrleankka() |> ignore
+    sb.UseOrleankka() |> ignore
 
     use host = sb.Build()
     host.StartAsync().Wait()

@@ -23,7 +23,7 @@ namespace Example
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Start();
 
             var client = await host.Connect(x => x.UseSerializer<ProtobufSerializer>());

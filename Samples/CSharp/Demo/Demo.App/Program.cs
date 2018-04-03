@@ -31,7 +31,7 @@ namespace Demo
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(typeof(Api).Assembly)
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Start();
 
             var client = await host.Connect();

@@ -9,13 +9,12 @@ using Orleans;
 using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
-using Orleans.Streams;
 
 namespace Orleankka.Cluster
 {
     using Utility;
 
-    public sealed class ClusterConfigurator
+    public sealed class OrleankkaClusterOptions
     {
         readonly HashSet<string> conventions = 
              new HashSet<string>();
@@ -30,7 +29,7 @@ namespace Orleankka.Cluster
         /// which doesn't specify an individual middleware via call to <see cref="ActorMiddleware(Type,IActorMiddleware) "/>.
         /// </summary>
         /// <param name="global">The middleware.</param>
-        public ClusterConfigurator ActorMiddleware(IActorMiddleware global)
+        public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware global)
         {
             pipeline.Register(global);
             return this;
@@ -42,7 +41,7 @@ namespace Orleankka.Cluster
         /// </summary>
         /// <param name="type">The actor type (could be the base class)</param>
         /// <param name="middleware">The middleware.</param>
-        public ClusterConfigurator ActorMiddleware(Type type, IActorMiddleware middleware)
+        public OrleankkaClusterOptions ActorMiddleware(Type type, IActorMiddleware middleware)
         {
             pipeline.Register(type, middleware);
             return this;
@@ -52,7 +51,7 @@ namespace Orleankka.Cluster
         /// Registers global <see cref="ActorRef"/> middleware (interceptor)
         /// </summary>
         /// <param name="middleware">The middleware.</param>
-        public ClusterConfigurator ActorRefMiddleware(IActorRefMiddleware middleware)
+        public OrleankkaClusterOptions ActorRefMiddleware(IActorRefMiddleware middleware)
         {
             Requires.NotNull(middleware, nameof(middleware));
 
@@ -63,7 +62,7 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        public ClusterConfigurator HandlerNamingConventions(params string[] conventions)
+        public OrleankkaClusterOptions HandlerNamingConventions(params string[] conventions)
         {
             Requires.NotNull(conventions, nameof(conventions));
 
@@ -104,13 +103,13 @@ namespace Orleankka.Cluster
 
     public static class SiloHostBuilderExtension
     {
-        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder) => 
-            ConfigureOrleankka(builder, new ClusterConfigurator());
+        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder) => 
+            UseOrleankka(builder, new OrleankkaClusterOptions());
 
-        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, Func<ClusterConfigurator, ClusterConfigurator> configure) => 
-            ConfigureOrleankka(builder, configure(new ClusterConfigurator()));
+        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions> configure) => 
+            UseOrleankka(builder, configure(new OrleankkaClusterOptions()));
 
-        public static ISiloHostBuilder ConfigureOrleankka(this ISiloHostBuilder builder, ClusterConfigurator cfg) => 
+        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder, OrleankkaClusterOptions cfg) => 
             builder
             .ConfigureServices(services => cfg.Configure(builder, services))
             .ConfigureApplicationParts(apm => apm

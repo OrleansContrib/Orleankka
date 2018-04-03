@@ -124,7 +124,7 @@ namespace ConsoleApplication11
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka()  // register Orleankka extension
+                .UseOrleankka()  // register Orleankka extension
                 .Build();
 
             // start Orleans server (silo)
@@ -136,7 +136,7 @@ namespace ConsoleApplication11
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
-                .ConfigureOrleankka()
+                .UseOrleankka()
                 .Build();
 
             // start (connect) Orleans client

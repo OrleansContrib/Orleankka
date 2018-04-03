@@ -65,7 +65,7 @@ module Shared =
         let cb = new ClientBuilder()
         cb.ConfigureDemoClustering()
         cb.AddSimpleMessageStreamProvider("sms") |> ignore
-        cb.ConfigureOrleankka() |> ignore
+        cb.UseOrleankka() |> ignore
 
         cb.ConfigureApplicationParts(
           fun x -> let apm = host.Services.GetRequiredService<IApplicationPartManager>()
