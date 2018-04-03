@@ -2,8 +2,7 @@ This tutorial is intended to give an introduction to using Orleankka by creating
 
 ## Set up your project
 
-Start Visual Studio and create a new C# Console Application.
-Once we have our console application, we need to open up the Package Manager Console and type:
+Start Visual Studio and create a new C# Console Application and reference the following packages:
 
 ```PM
 PM> Install-Package Orleankka.Runtime
