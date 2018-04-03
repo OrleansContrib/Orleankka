@@ -97,7 +97,12 @@ namespace Orleankka.Services
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            return reminders.ContainsKey(id) || (await registry.GetReminder(id)) != null;
+            var registered = await registry.GetReminder(id) != null;
+
+            if (!registered && reminders.ContainsKey(id))
+                reminders.Remove(id);
+
+            return registered;
         }
 
         async Task<IEnumerable<string>> IReminderService.Registered()
