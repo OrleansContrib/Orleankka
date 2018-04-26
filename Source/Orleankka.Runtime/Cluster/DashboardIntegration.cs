@@ -22,7 +22,14 @@ namespace Orleankka.Cluster
                 method.Name != nameof(IActorEndpoint.Notify))
                 return method.Name;
 
-            return request.Arguments[0]?.GetType().Name ?? $"{method.Name}(NULL)";
+            var argumentType = request.Arguments[0]?.GetType();
+
+            if (argumentType == null)
+                return $"{method.Name}(NULL)";
+
+            return argumentType.IsGenericType
+                ? $"{argumentType.Name}<{string.Join(",", argumentType.GenericTypeArguments.Select(x => x.Name))}>"
+                : argumentType.Name;
         }
     }
 }

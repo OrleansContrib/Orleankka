@@ -56,7 +56,7 @@ namespace Orleankka.Cluster
                 services.AddSingleton<IActorSystem>(current);
                 services.AddSingleton(current);
                 services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
-                services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+                services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
 
                 return services.BuildServiceProvider();
             }
