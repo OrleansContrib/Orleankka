@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Orleans;
 using Orleans.ApplicationParts;
@@ -82,8 +83,9 @@ namespace Orleankka.Cluster
 
             services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, middleware));
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
-            services.AddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
-            services.AddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
+
+            services.TryAddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
+            services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
         }
 
         DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
