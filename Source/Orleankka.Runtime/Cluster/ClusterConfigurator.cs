@@ -230,10 +230,13 @@ namespace Orleankka.Cluster
                 ids.Select(id => system.ActorOf(type, id).Autorun());
         }
 
-        public void UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");
+        public ClusterConfigurator UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");
 
-        public void UseInMemoryGrainStore(string name = "MemoryStore") => 
-            Builder(sb => sb.AddMemoryGrainStorage(name));
+        public ClusterConfigurator UseInMemoryGrainStore(string name = "MemoryStore")
+        {
+            return Builder(sb => sb.AddMemoryGrainStorage(name));
+            return this;
+        }
     }
 
     public static class ClusterConfiguratorExtensions

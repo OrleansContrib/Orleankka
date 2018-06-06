@@ -18,7 +18,8 @@ let main argv =
      .Configure()
      .Cluster()
      .From(ClusterConfiguration.LocalhostPrimarySilo())
-     .StreamProvider<SimpleMessageStreamProvider>("rooms")
+     .UseSimpleMessageStreamProvider("rooms")
+     .UseInMemoryPubSubStore()
      .Assemblies([|typeof<ChatUser>.Assembly;typeof<ChatRoomMessage>.Assembly|])
      .Done() 
    

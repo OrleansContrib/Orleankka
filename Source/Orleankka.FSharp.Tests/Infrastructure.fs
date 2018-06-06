@@ -22,7 +22,6 @@ type RequiresSiloAttribute() =
       if isNull(TestActorSystem.instance) then
          let system = ActorSystem.Configure()
                                  .Playground()
-                                 .UseInMemoryPubSubStore()
                                  .Assemblies([|Assembly.GetExecutingAssembly()|])
                                  .Done()
       

@@ -28,10 +28,16 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            UseSimpleMessageStreamProvider("sms", o => o.Configure(x => x.FireAndForgetDelivery = false));
+            Cluster(c =>
+            {
+                c.From(cluster);
+                c.UseInMemoryGrainStore();
+                c.UseInMemoryPubSubStore();
+            });
 
-            Cluster(c => c.From(cluster));
             Client(c => c.From(client));
+
+            UseSimpleMessageStreamProvider("sms", o => o.Configure(x => x.FireAndForgetDelivery = false));
         }
 
         public new PlaygroundConfigurator Client(Action<ClientConfigurator> configure)

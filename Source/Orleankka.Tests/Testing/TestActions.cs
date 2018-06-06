@@ -45,9 +45,6 @@ namespace Orleankka.Testing
                         x.Configuration.Globals.DataConnectionStringForReminders = "UseDevelopmentStorage=true";
                         x.Configuration.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
 
-                        x.UseInMemoryPubSubStore();
-                        x.UseInMemoryGrainStore();
-
                         x.Builder(b =>
                         {
                             b.AddAzureQueueStreams<AzureQueueDataAdapterV2>("aqp", options =>

@@ -1,7 +1,5 @@
 ﻿namespace Messages
 
-open System
-   
 type ChatRoomMessage = {
    UserName:string
    Text:string

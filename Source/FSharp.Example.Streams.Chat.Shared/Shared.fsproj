@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Bugger.fs" />
     <Compile Include="Messages.fs" />
     <None Include="paket.references" />
   </ItemGroup>
