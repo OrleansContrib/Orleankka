@@ -5,6 +5,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+   <PlatformTarget>x64</PlatformTarget>
+   <ApplicationIcon />
+   <OutputType>Exe</OutputType>
+   <StartupObject>Demo.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />

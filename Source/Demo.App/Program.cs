@@ -8,6 +8,8 @@ using Orleankka.Utility;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
+using Orleans;
+
 namespace Demo
 {
     public static class Program
@@ -31,6 +33,7 @@ namespace Demo
                 system = ActorSystem.Configure()
                     .Playground()
                     .Cluster(c => c
+                        .Builder(b => b.UseDashboard(_ => {}))
                         .Services(s => s
                             .AddSingleton<IActorActivator>(activator)))
                     .Assemblies(typeof(Api).Assembly)
