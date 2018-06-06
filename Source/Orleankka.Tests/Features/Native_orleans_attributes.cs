@@ -106,7 +106,7 @@ namespace Orleankka.Features
             public void StatelessWorker_attribute()
             {
                 var attribute = AssertHasCustomAttribute<TestDefaultStatelessWorkerActor, StatelessWorkerAttribute>();
-                Assert.That(attribute.MaxLocalWorkers, Is.EqualTo(new StatelessWorkerAttribute().MaxLocalWorkers));
+                Assert.That(attribute.MaxLocalWorkers(), Is.EqualTo(new StatelessWorkerAttribute().MaxLocalWorkers()));
 
                 attribute = AssertHasCustomAttribute<TestParameterizedStatelessWorkerActor, StatelessWorkerAttribute>();
                 Assert.That(attribute.MaxLocalWorkers, Is.EqualTo(4));

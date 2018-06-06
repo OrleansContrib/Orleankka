@@ -3,8 +3,8 @@ Microsoft.CodeAnalysis.Common
 Microsoft.CodeAnalysis.CSharp
 Microsoft.Orleans.Core
 Microsoft.Orleans.Core.Abstractions
-
 Microsoft.Orleans.OrleansRuntime
+Microsoft.Orleans.Runtime.Legacy
 Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.DependencyInjection.Abstractions
 Newtonsoft.Json

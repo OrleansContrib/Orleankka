@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
 using Orleankka.Features.Stateful_actors;
-
-using Orleans.Storage;
-using Orleans.Providers.Streams.AzureQueue;
 using Orleans.Runtime.Configuration;
 
 using Orleankka.Testing;
@@ -19,6 +15,9 @@ namespace Orleankka.Testing
     using Playground;
     using Utility;
     using Features.Intercepting_requests;
+
+    using Orleans.Hosting;
+    using Orleans.Providers.Streams.AzureQueue;
 
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
@@ -34,18 +33,11 @@ namespace Orleankka.Testing
             using (Trace.Execution("Full system startup"))
             {
                 var system = ActorSystem.Configure()
-                    .Playground()
-                    .UseInMemoryPubSubStore()
-                    .StreamProvider<AzureQueueStreamProviderV2>("aqp", new Dictionary<string, string>
-                    {
-                        {"DataConnectionString", "UseDevelopmentStorage=true"},
-                        {"DeploymentId", "test"},
-                    })
+                    .Playground()                    
                     .Cluster(x =>
                     {
                         x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
                         x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
-                        x.Configuration.Globals.RegisterStorageProvider<MemoryStorage>("MemoryStore");
 
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
                         x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
@@ -53,10 +45,30 @@ namespace Orleankka.Testing
                         x.Configuration.Globals.DataConnectionStringForReminders = "UseDevelopmentStorage=true";
                         x.Configuration.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
 
+                        x.UseInMemoryPubSubStore();
+                        x.UseInMemoryGrainStore();
+
+                        x.Builder(b =>
+                        {
+                            b.AddAzureQueueStreams<AzureQueueDataAdapterV2>("aqp", options =>
+                            {
+                                options.Configure(c => c.ConnectionString = "UseDevelopmentStorage=true");
+                            });
+                        });
+
+                        x.RegisterPersistentStreamProviders("aqp");
                     })
                     .Client(x =>
                     {
                         x.ActorRefInvoker(new TestActorRefInvoker());
+
+                        x.Builder(b =>
+                        {
+                            b.AddAzureQueueStreams<AzureQueueDataAdapterV2>("aqp", options =>
+                            {
+                                options.Configure(c => c.ConnectionString = "UseDevelopmentStorage=true");
+                            });
+                        });
                     })
                     .Assemblies(GetType().Assembly);
 
@@ -81,4 +93,7 @@ namespace Orleankka.Testing
             TestActorSystem.Instance = null;
         }
     }
+
+    public interface IGotcha : Orleans.IGrainWithGuidKey
+    {}
 }

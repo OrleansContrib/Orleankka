@@ -1,18 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>Orleankka</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Orleankka.Tests</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
-  </ItemGroup> 
-  
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
-
 </Project>

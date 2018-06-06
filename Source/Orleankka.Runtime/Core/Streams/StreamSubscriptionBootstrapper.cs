@@ -1,27 +1,55 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using Orleans;
 using Orleans.Internals;
-using Orleans.Providers;
 using Orleans.Runtime;
 using Orleans.Storage;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka.Core.Streams
 {
+    using System;
+    using System.Threading;
+
+    using Microsoft.Extensions.Options;
+
+    public class StreamSubscriptionBootstrapperOptions
+    {
+        public string[] Providers { get; set; }
+    }
+
     /// <remarks>
     /// This is done as storage provider due to initialization order inside Silo.DoStart()
     /// </remarks>
-    class StreamSubscriptionBootstrapper : IStorageProvider
+    class StreamSubscriptionBootstrapper : IGrainStorage, ILifecycleParticipant<ISiloLifecycle>
     {
-        public Task Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
+        public static IGrainStorage Create(IServiceProvider services, string name)
         {
-            var system = runtime.ServiceProvider.GetRequiredService<IActorSystem>();
-            var providers = configuration.Properties["providers"].Split(';');
+            var options = services.GetService<IOptionsSnapshot<StreamSubscriptionBootstrapperOptions>>().Get(name);
+            return new StreamSubscriptionBootstrapper(services, options.Providers);
+        }
 
-            StreamPubSubWrapper.Hook(runtime.ServiceProvider, providers, stream => 
+        readonly IActorSystem system;
+        readonly IServiceProvider services;
+        readonly string[] providers;
+
+        StreamSubscriptionBootstrapper(IServiceProvider services, string[] providers)
+        {
+            system = services.GetRequiredService<IActorSystem>();
+            this.services = services;
+            this.providers = providers;
+        }
+
+        public void Participate(ISiloLifecycle lifecycle)
+        {
+            lifecycle.Subscribe(OptionFormattingUtilities.Name<StreamSubscriptionBootstrapper>(), ServiceLifecycleStage.ApplicationServices, Init);
+        }
+
+        Task Init(CancellationToken cancellation)
+        {
+            StreamPubSubWrapper.Hook(services, providers, stream => 
                 StreamSubscriptionMatcher
                     .Match(system, stream)
                     .Select(x => new StreamPubSubMatch(x.Receive))
@@ -29,7 +57,7 @@ namespace Orleankka.Core.Streams
 
             return Task.CompletedTask;
         }
-
+        
         #region Garbage
 
         public Logger Log  { get; set; }

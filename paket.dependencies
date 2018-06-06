@@ -1,4 +1,4 @@
-redirects: on
+redirects: off
 strategy: max
 lowest_matching: false
 
@@ -17,23 +17,30 @@ nuget PowerAssert
 
 nuget Autofac
 nuget EventStore.ClientAPI.NetCore
-nuget Newtonsoft.Json 10.0.3
+nuget Newtonsoft.Json 11.0.2
 nuget Streamstone
 
 nuget Microsoft.CodeAnalysis.Analyzers 1.1.0
 nuget Microsoft.CodeAnalysis.Common 2.2.0
 nuget Microsoft.CodeAnalysis.CSharp 2.2.0
-nuget System.Collections.Immutable 1.4
-nuget System.Reflection.Metadata 1.5
+nuget System.Collections.Immutable
+nuget System.Reflection.Metadata
 
-nuget Microsoft.Orleans.Core 2.0.0-beta3
-nuget Microsoft.Orleans.Core.Abstractions 2.0.0-beta3
-nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0-beta3
-nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.0-beta3
-nuget Microsoft.Orleans.OrleansProviders 2.0.0-beta3
-nuget Microsoft.Orleans.OrleansRuntime 2.0.0-beta3
-nuget Microsoft.Extensions.DependencyInjection 2.0
-nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.0
+nuget Microsoft.Extensions.Configuration 2.1
+nuget Microsoft.Extensions.Options 2.1
+nuget Microsoft.Extensions.Options.ConfigurationExtensions 2.1
+nuget Microsoft.Extensions.DependencyInjection 2.1
+nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.1
+
+nuget Microsoft.Orleans.Core 2.0.3
+nuget Microsoft.Orleans.Core.Legacy 2.0.3
+nuget Microsoft.Orleans.Core.Abstractions 2.0.0
+nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0
+nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.3
+nuget Microsoft.Orleans.OrleansProviders 2.0.0
+nuget Microsoft.Orleans.OrleansRuntime 2.0.3
+nuget Microsoft.Orleans.Runtime.Legacy 2.0.3
+nuget OrleansDashboard 2.0.5
 
 nuget WindowsAzure.Storage 8.6.0
 nuget Microsoft.Azure.KeyVault.Core
@@ -44,3 +51,6 @@ nuget System.Spatial
 
 nuget Hyperion
 nuget Google.Protobuf
+
+nuget System.Threading.Tasks.Extensions 4.5
+nuget System.Security.Cryptography.Cng 4.5

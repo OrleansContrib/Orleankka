@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
+using Orleans.Hosting;
+using Orleans.Configuration;
+using Orleans.Runtime;
 
 using Microsoft.Extensions.DependencyInjection;
+using OptionsServiceCollectionExtensions = Orleans.Configuration.OptionsServiceCollectionExtensions;
 
 namespace Orleankka.Cluster
 {
@@ -27,17 +31,16 @@ namespace Orleankka.Cluster
         readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
              new HashSet<BootstrapProviderConfiguration>();
 
-        readonly HashSet<StreamProviderConfiguration> streamProviders =
-             new HashSet<StreamProviderConfiguration>();
-
         readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
-
+        
         IActorRefInvoker invoker;
         Action<IServiceCollection> di;
-
+        Action<ISiloHostBuilder> builder;
+        string[] persistentStreamProviders = new string[0];
+        
         internal ClusterConfigurator()
         {
-            Configuration = new ClusterConfiguration();
+            Configuration = ClusterConfiguration.LocalhostPrimarySilo();
         }
 
         public ClusterConfiguration Configuration { get; set; }
@@ -46,6 +49,20 @@ namespace Orleankka.Cluster
         {
             Requires.NotNull(config, nameof(config));
             Configuration = config;
+            return this;
+        }
+        
+        public ClusterConfigurator Builder(Action<ISiloHostBuilder> builder)
+        {
+            Requires.NotNull(builder, nameof(builder));
+
+            var current = this.builder;
+            this.builder = b =>
+            {
+                current?.Invoke(b);
+                builder(b);
+            };
+
             return this;
         }
 
@@ -62,17 +79,6 @@ namespace Orleankka.Cluster
 
             if (!bootstrapProviders.Add(configuration))
                 throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
-
-            return this;
-        }
-
-        public ClusterConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
-        {
-            Requires.NotNullOrWhitespace(name, nameof(name));
-
-            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
-            if (!streamProviders.Add(configuration))
-                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
 
             return this;
         }
@@ -139,11 +145,33 @@ namespace Orleankka.Cluster
             return this;
         }
 
+        public ClusterConfigurator UseSimpleMessageStreamProvider(string name, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>> configureOptions = null)
+        {
+            Requires.NotNullOrWhitespace(name, nameof(name));
+
+            Builder(b => b.ConfigureServices(services =>
+            {
+                configureOptions?.Invoke(OptionsServiceCollectionExtensions.AddOptions<SimpleMessageStreamProviderOptions>(services, name));
+                services.ConfigureNamedOptionForLogging<SimpleMessageStreamProviderOptions>(name);
+                services.AddSingletonNamedService<IStreamProvider>(name, (s, n) => new StreamSubscriptionMatcher(s, n));
+            }));
+            
+            return this;
+        }
+
+        public ClusterConfigurator RegisterPersistentStreamProviders(params string[] names)
+        {
+            Requires.NotNull(names, nameof(names));
+            persistentStreamProviders = names;
+
+            return this;
+        }
+
         public ClusterActorSystem Done()
         {
             Configure();
-
-            return new ClusterActorSystem(Configuration, registry.Assemblies, di, pipeline, invoker);
+            
+            return new ClusterActorSystem(Configuration, builder, persistentStreamProviders, registry.Assemblies, di, pipeline, invoker);
         }
 
         void Configure()
@@ -151,7 +179,6 @@ namespace Orleankka.Cluster
             RegisterInterfaces();
             RegisterTypes();
             RegisterAutoruns();
-            RegisterStreamProviders();
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
@@ -175,12 +202,6 @@ namespace Orleankka.Cluster
             Bootstrapper<AutorunBootstrapper>(autoruns);
         }
 
-        void RegisterStreamProviders()
-        {
-            foreach (var each in streamProviders)
-                each.Register(Configuration);
-        }
-
         void RegisterBootstrappers()
         {
             foreach (var each in bootstrapProviders)
@@ -197,15 +218,6 @@ namespace Orleankka.Cluster
         {
             foreach (var actor in ActorType.Registered())
                 StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
-
-            const string id = "stream-subscription-boot";
-
-            var properties = new Dictionary<string, string>();
-            properties["providers"] = string.Join(";", streamProviders
-                .Where(x => x.IsPersistentStreamProvider())
-                .Select(x => x.Name));
-
-            Configuration.Globals.RegisterStorageProvider<StreamSubscriptionBootstrapper>(id, properties);
         }
 
         [UsedImplicitly]
@@ -217,6 +229,11 @@ namespace Orleankka.Cluster
             static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
                 ids.Select(id => system.ActorOf(type, id).Autorun());
         }
+
+        public void UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");
+
+        public void UseInMemoryGrainStore(string name = "MemoryStore") => 
+            Builder(sb => sb.AddMemoryGrainStorage(name));
     }
 
     public static class ClusterConfiguratorExtensions

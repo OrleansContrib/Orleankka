@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
-using Orleans.ApplicationParts;
 using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
 
 namespace Orleankka.Client
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Core;
     using Utility;
 
@@ -36,17 +34,20 @@ namespace Orleankka.Client
     public sealed class ClientActorSystem : ActorSystem, IClientActorSystem, IDisposable
     {
         readonly ClientConfiguration configuration;
+        readonly Action<IClientBuilder> builder;
         readonly Assembly[] assemblies;
         readonly Action<IServiceCollection> di;
 
         internal ClientActorSystem(
-            ClientConfiguration configuration, 
+            ClientConfiguration configuration,
+            Action<IClientBuilder> builder,
             Assembly[] assemblies,
-            Action<IServiceCollection> di, 
+            Action<IServiceCollection> di,
             IActorRefInvoker invoker) 
             : base(invoker)
         {
             this.configuration = configuration;
+            this.builder = builder;
             this.assemblies = assemblies;
             this.di = di;
         }
@@ -114,22 +115,34 @@ namespace Orleankka.Client
         {
             using (Trace.Execution("Orleans client initialization"))
             {
-                var builder = new ClientBuilder()
-                    .UseConfiguration(configuration)
-                    .ConfigureServices(services =>
-                    {
-                        services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
-                        services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
-                        services.Add(ServiceDescriptor.Singleton(this));
+                var cb = new ClientBuilder();
+                cb.UseConfiguration(configuration);
+                builder?.Invoke(cb);
 
-                        di?.Invoke(services);
-                    });
+                cb.ConfigureServices(services =>
+                {
+                    services.Add(ServiceDescriptor.Singleton<IActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton<IClientActorSystem>(this));
+                    services.Add(ServiceDescriptor.Singleton(this));
 
-                builder.ConfigureApplicationParts(apm => apm
-                    .AddFromAppDomain()
-                    .WithCodeGeneration());
+                    di?.Invoke(services);
+                });
 
-                return builder.Build();
+                var parts = new List<Assembly>(assemblies) { Assembly.GetExecutingAssembly() };
+                parts.AddRange(ActorInterface.Registered().Select(x => x.Grain.Assembly).Distinct());
+
+                cb.ConfigureApplicationParts(apm =>
+                {
+                    apm.AddFrameworkPart(GetType().Assembly);
+
+                    foreach (var part in parts)
+                        apm.AddApplicationPart(part);
+
+                    apm.AddFromAppDomain()
+                       .WithCodeGeneration();
+                });
+
+                return cb.Build();
             }
         }
 

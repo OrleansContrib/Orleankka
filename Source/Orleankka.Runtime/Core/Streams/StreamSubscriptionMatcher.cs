@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Orleans.Providers;
 using Orleans.Streams;
+using Orleans.Providers.Streams.SimpleMessageStream;
+
+using StreamIdentity = Orleans.Internals.StreamIdentity;
 
 namespace Orleankka.Core.Streams
 {
-    using Utility;
-    
-    using StreamIdentity = Orleans.Internals.StreamIdentity;
+    using Microsoft.Extensions.DependencyInjection;
 
-    class StreamSubscriptionMatcher : IStreamProviderImpl
+    using Utility;
+
+    class StreamSubscriptionMatcher : IStreamProvider
     {
         static readonly HashSet<string> actors = new HashSet<string>();
 
@@ -60,36 +59,26 @@ namespace Orleankka.Core.Streams
                     .ToArray();
         }
 
-        internal const string TypeKey = "<-::Type::->";
-
         readonly ConditionalWeakTable<object, object> streams = 
              new ConditionalWeakTable<object, object>();
 
-        IEnumerable<StreamSubscriptionSpecification> specifications;
-        IStreamProviderImpl provider;
-        IActorSystem system;
+        readonly IEnumerable<StreamSubscriptionSpecification> specifications;
+        readonly IStreamProvider provider;
+        readonly IActorSystem system;
 
-        public Task Init(string name, IProviderRuntime runtime, IProviderConfiguration configuration)
+        public StreamSubscriptionMatcher(IServiceProvider services, string name)
         {
-            Name = name;
+            system = services.GetRequiredService<IActorSystem>();
 
-            system = runtime.ServiceProvider.GetRequiredService<IActorSystem>();
-
-            specifications = StreamSubscriptionMatcher.configuration.Find(name)
+            specifications = configuration.Find(name)
                 ?? Enumerable.Empty<StreamSubscriptionSpecification>();
 
-            var type = Type.GetType(configuration.Properties[TypeKey]);
-            Debug.Assert(type != null);
-
-            provider = (IStreamProviderImpl)Activator.CreateInstance(type);
-            return provider.Init(name, runtime, configuration);
+            provider = SimpleMessageStreamProvider.Create(services, name);
+            Name = name;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
         public bool IsRewindable => provider.IsRewindable;
-
-        public Task Start() => provider.Start();
-        public Task Close() => provider.Close();
 
         public IAsyncStream<T> GetStream<T>(Guid unused, string id)
         {

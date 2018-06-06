@@ -1,15 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
-using Orleans.Streams;
 using Orleans.Runtime.Configuration;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Client
 {
     using Core;
+    using Orleans;
+    using Orleans.Configuration;
+    using Orleans.Hosting;
+
     using Utility;
 
     public sealed class ClientConfigurator
@@ -17,15 +18,13 @@ namespace Orleankka.Client
         readonly ActorInterfaceRegistry registry =
              new ActorInterfaceRegistry();
 
-        readonly HashSet<StreamProviderConfiguration> streamProviders =
-             new HashSet<StreamProviderConfiguration>();
-
         Action<IServiceCollection> di;
         IActorRefInvoker invoker;
+        Action<IClientBuilder> builder;
 
         internal ClientConfigurator()
         {
-            Configuration = new ClientConfiguration();
+            Configuration = ClientConfiguration.LocalhostSilo();
         }
 
         public ClientConfiguration Configuration { get; set; }
@@ -37,17 +36,20 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProvider
+        public ClientConfigurator Builder(Action<IClientBuilder> builder)
         {
-            Requires.NotNullOrWhitespace(name, nameof(name));
+            Requires.NotNull(builder, nameof(builder));
 
-            var configuration = new StreamProviderConfiguration(name, typeof(T), properties);
-            if (!streamProviders.Add(configuration))
-                throw new ArgumentException($"Stream provider of the type {typeof(T)} has been already registered under '{name}' name");
+            var current = this.builder;
+            this.builder = b =>
+            {
+                current?.Invoke(b);
+                builder(b);
+            };
 
             return this;
         }
-
+        
         public ClientConfigurator Services(Action<IServiceCollection> configure)
         {
             Requires.NotNull(configure, nameof(configure));
@@ -81,35 +83,20 @@ namespace Orleankka.Client
             return this;
         }
 
-        public ClientConfigurator ActorTypes(params string[] types)
+        public ClientConfigurator UseSimpleMessageStreamProvider(string name, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>> configureOptions = null)
         {
-            Requires.NotNull(types, nameof(types));
+            Requires.NotNullOrWhitespace(name, nameof(name));
 
-            if (types.Length == 0)
-                throw new ArgumentException("types array is empty", nameof(types));
-
-            foreach (var type in types)
-            {
-                var mapping = ActorInterfaceMapping.Of(type);
-                if (registry.IsRegistered(mapping.TypeName))
-                    throw new ArgumentException($"Actor type '{type}' has been already registered");
-            }
+            Builder(b => b.AddSimpleMessageStreamProvider(name, configureOptions));
 
             return this;
         }
 
         public ClientActorSystem Done()
         {
-            RegisterStreamProviders();
             RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, registry.Assemblies, di, invoker);
-        }
-
-        void RegisterStreamProviders()
-        {
-            foreach (var each in streamProviders)
-                each.Register(Configuration);
+            return new ClientActorSystem(Configuration, builder, registry.Assemblies, di, invoker);
         }
 
         void RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);

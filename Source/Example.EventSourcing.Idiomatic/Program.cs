@@ -16,7 +16,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .UseInMemoryPubSubStore()
+                .Cluster(c => c.UseInMemoryPubSubStore())
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

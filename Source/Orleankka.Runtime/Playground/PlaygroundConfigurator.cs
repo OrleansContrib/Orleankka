@@ -1,11 +1,6 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
-using Orleans.Storage;
 using Orleans.Runtime.Configuration;
-using Orleans.Providers.Streams.SimpleMessageStream;
-using Orleans.Streams;
 
 namespace Orleankka.Playground
 {
@@ -16,15 +11,16 @@ namespace Orleankka.Playground
 
     public sealed class PlaygroundConfigurator : EmbeddedConfigurator
     {
-        readonly ClusterConfiguration cluster;
-
         internal PlaygroundConfigurator()
         {
             var client = new ClientConfiguration()
                 .LoadFromEmbeddedResource<PlaygroundConfigurator>("Client.xml");
 
-            cluster = new ClusterConfiguration()
+            var cluster = new ClusterConfiguration()
                 .LoadFromEmbeddedResource<PlaygroundConfigurator>("Cluster.xml");
+
+            client.ClusterId = "playground";
+            cluster.Globals.ClusterId = "playground";
 
             cluster.Globals.LivenessType =
                 GlobalConfiguration.LivenessProviderType.MembershipTableGrain;
@@ -32,10 +28,10 @@ namespace Orleankka.Playground
             cluster.Globals.ReminderServiceType =
                 GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
 
-            StreamProvider<SimpleMessageStreamProvider>("sms", new Dictionary<string, string> {{"FireAndForgetDelivery", "false"}});
+            UseSimpleMessageStreamProvider("sms", o => o.Configure(x => x.FireAndForgetDelivery = false));
 
-            base.Cluster(c => c.From(cluster));
-            base.Client(c => c.From(client));
+            Cluster(c => c.From(cluster));
+            Client(c => c.From(client));
         }
 
         public new PlaygroundConfigurator Client(Action<ClientConfigurator> configure)
@@ -49,31 +45,6 @@ namespace Orleankka.Playground
         {
             Requires.NotNull(configure, nameof(configure));
             base.Cluster(configure);
-            return this;
-        }
-
-        public PlaygroundConfigurator UseInMemoryPubSubStore()
-        {
-            RegisterPubSubStorageProvider<MemoryStorage>();
-            return this;
-        }
-
-        void RegisterPubSubStorageProvider<T>(IDictionary<string, string> properties = null) where T : IStorageProvider
-        {
-            var registered = cluster.Globals
-                .GetAllProviderConfigurations()
-                .Any(p => p.Name == "PubSubStore");
-
-            if (registered)
-                throw new InvalidOperationException(
-                    "PubSub storage provider has been already registered");
-
-            cluster.Globals.RegisterStorageProvider<T>("PubSubStore", properties);
-        }
-
-        public new PlaygroundConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
-        {
-            base.StreamProvider<T>(name, properties);
             return this;
         }
     }

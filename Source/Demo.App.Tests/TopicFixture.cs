@@ -214,10 +214,10 @@ namespace Demo
             // throw
             facebook 
                 .ExpectQuery<Search>()
-                .Throw(new ApplicationException("unknown"));
+                .Throw(new Exception("unknown"));
 
             // assert
-            Throws<ApplicationException>(()=> ReceiveReminder("facebook"));
+            Throws<Exception>(()=> ReceiveReminder("facebook"));
         }
 
         Task TopicCreated()

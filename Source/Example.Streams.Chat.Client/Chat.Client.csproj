@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <RootNamespace>Example</RootNamespace>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Example.Streams.Chat.Shared\Chat.Shared.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-  
   <Import Project="..\..\.paket\Paket.Restore.targets" />
-
 </Project>

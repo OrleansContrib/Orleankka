@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="ChatUser.fs" />
     <Compile Include="Program.fs" />
-    <None Include="App.config" />
     <EmbeddedResource Include="Server.xml" />
     <None Include="paket.references" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\FSharp.Example.Streams.Chat.Shared\Shared.fsproj" />
     <ProjectReference Include="..\Orleankka.FSharp.Runtime\Orleankka.FSharp.Runtime.fsproj" />
@@ -21,7 +18,5 @@
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
-
 </Project>

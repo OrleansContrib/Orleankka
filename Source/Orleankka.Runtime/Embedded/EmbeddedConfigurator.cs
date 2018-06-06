@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
-using Orleans.Streams;
+using Orleans.Configuration;
 
 namespace Orleankka.Embedded
 {
@@ -35,13 +34,6 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public EmbeddedConfigurator StreamProvider<T>(string name, IDictionary<string, string> properties = null) where T : IStreamProviderImpl
-        {
-            cluster.StreamProvider<T>(name, properties);
-            client.StreamProvider<T>(name, properties);
-            return this;
-        }
-
         public EmbeddedConfigurator Assemblies(params Assembly[] assemblies)
         {
             cluster.Assemblies(assemblies);
@@ -50,7 +42,17 @@ namespace Orleankka.Embedded
             return this;
         }
 
-        public virtual EmbeddedActorSystem Done()
+        public EmbeddedConfigurator UseSimpleMessageStreamProvider(string name, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>> configureOptions = null)
+        {
+            Requires.NotNullOrWhitespace(name, nameof(name));
+
+            cluster.UseSimpleMessageStreamProvider(name, configureOptions);
+            client.UseSimpleMessageStreamProvider(name, configureOptions);
+
+            return this;
+        }
+
+        public EmbeddedActorSystem Done()
         {
             var clusterSystem = cluster.Done();
             var clientSystem = client.Done();

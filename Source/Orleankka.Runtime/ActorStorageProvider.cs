@@ -25,21 +25,19 @@ namespace Orleankka
 
         public string Name => name;
 
-        Task IStorageProvider.ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
+        Task IGrainStorage.ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
             ReadStateAsync(grainType.Substring(FunNamespaceLength), grainReference.GetPrimaryKeyString(), (TState) grainState.State);
 
         public abstract Task ReadStateAsync(string type, string id, TState state);
 
-        Task IStorageProvider.WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
+        Task IGrainStorage.WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
             WriteStateAsync(grainType.Substring(FunNamespaceLength), grainReference.GetPrimaryKeyString(), (TState)grainState.State);
 
         public abstract Task WriteStateAsync(string type, string id, TState state);
 
-        Task IStorageProvider.ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
+        Task IGrainStorage.ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => 
             ClearStateAsync(grainType.Substring(FunNamespaceLength), grainReference.GetPrimaryKeyString(), (TState)grainState.State);
 
         public abstract Task ClearStateAsync(string type, string id, TState state);
-        
-        Logger IStorageProvider.Log => null;
     }
 }

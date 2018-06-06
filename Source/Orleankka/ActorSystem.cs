@@ -3,6 +3,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.Runtime;
 using Orleans.Streams;
 
 namespace Orleankka
@@ -44,7 +45,7 @@ namespace Orleankka
     {
         readonly IActorRefInvoker invoker;
 
-        protected IStreamProviderManager StreamProviderManager { get; private set; }
+        protected IServiceProvider ServiceProvider { get; private set; }
         protected IGrainFactory GrainFactory { get; private set; }
 
         protected ActorSystem(IActorRefInvoker invoker = null)
@@ -54,7 +55,7 @@ namespace Orleankka
 
         protected void Initialize(IServiceProvider provider)
         {
-            StreamProviderManager = provider.GetRequiredService<IStreamProviderManager>();
+            ServiceProvider = provider;
             GrainFactory = provider.GetRequiredService<IGrainFactory>();
 
             ActorInterface.Bind(GrainFactory);
@@ -84,7 +85,7 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            var provider = StreamProviderManager.GetStreamProvider(path.Provider);
+            var provider = ServiceProvider.GetRequiredServiceByName<IStreamProvider>(path.Provider);
             return new StreamRef(path, provider);
         }
 

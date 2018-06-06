@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 using Orleans.Concurrency;
+using Orleans.Internals;
 using Orleans.MultiCluster;
 using Orleans.Placement;
 using Orleans.Providers;
@@ -158,13 +159,9 @@ namespace Orleankka.Core
             var worker = actor.GetCustomAttribute<StatelessWorkerAttribute>();
             var placement = GetCustomAttributesAssignableFrom<PlacementAttribute>(actor);
 
-            if (worker != null && placement.Any())
-                throw new InvalidOperationException(
-                    $"StatelessWorker cannot be configured to have custom placement: {actor}");
-
             if (worker != null)
             {
-                src.AppendLine($"[{nameof(StatelessWorkerAttribute)}({worker.MaxLocalWorkers})]");
+                src.AppendLine($"[{nameof(StatelessWorkerAttribute)}({worker.MaxLocalWorkers()})]");
                 return;
             }
 

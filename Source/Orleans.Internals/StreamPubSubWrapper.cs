@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Orleans.Streams;
 using Orleans.Runtime;
-using Orleans.Runtime.Host;
 using Orleans.Streams.Core;
 
 namespace Orleans.Internals
@@ -19,7 +18,7 @@ namespace Orleans.Internals
     {
         public static void Hook(IServiceProvider provider, string[] providers, Func<StreamIdentity, StreamPubSubMatch[]> matcher)
         {
-            var runtimeType = typeof(SiloHost).Assembly.GetType("Orleans.Runtime.Providers.SiloProviderRuntime");
+            var runtimeType = typeof(Silo).Assembly.GetType("Orleans.Runtime.Providers.SiloProviderRuntime");
             var runtime = provider.GetService(runtimeType);
 
             var grainBasedPubSubField = runtimeType

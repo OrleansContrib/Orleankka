@@ -16,9 +16,12 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .UseInMemoryPubSubStore()
                 .Client(x => x.Configuration.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
-                .Cluster(x => x.Configuration.Globals.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo()))
+                .Cluster(x =>
+                {
+                    x.UseInMemoryPubSubStore();
+                    x.Configuration.Globals.SerializationProviders.Add(typeof(ProtobufSerializer).GetTypeInfo());
+                })
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
