@@ -1,17 +1,18 @@
-version: '{build}'
-image: Visual Studio 2017
-install:
-- cmd: >-
-    curl -O https://download.microsoft.com/download/2/9/3/293BC432-348C-4D1C-B628-5AC8AB7FA162/dotnet-sdk-2.1.3-win-x64.exe
+skip_tags: true
 
-    dotnet-sdk-2.1.3-win-x64.exe /install /quiet /norestart /log install.log
+version: '{build}'
+
+image: Visual Studio 2017
+
+init:
+  - git config --global core.autocrlf input
+
 build_script:
-- cmd: >-
-    "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
-    
-    Nake.bat restore
-    
-    Nake.bat package
+  - call "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
+  - Nake.bat restore
+  - Nake.bat package
+
 test: off
+
 artifacts:
 - path: Output\Package\*.nupkg
