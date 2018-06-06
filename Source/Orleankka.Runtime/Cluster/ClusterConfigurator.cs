@@ -232,11 +232,8 @@ namespace Orleankka.Cluster
 
         public ClusterConfigurator UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");
 
-        public ClusterConfigurator UseInMemoryGrainStore(string name = "MemoryStore")
-        {
-            return Builder(sb => sb.AddMemoryGrainStorage(name));
-            return this;
-        }
+        public ClusterConfigurator UseInMemoryGrainStore(string name = "MemoryStore") => 
+            Builder(sb => sb.AddMemoryGrainStorage(name));
     }
 
     public static class ClusterConfiguratorExtensions
