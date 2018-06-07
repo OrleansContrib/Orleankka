@@ -1557,7 +1557,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "9+9qore6xqVnH8hb1nBtew=="
+          "hash": "+Iadrao1lLAxiBpZPcrznw=="
         }
       },
       "is_incremental": false,
@@ -1638,13 +1638,13 @@
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build"
-        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }
