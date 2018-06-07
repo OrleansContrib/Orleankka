@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Extensions
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.33.1.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -22,7 +22,7 @@
     <meta property="docfx:rel" content="../">
     
   </head>
-  <body data-spy="scroll" data-target="#affix">
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
         <style>
@@ -64,7 +64,9 @@
         
         <div id="search-results">
           <div class="search-list"></div>
-          <div class="sr-items"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
           <ul id="pagination"></ul>
         </div>
       </div>
@@ -323,7 +325,8 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static TellExpectation&lt;TCommand&gt; ExpectCommand&lt;TCommand&gt;(this ActorRefMock mock, Expression&lt;Func&lt;TCommand, bool&gt;&gt; match = null)where TCommand : Command</code></pre>
+    <pre><code class="lang-csharp hljs">public static TellExpectation&lt;TCommand&gt; ExpectCommand&lt;TCommand&gt;(this ActorRefMock mock, Expression&lt;Func&lt;TCommand, bool&gt;&gt; match = null)
+    where TCommand : Command</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -390,7 +393,8 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static AskExpectation&lt;TQuery&gt; ExpectQuery&lt;TQuery&gt;(this ActorRefMock mock, Expression&lt;Func&lt;TQuery, bool&gt;&gt; match = null)where TQuery : Query</code></pre>
+    <pre><code class="lang-csharp hljs">public static AskExpectation&lt;TQuery&gt; ExpectQuery&lt;TQuery&gt;(this ActorRefMock mock, Expression&lt;Func&lt;TQuery, bool&gt;&gt; match = null)
+    where TQuery : Query</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -519,7 +523,8 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static TEvent FirstEvent&lt;TEvent&gt;(this ObserverCollectionMock mock)where TEvent : Event</code></pre>
+    <pre><code class="lang-csharp hljs">public static TEvent FirstEvent&lt;TEvent&gt;(this ObserverCollectionMock mock)
+    where TEvent : Event</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
