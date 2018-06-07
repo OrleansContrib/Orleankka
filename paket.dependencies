@@ -42,7 +42,7 @@ nuget Microsoft.Orleans.OrleansRuntime 2.0.3
 nuget Microsoft.Orleans.Runtime.Legacy 2.0.3
 nuget OrleansDashboard 2.0.5
 
-nuget WindowsAzure.Storage 8.6.0
+nuget WindowsAzure.Storage 9.2.0
 nuget Microsoft.Azure.KeyVault.Core
 nuget Microsoft.Data.Edm
 nuget Microsoft.Data.OData
