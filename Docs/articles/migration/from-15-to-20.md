@@ -1,0 +1,1 @@
+Check migration guide here https://github.com/OrleansContrib/Orleankka/wiki/Migration-from-1.5-to-2.0
