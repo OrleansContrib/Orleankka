@@ -4,10 +4,6 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 
 > References: [intro](https://www.youtube.com/watch?v=07Up88bpl20), [features](https://www.youtube.com/watch?v=FKL-PS8Q9ac), [slides](https://docs.google.com/presentation/d/1brM4SS-uJBRMZs-CdOZoJ0KUgrnPXXwrOXnYgfLL4Nk/edit#slide=id.p4) and [discussion](https://github.com/dotnet/orleans/issues/42).
 
-### Migration from 1.5 to 2.0
-
-Check migration guide [here](https://github.com/OrleansContrib/Orleankka/wiki/Migration-from-1.5-to-2.0)
-
 ### Features
 
 + Message-based API with zero performance overhead
