@@ -6,7 +6,7 @@
     href: intro/getting-started-csharp.md
   - name: Getting started (F#)
     href: intro/getting-started-fsharp.md
-- name: Orleankka versions
+- name: Migration to 2.x
   items:
   - name: Migration from 1.5 to 2.x
     href: migration/from-15-to-20.md
