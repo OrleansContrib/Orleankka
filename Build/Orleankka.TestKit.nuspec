@@ -12,7 +12,6 @@
     <tags>Orleans Akka distributed messaging actor concurrency CQRS unit testing mock</tags>
     <dependencies>
         <group targetFramework=".NETStandard2.0">
-            <dependency id="NETStandard.Library" version="2.0.0" exclude="Build,Analyzers" />
             <dependency id="Orleankka.Runtime" version="$version$" />
         </group>
     </dependencies>  
