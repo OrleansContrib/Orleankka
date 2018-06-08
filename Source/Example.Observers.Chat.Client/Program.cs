@@ -3,23 +3,29 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Client;
-using Orleans.Runtime.Configuration;
+
+using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace Example
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration()
-                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
-
             var system = ActorSystem.Configure()
                 .Client()
-                .From(config)
+                .Builder(b => b.Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = "test";
+                        options.ServiceId = "test";
+                    })
+                    .UseLocalhostClustering()
+                    .AddSimpleMessageStreamProvider("sms"))
                 .Assemblies(typeof(Join).Assembly)
                 .Done();
 

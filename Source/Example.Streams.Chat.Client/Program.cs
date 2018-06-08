@@ -7,7 +7,8 @@ using Orleankka;
 using Orleankka.Client;
 
 using Orleans;
-using Orleans.Runtime.Configuration;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace Example
 {
@@ -20,12 +21,15 @@ namespace Example
             Console.WriteLine("Please wait until Chat Server has completed boot and then press enter.");
             Console.ReadLine();
 
-            var config = new ClientConfiguration()
-                .LoadFromEmbeddedResource(typeof(Program), "Client.xml");
-
             var system = ActorSystem.Configure()
                 .Client()
-                .From(config)
+                .Builder(b => b.Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = "test";
+                        options.ServiceId = "test";
+                    })
+                    .UseLocalhostClustering()
+                    .AddSimpleMessageStreamProvider("sms"))
                 .Assemblies(typeof(IChatUser).Assembly)
                 .Services(x => x
                     .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost()))

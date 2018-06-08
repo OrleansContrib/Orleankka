@@ -31,6 +31,7 @@ nuget Microsoft.Extensions.Options 2.1
 nuget Microsoft.Extensions.Options.ConfigurationExtensions 2.1
 nuget Microsoft.Extensions.DependencyInjection 2.1
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.1
+nuget Microsoft.Extensions.Logging.Console 2.1
 
 nuget Microsoft.Orleans.Core 2.0.3
 nuget Microsoft.Orleans.Core.Legacy 2.0.3

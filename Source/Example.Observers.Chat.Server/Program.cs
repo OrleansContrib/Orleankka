@@ -1,31 +1,39 @@
 ﻿using System;
-using System.Linq;
+using System.Net;
 using System.Reflection;
 
 using Orleankka;
 using Orleankka.Cluster;
 
-using Orleans.Runtime.Configuration;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace Example
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
-            var config = new ClusterConfiguration()
-                .LoadFromEmbeddedResource<Program>("Server.xml");
-            
             var system = ActorSystem.Configure()
                 .Cluster()
-                .From(config)
-                .Assemblies(typeof(Join).Assembly)
-                .Assemblies(Assembly.GetExecutingAssembly())
+                .Builder(b => b
+                    .Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = "test";
+                        options.ServiceId = "test";
+                    })
+                    .UseLocalhostClustering()
+                    .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
+                    .AddSimpleMessageStreamProvider("sms")
+                    .AddMemoryGrainStorage("PubSubStore"))
+                .Assemblies(
+                    typeof(Join).Assembly, 
+                    Assembly.GetExecutingAssembly())
                 .Done();
 
-            system.Start();
+            system.Start().Wait();
 
             Console.WriteLine("Finished booting cluster...");
             Console.ReadLine();
