@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Orleans;
-using Orleans.CodeGeneration;
 using Orleans.Runtime.Configuration;
 using Orleans.Storage;
 
@@ -50,7 +49,7 @@ namespace Orleankka.Cluster
                     services.AddSingleton<IActorSystem>(this);
                     services.AddSingleton(this);
                     services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
-                    services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+                    services.TryAddSingleton<Func<IIncomingGrainCallContext, string>>(DashboardIntegration.Format);
 
                     di?.Invoke(services);
                 });
@@ -84,7 +83,7 @@ namespace Orleankka.Cluster
              services.AddSingletonNamedService(name, (s, n) => (ILifecycleParticipant<ISiloLifecycle>) s.GetRequiredServiceByName<IGrainStorage>(n));
          }
 
-         public ISiloHost Host { get; }
+        public ISiloHost Host { get; }
         public Silo Silo { get; }
 
         public async Task Start()

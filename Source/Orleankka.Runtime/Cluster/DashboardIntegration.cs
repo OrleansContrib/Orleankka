@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using System.Reflection;
 
 using Orleans;
-using Orleans.CodeGeneration;
 
 namespace Orleankka.Cluster
 {
@@ -10,23 +8,18 @@ namespace Orleankka.Cluster
 
     static class DashboardIntegration
     {
-        public static string Format(MethodInfo method, InvokeMethodRequest request, IGrain grain)
+        public static string Format(IIncomingGrainCallContext ctx)
         {
-            if (method == null)
-                return "Unknown";
+            var methodName = ctx.InterfaceMethod.Name;
+            if (!(ctx.Grain is IActorEndpoint) ||
+                methodName != nameof(IActorEndpoint.Receive) && 
+                methodName != nameof(IActorEndpoint.ReceiveVoid) && 
+                methodName != nameof(IActorEndpoint.Notify))
+                return methodName;
 
-            if (!(grain is IActorEndpoint))
-                return method.Name;
-
-            if (method.Name != nameof(IActorEndpoint.Receive) && 
-                method.Name != nameof(IActorEndpoint.ReceiveVoid) && 
-                method.Name != nameof(IActorEndpoint.Notify))
-                return method.Name;
-
-            var argumentType = request.Arguments[0]?.GetType();
-
+            var argumentType = ctx.Arguments[0]?.GetType();
             if (argumentType == null)
-                return $"{method.Name}(NULL)";
+                return $"{ctx.InterfaceMethod.Name}(NULL)";
 
             return argumentType.IsGenericType
                 ? $"{argumentType.Name}<{string.Join(",", argumentType.GenericTypeArguments.Select(x => x.Name))}>"
