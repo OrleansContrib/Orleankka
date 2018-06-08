@@ -1,6 +1,9 @@
 using System;
+using System.Net;
 
-using Orleans.Runtime.Configuration;
+using Orleans;
+using Orleans.Hosting;
+using Orleans.Configuration;
 
 namespace Orleankka.Playground
 {
@@ -13,29 +16,28 @@ namespace Orleankka.Playground
     {
         internal PlaygroundConfigurator()
         {
-            var client = new ClientConfiguration()
-                .LoadFromEmbeddedResource<PlaygroundConfigurator>("Client.xml");
-
-            var cluster = new ClusterConfiguration()
-                .LoadFromEmbeddedResource<PlaygroundConfigurator>("Cluster.xml");
-
-            client.ClusterId = "playground";
-            cluster.Globals.ClusterId = "playground";
-
-            cluster.Globals.LivenessType =
-                GlobalConfiguration.LivenessProviderType.MembershipTableGrain;
-
-            cluster.Globals.ReminderServiceType =
-                GlobalConfiguration.ReminderServiceProviderType.ReminderTableGrain;
-
             Cluster(c =>
             {
-                c.From(cluster);
-                c.UseInMemoryGrainStore();
-                c.UseInMemoryPubSubStore();
+                c.Builder(b => b.Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = "playground";
+                    options.ServiceId = "playground";
+                })
+                .UseLocalhostClustering()
+                .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
+                .AddMemoryGrainStorage("PubSubStore")                
+                .UseInMemoryReminderService());
             });
 
-            Client(c => c.From(client));
+            Client(c =>
+            {
+                c.Builder(b => b.Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = "playground";
+                    options.ServiceId = "playground";
+                })
+                .UseLocalhostClustering());
+            });
 
             UseSimpleMessageStreamProvider("sms", o => o.Configure(x => x.FireAndForgetDelivery = false));
         }

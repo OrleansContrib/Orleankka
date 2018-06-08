@@ -55,15 +55,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Playground\Client.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Playground\Cluster.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
   
 </Project>
