@@ -25,11 +25,7 @@ namespace Orleankka.Core
                 .Select(x => new ActorTypeDeclaration(x))
                 .ToArray();
 
-            var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Implementations");
-            Directory.CreateDirectory(dir);
-
-            var id = Guid.NewGuid().ToString("N");
-            var binary = Path.Combine(dir, id + ".dll");
+            var binary = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orleankka.Auto.Implementations.dll");
             var generated = Generate(assemblies, declarations);
 
             var syntaxTree = CSharpSyntaxTree.ParseText(generated.Source);
@@ -41,7 +37,7 @@ namespace Orleankka.Core
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Implementations.Asm{id}",
+            var compilation = CSharpCompilation.Create("Orleankka.Auto.Implementations",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -80,6 +76,12 @@ namespace Orleankka.Core
             var results = declarations.Select(x => x.Generate()).ToArray();
             return new GenerateResult(sb, results);
         }
+
+        public static Assembly GeneratedAssembly() => 
+            AppDomain.CurrentDomain
+                     .GetAssemblies()
+                     .Where(x => x.FullName.Contains("Orleankka.Auto.Implementations"))
+                     .SingleOrDefault(x => x.ExportedTypes.Any());
 
         static readonly string[] separator = {".", "+"};
 

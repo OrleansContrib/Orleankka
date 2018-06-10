@@ -117,6 +117,13 @@ namespace Orleankka.Client
             {
                 var cb = new ClientBuilder();
                 cb.UseConfiguration(configuration);
+
+                Register(cb, new[]
+                {
+                    typeof(ActorRef).Assembly,
+                    ActorInterfaceDeclaration.GeneratedAssembly()
+                });
+
                 builder?.Invoke(cb);
 
                 cb.ConfigureServices(services =>
@@ -128,23 +135,18 @@ namespace Orleankka.Client
                     di?.Invoke(services);
                 });
 
-                var parts = new List<Assembly>(assemblies) { Assembly.GetExecutingAssembly() };
-                parts.AddRange(ActorInterface.Registered().Select(x => x.Grain.Assembly).Distinct());
-
-                cb.ConfigureApplicationParts(apm =>
-                {
-                    apm.AddFrameworkPart(GetType().Assembly);
-
-                    foreach (var part in parts)
-                        apm.AddApplicationPart(part);
-
-                    apm.AddFromAppDomain()
-                       .WithCodeGeneration();
-                });
+                Register(cb, assemblies.Distinct());
 
                 return cb.Build();
             }
         }
+
+        static void Register(IClientBuilder sb, IEnumerable<Assembly> parts) => sb.ConfigureApplicationParts(apm =>
+        {
+            foreach (var part in parts)
+                apm.AddApplicationPart(part)
+                   .WithCodeGeneration();
+        });
 
         /// <summary>
         /// Disconnects this instance of client actor system from cluster

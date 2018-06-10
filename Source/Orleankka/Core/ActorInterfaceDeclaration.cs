@@ -26,11 +26,7 @@ namespace Orleankka.Core
             var existent = declarations.Where(x => x.Interface != null).ToArray();
             var missing = declarations.Where(x => x.Interface == null).ToArray();
 
-            var dir = Path.Combine(Path.GetTempPath(), "Orleankka.Auto.Interfaces");
-            Directory.CreateDirectory(dir);
-
-            var id = Guid.NewGuid().ToString("N");
-            var binary = Path.Combine(dir, id + ".dll");
+            var binary = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orleankka.Auto.Interfaces.dll");
             var source = Generate(assemblies, missing.Select(x => x.Declaration));
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -39,7 +35,7 @@ namespace Orleankka.Core
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces.Asm{id}",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -78,6 +74,10 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
+        public static Assembly GeneratedAssembly() => 
+            AppDomain.CurrentDomain.GetAssemblies()
+                     .SingleOrDefault(x => x.FullName.Contains("Orleankka.Auto.Interfaces"));
+
         static readonly string[] separator = {".", "+"};
 
         readonly string name;
@@ -109,8 +109,7 @@ namespace Orleankka.Core
 
         ActorInterface Find()
         {
-            var interfaceAssembly = AppDomain.CurrentDomain.GetAssemblies()
-                .SingleOrDefault(x => x.FullName.Contains("Orleankka.Auto.Interfaces"));
+            var interfaceAssembly = GeneratedAssembly();
 
             return interfaceAssembly != null
                 ? new ActorInterface(mapping, interfaceAssembly.GetType(fullPath))

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -47,6 +48,9 @@ namespace Orleankka.Core
                 if (existing.Mapping != each)
                     throw new DuplicateActorTypeException(existing.Mapping, each);
             }
+
+            if (!unregistered.Any())
+                return;
 
             using (Trace.Execution("Generation of actor interface assemblies"))
             {

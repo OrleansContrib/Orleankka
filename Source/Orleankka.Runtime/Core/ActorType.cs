@@ -56,7 +56,11 @@ namespace Orleankka.Core
         {
             var unregistered = assemblies
                 .SelectMany(x => x.ActorTypes())
-                .Where(x => !types.ContainsKey(ActorTypeName.Of(x)));
+                .Where(x => !types.ContainsKey(ActorTypeName.Of(x)))
+                .ToArray();
+
+            if (!unregistered.Any())
+                return;
 
             using (Trace.Execution("Generation of actor implementation assemblies"))
             {

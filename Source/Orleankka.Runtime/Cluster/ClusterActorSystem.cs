@@ -36,12 +36,21 @@ namespace Orleankka.Cluster
         {
             Pipeline = pipeline;
 
-            var sb = new SiloHostBuilder();
-            sb.UseConfiguration(configuration);
-            builder?.Invoke(sb);
-
             using (Trace.Execution("Orleans silo initialization"))
             {
+                var sb = new SiloHostBuilder();
+                sb.UseConfiguration(configuration);
+
+                Register(sb, new[]
+                {
+                    typeof(ActorRef).Assembly,
+                    typeof(Actor).Assembly,
+                    ActorInterfaceDeclaration.GeneratedAssembly(),
+                    ActorTypeDeclaration.GeneratedAssembly()
+                });
+
+                builder?.Invoke(sb);
+
                 sb.ConfigureServices(services =>
                 {
                     BootStreamSubscriptions(services, persistentStreamProviders);
@@ -54,19 +63,7 @@ namespace Orleankka.Cluster
                     di?.Invoke(services);
                 });
 
-                var parts = new List<Assembly>(assemblies) {Assembly.GetExecutingAssembly()};
-                parts.AddRange(ActorType.Registered().Select(x => x.Grain.Assembly).Distinct());
-
-                sb.ConfigureApplicationParts(apm =>
-                {
-                    apm.AddFrameworkPart(GetType().Assembly);
-
-                    foreach (var part in parts)
-                        apm.AddApplicationPart(part);
-
-                    apm.AddFromAppDomain()
-                       .WithCodeGeneration();
-                });
+                Register(sb, assemblies.Distinct());
 
                 Host = sb.Build();
             }
@@ -74,6 +71,13 @@ namespace Orleankka.Cluster
             Silo = Host.Services.GetRequiredService<Silo>();
             Initialize(Host.Services);
         }
+
+         static void Register(ISiloHostBuilder sb, IEnumerable<Assembly> parts) => sb.ConfigureApplicationParts(apm =>
+         {
+             foreach (var part in parts)
+                 apm.AddApplicationPart(part)
+                    .WithCodeGeneration();
+         });
 
          static void BootStreamSubscriptions(IServiceCollection services, string[] persistentStreamProviders)
          {
