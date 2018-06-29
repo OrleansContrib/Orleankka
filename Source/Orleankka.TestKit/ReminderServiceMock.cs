@@ -31,7 +31,7 @@ namespace Orleankka.TestKit
         }
 
         public Task<bool> IsRegistered(string id) => Task.FromResult(reminders.ContainsKey(id));
-        public Task<IEnumerable<string>> Registered() => Task.FromResult(reminders.Keys.AsEnumerable());
+        public Task<IEnumerable<string>> Registered() => Task.FromResult(reminders.Keys.ToList().AsEnumerable());
 
         public IEnumerator<RecordedReminder> GetEnumerator() => reminders.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
