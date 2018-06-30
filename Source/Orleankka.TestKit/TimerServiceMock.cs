@@ -64,8 +64,8 @@ namespace Orleankka.TestKit
         public bool IsRegistered(string id) => timers.ContainsKey(id);
         public bool IsRegistered(Func<Task> callback) => IsRegistered(callback.Method.Name);
 
-        public IEnumerable<string> Registered() => timers.Keys;
-        public RecordedTimerRequest[] Requests => requests.ToArray(); 
+        public IEnumerable<string> Registered() => timers.Keys.ToList();
+        public RecordedTimerRequest[] Requests => requests.ToArray();
 
         public IEnumerator<RecordedTimer> GetEnumerator() => timers.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
