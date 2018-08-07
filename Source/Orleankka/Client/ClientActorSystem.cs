@@ -65,6 +65,18 @@ namespace Orleankka.Client
         public IClusterClient Client { get; private set; }
 
         /// <summary>
+        /// Sets cluster client to use. This is to support direct silo client since v2.1.0
+        /// </summary>
+        public void Use(IClusterClient client)
+        {
+            if (Client != null)
+                throw new InvalidOperationException("The cluster client has been already set");
+
+            Client = client;
+            Initialize(Client.ServiceProvider);
+        }
+
+        /// <summary>
         /// Checks whether this client has been successfully connected (ie initialized)
         /// </summary>
         public bool Connected => Client?.IsInitialized ?? false;
