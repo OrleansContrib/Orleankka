@@ -20,7 +20,7 @@ namespace Orleankka.Cluster
     using Core.Streams;
     using Utility;
 
-     public class ClusterActorSystem : ActorSystem
+     public class ClusterActorSystem : ActorSystem, IDisposable
     {
         internal readonly ActorInvocationPipeline Pipeline;
 
@@ -101,5 +101,8 @@ namespace Orleankka.Cluster
             using (Trace.Execution("Orleans silo shutdown"))
                 await Host.StopAsync();
         }
+
+         /// <inheritdoc />
+         public void Dispose() => Host?.Dispose();
     }
 }

@@ -25,8 +25,8 @@ namespace Orleankka.Embedded
 
         public async Task Stop()
         {
-            await Cluster.Stop();
             await Client.Disconnect();
+            await Cluster.Stop();
         }
 
         public ActorRef ActorOf(ActorPath path) => Client.ActorOf(path);
@@ -37,6 +37,7 @@ namespace Orleankka.Embedded
         public void Dispose()
         {
             Client?.Dispose();
+            Cluster?.Dispose();
         }
     }
 }
