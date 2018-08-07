@@ -123,6 +123,46 @@ namespace Orleankka.Features.Actor_behaviors
                 }
             }
 
+            [Serializable] class CheckBecomeFiredFromTimer : Command {}
+            [Serializable] class GetCurrentBehavior : Query<string> { }
+
+            class TestBecomeFiredFromTimerActor : Actor
+            {
+                public TestBecomeFiredFromTimerActor()
+                {
+                    Behavior.Initial(Background);
+                }
+
+                [Behavior] public void Foreground() {}
+
+                [Behavior] public void Background()
+                {
+                    this.OnReceive<string>(async x =>
+                    {
+                        await this.Become(Foreground);
+                    });
+
+                    this.OnActivate(()=>
+                    {
+                        Timers.Register("test", TimeSpan.FromMilliseconds(1), async ()=>
+                        {
+                            await this.Fire("bar");
+                        });
+                    });
+                }
+
+                public override async Task<object> OnReceive(object message)
+                {
+                    if (message is CheckBecomeFiredFromTimer)
+                        return null;
+
+                    if (message is GetCurrentBehavior)
+                        return Behavior.Current;
+
+                    return await base.OnReceive(message);
+                }
+            }
+
             [Test]
             public async Task When_receive_interleaves_with_timer_ticks()
             {
@@ -141,6 +181,18 @@ namespace Orleankka.Features.Actor_behaviors
 
                 CollectionAssert.AreEqual(new[] { "main", "timer", "main", "timer" },
                     await actor.Ask(new GetFired()));
+            }
+
+            [Test]
+            public async Task When_switching_behavior_from_receive_activated_by_message_fired_from_timer()
+            {
+                var actor = TestActorSystem.Instance.ActorOf<TestBecomeFiredFromTimerActor>("test");
+
+                await actor.Tell(new CheckBecomeFiredFromTimer());
+                await Task.Delay(TimeSpan.FromMilliseconds(200));
+
+                Assert.That(await actor.Ask<string>(new GetCurrentBehavior()), 
+                    Is.EqualTo(nameof(TestBecomeFiredFromTimerActor.Foreground)));
             }
 
             [Test]

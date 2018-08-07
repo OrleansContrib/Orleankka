@@ -6,6 +6,9 @@ namespace Orleankka
 {
     using Core;
     using Behaviors;
+
+    using Orleans.Runtime;
+
     using Services;
     using Utility;
 
@@ -75,7 +78,12 @@ namespace Orleankka
         public virtual Task OnActivate() => Behavior.HandleActivate();
         public virtual Task OnDeactivate() => Behavior.HandleDeactivate();
 
-        public virtual Task<object> OnReceive(object message) => Behavior.HandleReceive(message);
+        public virtual Task<object> OnReceive(object message)
+        {
+            RequestContext.Set(TimerService.RequestContextId, null);
+            return Behavior.HandleReceive(message);
+        }
+
         public virtual Task OnReminder(string id) => Behavior.HandleReminder(id);
 
         public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 

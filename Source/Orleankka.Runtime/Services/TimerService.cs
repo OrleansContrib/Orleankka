@@ -9,6 +9,8 @@ using Orleans.Timers;
 
 namespace Orleankka.Services
 {
+    using Orleans.Runtime;
+
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
@@ -135,9 +137,10 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
-        static AsyncLocal<bool> ExecutingFlag = new AsyncLocal<bool>();
-        static void SetExecuting() => ExecutingFlag.Value = true;
-        internal static bool IsExecuting() => ExecutingFlag.Value;
+        public static string RequestContextId = "TimerServiceCallback";
+        
+        static void SetExecuting(string id) => RequestContext.Set(RequestContextId, id);
+        internal static bool IsExecuting() => RequestContext.Get(RequestContextId) != null;
 
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ITimerRegistry registry;
@@ -162,7 +165,7 @@ namespace Orleankka.Services
         {
             timers.Add(id, registry.RegisterTimer(grain, async s =>
             {
-                SetExecuting();
+                SetExecuting(id);
                 await callback();
             }, 
             null, due, period));
@@ -181,7 +184,7 @@ namespace Orleankka.Services
         {
             timers.Add(id, registry.RegisterTimer(grain, async s =>
             {
-                SetExecuting();
+                SetExecuting(id);
                 await callback((TState) s);
             }, 
             state, due, period));
