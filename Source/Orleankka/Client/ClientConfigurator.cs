@@ -111,12 +111,12 @@ namespace Orleankka.Client
 
         public ClientActorSystem Done()
         {
-            RegisterActorInterfaces();
+            var generatedAssemblies = RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, builder, registry.Assemblies, di, invoker);
+            return new ClientActorSystem(Configuration, builder, registry.Assemblies, generatedAssemblies, di, invoker);
         }
 
-        void RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
+        Assembly[] RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
     }
 
     public static class ClientConfiguratorExtensions

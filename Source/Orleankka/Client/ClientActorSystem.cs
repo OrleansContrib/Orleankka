@@ -36,12 +36,14 @@ namespace Orleankka.Client
         readonly ClientConfiguration configuration;
         readonly Action<IClientBuilder> builder;
         readonly Assembly[] assemblies;
+        readonly Assembly[] generated;
         readonly Action<IServiceCollection> di;
 
         internal ClientActorSystem(
             ClientConfiguration configuration,
             Action<IClientBuilder> builder,
             Assembly[] assemblies,
+            Assembly[] generated,
             Action<IServiceCollection> di,
             IActorRefInvoker invoker) 
             : base(invoker)
@@ -49,6 +51,7 @@ namespace Orleankka.Client
             this.configuration = configuration;
             this.builder = builder;
             this.assemblies = assemblies;
+            this.generated = generated;
             this.di = di;
         }
 
@@ -130,13 +133,10 @@ namespace Orleankka.Client
                 var cb = new ClientBuilder();
                 cb.UseConfiguration(configuration);
 
-                Register(cb, new[]
-                {
-                    typeof(ActorRef).Assembly,
-                    ActorInterfaceDeclaration.GeneratedAssembly()
-                });
-
                 builder?.Invoke(cb);
+
+                Register(cb, new[] {typeof(ActorRef).Assembly});
+                Register(cb, generated.Distinct());
 
                 cb.ConfigureServices(services =>
                 {

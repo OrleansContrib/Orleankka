@@ -77,12 +77,6 @@ namespace Orleankka.Core
             return new GenerateResult(sb, results);
         }
 
-        public static Assembly GeneratedAssembly() => 
-            AppDomain.CurrentDomain
-                     .GetAssemblies()
-                     .Where(x => x.FullName.Contains("Orleankka.Auto.Implementations"))
-                     .SingleOrDefault(x => x.ExportedTypes.Any());
-
         static readonly string[] separator = {".", "+"};
 
         readonly Type actor;

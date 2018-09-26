@@ -52,27 +52,38 @@ namespace Orleankka.Core
             return result;
         }
         
-        internal static void Register(Assembly[] assemblies, string[] conventions)
+        internal static Assembly[] Register(Assembly[] assemblies, string[] conventions)
         {
-            var unregistered = assemblies
-                .SelectMany(x => x.ActorTypes())
+            var actorTypes = assemblies.SelectMany(x => x.ActorTypes()).ToArray();
+
+            var registered = actorTypes
+                .Select(x => types.Find(ActorTypeName.Of(x)))
+                .Where(x => x != null)
+                .ToArray();
+
+            var unregistered = actorTypes
                 .Where(x => !types.ContainsKey(ActorTypeName.Of(x)))
                 .ToArray();
 
             if (!unregistered.Any())
-                return;
+                return GrainAssemblies(registered);
 
             using (Trace.Execution("Generation of actor implementation assemblies"))
             {
-                var actors = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions);
+                var generated = ActorTypeDeclaration.Generate(assemblies.ToArray(), unregistered, conventions).ToArray();
 
-                foreach (var actor in actors)
+                foreach (var actor in generated)
                 {
                     types.Add(actor.Name, actor);
                     typeCodes.Add(actor.TypeCode, actor);
                     typeCodes.Add(actor.Interface.TypeCode, actor);
                 }
+
+                return GrainAssemblies(generated);
             }
+
+            Assembly[] GrainAssemblies(IEnumerable<ActorType> interfaces) =>
+                interfaces.Select(x => x.Grain.Assembly).Distinct().ToArray();
         }
 
         public static IEnumerable<ActorType> Registered() => types.Values;

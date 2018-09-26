@@ -169,24 +169,27 @@ namespace Orleankka.Cluster
 
         public ClusterActorSystem Done()
         {
-            Configure();
+            var generatedAssemblies = Configure();
             
-            return new ClusterActorSystem(Configuration, builder, persistentStreamProviders, registry.Assemblies, di, pipeline, invoker);
+            return new ClusterActorSystem(Configuration, builder, persistentStreamProviders, registry.Assemblies, generatedAssemblies, di, pipeline, invoker);
         }
 
-        void Configure()
+        Assembly[] Configure()
         {
-            RegisterInterfaces();
-            RegisterTypes();
+            var generatedAssemblies = RegisterInterfaces().ToList();
+            generatedAssemblies.AddRange(RegisterTypes());
+
             RegisterAutoruns();
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
+
+            return generatedAssemblies.ToArray();
         }
 
-        void RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
+        Assembly[] RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
 
-        void RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
+        Assembly[] RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
 
         void RegisterAutoruns()
         {

@@ -29,6 +29,7 @@ namespace Orleankka.Cluster
             Action<ISiloHostBuilder> builder,
             string[] persistentStreamProviders,
             Assembly[] assemblies,
+            Assembly[] generated,
             Action<IServiceCollection> di,
             ActorInvocationPipeline pipeline,
             IActorRefInvoker invoker)
@@ -41,15 +42,10 @@ namespace Orleankka.Cluster
                 var sb = new SiloHostBuilder();
                 sb.UseConfiguration(configuration);
 
-                Register(sb, new[]
-                {
-                    typeof(ActorRef).Assembly,
-                    typeof(Actor).Assembly,
-                    ActorInterfaceDeclaration.GeneratedAssembly(),
-                    ActorTypeDeclaration.GeneratedAssembly()
-                });
-
                 builder?.Invoke(sb);
+
+                Register(sb, new[] {typeof(ActorRef).Assembly, typeof(Actor).Assembly});
+                Register(sb, generated.Distinct());
 
                 sb.ConfigureServices(services =>
                 {

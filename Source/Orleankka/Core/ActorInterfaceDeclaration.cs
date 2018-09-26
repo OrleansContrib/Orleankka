@@ -26,7 +26,8 @@ namespace Orleankka.Core
             var existent = declarations.Where(x => x.Interface != null).ToArray();
             var missing = declarations.Where(x => x.Interface == null).ToArray();
 
-            var binary = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orleankka.Auto.Interfaces.dll");
+            var uid = $"ORL{Guid.NewGuid():N}";
+            var binary = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Orleankka.Auto.Interfaces.{uid}.dll");
             var source = Generate(assemblies, missing.Select(x => x.Declaration));
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -35,7 +36,7 @@ namespace Orleankka.Core
                 .Where(x => x != null)
                 .ToArray();
 
-            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces",
+            var compilation = CSharpCompilation.Create($"Orleankka.Auto.Interfaces.{uid}",
                 syntaxTrees: new[] { syntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -74,9 +75,9 @@ namespace Orleankka.Core
             return sb.ToString();
         }
 
-        public static Assembly GeneratedAssembly() => 
+        public static Assembly[] GeneratedAssemblies() => 
             AppDomain.CurrentDomain.GetAssemblies()
-                     .SingleOrDefault(x => x.FullName.Contains("Orleankka.Auto.Interfaces"));
+                     .Where(x => x.FullName.Contains("Orleankka.Auto.Interfaces")).ToArray();
 
         static readonly string[] separator = {".", "+"};
 
@@ -109,10 +110,12 @@ namespace Orleankka.Core
 
         ActorInterface Find()
         {
-            var interfaceAssembly = GeneratedAssembly();
+            var generated = GeneratedAssemblies()
+                            .Select(x => x.GetType(fullPath))
+                            .SingleOrDefault(x => x != null);
 
-            return interfaceAssembly != null
-                ? new ActorInterface(mapping, interfaceAssembly.GetType(fullPath))
+            return generated != null
+                ? new ActorInterface(mapping, generated)
                 : null;
         }
 

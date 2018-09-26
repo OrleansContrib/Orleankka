@@ -32,9 +32,10 @@ namespace Orleankka.Core
             return result;
         }
 
-        internal static void Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
+        internal static Assembly[] Register(IEnumerable<Assembly> assemblies, IEnumerable<ActorInterfaceMapping> mappings)
         {
             var unregistered = new List<ActorInterfaceMapping>();
+            var registered = new List<ActorInterface>();
 
             foreach (var each in mappings)
             {
@@ -47,18 +48,25 @@ namespace Orleankka.Core
 
                 if (existing.Mapping != each)
                     throw new DuplicateActorTypeException(existing.Mapping, each);
+
+                registered.Add(existing);
             }
 
             if (!unregistered.Any())
-                return;
+                return GrainAssemblies(registered);
 
             using (Trace.Execution("Generation of actor interface assemblies"))
             {
-                var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered);
+                var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered).ToArray();
 
                 foreach (var each in generated)
                     names.Add(each.Name, each);
+
+                return GrainAssemblies(generated);
             }
+
+            Assembly[] GrainAssemblies(IEnumerable<ActorInterface> interfaces) => 
+                interfaces.Select(x => x.Grain.Assembly).Distinct().ToArray();
         }
 
         public static IEnumerable<ActorInterface> Registered() => names.Values;
