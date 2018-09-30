@@ -21,6 +21,6 @@
     <ProjectReference Include="..\..\..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
   </ItemGroup>
 
-  
+
 
 </Project>
