@@ -46,8 +46,8 @@
 
         <!-- Orleans packages -->
         <MicrosoftOrleansClientVersion>2.1.0</MicrosoftOrleansClientVersion>
-    	<MicrosoftOrleansServerVersion>2.1.0</MicrosoftOrleansServerVersion>
-    	<MicrosoftOrleansCodeGeneratorVersion>2.1.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansServerVersion>2.1.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>2.1.0</MicrosoftOrleansCodeGeneratorVersion>
         <MicrosoftOrleansRuntimeVersion>2.1.0</MicrosoftOrleansRuntimeVersion>
 
         <!-- Testing packages -->
