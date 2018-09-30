@@ -69,7 +69,11 @@ namespace Orleankka.Testing
             host.StartAsync().Wait();
 
             var cb = new ClientBuilder()
-                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .AddSimpleMessageStreamProvider("sms")
                 .ConfigureApplicationParts(x => x
