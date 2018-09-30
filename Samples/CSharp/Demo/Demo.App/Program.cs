@@ -9,12 +9,16 @@ using Orleankka.Client;
 using Orleankka.Cluster;
 
 using Orleans;
+using Orleans.Configuration;
 using Orleans.Hosting;
 
 namespace Demo
 {
     public static class Program
     {
+        const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhsot-demo-service";
+
         static App app;
 
         public static async Task Main()
@@ -26,8 +30,14 @@ namespace Demo
             var storage = await TopicStorage.Init(account);
 
             var host = await new SiloHostBuilder()
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .ConfigureServices(x => x
                     .AddSingleton(storage))
+
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(typeof(Api).Assembly)
                     .WithCodeGeneration())
