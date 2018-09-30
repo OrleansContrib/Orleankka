@@ -37,18 +37,18 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <ConsoleProjectTargetFramework>netcoreapp2.0</ConsoleProjectTargetFramework>
+        <ConsoleProjectTargetFramework>netcoreapp2.1</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 
     <!-- Shared Package Versions -->
     <PropertyGroup>
-    	
+
         <!-- Orleans packages -->
-        <MicrosoftOrleansClientVersion>2.0.0</MicrosoftOrleansClientVersion>
-    	<MicrosoftOrleansServerVersion>2.0.0</MicrosoftOrleansServerVersion>
-    	<MicrosoftOrleansCodeGeneratorVersion>2.0.0</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>2.0.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansClientVersion>2.1.0</MicrosoftOrleansClientVersion>
+    	<MicrosoftOrleansServerVersion>2.1.0</MicrosoftOrleansServerVersion>
+    	<MicrosoftOrleansCodeGeneratorVersion>2.1.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>2.1.0</MicrosoftOrleansRuntimeVersion>
 
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
@@ -117,6 +117,6 @@
                 <GitHeadSha Condition="'$(HeadFileContent)' != '' AND '$(RefPath)' == ''">$(HeadFileContent)</GitHeadSha>
             </PropertyGroup>
         </Otherwise>
-    </Choose>        
+    </Choose>
 
 </Project>
