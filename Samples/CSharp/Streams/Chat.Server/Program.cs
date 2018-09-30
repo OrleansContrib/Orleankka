@@ -17,6 +17,8 @@ namespace Example
     class Program
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhsot-demo-service";
+
         const int LocalhostSiloPort = 11111;
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
@@ -26,7 +28,11 @@ namespace Example
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
             var host = new SiloHostBuilder()
-                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorage("PubSubStore")

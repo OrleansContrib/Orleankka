@@ -16,6 +16,8 @@ namespace Example
     class Program
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhsot-demo-service";
+
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
 
@@ -31,7 +33,7 @@ namespace Example
 
             Console.WriteLine("Enter your user name...");
             var userName = Console.ReadLine();
-            
+
             const string room = "Orleankka";
 
             var client = new ChatClient(system, userName, room);
@@ -65,7 +67,7 @@ namespace Example
                 retryTimeout = TimeSpan.FromSeconds(5);
 
             if (retries < 0)
-                throw new ArgumentOutOfRangeException(nameof(retries), 
+                throw new ArgumentOutOfRangeException(nameof(retries),
                     "retries should be greater than or equal to 0");
 
             while (true)
@@ -73,7 +75,11 @@ namespace Example
                 try
                 {
                     var client = new ClientBuilder()
-                        .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                        .Configure<ClusterOptions>(options =>
+                        {
+                            options.ClusterId = DemoClusterId;
+                            options.ServiceId = DemoServiceId;
+                        })
                         .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                         .AddSimpleMessageStreamProvider("sms")
                         .ConfigureServices(x => x

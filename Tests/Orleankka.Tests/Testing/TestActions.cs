@@ -28,6 +28,8 @@ namespace Orleankka.Testing
     public class RequiresSiloAttribute : TestActionAttribute
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhost-demo-service";
+
         const int LocalhostSiloPort = 11111;
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
@@ -41,7 +43,11 @@ namespace Orleankka.Testing
                 return;
 
             var sb = new SiloHostBuilder()
-                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
@@ -63,7 +69,11 @@ namespace Orleankka.Testing
             host.StartAsync().Wait();
 
             var cb = new ClientBuilder()
-                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .AddSimpleMessageStreamProvider("sms")
                 .ConfigureApplicationParts(x => x
@@ -95,7 +105,7 @@ namespace Orleankka.Testing
             TestActorSystem.Client.Dispose();
             TestActorSystem.Host.StopAsync().Wait();
             TestActorSystem.Host.Dispose();
-            
+
             TestActorSystem.Client = null;
             TestActorSystem.Host = null;
             TestActorSystem.Instance = null;
