@@ -36,6 +36,7 @@ _ReSharper*
 #ignore certain folders
 /paket-files/
 /Output/
+/Artifacts/
 /Packages/
 /Packages/!Repositories.config
 /node_modules/
