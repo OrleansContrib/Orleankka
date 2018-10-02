@@ -3,12 +3,11 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleankka.Meta;
-
 namespace Orleankka.Features
 {
     namespace Strongly_typed_actors
     {
+        using Meta;
         using Testing;
 
         [Serializable]
@@ -22,8 +21,8 @@ namespace Orleankka.Features
 
         public class TestActor : DispatchActorGrain, ITestActor
         {
-            void On(TestActorCommand x) {}
-            long On(TestActorQuery x) => 42;
+            void On(TestActorCommand msg) {}
+            long On(TestActorQuery msg) => msg.Response(42);
         }
 
         [Serializable]
