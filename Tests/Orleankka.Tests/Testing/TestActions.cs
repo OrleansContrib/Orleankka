@@ -9,21 +9,16 @@ using NUnit.Framework.Interfaces;
 using Orleans;
 using Orleans.Hosting;
 using Orleans.Configuration;
-using Orleans.Runtime;
 using Orleans.Storage;
 
 using Orleankka.Testing;
+using Orleankka.Cluster;
+using Orleankka.Features.Intercepting_requests;
+
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
 {
-    using Client;
-    using Cluster;
-
-    using Features.Intercepting_requests;
-
-    using ClusterOptions = Orleans.Configuration.ClusterOptions;
-
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
@@ -48,6 +43,7 @@ namespace Orleankka.Testing
                     options.ClusterId = DemoClusterId;
                     options.ServiceId = DemoServiceId;
                 })
+                .EnableDirectClient()
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
@@ -63,31 +59,15 @@ namespace Orleankka.Testing
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
                 .UseOrleankka(x => x
-                    .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware()));
+                    .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
+                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()));
 
             var host = sb.Build();
             host.StartAsync().Wait();
 
-            var cb = new ClientBuilder()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = DemoClusterId;
-                    options.ServiceId = DemoServiceId;
-                })
-                .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
-                .AddSimpleMessageStreamProvider("sms")
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(GetType().Assembly)
-                    .WithCodeGeneration())
-                .UseOrleankka(x => x
-                    .ActorRefMiddleware(new TestActorRefMiddleware()));
-
-            var client = cb.Build();
-            client.Connect().Wait();
-
             TestActorSystem.Host = host;
-            TestActorSystem.Client = client;
-            TestActorSystem.Instance = client.ActorSystem();
+            TestActorSystem.Client = host.Services.GetRequiredService<IClusterClient>();
+            TestActorSystem.Instance = host.ActorSystem();
         }
     }
 
