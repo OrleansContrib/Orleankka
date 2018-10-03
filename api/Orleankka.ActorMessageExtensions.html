@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Interface ActorMessage&lt;TActor, TResult&gt;
+    <title>Class ActorMessageExtensions
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Interface ActorMessage&lt;TActor, TResult&gt;
+    <meta name="title" content="Class ActorMessageExtensions
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.39.2.0">
     
@@ -80,20 +80,103 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.ActorMessage`2">
+            <article class="content wrap" id="_content" data-uid="Orleankka.ActorMessageExtensions">
   
   
-  <h1 id="Orleankka_ActorMessage_2" data-uid="Orleankka.ActorMessage`2" class="text-break">Interface ActorMessage&lt;TActor, TResult&gt;
+  <h1 id="Orleankka_ActorMessageExtensions" data-uid="Orleankka.ActorMessageExtensions" class="text-break">Class ActorMessageExtensions
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
+    <div class="level1"><span class="xref">ActorMessageExtensions</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/w4hkze5k(v=vs.110).aspx">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/zdee4b3y(v=vs.110).aspx">Object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/dfwy45w9(v=vs.110).aspx">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/57ctke0a(v=vs.110).aspx">Object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/hz2a0b8x(v=vs.110).aspx">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.dll</h6>
-  <h5 id="Orleankka_ActorMessage_2_syntax">Syntax</h5>
+  <h5 id="Orleankka_ActorMessageExtensions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface ActorMessage&lt;TActor, TResult&gt;
+    <pre><code class="lang-csharp hljs">public static class ActorMessageExtensions</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMessageExtensions_Response__2_Orleankka_ActorMessage___0___1____1_.md&amp;value=---%0Auid%3A%20Orleankka.ActorMessageExtensions.Response%60%602(Orleankka.ActorMessage%7B%60%600%2C%60%601%7D%2C%60%601)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorMessage.cs/#L11">View Source</a>
+  </span>
+  <a id="Orleankka_ActorMessageExtensions_Response_" data-uid="Orleankka.ActorMessageExtensions.Response*"></a>
+  <h4 id="Orleankka_ActorMessageExtensions_Response__2_Orleankka_ActorMessage___0___1____1_" data-uid="Orleankka.ActorMessageExtensions.Response``2(Orleankka.ActorMessage{``0,``1},``1)">Response&lt;TActor, TResult&gt;(ActorMessage&lt;TActor, TResult&gt;, TResult)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TResult Response&lt;TActor, TResult&gt;(this ActorMessage&lt;TActor, TResult&gt; message, TResult result)
     where TActor : IActorGrain</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.ActorMessage-2.html">ActorMessage</a>&lt;TActor, TResult&gt;</td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">TResult</span></td>
+        <td><span class="parametername">result</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -113,10 +196,6 @@
       </tr>
     </tbody>
   </table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="Orleankka.ActorMessageExtensions.html#Orleankka_ActorMessageExtensions_Response__2_Orleankka_ActorMessage___0___1____1_">ActorMessageExtensions.Response&lt;TActor, TResult&gt;(ActorMessage&lt;TActor, TResult&gt;, TResult)</a>
-  </div>
 </article>
           </div>
           
@@ -125,10 +204,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMessage_2.md&amp;value=---%0Auid%3A%20Orleankka.ActorMessage%602%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMessageExtensions.md&amp;value=---%0Auid%3A%20Orleankka.ActorMessageExtensions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorMessage.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorMessage.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
