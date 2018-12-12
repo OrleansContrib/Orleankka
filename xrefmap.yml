@@ -1537,6 +1537,28 @@ references:
   commentId: T:Orleankka.Behaviors.BehaviorMessage
   fullName: Orleankka.Behaviors.BehaviorMessage
   nameWithType: BehaviorMessage
+- uid: Orleankka.Behaviors.ReceiveExtensions
+  name: ReceiveExtensions
+  href: api/Orleankka.Behaviors.ReceiveExtensions.html
+  commentId: T:Orleankka.Behaviors.ReceiveExtensions
+  fullName: Orleankka.Behaviors.ReceiveExtensions
+  nameWithType: ReceiveExtensions
+- uid: Orleankka.Behaviors.ReceiveExtensions.Trait(Orleankka.Receive,Orleankka.Receive[])
+  name: Trait(Receive, Receive[])
+  href: api/Orleankka.Behaviors.ReceiveExtensions.html#Orleankka_Behaviors_ReceiveExtensions_Trait_Orleankka_Receive_Orleankka_Receive___
+  commentId: M:Orleankka.Behaviors.ReceiveExtensions.Trait(Orleankka.Receive,Orleankka.Receive[])
+  name.vb: Trait(Receive, Receive())
+  fullName: Orleankka.Behaviors.ReceiveExtensions.Trait(Orleankka.Receive, Orleankka.Receive[])
+  fullName.vb: Orleankka.Behaviors.ReceiveExtensions.Trait(Orleankka.Receive, Orleankka.Receive())
+  nameWithType: ReceiveExtensions.Trait(Receive, Receive[])
+  nameWithType.vb: ReceiveExtensions.Trait(Receive, Receive())
+- uid: Orleankka.Behaviors.ReceiveExtensions.Trait*
+  name: Trait
+  href: api/Orleankka.Behaviors.ReceiveExtensions.html#Orleankka_Behaviors_ReceiveExtensions_Trait_
+  commentId: Overload:Orleankka.Behaviors.ReceiveExtensions.Trait
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.ReceiveExtensions.Trait
+  nameWithType: ReceiveExtensions.Trait
 - uid: Orleankka.Behaviors.State
   name: State
   href: api/Orleankka.Behaviors.State.html
@@ -2166,19 +2188,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.DispatchActorGrain.Dispatcher
   nameWithType: DispatchActorGrain.Dispatcher
-- uid: Orleankka.DispatchActorGrain.OnActivateAsync
-  name: OnActivateAsync()
-  href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_OnActivateAsync
-  commentId: M:Orleankka.DispatchActorGrain.OnActivateAsync
-  fullName: Orleankka.DispatchActorGrain.OnActivateAsync()
-  nameWithType: DispatchActorGrain.OnActivateAsync()
-- uid: Orleankka.DispatchActorGrain.OnActivateAsync*
-  name: OnActivateAsync
-  href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_OnActivateAsync_
-  commentId: Overload:Orleankka.DispatchActorGrain.OnActivateAsync
-  isSpec: "True"
-  fullName: Orleankka.DispatchActorGrain.OnActivateAsync
-  nameWithType: DispatchActorGrain.OnActivateAsync
 - uid: Orleankka.DispatchActorGrain.Receive(System.Object)
   name: Receive(Object)
   href: api/Orleankka.DispatchActorGrain.html#Orleankka_DispatchActorGrain_Receive_System_Object_
@@ -3865,6 +3874,19 @@ references:
   commentId: F:Orleankka.TaskResult.Done
   fullName: Orleankka.TaskResult.Done
   nameWithType: TaskResult.Done
+- uid: Orleankka.TaskResult.From(System.Object)
+  name: From(Object)
+  href: api/Orleankka.TaskResult.html#Orleankka_TaskResult_From_System_Object_
+  commentId: M:Orleankka.TaskResult.From(System.Object)
+  fullName: Orleankka.TaskResult.From(System.Object)
+  nameWithType: TaskResult.From(Object)
+- uid: Orleankka.TaskResult.From*
+  name: From
+  href: api/Orleankka.TaskResult.html#Orleankka_TaskResult_From_
+  commentId: Overload:Orleankka.TaskResult.From
+  isSpec: "True"
+  fullName: Orleankka.TaskResult.From
+  nameWithType: TaskResult.From
 - uid: Orleankka.TaskResult.Unhandled
   name: Unhandled
   href: api/Orleankka.TaskResult.html#Orleankka_TaskResult_Unhandled
