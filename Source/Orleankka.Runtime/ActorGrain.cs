@@ -40,6 +40,7 @@ namespace Orleankka
         {
             var @interface = ActorGrainImplementation.InterfaceOf(GetType());
             Path = ActorPath.For(@interface, id ?? Guid.NewGuid().ToString("N"));
+            System = runtime?.System;
             this.runtime = runtime;
         }
 
