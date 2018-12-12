@@ -6,7 +6,7 @@ namespace Orleankka.Behaviors
 {
     using Utility;
 
-    public static class TraitExtensions
+    public static class ReceiveExtensions
     {
         public static Receive Trait(this Receive receive, params Receive[] traits)
         {
