@@ -10,6 +10,7 @@ namespace Orleankka.Behaviors
     {
         public static Receive Trait(this Receive receive, params Receive[] traits)
         {
+            Requires.NotNull(receive, nameof(receive));
             Requires.NotNull(traits, nameof(traits));
                 
             if (traits.Length == 0)
