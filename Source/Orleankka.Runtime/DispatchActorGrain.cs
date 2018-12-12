@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
+    using System;
     using Utility;
 
     public abstract class DispatchActorGrain : ActorGrain
@@ -35,15 +36,15 @@ namespace Orleankka
             this.dispatcher = dispatcher;
         }
 
-        public override Task OnActivateAsync()
+        internal override void Initialize(IServiceProvider services, string id)
         {
-            if (dispatcher == null)
-            {
-                var registry = ServiceProvider?.GetService<IDispatcherRegistry>();
-                dispatcher = registry?.GetDispatcher(GetType());
-            }
+            base.Initialize(services, id);
 
-            return base.OnActivateAsync();
+            if (dispatcher != null) 
+                return;
+
+            var registry = services.GetService<IDispatcherRegistry>();
+            dispatcher = registry?.GetDispatcher(GetType());
         }
 
         public override Task<object> Receive(object message) => Dispatch(message);

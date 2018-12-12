@@ -14,6 +14,9 @@ using Orleans.Hosting;
 namespace Orleankka.Cluster
 {
     using Client;
+
+    using Orleans.Runtime;
+
     using Utility;
 
     public sealed class OrleankkaClusterOptions
@@ -106,6 +109,9 @@ namespace Orleankka.Cluster
 
             services.TryAddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
             services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+
+            services.TryAdd(new ServiceDescriptor(typeof(IGrainActivator), sp => new DefaultGrainActivator(sp), ServiceLifetime.Singleton));
+            services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
         }
 
         DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)

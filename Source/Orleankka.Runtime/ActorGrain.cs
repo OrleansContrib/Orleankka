@@ -40,15 +40,31 @@ namespace Orleankka
         {
             var @interface = ActorGrainImplementation.InterfaceOf(GetType());
             Path = ActorPath.For(@interface, id ?? Guid.NewGuid().ToString("N"));
-            Runtime = runtime;
+            this.runtime = runtime;
+        }
+
+        /// <summary>
+        /// Run-once initialization routine invoked right after actor grain construction and just before activate
+        /// TODO: this is not ideal since IActorRuntime cannot be created here. Still, need support for IActivationFilter from Orleans
+        /// </summary>
+        internal virtual void Initialize(IServiceProvider services, string id)
+        {
+            var clusterSystem = services.GetRequiredService<ClusterActorSystem>();
+            System = clusterSystem;
+
+            var implementation = clusterSystem.ImplementationOf(GetType());
+            middleware = implementation.Middleware;
+
+            Path = ActorPath.For(implementation.Interface, id);
         }
 
         public string Id => Path.Id;
 
         public ActorPath Path { get; private set; }
-        public IActorRuntime Runtime { get; private set; }
-        
-        public IActorSystem System => Runtime.System;
+        public IActorSystem System { get; private set; }
+
+        IActorRuntime runtime;
+        public IActorRuntime Runtime => runtime ?? (runtime = new ActorRuntime(System, this));        
         public IActivationService Activation => Runtime.Activation;
         public IReminderService Reminders => Runtime.Reminders;
         public ITimerService Timers => Runtime.Timers;
@@ -66,18 +82,8 @@ namespace Orleankka
         public override Task OnDeactivateAsync() =>
             middleware.Receive(this, Deactivate.Message, Receive);
 
-        public override Task OnActivateAsync()
-        {
-            var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
-
-            var implementation = system.ImplementationOf(GetType());
-            middleware = implementation.Middleware;
-
-            Path = ActorPath.For(implementation.Interface, this.GetPrimaryKeyString());
-            Runtime = new ActorRuntime(system, this);
-            
-            return middleware.Receive(this, Activate.Message, Receive);
-        }
+        public override Task OnActivateAsync() => 
+            middleware.Receive(this, Activate.Message, Receive);
 
         public abstract Task<object> Receive(object message);
     }
