@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DocumentationFile>$(OutDir)\Orleankka.FSharp.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Orleankka.FSharp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
