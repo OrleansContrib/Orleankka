@@ -53,7 +53,7 @@
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
         <NUnit3TestAdapterVersion>3.9.0</NUnit3TestAdapterVersion>
-        <MicrosoftNETTestSdkVersion>15.6.0</MicrosoftNETTestSdkVersion>
+        <MicrosoftNETTestSdkVersion>15.9.0</MicrosoftNETTestSdkVersion>
         <PowerAssertVersion>1.0.79</PowerAssertVersion>
 
         <!-- 3rd party packages -->
