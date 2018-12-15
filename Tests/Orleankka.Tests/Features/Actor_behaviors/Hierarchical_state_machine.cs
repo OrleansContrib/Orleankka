@@ -39,7 +39,6 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(behavior.Current, Is.EqualTo("A"));
 
                 AssertEvents(                
-                    "OnTransitioning_Initial_A",
                     "OnDeactivate_Initial",
                     "OnUnbecome_Initial",
                     "OnBecome_SSS",
@@ -49,8 +48,7 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnActivate_SSS",
                     "OnActivate_SS",
                     "OnActivate_S",
-                    "OnActivate_A",
-                    "OnTransitioned_A_Initial"
+                    "OnActivate_A"
                 );
             }
 
@@ -69,14 +67,12 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(behavior.Current, Is.EqualTo("B"));
 
                 AssertEvents(
-                    "OnTransitioning_A_B",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnUnbecome_A",
                     "OnUnbecome_S",
                     "OnBecome_B",                    
-                    "OnActivate_B",
-                    "OnTransitioned_B_A"
+                    "OnActivate_B"
                 );
             }
 
@@ -98,7 +94,6 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(behavior.Current, Is.EqualTo("C"));
 
                 AssertEvents(
-                    "OnTransitioning_A_C",
                     "OnDeactivate_A",
                     "OnDeactivate_S",
                     "OnDeactivate_SS",
@@ -110,8 +105,7 @@ namespace Orleankka.Features.Actor_behaviors
                     "OnBecome_SSSS",
                     "OnBecome_C",
                     "OnActivate_SSSS",
-                    "OnActivate_C",
-                    "OnTransitioned_C_A"
+                    "OnActivate_C"
                 );
             }
 

@@ -72,12 +72,10 @@ namespace Orleankka.Features.Actor_behaviors
 
                 var expected = new[]
                 {
-                    "OnTransitioning_Initial_A",
                     "OnDeactivate_Initial",
                     "OnUnbecome_Initial",
                     "OnBecome_A",
-                    "OnActivate_A",
-                    "OnTransitioned_A_Initial"
+                    "OnActivate_A"
                 };
 
                 AssertEvents(expected);

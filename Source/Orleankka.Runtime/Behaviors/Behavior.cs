@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
@@ -14,25 +13,9 @@ namespace Orleankka.Behaviors
 
         readonly Dictionary<string, State> states;
         
-        readonly Func<Transition, Task> onTransitioning = t => Task.CompletedTask;
-        readonly Func<Transition, Task> onTransitioned  = t => Task.CompletedTask;
-
-        readonly Func<Transition, Exception, Task> onTransitionError = (t, e) =>
-        {
-            ExceptionDispatchInfo.Capture(e).Throw();
-            return null;
-        };
-
-        public Behavior(
-            Dictionary<string, State> states = null,
-            Func<Transition, Task> onTransitioning = null,
-            Func<Transition, Task> onTransitioned = null,
-            Func<Transition, Exception, Task> onTransitionError = null)
+        public Behavior(Dictionary<string, State> states = null)
         {
             this.states = states ?? new Dictionary<string, State>();
-            this.onTransitioning = onTransitioning ?? this.onTransitioning;
-            this.onTransitioned = onTransitioned ?? this.onTransitioned;
-            this.onTransitionError = onTransitionError ?? this.onTransitionError;            
         }
 
         public void Initial(Receive behavior)
@@ -108,28 +91,15 @@ namespace Orleankka.Behaviors
 
             transition = new Transition(@from: current, to: next);
 
-            try
-            {
-                await onTransitioning(transition);
+            await current.HandleDeactivate(transition);
+            await current.HandleUnbecome(transition);
 
-                await current.HandleDeactivate(transition);
-                await current.HandleUnbecome(transition);
+            current = next;
 
-                await next.HandleBecome(transition);
-                await next.HandleActivate(transition);
+            await next.HandleBecome(transition);
+            await next.HandleActivate(transition);
 
-                current = next;
-
-                await onTransitioned(transition);
-            }
-            catch (Exception exception)
-            {
-                await onTransitionError(transition, exception);
-            }
-            finally
-            {
-                transition = null;
-            }
+            transition = null;
         }
     }
 }

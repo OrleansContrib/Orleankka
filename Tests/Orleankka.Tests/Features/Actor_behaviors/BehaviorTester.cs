@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Orleankka.Features.Actor_behaviors
 {
@@ -70,24 +69,12 @@ namespace Orleankka.Features.Actor_behaviors
 
         public static implicit operator Behavior(BehaviorTester x)
         {
-            var behavior = new Behavior(x.machine.Build(), OnTransitioning, OnTransitioned);
+            var behavior = new Behavior(x.machine.Build());
 
             if (x.initial != null)
                 behavior.Initial(x.initial);
 
             return behavior;
-
-            Task OnTransitioning(Transition transition)
-            {
-                x.events.Add($"OnTransitioning_{transition.From}_{transition.To}");
-                return Task.CompletedTask;
-            }
-
-            Task OnTransitioned(Transition transition)
-            {
-                x.events.Add($"OnTransitioned_{transition.To}_{transition.From}");
-                return Task.CompletedTask;
-            }                
         }
     }
 }
