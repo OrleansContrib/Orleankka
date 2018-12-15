@@ -25,12 +25,20 @@ namespace Orleankka
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
 
         static ISiloHostBuilder ConfigureDemoClustering(this ISiloHostBuilder builder) => builder
-            .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+            .Configure<ClusterOptions>(options =>
+            {
+                options.ClusterId = DemoClusterId;
+                options.ServiceId = DemoClusterId;
+            })
             .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
             .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort);
 
         static IClientBuilder ConfigureDemoClustering(this IClientBuilder builder) => builder
-            .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+            .Configure<ClusterOptions>(options =>
+            {
+                options.ServiceId = DemoClusterId;
+                options.ClusterId = DemoClusterId;
+            })
             .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
 
         public static async Task<ISiloHost> Start(this ISiloHostBuilder builder)
