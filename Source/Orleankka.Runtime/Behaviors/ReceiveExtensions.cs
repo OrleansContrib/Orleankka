@@ -23,32 +23,17 @@ namespace Orleankka.Behaviors
 
             async Task<object> Handle(object message)
             {
-                return message is LifecycleMessage
-                           ? await HandleLifecycleMessage()
-                           : await HandleReceiveMessage();
-
-                async Task<object> HandleLifecycleMessage()
-                {
-                    for (var i = handlers.Count - 1; i >= 0; i--)
-                    {
-                        var handler = handlers[i];
-                        await handler(message);
-                    }
-
-                    return Done.Result;
-                }
-
-                async Task<object> HandleReceiveMessage()
-                {
-                    foreach (var handler in handlers)
-                    {
-                        var result = await handler(message);
-                        if (result != Unhandled.Result)
-                            return result;
-                    }
-
+                if (message is LifecycleMessage)
                     return Unhandled.Result;
+
+                foreach (var handler in handlers)
+                {
+                    var result = await handler(message);
+                    if (result != Unhandled.Result)
+                        return result;
                 }
+
+                return Unhandled.Result;
             }
         }
     }

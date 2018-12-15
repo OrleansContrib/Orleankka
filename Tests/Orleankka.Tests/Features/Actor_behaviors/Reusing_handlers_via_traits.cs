@@ -130,10 +130,12 @@ namespace Orleankka.Features.Actor_behaviors
                 }
 
                 var receive = @base.Trait(XTrait, YTrait);
-                await receive(Activate.Message);
-                await receive(Deactivate.Message);
+                Assert.AreSame(Unhandled.Result, await receive(Activate.Message));
+                Assert.AreSame(Unhandled.Result, await receive(Deactivate.Message));
+                Assert.AreSame(Unhandled.Result, await receive(Become.Message));
+                Assert.AreSame(Unhandled.Result, await receive(Unbecome.Message));
 
-                AssertEqual(new[] {"y", "x", "base", "y", "x", "base"}, events);
+                Assert.AreEqual(0, events.Count);
             }
 
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) =>
