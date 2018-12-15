@@ -53,7 +53,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("Initial");
 
-                Assert.That(behavior.Current, Is.EqualTo("Initial"));
+                Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
                 Assert.That(events, Has.Count.EqualTo(0),
                     "OnBecome should not be called when setting initial");
             }
@@ -68,7 +68,7 @@ namespace Orleankka.Features.Actor_behaviors
                 behavior.Initial("Initial");
 
                 await behavior.Become("A");
-                Assert.That(behavior.Current, Is.EqualTo("A"));
+                Assert.That(behavior.Current.Name, Is.EqualTo("A"));
 
                 var expected = new[]
                 {

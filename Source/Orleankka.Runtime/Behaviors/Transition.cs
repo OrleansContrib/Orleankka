@@ -1,6 +1,6 @@
 ﻿namespace Orleankka.Behaviors
 {
-    public class Transition
+    class Transition
     {
         public static readonly Transition Initial = new Transition(null, null);
 

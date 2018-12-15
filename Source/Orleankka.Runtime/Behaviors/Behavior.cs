@@ -8,14 +8,20 @@ namespace Orleankka.Behaviors
 
     public sealed class Behavior
     {
-        State current;
         Transition transition;
 
         readonly Dictionary<string, State> states;
         
-        public Behavior(Dictionary<string, State> states = null)
-        {
+        public Behavior(Dictionary<string, State> states = null) => 
             this.states = states ?? new Dictionary<string, State>();
+
+        public State State(string behavior)
+        {
+            var configured = states.Find(behavior);
+            if (configured == null)
+                throw new InvalidOperationException($"Missing configured behavior for '{behavior}'");
+
+            return configured;
         }
 
         public void Initial(Receive behavior)
@@ -31,11 +37,7 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(behavior, nameof(behavior));
 
-            var configured = states.Find(behavior);
-            if (configured == null)
-                throw new InvalidOperationException($"Missing configured behavior for '{behavior}'");
-
-            Initial(configured);
+            Initial(State(behavior));
         }
 
         void Initial(State state)
@@ -43,19 +45,21 @@ namespace Orleankka.Behaviors
             if (Initialized())
                 throw new InvalidOperationException($"Initial behavior has been already set to '{Current}'");
 
-            current = state;
+            Current = state;
         }
 
-        bool Switching => transition != null;
+        public State Previous { get; private set; }
+        public State Current  { get; private set; }
+
         bool Initialized() => Current != null;
-        public string Current => current?.Name;
+        bool Switching => transition != null;
 
         public Task<object> Receive(object message)
         {
             if (!Initialized())
                 throw new InvalidOperationException("Initial behavior should be set before receiving messages");
 
-            return current.Receive(message);
+            return Current.Receive(message);
         }
 
         public Task Become(Receive behavior)
@@ -71,11 +75,7 @@ namespace Orleankka.Behaviors
         {
             Requires.NotNull(behavior, nameof(behavior));
 
-            var configured = states.Find(behavior);
-            if (configured == null)
-                throw new InvalidOperationException($"Missing configured behavior for '{behavior}'");
-
-            return Become(configured);
+            return Become(State(behavior));
         }
 
         async Task Become(State next)
@@ -86,15 +86,16 @@ namespace Orleankka.Behaviors
             if (Switching)
                 throw new InvalidOperationException($"Can't become '{next}' while transition is already in progress: {transition}");
 
-            if (current.Name == next.Name)
+            if (Current.Name == next.Name)
                 throw new InvalidOperationException($"Already behaving as '{next}'");
 
-            transition = new Transition(@from: current, to: next);
+            transition = new Transition(@from: Current, to: next);
 
-            await current.HandleDeactivate(transition);
-            await current.HandleUnbecome(transition);
+            await Current.HandleDeactivate(transition);
+            await Current.HandleUnbecome(transition);
 
-            current = next;
+            Previous = Current;
+            Current = next;
 
             await next.HandleBecome(transition);
             await next.HandleActivate(transition);

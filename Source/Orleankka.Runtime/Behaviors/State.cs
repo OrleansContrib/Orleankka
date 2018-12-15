@@ -49,7 +49,7 @@ namespace Orleankka.Behaviors
 
         internal async Task HandleBecome(Transition transition)
         {
-            if (Includes(transition.From))
+            if (IsSuperOf(transition.From))
                 return;
 
             if (Super != null)
@@ -60,7 +60,7 @@ namespace Orleankka.Behaviors
 
         internal async Task HandleUnbecome(Transition transition)
         {
-            if (Includes(transition.To))
+            if (IsSuperOf(transition.To))
                 return;
 
             await CallBehavior(Unbecome.Message);
@@ -71,7 +71,7 @@ namespace Orleankka.Behaviors
 
         internal async Task HandleActivate(Transition transition)
         {
-            if (Includes(transition.From))
+            if (IsSuperOf(transition.From))
                 return;
 
             if (Super != null)
@@ -82,7 +82,7 @@ namespace Orleankka.Behaviors
 
         internal async Task HandleDeactivate(Transition transition)
         {
-            if (Includes(transition.To))
+            if (IsSuperOf(transition.To))
                 return;
 
             await CallBehavior(Deactivate.Message);
@@ -103,8 +103,11 @@ namespace Orleankka.Behaviors
 
         public static implicit operator string(State state) => state.Name;
 
-        bool Includes(State state) => state?.RootedTo(this) ?? false;
-        bool RootedTo(State state) => Super == state || (Super?.RootedTo(state) ?? false);
+        bool IsSuperOf(State state) => state?.IsSubstateOf(this) ?? false;
+        bool IsSubstateOf(State state) => IsSubstateOf(state.Name);
+
+        public bool IsSubstateOf(string state) => 
+            Super?.Name == state || (Super?.IsSubstateOf(state) ?? false);
 
         string ToDebugString() => Super != null 
             ? $"[{Name}]->{Super.ToDebugString()}"

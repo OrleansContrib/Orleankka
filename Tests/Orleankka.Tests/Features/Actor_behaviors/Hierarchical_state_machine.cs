@@ -36,7 +36,7 @@ namespace Orleankka.Features.Actor_behaviors
                     .Initial("Initial");
                 
                 await behavior.Become("A");
-                Assert.That(behavior.Current, Is.EqualTo("A"));
+                Assert.That(behavior.Current.Name, Is.EqualTo("A"));
 
                 AssertEvents(                
                     "OnDeactivate_Initial",
@@ -64,7 +64,7 @@ namespace Orleankka.Features.Actor_behaviors
                     .Initial("A");
                 
                 await behavior.Become("B");
-                Assert.That(behavior.Current, Is.EqualTo("B"));
+                Assert.That(behavior.Current.Name, Is.EqualTo("B"));
 
                 AssertEvents(
                     "OnDeactivate_A",
@@ -91,7 +91,7 @@ namespace Orleankka.Features.Actor_behaviors
                     .Initial("A");
 
                 await behavior.Become("C");
-                Assert.That(behavior.Current, Is.EqualTo("C"));
+                Assert.That(behavior.Current.Name, Is.EqualTo("C"));
 
                 AssertEvents(
                     "OnDeactivate_A",
