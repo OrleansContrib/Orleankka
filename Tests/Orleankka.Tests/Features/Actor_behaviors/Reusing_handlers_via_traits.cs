@@ -138,6 +138,37 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.AreEqual(0, events.Count);
             }
 
+            [Test]
+            public async Task When_composed_via_state()
+            {
+                Task<object> Base(object message)
+                {
+                    events.Add("base");
+                    return TaskResult.Unhandled;
+                }
+
+                Task<object> XTrait(object message)
+                {
+                    events.Add("x");
+                    return TaskResult.Unhandled;
+                }
+
+                Task<object> YTrait(object message)
+                {
+                    events.Add("y");
+                    return TaskResult.From("y");
+                }
+
+                Behavior behavior = new BehaviorTester(events)
+                    .State(Base, s => s.Trait(XTrait, YTrait))
+                    .Initial(Base);
+
+                var result = await behavior.Receive("foo");
+
+                AssertEqual(new[] {"base", "x", "y"}, events);
+                Assert.AreEqual("y", result);
+            }
+
             static void AssertEqual(IEnumerable<string> expected, IEnumerable<string> actual) =>
                 CollectionAssert.AreEqual(expected, actual);
         }

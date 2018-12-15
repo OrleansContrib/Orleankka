@@ -101,6 +101,8 @@ namespace Orleankka.Behaviors
             return task;
         }
 
+        public static implicit operator string(State state) => state.Name;
+
         bool Includes(State state) => state?.RootedTo(this) ?? false;
         bool RootedTo(State state) => Super == state || (Super?.RootedTo(state) ?? false);
 

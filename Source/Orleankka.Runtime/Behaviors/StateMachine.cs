@@ -7,8 +7,66 @@ namespace Orleankka.Behaviors
 
     public class StateMachine
     {
+        class StateConfiguration
+        {
+            public readonly string Name;
+            public readonly Receive Behavior;
+            public readonly string Super;
+
+            public StateConfiguration(string name, Receive behavior, string super)
+            {
+                Name = name;
+                Behavior = behavior;
+                Super = super;
+            }
+        }
+
         readonly Dictionary<string, StateConfiguration> configuration = 
              new Dictionary<string, StateConfiguration>();
+
+        public StateMachine State(string name, Receive behavior, Func<Receive, Receive> extend = null)
+        {
+            Requires.NotNull(name, nameof(name));
+            Requires.NotNull(behavior, nameof(behavior));
+
+            return Add(name, behavior, null, extend);
+        }
+
+        public StateMachine State(string name, Receive behavior, string super, Func<Receive, Receive> extend = null)
+        {
+            Requires.NotNull(name, nameof(name));
+            Requires.NotNull(behavior, nameof(behavior));
+            Requires.NotNull(super, nameof(super));
+
+            return Add(name, behavior, super, extend);
+        }
+
+        public StateMachine State(Receive behavior, Func<Receive, Receive> extend = null)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+
+            return Add(behavior.Method.Name, behavior, null, extend);
+        }
+
+        public StateMachine State(Receive behavior, Receive super, Func<Receive, Receive> extend = null)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            Requires.NotNull(super, nameof(super));
+
+            return Add(behavior.Method.Name, behavior, super.Method.Name, extend);
+        }
+
+        StateMachine Add(string name, Receive behavior, string super, Func<Receive, Receive> extend)
+        {
+            if (configuration.ContainsKey(name))
+                throw new InvalidOperationException($"State '{name}' has been already configured");
+
+            if (extend != null)
+                behavior = extend(behavior);
+
+            configuration[name] = new StateConfiguration(name, behavior, super);
+            return this;
+        }
 
         public Dictionary<string, State> Build()
         {
@@ -19,8 +77,6 @@ namespace Orleankka.Behaviors
 
             return result;
         }
-
-        public static implicit operator Dictionary<string, State>(StateMachine x) => x.Build();
 
         void Build(StateConfiguration state, IDictionary<string, State> states, ICollection<string> chain)
         {
@@ -48,37 +104,6 @@ namespace Orleankka.Behaviors
             states.Add(state.Name, new State(state.Name, state.Behavior, states[state.Super]));
         }
 
-        public StateMachine State(string name, Receive behavior, string super = null)
-        {
-            Requires.NotNull(name, nameof(name));
-            Requires.NotNull(behavior, nameof(behavior));
-
-            if (configuration.ContainsKey(name))
-                throw new InvalidOperationException($"State '{name}' has been already configured");
-
-            configuration[name] = new StateConfiguration(name, behavior, super);
-            return this;
-        }
-
-        public StateMachine State(Receive behavior, Receive super = null)
-        {
-            Requires.NotNull(behavior, nameof(behavior));
-            
-            return State(behavior.Method.Name, behavior, super?.Method.Name);
-        }
-
-        class StateConfiguration
-        {
-            public readonly string Name;
-            public readonly Receive Behavior;
-            public readonly string Super;
-
-            public StateConfiguration(string name, Receive behavior, string super)
-            {
-                Name = name;
-                Behavior = behavior;
-                Super = super;
-            }
-        }
+        public static implicit operator Dictionary<string, State>(StateMachine x) => x.Build();
     }
 }
