@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.Behavior.html",
-          "hash": "5hisTHQvwg80EBKJ9nEJqQ=="
+          "hash": "uOusqyptIztEjQ2FJ2nv0w=="
         }
       },
       "is_incremental": false,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.State.html",
-          "hash": "ITJUQHBmNrLXWDShHG/65A=="
+          "hash": "GsJYU/ECyZuix6jdRPX7mQ=="
         }
       },
       "is_incremental": false,
@@ -309,19 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.StateMachine.html",
-          "hash": "F4YaUH0YpEarp0vtFL6ewQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Behaviors.Transition.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Behaviors.Transition.html",
-          "hash": "Wbp73stoXhreTEpPFpAuRQ=="
+          "hash": "7G3OCQtilXIa9sdG2kBmRw=="
         }
       },
       "is_incremental": false,
@@ -345,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.html",
-          "hash": "QKaiojmv/SppnaAweznBzg=="
+          "hash": "qSdflSRNVY76B5q4jl1RRA=="
         }
       },
       "is_incremental": false,
@@ -1521,7 +1509,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "tc2ewGn3yGOdRRp6A/SUkg=="
+          "hash": "+FpCB6MrjI6Xbj6Ll3gfwg=="
         }
       },
       "is_incremental": false,
@@ -1653,6 +1641,11 @@
         "incrementalPhase": "build"
       },
       "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
@@ -1664,11 +1657,6 @@
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }

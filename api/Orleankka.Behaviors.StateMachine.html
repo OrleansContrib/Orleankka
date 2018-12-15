@@ -129,7 +129,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_Build.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.Build%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L13">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L71">View Source</a>
   </span>
   <a id="Orleankka_Behaviors_StateMachine_Build_" data-uid="Orleankka.Behaviors.StateMachine.Build*"></a>
   <h4 id="Orleankka_Behaviors_StateMachine_Build" data-uid="Orleankka.Behaviors.StateMachine.Build">Build()</h4>
@@ -156,18 +156,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(Orleankka.Receive%2COrleankka.Receive)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(Orleankka.Receive%2COrleankka.Receive%2CSystem.Func%7BOrleankka.Receive%2COrleankka.Receive%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L63">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L51">View Source</a>
   </span>
   <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
-  <h4 id="Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_" data-uid="Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive)">State(Receive, Receive)</h4>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__" data-uid="Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})">State(Receive, Receive, Func&lt;Receive, Receive&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public StateMachine State(Receive behavior, Receive super = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public StateMachine State(Receive behavior, Receive super, Func&lt;Receive, Receive&gt; extend = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -189,6 +189,11 @@
         <td><span class="parametername">super</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="Orleankka.Receive.html">Receive</a>, <a class="xref" href="Orleankka.Receive.html">Receive</a>&gt;</td>
+        <td><span class="parametername">extend</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -208,18 +213,127 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(System.String%2COrleankka.Receive%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(Orleankka.Receive%2CSystem.Func%7BOrleankka.Receive%2COrleankka.Receive%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L51">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L44">View Source</a>
   </span>
   <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
-  <h4 id="Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_" data-uid="Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String)">State(String, Receive, String)</h4>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__" data-uid="Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})">State(Receive, Func&lt;Receive, Receive&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public StateMachine State(string name, Receive behavior, string super = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public StateMachine State(Receive behavior, Func&lt;Receive, Receive&gt; extend = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
+        <td><span class="parametername">behavior</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="Orleankka.Receive.html">Receive</a>, <a class="xref" href="Orleankka.Receive.html">Receive</a>&gt;</td>
+        <td><span class="parametername">extend</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.Behaviors.StateMachine.html">StateMachine</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(System.String%2COrleankka.Receive%2CSystem.Func%7BOrleankka.Receive%2COrleankka.Receive%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L27">View Source</a>
+  </span>
+  <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__" data-uid="Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})">State(String, Receive, Func&lt;Receive, Receive&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StateMachine State(string name, Receive behavior, Func&lt;Receive, Receive&gt; extend = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
+        <td><span class="parametername">behavior</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="Orleankka.Receive.html">Receive</a>, <a class="xref" href="Orleankka.Receive.html">Receive</a>&gt;</td>
+        <td><span class="parametername">extend</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.Behaviors.StateMachine.html">StateMachine</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_System_Func_Orleankka_Receive_Orleankka_Receive__.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.State(System.String%2COrleankka.Receive%2CSystem.String%2CSystem.Func%7BOrleankka.Receive%2COrleankka.Receive%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L35">View Source</a>
+  </span>
+  <a id="Orleankka_Behaviors_StateMachine_State_" data-uid="Orleankka.Behaviors.StateMachine.State*"></a>
+  <h4 id="Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_System_Func_Orleankka_Receive_Orleankka_Receive__" data-uid="Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive})">State(String, Receive, String, Func&lt;Receive, Receive&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StateMachine State(string name, Receive behavior, string super, Func&lt;Receive, Receive&gt; extend = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -246,6 +360,11 @@
         <td><span class="parametername">super</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="Orleankka.Receive.html">Receive</a>, <a class="xref" href="Orleankka.Receive.html">Receive</a>&gt;</td>
+        <td><span class="parametername">extend</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -270,7 +389,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Behaviors_StateMachine_op_Implicit_Orleankka_Behaviors_StateMachine__System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State_.md&amp;value=---%0Auid%3A%20Orleankka.Behaviors.StateMachine.op_Implicit(Orleankka.Behaviors.StateMachine)~System.Collections.Generic.Dictionary%7BSystem.String%2COrleankka.Behaviors.State%7D%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L23">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Behaviors/StateMachine.cs/#L107">View Source</a>
   </span>
   <a id="Orleankka_Behaviors_StateMachine_op_Implicit_" data-uid="Orleankka.Behaviors.StateMachine.op_Implicit*"></a>
   <h4 id="Orleankka_Behaviors_StateMachine_op_Implicit_Orleankka_Behaviors_StateMachine__System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State_" data-uid="Orleankka.Behaviors.StateMachine.op_Implicit(Orleankka.Behaviors.StateMachine)~System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State}">Implicit(StateMachine to Dictionary&lt;String, State&gt;)</h4>

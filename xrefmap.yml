@@ -1451,15 +1451,15 @@ references:
   commentId: T:Orleankka.Behaviors.Behavior
   fullName: Orleankka.Behaviors.Behavior
   nameWithType: Behavior
-- uid: Orleankka.Behaviors.Behavior.#ctor(System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State},System.Func{Orleankka.Behaviors.Transition,System.Threading.Tasks.Task},System.Func{Orleankka.Behaviors.Transition,System.Threading.Tasks.Task},System.Func{Orleankka.Behaviors.Transition,System.Exception,System.Threading.Tasks.Task})
-  name: Behavior(Dictionary<String, State>, Func<Transition, Task>, Func<Transition, Task>, Func<Transition, Exception, Task>)
-  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior__ctor_System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State__System_Func_Orleankka_Behaviors_Transition_System_Threading_Tasks_Task__System_Func_Orleankka_Behaviors_Transition_System_Threading_Tasks_Task__System_Func_Orleankka_Behaviors_Transition_System_Exception_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.Behaviors.Behavior.#ctor(System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State},System.Func{Orleankka.Behaviors.Transition,System.Threading.Tasks.Task},System.Func{Orleankka.Behaviors.Transition,System.Threading.Tasks.Task},System.Func{Orleankka.Behaviors.Transition,System.Exception,System.Threading.Tasks.Task})
-  name.vb: Behavior(Dictionary(Of String, State), Func(Of Transition, Task), Func(Of Transition, Task), Func(Of Transition, Exception, Task))
-  fullName: Orleankka.Behaviors.Behavior.Behavior(System.Collections.Generic.Dictionary<System.String, Orleankka.Behaviors.State>, System.Func<Orleankka.Behaviors.Transition, System.Threading.Tasks.Task>, System.Func<Orleankka.Behaviors.Transition, System.Threading.Tasks.Task>, System.Func<Orleankka.Behaviors.Transition, System.Exception, System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.Behaviors.Behavior.Behavior(System.Collections.Generic.Dictionary(Of System.String, Orleankka.Behaviors.State), System.Func(Of Orleankka.Behaviors.Transition, System.Threading.Tasks.Task), System.Func(Of Orleankka.Behaviors.Transition, System.Threading.Tasks.Task), System.Func(Of Orleankka.Behaviors.Transition, System.Exception, System.Threading.Tasks.Task))
-  nameWithType: Behavior.Behavior(Dictionary<String, State>, Func<Transition, Task>, Func<Transition, Task>, Func<Transition, Exception, Task>)
-  nameWithType.vb: Behavior.Behavior(Dictionary(Of String, State), Func(Of Transition, Task), Func(Of Transition, Task), Func(Of Transition, Exception, Task))
+- uid: Orleankka.Behaviors.Behavior.#ctor(System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State})
+  name: Behavior(Dictionary<String, State>)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior__ctor_System_Collections_Generic_Dictionary_System_String_Orleankka_Behaviors_State__
+  commentId: M:Orleankka.Behaviors.Behavior.#ctor(System.Collections.Generic.Dictionary{System.String,Orleankka.Behaviors.State})
+  name.vb: Behavior(Dictionary(Of String, State))
+  fullName: Orleankka.Behaviors.Behavior.Behavior(System.Collections.Generic.Dictionary<System.String, Orleankka.Behaviors.State>)
+  fullName.vb: Orleankka.Behaviors.Behavior.Behavior(System.Collections.Generic.Dictionary(Of System.String, Orleankka.Behaviors.State))
+  nameWithType: Behavior.Behavior(Dictionary<String, State>)
+  nameWithType.vb: Behavior.Behavior(Dictionary(Of String, State))
 - uid: Orleankka.Behaviors.Behavior.#ctor*
   name: Behavior
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior__ctor_
@@ -1518,6 +1518,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Initial
   nameWithType: Behavior.Initial
+- uid: Orleankka.Behaviors.Behavior.Previous
+  name: Previous
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Previous
+  commentId: P:Orleankka.Behaviors.Behavior.Previous
+  fullName: Orleankka.Behaviors.Behavior.Previous
+  nameWithType: Behavior.Previous
+- uid: Orleankka.Behaviors.Behavior.Previous*
+  name: Previous
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Previous_
+  commentId: Overload:Orleankka.Behaviors.Behavior.Previous
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Behavior.Previous
+  nameWithType: Behavior.Previous
 - uid: Orleankka.Behaviors.Behavior.Receive(System.Object)
   name: Receive(Object)
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Receive_System_Object_
@@ -1531,6 +1544,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Receive
   nameWithType: Behavior.Receive
+- uid: Orleankka.Behaviors.Behavior.State(System.String)
+  name: State(String)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_State_System_String_
+  commentId: M:Orleankka.Behaviors.Behavior.State(System.String)
+  fullName: Orleankka.Behaviors.Behavior.State(System.String)
+  nameWithType: Behavior.State(String)
+- uid: Orleankka.Behaviors.Behavior.State*
+  name: State
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_State_
+  commentId: Overload:Orleankka.Behaviors.Behavior.State
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Behavior.State
+  nameWithType: Behavior.State
 - uid: Orleankka.Behaviors.BehaviorMessage
   name: BehaviorMessage
   href: api/Orleankka.Behaviors.BehaviorMessage.html
@@ -1578,6 +1604,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.State.Behavior
   nameWithType: State.Behavior
+- uid: Orleankka.Behaviors.State.IsSubstateOf(System.String)
+  name: IsSubstateOf(String)
+  href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_IsSubstateOf_System_String_
+  commentId: M:Orleankka.Behaviors.State.IsSubstateOf(System.String)
+  fullName: Orleankka.Behaviors.State.IsSubstateOf(System.String)
+  nameWithType: State.IsSubstateOf(String)
+- uid: Orleankka.Behaviors.State.IsSubstateOf*
+  name: IsSubstateOf
+  href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_IsSubstateOf_
+  commentId: Overload:Orleankka.Behaviors.State.IsSubstateOf
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.State.IsSubstateOf
+  nameWithType: State.IsSubstateOf
 - uid: Orleankka.Behaviors.State.Name
   name: Name
   href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_Name
@@ -1591,6 +1630,25 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.State.Name
   nameWithType: State.Name
+- uid: Orleankka.Behaviors.State.op_Implicit(Orleankka.Behaviors.State)~System.String
+  name: Implicit(State to String)
+  href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_op_Implicit_Orleankka_Behaviors_State__System_String
+  commentId: M:Orleankka.Behaviors.State.op_Implicit(Orleankka.Behaviors.State)~System.String
+  name.vb: Widening(State to String)
+  fullName: Orleankka.Behaviors.State.Implicit(Orleankka.Behaviors.State to System.String)
+  fullName.vb: Orleankka.Behaviors.State.Widening(Orleankka.Behaviors.State to System.String)
+  nameWithType: State.Implicit(State to String)
+  nameWithType.vb: State.Widening(State to String)
+- uid: Orleankka.Behaviors.State.op_Implicit*
+  name: Implicit
+  href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_op_Implicit_
+  commentId: Overload:Orleankka.Behaviors.State.op_Implicit
+  isSpec: "True"
+  name.vb: Widening
+  fullName: Orleankka.Behaviors.State.Implicit
+  fullName.vb: Orleankka.Behaviors.State.Widening
+  nameWithType: State.Implicit
+  nameWithType.vb: State.Widening
 - uid: Orleankka.Behaviors.State.Super
   name: Super
   href: api/Orleankka.Behaviors.State.html#Orleankka_Behaviors_State_Super
@@ -1655,18 +1713,42 @@ references:
   fullName.vb: Orleankka.Behaviors.StateMachine.Widening
   nameWithType: StateMachine.Implicit
   nameWithType.vb: StateMachine.Widening
-- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive)
-  name: State(Receive, Receive)
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_
-  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive)
-  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive)
-  nameWithType: StateMachine.State(Receive, Receive)
-- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String)
-  name: State(String, Receive, String)
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_
-  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String)
-  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String)
-  nameWithType: StateMachine.State(String, Receive, String)
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, String, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, String, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, String, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, String, Func(Of Receive, Receive))
 - uid: Orleankka.Behaviors.StateMachine.State*
   name: State
   href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_
@@ -1674,57 +1756,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.StateMachine.State
   nameWithType: StateMachine.State
-- uid: Orleankka.Behaviors.Transition
-  name: Transition
-  href: api/Orleankka.Behaviors.Transition.html
-  commentId: T:Orleankka.Behaviors.Transition
-  fullName: Orleankka.Behaviors.Transition
-  nameWithType: Transition
-- uid: Orleankka.Behaviors.Transition.From
-  name: From
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_From
-  commentId: P:Orleankka.Behaviors.Transition.From
-  fullName: Orleankka.Behaviors.Transition.From
-  nameWithType: Transition.From
-- uid: Orleankka.Behaviors.Transition.From*
-  name: From
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_From_
-  commentId: Overload:Orleankka.Behaviors.Transition.From
-  isSpec: "True"
-  fullName: Orleankka.Behaviors.Transition.From
-  nameWithType: Transition.From
-- uid: Orleankka.Behaviors.Transition.Initial
-  name: Initial
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_Initial
-  commentId: F:Orleankka.Behaviors.Transition.Initial
-  fullName: Orleankka.Behaviors.Transition.Initial
-  nameWithType: Transition.Initial
-- uid: Orleankka.Behaviors.Transition.To
-  name: To
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_To
-  commentId: P:Orleankka.Behaviors.Transition.To
-  fullName: Orleankka.Behaviors.Transition.To
-  nameWithType: Transition.To
-- uid: Orleankka.Behaviors.Transition.To*
-  name: To
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_To_
-  commentId: Overload:Orleankka.Behaviors.Transition.To
-  isSpec: "True"
-  fullName: Orleankka.Behaviors.Transition.To
-  nameWithType: Transition.To
-- uid: Orleankka.Behaviors.Transition.ToString
-  name: ToString()
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_ToString
-  commentId: M:Orleankka.Behaviors.Transition.ToString
-  fullName: Orleankka.Behaviors.Transition.ToString()
-  nameWithType: Transition.ToString()
-- uid: Orleankka.Behaviors.Transition.ToString*
-  name: ToString
-  href: api/Orleankka.Behaviors.Transition.html#Orleankka_Behaviors_Transition_ToString_
-  commentId: Overload:Orleankka.Behaviors.Transition.ToString
-  isSpec: "True"
-  fullName: Orleankka.Behaviors.Transition.ToString
-  nameWithType: Transition.ToString
 - uid: Orleankka.Behaviors.Unbecome
   name: Unbecome
   href: api/Orleankka.Behaviors.Unbecome.html
