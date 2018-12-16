@@ -281,18 +281,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Behaviors.ReceiveExtensions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Behaviors.ReceiveExtensions.html",
-          "hash": "50ojK1j56RCVyTNWOULLFw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Behaviors.State.yml",
       "output": {
         ".html": {
@@ -309,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.StateMachine.html",
-          "hash": "7G3OCQtilXIa9sdG2kBmRw=="
+          "hash": "Q5Yp8HBxWhF9CfM4wlmGsg=="
         }
       },
       "is_incremental": false,
@@ -333,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Behaviors.html",
-          "hash": "qSdflSRNVY76B5q4jl1RRA=="
+          "hash": "PYXYM2Yr4HVEJNRUFerKXQ=="
         }
       },
       "is_incremental": false,
@@ -813,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Receive.html",
-          "hash": "4eFALhL/gJX1w9My42+5Sg=="
+          "hash": "jJTEhivlO4Lhh0kG8bBjww=="
         }
       },
       "is_incremental": false,
@@ -1509,7 +1497,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "+FpCB6MrjI6Xbj6Ll3gfwg=="
+          "hash": "Q68tuAYmziuwC53Q27iSrw=="
         }
       },
       "is_incremental": false,
@@ -1650,13 +1638,13 @@
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build"
-        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }
