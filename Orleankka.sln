@@ -91,6 +91,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FSM", "FSM", "{1AB8017D-8A6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightbulb", "Samples\CSharp\FSM\Lightbulb\Lightbulb.csproj", "{8E5086A4-01BF-428C-8053-16F4DB8A23D3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager", "Samples\CSharp\FSM\ProcessManager\ProcessManager.csproj", "{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -213,6 +215,10 @@ Global
 		{8E5086A4-01BF-428C-8053-16F4DB8A23D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E5086A4-01BF-428C-8053-16F4DB8A23D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E5086A4-01BF-428C-8053-16F4DB8A23D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,6 +258,7 @@ Global
 		{EAD1E298-6890-4B21-A656-6EC23028933D} = {C9B497F6-87DA-40EF-933C-A572A7603991}
 		{1AB8017D-8A6B-462B-95C9-02C881DD177F} = {C9B497F6-87DA-40EF-933C-A572A7603991}
 		{8E5086A4-01BF-428C-8053-16F4DB8A23D3} = {1AB8017D-8A6B-462B-95C9-02C881DD177F}
+		{8AB3E505-00F4-4D73-98A0-111EFB9EB1EA} = {1AB8017D-8A6B-462B-95C9-02C881DD177F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF14123-7EA4-465F-8AC8-E0B952C1CAE1}
