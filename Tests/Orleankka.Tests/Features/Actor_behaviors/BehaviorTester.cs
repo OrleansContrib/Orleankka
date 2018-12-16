@@ -34,16 +34,16 @@ namespace Orleankka.Features.Actor_behaviors
             return this;
         }
 
-        public BehaviorTester State(Receive receive, Func<Receive, Receive> extend = null) => 
-            State(receive, null, extend);
+        public BehaviorTester State(Receive receive, Func<Receive, Receive> extend = null, params Receive[] trait) => 
+            State(receive, null, extend, trait);
 
-        public BehaviorTester State(Receive receive, Receive super, Func<Receive, Receive> extend = null) => 
-            State(receive.Method.Name, super?.Method.Name, receive, extend);
+        public BehaviorTester State(Receive receive, Receive super, Func<Receive, Receive> extend = null, params Receive[] trait) => 
+            State(receive.Method.Name, receive, super?.Method.Name, extend, trait);
 
         public BehaviorTester State(string name, Receive receive) => 
-            State(name, null, receive);
+            State(name, receive, null);
 
-        public BehaviorTester State(string name, string super, Receive receive, Func<Receive, Receive> extend = null)
+        public BehaviorTester State(string name, Receive receive, string super, Func<Receive, Receive> extend = null, params Receive[] trait)
         {
             Task<object> Record(object x)
             {
@@ -52,9 +52,9 @@ namespace Orleankka.Features.Actor_behaviors
             }
 
             if (super != null)
-                machine.State(name, Record, super, extend);
+                machine.State(name, Record, super, extend, trait);
             else
-                machine.State(name, Record, extend);
+                machine.State(name, Record, extend, trait);
 
             return this;
         }

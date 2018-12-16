@@ -152,15 +152,17 @@ namespace Orleankka.Features.Actor_behaviors
                     events.Add("x");
                     return TaskResult.Unhandled;
                 }
-
+                
                 Task<object> YTrait(object message)
                 {
                     events.Add("y");
                     return TaskResult.From("y");
                 }
 
+                Receive[] Cast(params Receive[] args) => args;
+
                 Behavior behavior = new BehaviorTester(events)
-                    .State(Base, s => s.Trait(XTrait, YTrait))
+                    .State(Base, trait: Cast(XTrait, YTrait))
                     .Initial(Base);
 
                 var result = await behavior.Receive("foo");

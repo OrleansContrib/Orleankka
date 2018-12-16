@@ -6,15 +6,15 @@ namespace Orleankka.Behaviors
 {
     using Utility;
 
-    public static class ReceiveExtensions
+    static class ReceiveExtensions
     {
         public static Receive Trait(this Receive receive, params Receive[] traits)
         {
             Requires.NotNull(receive, nameof(receive));
             Requires.NotNull(traits, nameof(traits));
-                
+
             if (traits.Length == 0)
-                throw new ArgumentException("no traits were specified", nameof(traits));
+                return receive;
 
             var handlers = new List<Receive>(traits);
             handlers.Insert(0, receive);

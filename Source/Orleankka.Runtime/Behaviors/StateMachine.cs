@@ -24,39 +24,61 @@ namespace Orleankka.Behaviors
         readonly Dictionary<string, StateConfiguration> configuration = 
              new Dictionary<string, StateConfiguration>();
 
-        public StateMachine State(string name, Receive behavior, Func<Receive, Receive> extend = null)
+        StateConfiguration last;
+
+        public StateMachine State(string name, Receive behavior, Func<Receive, Receive> extend = null, params Receive[] trait)
         {
             Requires.NotNull(name, nameof(name));
             Requires.NotNull(behavior, nameof(behavior));
 
-            return Add(name, behavior, null, extend);
+            last = Add(name, behavior, null, extend, trait);
+            return this;
         }
 
-        public StateMachine State(string name, Receive behavior, string super, Func<Receive, Receive> extend = null)
+        public StateMachine State(string name, Receive behavior, string super, Func<Receive, Receive> extend = null, params Receive[] trait)
         {
             Requires.NotNull(name, nameof(name));
             Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(super, nameof(super));
 
-            return Add(name, behavior, super, extend);
+            last = Add(name, behavior, super, extend, trait);
+            return this;
         }
 
-        public StateMachine State(Receive behavior, Func<Receive, Receive> extend = null)
+        public StateMachine State(Receive behavior, Func<Receive, Receive> extend = null, params Receive[] trait)
         {
             Requires.NotNull(behavior, nameof(behavior));
 
-            return Add(behavior.Method.Name, behavior, null, extend);
+            last = Add(behavior.Method.Name, behavior, null, extend, trait);
+            return this;
         }
 
-        public StateMachine State(Receive behavior, Receive super, Func<Receive, Receive> extend = null)
+        public StateMachine State(Receive behavior, Receive super, Func<Receive, Receive> extend = null, params Receive[] trait)
         {
             Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(super, nameof(super));
 
-            return Add(behavior.Method.Name, behavior, super.Method.Name, extend);
+            last = Add(behavior.Method.Name, behavior, super.Method.Name, extend, trait);
+            return this;
         }
 
-        StateMachine Add(string name, Receive behavior, string super, Func<Receive, Receive> extend)
+        public StateMachine Substate(string name, Receive behavior, Func<Receive, Receive> extend = null, params Receive[] trait)
+        {
+            if (last == null)
+                throw new InvalidOperationException("No previous state were specified");
+
+            return State(name, behavior, last.Name, extend, trait);
+        }
+
+        public StateMachine Substate(Receive behavior, Func<Receive, Receive> extend = null, params Receive[] trait)
+        {
+            if (last == null)
+                throw new InvalidOperationException("No previous state were specified");
+
+            return State(behavior?.Method.Name, behavior, last.Name, extend, trait);
+        }
+
+        StateConfiguration Add(string name, Receive behavior, string super, Func<Receive, Receive> extend, Receive[] trait)
         {
             if (configuration.ContainsKey(name))
                 throw new InvalidOperationException($"State '{name}' has been already configured");
@@ -64,8 +86,10 @@ namespace Orleankka.Behaviors
             if (extend != null)
                 behavior = extend(behavior);
 
-            configuration[name] = new StateConfiguration(name, behavior, super);
-            return this;
+            var state = new StateConfiguration(name, behavior.Trait(trait), super);
+            configuration[name] = state;
+
+            return state;
         }
 
         public Dictionary<string, State> Build()
