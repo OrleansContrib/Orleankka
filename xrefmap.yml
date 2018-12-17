@@ -1544,6 +1544,12 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Receive
   nameWithType: Behavior.Receive
+- uid: Orleankka.Behaviors.Behavior.State(Orleankka.Receive)
+  name: State(Receive)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_State_Orleankka_Receive_
+  commentId: M:Orleankka.Behaviors.Behavior.State(Orleankka.Receive)
+  fullName: Orleankka.Behaviors.Behavior.State(Orleankka.Receive)
+  nameWithType: Behavior.State(Receive)
 - uid: Orleankka.Behaviors.Behavior.State(System.String)
   name: State(String)
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_State_System_String_
