@@ -19,6 +19,10 @@ using Orleankka.Features.Intercepting_requests;
 
 namespace Orleankka.Testing
 {
+    using Features.Storage_provider_facet;
+
+    using Orleans.Runtime;
+
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
@@ -57,6 +61,7 @@ namespace Orleankka.Testing
                 .UseInMemoryReminderService()
                 .ConfigureServices(services =>
                 {
+                    services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
                     services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1));
                 })
                 .ConfigureApplicationParts(x => x

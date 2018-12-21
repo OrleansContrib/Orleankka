@@ -15,6 +15,8 @@ namespace Orleankka.Cluster
 {
     using Client;
 
+    using Facets;
+
     using Orleans.Runtime;
 
     using Utility;
@@ -112,6 +114,9 @@ namespace Orleankka.Cluster
 
             services.TryAdd(new ServiceDescriptor(typeof(IGrainActivator), sp => new DefaultGrainActivator(sp), ServiceLifetime.Singleton));
             services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
+
+            // storage feature facet attribute mapper
+            services.AddSingleton(typeof(IAttributeToFactoryMapper<UseStorageProviderAttribute>), typeof(UseStorageProviderAttributeMapper));
         }
 
         DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
