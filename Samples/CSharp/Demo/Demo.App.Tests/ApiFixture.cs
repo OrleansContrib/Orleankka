@@ -43,7 +43,7 @@ namespace Demo
             IsTrue(()=> Timers.Count() == 1);
 
             var timer = Timer("check");
-            IsTrue(() => timer.Callback == api.CheckAvailability);
+            IsTrue(() => timer.CallbackTimer().Callback == api.CheckAvailability);
             IsTrue(() => timer.Due == TimeSpan.FromSeconds(1));
             IsTrue(() => timer.Period == TimeSpan.FromSeconds(1));
         }

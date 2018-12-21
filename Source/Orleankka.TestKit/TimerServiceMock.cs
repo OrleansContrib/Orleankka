@@ -16,26 +16,38 @@ namespace Orleankka.TestKit
 
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
-            RecordRegister(id, new RecordedTimer(id, due, TimeSpan.Zero, callback));
+            RecordRegister(id, new RecordedCallbackTimer(id, due, TimeSpan.Zero, callback));
         }
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
             CheckGreaterThanZero(period);
 
-            RecordRegister(id, new RecordedTimer(id, due, period, callback));
+            RecordRegister(id, new RecordedCallbackTimer(id, due, period, callback));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
         {
-            RecordRegister(id, new RecordedTimer<TState>(id, due, TimeSpan.Zero, callback, state));
+            RecordRegister(id, new RecordedCallbackTimer<TState>(id, due, TimeSpan.Zero, callback, state));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
             CheckGreaterThanZero(period);
 
-            RecordRegister(id, new RecordedTimer<TState>(id, due, period, callback, state));
+            RecordRegister(id, new RecordedCallbackTimer<TState>(id, due, period, callback, state));
+        }
+
+        void ITimerService.Register(string id, TimeSpan due, bool interleave, bool fireAndForget, object message)
+        {
+            RecordRegister(id, new RecordedMessageTimer(id, due, TimeSpan.Zero, interleave, fireAndForget, message));
+        }
+
+        void ITimerService.Register(string id, TimeSpan due, TimeSpan period, bool interleave, bool fireAndForget, object message)
+        {
+            CheckGreaterThanZero(period);
+
+            RecordRegister(id, new RecordedMessageTimer(id, due, period, interleave, fireAndForget, message));
         }
 
         void RecordRegister(string id, RecordedTimer timer)
@@ -100,34 +112,62 @@ namespace Orleankka.TestKit
         Unregister
     }
 
-    public class RecordedTimer
+    public abstract class RecordedTimer
     {
         public readonly string Id;
         public readonly TimeSpan Due;
         public readonly TimeSpan Period;
-        public readonly Func<Task> Callback;
 
-        public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
+        protected RecordedTimer(string id, TimeSpan due, TimeSpan period)
         {
             Id = id;
             Due = due;
             Period = period;
-            Callback = callback;
         }
 
         public bool IsOneOff => Period == TimeSpan.Zero;
+
+        public RecordedCallbackTimer CallbackTimer() => this as RecordedCallbackTimer;
+        public RecordedCallbackTimer<TState> CallbackTimer<TState>() => this as RecordedCallbackTimer<TState>;
+        public RecordedMessageTimer MessageTimer() => this as RecordedMessageTimer;
     }
 
-    public class RecordedTimer<TState> : RecordedTimer
+    public class RecordedCallbackTimer : RecordedTimer
+    {
+        public readonly Func<Task> Callback;
+
+        public RecordedCallbackTimer(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
+            : base(id, due, period)
+        {
+            Callback = callback;
+        }
+    }
+
+    public class RecordedCallbackTimer<TState> : RecordedCallbackTimer
     {
         public new readonly Func<TState, Task> Callback;
         public readonly TState State;
 
-        public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func<TState, Task> callback, TState state)
+        public RecordedCallbackTimer(string id, TimeSpan due, TimeSpan period, Func<TState, Task> callback, TState state)
             : base(id, due, period, null)
         {
             Callback = callback;
             State = state;
+        }
+    }
+
+    public class RecordedMessageTimer : RecordedTimer
+    {
+        public readonly bool Interleave;
+        public readonly bool FireAndForget;
+        public readonly object Message;
+
+        public RecordedMessageTimer(string id, TimeSpan due, TimeSpan period, bool interleave, bool fireAndForget, object message)
+            : base(id, due, period)
+        {
+            Interleave = interleave;
+            FireAndForget = fireAndForget;
+            Message = message;
         }
     }
 }

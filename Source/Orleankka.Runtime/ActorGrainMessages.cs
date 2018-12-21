@@ -1,4 +1,7 @@
-﻿using Orleans.Runtime;
+﻿using System;
+
+using Orleans.Concurrency;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -15,21 +18,23 @@ namespace Orleankka
         public static readonly Deactivate Message = new Deactivate();
     }
 
-    public struct Reminder
+    public class Reminder
     {
-        public static readonly Reminder Invalid =
-            new Reminder();
-
-        public static Reminder Message(string name, TickStatus status) =>
-            new Reminder(name, status);
-
         public string Name { get; }
         public TickStatus Status { get; }
 
-        public Reminder(string name, TickStatus status = default(TickStatus))
+        public Reminder(string name, TickStatus status = default)
         {
             Name = name;
             Status = status;
         }
+    }    
+    
+    [Serializable, Immutable]
+    public class Timer
+    {
+        public string Id { get; }
+
+        public Timer(string id) => Id = id;
     }
 }
