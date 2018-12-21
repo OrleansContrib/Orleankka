@@ -52,9 +52,9 @@ namespace Orleankka.Features.Actor_behaviors
             }
 
             if (super != null)
-                machine.State(name, Record, super, extend, trait);
+                machine.State(name, Record, super, trait, extend);
             else
-                machine.State(name, Record, extend, trait);
+                machine.State(name, Record, trait, extend);
 
             return this;
         }

@@ -45,7 +45,7 @@ namespace Orleankka.Features.Actor_behaviors
                     return TaskResult.From("y");
                 }
 
-                var receive = @base.Trait(XTrait, YTrait);
+                var receive = @base.Join(XTrait, YTrait);
                 var result = await receive("foo");
 
                 AssertEqual(new[] {"base", "x", "y"}, events);
@@ -73,7 +73,7 @@ namespace Orleankka.Features.Actor_behaviors
                     return TaskResult.From("y");
                 }
 
-                var receive = @base.Trait(XTrait, YTrait);
+                var receive = @base.Join(XTrait, YTrait);
                 var result = await receive("foo");
 
                 AssertEqual(new[] {"base"}, events);
@@ -101,7 +101,7 @@ namespace Orleankka.Features.Actor_behaviors
                     return TaskResult.Unhandled;
                 }
 
-                var receive = @base.Trait(XTrait, YTrait);
+                var receive = @base.Join(XTrait, YTrait);
                 var result = await receive("foo");
 
                 AssertEqual(new[] {"base", "x", "y"}, events);
@@ -129,7 +129,7 @@ namespace Orleankka.Features.Actor_behaviors
                     return TaskResult.Done;
                 }
 
-                var receive = @base.Trait(XTrait, YTrait);
+                var receive = @base.Join(XTrait, YTrait);
                 Assert.AreSame(Unhandled.Result, await receive(Activate.Message));
                 Assert.AreSame(Unhandled.Result, await receive(Deactivate.Message));
                 Assert.AreSame(Unhandled.Result, await receive(Become.Message));

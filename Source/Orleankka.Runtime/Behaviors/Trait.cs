@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
 {
     using Utility;
 
-    static class ReceiveExtensions
+    public static class Trait
     {
-        public static Receive Trait(this Receive receive, params Receive[] traits)
+        public static Receive[] Of(params Receive[] behaviors) => behaviors;
+
+        internal static Receive Join(this Receive behavior, params Receive[] traits)
         {
-            Requires.NotNull(receive, nameof(receive));
+            Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(traits, nameof(traits));
 
             if (traits.Length == 0)
-                return receive;
+                return behavior;
 
             var handlers = new List<Receive>(traits);
-            handlers.Insert(0, receive);
+            handlers.Insert(0, behavior);
 
             return Handle;
 
