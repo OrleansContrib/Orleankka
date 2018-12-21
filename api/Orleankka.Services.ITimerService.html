@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Interface ITimerService
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.40.5.0">
+    <meta name="generator" content="docfx 2.40.6.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -101,7 +101,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_IsRegistered_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.IsRegistered(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L122">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L202">View Source</a>
   </span>
   <a id="Orleankka_Services_ITimerService_IsRegistered_" data-uid="Orleankka.Services.ITimerService.IsRegistered*"></a>
   <h4 id="Orleankka_Services_ITimerService_IsRegistered_System_String_" data-uid="Orleankka.Services.ITimerService.IsRegistered(System.String)">IsRegistered(String)</h4>
@@ -146,6 +146,90 @@
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Boolean_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.Register(System.String%2CSystem.TimeSpan%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L145">View Source</a>
+  </span>
+  <a id="Orleankka_Services_ITimerService_Register_" data-uid="Orleankka.Services.ITimerService.Register*"></a>
+  <h4 id="Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Boolean_System_Boolean_System_Object_" data-uid="Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.Boolean,System.Boolean,System.Object)">Register(String, TimeSpan, Boolean, Boolean, Object)</h4>
+  <div class="markdown level1 summary"><p>Registers a one-off timer to a due time to send <a class="xref" href="Orleankka.Timer.html">Timer</a> message
+to this actor <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_System_Object_">Receive(Object)</a> function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Register(string id, TimeSpan due, bool interleave = true, bool ignore = false, object message = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>Unique id of the timer</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx">TimeSpan</a></td>
+        <td><span class="parametername">due</span></td>
+        <td><p>Due time for sending timer message.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><span class="parametername">interleave</span></td>
+        <td><p>Controls timer message interleaving. Set to <code>false</code> for non-interleaved delivery</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><span class="parametername">ignore</span></td>
+        <td><p>If set to <code>true</code> the message will be sent in fire-and-forget fashion</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Custom message to send on timer tick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Boolean_System_Boolean_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+    This timer will not prevent the current grain from being deactivated.
+    If the grain is deactivated, then the timer will be discarded.
+</p>
+<p>
+    Until the Task returned from the <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_System_Object_">Receive(Object)</a> is resolved,
+    the next timer tick will not be scheduled.
+    That is to say, timer callbacks never interleave their turns.
+</p>
+<p>
+    Any exceptions thrown by or faulted Task&apos;s will be logged
+    unless the <code data-dev-comment-type="paramref" class="paramref">ignore</code> is set to <code>true</code>
+</p>
+<p>
+    For non-interleaved delivery set <code data-dev-comment-type="paramref" class="paramref">interleave</code>
+    to <code>false</code>. The message will be delivered via
+<a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Self">Self</a> method. If used in conjunction
+with <code data-dev-comment-type="paramref" class="paramref">ignore</code> set to <code>false</code> the message
+will be delivered as OneWay for most optimal performance
+</p>
+<p>
+    Use <code data-dev-comment-type="paramref" class="paramref">message</code> parameter to send custom message
+</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Func_System_Threading_Tasks_Task__.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.Register(System.String%2CSystem.TimeSpan%2CSystem.Func%7BSystem.Threading.Tasks.Task%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -202,6 +286,103 @@
 </p>
 <p>
     Any exceptions thrown by or faulted Task&apos;s will be logged
+</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.Register(System.String%2CSystem.TimeSpan%2CSystem.TimeSpan%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L189">View Source</a>
+  </span>
+  <a id="Orleankka_Services_ITimerService_Register_" data-uid="Orleankka.Services.ITimerService.Register*"></a>
+  <h4 id="Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object_" data-uid="Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)">Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)</h4>
+  <div class="markdown level1 summary"><p>Registers a timer to periodically send <a class="xref" href="Orleankka.Timer.html">Timer</a> message
+to a given actor <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_System_Object_">Receive(Object)</a> function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Register(string id, TimeSpan due, TimeSpan period, bool interleave = true, bool fireAndForget = false, object message = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>Unique id of the timer</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx">TimeSpan</a></td>
+        <td><span class="parametername">due</span></td>
+        <td><p>Due time for sending timer message.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx">TimeSpan</a></td>
+        <td><span class="parametername">period</span></td>
+        <td><p>Period of subsequent timer ticks.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><span class="parametername">interleave</span></td>
+        <td><p>Controls timer message interleaving. Set to <code>false</code> for non-interleaved delivery</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><span class="parametername">fireAndForget</span></td>
+        <td><p>If set to <code>true</code> the message will be sent in fire-and-forget fashion</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Custom message to send on timer tick</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+    This timer will not prevent the current grain from being deactivated.
+    If the grain is deactivated, then the timer will be discarded.
+</p>
+<p>
+    Until the Task returned from the <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_System_Object_">Receive(Object)</a> is resolved, the next timer tick
+    will not be scheduled. That is to say, timer callbacks never interleave their own turns.
+</p>
+<strong>NOTE:</strong> If <code data-dev-comment-type="paramref" class="paramref">fireAndForget</code> is set to <code>true</code> the next timer tick will be scheduled immediately.
+<p>
+</p>
+<p>
+    The timer may be stopped at any time by calling the
+<a class="xref" href="Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Unregister_System_String_">Unregister(String)</a> method
+</p>
+<p>
+    Any exceptions thrown by or faulted Task&apos;s returned from the <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Receive_System_Object_">Receive(Object)</a>
+    will be logged (unless the <code data-dev-comment-type="paramref" class="paramref">fireAndForget</code> is set to <code>true</code>),
+    but will not prevent the next timer tick from being queued.
+</p>
+<p>
+    For non-interleaved delivery set <code data-dev-comment-type="paramref" class="paramref">interleave</code>
+    to <code>false</code>. The message will be delivered via
+<a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Self">Self</a> method. If used in conjunction
+with <code data-dev-comment-type="paramref" class="paramref">fireAndForget</code> set to <code>false</code> the message
+will be delivered as OneWay for most optimal performance
+</p>
+<p>
+    Use <code data-dev-comment-type="paramref" class="paramref">message</code> parameter to send custom message
 </p>
 </div>
   <span class="small pull-right mobile-hide">
@@ -449,7 +630,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_Registered.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.Registered%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L128">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L208">View Source</a>
   </span>
   <a id="Orleankka_Services_ITimerService_Registered_" data-uid="Orleankka.Services.ITimerService.Registered*"></a>
   <h4 id="Orleankka_Services_ITimerService_Registered" data-uid="Orleankka.Services.ITimerService.Registered">Registered()</h4>
@@ -481,7 +662,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ITimerService_Unregister_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.Services.ITimerService.Unregister(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L115">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/TimerService.cs/#L195">View Source</a>
   </span>
   <a id="Orleankka_Services_ITimerService_Unregister_" data-uid="Orleankka.Services.ITimerService.Unregister*"></a>
   <h4 id="Orleankka_Services_ITimerService_Unregister_System_String_" data-uid="Orleankka.Services.ITimerService.Unregister(System.String)">Unregister(String)</h4>

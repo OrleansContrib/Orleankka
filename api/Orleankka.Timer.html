@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ActivationService
+    <title>Class Timer
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ActivationService
+    <meta name="title" content="Class Timer
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.40.6.0">
     
@@ -80,22 +80,17 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.Services.ActivationService">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Timer">
   
   
-  <h1 id="Orleankka_Services_ActivationService" data-uid="Orleankka.Services.ActivationService" class="text-break">Class ActivationService
+  <h1 id="Orleankka_Timer" data-uid="Orleankka.Timer" class="text-break">Class Timer
   </h1>
-  <div class="markdown level0 summary"><p>Default runtime-bound implementation of <a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a></p>
-</div>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">ActivationService</span></div>
-  </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a></div>
+    <div class="level1"><span class="xref">Timer</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -121,43 +116,30 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Services.html">Orleankka.Services</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
-  <h5 id="Orleankka_Services_ActivationService_syntax">Syntax</h5>
+  <h5 id="Orleankka_Timer_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ActivationService : IActivationService</code></pre>
+    <pre><code class="lang-csharp hljs">[Serializable]
+[Immutable]
+public class Timer</code></pre>
   </div>
-  <h3 id="eii">Explicit Interface Implementations
+  <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DeactivateOnIdle.md&amp;value=---%0Auid%3A%20Orleankka.Services.ActivationService.Orleankka%23Services%23IActivationService%23DeactivateOnIdle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Timer__ctor_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.Timer.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/ActivationService.cs/#L43">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorGrainMessages.cs/#L38">View Source</a>
   </span>
-  <a id="Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DeactivateOnIdle_" data-uid="Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DeactivateOnIdle*"></a>
-  <h4 id="Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DeactivateOnIdle" data-uid="Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DeactivateOnIdle">IActivationService.DeactivateOnIdle()</h4>
+  <a id="Orleankka_Timer__ctor_" data-uid="Orleankka.Timer.#ctor*"></a>
+  <h4 id="Orleankka_Timer__ctor_System_String_" data-uid="Orleankka.Timer.#ctor(System.String)">Timer(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">void IActivationService.DeactivateOnIdle()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DelayDeactivation_System_TimeSpan_.md&amp;value=---%0Auid%3A%20Orleankka.Services.ActivationService.Orleankka%23Services%23IActivationService%23DelayDeactivation(System.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/ActivationService.cs/#L48">View Source</a>
-  </span>
-  <a id="Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DelayDeactivation_" data-uid="Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DelayDeactivation*"></a>
-  <h4 id="Orleankka_Services_ActivationService_Orleankka_Services_IActivationService_DelayDeactivation_System_TimeSpan_" data-uid="Orleankka.Services.ActivationService.Orleankka#Services#IActivationService#DelayDeactivation(System.TimeSpan)">IActivationService.DelayDeactivation(TimeSpan)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">void IActivationService.DelayDeactivation(TimeSpan period)</code></pre>
+    <pre><code class="lang-csharp hljs">public Timer(string id)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -170,16 +152,44 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.timespan(v=vs.110).aspx">TimeSpan</a></td>
-        <td><span class="parametername">period</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">id</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Timer_Id.md&amp;value=---%0Auid%3A%20Orleankka.Timer.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorGrainMessages.cs/#L36">View Source</a>
+  </span>
+  <a id="Orleankka_Timer_Id_" data-uid="Orleankka.Timer.Id*"></a>
+  <h4 id="Orleankka_Timer_Id" data-uid="Orleankka.Timer.Id">Id</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Id { get; }</code></pre>
   </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -188,10 +198,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_ActivationService.md&amp;value=---%0Auid%3A%20Orleankka.Services.ActivationService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Timer.md&amp;value=---%0Auid%3A%20Orleankka.Timer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/ActivationService.cs/#L34" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorGrainMessages.cs/#L33" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

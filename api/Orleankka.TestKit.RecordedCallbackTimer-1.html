@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class RecordedTimer&lt;TState&gt;
+    <title>Class RecordedCallbackTimer&lt;TState&gt;
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class RecordedTimer&lt;TState&gt;
+    <meta name="title" content="Class RecordedCallbackTimer&lt;TState&gt;
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.40.5.0">
+    <meta name="generator" content="docfx 2.40.6.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -80,10 +80,10 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.TestKit.RecordedTimer`1">
+            <article class="content wrap" id="_content" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1">
   
   
-  <h1 id="Orleankka_TestKit_RecordedTimer_1" data-uid="Orleankka.TestKit.RecordedTimer`1" class="text-break">Class RecordedTimer&lt;TState&gt;
+  <h1 id="Orleankka_TestKit_RecordedCallbackTimer_1" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1" class="text-break">Class RecordedCallbackTimer&lt;TState&gt;
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
@@ -91,7 +91,8 @@
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
     <div class="level1"><a class="xref" href="Orleankka.TestKit.RecordedTimer.html">RecordedTimer</a></div>
-    <div class="level2"><span class="xref">RecordedTimer&lt;TState&gt;</span></div>
+    <div class="level2"><a class="xref" href="Orleankka.TestKit.RecordedCallbackTimer.html">RecordedCallbackTimer</a></div>
+    <div class="level3"><span class="xref">RecordedCallbackTimer&lt;TState&gt;</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -106,6 +107,15 @@
     </div>
     <div>
       <a class="xref" href="Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_IsOneOff">RecordedTimer.IsOneOff</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_CallbackTimer">RecordedTimer.CallbackTimer()</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_CallbackTimer__1">RecordedTimer.CallbackTimer&lt;TState&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_MessageTimer">RecordedTimer.MessageTimer()</a>
     </div>
     <div>
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a>
@@ -131,9 +141,9 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.TestKit.html">Orleankka.TestKit</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.TestKit.dll</h6>
-  <h5 id="Orleankka_TestKit_RecordedTimer_1_syntax">Syntax</h5>
+  <h5 id="Orleankka_TestKit_RecordedCallbackTimer_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RecordedTimer&lt;TState&gt; : RecordedTimer</code></pre>
+    <pre><code class="lang-csharp hljs">public class RecordedCallbackTimer&lt;TState&gt; : RecordedCallbackTimer</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -154,18 +164,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedTimer%601.%23ctor(System.String%2CSystem.TimeSpan%2CSystem.TimeSpan%2CSystem.Func%7B%600%2CSystem.Threading.Tasks.Task%7D%2C%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedCallbackTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedCallbackTimer%601.%23ctor(System.String%2CSystem.TimeSpan%2CSystem.TimeSpan%2CSystem.Func%7B%600%2CSystem.Threading.Tasks.Task%7D%2C%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L126">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L151">View Source</a>
   </span>
-  <a id="Orleankka_TestKit_RecordedTimer_1__ctor_" data-uid="Orleankka.TestKit.RecordedTimer`1.#ctor*"></a>
-  <h4 id="Orleankka_TestKit_RecordedTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_" data-uid="Orleankka.TestKit.RecordedTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)">RecordedTimer(String, TimeSpan, TimeSpan, Func&lt;TState, Task&gt;, TState)</h4>
+  <a id="Orleankka_TestKit_RecordedCallbackTimer_1__ctor_" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1.#ctor*"></a>
+  <h4 id="Orleankka_TestKit_RecordedCallbackTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)">RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func&lt;TState, Task&gt;, TState)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RecordedTimer(string id, TimeSpan due, TimeSpan period, Func&lt;TState, Task&gt; callback, TState state)</code></pre>
+    <pre><code class="lang-csharp hljs">public RecordedCallbackTimer(string id, TimeSpan due, TimeSpan period, Func&lt;TState, Task&gt; callback, TState state)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -208,12 +218,12 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedTimer_1_Callback.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedTimer%601.Callback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedCallbackTimer_1_Callback.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedCallbackTimer%601.Callback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L123">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L148">View Source</a>
   </span>
-  <h4 id="Orleankka_TestKit_RecordedTimer_1_Callback" data-uid="Orleankka.TestKit.RecordedTimer`1.Callback">Callback</h4>
+  <h4 id="Orleankka_TestKit_RecordedCallbackTimer_1_Callback" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1.Callback">Callback</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -237,12 +247,12 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedTimer_1_State.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedTimer%601.State%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedCallbackTimer_1_State.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedCallbackTimer%601.State%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L124">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L149">View Source</a>
   </span>
-  <h4 id="Orleankka_TestKit_RecordedTimer_1_State" data-uid="Orleankka.TestKit.RecordedTimer`1.State">State</h4>
+  <h4 id="Orleankka_TestKit_RecordedCallbackTimer_1_State" data-uid="Orleankka.TestKit.RecordedCallbackTimer`1.State">State</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -272,10 +282,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedTimer_1.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedTimer%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedCallbackTimer_1.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedCallbackTimer%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L121" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/TimerServiceMock.cs/#L146" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

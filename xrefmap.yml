@@ -3044,25 +3044,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.Reminder.Reminder
   nameWithType: Reminder.Reminder
-- uid: Orleankka.Reminder.Invalid
-  name: Invalid
-  href: api/Orleankka.Reminder.html#Orleankka_Reminder_Invalid
-  commentId: F:Orleankka.Reminder.Invalid
-  fullName: Orleankka.Reminder.Invalid
-  nameWithType: Reminder.Invalid
-- uid: Orleankka.Reminder.Message(System.String,Orleans.Runtime.TickStatus)
-  name: Message(String, TickStatus)
-  href: api/Orleankka.Reminder.html#Orleankka_Reminder_Message_System_String_Orleans_Runtime_TickStatus_
-  commentId: M:Orleankka.Reminder.Message(System.String,Orleans.Runtime.TickStatus)
-  fullName: Orleankka.Reminder.Message(System.String, Orleans.Runtime.TickStatus)
-  nameWithType: Reminder.Message(String, TickStatus)
-- uid: Orleankka.Reminder.Message*
-  name: Message
-  href: api/Orleankka.Reminder.html#Orleankka_Reminder_Message_
-  commentId: Overload:Orleankka.Reminder.Message
-  isSpec: "True"
-  fullName: Orleankka.Reminder.Message
-  nameWithType: Reminder.Message
 - uid: Orleankka.Reminder.Name
   name: Name
   href: api/Orleankka.Reminder.html#Orleankka_Reminder_Name
@@ -3263,6 +3244,12 @@ references:
   isSpec: "True"
   fullName: Orleankka.Services.ITimerService.IsRegistered
   nameWithType: ITimerService.IsRegistered
+- uid: Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name: Register(String, TimeSpan, Boolean, Boolean, Object)
+  href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Boolean_System_Boolean_System_Object_
+  commentId: M:Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  fullName: Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.Boolean, System.Boolean, System.Object)
+  nameWithType: ITimerService.Register(String, TimeSpan, Boolean, Boolean, Object)
 - uid: Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
   name: Register(String, TimeSpan, Func<Task>)
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
@@ -3272,6 +3259,12 @@ references:
   fullName.vb: Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.Func(Of System.Threading.Tasks.Task))
   nameWithType: ITimerService.Register(String, TimeSpan, Func<Task>)
   nameWithType.vb: ITimerService.Register(String, TimeSpan, Func(Of Task))
+- uid: Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name: Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+  href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object_
+  commentId: M:Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  fullName: Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.TimeSpan, System.Boolean, System.Boolean, System.Object)
+  nameWithType: ITimerService.Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
 - uid: Orleankka.Services.ITimerService.Register(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
   name: Register(String, TimeSpan, TimeSpan, Func<Task>)
   href: api/Orleankka.Services.ITimerService.html#Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
@@ -5347,6 +5340,77 @@ references:
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Throw
   nameWithType: PushExpectation<TItem>.Throw
   nameWithType.vb: PushExpectation(Of TItem).Throw
+- uid: Orleankka.TestKit.RecordedCallbackTimer
+  name: RecordedCallbackTimer
+  href: api/Orleankka.TestKit.RecordedCallbackTimer.html
+  commentId: T:Orleankka.TestKit.RecordedCallbackTimer
+  fullName: Orleankka.TestKit.RecordedCallbackTimer
+  nameWithType: RecordedCallbackTimer
+- uid: Orleankka.TestKit.RecordedCallbackTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
+  name: RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func<Task>)
+  href: api/Orleankka.TestKit.RecordedCallbackTimer.html#Orleankka_TestKit_RecordedCallbackTimer__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.TestKit.RecordedCallbackTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
+  name.vb: RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func(Of Task))
+  fullName: Orleankka.TestKit.RecordedCallbackTimer.RecordedCallbackTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer.RecordedCallbackTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: RecordedCallbackTimer.RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func<Task>)
+  nameWithType.vb: RecordedCallbackTimer.RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func(Of Task))
+- uid: Orleankka.TestKit.RecordedCallbackTimer.#ctor*
+  name: RecordedCallbackTimer
+  href: api/Orleankka.TestKit.RecordedCallbackTimer.html#Orleankka_TestKit_RecordedCallbackTimer__ctor_
+  commentId: Overload:Orleankka.TestKit.RecordedCallbackTimer.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedCallbackTimer.RecordedCallbackTimer
+  nameWithType: RecordedCallbackTimer.RecordedCallbackTimer
+- uid: Orleankka.TestKit.RecordedCallbackTimer.Callback
+  name: Callback
+  href: api/Orleankka.TestKit.RecordedCallbackTimer.html#Orleankka_TestKit_RecordedCallbackTimer_Callback
+  commentId: F:Orleankka.TestKit.RecordedCallbackTimer.Callback
+  fullName: Orleankka.TestKit.RecordedCallbackTimer.Callback
+  nameWithType: RecordedCallbackTimer.Callback
+- uid: Orleankka.TestKit.RecordedCallbackTimer`1
+  name: RecordedCallbackTimer<TState>
+  href: api/Orleankka.TestKit.RecordedCallbackTimer-1.html
+  commentId: T:Orleankka.TestKit.RecordedCallbackTimer`1
+  name.vb: RecordedCallbackTimer(Of TState)
+  fullName: Orleankka.TestKit.RecordedCallbackTimer<TState>
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer(Of TState)
+  nameWithType: RecordedCallbackTimer<TState>
+  nameWithType.vb: RecordedCallbackTimer(Of TState)
+- uid: Orleankka.TestKit.RecordedCallbackTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)
+  name: RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func<TState, Task>, TState)
+  href: api/Orleankka.TestKit.RecordedCallbackTimer-1.html#Orleankka_TestKit_RecordedCallbackTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_
+  commentId: M:Orleankka.TestKit.RecordedCallbackTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)
+  name.vb: RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func(Of TState, Task), TState)
+  fullName: Orleankka.TestKit.RecordedCallbackTimer<TState>.RecordedCallbackTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func<TState, System.Threading.Tasks.Task>, TState)
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer(Of TState).RecordedCallbackTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func(Of TState, System.Threading.Tasks.Task), TState)
+  nameWithType: RecordedCallbackTimer<TState>.RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func<TState, Task>, TState)
+  nameWithType.vb: RecordedCallbackTimer(Of TState).RecordedCallbackTimer(String, TimeSpan, TimeSpan, Func(Of TState, Task), TState)
+- uid: Orleankka.TestKit.RecordedCallbackTimer`1.#ctor*
+  name: RecordedCallbackTimer
+  href: api/Orleankka.TestKit.RecordedCallbackTimer-1.html#Orleankka_TestKit_RecordedCallbackTimer_1__ctor_
+  commentId: Overload:Orleankka.TestKit.RecordedCallbackTimer`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedCallbackTimer<TState>.RecordedCallbackTimer
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer(Of TState).RecordedCallbackTimer
+  nameWithType: RecordedCallbackTimer<TState>.RecordedCallbackTimer
+  nameWithType.vb: RecordedCallbackTimer(Of TState).RecordedCallbackTimer
+- uid: Orleankka.TestKit.RecordedCallbackTimer`1.Callback
+  name: Callback
+  href: api/Orleankka.TestKit.RecordedCallbackTimer-1.html#Orleankka_TestKit_RecordedCallbackTimer_1_Callback
+  commentId: F:Orleankka.TestKit.RecordedCallbackTimer`1.Callback
+  fullName: Orleankka.TestKit.RecordedCallbackTimer<TState>.Callback
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer(Of TState).Callback
+  nameWithType: RecordedCallbackTimer<TState>.Callback
+  nameWithType.vb: RecordedCallbackTimer(Of TState).Callback
+- uid: Orleankka.TestKit.RecordedCallbackTimer`1.State
+  name: State
+  href: api/Orleankka.TestKit.RecordedCallbackTimer-1.html#Orleankka_TestKit_RecordedCallbackTimer_1_State
+  commentId: F:Orleankka.TestKit.RecordedCallbackTimer`1.State
+  fullName: Orleankka.TestKit.RecordedCallbackTimer<TState>.State
+  fullName.vb: Orleankka.TestKit.RecordedCallbackTimer(Of TState).State
+  nameWithType: RecordedCallbackTimer<TState>.State
+  nameWithType.vb: RecordedCallbackTimer(Of TState).State
 - uid: Orleankka.TestKit.RecordedDeactivationRequest
   name: RecordedDeactivationRequest
   href: api/Orleankka.TestKit.RecordedDeactivationRequest.html
@@ -5421,6 +5485,43 @@ references:
   commentId: F:Orleankka.TestKit.RecordedMessage.Result
   fullName: Orleankka.TestKit.RecordedMessage.Result
   nameWithType: RecordedMessage.Result
+- uid: Orleankka.TestKit.RecordedMessageTimer
+  name: RecordedMessageTimer
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html
+  commentId: T:Orleankka.TestKit.RecordedMessageTimer
+  fullName: Orleankka.TestKit.RecordedMessageTimer
+  nameWithType: RecordedMessageTimer
+- uid: Orleankka.TestKit.RecordedMessageTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name: RecordedMessageTimer(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html#Orleankka_TestKit_RecordedMessageTimer__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object_
+  commentId: M:Orleankka.TestKit.RecordedMessageTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  fullName: Orleankka.TestKit.RecordedMessageTimer.RecordedMessageTimer(System.String, System.TimeSpan, System.TimeSpan, System.Boolean, System.Boolean, System.Object)
+  nameWithType: RecordedMessageTimer.RecordedMessageTimer(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+- uid: Orleankka.TestKit.RecordedMessageTimer.#ctor*
+  name: RecordedMessageTimer
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html#Orleankka_TestKit_RecordedMessageTimer__ctor_
+  commentId: Overload:Orleankka.TestKit.RecordedMessageTimer.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedMessageTimer.RecordedMessageTimer
+  nameWithType: RecordedMessageTimer.RecordedMessageTimer
+- uid: Orleankka.TestKit.RecordedMessageTimer.FireAndForget
+  name: FireAndForget
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html#Orleankka_TestKit_RecordedMessageTimer_FireAndForget
+  commentId: F:Orleankka.TestKit.RecordedMessageTimer.FireAndForget
+  fullName: Orleankka.TestKit.RecordedMessageTimer.FireAndForget
+  nameWithType: RecordedMessageTimer.FireAndForget
+- uid: Orleankka.TestKit.RecordedMessageTimer.Interleave
+  name: Interleave
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html#Orleankka_TestKit_RecordedMessageTimer_Interleave
+  commentId: F:Orleankka.TestKit.RecordedMessageTimer.Interleave
+  fullName: Orleankka.TestKit.RecordedMessageTimer.Interleave
+  nameWithType: RecordedMessageTimer.Interleave
+- uid: Orleankka.TestKit.RecordedMessageTimer.Message
+  name: Message
+  href: api/Orleankka.TestKit.RecordedMessageTimer.html#Orleankka_TestKit_RecordedMessageTimer_Message
+  commentId: F:Orleankka.TestKit.RecordedMessageTimer.Message
+  fullName: Orleankka.TestKit.RecordedMessageTimer.Message
+  nameWithType: RecordedMessageTimer.Message
 - uid: Orleankka.TestKit.RecordedReminder
   name: RecordedReminder
   href: api/Orleankka.TestKit.RecordedReminder.html
@@ -5506,15 +5607,12 @@ references:
   commentId: T:Orleankka.TestKit.RecordedTimer
   fullName: Orleankka.TestKit.RecordedTimer
   nameWithType: RecordedTimer
-- uid: Orleankka.TestKit.RecordedTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
-  name: RecordedTimer(String, TimeSpan, TimeSpan, Func<Task>)
-  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.TestKit.RecordedTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
-  name.vb: RecordedTimer(String, TimeSpan, TimeSpan, Func(Of Task))
-  fullName: Orleankka.TestKit.RecordedTimer.RecordedTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func<System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.TestKit.RecordedTimer.RecordedTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func(Of System.Threading.Tasks.Task))
-  nameWithType: RecordedTimer.RecordedTimer(String, TimeSpan, TimeSpan, Func<Task>)
-  nameWithType.vb: RecordedTimer.RecordedTimer(String, TimeSpan, TimeSpan, Func(Of Task))
+- uid: Orleankka.TestKit.RecordedTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan)
+  name: RecordedTimer(String, TimeSpan, TimeSpan)
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer__ctor_System_String_System_TimeSpan_System_TimeSpan_
+  commentId: M:Orleankka.TestKit.RecordedTimer.#ctor(System.String,System.TimeSpan,System.TimeSpan)
+  fullName: Orleankka.TestKit.RecordedTimer.RecordedTimer(System.String, System.TimeSpan, System.TimeSpan)
+  nameWithType: RecordedTimer.RecordedTimer(String, TimeSpan, TimeSpan)
 - uid: Orleankka.TestKit.RecordedTimer.#ctor*
   name: RecordedTimer
   href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer__ctor_
@@ -5522,12 +5620,28 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.RecordedTimer.RecordedTimer
   nameWithType: RecordedTimer.RecordedTimer
-- uid: Orleankka.TestKit.RecordedTimer.Callback
-  name: Callback
-  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_Callback
-  commentId: F:Orleankka.TestKit.RecordedTimer.Callback
-  fullName: Orleankka.TestKit.RecordedTimer.Callback
-  nameWithType: RecordedTimer.Callback
+- uid: Orleankka.TestKit.RecordedTimer.CallbackTimer
+  name: CallbackTimer()
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_CallbackTimer
+  commentId: M:Orleankka.TestKit.RecordedTimer.CallbackTimer
+  fullName: Orleankka.TestKit.RecordedTimer.CallbackTimer()
+  nameWithType: RecordedTimer.CallbackTimer()
+- uid: Orleankka.TestKit.RecordedTimer.CallbackTimer*
+  name: CallbackTimer
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_CallbackTimer_
+  commentId: Overload:Orleankka.TestKit.RecordedTimer.CallbackTimer
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedTimer.CallbackTimer
+  nameWithType: RecordedTimer.CallbackTimer
+- uid: Orleankka.TestKit.RecordedTimer.CallbackTimer``1
+  name: CallbackTimer<TState>()
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_CallbackTimer__1
+  commentId: M:Orleankka.TestKit.RecordedTimer.CallbackTimer``1
+  name.vb: CallbackTimer(Of TState)()
+  fullName: Orleankka.TestKit.RecordedTimer.CallbackTimer<TState>()
+  fullName.vb: Orleankka.TestKit.RecordedTimer.CallbackTimer(Of TState)()
+  nameWithType: RecordedTimer.CallbackTimer<TState>()
+  nameWithType.vb: RecordedTimer.CallbackTimer(Of TState)()
 - uid: Orleankka.TestKit.RecordedTimer.Due
   name: Due
   href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_Due
@@ -5553,55 +5667,25 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.RecordedTimer.IsOneOff
   nameWithType: RecordedTimer.IsOneOff
+- uid: Orleankka.TestKit.RecordedTimer.MessageTimer
+  name: MessageTimer()
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_MessageTimer
+  commentId: M:Orleankka.TestKit.RecordedTimer.MessageTimer
+  fullName: Orleankka.TestKit.RecordedTimer.MessageTimer()
+  nameWithType: RecordedTimer.MessageTimer()
+- uid: Orleankka.TestKit.RecordedTimer.MessageTimer*
+  name: MessageTimer
+  href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_MessageTimer_
+  commentId: Overload:Orleankka.TestKit.RecordedTimer.MessageTimer
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedTimer.MessageTimer
+  nameWithType: RecordedTimer.MessageTimer
 - uid: Orleankka.TestKit.RecordedTimer.Period
   name: Period
   href: api/Orleankka.TestKit.RecordedTimer.html#Orleankka_TestKit_RecordedTimer_Period
   commentId: F:Orleankka.TestKit.RecordedTimer.Period
   fullName: Orleankka.TestKit.RecordedTimer.Period
   nameWithType: RecordedTimer.Period
-- uid: Orleankka.TestKit.RecordedTimer`1
-  name: RecordedTimer<TState>
-  href: api/Orleankka.TestKit.RecordedTimer-1.html
-  commentId: T:Orleankka.TestKit.RecordedTimer`1
-  name.vb: RecordedTimer(Of TState)
-  fullName: Orleankka.TestKit.RecordedTimer<TState>
-  fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState)
-  nameWithType: RecordedTimer<TState>
-  nameWithType.vb: RecordedTimer(Of TState)
-- uid: Orleankka.TestKit.RecordedTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)
-  name: RecordedTimer(String, TimeSpan, TimeSpan, Func<TState, Task>, TState)
-  href: api/Orleankka.TestKit.RecordedTimer-1.html#Orleankka_TestKit_RecordedTimer_1__ctor_System_String_System_TimeSpan_System_TimeSpan_System_Func__0_System_Threading_Tasks_Task___0_
-  commentId: M:Orleankka.TestKit.RecordedTimer`1.#ctor(System.String,System.TimeSpan,System.TimeSpan,System.Func{`0,System.Threading.Tasks.Task},`0)
-  name.vb: RecordedTimer(String, TimeSpan, TimeSpan, Func(Of TState, Task), TState)
-  fullName: Orleankka.TestKit.RecordedTimer<TState>.RecordedTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func<TState, System.Threading.Tasks.Task>, TState)
-  fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState).RecordedTimer(System.String, System.TimeSpan, System.TimeSpan, System.Func(Of TState, System.Threading.Tasks.Task), TState)
-  nameWithType: RecordedTimer<TState>.RecordedTimer(String, TimeSpan, TimeSpan, Func<TState, Task>, TState)
-  nameWithType.vb: RecordedTimer(Of TState).RecordedTimer(String, TimeSpan, TimeSpan, Func(Of TState, Task), TState)
-- uid: Orleankka.TestKit.RecordedTimer`1.#ctor*
-  name: RecordedTimer
-  href: api/Orleankka.TestKit.RecordedTimer-1.html#Orleankka_TestKit_RecordedTimer_1__ctor_
-  commentId: Overload:Orleankka.TestKit.RecordedTimer`1.#ctor
-  isSpec: "True"
-  fullName: Orleankka.TestKit.RecordedTimer<TState>.RecordedTimer
-  fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState).RecordedTimer
-  nameWithType: RecordedTimer<TState>.RecordedTimer
-  nameWithType.vb: RecordedTimer(Of TState).RecordedTimer
-- uid: Orleankka.TestKit.RecordedTimer`1.Callback
-  name: Callback
-  href: api/Orleankka.TestKit.RecordedTimer-1.html#Orleankka_TestKit_RecordedTimer_1_Callback
-  commentId: F:Orleankka.TestKit.RecordedTimer`1.Callback
-  fullName: Orleankka.TestKit.RecordedTimer<TState>.Callback
-  fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState).Callback
-  nameWithType: RecordedTimer<TState>.Callback
-  nameWithType.vb: RecordedTimer(Of TState).Callback
-- uid: Orleankka.TestKit.RecordedTimer`1.State
-  name: State
-  href: api/Orleankka.TestKit.RecordedTimer-1.html#Orleankka_TestKit_RecordedTimer_1_State
-  commentId: F:Orleankka.TestKit.RecordedTimer`1.State
-  fullName: Orleankka.TestKit.RecordedTimer<TState>.State
-  fullName.vb: Orleankka.TestKit.RecordedTimer(Of TState).State
-  nameWithType: RecordedTimer<TState>.State
-  nameWithType.vb: RecordedTimer(Of TState).State
 - uid: Orleankka.TestKit.RecordedTimerRequest
   name: RecordedTimerRequest
   href: api/Orleankka.TestKit.RecordedTimerRequest.html
@@ -6197,6 +6281,14 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.TimerServiceMock.Item
   nameWithType: TimerServiceMock.Item
+- uid: Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name: ITimerService.Register(String, TimeSpan, Boolean, Boolean, Object)
+  href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Boolean_System_Boolean_System_Object_
+  commentId: M:Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name.vb: Orleankka.Services.ITimerService.Register(String, TimeSpan, Boolean, Boolean, Object)
+  fullName: Orleankka.TestKit.TimerServiceMock.Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.Boolean, System.Boolean, System.Object)
+  nameWithType: TimerServiceMock.ITimerService.Register(String, TimeSpan, Boolean, Boolean, Object)
+  nameWithType.vb: TimerServiceMock.Orleankka.Services.ITimerService.Register(String, TimeSpan, Boolean, Boolean, Object)
 - uid: Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
   name: ITimerService.Register(String, TimeSpan, Func<Task>)
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
@@ -6206,6 +6298,14 @@ references:
   fullName.vb: Orleankka.TestKit.TimerServiceMock.Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.Func(Of System.Threading.Tasks.Task))
   nameWithType: TimerServiceMock.ITimerService.Register(String, TimeSpan, Func<Task>)
   nameWithType.vb: TimerServiceMock.Orleankka.Services.ITimerService.Register(String, TimeSpan, Func(Of Task))
+- uid: Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name: ITimerService.Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+  href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Boolean_System_Boolean_System_Object_
+  commentId: M:Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.TimeSpan,System.Boolean,System.Boolean,System.Object)
+  name.vb: Orleankka.Services.ITimerService.Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+  fullName: Orleankka.TestKit.TimerServiceMock.Orleankka.Services.ITimerService.Register(System.String, System.TimeSpan, System.TimeSpan, System.Boolean, System.Boolean, System.Object)
+  nameWithType: TimerServiceMock.ITimerService.Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
+  nameWithType.vb: TimerServiceMock.Orleankka.Services.ITimerService.Register(String, TimeSpan, TimeSpan, Boolean, Boolean, Object)
 - uid: Orleankka.TestKit.TimerServiceMock.Orleankka#Services#ITimerService#Register(System.String,System.TimeSpan,System.TimeSpan,System.Func{System.Threading.Tasks.Task})
   name: ITimerService.Register(String, TimeSpan, TimeSpan, Func<Task>)
   href: api/Orleankka.TestKit.TimerServiceMock.html#Orleankka_TestKit_TimerServiceMock_Orleankka_Services_ITimerService_Register_System_String_System_TimeSpan_System_TimeSpan_System_Func_System_Threading_Tasks_Task__
@@ -6315,6 +6415,38 @@ references:
   fullName: Orleankka.TestKit.TimerServiceMock.System.Collections.IEnumerable.GetEnumerator
   nameWithType: TimerServiceMock.IEnumerable.GetEnumerator
   nameWithType.vb: TimerServiceMock.System.Collections.IEnumerable.GetEnumerator
+- uid: Orleankka.Timer
+  name: Timer
+  href: api/Orleankka.Timer.html
+  commentId: T:Orleankka.Timer
+  fullName: Orleankka.Timer
+  nameWithType: Timer
+- uid: Orleankka.Timer.#ctor(System.String)
+  name: Timer(String)
+  href: api/Orleankka.Timer.html#Orleankka_Timer__ctor_System_String_
+  commentId: M:Orleankka.Timer.#ctor(System.String)
+  fullName: Orleankka.Timer.Timer(System.String)
+  nameWithType: Timer.Timer(String)
+- uid: Orleankka.Timer.#ctor*
+  name: Timer
+  href: api/Orleankka.Timer.html#Orleankka_Timer__ctor_
+  commentId: Overload:Orleankka.Timer.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Timer.Timer
+  nameWithType: Timer.Timer
+- uid: Orleankka.Timer.Id
+  name: Id
+  href: api/Orleankka.Timer.html#Orleankka_Timer_Id
+  commentId: P:Orleankka.Timer.Id
+  fullName: Orleankka.Timer.Id
+  nameWithType: Timer.Id
+- uid: Orleankka.Timer.Id*
+  name: Id
+  href: api/Orleankka.Timer.html#Orleankka_Timer_Id_
+  commentId: Overload:Orleankka.Timer.Id
+  isSpec: "True"
+  fullName: Orleankka.Timer.Id
+  nameWithType: Timer.Id
 - uid: Orleankka.Unhandled
   name: Unhandled
   href: api/Orleankka.Unhandled.html
