@@ -15,6 +15,12 @@ namespace Orleankka.Behaviors
         public Behavior(Dictionary<string, State> states = null) => 
             this.states = states ?? new Dictionary<string, State>();
 
+        public State State(Receive behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            return State(behavior.Method.Name) ;
+        }
+
         public State State(string behavior)
         {
             var configured = states.Find(behavior);

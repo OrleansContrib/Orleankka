@@ -78,7 +78,7 @@ namespace Orleankka
             middleware.Receive(this, message, Receive);
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status) =>
-            middleware.Receive(this, Reminder.Message(name, status), Receive);
+            middleware.Receive(this, new Reminder(name, status), Receive);
 
         public override Task OnDeactivateAsync() =>
             middleware.Receive(this, Deactivate.Message, Receive);

@@ -14,7 +14,7 @@ namespace Orleankka
 
     public sealed class ActorRuntime : IActorRuntime
     {
-        internal ActorRuntime(IActorSystem system, Grain grain)
+        internal ActorRuntime(IActorSystem system, ActorGrain grain)
         {
             System = system;
             Timers = new TimerService(grain);

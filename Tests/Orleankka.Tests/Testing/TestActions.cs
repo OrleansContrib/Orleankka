@@ -43,6 +43,11 @@ namespace Orleankka.Testing
                     options.ClusterId = DemoClusterId;
                     options.ServiceId = DemoServiceId;
                 })
+                .Configure<SchedulingOptions>(options =>
+                {
+                    options.AllowCallChainReentrancy = false;
+                    options.PerformDeadlockDetection = true;
+                })
                 .EnableDirectClient()
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
@@ -81,9 +86,12 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance == null)
                 return;
 
-            TestActorSystem.Client.Close().Wait();
+            var timeout = TimeSpan.FromSeconds(5);
+
+            TestActorSystem.Client.Close().Wait(timeout);
             TestActorSystem.Client.Dispose();
-            TestActorSystem.Host.StopAsync().Wait();
+            
+            TestActorSystem.Host.StopAsync().Wait(timeout);
             TestActorSystem.Host.Dispose();
 
             TestActorSystem.Client = null;

@@ -85,9 +85,9 @@ namespace Demo
             return Timers[id];
         }           
         
-        protected RecordedTimer<TState> Timer<TState>(string id)
+        protected RecordedCallbackTimer<TState> Timer<TState>(string id)
         {
-            return (RecordedTimer<TState>) Timers[id];
+            return (RecordedCallbackTimer<TState>) Timers[id];
         }
 
         protected RecordedReminder Reminder(string id)
