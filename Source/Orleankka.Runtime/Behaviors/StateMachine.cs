@@ -28,7 +28,7 @@ namespace Orleankka.Behaviors
 
         public StateMachine State(string name, Receive behavior, Func<Receive, Receive> extend = null)
         {
-            return State(name, behavior, null, Array.Empty<Receive>(), extend);
+            return State(name, behavior, Array.Empty<Receive>(), extend);
         }
 
         public StateMachine State(string name, Receive behavior, Receive[] trait, Func<Receive, Receive> extend = null)
@@ -59,7 +59,7 @@ namespace Orleankka.Behaviors
 
         public StateMachine State(Receive behavior, Func<Receive, Receive> extend = null)
         {
-            return State(behavior, behavior, Array.Empty<Receive>(), extend);
+            return State(behavior, Array.Empty<Receive>(), extend);
         }
 
         public StateMachine State(Receive behavior, Receive[] trait, Func<Receive, Receive> extend = null)
