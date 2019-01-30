@@ -8,6 +8,7 @@ Start Visual Studio and create a new C# Console Application and reference the fo
 PM> Install-Package Orleankka.Runtime
 PM> Install-Package Microsoft.Orleans.Server
 ```
+
 This will install all client and server-side packages required for demo app.
 
 ## Create your first actor
@@ -21,13 +22,13 @@ namespace ConsoleApplication11
     // and mark them with [Serializable] attribute. This is smilar to
     // object-oriented interface signatures (eg Greet(string who)) but with classes
 
-    [Serializable] 
+    [Serializable]
     public class Greet
     {
         public string Who { get; set; }
     }
 
-    [Serializable] 
+    [Serializable]
     public class Sleep
     {}
 }
@@ -60,11 +61,11 @@ namespace ConsoleApplication11
                     Console.WriteLine("Sleeeeping ...");
                     return TaskResult.Done;
                     break;
-                                    
+
                 default:
                     return Unhandled;
             }
-        }        
+        }
     }
 }
 ```
@@ -79,13 +80,13 @@ using Orleankka.Playground;
 
 namespace ConsoleApplication11
 {
-    [Serializable] 
+    [Serializable]
     public class Greet
     {
         public string Who { get; set; }
     }
 
-    [Serializable] 
+    [Serializable]
     public class Sleep
     {}
 
@@ -101,16 +102,17 @@ namespace ConsoleApplication11
                 case Sleep _:
                     Console.WriteLine("Sleeeeping ...");
                     return TaskResult.Done;
-                                    
+
                 default:
                     return Unhandled;
             }
-        }        
+        }
     }
 
     class Program
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhost-demo-service";
         const int LocalhostSiloPort = 11111;
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
@@ -118,9 +120,12 @@ namespace ConsoleApplication11
         static void Main(string[] args)
         {
             var host = await new SiloHostBuilder()
-                .Configure(options => options.ClusterId = DemoClusterId)
+                .Configure(options => {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
-                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)            
+                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
@@ -131,7 +136,10 @@ namespace ConsoleApplication11
             await host.StartAsync();
 
             var client = new ClientBuilder()
-                .ConfigureCluster(options => options.ClusterId = DemoClusterId)
+                .ConfigureCluster(options => {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId
+                })
                 .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
@@ -144,7 +152,7 @@ namespace ConsoleApplication11
 
             // get reference to ActorSystem
             var system = client.ActorSystem();
-            
+
             // get proxy reference for IGreeter actor
             var greeter = system.ActorOf<IGreeter>("id");
 

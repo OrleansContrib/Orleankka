@@ -42,6 +42,7 @@ type Greeter() =
 let main argv = 
 
     let DemoClusterId = "localhost-demo"
+    let DemoServiceId = "localhost-demo-service"
     let LocalhostSiloPort = 11111
     let LocalhostGatewayPort = 30000
     let LocalhostSiloAddress = IPAddress.Loopback
@@ -49,14 +50,14 @@ let main argv =
     printfn "Running demo. Booting cluster might take some time ...\n"
 
     let sb = new SiloHostBuilder()
-    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId; options.ServiceId <- DemoServiceId) |> ignore
     sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
     sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
     sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
     sb.UseOrleankka() |> ignore
   
     let cb = new ClientBuilder()
-    cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId; options.ServiceId <- DemoServiceId) |> ignore
     cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -> options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |> ignore
     cb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
     cb.UseOrleankka() |> ignore

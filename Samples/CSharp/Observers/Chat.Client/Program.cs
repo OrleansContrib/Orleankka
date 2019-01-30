@@ -14,6 +14,7 @@ namespace Example
     class Program
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhost-demo-service";
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
         
@@ -62,7 +63,10 @@ namespace Example
                 try
                 {
                     var client = new ClientBuilder()
-                        .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                        .Configure<ClusterOptions>(options => {
+                            options.ClusterId = DemoClusterId;
+                            options.ServiceId = DemoServiceId;
+                        })
                         .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                         .ConfigureApplicationParts(x => x
                             .AddApplicationPart(typeof(Join).Assembly)
