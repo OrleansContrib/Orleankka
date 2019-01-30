@@ -10,6 +10,7 @@ PM> Install-Package Orleankka.FSharp.Runtime
 PM> Install-Package Microsoft.Orleans.Server
 PM> Install-Package FSharp.Control.Tasks
 ```
+
 This will install all client and server-side packages required for demo app.
 
 ## Create your first actor
@@ -19,7 +20,7 @@ First, we need to create a message type that our actor will respond to:
 ```fsharp
 module Demo
 
-type GreeterMessage = 
+type GreeterMessage =
    | Greet of string
    | Hi
 ```
@@ -33,23 +34,23 @@ open FSharp.Control.Tasks  // task CE from Giraffe
 open Orleankka             // base types of Orleankka
 open Orleankka.FSharp
 
-type GreeterMessage = 
+type GreeterMessage =
    | Greet of string
    | Hi
 
 // Create custom actor interface and implement IActorGrain
-type IGreeter = 
+type IGreeter =
    inherit IActorGrain<GreeterMessage>
 
 // Create actor class by inheriting from ActorGrain and implementing custom actor interface
-type Greeter() = 
+type Greeter() =
    inherit ActorGrain()
    interface IGreeter
 
    // Implement receive function using pattern matching
    override this.Receive(message) = task {
       match message with
-        | :? GreeterMessage as m -> 
+        | :? GreeterMessage as m ->
             match m with
             | Greet who -> printfn "Hello %s" who
                            return none()
@@ -79,9 +80,10 @@ open Orleankka.Client
 open Orleankka.FSharp
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
 
     let DemoClusterId = "localhost-demo"
+    let DemoServiceId = "localhost-demo-service"
     let LocalhostSiloPort = 11111
     let LocalhostGatewayPort = 30000
     let LocalhostSiloAddress = IPAddress.Loopback
@@ -90,19 +92,19 @@ let main argv =
 
     // configure localhost silo
     let sb = new SiloHostBuilder()
-    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId; options.ServiceId <- DemoServiceId) |> ignore
     sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
     sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
-    
+
     // register assembly containing your custom actor grain interfaces
     sb.ConfigureApplicationParts(fun x -> x.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore) |> ignore
 
     // register Orleankka extension
     sb.UseOrleankka() |> ignore
-  
+
     // configure localhost silo client
     let cb = new ClientBuilder()
-    cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    cb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId; options.ServiceId <- DemoServiceId) |> ignore
     cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -> options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |> ignore
 
     // register assembly containing your custom actor grain interfaces
@@ -125,17 +127,17 @@ let main argv =
         // get a reference to the IGreeter actor
         // the actor will be automatically activated by Orleans on first use
         let actor = ActorSystem.typedActorOf<IGreeter, GreeterMessage>(system, "good-citizen")
-      
+
         // use (<!) custom operator to send message to actor
         // this when you don't care about result (Task<unit>)
         // to ask for result use (<?)
         do! actor <! Hi
         do! actor <! Greet "Yevhen"
-        do! actor <! Greet "World"      
+        do! actor <! Greet "World"
     }
     t.Wait()
-    
-    Console.ReadKey() |> ignore 
+
+    Console.ReadKey() |> ignore
     0
 ```
 

@@ -20,6 +20,8 @@ namespace Orleankka
     static class DemoExtensions
     {
         const string DemoClusterId = "localhost-demo";
+        const string DemoServiceId = "localhost-demo-service";
+
         const int LocalhostSiloPort = 11111;
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
@@ -28,7 +30,7 @@ namespace Orleankka
             .Configure<ClusterOptions>(options =>
             {
                 options.ClusterId = DemoClusterId;
-                options.ServiceId = DemoClusterId;
+                options.ServiceId = DemoServiceId;
             })
             .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
             .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort);
@@ -36,8 +38,8 @@ namespace Orleankka
         static IClientBuilder ConfigureDemoClustering(this IClientBuilder builder) => builder
             .Configure<ClusterOptions>(options =>
             {
-                options.ServiceId = DemoClusterId;
                 options.ClusterId = DemoClusterId;
+                options.ServiceId = DemoServiceId;
             })
             .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
 

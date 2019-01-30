@@ -61,7 +61,10 @@ namespace Demo
             await host.StartAsync();
 
             var client = new ClientBuilder()
-                .Configure<ClusterOptions>(options => options.ClusterId = DemoClusterId)
+                .Configure<ClusterOptions>(options => {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())

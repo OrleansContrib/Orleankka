@@ -13,6 +13,7 @@ open Orleans.Storage
 open Messages
 
 let DemoClusterId = "localhost-demo"
+let DemoServiceId = "localhost-demo-service"
 let LocalhostSiloPort = 11111
 let LocalhostGatewayPort = 30000
 let LocalhostSiloAddress = IPAddress.Loopback
@@ -28,7 +29,7 @@ let main argv =
         apm.AddApplicationPart(Assembly.GetExecutingAssembly()).WithCodeGeneration() |> ignore
 
     let sb = SiloHostBuilder()
-    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId) |> ignore
+    sb.Configure<ClusterOptions>(fun (options:ClusterOptions) -> options.ClusterId <- DemoClusterId; options.ServiceId <- DemoServiceId) |> ignore
     sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -> options.PrimarySiloEndpoint <- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |> ignore
     sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |> ignore
 
