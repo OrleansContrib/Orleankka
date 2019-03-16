@@ -25,7 +25,7 @@ namespace Orleankka.Behaviors
             async Task<object> Handle(object message)
             {
                 if (message is LifecycleMessage)
-                    return Unhandled.Result;
+                    return await behavior(message);
 
                 foreach (var handler in handlers)
                 {

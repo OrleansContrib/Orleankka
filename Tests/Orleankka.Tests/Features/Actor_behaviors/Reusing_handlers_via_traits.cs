@@ -126,16 +126,17 @@ namespace Orleankka.Features.Actor_behaviors
                 Task<object> YTrait(object message)
                 {
                     events.Add("y");
-                    return TaskResult.Done;
+                    return TaskResult.Unhandled;
                 }
 
                 var receive = @base.Join(XTrait, YTrait);
-                Assert.AreSame(Unhandled.Result, await receive(Activate.Message));
-                Assert.AreSame(Unhandled.Result, await receive(Deactivate.Message));
-                Assert.AreSame(Unhandled.Result, await receive(Become.Message));
-                Assert.AreSame(Unhandled.Result, await receive(Unbecome.Message));
+                Assert.AreSame(Done.Result, await receive(Activate.Message));
+                Assert.AreSame(Done.Result, await receive(Deactivate.Message));
+                Assert.AreSame(Done.Result, await receive(Become.Message));
+                Assert.AreSame(Done.Result, await receive(Unbecome.Message));
 
-                Assert.AreEqual(0, events.Count);
+                // should not pass lifecycle events to traits
+                AssertEqual(new[] {"base", "base", "base", "base"}, events);
             }
 
             [Test]
