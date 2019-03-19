@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Orleankka.Behaviors
 {
     using Utility;
 
+    [DebuggerDisplay("{ToDebugString()}")]
     public sealed class Behavior
     {
         Transition transition;
@@ -108,5 +110,10 @@ namespace Orleankka.Behaviors
 
             transition = null;
         }
+
+        string ToDebugString() => Current != null 
+            ? $"{Current.ToDebugString()} ({states.Count} states)"
+            : $"({states.Count} states)";
+
     }
 }

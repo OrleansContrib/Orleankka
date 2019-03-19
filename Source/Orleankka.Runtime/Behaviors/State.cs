@@ -109,7 +109,7 @@ namespace Orleankka.Behaviors
         public bool IsSubstateOf(string state) => 
             Super?.Name == state || (Super?.IsSubstateOf(state) ?? false);
 
-        string ToDebugString() => Super != null 
+        internal string ToDebugString() => Super != null 
             ? $"[{Name}]->{Super.ToDebugString()}"
             : $"[{Name}]";
 
