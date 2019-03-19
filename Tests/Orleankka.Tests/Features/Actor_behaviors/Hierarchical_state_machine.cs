@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -167,6 +169,53 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(await behavior.Receive("1"), Is.EqualTo("foo"));
                 Assert.That(await behavior.Receive(1), Is.EqualTo("bar"));
                 Assert.That(await behavior.Receive(DateTime.Now), Is.SameAs(ActorGrain.Unhandled));
+            }
+
+            [Test]
+            public async Task When_using_fluent_dsl()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial")
+                    .State("S1")
+                        .Substate("S1A")
+                        .Substate("S1B")                    
+                    .State("S2")
+                        .Substate("S2A")
+                    .Initial("Initial");
+                
+                await behavior.Become("S1A");
+                Assert.That(behavior.Current.Name, Is.EqualTo("S1A"));
+
+                await behavior.Become("S1B");
+                Assert.That(behavior.Current.Name, Is.EqualTo("S1B"));
+
+                await behavior.Become("S2A");
+                Assert.That(behavior.Current.Name, Is.EqualTo("S2A"));
+
+                Debug.WriteLine(string.Join(",\r\n", events.Select(x => $"\"{x}\"")));
+
+                AssertEvents(                
+                    "OnDeactivate_Initial",
+                    "OnUnbecome_Initial",
+                    
+                    "OnBecome_S1",
+                        "OnBecome_S1A",                    
+                    "OnActivate_S1",
+                        "OnActivate_S1A",                                                
+                        "OnDeactivate_S1A",
+                        "OnUnbecome_S1A",                                        
+                        "OnBecome_S1B",
+                        "OnActivate_S1B",
+                        "OnDeactivate_S1B",
+                    "OnDeactivate_S1",
+                        "OnUnbecome_S1B",
+                    "OnUnbecome_S1",
+
+                    "OnBecome_S2",
+                        "OnBecome_S2A",
+                    "OnActivate_S2",
+                        "OnActivate_S2A"
+                );
             }
         }
     }

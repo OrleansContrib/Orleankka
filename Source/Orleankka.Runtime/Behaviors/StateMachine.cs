@@ -24,7 +24,7 @@ namespace Orleankka.Behaviors
         readonly Dictionary<string, StateConfiguration> configuration = 
              new Dictionary<string, StateConfiguration>();
 
-        StateConfiguration last;
+        StateConfiguration lastSuper;
 
         public StateMachine State(string name, Receive behavior, Func<Receive, Receive> extend = null)
         {
@@ -37,7 +37,7 @@ namespace Orleankka.Behaviors
             Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(trait, nameof(trait));
 
-            last = Add(name, behavior, null, extend, trait);
+            lastSuper = Add(name, behavior, null, extend, trait);
             return this;
         }
 
@@ -53,7 +53,7 @@ namespace Orleankka.Behaviors
             Requires.NotNull(super, nameof(super));
             Requires.NotNull(trait, nameof(trait));
 
-            last = Add(name, behavior, super, extend, trait);
+            lastSuper = Add(name, behavior, super, extend, trait);
             return this;
         }
 
@@ -67,7 +67,7 @@ namespace Orleankka.Behaviors
             Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(trait, nameof(trait));
 
-            last = Add(behavior.Method.Name, behavior, null, extend, trait);
+            lastSuper = Add(behavior.Method.Name, behavior, null, extend, trait);
             return this;
         }
 
@@ -82,7 +82,7 @@ namespace Orleankka.Behaviors
             Requires.NotNull(super, nameof(super));
             Requires.NotNull(trait, nameof(trait));
 
-            last = Add(behavior.Method.Name, behavior, super.Method.Name, extend, trait);
+            lastSuper = Add(behavior.Method.Name, behavior, super.Method.Name, extend, trait);
             return this;
         }
 
@@ -93,8 +93,15 @@ namespace Orleankka.Behaviors
 
         public StateMachine Substate(string name, Receive behavior, Receive[] trait, Func<Receive, Receive> extend = null)
         {
+            Requires.NotNull(name, nameof(name));
+            Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(trait, nameof(trait));
-            return State(name, behavior, last.Name, trait, extend);
+
+            if (lastSuper == null)
+                throw new InvalidOperationException("No previous superstate has been specified");
+
+            Add(name, behavior, lastSuper.Name, extend, trait);
+            return this;
         }
         
         public StateMachine Substate(Receive behavior, Func<Receive, Receive> extend = null)
@@ -104,12 +111,14 @@ namespace Orleankka.Behaviors
 
         public StateMachine Substate(Receive behavior, Receive[] trait, Func<Receive, Receive> extend = null)
         {
+            Requires.NotNull(behavior, nameof(behavior));
             Requires.NotNull(trait, nameof(trait));
 
-            if (last == null)
-                throw new InvalidOperationException("No previous state were specified");
+            if (lastSuper == null)
+                throw new InvalidOperationException("No previous superstate has been specified");
 
-            return State(behavior?.Method.Name, behavior, last.Name, trait, extend);
+            Add(behavior.Method.Name, behavior, lastSuper.Name, extend, trait);
+            return this;
         }
 
         StateConfiguration Add(string name, Receive behavior, string super, Func<Receive, Receive> extend, Receive[] trait)

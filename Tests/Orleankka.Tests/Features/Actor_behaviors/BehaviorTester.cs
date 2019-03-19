@@ -59,6 +59,18 @@ namespace Orleankka.Features.Actor_behaviors
             return this;
         }
 
+        public BehaviorTester Substate(string name, Receive receive = null)
+        {
+            Task<object> Record(object x)
+            {
+                RecordTransitions(name, x);
+                return receive != null ? receive(x) : TaskResult.Done;
+            }
+
+            machine.Substate(name, Record);
+            return this;
+        }
+
         public BehaviorTester Initial(string name)
         {
             initial = name;
