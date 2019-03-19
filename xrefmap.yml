@@ -1499,6 +1499,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Current
   nameWithType: Behavior.Current
+- uid: Orleankka.Behaviors.Behavior.Etag
+  name: Etag
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Etag
+  commentId: P:Orleankka.Behaviors.Behavior.Etag
+  fullName: Orleankka.Behaviors.Behavior.Etag
+  nameWithType: Behavior.Etag
+- uid: Orleankka.Behaviors.Behavior.Etag*
+  name: Etag
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Etag_
+  commentId: Overload:Orleankka.Behaviors.Behavior.Etag
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Behavior.Etag
+  nameWithType: Behavior.Etag
 - uid: Orleankka.Behaviors.Behavior.Initial(Orleankka.Receive)
   name: Initial(Receive)
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Initial_Orleankka_Receive_
