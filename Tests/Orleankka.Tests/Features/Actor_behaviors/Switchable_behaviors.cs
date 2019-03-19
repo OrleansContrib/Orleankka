@@ -87,6 +87,21 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
                 AssertEvents("OnDeactivate_Initial");
             }
+
+            [Test]
+            public void When_receiving_behavior_messages_directly()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial");
+
+                behavior.Initial("Initial");
+
+                Assert.ThrowsAsync<InvalidOperationException>(()=> behavior.Receive(Become.Message));
+                Assert.ThrowsAsync<InvalidOperationException>(()=> behavior.Receive(Unbecome.Message));
+
+                Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
+                Assert.That(events, Has.Count.EqualTo(0));
+            }
             
             [Test]
             public async Task When_transitioning()
