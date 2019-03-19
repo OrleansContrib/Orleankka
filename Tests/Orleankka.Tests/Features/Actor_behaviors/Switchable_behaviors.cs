@@ -28,6 +28,7 @@ namespace Orleankka.Features.Actor_behaviors
             {
                 var behavior = new Behavior();
                 Assert.That(behavior.Current, Is.Null);
+                Assert.That(behavior.Etag, Is.Null);
             }
 
             [Test]
@@ -56,6 +57,7 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
                 Assert.That(events, Has.Count.EqualTo(0),
                     "OnBecome should not be called when setting initial");
+                Assert.That(behavior.Etag, Is.Not.Null);
             }
 
             [Test]
@@ -111,9 +113,12 @@ namespace Orleankka.Features.Actor_behaviors
                     .State("A");
 
                 behavior.Initial("Initial");
+                var etag = behavior.Etag;
 
                 await behavior.Become("A");
                 Assert.That(behavior.Current.Name, Is.EqualTo("A"));
+                Assert.That(behavior.Etag, Is.Not.Null);
+                Assert.That(behavior.Etag, Is.Not.EqualTo(etag));
 
                 var expected = new[]
                 {
@@ -187,7 +192,7 @@ namespace Orleankka.Features.Actor_behaviors
                     .State("A")
                     .State("B", x => AttemptBecomeDuring<Activate>(behavior, "C", x))
                     .State("C")
-                    .Initial("A");
+                    .Initial("A");  
                
                 Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
 

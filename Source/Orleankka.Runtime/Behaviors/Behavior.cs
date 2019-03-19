@@ -56,8 +56,19 @@ namespace Orleankka.Behaviors
             Current = state;
         }
 
+        public string Etag { get; private set; }
         public State Previous { get; private set; }
-        public State Current  { get; private set; }
+
+        State current;
+        public State Current
+        {
+            get => current;
+            private set
+            {
+                current = value;
+                Etag = Guid.NewGuid().ToString("N");
+            }
+        }
 
         bool Initialized() => Current != null;
         bool Switching => transition != null;
@@ -113,7 +124,6 @@ namespace Orleankka.Behaviors
 
         string ToDebugString() => Current != null 
             ? $"{Current.ToDebugString()} ({states.Count} states)"
-            : $"({states.Count} states)";
-
+            : $"({states.Count} states)";        
     }
 }
