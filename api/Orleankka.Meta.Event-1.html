@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace Orleankka.Cluster
+    <title>Interface Event&lt;TActor&gt;
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace Orleankka.Cluster
+    <meta name="title" content="Interface Event&lt;TActor&gt;
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.40.12.0">
     
@@ -80,19 +80,34 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.Cluster">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Meta.Event`1">
   
-  <h1 id="Orleankka_Cluster" data-uid="Orleankka.Cluster" class="text-break">Namespace Orleankka.Cluster
+  
+  <h1 id="Orleankka_Meta_Event_1" data-uid="Orleankka.Meta.Event`1" class="text-break">Interface Event&lt;TActor&gt;
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="Orleankka.Cluster.OrleankkaClusterOptions.html">OrleankkaClusterOptions</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Orleankka.Cluster.SiloHostBuilderExtension.html">SiloHostBuilderExtension</a></h4>
-      <section></section>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Meta.html">Orleankka.Meta</a></h6>
+  <h6><strong>Assembly</strong>: Orleankka.dll</h6>
+  <h5 id="Orleankka_Meta_Event_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface Event&lt;TActor&gt; : ActorMessage&lt;TActor&gt;, Event, Message where TActor : IActorGrain</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TActor</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -100,6 +115,12 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Meta_Event_1.md&amp;value=---%0Auid%3A%20Orleankka.Meta.Event%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Meta/Event.cs/#L6" class="contribution-link">View Source</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

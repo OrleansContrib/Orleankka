@@ -8,7 +8,7 @@
     <title>Set up your project | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Set up your project | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.40.6.0">
+    <meta name="generator" content="docfx 2.40.12.0">
     
     <link rel="shortcut icon" href="../..//images/favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -92,7 +92,7 @@ PM&gt; Install-Package FSharp.Control.Tasks
 <p>First, we need to create a message type that our actor will respond to:</p>
 <pre><code class="lang-fsharp">module Demo
 
-type GreeterMessage = 
+type GreeterMessage =
    | Greet of string
    | Hi
 </code></pre><p>Once we have the message type, we can create our actor:</p>
@@ -102,23 +102,23 @@ open FSharp.Control.Tasks  // task CE from Giraffe
 open Orleankka             // base types of Orleankka
 open Orleankka.FSharp
 
-type GreeterMessage = 
+type GreeterMessage =
    | Greet of string
    | Hi
 
 // Create custom actor interface and implement IActorGrain
-type IGreeter = 
+type IGreeter =
    inherit IActorGrain&lt;GreeterMessage&gt;
 
 // Create actor class by inheriting from ActorGrain and implementing custom actor interface
-type Greeter() = 
+type Greeter() =
    inherit ActorGrain()
    interface IGreeter
 
    // Implement receive function using pattern matching
    override this.Receive(message) = task {
       match message with
-        | :? GreeterMessage as m -&gt; 
+        | :? GreeterMessage as m -&gt;
             match m with
             | Greet who -&gt; printfn &quot;Hello %s&quot; who
                            return none()
@@ -144,9 +144,10 @@ open Orleankka.Client
 open Orleankka.FSharp
 
 [&lt;EntryPoint&gt;]
-let main argv = 
+let main argv =
 
     let DemoClusterId = &quot;localhost-demo&quot;
+    let DemoServiceId = &quot;localhost-demo-service&quot;
     let LocalhostSiloPort = 11111
     let LocalhostGatewayPort = 30000
     let LocalhostSiloAddress = IPAddress.Loopback
@@ -155,7 +156,7 @@ let main argv =
 
     // configure localhost silo
     let sb = new SiloHostBuilder()
-    sb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId) |&gt; ignore
+    sb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId; options.ServiceId &lt;- DemoServiceId) |&gt; ignore
     sb.UseDevelopmentClustering(fun (options:DevelopmentClusterMembershipOptions) -&gt; options.PrimarySiloEndpoint &lt;- IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort)) |&gt; ignore
     sb.ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort) |&gt; ignore
 
@@ -167,7 +168,7 @@ let main argv =
 
     // configure localhost silo client
     let cb = new ClientBuilder()
-    cb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId) |&gt; ignore
+    cb.Configure&lt;ClusterOptions&gt;(fun (options:ClusterOptions) -&gt; options.ClusterId &lt;- DemoClusterId; options.ServiceId &lt;- DemoServiceId) |&gt; ignore
     cb.UseStaticClustering(fun (options:StaticGatewayListProviderOptions) -&gt; options.Gateways.Add(IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())) |&gt; ignore
 
     // register assembly containing your custom actor grain interfaces
@@ -196,11 +197,11 @@ let main argv =
         // to ask for result use (&lt;?)
         do! actor &lt;! Hi
         do! actor &lt;! Greet &quot;Yevhen&quot;
-        do! actor &lt;! Greet &quot;World&quot;      
+        do! actor &lt;! Greet &quot;World&quot;
     }
     t.Wait()
 
-    Console.ReadKey() |&gt; ignore 
+    Console.ReadKey() |&gt; ignore
     0
 </code></pre><p>That is it. See more examples in a Samples directory.</p>
 </article>

@@ -1697,42 +1697,78 @@ references:
   fullName.vb: Orleankka.Behaviors.StateMachine.Widening
   nameWithType: StateMachine.Implicit
   nameWithType.vb: StateMachine.Widening
-- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: State(Receive, Receive, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: State(Receive, Receive, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.State(Receive, Receive, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.State(Receive, Receive, Func(Of Receive, Receive), Receive())
-- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: State(Receive, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: State(Receive, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.State(Receive, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.State(Receive, Func(Of Receive, Receive), Receive())
-- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: State(String, Receive, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: State(String, Receive, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.State(String, Receive, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.State(String, Receive, Func(Of Receive, Receive), Receive())
-- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: State(String, Receive, String, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: State(String, Receive, String, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.State(String, Receive, String, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.State(String, Receive, String, Func(Of Receive, Receive), Receive())
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Receive, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Receive, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Receive, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Receive, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, String, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, String, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, String, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, String, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: State(String, Receive, String, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_System_String_Orleankka_Receive_System_String_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.State(System.String,Orleankka.Receive,System.String,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: State(String, Receive, String, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.State(System.String, Orleankka.Receive, System.String, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.State(String, Receive, String, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.State(String, Receive, String, Func(Of Receive, Receive))
 - uid: Orleankka.Behaviors.StateMachine.State*
   name: State
   href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_State_
@@ -1740,24 +1776,42 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.StateMachine.State
   nameWithType: StateMachine.State
-- uid: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: Substate(Receive, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: Substate(Receive, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.Substate(Receive, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.Substate(Receive, Func(Of Receive, Receive), Receive())
-- uid: Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name: Substate(String, Receive, Func<Receive, Receive>, Receive[])
-  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__Orleankka_Receive___
-  commentId: M:Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive},Orleankka.Receive[])
-  name.vb: Substate(String, Receive, Func(Of Receive, Receive), Receive())
-  fullName: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>, Orleankka.Receive[])
-  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive), Orleankka.Receive())
-  nameWithType: StateMachine.Substate(String, Receive, Func<Receive, Receive>, Receive[])
-  nameWithType.vb: StateMachine.Substate(String, Receive, Func(Of Receive, Receive), Receive())
+- uid: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: Substate(Receive, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_Orleankka_Receive_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: Substate(Receive, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.Substate(Receive, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.Substate(Receive, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: Substate(Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: Substate(Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.Substate(Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.Substate(Receive, Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: Substate(String, Receive, Receive[], Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_System_String_Orleankka_Receive_Orleankka_Receive___System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,Orleankka.Receive[],System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: Substate(String, Receive, Receive(), Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, Orleankka.Receive[], System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, Orleankka.Receive(), System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.Substate(String, Receive, Receive[], Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.Substate(String, Receive, Receive(), Func(Of Receive, Receive))
+- uid: Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name: Substate(String, Receive, Func<Receive, Receive>)
+  href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_System_String_Orleankka_Receive_System_Func_Orleankka_Receive_Orleankka_Receive__
+  commentId: M:Orleankka.Behaviors.StateMachine.Substate(System.String,Orleankka.Receive,System.Func{Orleankka.Receive,Orleankka.Receive})
+  name.vb: Substate(String, Receive, Func(Of Receive, Receive))
+  fullName: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, System.Func<Orleankka.Receive, Orleankka.Receive>)
+  fullName.vb: Orleankka.Behaviors.StateMachine.Substate(System.String, Orleankka.Receive, System.Func(Of Orleankka.Receive, Orleankka.Receive))
+  nameWithType: StateMachine.Substate(String, Receive, Func<Receive, Receive>)
+  nameWithType.vb: StateMachine.Substate(String, Receive, Func(Of Receive, Receive))
 - uid: Orleankka.Behaviors.StateMachine.Substate*
   name: Substate
   href: api/Orleankka.Behaviors.StateMachine.html#Orleankka_Behaviors_StateMachine_Substate_
@@ -1765,6 +1819,28 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.StateMachine.Substate
   nameWithType: StateMachine.Substate
+- uid: Orleankka.Behaviors.Trait
+  name: Trait
+  href: api/Orleankka.Behaviors.Trait.html
+  commentId: T:Orleankka.Behaviors.Trait
+  fullName: Orleankka.Behaviors.Trait
+  nameWithType: Trait
+- uid: Orleankka.Behaviors.Trait.Of(Orleankka.Receive[])
+  name: Of(Receive[])
+  href: api/Orleankka.Behaviors.Trait.html#Orleankka_Behaviors_Trait_Of_Orleankka_Receive___
+  commentId: M:Orleankka.Behaviors.Trait.Of(Orleankka.Receive[])
+  name.vb: Of(Receive())
+  fullName: Orleankka.Behaviors.Trait.Of(Orleankka.Receive[])
+  fullName.vb: Orleankka.Behaviors.Trait.Of(Orleankka.Receive())
+  nameWithType: Trait.Of(Receive[])
+  nameWithType.vb: Trait.Of(Receive())
+- uid: Orleankka.Behaviors.Trait.Of*
+  name: Of
+  href: api/Orleankka.Behaviors.Trait.html#Orleankka_Behaviors_Trait_Of_
+  commentId: Overload:Orleankka.Behaviors.Trait.Of
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Trait.Of
+  nameWithType: Trait.Of
 - uid: Orleankka.Behaviors.Unbecome
   name: Unbecome
   href: api/Orleankka.Behaviors.Unbecome.html
@@ -2395,6 +2471,44 @@ references:
   commentId: F:Orleankka.Done.Result
   fullName: Orleankka.Done.Result
   nameWithType: Done.Result
+- uid: Orleankka.Facets
+  name: Orleankka.Facets
+  href: api/Orleankka.Facets.html
+  commentId: N:Orleankka.Facets
+  fullName: Orleankka.Facets
+  nameWithType: Orleankka.Facets
+- uid: Orleankka.Facets.UseStorageProviderAttribute
+  name: UseStorageProviderAttribute
+  href: api/Orleankka.Facets.UseStorageProviderAttribute.html
+  commentId: T:Orleankka.Facets.UseStorageProviderAttribute
+  fullName: Orleankka.Facets.UseStorageProviderAttribute
+  nameWithType: UseStorageProviderAttribute
+- uid: Orleankka.Facets.UseStorageProviderAttribute.#ctor(System.String)
+  name: UseStorageProviderAttribute(String)
+  href: api/Orleankka.Facets.UseStorageProviderAttribute.html#Orleankka_Facets_UseStorageProviderAttribute__ctor_System_String_
+  commentId: M:Orleankka.Facets.UseStorageProviderAttribute.#ctor(System.String)
+  fullName: Orleankka.Facets.UseStorageProviderAttribute.UseStorageProviderAttribute(System.String)
+  nameWithType: UseStorageProviderAttribute.UseStorageProviderAttribute(String)
+- uid: Orleankka.Facets.UseStorageProviderAttribute.#ctor*
+  name: UseStorageProviderAttribute
+  href: api/Orleankka.Facets.UseStorageProviderAttribute.html#Orleankka_Facets_UseStorageProviderAttribute__ctor_
+  commentId: Overload:Orleankka.Facets.UseStorageProviderAttribute.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Facets.UseStorageProviderAttribute.UseStorageProviderAttribute
+  nameWithType: UseStorageProviderAttribute.UseStorageProviderAttribute
+- uid: Orleankka.Facets.UseStorageProviderAttribute.Name
+  name: Name
+  href: api/Orleankka.Facets.UseStorageProviderAttribute.html#Orleankka_Facets_UseStorageProviderAttribute_Name
+  commentId: P:Orleankka.Facets.UseStorageProviderAttribute.Name
+  fullName: Orleankka.Facets.UseStorageProviderAttribute.Name
+  nameWithType: UseStorageProviderAttribute.Name
+- uid: Orleankka.Facets.UseStorageProviderAttribute.Name*
+  name: Name
+  href: api/Orleankka.Facets.UseStorageProviderAttribute.html#Orleankka_Facets_UseStorageProviderAttribute_Name_
+  commentId: Overload:Orleankka.Facets.UseStorageProviderAttribute.Name
+  isSpec: "True"
+  fullName: Orleankka.Facets.UseStorageProviderAttribute.Name
+  nameWithType: UseStorageProviderAttribute.Name
 - uid: Orleankka.IActor
   name: IActor
   href: api/Orleankka.IActor.html
@@ -2772,6 +2886,15 @@ references:
   commentId: T:Orleankka.Meta.Event
   fullName: Orleankka.Meta.Event
   nameWithType: Event
+- uid: Orleankka.Meta.Event`1
+  name: Event<TActor>
+  href: api/Orleankka.Meta.Event-1.html
+  commentId: T:Orleankka.Meta.Event`1
+  name.vb: Event(Of TActor)
+  fullName: Orleankka.Meta.Event<TActor>
+  fullName.vb: Orleankka.Meta.Event(Of TActor)
+  nameWithType: Event<TActor>
+  nameWithType.vb: Event(Of TActor)
 - uid: Orleankka.Meta.Extensions
   name: Extensions
   href: api/Orleankka.Meta.Extensions.html

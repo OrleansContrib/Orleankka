@@ -8,7 +8,7 @@
     <title>Set up your project | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Set up your project | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.40.6.0">
+    <meta name="generator" content="docfx 2.40.12.0">
     
     <link rel="shortcut icon" href="../..//images/favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -94,13 +94,13 @@ PM&gt; Install-Package Microsoft.Orleans.Server
     // and mark them with [Serializable] attribute. This is smilar to
     // object-oriented interface signatures (eg Greet(string who)) but with classes
 
-    [Serializable] 
+    [Serializable]
     public class Greet
     {
         public string Who { get; set; }
     }
 
-    [Serializable] 
+    [Serializable]
     public class Sleep
     {}
 }
@@ -133,7 +133,7 @@ namespace ConsoleApplication11
                 default:
                     return Unhandled;
             }
-        }        
+        }
     }
 }
 </code></pre><p>Now it&#39;s time to consume our actor. We need to configure Orleans and then register Orleankka. We&#39;ll be using simple localhost configuration suitable for demos.</p>
@@ -144,13 +144,13 @@ using Orleankka.Playground;
 
 namespace ConsoleApplication11
 {
-    [Serializable] 
+    [Serializable]
     public class Greet
     {
         public string Who { get; set; }
     }
 
-    [Serializable] 
+    [Serializable]
     public class Sleep
     {}
 
@@ -170,12 +170,13 @@ namespace ConsoleApplication11
                 default:
                     return Unhandled;
             }
-        }        
+        }
     }
 
     class Program
     {
         const string DemoClusterId = &quot;localhost-demo&quot;;
+        const string DemoServiceId = &quot;localhost-demo-service&quot;;
         const int LocalhostSiloPort = 11111;
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
@@ -183,9 +184,12 @@ namespace ConsoleApplication11
         static void Main(string[] args)
         {
             var host = await new SiloHostBuilder()
-                .Configure(options =&gt; options.ClusterId = DemoClusterId)
+                .Configure(options =&gt; {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId;
+                })
                 .UseDevelopmentClustering(options =&gt; options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
-                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)            
+                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .ConfigureApplicationParts(x =&gt; x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
@@ -196,7 +200,10 @@ namespace ConsoleApplication11
             await host.StartAsync();
 
             var client = new ClientBuilder()
-                .ConfigureCluster(options =&gt; options.ClusterId = DemoClusterId)
+                .ConfigureCluster(options =&gt; {
+                    options.ClusterId = DemoClusterId;
+                    options.ServiceId = DemoServiceId
+                })
                 .UseStaticClustering(options =&gt; options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
                 .ConfigureApplicationParts(x =&gt; x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
