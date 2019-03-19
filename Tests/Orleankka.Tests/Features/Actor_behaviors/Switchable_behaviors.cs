@@ -57,6 +57,36 @@ namespace Orleankka.Features.Actor_behaviors
                 Assert.That(events, Has.Count.EqualTo(0),
                     "OnBecome should not be called when setting initial");
             }
+
+            [Test]
+            public async Task When_receiving_activate_message_initial()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial");
+
+                behavior.Initial("Initial");
+
+                var result = await behavior.Receive(Activate.Message);
+                Assert.That(result, Is.SameAs(Done.Result));
+                
+                Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
+                AssertEvents("OnActivate_Initial");
+            }
+
+            [Test]
+            public async Task When_receiving_deactivate_message_initial()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .State("Initial");
+
+                behavior.Initial("Initial");
+
+                var result = await behavior.Receive(Deactivate.Message);
+                Assert.That(result, Is.SameAs(Done.Result));
+                
+                Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
+                AssertEvents("OnDeactivate_Initial");
+            }
             
             [Test]
             public async Task When_transitioning()

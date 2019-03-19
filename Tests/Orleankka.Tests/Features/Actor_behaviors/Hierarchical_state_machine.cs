@@ -122,7 +122,7 @@ namespace Orleankka.Features.Actor_behaviors
             }
 
             [Test]
-            public void When_receiving_initial_message_no_sm()
+            public async Task When_receiving_activate_message_initial()
             {
                 var behavior = new Behavior(new StateMachine()
                     .State("A", _ => TaskResult.Done)
@@ -130,8 +130,21 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("A");
 
-                Assert.DoesNotThrowAsync(
-                    async ()=> await behavior.Receive(Activate.Message));
+                var result = await behavior.Receive(Activate.Message);
+                Assert.That(result, Is.SameAs(Done.Result));
+            }
+
+            [Test]
+            public async Task When_receiving_deactivate_message_initial()
+            {
+                var behavior = new Behavior(new StateMachine()
+                    .State("A", _ => TaskResult.Done)
+                    .State("B", _ => TaskResult.Done));
+
+                behavior.Initial("A");
+
+                var result = await behavior.Receive(Deactivate.Message);
+                Assert.That(result, Is.SameAs(Done.Result));
             }
 
             [Test]
