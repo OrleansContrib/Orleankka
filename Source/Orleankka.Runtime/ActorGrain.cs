@@ -69,6 +69,7 @@ namespace Orleankka
         public IActivationService Activation => Runtime.Activation;
         public IReminderService Reminders => Runtime.Reminders;
         public ITimerService Timers => Runtime.Timers;
+        public IBackgroundJobService Jobs => Runtime.Jobs;
 
         Task<object> IActor.ReceiveAsk(object message) => ReceiveRequest(message);
         Task IActor.ReceiveTell(object message) => ReceiveRequest(message);

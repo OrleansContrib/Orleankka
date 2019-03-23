@@ -8,6 +8,7 @@ namespace Orleankka
     {
         IActorSystem System             { get; }
         ITimerService Timers            { get; }
+        IBackgroundJobService Jobs      { get; }
         IReminderService Reminders      { get; }
         IActivationService Activation   { get; }
     }
@@ -18,12 +19,14 @@ namespace Orleankka
         {
             System = system;
             Timers = new TimerService(grain);
+            Jobs = new BackgroundJobService(grain);
             Reminders = new ReminderService(grain);
             Activation = new ActivationService(grain);
         }
 
         public IActorSystem System { get; }
         public ITimerService Timers { get; }
+        public IBackgroundJobService Jobs { get; }
         public IReminderService Reminders { get; }
         public IActivationService Activation { get; }
     }

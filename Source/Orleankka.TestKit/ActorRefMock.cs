@@ -4,8 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using Orleankka.Utility;
-
 namespace Orleankka.TestKit
 {
     [Serializable]
