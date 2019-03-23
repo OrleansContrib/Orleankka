@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 using Orleankka;
 using Orleankka.Client;
 using Orleankka.Cluster;
@@ -49,6 +51,20 @@ namespace Demo
                 {
                     options.ClusterId = DemoClusterId;
                     options.ServiceId = DemoServiceId;
+                })
+                .Configure<SchedulingOptions>(options =>
+                {
+                    options.AllowCallChainReentrancy = false;
+                })
+                .Configure<SiloMessagingOptions>(options =>
+                {
+                    options.ResponseTimeout = TimeSpan.FromSeconds(5);
+                    options.ResponseTimeoutWithDebugger = TimeSpan.FromSeconds(5);
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.SetMinimumLevel(LogLevel.Information);
+                    logging.AddConsole();
                 })
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)

@@ -50,6 +50,10 @@
         <MicrosoftOrleansCodeGeneratorVersion>2.2.0</MicrosoftOrleansCodeGeneratorVersion>
         <MicrosoftOrleansRuntimeVersion>2.2.0</MicrosoftOrleansRuntimeVersion>
 
+        <!-- Microsoft extensions -->
+        <MicrosoftExtensionsLoggingVersion>2.1.0</MicrosoftExtensionsLoggingVersion>
+        <MicrosoftExtensionsLoggingConsoleVersion>2.1.0</MicrosoftExtensionsLoggingConsoleVersion>
+
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
         <NUnit3TestAdapterVersion>3.9.0</NUnit3TestAdapterVersion>
