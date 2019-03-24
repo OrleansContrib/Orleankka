@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorGrain.html",
-          "hash": "WDJBa2DCnvjQvJjYXrcE5g=="
+          "hash": "XL34mHUKMaUlZ1X695qVzw=="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorRuntime.html",
-          "hash": "k+CT9g2AfaZUJ52ZY0BDIQ=="
+          "hash": "UFBwU+rM4HiRgNllyV9M3g=="
         }
       },
       "is_incremental": false,
@@ -477,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.DispatchActorGrain.html",
-          "hash": "3VV6AYFN3wwQaqzTMNI2JA=="
+          "hash": "ZF48G0uwseTCckdMn0jLWw=="
         }
       },
       "is_incremental": false,
@@ -585,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.IActorRuntime.html",
-          "hash": "g1hfB3qaPzreqa96OAY2RA=="
+          "hash": "XW8gmnY3yxs3TwPjKAizLQ=="
         }
       },
       "is_incremental": false,
@@ -893,6 +893,78 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJob.html",
+          "hash": "3wLaFjLMED4II5httPXBkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJobFailed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJobFailed.html",
+          "hash": "b1h3atoiwL3pMZ6NBiddSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJobServiceExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJobServiceExtensions.html",
+          "hash": "vUSa/gU3e9elKSCUmWzjtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJobTerminated.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJobTerminated.html",
+          "hash": "gTQZqzWgLMc8k1MZSWLmaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJobToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJobToken.html",
+          "hash": "hXn0HQqGAEMYK1X2PHMOpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.BackgroundJobTokenSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.BackgroundJobTokenSource.html",
+          "hash": "FvauVvk/+NBBMIYykyy9NQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Services.GrainInternals.yml",
       "output": {
         ".html": {
@@ -910,6 +982,18 @@
         ".html": {
           "relative_path": "api/Orleankka.Services.IActivationService.html",
           "hash": "mE7CRIkVrV75E2C20Zg4Ow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.Services.IBackgroundJobService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.Services.IBackgroundJobService.html",
+          "hash": "fjgQ1s0ufryaZpN7A4s9HA=="
         }
       },
       "is_incremental": false,
@@ -945,7 +1029,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Services.html",
-          "hash": "9RMhaQDPbrPNxSddQplRDw=="
+          "hash": "hBPiNMQRbigY/jW1qyXJGg=="
         }
       },
       "is_incremental": false,
@@ -1041,7 +1125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorRefMock-1.html",
-          "hash": "sw26UBAvyhk0XRdAv8iAPA=="
+          "hash": "AS+D6Ykr4SC7qpIxuZfhaw=="
         }
       },
       "is_incremental": false,
@@ -1053,7 +1137,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorRefMock.html",
-          "hash": "nvWkn/WnblsPRVpLknj+cg=="
+          "hash": "liVXmdRNmW+HFWNUdIUzZQ=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1149,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorRuntimeMock.html",
-          "hash": "xh2Kp5tJf33/na5wWxxvDA=="
+          "hash": "hpx1VF7BRaEYr4hQOsdTHA=="
         }
       },
       "is_incremental": false,
@@ -1089,7 +1173,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorSystemMockExtensions.html",
-          "hash": "XTUo1eIlGY8OCaptqzn3WQ=="
+          "hash": "YpO7lOmYi9iadPjh29GIsQ=="
         }
       },
       "is_incremental": false,
@@ -1102,6 +1186,18 @@
         ".html": {
           "relative_path": "api/Orleankka.TestKit.AskExpectation-1.html",
           "hash": "4WS+MLOD1R04r3v4shhgSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.BackgroundJobServiceMock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.BackgroundJobServiceMock.html",
+          "hash": "YNKzKfMyyafPEAgq33c31A=="
         }
       },
       "is_incremental": false,
@@ -1149,7 +1245,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.DoNotExpectResult.html",
-          "hash": "hJHMFCpJkjaGiU87WRCmAA=="
+          "hash": "1+HGHcYhoz7KPHNwg4qkAA=="
         }
       },
       "is_incremental": false,
@@ -1289,6 +1385,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedBackgroundJob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedBackgroundJob.html",
+          "hash": "szH5eFuXghsTVJn0HNWrOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.TestKit.RecordedCallbackTimer-1.yml",
       "output": {
         ".html": {
@@ -1341,7 +1449,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.RecordedMessage.html",
-          "hash": "IoVTkWOIHGq4EObZjPFqIg=="
+          "hash": "KkCGkrEGdOP4N1BSDO0fiA=="
         }
       },
       "is_incremental": false,
@@ -1497,7 +1605,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.html",
-          "hash": "qxpfA+prne5TkTe4aMxxLg=="
+          "hash": "YgqAVPiXn3P++GY06jTYng=="
         }
       },
       "is_incremental": false,
@@ -1581,7 +1689,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "8yFm0a4IdTb0KyD+FvllAg=="
+          "hash": "at6+R0lqId7Ce0eLGt+u/Q=="
         }
       },
       "is_incremental": false,
@@ -1716,13 +1824,6 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -1736,10 +1837,17 @@
           "total_file_count": 5,
           "skipped_file_count": 0
         },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 131,
+          "total_file_count": 140,
           "skipped_file_count": 0
         }
       }

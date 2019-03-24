@@ -82,6 +82,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorGrain.Id
   nameWithType: ActorGrain.Id
+- uid: Orleankka.ActorGrain.Jobs
+  name: Jobs
+  href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Jobs
+  commentId: P:Orleankka.ActorGrain.Jobs
+  fullName: Orleankka.ActorGrain.Jobs
+  nameWithType: ActorGrain.Jobs
+- uid: Orleankka.ActorGrain.Jobs*
+  name: Jobs
+  href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Jobs_
+  commentId: Overload:Orleankka.ActorGrain.Jobs
+  isSpec: "True"
+  fullName: Orleankka.ActorGrain.Jobs
+  nameWithType: ActorGrain.Jobs
 - uid: Orleankka.ActorGrain.OnActivateAsync
   name: OnActivateAsync()
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_OnActivateAsync
@@ -1002,6 +1015,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorRuntime.Activation
   nameWithType: ActorRuntime.Activation
+- uid: Orleankka.ActorRuntime.Jobs
+  name: Jobs
+  href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Jobs
+  commentId: P:Orleankka.ActorRuntime.Jobs
+  fullName: Orleankka.ActorRuntime.Jobs
+  nameWithType: ActorRuntime.Jobs
+- uid: Orleankka.ActorRuntime.Jobs*
+  name: Jobs
+  href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Jobs_
+  commentId: Overload:Orleankka.ActorRuntime.Jobs
+  isSpec: "True"
+  fullName: Orleankka.ActorRuntime.Jobs
+  nameWithType: ActorRuntime.Jobs
 - uid: Orleankka.ActorRuntime.Reminders
   name: Reminders
   href: api/Orleankka.ActorRuntime.html#Orleankka_ActorRuntime_Reminders
@@ -2636,6 +2662,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.IActorRuntime.Activation
   nameWithType: IActorRuntime.Activation
+- uid: Orleankka.IActorRuntime.Jobs
+  name: Jobs
+  href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Jobs
+  commentId: P:Orleankka.IActorRuntime.Jobs
+  fullName: Orleankka.IActorRuntime.Jobs
+  nameWithType: IActorRuntime.Jobs
+- uid: Orleankka.IActorRuntime.Jobs*
+  name: Jobs
+  href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Jobs_
+  commentId: Overload:Orleankka.IActorRuntime.Jobs
+  isSpec: "True"
+  fullName: Orleankka.IActorRuntime.Jobs
+  nameWithType: IActorRuntime.Jobs
 - uid: Orleankka.IActorRuntime.Reminders
   name: Reminders
   href: api/Orleankka.IActorRuntime.html#Orleankka_IActorRuntime_Reminders
@@ -3252,6 +3291,372 @@ references:
   fullName: Orleankka.Services.ActivationService.Orleankka.Services.IActivationService.DelayDeactivation
   nameWithType: ActivationService.IActivationService.DelayDeactivation
   nameWithType.vb: ActivationService.Orleankka.Services.IActivationService.DelayDeactivation
+- uid: Orleankka.Services.BackgroundJob
+  name: BackgroundJob
+  href: api/Orleankka.Services.BackgroundJob.html
+  commentId: T:Orleankka.Services.BackgroundJob
+  fullName: Orleankka.Services.BackgroundJob
+  nameWithType: BackgroundJob
+- uid: Orleankka.Services.BackgroundJob.#ctor(System.Collections.Generic.HashSet{Orleankka.Services.BackgroundJob},Orleankka.ActorRef,Orleankka.Services.ITimerService,System.String,System.Int32,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name: BackgroundJob(HashSet<BackgroundJob>, ActorRef, ITimerService, String, Int32, Func<BackgroundJobToken, Task>)
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob__ctor_System_Collections_Generic_HashSet_Orleankka_Services_BackgroundJob__Orleankka_ActorRef_Orleankka_Services_ITimerService_System_String_System_Int32_System_Func_Orleankka_Services_BackgroundJobToken_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Services.BackgroundJob.#ctor(System.Collections.Generic.HashSet{Orleankka.Services.BackgroundJob},Orleankka.ActorRef,Orleankka.Services.ITimerService,System.String,System.Int32,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name.vb: BackgroundJob(HashSet(Of BackgroundJob), ActorRef, ITimerService, String, Int32, Func(Of BackgroundJobToken, Task))
+  fullName: Orleankka.Services.BackgroundJob.BackgroundJob(System.Collections.Generic.HashSet<Orleankka.Services.BackgroundJob>, Orleankka.ActorRef, Orleankka.Services.ITimerService, System.String, System.Int32, System.Func<Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Services.BackgroundJob.BackgroundJob(System.Collections.Generic.HashSet(Of Orleankka.Services.BackgroundJob), Orleankka.ActorRef, Orleankka.Services.ITimerService, System.String, System.Int32, System.Func(Of Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task))
+  nameWithType: BackgroundJob.BackgroundJob(HashSet<BackgroundJob>, ActorRef, ITimerService, String, Int32, Func<BackgroundJobToken, Task>)
+  nameWithType.vb: BackgroundJob.BackgroundJob(HashSet(Of BackgroundJob), ActorRef, ITimerService, String, Int32, Func(Of BackgroundJobToken, Task))
+- uid: Orleankka.Services.BackgroundJob.#ctor*
+  name: BackgroundJob
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob__ctor_
+  commentId: Overload:Orleankka.Services.BackgroundJob.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.BackgroundJob
+  nameWithType: BackgroundJob.BackgroundJob
+- uid: Orleankka.Services.BackgroundJob.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Equals_System_Object_
+  commentId: M:Orleankka.Services.BackgroundJob.Equals(System.Object)
+  fullName: Orleankka.Services.BackgroundJob.Equals(System.Object)
+  nameWithType: BackgroundJob.Equals(Object)
+- uid: Orleankka.Services.BackgroundJob.Equals*
+  name: Equals
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Equals_
+  commentId: Overload:Orleankka.Services.BackgroundJob.Equals
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.Equals
+  nameWithType: BackgroundJob.Equals
+- uid: Orleankka.Services.BackgroundJob.Failures
+  name: Failures
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Failures
+  commentId: P:Orleankka.Services.BackgroundJob.Failures
+  fullName: Orleankka.Services.BackgroundJob.Failures
+  nameWithType: BackgroundJob.Failures
+- uid: Orleankka.Services.BackgroundJob.Failures*
+  name: Failures
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Failures_
+  commentId: Overload:Orleankka.Services.BackgroundJob.Failures
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.Failures
+  nameWithType: BackgroundJob.Failures
+- uid: Orleankka.Services.BackgroundJob.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_GetHashCode
+  commentId: M:Orleankka.Services.BackgroundJob.GetHashCode
+  fullName: Orleankka.Services.BackgroundJob.GetHashCode()
+  nameWithType: BackgroundJob.GetHashCode()
+- uid: Orleankka.Services.BackgroundJob.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_GetHashCode_
+  commentId: Overload:Orleankka.Services.BackgroundJob.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.GetHashCode
+  nameWithType: BackgroundJob.GetHashCode
+- uid: Orleankka.Services.BackgroundJob.Id
+  name: Id
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Id
+  commentId: F:Orleankka.Services.BackgroundJob.Id
+  fullName: Orleankka.Services.BackgroundJob.Id
+  nameWithType: BackgroundJob.Id
+- uid: Orleankka.Services.BackgroundJob.IsActive
+  name: IsActive
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsActive
+  commentId: P:Orleankka.Services.BackgroundJob.IsActive
+  fullName: Orleankka.Services.BackgroundJob.IsActive
+  nameWithType: BackgroundJob.IsActive
+- uid: Orleankka.Services.BackgroundJob.IsActive*
+  name: IsActive
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsActive_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsActive
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsActive
+  nameWithType: BackgroundJob.IsActive
+- uid: Orleankka.Services.BackgroundJob.IsFailed
+  name: IsFailed
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsFailed
+  commentId: P:Orleankka.Services.BackgroundJob.IsFailed
+  fullName: Orleankka.Services.BackgroundJob.IsFailed
+  nameWithType: BackgroundJob.IsFailed
+- uid: Orleankka.Services.BackgroundJob.IsFailed*
+  name: IsFailed
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsFailed_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsFailed
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsFailed
+  nameWithType: BackgroundJob.IsFailed
+- uid: Orleankka.Services.BackgroundJob.IsRunning
+  name: IsRunning
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsRunning
+  commentId: P:Orleankka.Services.BackgroundJob.IsRunning
+  fullName: Orleankka.Services.BackgroundJob.IsRunning
+  nameWithType: BackgroundJob.IsRunning
+- uid: Orleankka.Services.BackgroundJob.IsRunning*
+  name: IsRunning
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsRunning_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsRunning
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsRunning
+  nameWithType: BackgroundJob.IsRunning
+- uid: Orleankka.Services.BackgroundJob.IsScheduled
+  name: IsScheduled
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsScheduled
+  commentId: P:Orleankka.Services.BackgroundJob.IsScheduled
+  fullName: Orleankka.Services.BackgroundJob.IsScheduled
+  nameWithType: BackgroundJob.IsScheduled
+- uid: Orleankka.Services.BackgroundJob.IsScheduled*
+  name: IsScheduled
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsScheduled_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsScheduled
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsScheduled
+  nameWithType: BackgroundJob.IsScheduled
+- uid: Orleankka.Services.BackgroundJob.IsTerminated
+  name: IsTerminated
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsTerminated
+  commentId: P:Orleankka.Services.BackgroundJob.IsTerminated
+  fullName: Orleankka.Services.BackgroundJob.IsTerminated
+  nameWithType: BackgroundJob.IsTerminated
+- uid: Orleankka.Services.BackgroundJob.IsTerminated*
+  name: IsTerminated
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsTerminated_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsTerminated
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsTerminated
+  nameWithType: BackgroundJob.IsTerminated
+- uid: Orleankka.Services.BackgroundJob.IsTerminationRequested
+  name: IsTerminationRequested
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsTerminationRequested
+  commentId: P:Orleankka.Services.BackgroundJob.IsTerminationRequested
+  fullName: Orleankka.Services.BackgroundJob.IsTerminationRequested
+  nameWithType: BackgroundJob.IsTerminationRequested
+- uid: Orleankka.Services.BackgroundJob.IsTerminationRequested*
+  name: IsTerminationRequested
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_IsTerminationRequested_
+  commentId: Overload:Orleankka.Services.BackgroundJob.IsTerminationRequested
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.IsTerminationRequested
+  nameWithType: BackgroundJob.IsTerminationRequested
+- uid: Orleankka.Services.BackgroundJob.Name
+  name: Name
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Name
+  commentId: F:Orleankka.Services.BackgroundJob.Name
+  fullName: Orleankka.Services.BackgroundJob.Name
+  nameWithType: BackgroundJob.Name
+- uid: Orleankka.Services.BackgroundJob.Retry(System.Nullable{System.TimeSpan})
+  name: Retry(Nullable<TimeSpan>)
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Retry_System_Nullable_System_TimeSpan__
+  commentId: M:Orleankka.Services.BackgroundJob.Retry(System.Nullable{System.TimeSpan})
+  name.vb: Retry(Nullable(Of TimeSpan))
+  fullName: Orleankka.Services.BackgroundJob.Retry(System.Nullable<System.TimeSpan>)
+  fullName.vb: Orleankka.Services.BackgroundJob.Retry(System.Nullable(Of System.TimeSpan))
+  nameWithType: BackgroundJob.Retry(Nullable<TimeSpan>)
+  nameWithType.vb: BackgroundJob.Retry(Nullable(Of TimeSpan))
+- uid: Orleankka.Services.BackgroundJob.Retry*
+  name: Retry
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Retry_
+  commentId: Overload:Orleankka.Services.BackgroundJob.Retry
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.Retry
+  nameWithType: BackgroundJob.Retry
+- uid: Orleankka.Services.BackgroundJob.Schedule(System.TimeSpan)
+  name: Schedule(TimeSpan)
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Schedule_System_TimeSpan_
+  commentId: M:Orleankka.Services.BackgroundJob.Schedule(System.TimeSpan)
+  fullName: Orleankka.Services.BackgroundJob.Schedule(System.TimeSpan)
+  nameWithType: BackgroundJob.Schedule(TimeSpan)
+- uid: Orleankka.Services.BackgroundJob.Schedule*
+  name: Schedule
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Schedule_
+  commentId: Overload:Orleankka.Services.BackgroundJob.Schedule
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.Schedule
+  nameWithType: BackgroundJob.Schedule
+- uid: Orleankka.Services.BackgroundJob.Terminate
+  name: Terminate()
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Terminate
+  commentId: M:Orleankka.Services.BackgroundJob.Terminate
+  fullName: Orleankka.Services.BackgroundJob.Terminate()
+  nameWithType: BackgroundJob.Terminate()
+- uid: Orleankka.Services.BackgroundJob.Terminate*
+  name: Terminate
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_Terminate_
+  commentId: Overload:Orleankka.Services.BackgroundJob.Terminate
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.Terminate
+  nameWithType: BackgroundJob.Terminate
+- uid: Orleankka.Services.BackgroundJob.TimerUid
+  name: TimerUid
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_TimerUid
+  commentId: P:Orleankka.Services.BackgroundJob.TimerUid
+  fullName: Orleankka.Services.BackgroundJob.TimerUid
+  nameWithType: BackgroundJob.TimerUid
+- uid: Orleankka.Services.BackgroundJob.TimerUid*
+  name: TimerUid
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_TimerUid_
+  commentId: Overload:Orleankka.Services.BackgroundJob.TimerUid
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.TimerUid
+  nameWithType: BackgroundJob.TimerUid
+- uid: Orleankka.Services.BackgroundJob.ToString
+  name: ToString()
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_ToString
+  commentId: M:Orleankka.Services.BackgroundJob.ToString
+  fullName: Orleankka.Services.BackgroundJob.ToString()
+  nameWithType: BackgroundJob.ToString()
+- uid: Orleankka.Services.BackgroundJob.ToString*
+  name: ToString
+  href: api/Orleankka.Services.BackgroundJob.html#Orleankka_Services_BackgroundJob_ToString_
+  commentId: Overload:Orleankka.Services.BackgroundJob.ToString
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJob.ToString
+  nameWithType: BackgroundJob.ToString
+- uid: Orleankka.Services.BackgroundJobFailed
+  name: BackgroundJobFailed
+  href: api/Orleankka.Services.BackgroundJobFailed.html
+  commentId: T:Orleankka.Services.BackgroundJobFailed
+  fullName: Orleankka.Services.BackgroundJobFailed
+  nameWithType: BackgroundJobFailed
+- uid: Orleankka.Services.BackgroundJobFailed.#ctor(System.String,System.Int32,System.Int32,System.Exception)
+  name: BackgroundJobFailed(String, Int32, Int32, Exception)
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed__ctor_System_String_System_Int32_System_Int32_System_Exception_
+  commentId: M:Orleankka.Services.BackgroundJobFailed.#ctor(System.String,System.Int32,System.Int32,System.Exception)
+  fullName: Orleankka.Services.BackgroundJobFailed.BackgroundJobFailed(System.String, System.Int32, System.Int32, System.Exception)
+  nameWithType: BackgroundJobFailed.BackgroundJobFailed(String, Int32, Int32, Exception)
+- uid: Orleankka.Services.BackgroundJobFailed.#ctor*
+  name: BackgroundJobFailed
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed__ctor_
+  commentId: Overload:Orleankka.Services.BackgroundJobFailed.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobFailed.BackgroundJobFailed
+  nameWithType: BackgroundJobFailed.BackgroundJobFailed
+- uid: Orleankka.Services.BackgroundJobFailed.Exception
+  name: Exception
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed_Exception
+  commentId: F:Orleankka.Services.BackgroundJobFailed.Exception
+  fullName: Orleankka.Services.BackgroundJobFailed.Exception
+  nameWithType: BackgroundJobFailed.Exception
+- uid: Orleankka.Services.BackgroundJobFailed.Failures
+  name: Failures
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed_Failures
+  commentId: F:Orleankka.Services.BackgroundJobFailed.Failures
+  fullName: Orleankka.Services.BackgroundJobFailed.Failures
+  nameWithType: BackgroundJobFailed.Failures
+- uid: Orleankka.Services.BackgroundJobFailed.Id
+  name: Id
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed_Id
+  commentId: F:Orleankka.Services.BackgroundJobFailed.Id
+  fullName: Orleankka.Services.BackgroundJobFailed.Id
+  nameWithType: BackgroundJobFailed.Id
+- uid: Orleankka.Services.BackgroundJobFailed.Name
+  name: Name
+  href: api/Orleankka.Services.BackgroundJobFailed.html#Orleankka_Services_BackgroundJobFailed_Name
+  commentId: F:Orleankka.Services.BackgroundJobFailed.Name
+  fullName: Orleankka.Services.BackgroundJobFailed.Name
+  nameWithType: BackgroundJobFailed.Name
+- uid: Orleankka.Services.BackgroundJobServiceExtensions
+  name: BackgroundJobServiceExtensions
+  href: api/Orleankka.Services.BackgroundJobServiceExtensions.html
+  commentId: T:Orleankka.Services.BackgroundJobServiceExtensions
+  fullName: Orleankka.Services.BackgroundJobServiceExtensions
+  nameWithType: BackgroundJobServiceExtensions
+- uid: Orleankka.Services.BackgroundJobServiceExtensions.Terminate(Orleankka.Services.IBackgroundJobService,System.String,System.Nullable{System.Int32})
+  name: Terminate(IBackgroundJobService, String, Nullable<Int32>)
+  href: api/Orleankka.Services.BackgroundJobServiceExtensions.html#Orleankka_Services_BackgroundJobServiceExtensions_Terminate_Orleankka_Services_IBackgroundJobService_System_String_System_Nullable_System_Int32__
+  commentId: M:Orleankka.Services.BackgroundJobServiceExtensions.Terminate(Orleankka.Services.IBackgroundJobService,System.String,System.Nullable{System.Int32})
+  name.vb: Terminate(IBackgroundJobService, String, Nullable(Of Int32))
+  fullName: Orleankka.Services.BackgroundJobServiceExtensions.Terminate(Orleankka.Services.IBackgroundJobService, System.String, System.Nullable<System.Int32>)
+  fullName.vb: Orleankka.Services.BackgroundJobServiceExtensions.Terminate(Orleankka.Services.IBackgroundJobService, System.String, System.Nullable(Of System.Int32))
+  nameWithType: BackgroundJobServiceExtensions.Terminate(IBackgroundJobService, String, Nullable<Int32>)
+  nameWithType.vb: BackgroundJobServiceExtensions.Terminate(IBackgroundJobService, String, Nullable(Of Int32))
+- uid: Orleankka.Services.BackgroundJobServiceExtensions.Terminate*
+  name: Terminate
+  href: api/Orleankka.Services.BackgroundJobServiceExtensions.html#Orleankka_Services_BackgroundJobServiceExtensions_Terminate_
+  commentId: Overload:Orleankka.Services.BackgroundJobServiceExtensions.Terminate
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobServiceExtensions.Terminate
+  nameWithType: BackgroundJobServiceExtensions.Terminate
+- uid: Orleankka.Services.BackgroundJobTerminated
+  name: BackgroundJobTerminated
+  href: api/Orleankka.Services.BackgroundJobTerminated.html
+  commentId: T:Orleankka.Services.BackgroundJobTerminated
+  fullName: Orleankka.Services.BackgroundJobTerminated
+  nameWithType: BackgroundJobTerminated
+- uid: Orleankka.Services.BackgroundJobTerminated.#ctor(System.String,System.Int32)
+  name: BackgroundJobTerminated(String, Int32)
+  href: api/Orleankka.Services.BackgroundJobTerminated.html#Orleankka_Services_BackgroundJobTerminated__ctor_System_String_System_Int32_
+  commentId: M:Orleankka.Services.BackgroundJobTerminated.#ctor(System.String,System.Int32)
+  fullName: Orleankka.Services.BackgroundJobTerminated.BackgroundJobTerminated(System.String, System.Int32)
+  nameWithType: BackgroundJobTerminated.BackgroundJobTerminated(String, Int32)
+- uid: Orleankka.Services.BackgroundJobTerminated.#ctor*
+  name: BackgroundJobTerminated
+  href: api/Orleankka.Services.BackgroundJobTerminated.html#Orleankka_Services_BackgroundJobTerminated__ctor_
+  commentId: Overload:Orleankka.Services.BackgroundJobTerminated.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobTerminated.BackgroundJobTerminated
+  nameWithType: BackgroundJobTerminated.BackgroundJobTerminated
+- uid: Orleankka.Services.BackgroundJobTerminated.Id
+  name: Id
+  href: api/Orleankka.Services.BackgroundJobTerminated.html#Orleankka_Services_BackgroundJobTerminated_Id
+  commentId: F:Orleankka.Services.BackgroundJobTerminated.Id
+  fullName: Orleankka.Services.BackgroundJobTerminated.Id
+  nameWithType: BackgroundJobTerminated.Id
+- uid: Orleankka.Services.BackgroundJobTerminated.Name
+  name: Name
+  href: api/Orleankka.Services.BackgroundJobTerminated.html#Orleankka_Services_BackgroundJobTerminated_Name
+  commentId: F:Orleankka.Services.BackgroundJobTerminated.Name
+  fullName: Orleankka.Services.BackgroundJobTerminated.Name
+  nameWithType: BackgroundJobTerminated.Name
+- uid: Orleankka.Services.BackgroundJobToken
+  name: BackgroundJobToken
+  href: api/Orleankka.Services.BackgroundJobToken.html
+  commentId: T:Orleankka.Services.BackgroundJobToken
+  fullName: Orleankka.Services.BackgroundJobToken
+  nameWithType: BackgroundJobToken
+- uid: Orleankka.Services.BackgroundJobToken.IsTerminationRequested
+  name: IsTerminationRequested
+  href: api/Orleankka.Services.BackgroundJobToken.html#Orleankka_Services_BackgroundJobToken_IsTerminationRequested
+  commentId: P:Orleankka.Services.BackgroundJobToken.IsTerminationRequested
+  fullName: Orleankka.Services.BackgroundJobToken.IsTerminationRequested
+  nameWithType: BackgroundJobToken.IsTerminationRequested
+- uid: Orleankka.Services.BackgroundJobToken.IsTerminationRequested*
+  name: IsTerminationRequested
+  href: api/Orleankka.Services.BackgroundJobToken.html#Orleankka_Services_BackgroundJobToken_IsTerminationRequested_
+  commentId: Overload:Orleankka.Services.BackgroundJobToken.IsTerminationRequested
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobToken.IsTerminationRequested
+  nameWithType: BackgroundJobToken.IsTerminationRequested
+- uid: Orleankka.Services.BackgroundJobTokenSource
+  name: BackgroundJobTokenSource
+  href: api/Orleankka.Services.BackgroundJobTokenSource.html
+  commentId: T:Orleankka.Services.BackgroundJobTokenSource
+  fullName: Orleankka.Services.BackgroundJobTokenSource
+  nameWithType: BackgroundJobTokenSource
+- uid: Orleankka.Services.BackgroundJobTokenSource.Terminate
+  name: Terminate()
+  href: api/Orleankka.Services.BackgroundJobTokenSource.html#Orleankka_Services_BackgroundJobTokenSource_Terminate
+  commentId: M:Orleankka.Services.BackgroundJobTokenSource.Terminate
+  fullName: Orleankka.Services.BackgroundJobTokenSource.Terminate()
+  nameWithType: BackgroundJobTokenSource.Terminate()
+- uid: Orleankka.Services.BackgroundJobTokenSource.Terminate*
+  name: Terminate
+  href: api/Orleankka.Services.BackgroundJobTokenSource.html#Orleankka_Services_BackgroundJobTokenSource_Terminate_
+  commentId: Overload:Orleankka.Services.BackgroundJobTokenSource.Terminate
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobTokenSource.Terminate
+  nameWithType: BackgroundJobTokenSource.Terminate
+- uid: Orleankka.Services.BackgroundJobTokenSource.Token
+  name: Token
+  href: api/Orleankka.Services.BackgroundJobTokenSource.html#Orleankka_Services_BackgroundJobTokenSource_Token
+  commentId: P:Orleankka.Services.BackgroundJobTokenSource.Token
+  fullName: Orleankka.Services.BackgroundJobTokenSource.Token
+  nameWithType: BackgroundJobTokenSource.Token
+- uid: Orleankka.Services.BackgroundJobTokenSource.Token*
+  name: Token
+  href: api/Orleankka.Services.BackgroundJobTokenSource.html#Orleankka_Services_BackgroundJobTokenSource_Token_
+  commentId: Overload:Orleankka.Services.BackgroundJobTokenSource.Token
+  isSpec: "True"
+  fullName: Orleankka.Services.BackgroundJobTokenSource.Token
+  nameWithType: BackgroundJobTokenSource.Token
 - uid: Orleankka.Services.GrainInternals
   name: GrainInternals
   href: api/Orleankka.Services.GrainInternals.html
@@ -3303,6 +3708,41 @@ references:
   isSpec: "True"
   fullName: Orleankka.Services.IActivationService.DelayDeactivation
   nameWithType: IActivationService.DelayDeactivation
+- uid: Orleankka.Services.IBackgroundJobService
+  name: IBackgroundJobService
+  href: api/Orleankka.Services.IBackgroundJobService.html
+  commentId: T:Orleankka.Services.IBackgroundJobService
+  fullName: Orleankka.Services.IBackgroundJobService
+  nameWithType: IBackgroundJobService
+- uid: Orleankka.Services.IBackgroundJobService.Active
+  name: Active()
+  href: api/Orleankka.Services.IBackgroundJobService.html#Orleankka_Services_IBackgroundJobService_Active
+  commentId: M:Orleankka.Services.IBackgroundJobService.Active
+  fullName: Orleankka.Services.IBackgroundJobService.Active()
+  nameWithType: IBackgroundJobService.Active()
+- uid: Orleankka.Services.IBackgroundJobService.Active*
+  name: Active
+  href: api/Orleankka.Services.IBackgroundJobService.html#Orleankka_Services_IBackgroundJobService_Active_
+  commentId: Overload:Orleankka.Services.IBackgroundJobService.Active
+  isSpec: "True"
+  fullName: Orleankka.Services.IBackgroundJobService.Active
+  nameWithType: IBackgroundJobService.Active
+- uid: Orleankka.Services.IBackgroundJobService.Run(System.String,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name: Run(String, Func<BackgroundJobToken, Task>)
+  href: api/Orleankka.Services.IBackgroundJobService.html#Orleankka_Services_IBackgroundJobService_Run_System_String_System_Func_Orleankka_Services_BackgroundJobToken_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Services.IBackgroundJobService.Run(System.String,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name.vb: Run(String, Func(Of BackgroundJobToken, Task))
+  fullName: Orleankka.Services.IBackgroundJobService.Run(System.String, System.Func<Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Services.IBackgroundJobService.Run(System.String, System.Func(Of Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task))
+  nameWithType: IBackgroundJobService.Run(String, Func<BackgroundJobToken, Task>)
+  nameWithType.vb: IBackgroundJobService.Run(String, Func(Of BackgroundJobToken, Task))
+- uid: Orleankka.Services.IBackgroundJobService.Run*
+  name: Run
+  href: api/Orleankka.Services.IBackgroundJobService.html#Orleankka_Services_IBackgroundJobService_Run_
+  commentId: Overload:Orleankka.Services.IBackgroundJobService.Run
+  isSpec: "True"
+  fullName: Orleankka.Services.IBackgroundJobService.Run
+  nameWithType: IBackgroundJobService.Run
 - uid: Orleankka.Services.IReminderService
   name: IReminderService
   href: api/Orleankka.Services.IReminderService.html
@@ -4458,6 +4898,12 @@ references:
   commentId: F:Orleankka.TestKit.ActorRuntimeMock.Activation
   fullName: Orleankka.TestKit.ActorRuntimeMock.Activation
   nameWithType: ActorRuntimeMock.Activation
+- uid: Orleankka.TestKit.ActorRuntimeMock.Jobs
+  name: Jobs
+  href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Jobs
+  commentId: F:Orleankka.TestKit.ActorRuntimeMock.Jobs
+  fullName: Orleankka.TestKit.ActorRuntimeMock.Jobs
+  nameWithType: ActorRuntimeMock.Jobs
 - uid: Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Activation
   name: IActorRuntime.Activation
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Activation
@@ -4475,6 +4921,23 @@ references:
   fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Activation
   nameWithType: ActorRuntimeMock.IActorRuntime.Activation
   nameWithType.vb: ActorRuntimeMock.Orleankka.IActorRuntime.Activation
+- uid: Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Jobs
+  name: IActorRuntime.Jobs
+  href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Jobs
+  commentId: P:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Jobs
+  name.vb: Orleankka.IActorRuntime.Jobs
+  fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Jobs
+  nameWithType: ActorRuntimeMock.IActorRuntime.Jobs
+  nameWithType.vb: ActorRuntimeMock.Orleankka.IActorRuntime.Jobs
+- uid: Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Jobs*
+  name: IActorRuntime.Jobs
+  href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Jobs_
+  commentId: Overload:Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Jobs
+  isSpec: "True"
+  name.vb: Orleankka.IActorRuntime.Jobs
+  fullName: Orleankka.TestKit.ActorRuntimeMock.Orleankka.IActorRuntime.Jobs
+  nameWithType: ActorRuntimeMock.IActorRuntime.Jobs
+  nameWithType.vb: ActorRuntimeMock.Orleankka.IActorRuntime.Jobs
 - uid: Orleankka.TestKit.ActorRuntimeMock.Orleankka#IActorRuntime#Reminders
   name: IActorRuntime.Reminders
   href: api/Orleankka.TestKit.ActorRuntimeMock.html#Orleankka_TestKit_ActorRuntimeMock_Orleankka_IActorRuntime_Reminders
@@ -4828,6 +5291,73 @@ references:
   fullName.vb: Orleankka.TestKit.AskExpectation(Of TMessage).Throw
   nameWithType: AskExpectation<TMessage>.Throw
   nameWithType.vb: AskExpectation(Of TMessage).Throw
+- uid: Orleankka.TestKit.BackgroundJobServiceMock
+  name: BackgroundJobServiceMock
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html
+  commentId: T:Orleankka.TestKit.BackgroundJobServiceMock
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock
+  nameWithType: BackgroundJobServiceMock
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.#ctor
+  name: BackgroundJobServiceMock()
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock__ctor
+  commentId: M:Orleankka.TestKit.BackgroundJobServiceMock.#ctor
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.BackgroundJobServiceMock()
+  nameWithType: BackgroundJobServiceMock.BackgroundJobServiceMock()
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.#ctor*
+  name: BackgroundJobServiceMock
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock__ctor_
+  commentId: Overload:Orleankka.TestKit.BackgroundJobServiceMock.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.BackgroundJobServiceMock
+  nameWithType: BackgroundJobServiceMock.BackgroundJobServiceMock
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Host
+  name: Host
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Host
+  commentId: P:Orleankka.TestKit.BackgroundJobServiceMock.Host
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Host
+  nameWithType: BackgroundJobServiceMock.Host
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Host*
+  name: Host
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Host_
+  commentId: Overload:Orleankka.TestKit.BackgroundJobServiceMock.Host
+  isSpec: "True"
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Host
+  nameWithType: BackgroundJobServiceMock.Host
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Active
+  name: IBackgroundJobService.Active()
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Orleankka_Services_IBackgroundJobService_Active
+  commentId: M:Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Active
+  name.vb: Orleankka.Services.IBackgroundJobService.Active()
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Active()
+  nameWithType: BackgroundJobServiceMock.IBackgroundJobService.Active()
+  nameWithType.vb: BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Active()
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Active*
+  name: IBackgroundJobService.Active
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Orleankka_Services_IBackgroundJobService_Active_
+  commentId: Overload:Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Active
+  isSpec: "True"
+  name.vb: Orleankka.Services.IBackgroundJobService.Active
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Active
+  nameWithType: BackgroundJobServiceMock.IBackgroundJobService.Active
+  nameWithType.vb: BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Active
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Run(System.String,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name: IBackgroundJobService.Run(String, Func<BackgroundJobToken, Task>)
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Orleankka_Services_IBackgroundJobService_Run_System_String_System_Func_Orleankka_Services_BackgroundJobToken_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Run(System.String,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name.vb: Orleankka.Services.IBackgroundJobService.Run(String, Func(Of BackgroundJobToken, Task))
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Run(System.String, System.Func<Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Run(System.String, System.Func(Of Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task))
+  nameWithType: BackgroundJobServiceMock.IBackgroundJobService.Run(String, Func<BackgroundJobToken, Task>)
+  nameWithType.vb: BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Run(String, Func(Of BackgroundJobToken, Task))
+- uid: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Run*
+  name: IBackgroundJobService.Run
+  href: api/Orleankka.TestKit.BackgroundJobServiceMock.html#Orleankka_TestKit_BackgroundJobServiceMock_Orleankka_Services_IBackgroundJobService_Run_
+  commentId: Overload:Orleankka.TestKit.BackgroundJobServiceMock.Orleankka#Services#IBackgroundJobService#Run
+  isSpec: "True"
+  name.vb: Orleankka.Services.IBackgroundJobService.Run
+  fullName: Orleankka.TestKit.BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Run
+  nameWithType: BackgroundJobServiceMock.IBackgroundJobService.Run
+  nameWithType.vb: BackgroundJobServiceMock.Orleankka.Services.IBackgroundJobService.Run
 - uid: Orleankka.TestKit.ClientObservableMock
   name: ClientObservableMock
   href: api/Orleankka.TestKit.ClientObservableMock.html
@@ -5476,6 +6006,41 @@ references:
   fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Throw
   nameWithType: PushExpectation<TItem>.Throw
   nameWithType.vb: PushExpectation(Of TItem).Throw
+- uid: Orleankka.TestKit.RecordedBackgroundJob
+  name: RecordedBackgroundJob
+  href: api/Orleankka.TestKit.RecordedBackgroundJob.html
+  commentId: T:Orleankka.TestKit.RecordedBackgroundJob
+  fullName: Orleankka.TestKit.RecordedBackgroundJob
+  nameWithType: RecordedBackgroundJob
+- uid: Orleankka.TestKit.RecordedBackgroundJob.#ctor(System.Collections.Generic.HashSet{Orleankka.Services.BackgroundJob},Orleankka.ActorRef,Orleankka.TestKit.TimerServiceMock,System.String,System.Int32,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name: RecordedBackgroundJob(HashSet<BackgroundJob>, ActorRef, TimerServiceMock, String, Int32, Func<BackgroundJobToken, Task>)
+  href: api/Orleankka.TestKit.RecordedBackgroundJob.html#Orleankka_TestKit_RecordedBackgroundJob__ctor_System_Collections_Generic_HashSet_Orleankka_Services_BackgroundJob__Orleankka_ActorRef_Orleankka_TestKit_TimerServiceMock_System_String_System_Int32_System_Func_Orleankka_Services_BackgroundJobToken_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.TestKit.RecordedBackgroundJob.#ctor(System.Collections.Generic.HashSet{Orleankka.Services.BackgroundJob},Orleankka.ActorRef,Orleankka.TestKit.TimerServiceMock,System.String,System.Int32,System.Func{Orleankka.Services.BackgroundJobToken,System.Threading.Tasks.Task})
+  name.vb: RecordedBackgroundJob(HashSet(Of BackgroundJob), ActorRef, TimerServiceMock, String, Int32, Func(Of BackgroundJobToken, Task))
+  fullName: Orleankka.TestKit.RecordedBackgroundJob.RecordedBackgroundJob(System.Collections.Generic.HashSet<Orleankka.Services.BackgroundJob>, Orleankka.ActorRef, Orleankka.TestKit.TimerServiceMock, System.String, System.Int32, System.Func<Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.TestKit.RecordedBackgroundJob.RecordedBackgroundJob(System.Collections.Generic.HashSet(Of Orleankka.Services.BackgroundJob), Orleankka.ActorRef, Orleankka.TestKit.TimerServiceMock, System.String, System.Int32, System.Func(Of Orleankka.Services.BackgroundJobToken, System.Threading.Tasks.Task))
+  nameWithType: RecordedBackgroundJob.RecordedBackgroundJob(HashSet<BackgroundJob>, ActorRef, TimerServiceMock, String, Int32, Func<BackgroundJobToken, Task>)
+  nameWithType.vb: RecordedBackgroundJob.RecordedBackgroundJob(HashSet(Of BackgroundJob), ActorRef, TimerServiceMock, String, Int32, Func(Of BackgroundJobToken, Task))
+- uid: Orleankka.TestKit.RecordedBackgroundJob.#ctor*
+  name: RecordedBackgroundJob
+  href: api/Orleankka.TestKit.RecordedBackgroundJob.html#Orleankka_TestKit_RecordedBackgroundJob__ctor_
+  commentId: Overload:Orleankka.TestKit.RecordedBackgroundJob.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedBackgroundJob.RecordedBackgroundJob
+  nameWithType: RecordedBackgroundJob.RecordedBackgroundJob
+- uid: Orleankka.TestKit.RecordedBackgroundJob.Invoke
+  name: Invoke()
+  href: api/Orleankka.TestKit.RecordedBackgroundJob.html#Orleankka_TestKit_RecordedBackgroundJob_Invoke
+  commentId: M:Orleankka.TestKit.RecordedBackgroundJob.Invoke
+  fullName: Orleankka.TestKit.RecordedBackgroundJob.Invoke()
+  nameWithType: RecordedBackgroundJob.Invoke()
+- uid: Orleankka.TestKit.RecordedBackgroundJob.Invoke*
+  name: Invoke
+  href: api/Orleankka.TestKit.RecordedBackgroundJob.html#Orleankka_TestKit_RecordedBackgroundJob_Invoke_
+  commentId: Overload:Orleankka.TestKit.RecordedBackgroundJob.Invoke
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedBackgroundJob.Invoke
+  nameWithType: RecordedBackgroundJob.Invoke
 - uid: Orleankka.TestKit.RecordedCallbackTimer
   name: RecordedCallbackTimer
   href: api/Orleankka.TestKit.RecordedCallbackTimer.html

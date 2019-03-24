@@ -92,6 +92,27 @@
       <h4><a class="xref" href="Orleankka.Services.ActivationService.html">ActivationService</a></h4>
       <section><p>Default runtime-bound implementation of <a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a></p>
 </section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJob.html">BackgroundJob</a></h4>
+      <section><p>Represents the concept of &quot;background job&quot;. The job runs in interleaved mode (ie timer-based).</p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJobFailed.html">BackgroundJobFailed</a></h4>
+      <section><p>This message is sent back to the actor hosting the job
+when job invocation has been failed</p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJobServiceExtensions.html">BackgroundJobServiceExtensions</a></h4>
+      <section><p>Useful extension methods for <a class="xref" href="Orleankka.Services.IBackgroundJobService.html">IBackgroundJobService</a></p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJobTerminated.html">BackgroundJobTerminated</a></h4>
+      <section><p>This message is sent back to the actor hosting the job
+when job execution has been terminated, either
+by itself (ran to completion) or terminated externally.</p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJobToken.html">BackgroundJobToken</a></h4>
+      <section><p>Propagates notification that job should be terminated</p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.BackgroundJobTokenSource.html">BackgroundJobTokenSource</a></h4>
+      <section><p>Signals to the <a class="xref" href="Orleankka.Services.BackgroundJobToken.html">BackgroundJobToken</a> that it should be terminated</p>
+</section>
       <h4><a class="xref" href="Orleankka.Services.GrainInternals.html">GrainInternals</a></h4>
       <section><p>HACK to get grain&apos;s runtime</p>
 </section>
@@ -99,6 +120,14 @@
   </h3>
       <h4><a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a></h4>
       <section><p>Manages actor activation lifetime</p>
+</section>
+      <h4><a class="xref" href="Orleankka.Services.IBackgroundJobService.html">IBackgroundJobService</a></h4>
+      <section><p>Like task manager (htop) but for background jobs. Allow scheduling of new jobs and termination
+of existing jobs. Tracks ony active jobs (the jobs which are either scheduled or running).
+<remarks>
+Failed or terminated jobs are considered inactive (detached) and could be accessed only via
+<a class="xref" href="Orleankka.Services.BackgroundJob.html">BackgroundJob</a> handle returned by <a class="xref" href="Orleankka.Services.IBackgroundJobService.html#Orleankka_Services_IBackgroundJobService_Run_System_String_System_Func_Orleankka_Services_BackgroundJobToken_System_Threading_Tasks_Task__">Run(String, Func&lt;BackgroundJobToken, Task&gt;)</a> method
+</remarks></p>
 </section>
       <h4><a class="xref" href="Orleankka.Services.IReminderService.html">IReminderService</a></h4>
       <section><p>Manages registration of durable actor reminders</p>

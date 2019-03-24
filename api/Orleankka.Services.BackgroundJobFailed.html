@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ActorRuntime
+    <title>Class BackgroundJobFailed
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ActorRuntime
+    <meta name="title" content="Class BackgroundJobFailed
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.40.12.0">
     
@@ -80,21 +80,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.ActorRuntime">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Services.BackgroundJobFailed">
   
   
-  <h1 id="Orleankka_ActorRuntime" data-uid="Orleankka.ActorRuntime" class="text-break">Class ActorRuntime
+  <h1 id="Orleankka_Services_BackgroundJobFailed" data-uid="Orleankka.Services.BackgroundJobFailed" class="text-break">Class BackgroundJobFailed
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>This message is sent back to the actor hosting the job
+when job invocation has been failed</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">ActorRuntime</span></div>
-  </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><a class="xref" href="Orleankka.IActorRuntime.html">IActorRuntime</a></div>
+    <div class="level1"><span class="xref">BackgroundJobFailed</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -120,30 +118,85 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Services.html">Orleankka.Services</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
-  <h5 id="Orleankka_ActorRuntime_syntax">Syntax</h5>
+  <h5 id="Orleankka_Services_BackgroundJobFailed_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class ActorRuntime : IActorRuntime</code></pre>
+    <pre><code class="lang-csharp hljs">[Immutable]
+public class BackgroundJobFailed</code></pre>
   </div>
-  <h3 id="properties">Properties
+  <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime_Activation.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime.Activation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed__ctor_System_String_System_Int32_System_Int32_System_Exception_.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed.%23ctor(System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L31">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L300">View Source</a>
   </span>
-  <a id="Orleankka_ActorRuntime_Activation_" data-uid="Orleankka.ActorRuntime.Activation*"></a>
-  <h4 id="Orleankka_ActorRuntime_Activation" data-uid="Orleankka.ActorRuntime.Activation">Activation</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Orleankka_Services_BackgroundJobFailed__ctor_" data-uid="Orleankka.Services.BackgroundJobFailed.#ctor*"></a>
+  <h4 id="Orleankka_Services_BackgroundJobFailed__ctor_System_String_System_Int32_System_Int32_System_Exception_" data-uid="Orleankka.Services.BackgroundJobFailed.#ctor(System.String,System.Int32,System.Int32,System.Exception)">BackgroundJobFailed(String, Int32, Int32, Exception)</h4>
+  <div class="markdown level1 summary"><p>Creates new instance of <a class="xref" href="Orleankka.Services.BackgroundJobFailed.html">BackgroundJobFailed</a> message</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IActivationService Activation { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public BackgroundJobFailed(string name, int id, int failures, Exception exception)</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the job</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
+        <td><span class="parametername">id</span></td>
+        <td><p>The unique id of the job (PID)</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
+        <td><span class="parametername">failures</span></td>
+        <td><p>The number of times this job has failed</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
+        <td><span class="parametername">exception</span></td>
+        <td><p>The exception that was thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed_Exception.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L291">View Source</a>
+  </span>
+  <h4 id="Orleankka_Services_BackgroundJobFailed_Exception" data-uid="Orleankka.Services.BackgroundJobFailed.Exception">Exception</h4>
+  <div class="markdown level1 summary"><p>The exception that was thrown</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Exception Exception</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -153,27 +206,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.Services.IActivationService.html">IActivationService</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime_Jobs.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime.Jobs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed_Failures.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed.Failures%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L29">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L286">View Source</a>
   </span>
-  <a id="Orleankka_ActorRuntime_Jobs_" data-uid="Orleankka.ActorRuntime.Jobs*"></a>
-  <h4 id="Orleankka_ActorRuntime_Jobs" data-uid="Orleankka.ActorRuntime.Jobs">Jobs</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Orleankka_Services_BackgroundJobFailed_Failures" data-uid="Orleankka.Services.BackgroundJobFailed.Failures">Failures</h4>
+  <div class="markdown level1 summary"><p>The number of times this job has failed</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IBackgroundJobService Jobs { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly int Failures</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -183,27 +236,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.Services.IBackgroundJobService.html">IBackgroundJobService</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime_Reminders.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime.Reminders%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed_Id.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L30">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L281">View Source</a>
   </span>
-  <a id="Orleankka_ActorRuntime_Reminders_" data-uid="Orleankka.ActorRuntime.Reminders*"></a>
-  <h4 id="Orleankka_ActorRuntime_Reminders" data-uid="Orleankka.ActorRuntime.Reminders">Reminders</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Orleankka_Services_BackgroundJobFailed_Id" data-uid="Orleankka.Services.BackgroundJobFailed.Id">Id</h4>
+  <div class="markdown level1 summary"><p>The unique id of the job (PID)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReminderService Reminders { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly int Id</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -213,27 +266,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.Services.IReminderService.html">IReminderService</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime_System.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime.System%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed_Name.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L27">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L276">View Source</a>
   </span>
-  <a id="Orleankka_ActorRuntime_System_" data-uid="Orleankka.ActorRuntime.System*"></a>
-  <h4 id="Orleankka_ActorRuntime_System" data-uid="Orleankka.ActorRuntime.System">System</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Orleankka_Services_BackgroundJobFailed_Name" data-uid="Orleankka.Services.BackgroundJobFailed.Name">Name</h4>
+  <div class="markdown level1 summary"><p>The name of the job</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IActorSystem System { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly string Name</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -243,45 +296,11 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.IActorSystem.html">IActorSystem</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime_Timers.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime.Timers%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L28">View Source</a>
-  </span>
-  <a id="Orleankka_ActorRuntime_Timers_" data-uid="Orleankka.ActorRuntime.Timers*"></a>
-  <h4 id="Orleankka_ActorRuntime_Timers" data-uid="Orleankka.ActorRuntime.Timers">Timers</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ITimerService Timers { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.Services.ITimerService.html">ITimerService</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <a class="xref" href="Orleankka.IActorRuntime.html">IActorRuntime</a>
-  </div>
 </article>
           </div>
           
@@ -290,10 +309,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRuntime.md&amp;value=---%0Auid%3A%20Orleankka.ActorRuntime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Services_BackgroundJobFailed.md&amp;value=---%0Auid%3A%20Orleankka.Services.BackgroundJobFailed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorRuntime.cs/#L16" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Services/BackgroundJobService.cs/#L271" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
