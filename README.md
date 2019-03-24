@@ -9,6 +9,7 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 + Message-based API with zero performance overhead
 + Custom F# DSL and bindings (DU, Pattern Matching, Tasks)
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
++ Additional api to simplify programming long-running background tasks (jobs)
 + Poweful actor/proxy middlewares (interceptors)
 + Convenient unit testing kit (stubs, mocks, expectations)
 
