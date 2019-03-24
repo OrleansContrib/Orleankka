@@ -4297,6 +4297,15 @@ references:
   fullName.vb: Orleankka.StreamRef.Subscribe(System.Func(Of System.Object, System.Threading.Tasks.Task), Orleankka.StreamFilter)
   nameWithType: StreamRef.Subscribe(Func<Object, Task>, StreamFilter)
   nameWithType.vb: StreamRef.Subscribe(Func(Of Object, Task), StreamFilter)
+- uid: Orleankka.StreamRef.Subscribe(System.Func{System.Object[],System.Threading.Tasks.Task})
+  name: Subscribe(Func<Object[], Task>)
+  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_System_Func_System_Object___System_Threading_Tasks_Task__
+  commentId: M:Orleankka.StreamRef.Subscribe(System.Func{System.Object[],System.Threading.Tasks.Task})
+  name.vb: Subscribe(Func(Of Object(), Task))
+  fullName: Orleankka.StreamRef.Subscribe(System.Func<System.Object[], System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.StreamRef.Subscribe(System.Func(Of System.Object(), System.Threading.Tasks.Task))
+  nameWithType: StreamRef.Subscribe(Func<Object[], Task>)
+  nameWithType.vb: StreamRef.Subscribe(Func(Of Object(), Task))
 - uid: Orleankka.StreamRef.Subscribe*
   name: Subscribe
   href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_
