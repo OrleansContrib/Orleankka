@@ -45,10 +45,10 @@
     <PropertyGroup>
 
         <!-- Orleans packages -->
-        <MicrosoftOrleansClientVersion>2.2.0</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>2.2.0</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>2.2.0</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>2.2.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansClientVersion>2.3.0</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>2.3.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>2.3.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>2.3.0</MicrosoftOrleansRuntimeVersion>
 
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>2.1.0</MicrosoftExtensionsLoggingVersion>

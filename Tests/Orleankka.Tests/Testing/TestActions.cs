@@ -52,7 +52,6 @@ namespace Orleankka.Testing
                     options.AllowCallChainReentrancy = false;
                     options.PerformDeadlockDetection = true;
                 })
-                .EnableDirectClient()
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
@@ -62,7 +61,7 @@ namespace Orleankka.Testing
                 .ConfigureServices(services =>
                 {
                     services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
-                    services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1));
+                    services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
