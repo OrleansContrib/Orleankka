@@ -8,9 +8,6 @@ using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 using Orleans.Serialization;
 using Orleans.Streams;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using Orleans.Runtime;
 
 namespace Orleankka
@@ -61,7 +58,7 @@ namespace Orleankka
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
-        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
         /// </returns>
         public virtual async Task<StreamSubscription> Subscribe(Func<object, Task> callback, StreamFilter filter = null)
         {
@@ -70,6 +67,25 @@ namespace Orleankka
             var observer = new Observer((item, token) => callback(item));
             var predicate = filter != null ? StreamFilter.Internal.Predicate : (StreamFilterPredicate) null;
             var handle = await Endpoint.SubscribeAsync(observer, null, predicate, filter);
+
+            return new StreamSubscription(handle);
+        }
+        
+        /// <summary>
+        /// The batch-oriented stream subscription using weakly-typed delegate.
+        /// </summary>
+        /// <param name="callback">Callback delegate to receive stream pushes in batches.</param>
+        /// <returns>
+        /// A promise for a StreamSubscription that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
+        /// </returns>
+        public virtual async Task<StreamSubscription> Subscribe<T>(Func<object[], Task> callback)
+        {
+            Requires.NotNull(callback, nameof(callback));
+
+            var observer = new BatchObserver(callback);
+            var handle = await Endpoint.SubscribeAsync(observer);
 
             return new StreamSubscription(handle);
         }
@@ -83,7 +99,7 @@ namespace Orleankka
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
-        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
         /// </returns>
         public virtual Task<StreamSubscription> Subscribe<T>(Func<T, Task> callback, StreamFilter filter = null)
         {
@@ -100,7 +116,7 @@ namespace Orleankka
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
-        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
         /// </returns>
         public virtual Task<StreamSubscription> Subscribe(Action<object> callback, StreamFilter filter = null)
         {
@@ -123,7 +139,7 @@ namespace Orleankka
         /// <returns>
         /// A promise for a StreamSubscription that represents the subscription.
         /// The consumer may unsubscribe by using this object.
-        /// The subscription remains active for as long as it is not explicitely unsubscribed.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
         /// </returns>
         public virtual Task<StreamSubscription> Subscribe<T>(Action<T> callback, StreamFilter filter = null)
         {
@@ -193,17 +209,29 @@ namespace Orleankka
 
         #endregion
 
+        internal class BatchObserver : IAsyncBatchObserver<object>
+        {
+            readonly Func<object[], Task> callback;
+
+            public BatchObserver(Func<object[], Task> callback) => 
+                this.callback = callback;
+
+            public Task OnNextAsync(IList<SequentialItem<object>> items) => 
+                callback(items.Select(x => x.Item).ToArray());
+
+            public Task OnCompletedAsync()           => Task.CompletedTask;
+            public Task OnErrorAsync(Exception ex)   => Task.CompletedTask;
+        }
+
         internal class Observer : IAsyncObserver<object>
         {
             readonly Func<object, StreamSequenceToken, Task> callback;
 
-            public Observer(Func<object, StreamSequenceToken, Task> callback)
-            {
+            public Observer(Func<object, StreamSequenceToken, Task> callback) => 
                 this.callback = callback;
-            }
 
-            public Task OnNextAsync(object item, StreamSequenceToken token = null) 
-                => callback(item, token);
+            public Task OnNextAsync(object item, StreamSequenceToken token = null) => 
+                callback(item, token);
 
             public Task OnCompletedAsync()           => Task.CompletedTask;
             public Task OnErrorAsync(Exception ex)   => Task.CompletedTask;
