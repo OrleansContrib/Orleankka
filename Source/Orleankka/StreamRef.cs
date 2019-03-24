@@ -80,7 +80,7 @@ namespace Orleankka
         /// The consumer may unsubscribe by using this object.
         /// The subscription remains active for as long as it is not explicitly unsubscribed.
         /// </returns>
-        public virtual async Task<StreamSubscription> Subscribe<T>(Func<object[], Task> callback)
+        public virtual async Task<StreamSubscription> Subscribe(Func<object[], Task> callback)
         {
             Requires.NotNull(callback, nameof(callback));
 
