@@ -1512,6 +1512,25 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Become
   nameWithType: Behavior.Become
+- uid: Orleankka.Behaviors.Behavior.BecomeStacked(Orleankka.Receive)
+  name: BecomeStacked(Receive)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked_Orleankka_Receive_
+  commentId: M:Orleankka.Behaviors.Behavior.BecomeStacked(Orleankka.Receive)
+  fullName: Orleankka.Behaviors.Behavior.BecomeStacked(Orleankka.Receive)
+  nameWithType: Behavior.BecomeStacked(Receive)
+- uid: Orleankka.Behaviors.Behavior.BecomeStacked(System.String)
+  name: BecomeStacked(String)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked_System_String_
+  commentId: M:Orleankka.Behaviors.Behavior.BecomeStacked(System.String)
+  fullName: Orleankka.Behaviors.Behavior.BecomeStacked(System.String)
+  nameWithType: Behavior.BecomeStacked(String)
+- uid: Orleankka.Behaviors.Behavior.BecomeStacked*
+  name: BecomeStacked
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked_
+  commentId: Overload:Orleankka.Behaviors.Behavior.BecomeStacked
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Behavior.BecomeStacked
+  nameWithType: Behavior.BecomeStacked
 - uid: Orleankka.Behaviors.Behavior.Current
   name: Current
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Current
@@ -1602,6 +1621,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.State
   nameWithType: Behavior.State
+- uid: Orleankka.Behaviors.Behavior.Unbecome
+  name: Unbecome()
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Unbecome
+  commentId: M:Orleankka.Behaviors.Behavior.Unbecome
+  fullName: Orleankka.Behaviors.Behavior.Unbecome()
+  nameWithType: Behavior.Unbecome()
+- uid: Orleankka.Behaviors.Behavior.Unbecome*
+  name: Unbecome
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Unbecome_
+  commentId: Overload:Orleankka.Behaviors.Behavior.Unbecome
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Behavior.Unbecome
+  nameWithType: Behavior.Unbecome
 - uid: Orleankka.Behaviors.BehaviorMessage
   name: BehaviorMessage
   href: api/Orleankka.Behaviors.BehaviorMessage.html
