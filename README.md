@@ -62,7 +62,9 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + Reentrant messages [[rw-x]](Samples/CSharp/Reentrant)
 + Client-side observers [[chat]](Samples/CSharp/Observers)
 + Streams [[chat]](Samples/CSharp/Streams)
-+ FSM [[simple]](Samples/CSharp/FSM/Lightbulb)
++ Switchable behaviors
+	+ Basics [[see]](Samples/CSharp/FSM/Lightbulb)
+	+ Durable FSM with supervision[[see]](Samples/CSharp/FSM/ProcessManager)
 
 ##### F&#35;
 
