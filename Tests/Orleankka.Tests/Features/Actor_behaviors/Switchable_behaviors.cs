@@ -132,6 +132,33 @@ namespace Orleankka.Features.Actor_behaviors
             }
 
             [Test]
+            public async Task When_become_stacked()
+            {
+                Behavior behavior = new BehaviorTester(events)
+                    .Initial("Initial")                    
+                    .State("Initial")
+                    .State("A")
+                    .State("B")
+                    .State("C");
+
+                await behavior.BecomeStacked("A");
+                await behavior.BecomeStacked("B");
+                await behavior.BecomeStacked("C");
+                Assert.That(behavior.Current.Name, Is.EqualTo("C"));
+
+                await behavior.Unbecome();
+                Assert.That(behavior.Current.Name, Is.EqualTo("B"));
+
+                await behavior.Unbecome();
+                Assert.That(behavior.Current.Name, Is.EqualTo("A"));
+
+                await behavior.Unbecome();
+                Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
+
+                Assert.ThrowsAsync<InvalidOperationException>(()=> behavior.Unbecome());                
+            }
+
+            [Test]
             public void When_returns_null_task()
             {
                 Behavior behavior = new BehaviorTester(events)

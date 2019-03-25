@@ -12,6 +12,7 @@ namespace Orleankka.Behaviors
     {
         Transition transition;
 
+        readonly Stack<State> history = new Stack<State>();
         readonly Dictionary<string, State> states;
         
         public Behavior(Dictionary<string, State> states = null) => 
@@ -97,6 +98,35 @@ namespace Orleankka.Behaviors
             return Become(State(behavior));
         }
 
+        public Task BecomeStacked(Receive behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            var name = behavior.Method.Name;
+
+            var configured = states.Find(name);
+            return BecomeStacked(configured ?? new State(name, behavior));
+        }
+
+        public Task BecomeStacked(string behavior)
+        {
+            Requires.NotNull(behavior, nameof(behavior));
+            return BecomeStacked(State(behavior));
+        }
+
+        async Task BecomeStacked(State next)
+        {
+            history.Push(Current);
+            await Become(next);
+        }
+
+        public async Task Unbecome()
+        {
+            if (history.Count == 0)
+                throw new InvalidOperationException("The previous behavior has not been recorded. Use BecomeStacked method to stack behaviors");
+
+            await Become(history.Pop());
+        }
+
         async Task Become(State next)
         {
             if (!Initialized())
@@ -124,6 +154,6 @@ namespace Orleankka.Behaviors
 
         string ToDebugString() => Current != null 
             ? $"{Current.ToDebugString()} ({states.Count} states)"
-            : $"({states.Count} states)";        
+            : $"({states.Count} states)";
     }
 }
