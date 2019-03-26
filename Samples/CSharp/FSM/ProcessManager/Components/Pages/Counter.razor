@@ -1,0 +1,23 @@
+@page "/counter"
+
+@using Orleankka
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+<p>OID: @Oid()</p>
+
+<button class="btn btn-primary" onclick="@IncrementCount">Click me</button>
+
+@functions {
+    int currentCount = 0;
+
+    string Oid() => this.GetHashCode().ToString();
+
+    async Task IncrementCount()
+    {
+        currentCount++;
+        var copier = Program.ActorSystem.TypedActorOf<ICopier>($"{currentCount}");
+        await copier.Tell(new Start());
+    }
+}

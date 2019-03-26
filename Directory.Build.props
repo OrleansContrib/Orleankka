@@ -32,7 +32,7 @@
     <!-- Common project props -->
     <PropertyGroup>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <LangVersion>7.2</LangVersion>
+        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup>

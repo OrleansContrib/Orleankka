@@ -4,7 +4,7 @@ using System.Linq;
 using Orleankka;
 using Orleankka.Behaviors;
 
-namespace Example
+namespace ProcessManager
 {
     class Supervision
     {

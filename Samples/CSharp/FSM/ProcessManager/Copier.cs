@@ -12,7 +12,7 @@ using Orleankka.Meta;
 using Orleankka.Services;
 using Orleans.Core;
 
-namespace Example
+namespace ProcessManager
 {
     /* external commands */
     [Serializable] public class Start    : Command<ICopier> {}

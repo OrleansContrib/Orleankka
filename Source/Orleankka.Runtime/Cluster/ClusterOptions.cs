@@ -97,11 +97,11 @@ namespace Orleankka.Cluster
             return this;
         }
 
-        internal void Configure(ISiloHostBuilder builder, IServiceCollection services)
+        internal void Configure(IApplicationPartManager apm, IServiceCollection services)
         {
-            var assemblies = builder.GetApplicationPartManager().ApplicationParts
-                                    .OfType<AssemblyPart>().Select(x => x.Assembly)
-                                    .ToArray();
+            var assemblies = apm.ApplicationParts
+                                .OfType<AssemblyPart>().Select(x => x.Assembly)
+                                .ToArray();
 
             services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, clusterMiddleware));
             services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, directClientMiddleware));
@@ -143,11 +143,22 @@ namespace Orleankka.Cluster
             UseOrleankka(builder, configure(new OrleankkaClusterOptions()));
 
         public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder, OrleankkaClusterOptions cfg) => 
-            builder
-            .ConfigureServices(services => cfg.Configure(builder, services))
-            .ConfigureApplicationParts(apm => apm
-                .AddApplicationPart(typeof(IClientEndpoint).Assembly)
-                .WithCodeGeneration());
+            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services, cfg));
+
+        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder) => 
+            UseOrleankka(builder, new OrleankkaClusterOptions());
+
+        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions> configure) => 
+            UseOrleankka(builder, configure(new OrleankkaClusterOptions()));
+
+        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder, OrleankkaClusterOptions cfg) => 
+            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services, cfg));
+
+        static void UseOrleankka(IApplicationPartManager apm, IServiceCollection services, OrleankkaClusterOptions cfg)
+        {
+            cfg.Configure(apm, services);
+            apm.AddApplicationPart(typeof(IClientEndpoint).Assembly).WithCodeGeneration();
+        }
 
         public static IClientActorSystem ActorSystem(this ISiloHost host) => host.Services.GetRequiredService<IClientActorSystem>();
     }
