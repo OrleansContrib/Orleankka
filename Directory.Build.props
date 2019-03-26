@@ -37,7 +37,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <ConsoleProjectTargetFramework>netcoreapp2.1</ConsoleProjectTargetFramework>
+        <ConsoleProjectTargetFramework>netcoreapp3.0</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 

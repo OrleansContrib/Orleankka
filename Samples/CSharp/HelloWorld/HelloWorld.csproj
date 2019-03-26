@@ -4,7 +4,7 @@
   <PropertyGroup>
     <RootNamespace>Demo</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <StartupObject>Demo.Program</StartupObject>
   </PropertyGroup>
 

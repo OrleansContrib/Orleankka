@@ -3,7 +3,7 @@
   
   <PropertyGroup>
     <RootNamespace>Example</RootNamespace>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>Example.EventSourcing.ProtoBuf</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationIcon />
