@@ -1,0 +1,96 @@
+@page "/"
+
+@using Orleankka
+@using Orleankka.Client
+@using ProcessManager
+
+@inject IClientActorSystem ActorSystem
+
+<p>
+    <input placeholder="job #id" bind="@jobId"/>
+    <button class="btn btn-primary" onclick="@StartJob">Start</button>
+    <span>@lastCommandResult</span>
+</p>
+
+@if (jobs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Active</th>
+                <th>Status</th>
+                <th>Previous</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var each in jobs)
+            {
+                <tr>
+                    <td>@each.Id</td>
+                    <td>@(each.Active ? "Active" : "-")</td>
+                    <td>@each.Status</td>
+                    <td>@each.Previous</td>
+                    <td>@each.Progress</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@functions {
+    List<JobItem> jobs;
+    StreamRef notifications;
+    string jobId;
+    string lastCommandResult;
+
+    protected override async Task OnInitAsync()
+    {
+        jobs = new List<JobItem>();
+
+        notifications = ActorSystem.StreamOf("notifications", "copier");
+        await notifications.Subscribe<JobEvent>(async e =>
+        {
+            var job = jobs.SingleOrDefault(x => x.Id == e.Id);
+
+            if (job == null)
+            {
+                job = new JobItem { Id = e.Id};
+                jobs.Add(job);
+            }
+
+            if (e is StateChanged s)
+            {
+                job.Status = s.Current;
+                job.Previous = s.Previous;
+                job.Active = s.Active;
+            }
+            if (e is ProgressChanged p)
+                job.Progress = (int)(p.Progress * 100);
+
+            await base.Invoke(StateHasChanged);
+        });
+    }
+
+    async Task StartJob()
+    {
+        var job = ActorSystem.TypedActorOf<ICopier>(jobId);
+        var result = await job.Ask<object>(new Start());
+        lastCommandResult = result.GetType().Name;
+        StateHasChanged();
+    }
+
+    class JobItem
+    {
+        public string Id { get; set; }
+        public bool Active { get; set; }
+        public string Status { get; set; }
+        public string Previous { get; set; }
+        public int Progress { get; set; }
+    }
+}

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
 
 using Orleans;
@@ -14,17 +13,26 @@ using Orleans.Storage;
 
 namespace ProcessManager
 { 
-    class CopierStorage : IGrainStorage
+    class Storage : IGrainStorage
     {
         public static string Init() => Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "orleankka_durable_fsm_example")).FullName;
 
-        readonly ILogger logger;
+        readonly Type type;
         readonly string folder;
+        readonly ILogger logger;
 
-        internal CopierStorage(ILogger logger, string folder)
+        internal Storage(IServiceProvider services, Type type, string folder)
         {
-            this.logger = logger;
+            this.type = type;
             this.folder = folder;
+            logger = services.GetRequiredService<ILoggerFactory>().CreateLogger($"{type.Name}Storage");
+        }
+
+        internal Storage(ILogger logger, Type type, string folder)
+        {
+            this.type = type;
+            this.folder = folder;
+            this.logger = logger;
         }
 
         public async Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
@@ -36,7 +44,7 @@ namespace ProcessManager
             try
             {
                 var json = await File.ReadAllTextAsync(blob, Encoding.UTF8);
-                grainState.State = JsonConvert.DeserializeObject<CopierState>(json);
+                grainState.State = JsonConvert.DeserializeObject(json, type);
             }
             catch (FileNotFoundException)
             {
@@ -46,7 +54,7 @@ namespace ProcessManager
 
         public async Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
         {
-            var state = (CopierState) grainState.State;
+            var state = grainState.State;
             var blob = GetBlob(grainReference);
             var json = JsonConvert.SerializeObject(state);
 

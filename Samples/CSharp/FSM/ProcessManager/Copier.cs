@@ -21,6 +21,31 @@ namespace ProcessManager
     [Serializable] public class Cancel   : Command<ICopier> {}
     [Serializable] public class Restart  : Command<ICopier> {}
 
+    /* external events (pushed via 'copier-notifications' stream) */
+    [Serializable] public abstract class JobEvent : Event
+    {
+        public string Id { get; set; }
+    }
+
+    [Serializable] public class StateChanged : JobEvent
+    {
+        public string Current { get; set; }
+        public string Previous { get; set; }
+        public bool Active { get; set; }
+    }
+
+    [Serializable] public class ProgressChanged : JobEvent
+    {
+        public double Progress { get; set; }
+    }
+
+    [Serializable] public class Error : JobEvent
+    {
+        public string Type { get; set; }
+        public string Message { get; set; }
+        public string StackTrace { get; set; }
+    }
+
     public class CopierState
     {
         public string Current { get; set; }
@@ -34,11 +59,12 @@ namespace ProcessManager
     public class Copier : ActorGrain, ICopier
     {
         /* internal events */
-        class Prepared : Event<ICopier> 
+        class Prepared : Event
         {
             public int Lines;
         }
-        class Copied : Event<ICopier> 
+
+        class Copied : Event
         {
             public int Count;
         }
@@ -48,6 +74,7 @@ namespace ProcessManager
 
         readonly IStorage<CopierState> storage;
         readonly Behavior behavior;
+        StreamRef notifications;
 
         // injected storage provider
         public Copier([UseStorageProvider("copier")]
@@ -96,6 +123,9 @@ namespace ProcessManager
                     // before Activate message is sent to the actor
                     var state = State.Current ?? nameof(Initial); 
                     behavior.Initial(state);
+
+                    // grab reference to notifications stream
+                    notifications = System.StreamOf("notifications", "copier");
                     break;
                 }
             }
@@ -113,16 +143,40 @@ namespace ProcessManager
             try
             {
                 await func();
+                await NotifyStateChanged();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // if an unhandled error occured during switching behavior
                 // deactivate an actor as state is indeterminate
                 // it will be either reactivated back by supervision (reminder)
-                // or by the user command, continuing from where it previously crashed 
+                // or by the user command, continuing from where it previously crashed
+                await NotifyError(ex);
                 Activation.DeactivateOnIdle();
                 throw;
             }
+
+            async Task NotifyStateChanged() => await Notify(new StateChanged
+            {
+                Current = State.Current,
+                Previous = State.Previous,
+
+                // this is where modeling superstates is also handy
+                Active = behavior.Current.IsSubstateOf(nameof(Active))
+            });
+
+            async Task NotifyError(Exception ex) => await Notify(new Error
+            {
+                Message = ex.Message,
+                Type = ex.Message,
+                StackTrace = ex.StackTrace
+            });
+        }
+
+        async Task Notify(JobEvent e)
+        {
+            e.Id = Id;
+            await notifications.Push(e);
         }
 
         static Task<object> Inactive(object message) => TaskResult.Unhandled;
@@ -225,6 +279,10 @@ namespace ProcessManager
                     break;
                 case Copied x:
                     State.LastCopiedLine += x.Count;
+                    await storage.WriteStateAsync(); // checkpoint
+                    // notify progress
+                        await NotifyProgressChanged((double)State.LastCopiedLine / State.LineTotal);
+                    // are we done?
                     if (x.Count < maxChunkSize)
                         await Become(Completed);
                     break;
@@ -236,10 +294,12 @@ namespace ProcessManager
 
             async Task Copy(BackgroundJobToken job)
             {
-                var buffer = new List<string>();
+                var buffer = new List<char>();
                 
                 using (var source = new FileStream(SourceFileName(), FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var target = new FileStream(TargetFileName(), FileMode.Append, FileAccess.Write, FileShare.None))
                 using (var reader = new StreamReader(source))
+                using (var writer = new StreamWriter(target))
                 {
                     var position = State.LastCopiedLine;
                     source.Seek(position * (5 + 2), SeekOrigin.Begin);
@@ -259,14 +319,18 @@ namespace ProcessManager
                                 break;
 
                             read++;
-                            buffer.Add(line);
+                            buffer.AddRange(line.ToCharArray());
                         }
+                        await writer.WriteAsync(buffer.ToArray());
 
-                        await Fire(new Copied {Count = buffer.Count});
+                        // send message to self to checkpoint current progress
+                        await Fire(new Copied {Count = read});
                     }
                     while (read == maxChunkSize && !job.IsTerminationRequested);
                 }
             }
+
+            async Task NotifyProgressChanged(double progress) => await Notify(new ProgressChanged {Progress = progress});
         }
 
         async Task<object> Restartable(object message)

@@ -1,6 +1,4 @@
-@page "/counter"
-
-@using Orleankka
+@page "/logs"
 
 <h1>Counter</h1>
 
@@ -14,10 +12,8 @@
 
     string Oid() => this.GetHashCode().ToString();
 
-    async Task IncrementCount()
+    void IncrementCount()
     {
         currentCount++;
-        var copier = Program.ActorSystem.TypedActorOf<ICopier>($"{currentCount}");
-        await copier.Tell(new Start());
     }
 }

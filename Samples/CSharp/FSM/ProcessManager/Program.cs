@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
@@ -21,41 +20,45 @@ namespace ProcessManager
     public static class Program
     {
         static ISiloHost silo;
-        public static IClientActorSystem ActorSystem;
         
-        public static async Task<int> Main(string[] args)
+        public static async Task<int> Main()
         {
-            ActorSystem = await RunOrleans();
-            RunWeb(args);
+            var system = await RunCluster();
+            RunGui(system);
 
             return 0;
         }
 
-        static async Task<IClientActorSystem> RunOrleans()
+        static async Task<IClientActorSystem> RunCluster()
         {
-            var folder = CopierStorage.Init();
+            var folder = Storage.Init();
 
             silo = await new SiloHostBuilder()
                 .ConfigureServices(s => s
-                    .AddSingletonNamedService<IGrainStorage>("copier", (sp, __) =>
-                    {
-                        var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("CopierStorage");
-                        return new CopierStorage(logger, folder);
-                    }))
+                    .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder))
+                    .AddSingletonNamedService<IGrainStorage>("manager", (sp, __) => new Storage(sp, typeof(ManagerState), folder)))
+                .AddSimpleMessageStreamProvider("notifications", o =>
+                {
+                    o.FireAndForgetDelivery = false;
+                    o.OptimizeForImmutableData = false;
+                })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
                 .UseOrleankka()
                 .Start();
 
-            var client = await silo.Connect();
-            return client.ActorSystem();
+            return silo.ActorSystem();
         }
 
-        static void RunWeb(string[] args)
+        static void RunGui(IClientActorSystem system)
         {
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
+            Host.CreateDefaultBuilder()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureServices(x => x.AddSingleton(system));
+                    webBuilder.UseStartup<Startup>();
+                })
                 .Build()
                 .Run();
         }

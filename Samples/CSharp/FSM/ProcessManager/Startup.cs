@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using ProcessManager.Components;
-using ProcessManager.Services;
 
 namespace ProcessManager
 {
@@ -15,8 +14,6 @@ namespace ProcessManager
                     .AddNewtonsoftJson();
 
             services.AddRazorComponents();
-
-            services.AddSingleton<WeatherForecastService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
