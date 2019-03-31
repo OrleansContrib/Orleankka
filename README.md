@@ -28,7 +28,7 @@ Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orlean
 
 ### Build sources
 
-Clone repository and run the following in CLI from solution's root folder:
+You will need VS2019 and .NET Core 3.x installed in order to build and open the solution. Clone repository and run the following in CLI from solution's root folder:
 
 	PM> Nake.bat
 
