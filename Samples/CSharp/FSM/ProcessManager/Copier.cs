@@ -288,7 +288,7 @@ namespace ProcessManager
                     State.LastCopiedLine += x.Count;
                     await storage.WriteStateAsync(); // checkpoint
                     // notify progress
-                        await NotifyProgressChanged((double)State.LastCopiedLine / State.LineTotal);
+                    await NotifyProgressChanged((double)State.LastCopiedLine / State.LineTotal);
                     // are we done?
                     if (x.Count < maxChunkSize)
                         await Become(Completed);
