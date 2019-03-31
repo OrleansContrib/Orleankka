@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Orleankka;
 using Orleankka.Behaviors;
@@ -27,10 +26,10 @@ namespace ProcessManager
                     await actor.Reminders.Register(reminderName, due: pingback, period: pingback);
                     break;
                 case Reminder reminder when reminder.Name == reminderName:
-                    return TaskResult.Done;
+                    return Done.Result;
             }
 
-            return next(message);
+            return await next(message);
         };
 
         public Receive Off(Receive next) => async message =>
@@ -44,7 +43,7 @@ namespace ProcessManager
                     break;
                 case Reminder reminder when reminder.Name == reminderName:
                     await actor.Reminders.Unregister(reminderName);
-                    return TaskResult.Done;
+                    return Done.Result;
             }
 
             return result;

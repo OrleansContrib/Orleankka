@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,11 +33,15 @@ namespace ProcessManager
         public string Current { get; set; }
         public string Previous { get; set; }
         public bool Active { get; set; }
+
+        public override string ToString() => $"#{Id}: State changed from {Previous} to {Current}. Active: {(Active ? "yes" : "no")}";
     }
 
     [Serializable] public class ProgressChanged : JobEvent
     {
         public double Progress { get; set; }
+         
+        public override string ToString() => $"#{Id}: ProgressChanged to {(int)(Progress * 100)}%";
     }
 
     [Serializable] public class Error : JobEvent
@@ -44,6 +49,8 @@ namespace ProcessManager
         public string Type { get; set; }
         public string Message { get; set; }
         public string StackTrace { get; set; }
+
+        public override string ToString() => $"#{Id}: Error -> {Type}:{Message}";
     }
 
     public class CopierState
@@ -113,7 +120,7 @@ namespace ProcessManager
 
         async Task Fire(object message) => await Self.Tell(message);
 
-        public override Task<object> Receive(object message)
+        public override async Task<object> Receive(object message)
         {
             switch (message)
             {
@@ -131,7 +138,7 @@ namespace ProcessManager
             }
 
             // route all received messages via behavior
-            return behavior.Receive(message);
+            return await behavior.Receive(message);
         }
 
         async Task Become(Receive other) => await Switch(() => behavior.Become(other));

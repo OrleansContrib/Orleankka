@@ -96,6 +96,20 @@ app {
     color: red;
 }
 
+.log-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 100%
+}
+
+.log {
+    overflow-Y: auto;
+    width: 100%;
+    height: calc(100vh - 100px);
+    white-space: pre-wrap;
+}
+
 @media (max-width: 767.98px) {
     .main .top-row {
         display: none;

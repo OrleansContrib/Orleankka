@@ -1,19 +1,35 @@
 @page "/logs"
 
-<h1>Counter</h1>
+@inject IJSRuntime JsRuntime;
+@inject IClientActorSystem ActorSystem;
 
-<p>Current count: @currentCount</p>
-<p>OID: @Oid()</p>
+@using Orleankka
+@using Orleankka.Client
+@using ProcessManager
 
-<button class="btn btn-primary" onclick="@IncrementCount">Click me</button>
+<div className="log-container">
+    <pre ref="logPanel" className="log">
+        @foreach (var each in events) {
+            <span>@each</span>
+        }    
+    </pre>
+</div>
 
 @functions {
-    int currentCount = 0;
+    ElementRef logPanel;
+    StreamRef notifications;
+    List<string> events = new List<string>();
 
-    string Oid() => this.GetHashCode().ToString();
-
-    void IncrementCount()
+    protected override async Task OnInitAsync()
     {
-        currentCount++;
+        notifications = ActorSystem.StreamOf("notifications", "copier");
+        await notifications.Subscribe<JobEvent>(async e =>
+        {
+            if (events.Count > 200)
+                events.RemoveAt(events.Count - 1);
+
+            events.Add(e.ToString());
+            await base.Invoke(StateHasChanged);            
+        });
     }
 }

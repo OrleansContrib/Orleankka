@@ -9,12 +9,20 @@
 <p>
     <input placeholder="job #id" bind="@jobId"/>
     <button class="btn btn-primary" onclick="@StartJob">Start</button>
-    <span>@lastCommandResult</span>
+    <button class="btn btn-warning" onclick="@RestartJob">Restart</button>
+    <button class="btn btn-secondary" onclick="@SuspendJob">Suspend</button>
+    <button class="btn btn-success" onclick="@ContinueJob">Continue</button>
+    <button class="btn btn-danger" onclick="@CancelJob">Cancel</button>
+</p>
+
+<p>
+    <span><b>Last Action:</b></span>
+    <span><em>@lastCommandResult</em></span>
 </p>
 
 @if (jobs == null)
 {
-    <p><em>Loading...</em></p>
+<p><em>Loading...</em></p>
 }
 else
 {
@@ -77,10 +85,16 @@ else
         });
     }
 
-    async Task StartJob()
+    Task StartJob()    => Send(new Start());
+    Task RestartJob()  => Send(new Restart());
+    Task SuspendJob()  => Send(new Suspend());
+    Task ContinueJob() => Send(new Continue());
+    Task CancelJob()   => Send(new Cancel());
+
+    async Task Send(ActorMessage<ICopier> cmd)
     {
         var job = ActorSystem.TypedActorOf<ICopier>(jobId);
-        var result = await job.Ask<object>(new Start());
+        var result = await job.Ask<object>(cmd);
         lastCommandResult = result.GetType().Name;
         StateHasChanged();
     }
