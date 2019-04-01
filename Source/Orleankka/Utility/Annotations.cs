@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Orleankka
 {
@@ -17,7 +16,7 @@ namespace Orleankka
           AttributeTargets.Method | AttributeTargets.Parameter |
           AttributeTargets.Property | AttributeTargets.Delegate |
           AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-        public sealed class NotNullAttribute : Attribute { }
+        sealed class NotNullAttribute : Attribute { }
 
         /// <summary>
         ///   Indicates that the function argument should be string literal and match one  of the parameters of the caller
@@ -42,7 +41,7 @@ namespace Orleankka
         /// will not be marked as unused (as well as by other usage inspections)
         /// </summary>
         [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true), MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
-        public sealed class UsedImplicitlyAttribute : Attribute
+        sealed class UsedImplicitlyAttribute : Attribute
         {
             public UsedImplicitlyAttribute()
                 : this(ImplicitUseKindFlags.Default) {}
@@ -67,7 +66,7 @@ namespace Orleankka
         /// (as well as by other usage inspections)
         /// </summary>
         [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-        public sealed class MeansImplicitUseAttribute : Attribute
+        sealed class MeansImplicitUseAttribute : Attribute
         {
             public MeansImplicitUseAttribute()
                 : this(ImplicitUseKindFlags.Default) {}
@@ -87,7 +86,7 @@ namespace Orleankka
         }
 
         [Flags]
-        public enum ImplicitUseKindFlags
+        enum ImplicitUseKindFlags
         {
             Default = Access | Assign | InstantiatedWithFixedConstructorSignature,
             /// <summary>Only entity marked with attribute considered used</summary>
@@ -107,7 +106,7 @@ namespace Orleankka
         /// or <see cref="UsedImplicitlyAttribute"/>
         /// </summary>
         [Flags]
-        public enum ImplicitUseTargetFlags
+        enum ImplicitUseTargetFlags
         {
             Default = Itself,
             Itself = 1,
@@ -122,7 +121,7 @@ namespace Orleankka
         /// which should not be removed and so is treated as used
         /// </summary>
         [MeansImplicitUse]
-        public sealed class PublicAPIAttribute : Attribute
+        sealed class PublicAPIAttribute : Attribute
         {
             public PublicAPIAttribute() { }
             public PublicAPIAttribute([NotNull] string comment)
