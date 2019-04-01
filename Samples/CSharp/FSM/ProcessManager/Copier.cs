@@ -96,9 +96,9 @@ namespace ProcessManager
                     .Substate(Preparing,   Trait.Of(Restartable), Durable)
                     .Substate(Copying,     Trait.Of(Restartable, Cancellable), Durable)
                     .Substate(Restarting,  Durable)
+                    .Substate(Suspended)                    
                 .State(Inactive, supervision.Off)
                     .Substate(Initial)
-                    .Substate(Suspended)
                     .Substate(Completed,   Trait.Of(Restartable), Durable)
                     .Substate(Canceled,    Trait.Of(Restartable), Durable);
 
