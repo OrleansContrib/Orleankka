@@ -35,8 +35,7 @@ namespace ProcessManager
 
             silo = await new SiloHostBuilder()
                 .ConfigureServices(s => s
-                    .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder))
-                    .AddSingletonNamedService<IGrainStorage>("manager", (sp, __) => new Storage(sp, typeof(ManagerState), folder)))
+                    .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder)))
                 .AddSimpleMessageStreamProvider("notifications", o =>
                 {
                     o.FireAndForgetDelivery = false;
