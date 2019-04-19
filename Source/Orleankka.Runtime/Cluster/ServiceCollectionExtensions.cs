@@ -13,16 +13,21 @@ namespace Orleankka.Cluster
             var registered = services.First(s => s.ServiceType == typeof(T));
             
             var factory = registered.ImplementationFactory;
-            if (factory == null)
+            if (factory == null && registered.ImplementationType != null)
                 services.TryAddSingleton(registered.ImplementationType);
 
             services.Replace(new ServiceDescriptor(typeof(T), sp =>
             {
-                var inner = factory == null 
+                var inner = registered.ImplementationInstance;
+                if (inner != null)
+                    return decorator((T) inner);
+
+                inner = factory == null 
                     ? sp.GetService(registered.ImplementationType) 
                     : factory(sp);
 
                 return decorator((T) inner);
+                
             }, 
             registered.Lifetime));
         }
