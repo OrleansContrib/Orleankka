@@ -1,11 +1,13 @@
-﻿@page "{*clientPath}"
-@using ProcessManager.Components
+﻿@page "/"
+@namespace ProcessManager.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProcessManager</title>
+    <title>WebApplication1</title>
     <base href="~/" />
     <environment include="Development">
         <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -21,8 +23,7 @@
 </head>
 <body>
     <app>@(await Html.RenderComponentAsync<App>())</app>
-    
-    <script src="scripts.js"></script>
-    <script src="_framework/components.server.js"></script>
+
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
