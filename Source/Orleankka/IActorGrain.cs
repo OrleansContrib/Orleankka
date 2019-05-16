@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Concurrency;
@@ -12,6 +13,10 @@ namespace Orleankka
         [OneWay] Task ReceiveNotify(object message);
     }
 
+    [ActorGrainMarkerInterface]
     public interface IActorGrain : IActor, IGrainWithStringKey, IRemindable
     {}
+
+    [AttributeUsage(AttributeTargets.Interface)]
+    internal class ActorGrainMarkerInterfaceAttribute : Attribute {}
 }

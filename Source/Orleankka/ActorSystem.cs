@@ -72,7 +72,10 @@ namespace Orleankka
                 interfaces.Add(each.FullName, @interface);
             }
 
-            bool IsActorGrain(Type type) => type != typeof(IActorGrain) && type.IsInterface && typeof(IActorGrain).IsAssignableFrom(type);
+            bool IsActorGrain(Type type)
+            {
+                return type.IsInterface && typeof(IActorGrain).IsAssignableFrom(type) && type.GetCustomAttribute<ActorGrainMarkerInterfaceAttribute>() == null;
+            }
         }
 
         /// <inheritdoc />
