@@ -76,7 +76,7 @@ namespace Orleankka.Facets
             var actor = system.ImplementationOf(context.GrainType);
             var actorRef = system.ActorOf(actor.Interface, context.GrainIdentity.PrimaryKeyString);
 
-            var bridge = new StateStorageBridge<TState>(name, actorRef, storage, loggerFactory);
+            var bridge = new StateStorageBridge<TState>(context.GrainType.FullName, actorRef, storage, loggerFactory);
             context.ObservableLifecycle.Subscribe("StorageBridge_ReadState_OnActivateAsync", GrainLifecycleStage.SetupState, _ => bridge.ReadStateAsync());
 
             return bridge;
