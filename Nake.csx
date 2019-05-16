@@ -80,7 +80,7 @@ var Version = "2.0.0-dev";
 {
     Test(!skipFullCheck);
     Build("Release");
-    Exec("dotnet", $"pack --no-build -c Release -p:PackageVersion={Version} {CoreProject}.sln");
+    Exec("dotnet", $"pack -c Release -p:PackageVersion={Version} {CoreProject}.sln");
 }
 
 /// Publishes package to NuGet gallery
