@@ -23,7 +23,7 @@ namespace Orleankka.Playground
                     options.ClusterId = "playground";
                     options.ServiceId = "playground";
                 })
-                .UseLocalhostClustering()
+                .UseAzureStorageClustering(options => options.ConnectionString = "UseDevelopmentStorage=true")
                 .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                 .AddMemoryGrainStorage("PubSubStore")                
                 .UseInMemoryReminderService());
@@ -36,7 +36,7 @@ namespace Orleankka.Playground
                     options.ClusterId = "playground";
                     options.ServiceId = "playground";
                 })
-                .UseLocalhostClustering());
+                .UseAzureStorageClustering(options => options.ConnectionString = "UseDevelopmentStorage=true"));
             });
 
             UseSimpleMessageStreamProvider("sms", o => o.Configure(x => x.FireAndForgetDelivery = false));

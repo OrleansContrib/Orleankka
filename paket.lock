@@ -394,18 +394,18 @@ NUGET
     Microsoft.NETCore.Runtime.CoreCLR (2.0.7) - restriction: && (>= netcoreapp1.1) (< netcoreapp2.0)
       Microsoft.NETCore.Jit (>= 2.0.7)
     Microsoft.NETCore.Targets (2.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.6) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net46) (>= netstandard1.3) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net46) (>= netstandard1.6) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.1) (< netstandard1.2) (< win8)) (&& (< monoandroid) (< net45) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.2) (>= netstandard1.3) (< win8)) (&& (< monoandroid) (< net45) (< netstandard1.2) (>= netstandard1.4) (< win8)) (&& (< monoandroid) (< net45) (< netstandard1.2) (>= netstandard1.5) (< win8)) (&& (< monoandroid) (< net45) (< netstandard1.2) (>= netstandard1.6) (< win8)) (&& (< monoandroid) (< net45) (>= netstandard1.3) (< netstandard1.4) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.3) (>= netstandard1.4) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.3) (>= netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.3) (>= netstandard1.6) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.4) (>= netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.5) (< netstandard1.6) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (< netstandard1.5) (>= netstandard1.6) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard2.0) (< xamarinios) (< xamarinmac)) (&& (< monoandroid) (< net46) (>= netstandard1.3) (< netstandard1.4)) (&& (< monoandroid) (< net46) (>= netstandard1.4) (< netstandard1.6) (< uap10.1)) (&& (< monoandroid) (< net46) (>= netstandard2.0) (< xamarinios) (< xamarinmac)) (&& (< monoandroid) (< netstandard1.1) (>= netstandard1.2) (< win8)) (&& (< monoandroid) (< netstandard1.1) (>= netstandard1.3) (< win8)) (&& (< monoandroid) (< netstandard1.1) (>= netstandard1.4) (< win8)) (&& (< monoandroid) (< netstandard1.1) (>= netstandard1.5) (< win8)) (&& (< monoandroid) (< netstandard1.1) (>= netstandard1.6) (< win8)) (&& (< net45) (>= net46) (< netstandard1.4)) (&& (>= netcoreapp1.1) (< netcoreapp2.0)) (>= netcoreapp2.1) (&& (>= netstandard1.0) (< portable-net45+win8+wpa81) (< wp8)) (&& (>= netstandard1.1) (< portable-net45+win8+wpa81)) (&& (< netstandard1.1) (>= uap10.0) (< win8)) (&& (< netstandard1.2) (>= uap10.0) (< win8)) (&& (>= netstandard1.3) (< portable-net45+win8+wpa81)) (&& (>= uap10.0) (< uap10.1)) (&& (>= uap10.0) (< win8) (< wpa81))
-    Microsoft.Orleans.Clustering.AzureStorage (2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansProviders (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Clustering.AzureStorage (2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansProviders (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
       System.Net.Requests (>= 4.3) - restriction: >= netstandard2.0
       WindowsAzure.Storage (>= 8.2.1) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Core (2.1.2)
+    Microsoft.Orleans.Core (2.2)
       Microsoft.Extensions.Configuration (>= 2.0) - restriction: >= netstandard2.0
       Microsoft.Extensions.DependencyInjection (>= 2.0) - restriction: >= netstandard2.0
       Microsoft.Extensions.DependencyModel (>= 2.0) - restriction: >= netstandard2.0
       Microsoft.Extensions.Logging (>= 2.0) - restriction: >= netstandard2.0
       Microsoft.Extensions.Options.ConfigurationExtensions (>= 2.0) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Core.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Core.Abstractions (>= 2.2) - restriction: >= netstandard2.0
       Newtonsoft.Json (>= 10.0.3) - restriction: >= netstandard2.0
       System.Collections.Immutable (>= 1.4) - restriction: >= netstandard2.0
       System.ComponentModel.TypeConverter (>= 4.3) - restriction: >= netstandard2.0
@@ -428,56 +428,57 @@ NUGET
       System.ValueTuple (>= 4.4) - restriction: >= netstandard2.0
       System.Xml.XmlDocument (>= 4.3) - restriction: >= netstandard2.0
       System.Xml.XPath.XmlDocument (>= 4.3) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Core.Abstractions (2.1.2)
+    Microsoft.Orleans.Core.Abstractions (2.2)
+      System.Memory (>= 4.5.1) - restriction: >= netstandard2.0
       System.Runtime.Serialization.Formatters (>= 4.3) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Core.Legacy (2.1.2)
-      Microsoft.Orleans.Core (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Hosting.AzureCloudServices (2.1.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Core.Legacy (2.2)
+      Microsoft.Orleans.Core (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Hosting.AzureCloudServices (2.2) - restriction: >= netstandard2.0
       Microsoft.Extensions.Logging.Console (>= 2.0) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Clustering.AzureStorage (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansProviders (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansRuntime (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Legacy (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.OrleansAzureUtils (2.1.2)
-      Microsoft.Orleans.Clustering.AzureStorage (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Hosting.AzureCloudServices (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Persistence.AzureStorage (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Reminders.AzureStorage (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Streaming.AzureStorage (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.OrleansCodeGenerator (2.1.2)
+      Microsoft.Orleans.Clustering.AzureStorage (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansProviders (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansRuntime (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Legacy (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.OrleansAzureUtils (2.2)
+      Microsoft.Orleans.Clustering.AzureStorage (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Hosting.AzureCloudServices (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Persistence.AzureStorage (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Reminders.AzureStorage (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Streaming.AzureStorage (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.OrleansCodeGenerator (2.2)
       Microsoft.CodeAnalysis.CSharp (>= 2.8.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Core (>= 2.1.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Core (>= 2.2) - restriction: >= netstandard2.0
       System.Reflection (>= 4.3) - restriction: >= netstandard2.0
       System.Runtime (>= 4.3) - restriction: >= netstandard2.0
       System.Runtime.Serialization.Formatters (>= 4.3) - restriction: >= netstandard2.0
       System.Threading.Tasks.Extensions (>= 4.4) - restriction: >= netstandard2.0
-    Microsoft.Orleans.OrleansProviders (2.1.2)
-      Microsoft.Orleans.Core (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.OrleansRuntime (2.1.2)
+    Microsoft.Orleans.OrleansProviders (2.2)
+      Microsoft.Orleans.Core (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.OrleansRuntime (2.2)
       Microsoft.Extensions.Options (>= 2.0) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Core (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Persistence.AzureStorage (2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansProviders (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Core (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Persistence.AzureStorage (2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansProviders (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
       System.Net.Requests (>= 4.3) - restriction: >= netstandard2.0
       WindowsAzure.Storage (>= 8.2.1) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Reminders.AzureStorage (2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansProviders (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Reminders.AzureStorage (2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansProviders (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
       System.Net.Requests (>= 4.3) - restriction: >= netstandard2.0
       WindowsAzure.Storage (>= 8.2.1) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Runtime.Abstractions (2.1.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Runtime.Abstractions (2.2) - restriction: >= netstandard2.0
       Microsoft.Extensions.Options (>= 2.0) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Core (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Runtime.Legacy (2.1.2)
-      Microsoft.Orleans.Core.Legacy (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansRuntime (>= 2.1.2) - restriction: >= netstandard2.0
-    Microsoft.Orleans.Streaming.AzureStorage (2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.OrleansProviders (>= 2.1.2) - restriction: >= netstandard2.0
-      Microsoft.Orleans.Runtime.Abstractions (>= 2.1.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Core (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Runtime.Legacy (2.2)
+      Microsoft.Orleans.Core.Legacy (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansRuntime (>= 2.2) - restriction: >= netstandard2.0
+    Microsoft.Orleans.Streaming.AzureStorage (2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.OrleansProviders (>= 2.2) - restriction: >= netstandard2.0
+      Microsoft.Orleans.Runtime.Abstractions (>= 2.2) - restriction: >= netstandard2.0
       System.Net.Requests (>= 4.3) - restriction: >= netstandard2.0
       WindowsAzure.Storage (>= 8.2.1) - restriction: >= netstandard2.0
     Microsoft.Rest.ClientRuntime (2.3.20) - restriction: || (&& (>= net452) (< netstandard1.4)) (&& (< net452) (>= netstandard1.4) (< netstandard2.0)) (&& (< net452) (>= netstandard2.0)) (>= net461)
@@ -658,11 +659,6 @@ NUGET
     System.AppContext (4.3) - restriction: || (&& (< net45) (>= net46) (< netstandard1.4)) (&& (< net45) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< netstandard1.6) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.6) (< netstandard2.0) (< win8) (< wpa81)) (&& (< net45) (>= netstandard2.0)) (>= netstandard1.3) (&& (>= uap10.0) (< uap10.1))
       System.Runtime (>= 4.3) - restriction: || (&& (< monoandroid) (< monotouch) (< net46) (>= netstandard1.6) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net46) (>= netstandard1.3) (< netstandard1.6))
     System.Buffers (4.5) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.6) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.3) (< netstandard1.4) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (< monoandroid) (< net45) (>= netstandard1.5) (< netstandard1.6) (< win8) (< wpa81)) (&& (< net45) (>= net46) (< netstandard1.4)) (&& (>= netcoreapp1.1) (< netcoreapp2.0)) (>= netstandard2.0) (&& (>= uap10.0) (< uap10.1))
-      System.Diagnostics.Debug (>= 4.3) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
-      System.Diagnostics.Tracing (>= 4.3) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
-      System.Resources.ResourceManager (>= 4.3) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
-      System.Runtime (>= 4.3) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
-      System.Threading (>= 4.3) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
     System.Collections (4.3) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.6) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net46) (>= netstandard1.6) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.4) (< netstandard1.6) (< win8) (< wpa81)) (&& (< monoandroid) (< net46) (>= netstandard2.0) (< xamarinios) (< xamarinmac)) (&& (< net45) (>= netstandard1.0) (< netstandard2.0) (< win8) (< wp8) (< wpa81)) (&& (< net45) (>= netstandard1.1) (< netstandard1.2) (< win8)) (&& (< net45) (>= netstandard1.2) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< netstandard1.6) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.6) (< netstandard2.0)) (&& (< net45) (>= netstandard2.0)) (&& (>= netcoreapp1.1) (< netstandard2.0)) (&& (>= netstandard1.0) (< portable-net45+win8+wpa81) (< wp8)) (>= netstandard1.3) (&& (>= uap10.0) (< uap10.1)) (&& (>= uap10.0) (< win8) (< wpa81))
       Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.0) (< netstandard1.3) (< win8) (< wp8) (< wpa81))
       Microsoft.NETCore.Targets (>= 1.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.0) (< netstandard1.3) (< win8) (< wp8) (< wpa81))
@@ -1101,7 +1097,6 @@ NUGET
       System.Runtime (>= 4.3) - restriction: && (< monoandroid) (< monotouch) (< net46) (>= netstandard1.3) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)
       System.Runtime.Extensions (>= 4.3) - restriction: && (< monoandroid) (< monotouch) (< net46) (>= netstandard1.3) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)
     System.Numerics.Vectors (4.5) - restriction: || (&& (>= netcoreapp1.1) (< netcoreapp2.0)) (>= netstandard2.0)
-      NETStandard.Library (>= 1.6.1) - restriction: && (< monoandroid) (< monotouch) (< net45) (>= netstandard1.0) (< netstandard2.0) (< win8) (< wp8) (< wpa81) (< xamarintvos) (< xamarinwatchos)
     System.ObjectModel (4.3) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.6) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< net45) (>= netstandard1.1) (< netstandard1.2) (< win8)) (&& (< net45) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.3) (< netstandard1.4) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.4) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< netstandard1.6) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.6) (< netstandard2.0) (< win8) (< wpa81)) (&& (>= netstandard1.0) (< portable-net45+win8+wpa81) (< wp8)) (&& (>= uap10.0) (< uap10.1))
       System.Collections (>= 4.3) - restriction: && (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)
       System.Diagnostics.Debug (>= 4.3) - restriction: && (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)

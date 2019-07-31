@@ -33,14 +33,15 @@ nuget Microsoft.Extensions.DependencyInjection 2.1
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.1
 nuget Microsoft.Extensions.Logging.Console 2.1
 
-nuget Microsoft.Orleans.Core 2.1.2
-nuget Microsoft.Orleans.Core.Legacy 2.1.2
-nuget Microsoft.Orleans.Core.Abstractions 2.1.2
-nuget Microsoft.Orleans.OrleansAzureUtils 2.1.2
-nuget Microsoft.Orleans.OrleansCodeGenerator 2.1.2
-nuget Microsoft.Orleans.OrleansProviders 2.1.2
-nuget Microsoft.Orleans.OrleansRuntime 2.1.2
-nuget Microsoft.Orleans.Runtime.Legacy 2.1.2
+nuget Microsoft.Orleans.Core 2.2.0
+nuget Microsoft.Orleans.Core.Legacy 2.2.0
+nuget Microsoft.Orleans.Core.Abstractions 2.2.0
+nuget Microsoft.Orleans.OrleansAzureUtils 2.2.0
+nuget Microsoft.Orleans.OrleansCodeGenerator 2.2.0
+nuget Microsoft.Orleans.OrleansProviders 2.2.0
+nuget Microsoft.Orleans.OrleansRuntime 2.2.0
+nuget Microsoft.Orleans.Runtime.Legacy 2.2.0
+nuget Microsoft.Orleans.Clustering.AzureStorage 2.2.0
 nuget OrleansDashboard 2.0.5
 
 nuget WindowsAzure.Storage 9.2.0

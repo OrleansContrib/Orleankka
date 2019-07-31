@@ -171,7 +171,7 @@ namespace Orleankka.Client
 
             if (force)
             {
-                Client.Abort();
+                await Client.AbortAsync().ConfigureAwait(false);
                 return;
             }
 
