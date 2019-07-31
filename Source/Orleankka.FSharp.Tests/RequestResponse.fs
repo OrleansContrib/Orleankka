@@ -11,8 +11,12 @@ type Message =
    | Hi
 
 [<ActorType("test_actor")>]
+type ITestActor = 
+    inherit IActor
+
 type TestActor() = 
    inherit Actor<Message>()
+   interface ITestActor
 
    override this.Receive message = task {
       match message with

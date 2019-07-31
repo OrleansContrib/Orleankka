@@ -28,6 +28,7 @@ namespace Orleankka.TestKit
 
             var configuration = new ClientConfiguration
             {
+                ClusterId = "MessageSerialization",
                 GatewayProvider = ClientConfiguration.GatewayProviderType.Config,
                 Gateways = { new IPEndPoint(0, 0) },
             };
