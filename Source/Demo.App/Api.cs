@@ -56,7 +56,9 @@ namespace Demo
     }
 
     [ActorType("Api")]
-    public class Api : Actor
+    public interface IApi : IActor {}
+
+    public class Api : Actor, IApi
     {
         const int FailureThreshold = 3;
 

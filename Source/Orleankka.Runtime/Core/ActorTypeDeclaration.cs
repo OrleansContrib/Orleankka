@@ -71,7 +71,11 @@ namespace Orleankka.Core
             ");
 
             foreach (var assembly in assemblies)
-                sb.AppendLine($"[assembly: KnownAssembly(\"{assembly.GetName().Name}\")]");
+            {
+	            var type = assembly.GetTypes().FirstOrDefault(t => t.IsVisible);
+                if(type != null)
+	                sb.AppendLine($"[assembly: KnownAssembly(typeof({type.FullName}))]");
+            }
 
             var results = declarations.Select(x => x.Generate()).ToArray();
             return new GenerateResult(sb, results);

@@ -21,8 +21,8 @@ nuget Newtonsoft.Json 11.0.2
 nuget Streamstone
 
 nuget Microsoft.CodeAnalysis.Analyzers 1.1.0
-nuget Microsoft.CodeAnalysis.Common 2.2.0
-nuget Microsoft.CodeAnalysis.CSharp 2.2.0
+nuget Microsoft.CodeAnalysis.Common 2.8.2
+nuget Microsoft.CodeAnalysis.CSharp 2.8.2
 nuget System.Collections.Immutable
 nuget System.Reflection.Metadata
 
@@ -33,14 +33,14 @@ nuget Microsoft.Extensions.DependencyInjection 2.1
 nuget Microsoft.Extensions.DependencyInjection.Abstractions 2.1
 nuget Microsoft.Extensions.Logging.Console 2.1
 
-nuget Microsoft.Orleans.Core 2.0.3
-nuget Microsoft.Orleans.Core.Legacy 2.0.3
-nuget Microsoft.Orleans.Core.Abstractions 2.0.0
-nuget Microsoft.Orleans.OrleansAzureUtils 2.0.0
-nuget Microsoft.Orleans.OrleansCodeGenerator 2.0.3
-nuget Microsoft.Orleans.OrleansProviders 2.0.0
-nuget Microsoft.Orleans.OrleansRuntime 2.0.3
-nuget Microsoft.Orleans.Runtime.Legacy 2.0.3
+nuget Microsoft.Orleans.Core 2.1.2
+nuget Microsoft.Orleans.Core.Legacy 2.1.2
+nuget Microsoft.Orleans.Core.Abstractions 2.1.2
+nuget Microsoft.Orleans.OrleansAzureUtils 2.1.2
+nuget Microsoft.Orleans.OrleansCodeGenerator 2.1.2
+nuget Microsoft.Orleans.OrleansProviders 2.1.2
+nuget Microsoft.Orleans.OrleansRuntime 2.1.2
+nuget Microsoft.Orleans.Runtime.Legacy 2.1.2
 nuget OrleansDashboard 2.0.5
 
 nuget WindowsAzure.Storage 9.2.0
