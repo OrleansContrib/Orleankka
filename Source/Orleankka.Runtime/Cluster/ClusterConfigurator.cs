@@ -11,7 +11,7 @@ using Orleans.Configuration;
 using Orleans.Runtime;
 
 using Microsoft.Extensions.DependencyInjection;
-using OptionsServiceCollectionExtensions = Orleans.Configuration.OptionsServiceCollectionExtensions;
+using Microsoft.Extensions.Options;
 
 namespace Orleankka.Cluster
 {

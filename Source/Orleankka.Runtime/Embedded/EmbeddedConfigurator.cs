@@ -1,6 +1,8 @@
 using System;
 using System.Reflection;
 
+using Microsoft.Extensions.Options;
+
 using Orleans.Configuration;
 
 namespace Orleankka.Embedded

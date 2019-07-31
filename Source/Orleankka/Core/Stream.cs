@@ -36,6 +36,9 @@ namespace Orleankka.Core
             StreamFilterPredicate filterFunc = null,
             object filterData = null) => stream.SubscribeAsync(observer, token, filterFunc, filterData);
 
+        public Task<StreamSubscriptionHandle<T>> SubscribeAsync(IAsyncBatchObserver<T> observer) => stream.SubscribeAsync(observer);
+        public Task<StreamSubscriptionHandle<T>> SubscribeAsync(IAsyncBatchObserver<T> observer, StreamSequenceToken token) => stream.SubscribeAsync(observer, token);
+
         public Task OnCompletedAsync() => stream.OnCompletedAsync();
         public Task OnErrorAsync(Exception ex) => stream.OnErrorAsync(ex);
         public Task OnNextBatchAsync(IEnumerable<T> batch, StreamSequenceToken token = null) => stream.OnNextBatchAsync(batch, token);
