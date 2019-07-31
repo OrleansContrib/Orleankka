@@ -36,6 +36,7 @@ namespace Orleankka.Testing
                     .Playground()                    
                     .Cluster(x =>
                     {
+                        x.Configuration.Globals.CollectionQuantum = TimeSpan.FromSeconds(1);
                         x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
                         x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
 
