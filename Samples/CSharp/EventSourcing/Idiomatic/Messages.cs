@@ -5,6 +5,69 @@ using Orleankka.Meta;
 namespace Example
 {
     [Serializable]
+    public class TrackStockOfNewInventoryItem : Command
+    {
+        public readonly string Id;
+        public readonly string Name;
+
+        public TrackStockOfNewInventoryItem(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+    }
+
+    [Serializable]
+    public class IncrementStockLevel : Command
+    {
+        public readonly string Id;
+        public readonly int Quantity;
+
+        public IncrementStockLevel(string id, int quantity)
+        {
+            Id = id;
+            Quantity = quantity;
+        }
+    }
+
+    [Serializable]
+    public class DecrementStockLevel : Command
+    {
+        public readonly string Id;
+        public readonly int Quantity;
+
+        public DecrementStockLevel(string id, int quantity)
+        {
+            Id = id;
+            Quantity = quantity;
+        }
+    }
+
+    [Serializable]
+    public class DiscontinueItem : Command
+    {
+        public readonly string Id;
+
+        public DiscontinueItem(string id)
+        {
+            Id = id;
+        }
+    }
+
+    [Serializable]
+    public class RenameItem : Command
+    {
+        public readonly string Id;
+        public readonly string Name;
+
+        public RenameItem(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+    }
+
+    [Serializable]
     public class Create : Command
     {
         public readonly string Name;
@@ -64,11 +127,16 @@ namespace Example
     public class GetInventoryItemsTotal : Query<int>
     {}
 
-    [Serializable]
-    public class EventEnvelope<T> where T : Event
+    public interface IEventEnvelope
     {
-        public readonly string Stream;
-        public readonly T Event;
+
+    }
+
+    [Serializable]
+    public class EventEnvelope<T> : IEventEnvelope where T : Event
+    {
+        public string Stream { get; }
+        public T Event { get; }
 
         public EventEnvelope(string stream, T @event)
         {
@@ -141,4 +209,67 @@ namespace Example
     [Serializable]
     public class InventoryItemDeactivated : Event
     {}
+
+    [Serializable]
+    public class StockOfNewInventoryItemTracked : Event
+    {
+        public readonly string Id;
+        public readonly string Name;
+
+        public StockOfNewInventoryItemTracked(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+    }
+
+    [Serializable]
+    public class StockLevelIncremented : Event
+    {
+        public readonly string Id;
+        public readonly int Quantity;
+
+        public StockLevelIncremented(string id, int quantity)
+        {
+            Id = id;
+            Quantity = quantity;
+        }
+    }
+
+    [Serializable]
+    public class StockLevelDecremented : Event
+    {
+        public readonly string Id;
+        public readonly int Quantity;
+
+        public StockLevelDecremented(string id, int quantity)
+        {
+            Id = id;
+            Quantity = quantity;
+        }
+    }
+
+    [Serializable]
+    public class ItemDiscontinued : Event
+    {
+        public readonly string Id;
+
+        public ItemDiscontinued(string id)
+        {
+            Id = id;
+        }
+    }
+
+    [Serializable]
+    public class ItemRenamed : Event
+    {
+        public readonly string Id;
+        public readonly string Name;
+
+        public ItemRenamed(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+    }
 }
