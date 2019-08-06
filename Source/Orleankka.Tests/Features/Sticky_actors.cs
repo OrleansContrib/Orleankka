@@ -57,6 +57,8 @@ namespace Orleankka.Features
                 var sticky = system.ActorOf<TestActor>("sticky");
                 await sticky.Tell(new Activate());
 
+                await Task.Delay(100);
+
                 // first activation (from Activate message)
                 Assert.That(events.Count, Is.EqualTo(1));
 

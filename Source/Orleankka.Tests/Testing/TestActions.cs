@@ -36,17 +36,16 @@ namespace Orleankka.Testing
                     .Playground()                    
                     .Cluster(x =>
                     {
+                        x.Configuration.Globals.CollectionQuantum = TimeSpan.FromSeconds(1);
                         x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
                         x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
 
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
                         x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
 
-                        x.Configuration.Globals.DataConnectionStringForReminders = "UseDevelopmentStorage=true";
-                        x.Configuration.Globals.ReminderServiceType = GlobalConfiguration.ReminderServiceProviderType.AzureTable;
-
                         x.Builder(b =>
                         {
+                            b.UseAzureTableReminderService("UseDevelopmentStorage=true");
                             b.AddAzureQueueStreams<AzureQueueDataAdapterV2>("aqp", options =>
                             {
                                 options.Configure(c => c.ConnectionString = "UseDevelopmentStorage=true");

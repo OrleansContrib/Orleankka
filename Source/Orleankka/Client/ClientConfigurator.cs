@@ -3,6 +3,7 @@ using System.Reflection;
 
 using Orleans.Runtime.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Orleankka.Client
 {
