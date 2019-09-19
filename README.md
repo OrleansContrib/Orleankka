@@ -44,6 +44,7 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 | [Orleankka.TestKit](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
 | [Orleankka.FSharp](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
 | [Orleankka.FSharp.Runtime](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
+| [Orleankka.Template](https://www.nuget.org/packages/Orleankka.Template/) | Scaffolding template for `dotnet new` (F#)
 
 ### Examples
 
