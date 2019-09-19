@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
 using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.Streams;
 
 namespace Example
 {
@@ -95,22 +96,85 @@ namespace Example
         }
     }
 
-    public interface IInventory : IActorGrain
+    public interface IInventoryDispatcher : IActorGrain
     {}
 
-    [RegexImplicitStreamSubscription("/InventoryItem-.*/")]
-    public class Inventory : DispatchActorGrain, IInventory
-    {
-        readonly Dictionary<string, InventoryItemDetails> items =
-             new Dictionary<string, InventoryItemDetails>();
+    public interface IInventory : IActorGrain
+    { }
 
-        void On(EventEnvelope<InventoryItemCreated> e)     => items[e.Stream] = new InventoryItemDetails(e.Event.Name, 0, true);
-        void On(EventEnvelope<InventoryItemCheckedIn> e)   => items[e.Stream].Total += e.Event.Quantity;
-        void On(EventEnvelope<InventoryItemCheckedOut> e)  => items[e.Stream].Total -= e.Event.Quantity;
-        void On(EventEnvelope<InventoryItemDeactivated> e) => items[e.Stream].Active = false;
-        void On(EventEnvelope<InventoryItemRenamed> e)     => items[e.Stream].Name   = e.Event.NewName;
+    [StartsWithImplicitStreamSubscription("InventoryItem")]
+    public class InventoryDispatcher : DispatchActorGrain, IInventoryDispatcher, IGrainWithGuidCompoundKey
+    {
+        async Task On(Activate _)
+        {
+            var streamProvider = GetStreamProvider("sms");
+
+            var guid = this.GetPrimaryKey(out var extension);
+            var stream = streamProvider.GetStream<IEventEnvelope>(guid, extension);
+
+            await stream.SubscribeAsync((envelope, token) => Receive(envelope));
+        }
+
+        async Task On(EventEnvelope<InventoryItemCreated> e) => await System.ActorOf<IInventory>("#").Tell(new TrackStockOfNewInventoryItem(e.Stream, e.Event.Name));
+        async Task On(EventEnvelope<InventoryItemCheckedIn> e) => await System.ActorOf<IInventory>("#").Tell(new IncrementStockLevel(e.Stream, e.Event.Quantity));
+        async Task On(EventEnvelope<InventoryItemCheckedOut> e) => await System.ActorOf<IInventory>("#").Tell(new DecrementStockLevel(e.Stream, e.Event.Quantity));
+        async Task On(EventEnvelope<InventoryItemDeactivated> e) => await System.ActorOf<IInventory>("#").Tell(new DiscontinueItem(e.Stream));
+        async Task On(EventEnvelope<InventoryItemRenamed> e) => await System.ActorOf<IInventory>("#").Tell(new RenameItem(e.Stream, e.Event.NewName));
+    }
+
+    public class Inventory : EventSourcedActor, IInventory
+    {
+        readonly Dictionary<string, InventoryItemDetails> items = new Dictionary<string, InventoryItemDetails>();
+
+        public IEnumerable<Event> Handle(TrackStockOfNewInventoryItem cmd)
+        {
+            yield return new StockOfNewInventoryItemTracked(cmd.Id, cmd.Name);
+        }
+
+        public IEnumerable<Event> Handle(IncrementStockLevel cmd)
+        {
+            yield return new StockLevelIncremented(cmd.Id, cmd.Quantity);
+        }
+
+        public IEnumerable<Event> Handle(DecrementStockLevel cmd)
+        {
+            yield return new StockLevelDecremented(cmd.Id, cmd.Quantity);
+        }
+
+        public IEnumerable<Event> Handle(DiscontinueItem cmd)
+        {
+            yield return new ItemDiscontinued(cmd.Id);
+        }
+
+        public IEnumerable<Event> Handle(RenameItem cmd)
+        {
+            yield return new ItemRenamed(cmd.Id, cmd.Name);
+        }
+
+        public void On(StockOfNewInventoryItemTracked e) => items[e.Id] = new InventoryItemDetails(e.Name, 0, true);
+        public void On(StockLevelIncremented e) => items[e.Id].Total += e.Quantity;
+        public void On(StockLevelDecremented e) => items[e.Id].Total -= e.Quantity;
+        public void On(ItemDiscontinued e) => items[e.Id].Active = false;
+        public void On(ItemRenamed e) => items[e.Id].Name = e.Name;
 
         InventoryItemDetails[] Answer(GetInventoryItems _) => items.Values.ToArray();
-        int Answer(GetInventoryItemsTotal _)               => items.Values.Sum(x => x.Total);
+        int Answer(GetInventoryItemsTotal _) => items.Values.Sum(x => x.Total);
+    }
+
+    public class StartsWithPredicate : IStreamNamespacePredicate
+    {
+        readonly string startsWith;
+
+        public StartsWithPredicate(string startsWith) => this.startsWith = startsWith;
+
+        public bool IsMatch(string streamNamespace) => streamNamespace.StartsWith(startsWith);
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class StartsWithImplicitStreamSubscriptionAttribute : ImplicitStreamSubscriptionAttribute
+    {
+        public StartsWithImplicitStreamSubscriptionAttribute(string startsWith)
+            : base(new StartsWithPredicate(startsWith))
+        { }
     }
 }
