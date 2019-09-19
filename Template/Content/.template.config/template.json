@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "OrleansContrib",
+  "classifications": ["Orleankka", "Orleans"],
+  "identity": "Orleankka",
+  "shortName": "orleankka",
+  "tags": { "language": "F#", "type":"project" },
+  "sourceName": "orleankkaFsharp",
+  "name": "Orleankka template",
+  "preferNameDirectory": true,
+  "sources": []
+}
