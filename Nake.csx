@@ -25,6 +25,7 @@ const string RuntimeProject = "Orleankka.Runtime";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
+const string TemplateProject = "Orleankka.Template";
 
 var RootPath = "%NakeScriptDirectory%";
 var ArtifactsPath = $@"{RootPath}\Artifacts";
@@ -34,6 +35,9 @@ string AppVeyorJobId = null;
 var GES = "EventStore-OSS-Win-v3.9.4";
 
 var Version = "2.0.0-dev";
+
+// global init
+MakeDir(ArtifactsPath);
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -81,6 +85,7 @@ var Version = "2.0.0-dev";
     Test(!skipFullCheck);
     Build("Release");
     Exec("dotnet", $"pack -c Release -p:PackageVersion={Version} {CoreProject}.sln");
+    PackTemplate();
 }
 
 /// Publishes package to NuGet gallery
@@ -91,11 +96,40 @@ var Version = "2.0.0-dev";
     Push(TestKitProject); 
     Push(FSharpProject);
     Push(FSharpRuntimeProject);
+    PublishTemplate();
 }
+
+[Step] void PackTemplate() 
+{
+    var tmp = $"{ArtifactsPath}\\Template";
+    Mirror($"{RootPath}\\Template", tmp);
+
+    FileSet projects = $@"{tmp}\**\*.*proj";
+    foreach (var each in projects)
+    {
+        var contents = File.ReadAllText(each);
+        var processed = contents.Replace("Version=\"*\"", $"Version=\"{Version}\"");
+        File.WriteAllText(each, processed);
+    }
+    
+    Exec("nuget", $"pack {ArtifactsPath}\\Template\\Orleankka.Template.nuspec -Version {Version} -o {ReleasePackagesPath}");
+}
+
+[Step] void PublishTemplate() => Push(TemplateProject);
 
 void Push(string package) => Exec("dotnet", 
     @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
     "-k %NuGetApiKey% -s https://nuget.org/ -ss https://nuget.smbsrc.net");
+
+void Mirror(string source, string destination)
+{
+    foreach (string dir in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
+        Directory.CreateDirectory(dir.Replace(source, destination));
+
+    foreach (string file in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
+        File.Copy(file, file.Replace(source, destination), true);
+}
+
 
 /// Restores build-time packages and 3rd party dependencies used in demo projects
 [Task] void Restore(bool packagesOnly = false)
