@@ -6,7 +6,7 @@
     <Compile Include="..\..\Shared.cs" Link="Shared.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Source\Orleankka\Orleankka.csproj" />

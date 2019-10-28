@@ -4,6 +4,7 @@
     <PackageId>Orleankka.FSharp</PackageId>
     <Title>Orleankka F# api core library</Title>
     <Description>F# api for Orleankka. Core and client-side library.</Description>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

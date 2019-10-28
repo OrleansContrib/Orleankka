@@ -16,8 +16,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
-    <PackageReference Include="Streamstone" Version="$(StreamstoneVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="3.0.0" />
+    <PackageReference Include="Streamstone" Version="2.3.0" />
   </ItemGroup>
   
   <ItemGroup>

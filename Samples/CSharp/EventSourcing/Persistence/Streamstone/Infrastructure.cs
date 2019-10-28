@@ -9,8 +9,8 @@ using Orleankka;
 using Orleankka.Meta;
 
 using Streamstone;
-using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace Example
 {

@@ -2,9 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Client;
@@ -12,6 +9,7 @@ using Orleankka.Cluster;
 
 using Orleans;
 using Orleans.Hosting;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace Example
 {

@@ -16,8 +16,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Hyperion" Version="$(HyperionVersion)" />
-    <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
+    <PackageReference Include="Hyperion" Version="0.9.10" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="3.0.0" />
   </ItemGroup>
   
   <ItemGroup>
