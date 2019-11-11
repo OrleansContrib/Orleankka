@@ -20,7 +20,10 @@ namespace Example
         public DateTimeOffset Paid;
     }
 
-    public class SomeActor : Actor
+    public interface ISomeActor : IActor
+    { }
+
+    public class SomeActor : Actor, ISomeActor
     {
         readonly List<Item> received = new List<Item>();
         StreamRef stream;

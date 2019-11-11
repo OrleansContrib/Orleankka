@@ -31,7 +31,10 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        public class TestActor : Actor
+        public interface ITestActor : IActor
+        { }
+
+        public class TestActor : Actor, ITestActor
         {
             ObserverRef observer;
 
@@ -43,7 +46,10 @@ namespace Orleankka.Features
         public class ReceivedNotifications : Query<Notification[]>
         {}
 
-        public class TestInsideActor : Actor
+        public interface ITestInsideActor : IActor
+        { }
+
+        public class TestInsideActor : Actor, ITestInsideActor
         {
             readonly List<Notification> notifications = new List<Notification>();
 
@@ -66,7 +72,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Client_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 using (var observable = await system.CreateObservable())
                 {

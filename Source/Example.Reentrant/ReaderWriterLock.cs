@@ -18,8 +18,11 @@ namespace Example
     public class Read : Query<int>
     {}
 
+    public interface IReaderWriterLock : IActor
+    { }
+
     [Interleave(typeof(Read))]
-    public class ReaderWriterLock : Actor
+    public class ReaderWriterLock : Actor, IReaderWriterLock
     {
         int value;
         ConsolePosition indicator;

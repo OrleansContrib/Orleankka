@@ -42,7 +42,10 @@ namespace Orleankka.Features
             }
         }
 
-        class TestProducerActor : Actor
+        interface ITestProducerActor : IActor
+        {}
+
+        class TestProducerActor : Actor, ITestProducerActor
         {
             Task On(Push x) => x.Stream.Push(x.Item);
         }
@@ -60,7 +63,7 @@ namespace Orleankka.Features
                 system = TestActorSystem.Instance;
             }
 
-            public async Task Client_to_stream<T>() where T : Actor
+            public async Task Client_to_stream<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "cs");
 
@@ -72,7 +75,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ce"}));
             }
 
-            public async Task Actor_to_stream<T>() where T : Actor
+            public async Task Actor_to_stream<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "as");
 
@@ -84,7 +87,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ae"}));
             }
 
-            public async Task Multistream_subscription_with_fixed_ids<T>() where T : Actor
+            public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActor
             {
                 var a = system.StreamOf(provider, "a");
                 var b = system.StreamOf(provider, "b");
@@ -98,7 +101,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
 
-            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : Actor
+            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActor
             {
                 var s1 = system.StreamOf(provider, "INV-001");
                 var s2 = system.StreamOf(provider, "INV-002");
@@ -112,7 +115,7 @@ namespace Orleankka.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
-            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : Actor
+            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "declared-auto");
                 Assert.DoesNotThrowAsync(async ()=> await Push(stream, 123),
@@ -127,7 +130,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("e-123"));
             }
 
-            public async Task Select_all_filter<T>() where T : Actor
+            public async Task Select_all_filter<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "select-all");
 
@@ -141,7 +144,7 @@ namespace Orleankka.Features
                 Assert.That(received[0], Is.EqualTo("42"));
             }
 
-            public async Task Explicit_filter<T>() where T : Actor
+            public async Task Explicit_filter<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "filtered");
 
@@ -154,7 +157,7 @@ namespace Orleankka.Features
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            public async Task Dynamic_target_selection<T>() where T : Actor
+            public async Task Dynamic_target_selection<T>() where T : IActor
             {
                 var stream = system.StreamOf(provider, "dynamic-target");
 
@@ -171,36 +174,54 @@ namespace Orleankka.Features
 
             async Task Push(StreamRef stream, object item)
             {
-                var producer = system.ActorOf<TestProducerActor>("foo");
+                var producer = system.ActorOf<ITestProducerActor>("foo");
                 await producer.Tell(new Push(stream, item));
             }
         }
 
         namespace SimpleMessageStreamProviderVerification
         {
+            interface ITestClientToStreamConsumerActor : IActor
+            { }
+
             [StreamSubscription(Source = "sms:cs", Target = "#")]
-            class TestClientToStreamConsumerActor : TestConsumerActorBase
+            class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
+            interface ITestActorToStreamConsumerActor : IActor
+            { }
+
             [StreamSubscription(Source = "sms:as", Target = "#")]
-            class TestActorToStreamConsumerActor : TestConsumerActorBase
+            class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
+
+            interface ITestMultistreamSubscriptionWithFixedIdsActor : IActor
+            { }
 
             [StreamSubscription(Source = "sms:a", Target = "#")]
             [StreamSubscription(Source = "sms:b", Target = "#")]
-            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
+            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
+
+            interface ITestMultistreamRegexBasedSubscriptionActor : IActor
+            { }
 
             [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#")]
-            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
+            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
+
+            interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActor
+            { }
 
             [StreamSubscription(Source = "sms:declared-auto", Target = "#")]
-            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
+            interface ITestSelectAllFilterActor : IActor
+            { }
+
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
-            class TestSelectAllFilterActor : TestConsumerActorBase
+            class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
                 {
@@ -214,14 +235,20 @@ namespace Orleankka.Features
                 }
             }
 
+            interface ITestExplicitFilterActor : IActor
+            { }
+
             [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
-            class TestExplicitFilterActor : TestConsumerActorBase
+            class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
             }
 
+            interface ITestDynamicTargetSelectorActor : IActor
+            { }
+
             [StreamSubscription(Source = "sms:dynamic-target", Target = "ComputeTarget()")]
-            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            class TestDynamicTargetSelectorActor : TestConsumerActorBase, ITestDynamicTargetSelectorActor
             {
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }
@@ -233,43 +260,61 @@ namespace Orleankka.Features
                    new TestCases("sms", TimeSpan.FromMilliseconds(100));
 
                 [Test, Ignore("Declarative subscriptions are server-side only")]
-                public async Task Client_to_stream()                                        => await Verify().Client_to_stream<TestClientToStreamConsumerActor>();
+                public async Task Client_to_stream()                                        => await Verify().Client_to_stream<ITestClientToStreamConsumerActor>();
 
-                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
-                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
-                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<TestDeclaredHandlerOnlyAutomaticFilterActor>();
-                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<TestSelectAllFilterActor>();
-                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<TestExplicitFilterActor>();
-                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
+                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<ITestActorToStreamConsumerActor>();
+                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<ITestMultistreamSubscriptionWithFixedIdsActor>();
+                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<ITestMultistreamRegexBasedSubscriptionActor>();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<ITestDeclaredHandlerOnlyAutomaticFilterActor>();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<ITestSelectAllFilterActor>();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<ITestExplicitFilterActor>();
+                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<ITestDynamicTargetSelectorActor>();
             }
         }
 
         namespace AzureQueueStreamProviderVerification
         {
+            interface ITestClientToStreamConsumerActor : IActor
+            { }
+
             [StreamSubscription(Source = "aqp:cs", Target = "#")]
-            class TestClientToStreamConsumerActor : TestConsumerActorBase
+            class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
+            interface ITestActorToStreamConsumerActor : IActor
+            { }
+
             [StreamSubscription(Source = "aqp:as", Target = "#")]
-            class TestActorToStreamConsumerActor : TestConsumerActorBase
+            class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
+
+            interface ITestMultistreamSubscriptionWithFixedIdsActor : IActor
+            { }
 
             [StreamSubscription(Source = "aqp:a", Target = "#")]
             [StreamSubscription(Source = "aqp:b", Target = "#")]
-            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase
+            class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
+
+            interface ITestMultistreamRegexBasedSubscriptionActor : IActor
+            { }
 
             [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#")]
-            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase
+            class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
+
+            interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActor
+            { }
 
             [StreamSubscription(Source = "aqp:declared-auto", Target = "#")]
-            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase
+            class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
+            interface ITestSelectAllFilterActor : IActor
+            { }
+
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
-            class TestSelectAllFilterActor : TestConsumerActorBase
+            class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
                 {
@@ -283,14 +328,20 @@ namespace Orleankka.Features
                 }
             }
 
+            interface ITestExplicitFilterActor : IActor
+            { }
+
             [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
-            class TestExplicitFilterActor : TestConsumerActorBase
+            class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
             }
 
+            interface ITestDynamicTargetSelectorActor : IActor
+            { }
+
             [StreamSubscription(Source = "aqp:dynamic-target", Target = "ComputeTarget()")]
-            class TestDynamicTargetSelectorActor : TestConsumerActorBase
+            class TestDynamicTargetSelectorActor : TestConsumerActorBase, ITestDynamicTargetSelectorActor
             {
                 public static string ComputeTarget(object item) => $"{item}-pill";
             }
@@ -302,14 +353,14 @@ namespace Orleankka.Features
                static TestCases Verify() =>
                   new TestCases("aqp", TimeSpan.FromSeconds(5));
 
-                [Test] public async Task Client_to_stream()                                 => await Verify().Client_to_stream<TestClientToStreamConsumerActor>();
-                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<TestActorToStreamConsumerActor>();
-                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<TestMultistreamSubscriptionWithFixedIdsActor>();
-                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<TestMultistreamRegexBasedSubscriptionActor>();
-                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<TestDeclaredHandlerOnlyAutomaticFilterActor>();
-                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<TestSelectAllFilterActor>();
-                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<TestExplicitFilterActor>();
-                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<TestDynamicTargetSelectorActor>();
+                [Test] public async Task Client_to_stream()                                 => await Verify().Client_to_stream<ITestClientToStreamConsumerActor>();
+                [Test] public async Task Actor_to_stream()                                  => await Verify().Actor_to_stream<ITestActorToStreamConsumerActor>();
+                [Test] public async Task Multistream_subscription_with_fixed_ids()          => await Verify().Multistream_subscription_with_fixed_ids<ITestMultistreamSubscriptionWithFixedIdsActor>();
+                [Test] public async Task Multistream_subscription_based_on_regex_matching() => await Verify().Multistream_subscription_based_on_regex_matching<ITestMultistreamRegexBasedSubscriptionActor>();
+                [Test] public async Task Declared_handler_only_automatic_item_filtering()   => await Verify().Declared_handler_only_automatic_item_filtering<ITestDeclaredHandlerOnlyAutomaticFilterActor>();
+                [Test] public async Task Select_all_filter()                                => await Verify().Select_all_filter<ITestSelectAllFilterActor>();
+                [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter<ITestExplicitFilterActor>();
+                [Test] public async Task Dynamic_target_selection()                         => await Verify().Dynamic_target_selection<ITestDynamicTargetSelectorActor>();
              }
         }
     }

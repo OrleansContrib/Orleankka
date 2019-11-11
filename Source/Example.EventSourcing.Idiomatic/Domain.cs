@@ -7,8 +7,10 @@ using Orleankka.Meta;
 
 namespace Example
 {
+    public interface IInventoryItem : IActor {}
+
     [Interleave(typeof(GetDetails))]
-    public class InventoryItem : EventSourcedActor
+    public class InventoryItem : EventSourcedActor, IInventoryItem
     {
         int total;
         string name;
@@ -86,8 +88,10 @@ namespace Example
         }
     }
 
+    public interface IInventory : IActor {}
+
     [StreamSubscription(Source = "sms:/InventoryItem-.*/", Target = "#")]
-    public class Inventory : Actor
+    public class Inventory : Actor, IInventory
     {
         readonly Dictionary<string, InventoryItemDetails> items =
              new Dictionary<string, InventoryItemDetails>();

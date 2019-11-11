@@ -11,6 +11,9 @@ type ShopMessage =
    | Cash
    | Stock
 
+type IShop =
+   inherit IActor
+   
 type Shop() =
    inherit Actor<ShopMessage>()
    
@@ -18,6 +21,8 @@ type Shop() =
    let mutable cash = 0
    let mutable stock = 0   
    
+   interface IShop
+
    override this.Receive message = task {
       match message with
 

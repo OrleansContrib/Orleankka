@@ -21,8 +21,7 @@ let rec handleUserInput client = task {
 
 let startChatClient (system:IActorSystem) userName roomName = task {
 
-   let userPath = ActorPath.From("ChatUser", userName)
-   let userActor = ActorSystem.actorOfPath system userPath
+   let userActor = ActorSystem.actorOf<IChatUser>(system, userName)
    let roomStream = ActorSystem.streamOf system "rooms" roomName
    
    let chatClient = { UserName = userName; User = userActor;

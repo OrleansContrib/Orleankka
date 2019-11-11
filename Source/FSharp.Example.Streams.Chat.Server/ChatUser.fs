@@ -7,10 +7,12 @@ open Orleankka.FSharp
 [<ActorType("ChatUser")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
-      
+         
    let send stream message userId =      
       stream <! { UserName = userId; Text = message } 
-      
+
+   interface IChatUser   
+   
    override this.Receive message = task {      
       
       let userId = this.Id

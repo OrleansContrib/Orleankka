@@ -24,9 +24,12 @@ type TestActor() =
       | Hi        -> return response(sprintf "Receive Hi")
    }
 
-type TestActorUntyped() = 
-   inherit Actor<obj>()   
+type ITestActorUntyped = 
+    inherit IActor
 
+type TestActorUntyped() = 
+   inherit Actor<obj>()
+   
    let handleMessage = function
       | Greet who -> sprintf "Receive Hello %s" who
       | Hi -> sprintf "Receive Hi"
@@ -34,6 +37,8 @@ type TestActorUntyped() =
    let handleInt value = sprintf "Got int %i" value
 
    let handleStr value = sprintf "Got string %s" value
+
+   interface ITestActorUntyped 
 
    override this.Receive message = task {
       match message with
@@ -55,7 +60,7 @@ type Tests() =
     
    [<Test>]
    member this.``Actor<T> should throws an exception when input message type is different then T type.``() = 
-      let actor = ActorSystem.actorOf<TestActor>(this.system, "test")
+      let actor = ActorSystem.actorOf<ITestActor>(this.system, "test")
       match Task.run(fun _ -> task {return! actor <? "request msg"}) with
       | Choice1Of2 result -> Assert.Fail("actor was able to handle unspecified message type.")
       | Choice2Of2 ex     -> Assert.IsInstanceOf(typeof<Exception>, ex.InnerException)

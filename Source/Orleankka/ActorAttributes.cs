@@ -5,7 +5,7 @@ using Orleankka.Utility;
 
 namespace Orleankka
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    [AttributeUsage(AttributeTargets.Interface)]
     public class ActorTypeAttribute : Attribute
     {
         internal readonly string Name;

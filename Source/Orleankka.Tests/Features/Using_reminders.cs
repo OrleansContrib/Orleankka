@@ -29,7 +29,10 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<long>
         {}
 
-        class TestActor : Actor
+        interface ITestActor : IActor
+        { }
+
+        class TestActor : Actor, ITestActor
         {
             bool reminded;
 
@@ -60,7 +63,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});

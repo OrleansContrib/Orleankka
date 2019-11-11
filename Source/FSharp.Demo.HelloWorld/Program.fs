@@ -11,8 +11,12 @@ type Message =
    | Greet of string
    | Hi   
 
+type IGreeter = 
+   inherit IActor
+
 type Greeter() = 
    inherit Actor<Message>()   
+   interface IGreeter
 
    override this.Receive message = task {
       match message with
@@ -38,7 +42,7 @@ let main argv =
    let job() = task {
       do! Task.awaitTask(system.Start())
       
-      let actor = ActorSystem.actorOf<Greeter>(system, "actor_id")
+      let actor = ActorSystem.actorOf<IGreeter>(system, "actor_id")
       do! actor <! Hi
       do! actor <! Greet "Yevhen"
       do! actor <! Greet "AntyaDev"      

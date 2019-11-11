@@ -24,7 +24,7 @@ namespace Orleankka.TestKit
             this.serialization = serialization ?? MessageSerialization.Default;
         }
 
-        public ActorRefMock MockActorOf<TActor>(string id)
+        public ActorRefMock MockActorOf<TActor>(string id) where TActor : IActor
         {
             var path = typeof(TActor).ToActorPath(id);
             return GetOrCreateMock(path);

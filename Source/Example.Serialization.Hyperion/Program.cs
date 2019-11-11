@@ -39,8 +39,8 @@ namespace Example
 
         static async Task Run(IClientActorSystem system)
         {
-            var some = system.ActorOf<SomeActor>("some");
-            var another = system.ActorOf<AnotherActor>("another");
+            var some = system.ActorOf<ISomeActor>("some");
+            var another = system.ActorOf<IAnotherActor>("another");
 
             var actor = await some.Ask(new GetSelf());
             var stream = await some.Ask(new GetStream());

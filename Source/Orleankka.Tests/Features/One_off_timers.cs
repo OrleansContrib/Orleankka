@@ -19,7 +19,10 @@ namespace Orleankka.Features
         public class NumberOfTimesTimerFired : Query<int>
         {}
 
-        public class TestActor : Actor
+        public interface ITestActor : IActor
+        { }
+
+        public class TestActor : Actor, ITestActor
         {
             int fired;
 
@@ -50,7 +53,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_setting_one_off_timer()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new SetOneOffTimer());
                 Thread.Sleep(100);

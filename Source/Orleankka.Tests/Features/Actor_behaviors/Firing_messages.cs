@@ -27,8 +27,11 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class GetReceived : Query<List<string>> {}
             [Serializable] class GetFired : Query<List<string>> {}
 
+            interface ITestInterleaveFireActor : IActor
+            { }
+
             [Interleave(typeof(string))]
-            class TestInterleaveFireActor : Actor
+            class TestInterleaveFireActor : Actor, ITestInterleaveFireActor
             {
                 readonly List<string> received = new List<string>();
                 readonly List<string> fired = new List<string>();
@@ -77,7 +80,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class CheckUnhandledFiring : Command {}
             [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
 
-            class TestUnhandledFireActor : Actor
+            interface ITestUnhandledFireActor : IActor
+            { }
+
+            class TestUnhandledFireActor : Actor, ITestUnhandledFireActor
             {
                 readonly List<Tuple<string, bool>> origins = new List<Tuple<string, bool>>();
 
@@ -126,7 +132,10 @@ namespace Orleankka.Features.Actor_behaviors
             [Serializable] class CheckBecomeFiredFromTimer : Command {}
             [Serializable] class GetCurrentBehavior : Query<string> { }
 
-            class TestBecomeFiredFromTimerActor : Actor
+            interface ITestBecomeFiredFromTimerActor : IActor
+            { }
+
+            class TestBecomeFiredFromTimerActor : Actor, ITestBecomeFiredFromTimerActor
             {
                 public TestBecomeFiredFromTimerActor()
                 {
@@ -166,7 +175,7 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public async Task When_receive_interleaves_with_timer_ticks()
             {
-                var actor = TestActorSystem.Instance.ActorOf<TestInterleaveFireActor>("test");
+                var actor = TestActorSystem.Instance.ActorOf<ITestInterleaveFireActor>("test");
 
                 await actor.Tell(new CheckInterleaveFire
                 {
@@ -186,7 +195,7 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public async Task When_switching_behavior_from_receive_activated_by_message_fired_from_timer()
             {
-                var actor = TestActorSystem.Instance.ActorOf<TestBecomeFiredFromTimerActor>("test");
+                var actor = TestActorSystem.Instance.ActorOf<ITestBecomeFiredFromTimerActor>("test");
 
                 await actor.Tell(new CheckBecomeFiredFromTimer());
                 await Task.Delay(TimeSpan.FromMilliseconds(200));
@@ -198,7 +207,7 @@ namespace Orleankka.Features.Actor_behaviors
             [Test]
             public async Task When_unhandled_callback_has_proper_request_origin()
             {
-                var actor = TestActorSystem.Instance.ActorOf<TestUnhandledFireActor>("test");
+                var actor = TestActorSystem.Instance.ActorOf<ITestUnhandledFireActor>("test");
 
                 await actor.Tell(new CheckUnhandledFiring());
                 await Task.Delay(TimeSpan.FromMilliseconds(200));

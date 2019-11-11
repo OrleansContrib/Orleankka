@@ -33,8 +33,11 @@ namespace Orleankka.Features
             public readonly List<int> NonReentrantInProgress = new List<int>();
         }
 
+        interface ITestActor : IActor
+        { }
+
         [Interleave(typeof(ReentrantMessage))]
-        class TestActor : Actor
+        class TestActor : Actor, ITestActor
         {
             readonly ActorState state = new ActorState();
 
@@ -62,9 +65,12 @@ namespace Orleankka.Features
         [Serializable] class Activate : Command {}
         [Serializable] class GetStreamMessagesInProgress : Query<List<object>> {}
 
+        interface ITestReentrantStreamConsumerActor : IActor
+        { }
+
         [Interleave(typeof(GetStreamMessagesInProgress))]
         [Interleave(typeof(int))]   // 1-st stream message type        
-        class TestReentrantStreamConsumerActor : Actor
+        class TestReentrantStreamConsumerActor : Actor, ITestReentrantStreamConsumerActor
         {
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
@@ -88,8 +94,11 @@ namespace Orleankka.Features
             }
         }
 
+        interface ITestReentrantByCallbackMethodActor : IActor
+        { }
+
         [MayInterleave(nameof(IsReentrant))]
-        class TestReentrantByCallbackMethodActor : Actor
+        class TestReentrantByCallbackMethodActor : Actor, ITestReentrantByCallbackMethodActor
         {
             public static bool IsReentrant(object msg) => msg is ReentrantMessage;
 
@@ -116,14 +125,17 @@ namespace Orleankka.Features
             }
         }
 
+        interface ITestReentrantByCallbackMethodActorFromAnotherActor : IActor
+        { }
+
         [Reentrant]
-        class TestReentrantByCallbackMethodActorFromAnotherActor : Actor
+        class TestReentrantByCallbackMethodActorFromAnotherActor : Actor, ITestReentrantByCallbackMethodActorFromAnotherActor
         {
             ActorRef receiver;
 
             public override Task OnActivate()
             {
-                receiver = System.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                receiver = System.FreshActorOf<ITestReentrantByCallbackMethodActor>();
                 return base.OnActivate();
             }
 
@@ -147,21 +159,21 @@ namespace Orleankka.Features
             [Test]
             public async Task When_reentrant_determined_by_message_type()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 await TestReentrantReceive(actor);
             }
 
             [Test]
             public async Task When_reentrant_determined_by_callback_method()
             {
-                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActor>();
+                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActor>();
                 await TestReentrantReceive(actor);
             }
 
             [Test]
             public async Task When_reentrant_determined_by_callback_method_sent_from_another_actor()
             {
-                var actor = system.FreshActorOf<TestReentrantByCallbackMethodActorFromAnotherActor>();
+                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActorFromAnotherActor>();
                 await TestReentrantReceive(actor);
             }
             
@@ -197,7 +209,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
-                var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
+                var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Activate());
 
                 var stream1 = system.StreamOf("sms", "s1");
@@ -221,7 +233,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_actor_received_non_reentrant_message_via_Stream()
             {
-                var actor = system.FreshActorOf<TestReentrantStreamConsumerActor>();
+                var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Activate());
 
                 var stream1 = system.StreamOf("sms", "s1");

@@ -2,6 +2,7 @@
 
 open System
 open Orleans.Concurrency
+open Orleankka
 open Orleankka.FSharp
 
 type Message =
@@ -9,11 +10,16 @@ type Message =
    | Decrement
    | GetCount
 
+type ICounter = 
+    inherit IActor
+
 [<MayInterleave("IsReentrant")>]
 type Counter() =
    inherit Actor<Message>()
 
    let mutable count = 0
+
+   interface ICounter
 
    override this.Receive msg = task {
       match msg with

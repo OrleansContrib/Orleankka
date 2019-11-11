@@ -128,6 +128,18 @@ namespace Orleankka
         }
 
         /// <summary>
+        /// Acquires the actor reference for the given id and interface of the actor.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The id</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        {
+            return system.ActorOf(typeof(TActor).ToActorPath(id));
+        }
+
+        /// <summary>
         /// Acquires the actor reference for the given worker type.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
@@ -136,6 +148,17 @@ namespace Orleankka
         public static ActorRef WorkerOf(this IActorSystem system, string type)
         {
             return system.ActorOf(ActorPath.From(type, "#"));
+        }
+
+        /// <summary>
+        /// Acquires the actor reference for the given worker interface.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActor
+        {
+            return system.ActorOf(typeof(TActor).ToActorPath("#"));
         }
 
         /// <summary>

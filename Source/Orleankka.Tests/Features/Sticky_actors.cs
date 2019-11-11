@@ -20,8 +20,11 @@ namespace Orleankka.Features
         public class Deactivate : Command
         {}
 
+        public interface ITestActor : IActor
+        { }
+
         [Sticky]
-        public class TestActor : Actor
+        public class TestActor : Actor, ITestActor
         {
             void On(Activate x) {}
 
@@ -54,7 +57,7 @@ namespace Orleankka.Features
                 var stream = system.StreamOf("sms", "sticky");
                 await stream.Subscribe<string>(e => events.Add(e));
 
-                var sticky = system.ActorOf<TestActor>("sticky");
+                var sticky = system.ActorOf<ITestActor>("sticky");
                 await sticky.Tell(new Activate());
 
                 await Task.Delay(100);

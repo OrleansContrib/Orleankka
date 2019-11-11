@@ -27,7 +27,7 @@ let main argv =
    system.Start().Wait()
    
    // get uniq actor by name
-   let counter = ActorSystem.actorOf<Counter>(system, "realtime-consistent-counter")
+   let counter = ActorSystem.actorOf<ICounter>(system, "realtime-consistent-counter")
 
    let writeJob() = task {
 

@@ -52,7 +52,7 @@ namespace Orleankka.Features
             }
         }
 
-        class TestCases<TConsumer> where TConsumer : Actor
+        class TestCases<TConsumer> where TConsumer : IActor
         {
             readonly string provider;
             readonly TimeSpan timeout;
@@ -157,8 +157,8 @@ namespace Orleankka.Features
             [TestFixture, RequiresSilo]
             class Tests
             {
-                static TestCases<TestConsumerActor> Verify() => 
-                   new TestCases<TestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
+                static TestCases<ITestConsumerActor> Verify() => 
+                   new TestCases<ITestConsumerActor>("sms", TimeSpan.FromMilliseconds(100));
 
                 [Test, Category("Slow")] public async Task Resuming_on_reactivation()       => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();
@@ -167,7 +167,10 @@ namespace Orleankka.Features
                 [Test] public async Task Explicit_filter()                                  => await Verify().Explicit_filter();
             }
 
-            class TestConsumerActor : TestConsumerActorBase
+            interface ITestConsumerActor : IActor
+            { }
+
+            class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
             {
                 protected override string Provider => "sms";
             }
@@ -175,7 +178,10 @@ namespace Orleankka.Features
 
         namespace AzureQueueStreamProviderVerification
         {
-            class TestConsumerActor : TestConsumerActorBase
+            interface ITestConsumerActor : IActor
+            { }
+
+            class TestConsumerActor : TestConsumerActorBase, ITestConsumerActor
             {
                 protected override string Provider => "aqp";
             }
@@ -184,8 +190,8 @@ namespace Orleankka.Features
             [Category("Slow")]
             class Tests
             {
-                static TestCases<TestConsumerActor> Verify() => 
-                   new TestCases<TestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
+                static TestCases<ITestConsumerActor> Verify() => 
+                   new TestCases<ITestConsumerActor>("aqp", TimeSpan.FromSeconds(5));
 
                 [Test] public async Task Resuming_on_reactivation()                         => await Verify().Resuming_on_reactivation();
                 [Test] public async Task Subscription_is_idempotent()                       => await Verify().Subscription_is_idempotent();

@@ -15,9 +15,12 @@ namespace Orleankka.Features
         public class WhenActivated : Query<DateTime>
         {}
 
+        public interface ITestActor : IActor
+        { }
+
         [Autorun("a1")]
         [Autorun("a2")]
-        public class TestActor : Actor
+        public class TestActor : Actor, ITestActor
         {
             DateTime activated;
 
@@ -48,8 +51,8 @@ namespace Orleankka.Features
                 // wait a bit
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
-                var a1 = system.ActorOf<TestActor>("a1");
-                var a2 = system.ActorOf<TestActor>("a1");
+                var a1 = system.ActorOf<ITestActor>("a1");
+                var a2 = system.ActorOf<ITestActor>("a1");
 
                 Assert.That(await a1.Ask(new WhenActivated()), Is.LessThan(DateTime.Now.AddSeconds(-2)));
                 Assert.That(await a2.Ask(new WhenActivated()), Is.LessThan(DateTime.Now.AddSeconds(-2)));

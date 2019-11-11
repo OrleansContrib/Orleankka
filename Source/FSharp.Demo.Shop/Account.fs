@@ -9,11 +9,16 @@ type AccountMessage =
    | Deposit of int
    | Withdraw of int 
 
+type IAccount =
+   inherit IActor
+
 type Account() = 
    inherit Actor<AccountMessage>()
 
    let mutable balance = 0   
    
+   interface IAccount
+
    override this.Receive message = task {
       match message with
       | Balance         -> return response(balance)

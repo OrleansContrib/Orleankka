@@ -8,7 +8,7 @@ namespace Orleankka.Testing
     {
         public static EmbeddedActorSystem Instance;
 
-        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : Actor
+        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : IActor
         {
             return system.ActorOf<TActor>(Guid.NewGuid().ToString());
         }

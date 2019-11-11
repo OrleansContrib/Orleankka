@@ -1,5 +1,10 @@
 ﻿namespace Messages
 
+open Orleankka
+
+type IChatUser = 
+   inherit IActor
+
 type ChatRoomMessage = {
    UserName:string
    Text:string

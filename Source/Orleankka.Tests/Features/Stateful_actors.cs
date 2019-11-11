@@ -18,8 +18,11 @@ namespace Orleankka.Features
         [Serializable]
         public class ClearState : Command {}
 
+        public interface ITestActor : IActor
+        { }
+
         [StorageProvider(ProviderName = "Test")]
-        public class TestActor : StatefulActor<TestState>
+        public class TestActor : StatefulActor<TestState>, ITestActor
         {
             public override async Task OnActivate()
             {
@@ -75,13 +78,13 @@ namespace Orleankka.Features
             [Test]
             public async Task When_using_custom_actor_storage_service()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 var expected = new List<string>
                 {
-                    $"ReadStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}", // by default on activate
-                    $"ReadStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}",
-                    $"WriteStateAsync:{typeof(TestActor).FullName}:{actor.Path.Id}",
+                    $"ReadStateAsync:{typeof(ITestActor).FullName}:{actor.Path.Id}", // by default on activate
+                    $"ReadStateAsync:{typeof(ITestActor).FullName}:{actor.Path.Id}",
+                    $"WriteStateAsync:{typeof(ITestActor).FullName}:{actor.Path.Id}",
                 };
 
                 var invocations = await actor.Ask(new GetStorageProviderInvocations());

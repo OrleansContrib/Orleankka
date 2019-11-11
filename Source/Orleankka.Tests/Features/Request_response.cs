@@ -20,7 +20,10 @@ namespace Orleankka.Features
         public class GetText : Query<string>
         {}
 
-        public class TestActor : Actor
+        public interface ITestActor : IActor
+        { }
+
+        public class TestActor : Actor, ITestActor
         {
             string text = "";
 
@@ -42,7 +45,10 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : Actor
+        public interface ITestInsideActor : IActor
+        { }
+
+        public class TestInsideActor : Actor, ITestInsideActor
         {
             public async Task Handle(DoTell cmd)
             {
@@ -70,7 +76,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Client_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new SetText {Text = "c-a"});
                 Assert.AreEqual("c-a", await actor.Ask(new GetText()));
@@ -79,8 +85,8 @@ namespace Orleankka.Features
             [Test]
             public async Task Actor_to_actor()
             {
-                var one = system.FreshActorOf<TestInsideActor>();
-                var another = system.FreshActorOf<TestActor>();
+                var one = system.FreshActorOf<ITestInsideActor>();
+                var another = system.FreshActorOf<ITestActor>();
 
                 await one.Tell(new DoTell {Target = another, Message = new SetText {Text = "a-a"}});
                 Assert.AreEqual("a-a", await one.Ask(new DoAsk {Target = another, Message = new GetText()}));

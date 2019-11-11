@@ -25,8 +25,8 @@ let main argv =
    let job() = task {
       do! Task.awaitTask(system.Start())
   
-      let shop = ActorSystem.actorOf<Shop>(system, "amazon")
-      let account = ActorSystem.actorOf<Account>(system, "antya")
+      let shop = ActorSystem.actorOf<IShop>(system, "amazon")
+      let account = ActorSystem.actorOf<IAccount>(system, "antya")
 
       let! stock = shop <? Stock
       printfn "Shop has %i items in stock \n" stock

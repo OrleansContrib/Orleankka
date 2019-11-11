@@ -2,7 +2,9 @@
 
 namespace Example
 {
-    public class DIActor : Actor
+    public interface IDIActor : IActor {}
+
+    public class DIActor : Actor, IDIActor
     {
         readonly ISomeService service;
 

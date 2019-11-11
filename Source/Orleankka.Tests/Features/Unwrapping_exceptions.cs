@@ -17,7 +17,10 @@ namespace Orleankka.Features
             public Exception Exception;
         }
 
-        public class TestActor : Actor
+        public interface ITestActor : IActor
+        { }
+
+        public class TestActor : Actor, ITestActor
         {
             public void Handle(Throw cmd)
             {
@@ -32,7 +35,10 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public class TestInsideActor : Actor
+        public interface ITestInsideActor : IActor
+        { }
+
+        public class TestInsideActor : Actor, ITestInsideActor
         {
             public async Task Handle(DoTell cmd)
             {
@@ -55,7 +61,7 @@ namespace Orleankka.Features
             [Test]
             public void Client_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 Assert.ThrowsAsync<ApplicationException>(async () => await 
                     actor.Tell(new Throw {Exception = new ApplicationException("c-a")}));
@@ -64,8 +70,8 @@ namespace Orleankka.Features
             [Test]
             public void Actor_to_actor()
             {
-                var one = system.FreshActorOf<TestInsideActor>();
-                var another = system.FreshActorOf<TestActor>();
+                var one = system.FreshActorOf<ITestInsideActor>();
+                var another = system.FreshActorOf<ITestActor>();
 
                 Assert.ThrowsAsync<ApplicationException>(async () =>
                 {

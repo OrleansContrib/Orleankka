@@ -35,8 +35,11 @@ namespace Orleankka.Features
         {
             public string Name;
         }
-        
-        class TestActor : Actor
+
+        interface ITestActor : IActor
+        { }
+
+        class TestActor : Actor, ITestActor
         {
             Task On(RegisterReminder x) => Reminders.Register(x.Name, TimeSpan.FromHours(10), TimeSpan.FromHours(10));
             Task On(UnregisterReminder x) => Reminders.Unregister(x.Name);
@@ -60,10 +63,10 @@ namespace Orleankka.Features
             [Test]
             public async Task When_unregistering_never_registered()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 Assert.DoesNotThrowAsync(async ()=> await actor.Tell(new UnregisterReminder {Name = "unknown"}));
 
-                var another = system.FreshActorOf<TestActor>();
+                var another = system.FreshActorOf<ITestActor>();
                 Assert.False(await another.Ask(new IsReminderRegistered {Name = "unknown"}));
                 Assert.DoesNotThrowAsync(async ()=> await another.Tell(new UnregisterReminder {Name = "unknown"}));
             }
@@ -71,7 +74,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_unregistering_twice()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new RegisterReminder {Name = "test"});
                 await actor.Tell(new UnregisterReminder {Name = "test"});
@@ -82,7 +85,7 @@ namespace Orleankka.Features
             [Description("This tests case with repeated Unregister in case of repeated forwarding (MaxForwardCount=2 by default")]
             public async Task When_unregistering_deleted_reminder()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 
                 await actor.Tell(new RegisterReminder {Name = "deleted"});
                 Assert.True(await actor.Ask(new IsReminderRegistered { Name = "deleted" }));

@@ -36,8 +36,8 @@ namespace Example
 
         static async Task Run(IActorSystem system)
         {
-            var a = system.ActorOf<DIActor>("A-123");
-            var b = system.ActorOf<DIActor>("B-456");
+            var a = system.ActorOf<IDIActor>("A-123");
+            var b = system.ActorOf<IDIActor>("B-456");
 
             await a.Tell("Hello");
             await b.Tell("Bueno");

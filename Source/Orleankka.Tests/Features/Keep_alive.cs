@@ -25,8 +25,11 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<long>
         {}
 
+        public interface ITestActor : IActor
+        { }
+
         [KeepAlive(Minutes = 2)]
-        public class TestActor : Actor
+        public class TestActor : Actor, ITestActor
         {
             bool reminded;
 
@@ -56,7 +59,7 @@ namespace Orleankka.Features
             [Test]
             public async Task When_just_activated()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await Task.Delay(TimeSpan.FromMinutes(1.5));
@@ -74,7 +77,7 @@ namespace Orleankka.Features
                 // if automatic keepalive prolongation doesn't work, an actor will still be alive for at least minute, as per global keepalive timeout
                 // we wait again for 1.5 minutes to disprove previous assumption (that automatic prolongation is not working) 
 
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
 
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
                 await Task.Delay(TimeSpan.FromMinutes(1.5));
@@ -96,7 +99,7 @@ namespace Orleankka.Features
                 // if automatic keepalive prolongation doesn't work, an actor will still be alive for at least minute, as per global keepalive timeout
                 // we wait again for 1.5 minutes to disprove previous assumption (that automatic prolongation is not working) 
 
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 var hashcode = await actor.Ask(new GetInstanceHashcode());
 
                 await actor.Tell(new SetReminder {Period = TimeSpan.FromMinutes(1.5)});

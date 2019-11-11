@@ -7,7 +7,6 @@ open Orleankka
 [<AbstractClass>]
 type Actor<'TMsg> =
    inherit Actor    
-   interface IActor   
 
    new () = { inherit Orleankka.Actor(); }
 

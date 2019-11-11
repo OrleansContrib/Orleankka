@@ -35,7 +35,7 @@ namespace Example
 
         static async Task Run(IActorSystem system)
         {
-            var item = system.ActorOf<InventoryItem>("12345");
+            var item = system.ActorOf<IInventoryItem>("12345");
             await Print(item);
 
             await Tell(item, new Create("XBOX1"));

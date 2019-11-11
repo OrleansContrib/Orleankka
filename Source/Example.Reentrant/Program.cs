@@ -36,7 +36,7 @@ namespace Example
 
         static async Task Run(IActorSystem system)
         {
-            var rwx = system.ActorOf<ReaderWriterLock>("rw-x");
+            var rwx = system.ActorOf<IReaderWriterLock>("rw-x");
             await rwx.Ask<int>(new Read()); // warm-up
 
             var writes = new List<Task>
