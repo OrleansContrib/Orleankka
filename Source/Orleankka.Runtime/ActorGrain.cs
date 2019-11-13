@@ -64,8 +64,8 @@ namespace Orleankka
         public ActorPath Path { get; private set; }
         public IActorSystem System { get; private set; }
 
-        IActorRuntime runtime;
-        public IActorRuntime Runtime => runtime ?? (runtime = new ActorRuntime(System, this));        
+        internal IActorRuntime runtime;
+        public IActorRuntime Runtime => runtime ??= new ActorRuntime(System, this);        
         public IActivationService Activation => Runtime.Activation;
         public IReminderService Reminders => Runtime.Reminders;
         public ITimerService Timers => Runtime.Timers;

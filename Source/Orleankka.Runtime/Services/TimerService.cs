@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Orleans;
+using Orleans.Runtime;
 using Orleans.Timers;
 
 namespace Orleankka.Services
@@ -213,6 +214,12 @@ namespace Orleankka.Services
     /// </summary>
     class TimerService : ITimerService
     {
+        // -- LEGACY -- //
+        public static string RequestContextId = "TimerServiceCallback";
+        static void SetExecuting(string id) => RequestContext.Set(RequestContextId, id);
+        internal static bool IsExecuting() => RequestContext.Get(RequestContextId) != null;
+        // -- LEGACY -- //
+
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
         readonly ITimerRegistry registry;
         readonly ActorGrain grain;
@@ -234,7 +241,12 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback(), null, due, period));
+            timers.Add(id, registry.RegisterTimer(grain, async s =>
+            {
+                SetExecuting(id);
+                await callback();
+            }, 
+            null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
@@ -248,7 +260,12 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback((TState) s), state, due, period));
+            timers.Add(id, registry.RegisterTimer(grain, async s =>
+            {
+                SetExecuting(id);
+                await callback((TState) s);
+            }, 
+            state, due, period));
         }
 
         void ITimerService.Register(string id, TimeSpan due, bool interleave, bool fireAndForget, object message)
@@ -259,7 +276,7 @@ namespace Orleankka.Services
             {
                 ((ITimerService) this).Unregister(id);
 
-                await SendTimerMessage(interleave, fireAndForget, msg);
+                await SendTimerMessage(id, interleave, fireAndForget, msg);
             });
         }
         
@@ -269,14 +286,16 @@ namespace Orleankka.Services
 
             ((ITimerService) this).Register(id, due, period, async () =>
             {
-                await SendTimerMessage(interleave, fireAndForget, msg);
+                await SendTimerMessage(id, interleave, fireAndForget, msg);
             });
         }
 
-        async Task SendTimerMessage(bool interleave, bool fireAndForget, object message)
+        async Task SendTimerMessage(string id, bool interleave, bool fireAndForget, object message)
         {
             if (interleave)
             {
+                SetExecuting(id);
+
                 var task = grain.ReceiveRequest(message);
                 if (fireAndForget)
                 {

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>OrleansManager</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="$(MicrosoftOrleansRuntimeVersion)" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+  </ItemGroup>
+
+</Project>
