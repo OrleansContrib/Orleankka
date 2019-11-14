@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <PackageId>Orleankka.Runtime</PackageId>
+    <RootNamespace>Orleankka</RootNamespace>
+    <Title>Orleankka.Runtime 1.x legacy api and features</Title>
+    <Description>Functional API for MSR Orleans. Server-side library.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\Release\Orleankka.Runtime.Legacy.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="$(MicrosoftOrleansRuntimeVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
+  </ItemGroup> 
+  
+</Project>
