@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 
 using Orleankka.Legacy.Behaviors;
+using Orleankka.TestKit;
 
-namespace Orleankka.TestKit.Legacy
+namespace Orleankka.Legacy.TestKit
 {
     public static class ActorBehaviorExtensions
     {

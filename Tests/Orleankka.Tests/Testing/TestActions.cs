@@ -14,6 +14,7 @@ using Orleans.Storage;
 using Orleankka.Testing;
 using Orleankka.Cluster;
 using Orleankka.Features.Intercepting_requests;
+using Orleankka.Legacy.Cluster;
 
 [assembly: TeardownSilo]
 
@@ -69,7 +70,8 @@ namespace Orleankka.Testing
                     .WithCodeGeneration())
                 .UseOrleankka(x => x
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
-                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()));
+                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()))
+                .UseOrleankkaLegacyFeatures();
 
             var host = sb.Build();
             host.StartAsync().Wait();

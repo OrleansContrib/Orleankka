@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <PackageId>Orleankka.Legacy</PackageId>
-    <RootNamespace>Orleankka</RootNamespace>
+    <RootNamespace>Orleankka.Legacy</RootNamespace>
     <Title>Orleankka 1.x legacy api and features</Title>
     <Description>Functional API for MSR Orleans. Core and client-side library.</Description>
   </PropertyGroup>
@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
   </ItemGroup>
 
 </Project>

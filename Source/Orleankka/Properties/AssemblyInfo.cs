@@ -4,3 +4,5 @@
 [assembly: InternalsVisibleTo("Orleankka.TestKit")]
 [assembly: InternalsVisibleTo("Orleankka.Runtime")]
 [assembly: InternalsVisibleTo("Orleankka.FSharp")]
+[assembly: InternalsVisibleTo("Orleankka.Legacy")]
+[assembly: InternalsVisibleTo("Orleankka.Runtime.Legacy")]

@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <PackageId>Orleankka.Runtime</PackageId>
-    <RootNamespace>Orleankka</RootNamespace>
+    <PackageId>Orleankka.Runtime.Legacy</PackageId>
+    <RootNamespace>Orleankka.Legacy</RootNamespace>
     <Title>Orleankka.Runtime 1.x legacy api and features</Title>
     <Description>Functional API for MSR Orleans. Server-side library.</Description>
   </PropertyGroup>
@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+    <ProjectReference Include="..\Orleankka.Legacy\Orleankka.Legacy.csproj" />
+    <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
   </ItemGroup> 
   

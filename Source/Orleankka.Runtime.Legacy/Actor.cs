@@ -6,8 +6,8 @@ using Orleans.Runtime;
 namespace Orleankka.Legacy
 {
     using Services;
-    using Utility;
     using Behaviors;
+    using Utility;
 
     public abstract class Actor : DispatchActorGrain
     {

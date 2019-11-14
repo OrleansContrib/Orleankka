@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Orleankka.Legacy
 {
-    public static class DispatcherExtensions
+    public static class LegacyDispatcherExtensions
     {
         public static Task<object> Dispatch(this Dispatcher dispatcher, object target, object message, Func<object, Task<object>> fallback = null) => 
             dispatcher.DispatchResultAsync(target, message, fallback);
