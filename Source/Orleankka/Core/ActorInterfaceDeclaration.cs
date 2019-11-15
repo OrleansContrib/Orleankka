@@ -148,12 +148,17 @@ namespace Orleankka.Core
 
         void GenerateAttributes(StringBuilder src)
         {
-            if (mapping.CustomInterface == null)
+            var actor = mapping.CustomInterface;
+            if (actor == null)
                 return;
 
-            var version = mapping.CustomInterface.GetCustomAttribute<VersionAttribute>();
+            var version = actor.GetCustomAttribute<VersionAttribute>();
             if (version != null)
                 src.AppendLine($"[{nameof(VersionAttribute)}({version.Version})]");
+
+            var typeCodeOverride = actor.GetCustomAttribute<TypeCodeOverrideAttribute>();
+            if (typeCodeOverride != null)
+                src.AppendLine($"[TypeCodeOverride({typeCodeOverride.TypeCode})]");
         }
 
         void GenerateType(StringBuilder src) => 

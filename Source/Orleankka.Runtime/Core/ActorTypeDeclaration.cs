@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
+using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 using Orleans.Internals;
 using Orleans.MultiCluster;
@@ -187,6 +188,10 @@ namespace Orleankka.Core
 
             if (registration.Length > 0)
                 src.AppendLine($"[{GetMultiClusterRegistration(registration[0])}]");
+
+            var typeCodeOverride = actor.GetCustomAttribute<TypeCodeOverrideAttribute>();
+            if (typeCodeOverride != null)
+                src.AppendLine($"[TypeCodeOverride({typeCodeOverride.TypeCode})]");
         }
 
         static T[] GetCustomAttributesAssignableFrom<T>(MemberInfo member) => 
