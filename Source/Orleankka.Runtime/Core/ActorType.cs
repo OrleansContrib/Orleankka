@@ -108,7 +108,7 @@ namespace Orleankka.Core
             
             Sticky = StickyAttribute.IsApplied(@class);
             keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
-            interleavePredicate = InterleaveAttribute.MayInterleavePredicate(@class);
+            interleavePredicate = Interleaving.MayInterleavePredicate(@class);
             invoker = InvokerAttribute.From(@class);
             
             dispatcher = new Dispatcher(@class, conventions);

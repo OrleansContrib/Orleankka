@@ -11,8 +11,7 @@ namespace Orleankka
 {
     using Utility;
     
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class InterleaveAttribute : Attribute
+    class Interleaving
     {
         internal static Func<object, bool> MayInterleavePredicate(Type actor)
         {
@@ -36,10 +35,9 @@ namespace Orleankka
                 return null;
 
             var fullyReentrant = attributes.OfType<ReentrantAttribute>().SingleOrDefault();
-            var selectedMessageType = attributes.OfType<InterleaveAttribute>().ToArray();
             var determinedByCallbackMethod = attributes.OfType<MayInterleaveAttribute>().SingleOrDefault();
 
-            if (fullyReentrant != null && (selectedMessageType.Any() || determinedByCallbackMethod != null))
+            if (fullyReentrant != null && determinedByCallbackMethod != null)
                 throw new InvalidOperationException(
                     $"'{actor}' actor can be only designated either as fully reentrant " +
                     "or partially reentrant. Choose one of the approaches");
@@ -50,15 +48,9 @@ namespace Orleankka
                 return null;
             }
 
-            if (selectedMessageType.Any() && determinedByCallbackMethod != null)
-                throw new InvalidOperationException(
-                    $"'{actor}' actor can be designated as partially reentrant either by specifying callback method name " +
-                    "or by specifying selected message types. Choose one of the approaches");
-
-            if (determinedByCallbackMethod != null)
-                return DeterminedByCallbackMethod(actor, determinedByCallbackMethod.CallbackMethodName());
-                    
-            return MesageTypeBased(actor, selectedMessageType);
+            return determinedByCallbackMethod != null
+                ? DeterminedByCallbackMethod(actor, determinedByCallbackMethod.CallbackMethodName())
+                : null;
         }
 
         static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
@@ -82,30 +74,6 @@ namespace Orleankka
             var predicate = Expression.Lambda<Func<object, bool>>(call, parameter).Compile();
 
             return predicate;
-        }
-
-        static Func<object, bool> MesageTypeBased(Type actor, InterleaveAttribute[] attributes)
-        {
-            var messages = new HashSet<Type>();
-
-            foreach (var attribute in attributes)
-            {
-                if (messages.Contains(attribute.message))
-                    throw new InvalidOperationException(
-                        $"{attribute.message} was already registered as Reentrant for {actor}");
-
-                messages.Add(attribute.message);
-            }
-
-            return message => messages.Contains(message.GetType());
-        }
-
-        readonly Type message;
-
-        public InterleaveAttribute(Type message)
-        {
-            Requires.NotNull(message, nameof(message));
-            this.message = message;
         }
     }
 

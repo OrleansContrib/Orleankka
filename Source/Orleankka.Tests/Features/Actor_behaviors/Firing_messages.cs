@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
+using Orleans.Concurrency;
+
 namespace Orleankka.Features.Actor_behaviors
 {   
     using Meta;
@@ -30,9 +32,11 @@ namespace Orleankka.Features.Actor_behaviors
             interface ITestInterleaveFireActor : IActor
             { }
 
-            [Interleave(typeof(string))]
+            [MayInterleave(nameof(IsReentrant))]
             class TestInterleaveFireActor : Actor, ITestInterleaveFireActor
             {
+                public static bool IsReentrant(object msg) => msg is string;
+                
                 readonly List<string> received = new List<string>();
                 readonly List<string> fired = new List<string>();
 

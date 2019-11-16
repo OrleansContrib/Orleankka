@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.Concurrency;
+
 namespace Example
 {
     public interface IInventoryItem : IActor
     { }
 
-    [Interleave(typeof(GetDetails))]
+    [MayInterleave(nameof(IsReentrant))]
     public class InventoryItem : EventSourcedActor, IInventoryItem
     {
+        public static bool IsReentrant(object msg) => msg is GetDetails;
+        
         int total;
         string name;
         bool active;

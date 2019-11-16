@@ -36,9 +36,11 @@ namespace Orleankka.Features
         interface ITestActor : IActor
         { }
 
-        [Interleave(typeof(ReentrantMessage))]
+        [MayInterleave(nameof(IsReentrant))]
         class TestActor : Actor, ITestActor
         {
+            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
+
             readonly ActorState state = new ActorState();
 
             async Task On(NonReentrantMessage x)
@@ -68,10 +70,11 @@ namespace Orleankka.Features
         interface ITestReentrantStreamConsumerActor : IActor
         { }
 
-        [Interleave(typeof(GetStreamMessagesInProgress))]
-        [Interleave(typeof(int))]   // 1-st stream message type        
+        [MayInterleave(nameof(IsReentrant))]
         class TestReentrantStreamConsumerActor : Actor, ITestReentrantStreamConsumerActor
         {
+            public static bool IsReentrant(object msg) => msg is GetStreamMessagesInProgress || msg is int;
+
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;
 
@@ -94,57 +97,6 @@ namespace Orleankka.Features
             }
         }
 
-        interface ITestReentrantByCallbackMethodActor : IActor
-        { }
-
-        [MayInterleave(nameof(IsReentrant))]
-        class TestReentrantByCallbackMethodActor : Actor, ITestReentrantByCallbackMethodActor
-        {
-            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
-
-            readonly ActorState state = new ActorState();
-
-            async Task On(NonReentrantMessage x)
-            {
-                if (state.NonReentrantInProgress.Count > 0)
-                    throw new InvalidOperationException("Can't be interleaved");
-
-                state.NonReentrantInProgress.Add(x.Id);
-                await Task.Delay(x.Delay);
-
-                state.NonReentrantInProgress.Remove(x.Id);
-            }
-
-            async Task<ActorState> On(ReentrantMessage x)
-            {
-                state.ReentrantInProgress.Add(x.Id);
-                await Task.Delay(x.Delay);
-
-                state.ReentrantInProgress.Remove(x.Id);
-                return state;
-            }
-        }
-
-        interface ITestReentrantByCallbackMethodActorFromAnotherActor : IActor
-        { }
-
-        [Reentrant]
-        class TestReentrantByCallbackMethodActorFromAnotherActor : Actor, ITestReentrantByCallbackMethodActorFromAnotherActor
-        {
-            ActorRef receiver;
-
-            public override Task OnActivate()
-            {
-                receiver = System.FreshActorOf<ITestReentrantByCallbackMethodActor>();
-                return base.OnActivate();
-            }
-
-            public override Task<object> OnReceive(object message)
-            {
-                return receiver.Ask<object>(message);
-            }
-        }
-
         [RequiresSilo]
         public class Tests
         {
@@ -157,26 +109,12 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async Task When_reentrant_determined_by_message_type()
+            public async Task When_reentrant_determined_by_callback_method()
             {
                 var actor = system.FreshActorOf<ITestActor>();
                 await TestReentrantReceive(actor);
             }
 
-            [Test]
-            public async Task When_reentrant_determined_by_callback_method()
-            {
-                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActor>();
-                await TestReentrantReceive(actor);
-            }
-
-            [Test]
-            public async Task When_reentrant_determined_by_callback_method_sent_from_another_actor()
-            {
-                var actor = system.FreshActorOf<ITestReentrantByCallbackMethodActorFromAnotherActor>();
-                await TestReentrantReceive(actor);
-            }
-            
             static async Task TestReentrantReceive(ActorRef actor)
             {
                 var nr1 = actor.Tell(new NonReentrantMessage {Id = 1, Delay = TimeSpan.FromMilliseconds(500)});
