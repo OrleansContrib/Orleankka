@@ -48,7 +48,7 @@ namespace Orleankka.Features
             [Test]
             public async Task Client_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
+                var actor = system.FreshActorOf<ITestActor>();
                 var @interface = await actor.Ask(new CheckTypeCodeResolution());
                 Assert.That(@interface, Is.EqualTo("Orleankka.Features.System_introspection.ITestActor"));
             }
