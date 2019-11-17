@@ -9,7 +9,6 @@ using Orleans.Internals;
 using Orleans.MultiCluster;
 using Orleans.Placement;
 using Orleans.Providers;
-using Orleans.Runtime;
 
 namespace Orleankka.Features
 {
@@ -22,32 +21,41 @@ namespace Orleankka.Features
         public interface ITestVersionActor : IActor {}
         public class TestVersionActor : Actor, ITestVersionActor {}
 
+        public interface ITestDefaultStatelessWorkerActor : IActor {}
         [StatelessWorker]
-        public class TestDefaultStatelessWorkerActor : Actor {}
+        public class TestDefaultStatelessWorkerActor : Actor, ITestDefaultStatelessWorkerActor {}
 
+        public interface ITestParameterizedStatelessWorkerActor : IActor {}
         [StatelessWorker(4)]
-        public class TestParameterizedStatelessWorkerActor : Actor {}
+        public class TestParameterizedStatelessWorkerActor : Actor, ITestParameterizedStatelessWorkerActor {}
 
+        public interface ITestDefaultStorageProviderActor : IActor {}
         [StorageProvider]
-        public class TestDefaultStorageProviderActor : Actor {}
+        public class TestDefaultStorageProviderActor : Actor, ITestDefaultStorageProviderActor {}
 
+        public interface ITestGlobalSingleInstanceActor : IActor {}
         [GlobalSingleInstance]
-        public class TestGlobalSingleInstanceActor : Actor {}
+        public class TestGlobalSingleInstanceActor : Actor, ITestGlobalSingleInstanceActor {}
 
+        public interface ITestOneInstancePerClusterActor : IActor {}
         [OneInstancePerCluster]
-        public class TestOneInstancePerClusterActor : Actor {}
+        public class TestOneInstancePerClusterActor : Actor, ITestOneInstancePerClusterActor {}
 
+        public interface ITestRandomPlacementActor : IActor {}
         [RandomPlacement]
-        public class TestRandomPlacementActor : Actor {}
+        public class TestRandomPlacementActor : Actor, ITestRandomPlacementActor {}
 
+        public interface ITestPreferLocalPlacementActor : IActor {}
         [PreferLocalPlacement]
-        public class TestPreferLocalPlacementActor : Actor {}
+        public class TestPreferLocalPlacementActor : Actor, ITestPreferLocalPlacementActor {}
 
+        public interface ITestActivationCountBasedPlacementActor : IActor {}
         [ActivationCountBasedPlacement]
-        public class TestActivationCountBasedPlacementActor : Actor {}
+        public class TestActivationCountBasedPlacementActor : Actor, ITestActivationCountBasedPlacementActor {}
 
+        public interface ITestHashBasedPlacementActor : IActor {}
         [HashBasedPlacement]
-        public class TestHashBasedPlacementActor : Actor {}
+        public class TestHashBasedPlacementActor : Actor, ITestHashBasedPlacementActor {}
 
         [AttributeUsage(AttributeTargets.Class)]
         public class CustomPlacementAttribute : PlacementAttribute
@@ -77,14 +85,15 @@ namespace Orleankka.Features
             }
         }
 
+        public interface ITestCustomPlacementActor : IActor {}
         [CustomPlacement(typeof(string), ConsoleColor.Blue, "test", true, 1, 2, 3, 4.4d, 5.6F)]
-        public class TestCustomPlacementActor : Actor {}
+        public class TestCustomPlacementActor : Actor, ITestCustomPlacementActor {}
 
         [TestFixture]
         [RequiresSilo]
         public class Tests
         {
-            static TAttribute AssertHasCustomAttribute<TActor, TAttribute>() where TActor : Actor where TAttribute : Attribute => 
+            static TAttribute AssertHasCustomAttribute<TActor, TAttribute>() where TActor : IActor where TAttribute : Attribute => 
                 AssertHasCustomAttribute<TAttribute>(ActorType.Of<TActor>().Grain);
 
             static TAttribute AssertHasCustomAttribute<TAttribute>(Type type) where TAttribute : Attribute
@@ -97,7 +106,7 @@ namespace Orleankka.Features
             [Test]
             public void Version_attribute()
             {
-                var @interface = ActorInterface.Of<TestVersionActor>();
+                var @interface = ActorInterface.Of<ITestVersionActor>();
                 var attribute = AssertHasCustomAttribute<VersionAttribute>(@interface.Grain);
                 Assert.That(attribute.Version, Is.EqualTo(22));
             }
@@ -105,40 +114,40 @@ namespace Orleankka.Features
             [Test]
             public void StatelessWorker_attribute()
             {
-                var attribute = AssertHasCustomAttribute<TestDefaultStatelessWorkerActor, StatelessWorkerAttribute>();
+                var attribute = AssertHasCustomAttribute<ITestDefaultStatelessWorkerActor, StatelessWorkerAttribute>();
                 Assert.That(attribute.MaxLocalWorkers(), Is.EqualTo(new StatelessWorkerAttribute().MaxLocalWorkers()));
 
-                attribute = AssertHasCustomAttribute<TestParameterizedStatelessWorkerActor, StatelessWorkerAttribute>();
+                attribute = AssertHasCustomAttribute<ITestParameterizedStatelessWorkerActor, StatelessWorkerAttribute>();
                 Assert.That(attribute.MaxLocalWorkers, Is.EqualTo(4));
             }
 
             [Test]
             public void StorageProvider_attribute()
             {
-                var attribute = AssertHasCustomAttribute<TestDefaultStorageProviderActor, StorageProviderAttribute>();
+                var attribute = AssertHasCustomAttribute<ITestDefaultStorageProviderActor, StorageProviderAttribute>();
                 Assert.That(attribute.ProviderName, Is.EqualTo(new StorageProviderAttribute().ProviderName));
             }
 
             [Test]
             public void MultiCluster_attributes()
             {
-                AssertHasCustomAttribute<TestGlobalSingleInstanceActor, GlobalSingleInstanceAttribute>();
-                AssertHasCustomAttribute<TestOneInstancePerClusterActor, OneInstancePerClusterAttribute>();
+                AssertHasCustomAttribute<ITestGlobalSingleInstanceActor, GlobalSingleInstanceAttribute>();
+                AssertHasCustomAttribute<ITestOneInstancePerClusterActor, OneInstancePerClusterAttribute>();
             }
 
             [Test]
             public void Placement_attributes()
             {
-                 AssertHasCustomAttribute<TestRandomPlacementActor, RandomPlacementAttribute>();
-                 AssertHasCustomAttribute<TestPreferLocalPlacementActor, PreferLocalPlacementAttribute>();
-                 AssertHasCustomAttribute<TestActivationCountBasedPlacementActor, ActivationCountBasedPlacementAttribute>();
-                 AssertHasCustomAttribute<TestHashBasedPlacementActor, HashBasedPlacementAttribute>();
+                 AssertHasCustomAttribute<ITestRandomPlacementActor, RandomPlacementAttribute>();
+                 AssertHasCustomAttribute<ITestPreferLocalPlacementActor, PreferLocalPlacementAttribute>();
+                 AssertHasCustomAttribute<ITestActivationCountBasedPlacementActor, ActivationCountBasedPlacementAttribute>();
+                 AssertHasCustomAttribute<ITestHashBasedPlacementActor, HashBasedPlacementAttribute>();
             }
 
             [Test]
             public void Custom_placement_attribute()
             {
-                var attribute = AssertHasCustomAttribute<TestCustomPlacementActor, CustomPlacementAttribute>();
+                var attribute = AssertHasCustomAttribute<ITestCustomPlacementActor, CustomPlacementAttribute>();
                 Assert.That(attribute.PType, Is.EqualTo(typeof(string)));
                 Assert.That(attribute.PEnum, Is.EqualTo(ConsoleColor.Blue));
                 Assert.That(attribute.PString, Is.EqualTo("test"));

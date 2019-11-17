@@ -28,7 +28,7 @@ namespace Orleankka.Core
                     new Dictionary<int, ActorType>();
 
         public static ActorType Of<T>() => Of(typeof(T));
-        public static ActorType Of(Type type) => Of(ActorTypeName.Of(type));
+        public static ActorType Of(Type type) => Of(ActorCustomInterface.RegisteredName(type));
 
         public static ActorType Of(string name)
         {
@@ -57,12 +57,12 @@ namespace Orleankka.Core
             var actorTypes = assemblies.SelectMany(x => x.ActorTypes()).ToArray();
 
             var registered = actorTypes
-                .Select(x => types.Find(ActorTypeName.Of(x)))
+                .Select(x => types.Find(ActorCustomInterface.RegisteredName(x)))
                 .Where(x => x != null)
                 .ToArray();
 
             var unregistered = actorTypes
-                .Where(x => !types.ContainsKey(ActorTypeName.Of(x)))
+                .Where(x => !types.ContainsKey(ActorCustomInterface.RegisteredName(x)))
                 .ToArray();
 
             if (!unregistered.Any())
@@ -74,7 +74,7 @@ namespace Orleankka.Core
 
                 foreach (var actor in generated)
                 {
-                    types.Add(actor.Name, actor);
+                    types.Add(actor.FullName, actor);
                     typeCodes.Add(actor.TypeCode, actor);
                     typeCodes.Add(actor.Interface.TypeCode, actor);
                 }
@@ -87,7 +87,7 @@ namespace Orleankka.Core
         }
 
         public static IEnumerable<ActorType> Registered() => types.Values;
-        internal string Name => Interface.Mapping.TypeName;
+        internal string FullName => Interface.Mapping.FullName;
 
         public readonly Type Class;
         public readonly ActorInterface Interface;

@@ -93,9 +93,9 @@ namespace Orleankka.Core
         ActorInterfaceDeclaration(ActorInterfaceMapping mapping)
         {
             this.mapping = mapping;
-            CheckValidIdentifier(mapping.TypeName);
+            CheckValidIdentifier(mapping.FullName);
 
-            var path = mapping.TypeName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            var path = mapping.FullName.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             name = path.Last();
 
             namespaces = path.TakeWhile(x => x != name).ToList();

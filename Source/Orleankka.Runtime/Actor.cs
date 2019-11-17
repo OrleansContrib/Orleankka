@@ -49,7 +49,7 @@ namespace Orleankka
         {
             Runtime = runtime;
             Dispatcher = dispatcher ?? ActorType.Dispatcher(GetType());
-            Path = GetType().ToActorPath(id ?? Guid.NewGuid().ToString("N"));
+            Path = ActorPath.For(ActorCustomInterface.Of(GetType()), id ?? Guid.NewGuid().ToString("N"));
         }
 
         internal virtual void Initialize(IActorHost host, ActorPath path, IActorRuntime runtime, Dispatcher dispatcher)

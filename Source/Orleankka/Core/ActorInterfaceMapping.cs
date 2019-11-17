@@ -11,7 +11,8 @@ namespace Orleankka.Core
 
         public static ActorInterfaceMapping Of(Type type, IEnumerable<Assembly> assemblies)
         {
-            var name = ActorTypeName.Of(type);
+            var customInterface = ActorCustomInterface.Of(type);
+            var name = customInterface.FullName;
 
             Type @interface = null;
             Type @class = null;
@@ -19,7 +20,7 @@ namespace Orleankka.Core
             if (type.IsClass)
             {
                 @class = type;
-                @interface = ActorTypeName.CustomInterface(type);
+                @interface = customInterface;
             }
 
             if (type.IsInterface)
@@ -40,19 +41,19 @@ namespace Orleankka.Core
             return new ActorInterfaceMapping(name, @interface, @class);
         }
 
-        public readonly string TypeName;
+        public readonly string FullName;
         public readonly Type CustomInterface;
         public readonly Type ImplementationClass;
         public readonly Type[] Types;
         public readonly string Key;
 
-        ActorInterfaceMapping(string typeName, Type @interface, Type @class)
+        ActorInterfaceMapping(string fullName, Type @interface, Type @class)
         {
-            TypeName = typeName;
+            FullName = fullName;
             CustomInterface = @interface;
             ImplementationClass = @class;
             Types = new[]{@interface, @class}.Where(x => x != null).ToArray();
-            Key = $"{typeName} -> {string.Join(";", Types.OrderBy(x => x.AssemblyQualifiedName).Select(x => x.AssemblyQualifiedName))}";
+            Key = $"{fullName} -> {string.Join(";", Types.OrderBy(x => x.AssemblyQualifiedName).Select(x => x.AssemblyQualifiedName))}";
         }
 
         public bool Equals(ActorInterfaceMapping other) => 

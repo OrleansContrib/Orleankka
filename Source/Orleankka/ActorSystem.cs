@@ -73,7 +73,7 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
-            var @interface = ActorInterface.Of(path.Type);
+            var @interface = ActorInterface.Of(path.Interface);
             var proxy = @interface.Proxy(path.Id, GrainFactory);
 
             return new ActorRef(path, proxy, invoker);
@@ -108,12 +108,24 @@ namespace Orleankka
         /// Acquires the actor reference for the given actor type and id.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="type">The actor type</param>
+        /// <param name="interface">The actor interface</param>
         /// <param name="id">The actor id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf(this IActorSystem system, string type, string id)
+        public static ActorRef ActorOf(this IActorSystem system, Type @interface, string id)
         {
-            return system.ActorOf(ActorPath.From(type, id));
+            return system.ActorOf(ActorPath.For(@interface, id));
+        }
+        
+        /// <summary>
+        /// Acquires the actor reference for the given actor type and id.
+        /// </summary>
+        /// <typeparam name="TActor">The type of the actor</typeparam>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="id">The actor id</param>
+        /// <returns>An actor reference</returns>
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
+        {
+            return system.ActorOf(typeof(TActor), id);
         }
 
         /// <summary>
@@ -128,37 +140,25 @@ namespace Orleankka
         }
 
         /// <summary>
-        /// Acquires the actor reference for the given id and interface of the actor.
-        /// </summary>
-        /// <typeparam name="TActor">The type of the actor</typeparam>
-        /// <param name="system">The reference to actor system</param>
-        /// <param name="id">The id</param>
-        /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
-        {
-            return system.ActorOf(typeof(TActor).ToActorPath(id));
-        }
-
-        /// <summary>
         /// Acquires the actor reference for the given worker type.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
-        /// <param name="type">The type</param>
+        /// <param name="interface">The worker interface</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef WorkerOf(this IActorSystem system, string type)
+        public static ActorRef WorkerOf(this IActorSystem system, Type @interface)
         {
-            return system.ActorOf(ActorPath.From(type, "#"));
+            return system.ActorOf(ActorPath.For(@interface, "#"));
         }
-
+        
         /// <summary>
-        /// Acquires the actor reference for the given worker interface.
+        /// Acquires the actor reference for the given worker type.
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <returns>An actor reference</returns>
         public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActor
         {
-            return system.ActorOf(typeof(TActor).ToActorPath("#"));
+            return system.WorkerOf(typeof(TActor));
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Orleankka
         /// <param name="id">The id</param>
         public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActor
         {
-            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath(id)));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), id)));
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActor
         {
-            return new ActorRef<TActor>(system.ActorOf(typeof(TActor).ToActorPath("#")));
+            return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), "#")));
         }
     }
 }

@@ -12,7 +12,9 @@ namespace Orleankka.Features.Actor_behaviors
         [TestFixture]
         public class Tests
         {
-            class TestActor : Actor
+            public interface ITestActor : IActor {}
+
+            class TestActor : Actor, ITestActor
             {
                 TestActor()
                 {}

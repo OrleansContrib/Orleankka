@@ -94,7 +94,7 @@ namespace Orleankka.Client
             foreach (var type in types)
             {
                 var mapping = ActorInterfaceMapping.Of(type);
-                if (registry.IsRegistered(mapping.TypeName))
+                if (registry.IsRegistered(mapping.FullName))
                     throw new ArgumentException($"Actor type '{type}' has been already registered");
             }
 

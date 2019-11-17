@@ -92,7 +92,7 @@ namespace Orleankka
             return type.GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
         }
 
-        internal string Type;
+        internal Type Interface;
         readonly Func<string, string> matcher;
         readonly Func<object, string> selector;
         readonly Func<object, bool> filter;
@@ -103,7 +103,7 @@ namespace Orleankka
             Requires.NotNullOrWhitespace(provider, nameof(provider));
             Requires.NotNull(matcher, nameof(matcher));
 
-            Type = ActorTypeName.Of(actor);
+            Interface = ActorCustomInterface.Of(actor);
             Provider = provider;
             this.matcher = matcher;
             this.selector = selector;
@@ -124,7 +124,7 @@ namespace Orleankka
             return new StreamSubscriptionMatch(target, receiver, filter);
         }
 
-        ActorRef Reference(IActorSystem system, string id) => system.ActorOf(new ActorPath(Type, id));
+        ActorRef Reference(IActorSystem system, string id) => system.ActorOf(ActorPath.For(Interface, id));
 
         static StreamSubscriptionSpecification MatchExact(Type actor, string provider, string source, string target, Func<object, string> selector = null, Func<object, bool> filter = null)
         {

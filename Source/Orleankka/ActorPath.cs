@@ -14,15 +14,21 @@ namespace Orleankka
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = {":"};
 
-        public static ActorPath From(string type, string id)
+        public static ActorPath For<T>(string id) where T : IActor => 
+            For(typeof(T), id);
+        
+        public static ActorPath For(Type @interface, string id)
         {
-            Requires.NotNull(type, nameof(type));
+            Requires.NotNull(@interface, nameof(@interface));
             Requires.NotNull(id, nameof(id));
 
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", nameof(id));
 
-            return new ActorPath(type, id);
+            if (!@interface.IsInterface || !typeof(IActor).IsAssignableFrom(@interface))
+                throw new InvalidOperationException($"Type '{@interface}' should be an interface which implements IActor interface");
+
+            return new ActorPath(@interface.FullName, id);
         }
 
         public static ActorPath Parse(string path)
@@ -33,29 +39,29 @@ namespace Orleankka
             if (parts.Length != 2)
                 throw new ArgumentException("Invalid actor path: " + path);
 
-            var type = parts[0];
+            var @interface = parts[0];
             var id = parts[1];
 
-            return new ActorPath(type, id);
+            return new ActorPath(@interface, id);
         }
 
-        public readonly string Type;
+        public readonly string Interface;
         public readonly string Id;
 
-        internal ActorPath(string type, string id)
-        {
-            Type = type;
+        ActorPath(string @interface, string id)
+        {            
+            Interface = @interface;
             Id = id;
         }
 
-        public bool Equals(ActorPath other) => Type == other.Type && string.Equals(Id, other.Id);
-        public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (obj is ActorPath && Equals((ActorPath)obj));
+        public bool Equals(ActorPath other) => Interface == other.Interface && string.Equals(Id, other.Id);
+        public override bool Equals(object obj) => obj is ActorPath && Equals((ActorPath)obj);
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((Type?.GetHashCode() ?? 0) * 397) ^
+                return ((Interface?.GetHashCode() ?? 0) * 397) ^
                         (Id?.GetHashCode() ?? 0);
             }
         }
@@ -65,6 +71,6 @@ namespace Orleankka
         public static bool operator ==(ActorPath left, ActorPath right) => Equals(left, right);
         public static bool operator !=(ActorPath left, ActorPath right) => !Equals(left, right);
 
-        public override string ToString() => $"{Type}:{Id}";
+        public override string ToString() => $"{Interface}:{Id}";
     }
 }

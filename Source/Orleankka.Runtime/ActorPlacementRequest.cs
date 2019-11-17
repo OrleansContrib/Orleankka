@@ -13,7 +13,7 @@ namespace Orleankka
             var @interface = ActorType.Of(target.GrainIdentity.TypeCode).Interface;
 
             var id = target.GrainIdentity.PrimaryKeyString;
-            var path = new ActorPath(@interface.Name, id);
+            var path = ActorPath.For(@interface.Mapping.CustomInterface, id);
 
             return new ActorPlacementRequest(path, @interface.Mapping);
         }

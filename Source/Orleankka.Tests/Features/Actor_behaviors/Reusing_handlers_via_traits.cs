@@ -15,7 +15,9 @@ namespace Orleankka.Features.Actor_behaviors
             class X { }
             class Y { }
 
-            class TestActor : Actor
+            interface ITestActor : IActor { }
+
+            class TestActor : Actor, ITestActor
             {
                 public readonly List<string> Events = new List<string>();
 

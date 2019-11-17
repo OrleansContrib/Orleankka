@@ -14,7 +14,7 @@ namespace Orleankka
     public class DuplicateActorTypeException : Exception 
     {
         internal DuplicateActorTypeException(ActorInterfaceMapping existing, ActorInterfaceMapping duplicate)
-            : base($"Type {duplicate.Types[0]} specifies '{existing.TypeName}' actor type code or implements same custom interface " +
+            : base($"Type {duplicate.Types[0]} specifies '{existing.FullName}' actor type code or implements same custom interface " +
                    $"which has been already registered for type {existing.Types[0]}")
         {}
     }

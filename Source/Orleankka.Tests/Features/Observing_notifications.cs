@@ -103,8 +103,8 @@ namespace Orleankka.Features
             [Test]
             public async Task Actor_to_actor()
             {
-                var actor = system.FreshActorOf<TestActor>();
-                var observer = system.FreshActorOf<TestInsideActor>();
+                var actor = system.FreshActorOf<ITestActor>();
+                var observer = system.FreshActorOf<ITestInsideActor>();
 
                 await actor.Tell(new Attach {Observer = observer});
                 await actor.Tell(new Publish {Text = "a-a"});

@@ -26,7 +26,7 @@ namespace Orleankka.TestKit
 
         public ActorRefMock MockActorOf<TActor>(string id) where TActor : IActor
         {
-            var path = typeof(TActor).ToActorPath(id);
+            var path = ActorPath.For(typeof(TActor), id);
             return GetOrCreateMock(path);
         }
 

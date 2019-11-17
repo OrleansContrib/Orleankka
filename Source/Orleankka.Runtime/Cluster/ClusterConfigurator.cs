@@ -199,7 +199,7 @@ namespace Orleankka.Cluster
             {
                 var ids = AutorunAttribute.From(actor);
                 if (ids.Length > 0)
-                    autoruns.Add(ActorTypeName.Of(actor), ids);
+                    autoruns.Add(ActorCustomInterface.Of(actor).AssemblyQualifiedName, ids);
             }
 
             Bootstrapper<AutorunBootstrapper>(autoruns);
@@ -220,7 +220,7 @@ namespace Orleankka.Cluster
         void RegisterStreamSubscriptions()
         {
             foreach (var actor in ActorType.Registered())
-                StreamSubscriptionMatcher.Register(actor.Name, actor.Subscriptions());
+                StreamSubscriptionMatcher.Register(actor.FullName, actor.Subscriptions());
         }
 
         [UsedImplicitly]
@@ -230,7 +230,7 @@ namespace Orleankka.Cluster
                 Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
 
             static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
-                ids.Select(id => system.ActorOf(type, id).Autorun());
+                ids.Select(id => system.ActorOf(ActorPath.For(Type.GetType(type), id)).Autorun());
         }
 
         public ClusterConfigurator UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");

@@ -34,7 +34,7 @@ namespace Orleankka.Checks
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionSpecification.From(type, attribute, dispatcher);
-            specification.Type = ActorTypeName.Of(typeof(TestActor));
+            specification.Interface = ActorCustomInterface.Of(typeof(ITestActor));
 
             var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
@@ -47,7 +47,7 @@ namespace Orleankka.Checks
             match.Receiver(message);
 
             Assert.That(system.RequestedRef, Is.Not.Null);
-            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(TestActor).ToActorPath(actorId)));
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.For(typeof(ITestActor), actorId)));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
@@ -64,11 +64,11 @@ namespace Orleankka.Checks
                 Target = target
             };
 
-            var type = typeof(TestActor);
+            var type = typeof(ITestActor);
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionSpecification.From(type, attribute, dispatcher);
-            specification.Type = ActorTypeName.Of(typeof(TestActor));
+            specification.Interface = ActorCustomInterface.Of(typeof(ITestActor));
 
             var match = specification.Match(system, streamId);
             if (match == StreamSubscriptionMatch.None)
@@ -81,7 +81,7 @@ namespace Orleankka.Checks
             match.Receiver(message);
 
             Assert.That(system.RequestedRef, Is.Not.Null);
-            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(TestActor).ToActorPath(actorId)));
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.For(typeof(ITestActor), actorId)));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
@@ -94,7 +94,7 @@ namespace Orleankka.Checks
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionSpecification.From(type, dispatcher).ElementAt(0);
-            specification.Type = ActorTypeName.Of(typeof(DynamicTargetSelectorActor));
+            specification.Interface = ActorCustomInterface.Of(typeof(IDynamicTargetSelectorActor));
 
             var match = specification.Match(system, "foo");
 
@@ -102,14 +102,16 @@ namespace Orleankka.Checks
             match.Receiver(message);
 
             Assert.That(system.RequestedRef, Is.Not.Null);
-            Assert.That(system.RequestedRef.Path, Is.EqualTo(typeof(DynamicTargetSelectorActor).ToActorPath("bar")));
+            Assert.That(system.RequestedRef.Path, Is.EqualTo(ActorPath.For(typeof(IDynamicTargetSelectorActor), "bar")));
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
-        class TestActor : Actor {}
+        interface ITestActor : IActor {}
+        class TestActor : Actor, ITestActor {}
 
+        interface IDynamicTargetSelectorActor : IActor {}
         [StreamSubscription(Source = "sms:foo", Target = "ComputeSubscriptionTarget()")]
-        class DynamicTargetSelectorActor : Actor
+        class DynamicTargetSelectorActor : Actor, IDynamicTargetSelectorActor
         {
             public static string ComputeSubscriptionTarget(object item) => "bar";
         }

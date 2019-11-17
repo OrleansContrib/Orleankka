@@ -35,13 +35,13 @@ namespace Orleankka.Core
             {
                 var mapping = ActorInterfaceMapping.Of(type, assemblies);
 
-                if (interfaces.Contains(mapping.TypeName))
+                if (interfaces.Contains(mapping.FullName))
                 {
-                    var existing = mappings.Single(x => x.TypeName == mapping.TypeName);
+                    var existing = mappings.Single(x => x.FullName == mapping.FullName);
                     throw new DuplicateActorTypeException(existing, mapping);
                 }
 
-                interfaces.Add(mapping.TypeName);
+                interfaces.Add(mapping.FullName);
                 mappings.Add(mapping);
             }
         }

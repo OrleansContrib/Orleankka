@@ -18,7 +18,10 @@ namespace Orleankka.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            class TestActor : Actor
+            public interface ITestActor : IActor
+            {}
+
+            public class TestActor : Actor, ITestActor
             {
                 TestActor()
                 {}
@@ -139,7 +142,10 @@ namespace Orleankka.Features.Actor_behaviors
                 [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
-            class TestDefaultActor : Actor
+            interface ITestDefaultActor : IActor
+            {}
+
+            class TestDefaultActor : Actor, ITestDefaultActor
             {
                 public TestDefaultActor()
                 {

@@ -17,7 +17,7 @@ namespace Orleankka.Core
                     new Dictionary<string, ActorInterface>();
 
         public static ActorInterface Of<T>() => Of(typeof(T));
-        public static ActorInterface Of(Type type) => Of(ActorTypeName.Of(type));
+        public static ActorInterface Of(Type type) => Of(ActorCustomInterface.RegisteredName(type));
 
         public static ActorInterface Of(string name)
         {
@@ -27,7 +27,7 @@ namespace Orleankka.Core
             if (result == null)
                 throw new InvalidOperationException(
                     $"Unable to map actor type name '{name}' to the corresponding actor. " +
-                        "Make sure that you've registered an actor type or the assembly containing this type");
+                     "Make sure that you've registered an assembly containing this type");
 
             return result;
         }
@@ -39,7 +39,7 @@ namespace Orleankka.Core
 
             foreach (var each in mappings)
             {
-                var existing = names.Find(each.TypeName);
+                var existing = names.Find(each.FullName);
                 if (existing == null)
                 {
                     unregistered.Add(each);
@@ -60,7 +60,7 @@ namespace Orleankka.Core
                 var generated = ActorInterfaceDeclaration.Generate(assemblies, unregistered).ToArray();
 
                 foreach (var each in generated)
-                    names.Add(each.Name, each);
+                    names.Add(each.FullName, each);
 
                 return GrainAssemblies(generated);
             }
@@ -76,7 +76,7 @@ namespace Orleankka.Core
 
         public readonly int TypeCode;
         public readonly ushort Version;
-        public readonly string Name;
+        public readonly string FullName;
 
         Func<IGrainFactory, string, object> factory;
 
@@ -87,9 +87,9 @@ namespace Orleankka.Core
 
             TypeCode = grain.TypeCode();
             Version = grain.InterfaceVersion();
-            Name = Mapping.TypeName;
+            FullName = Mapping.FullName;
 
-            Array.ForEach(mapping.Types, ActorTypeName.Register);
+            Array.ForEach(mapping.Types, ActorCustomInterface.Register);
         }
 
         internal Assembly GrainAssembly() => Grain.Assembly;

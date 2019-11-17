@@ -29,7 +29,7 @@ namespace Orleankka.Features
                 var identity = reference.Identity();
                 var typeCode = identity.TypeCode;
                 var @interface = ActorType.Of(typeCode);
-                return @interface.Name;
+                return @interface.FullName;
             }
         }
 

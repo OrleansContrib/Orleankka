@@ -55,7 +55,6 @@ namespace Demo
         {}
     }
 
-    [ActorType("Api")]
     public interface IApi : IActor {}
 
     public class Api : Actor, IApi

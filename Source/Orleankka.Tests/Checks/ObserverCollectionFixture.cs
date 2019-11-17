@@ -70,8 +70,8 @@ namespace Orleankka.Checks
             Assert.AreEqual(0, collection.Count());
         }
 
-        class TestObservableActor : Actor
-        {}
+        interface ITestObservableActor : IActor {}
+        class TestObservableActor : Actor, ITestObservableActor {}
 
         class TestObserver
         {

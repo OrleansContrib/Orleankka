@@ -56,7 +56,8 @@
 
         Task Activate()
         {
-            var path = ActorPath.From(Actor.Name, IdentityOf(this));
+            var @interface = Actor.Interface.Mapping.CustomInterface;
+            var path = ActorPath.For(@interface, IdentityOf(this));
 
             var system = ServiceProvider.GetRequiredService<ClusterActorSystem>();
             var activator = ServiceProvider.GetRequiredService<IActorActivator>();
