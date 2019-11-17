@@ -1,10 +1,8 @@
 ﻿namespace Actors
 
 open Messages
-open Orleankka
 open Orleankka.FSharp
    
-[<ActorType("ChatUser")>]
 type ChatUser() =
    inherit Actor<ChatUserMessage>()
          

@@ -10,7 +10,6 @@ type Message =
    | Greet of string
    | Hi
 
-[<ActorType("test_actor")>]
 type ITestActor = 
     inherit IActor
 
