@@ -53,8 +53,7 @@ let main argv =
      .Client()
      .From(ClientConfiguration.LocalhostSilo())
      .UseSimpleMessageStreamProvider("rooms")
-     .Assemblies([|typeof<ChatRoomMessage>.Assembly|])
-     .ActorTypes([|"ChatUser"|])
+     .Assemblies([|typeof<ChatRoomMessage>.Assembly|])     
      .Done() 
    
    system.Connect().Wait()
