@@ -64,7 +64,7 @@ namespace Orleankka.Checks
                 Target = target
             };
 
-            var type = typeof(ITestActor);
+            var type = typeof(TestActor);
             var dispatcher = new Dispatcher(type);
 
             var specification = StreamSubscriptionSpecification.From(type, attribute, dispatcher);
