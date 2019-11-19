@@ -10,15 +10,12 @@ using Orleans;
 using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
 using Orleans.Hosting;
+using Orleans.Runtime;
 
 namespace Orleankka.Cluster
 {
     using Client;
-
     using Facets;
-
-    using Orleans.Runtime;
-
     using Utility;
 
     public sealed class OrleankkaClusterOptions

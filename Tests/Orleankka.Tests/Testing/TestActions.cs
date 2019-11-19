@@ -57,7 +57,6 @@ namespace Orleankka.Testing
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
-                .AddSimpleMessageStreamProvider("sms")
                 .UseInMemoryReminderService()
                 .ConfigureServices(services =>
                 {
@@ -71,7 +70,8 @@ namespace Orleankka.Testing
                 .UseOrleankka(x => x
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
                     .DirectClientActorRefMiddleware(new TestActorRefMiddleware()))
-                .UseOrleankkaLegacyFeatures();
+                .UseOrleankkaLegacyFeatures(x => x
+                    .UseSimpleMessageStreamProvider("sms"));
 
             var host = sb.Build();
             host.StartAsync().Wait();
