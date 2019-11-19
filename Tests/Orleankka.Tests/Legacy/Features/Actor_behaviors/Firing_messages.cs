@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
 
 using Orleankka.Meta;
 using Orleankka.Testing;
+
+using Orleans.CodeGeneration;
+using Orleans.Concurrency;
 
 namespace Orleankka.Legacy.Features.Actor_behaviors
 {
@@ -28,12 +30,14 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             [Serializable] class GetReceived : Query<List<string>> {}
             [Serializable] class GetFired : Query<List<string>> {}
 
-            public interface ITestInterleaveFireActor : IActor
+            public interface ITestInterleaveFireActor : IActorGrain
             { }
 
-            [Interleave(typeof(string))]
+            [MayInterleave(nameof(MayInterleave))]
             public class TestInterleaveFireActor : Actor, ITestInterleaveFireActor
             {
+                public static bool MayInterleave(InvokeMethodRequest req) => req.Message() is string;
+
                 readonly List<string> received = new List<string>();
                 readonly List<string> fired = new List<string>();
 
@@ -81,7 +85,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             [Serializable] class CheckUnhandledFiring : Command {}
             [Serializable] class GetOrigins : Query<List<Tuple<string, bool>>> { }
 
-            public interface ITestUnhandledFireActor : IActor
+            public interface ITestUnhandledFireActor : IActorGrain
             { }
 
             public class TestUnhandledFireActor : Actor, ITestUnhandledFireActor
@@ -133,7 +137,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             [Serializable] class CheckBecomeFiredFromTimer : Command {}
             [Serializable] class GetCurrentBehavior : Query<string> { }
 
-            public interface ITestBecomeFiredFromTimerActor : IActor
+            public interface ITestBecomeFiredFromTimerActor : IActorGrain
             { }
 
             public class TestBecomeFiredFromTimerActor : Actor, ITestBecomeFiredFromTimerActor

@@ -17,7 +17,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            public interface ITestActor : IActor {}
+            public interface ITestActor : IActorGrain {}
 
             public class TestActor : Actor, ITestActor
             {
@@ -140,7 +140,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
                 [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
-            public interface ITestDefaultActor : IActor
+            public interface ITestDefaultActor : IActorGrain
             { }
 
             public class TestDefaultActor : Actor, ITestDefaultActor

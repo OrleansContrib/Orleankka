@@ -12,7 +12,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
         [TestFixture]
         public class Tests
         {
-            interface ITestActor : IActor
+            interface ITestActor : IActorGrain
             { }
 
             class TestActor : Actor, ITestActor

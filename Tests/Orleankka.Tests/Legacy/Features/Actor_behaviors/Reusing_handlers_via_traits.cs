@@ -15,7 +15,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             class X { }
             class Y { }
 
-            interface ITestActor : IActor
+            interface ITestActor : IActorGrain
             {}
 
             class TestActor : Actor, ITestActor
