@@ -6,8 +6,6 @@ namespace Orleankka.Legacy.Behaviors
 {
     public static class BehaviorExtensions
     {
-        public static Task<object> Fire(this Actor actor, object message) => actor.Behavior.Fire(message);
-
         public static Task Become(this Actor actor, string behavior) => actor.Behavior.Become(behavior);
         public static Task Become(this Actor actor, Action behavior) => actor.Behavior.Become(behavior);
 

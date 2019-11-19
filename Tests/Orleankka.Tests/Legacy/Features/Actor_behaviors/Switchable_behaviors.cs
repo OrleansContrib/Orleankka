@@ -43,12 +43,10 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
                 }
 
                 public object UnhandledMessage;
-                public RequestOrigin UnhandledMessageOrigin = RequestOrigin.Null;
                 
-                public override Task<object> OnUnhandledReceive(RequestOrigin origin, object message)
+                public override Task<object> OnUnhandledReceive(object message)
                 {
                     UnhandledMessage = message;
-                    UnhandledMessageOrigin = origin;
                     return Task.FromResult((object)"test");
                 }
 
@@ -313,7 +311,6 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
 
                 Assert.That(result, Is.EqualTo("test"));
                 Assert.That(actor.UnhandledMessage, Is.SameAs(msg));
-                Assert.That(actor.UnhandledMessageOrigin, Is.EqualTo(RequestOrigin.Null));
             }
 
             [Test]
