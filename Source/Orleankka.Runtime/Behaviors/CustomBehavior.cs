@@ -174,7 +174,7 @@ namespace Orleankka.Behaviors
                 await super.HandleDeactivate(transition);
         }
 
-        public Task<object> HandleReceive(Actor actor, object message, RequestOrigin origin)
+        public Task<object> HandleReceive(Actor actor, object message)
         {
             if (IsNull())
                 return onReceiveAny(actor, message);
@@ -186,7 +186,7 @@ namespace Orleankka.Behaviors
             handler = TryFindReceiveAnyHandler();
             return handler != null
                        ? handler(actor, message)
-                       : actor.OnUnhandledReceive(origin, message);
+                       : actor.OnUnhandledReceive(message);
         }
 
         Func<Actor, object, Task<object>> TryFindReceiveHandler(object message)

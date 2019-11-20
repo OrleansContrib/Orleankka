@@ -82,42 +82,19 @@ namespace Orleankka.Behaviors
         {
             current = CustomBehavior.Null
         };
-       
-        internal bool mocked;
-        internal readonly Actor actor;
+
+        readonly Actor actor;
 
         CustomBehavior current;
         CustomBehavior next;
 
-        ActorBehavior(Actor actor)
-        {
-            this.actor = actor;
-        }
+        ActorBehavior(Actor actor) => this.actor = actor;
 
-        public async Task<object> Fire(object message)
-        {
-            Requires.NotNull(message, nameof(message));
+        public Task HandleActivate() => current.HandleActivate(default(Transition));
+        public Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
-            if (TimerService.IsExecuting() || mocked)
-            {
-                RequestOrigin.Store(Current);
-                return await actor.Self.Ask<object>(message);
-            }
-
-            return await HandleReceive(message, new RequestOrigin(Current));
-        }
-
-        internal Task HandleActivate() => current.HandleActivate(default(Transition));
-        internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
-
-        internal Task<object> HandleReceive(object message) => 
-            HandleReceive(message, RequestOrigin.Restore());
-
-        internal Task<object> HandleReceive(object message, RequestOrigin origin) => 
-            current.HandleReceive(actor, message, origin);
-
-        internal Task HandleReminder(string id) =>
-            current.HandleReminder(actor, id);
+        public Task<object> HandleReceive(object message) =>  current.HandleReceive(actor, message);
+        public Task HandleReminder(string id) => current.HandleReminder(actor, id);
 
         CustomBehavior Next
         {
@@ -170,10 +147,6 @@ namespace Orleankka.Behaviors
 
             if (Current == behavior)
                 throw new InvalidOperationException($"Actor is already behaving as '{behavior}'");
-
-            if (TimerService.IsExecuting())
-                throw new InvalidOperationException($"Can't switch to '{behavior}' behavior. Switching behaviors from inside timer callback is unsafe. " +
-                                                     "Use Fire() to send a message and then call Become inside message handler");
 
             var action = RegisteredAction(behavior);
             next = new CustomBehavior(behavior);

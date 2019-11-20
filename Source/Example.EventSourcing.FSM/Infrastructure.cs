@@ -106,7 +106,7 @@ namespace Example
 
         protected override async Task<object> HandleCommand(Command cmd)
         {
-            var events = ((IEnumerable<Event>)await Behavior.Fire(cmd)).ToArray();
+            var events = ((IEnumerable<Event>)await Behavior.HandleReceive(cmd)).ToArray();
             
             await Store(events);
             await Apply(events);
@@ -176,7 +176,7 @@ namespace Example
         }
 
         protected override Task<object> HandleQuery(Query query) => 
-            Behavior.Fire(query);
+            Behavior.HandleReceive(query);
         
         protected void OnReceive<TCommand>(Func<TCommand, Event> handler) => 
             Behavior.OnReceive<TCommand, IEnumerable<Event>>(cmd => new[] {handler(cmd)});

@@ -78,12 +78,7 @@ namespace Orleankka
         public virtual Task OnActivate() => Behavior.HandleActivate();
         public virtual Task OnDeactivate() => Behavior.HandleDeactivate();
 
-        public virtual Task<object> OnReceive(object message)
-        {
-            RequestContext.Set(TimerService.RequestContextId, null);
-            return Behavior.HandleReceive(message);
-        }
-
+        public virtual Task<object> OnReceive(object message) => Behavior.HandleReceive(message);
         public virtual Task OnReminder(string id) => Behavior.HandleReminder(id);
 
         public async Task<TResult> Dispatch<TResult>(object message, Func<object, Task<object>> fallback = null) => 
@@ -95,7 +90,7 @@ namespace Orleankka
             return Dispatcher.Dispatch(this, message, fallback);
         }
 
-        public virtual Task<object> OnUnhandledReceive(RequestOrigin origin, object message) =>
+        public virtual Task<object> OnUnhandledReceive(object message) =>
             throw new UnhandledMessageException(this, message);
 
         public virtual Task OnUnhandledReminder(string id) =>
