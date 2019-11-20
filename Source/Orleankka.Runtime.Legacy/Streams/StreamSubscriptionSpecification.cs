@@ -9,8 +9,38 @@ namespace Orleankka.Legacy.Streams
 {
     using Utility;
 
+    class StreamSubscriptionSpecificationRegistry
+    {
+        readonly Dictionary<string, List<StreamSubscriptionSpecification>> providerSubscriptions = 
+             new Dictionary<string, List<StreamSubscriptionSpecification>>();
+
+        internal void Register(IEnumerable<StreamSubscriptionSpecification> specifications)
+        {
+            foreach (var each in specifications)
+            {
+                var provider = providerSubscriptions.Find(each.Provider);
+                if (provider == null)
+                {
+                    provider = new List<StreamSubscriptionSpecification>();
+                    providerSubscriptions.Add(each.Provider, provider);
+                }
+
+                provider.Add(each);
+            }
+        }
+
+        internal IEnumerable<StreamSubscriptionSpecification> Find(string provider) => 
+            providerSubscriptions.Find(provider) ?? Enumerable.Empty<StreamSubscriptionSpecification>();
+    }
+
     public class StreamSubscriptionSpecification
     {
+        internal static StreamSubscriptionMatch[] Match(IActorSystem system, string stream, IEnumerable<StreamSubscriptionSpecification> specifications) => 
+            specifications
+                .Select(s => s.Match(system, stream))
+                .Where(m => m != StreamSubscriptionMatch.None)
+                .ToArray();
+        
         internal static IEnumerable<StreamSubscriptionSpecification> From(Type actor, Dispatcher dispatcher)
         {
             return actor.GetCustomAttributes<StreamSubscriptionAttribute>(inherit: true)
@@ -150,5 +180,26 @@ namespace Orleankka.Legacy.Streams
 
             return new StreamSubscriptionSpecification(actor, provider, matcher, selector, filter);
         }
+    }
+
+    class StreamSubscriptionMatch
+    {
+        public static readonly StreamSubscriptionMatch None = new StreamSubscriptionMatch();
+
+        StreamSubscriptionMatch()
+        {}
+
+        public readonly string Target;
+        public readonly Func<object, Task> Receiver;
+        public readonly Func<object, bool> Filter;
+
+        public StreamSubscriptionMatch(string target, Func<object, Task> receiver, Func<object, bool> filter)
+        {
+            Target = target;
+            Receiver = receiver;
+            Filter = filter;
+        }
+
+        public Task Receive(object item) => Filter(item) ? Receiver(item) : Task.CompletedTask;
     }
 }

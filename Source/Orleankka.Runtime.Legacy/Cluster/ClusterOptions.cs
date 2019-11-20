@@ -26,7 +26,7 @@ namespace Orleankka.Legacy.Cluster
 
         string[] persistentStreamProviders = new string[0];
 
-        public LegacyOrleankkaClusterOptions UseSimpleMessageStreamProvider(string name, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>> configureOptions = null)
+        public LegacyOrleankkaClusterOptions AddSimpleMessageStreamProvider(string name, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>> configureOptions = null)
         {
             Requires.NotNullOrWhitespace(name, nameof(name));
             smsStreamProviders.Add(name, configureOptions);
@@ -67,7 +67,7 @@ namespace Orleankka.Legacy.Cluster
 
                 configureOptions?.Invoke(services.AddOptions<SimpleMessageStreamProviderOptions>(name));
                 services.ConfigureNamedOptionForLogging<SimpleMessageStreamProviderOptions>(name);
-                services.AddSingletonNamedService<IStreamProvider>(name, (s, n) => new StreamSubscriptionMatcher(s, n));
+                services.AddSingletonNamedService<IStreamProvider>(name, (s, n) => new SimpleMessageStreamProviderMatcher(s, n));
             }
         }
 
@@ -93,8 +93,8 @@ namespace Orleankka.Legacy.Cluster
         void BootStreamSubscriptions(IServiceCollection services)
         {
             const string name = "orlssb";
-            services.AddOptions<StreamSubscriptionBootstrapperOptions>(name).Configure(c => c.Providers = persistentStreamProviders);
-            services.AddSingletonNamedService(name, StreamSubscriptionBootstrapper.Create);
+            services.AddOptions<PersistentStreamProviderMatcherOptions>(name).Configure(c => c.Providers = persistentStreamProviders);
+            services.AddSingletonNamedService(name, PersistentStreamProviderMatcher.Create);
             services.AddSingletonNamedService(name, (s, n) => (ILifecycleParticipant<ISiloLifecycle>) s.GetRequiredServiceByName<IGrainStorage>(n));
         }
     }

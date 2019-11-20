@@ -13,7 +13,7 @@ using Orleans.Storage;
 
 namespace Orleankka.Legacy.Streams
 {
-    public class StreamSubscriptionBootstrapperOptions
+    class PersistentStreamProviderMatcherOptions
     {
         public string[] Providers { get; set; }
     }
@@ -21,12 +21,12 @@ namespace Orleankka.Legacy.Streams
     /// <remarks>
     /// This is done as storage provider due to initialization order inside Silo.DoStart()
     /// </remarks>
-    class StreamSubscriptionBootstrapper : IGrainStorage, ILifecycleParticipant<ISiloLifecycle>
+    class PersistentStreamProviderMatcher : IGrainStorage, ILifecycleParticipant<ISiloLifecycle>
     {
         public static IGrainStorage Create(IServiceProvider services, string name)
         {
-            var options = services.GetService<IOptionsSnapshot<StreamSubscriptionBootstrapperOptions>>().Get(name);
-            return new StreamSubscriptionBootstrapper(services, options.Providers);
+            var options = services.GetService<IOptionsSnapshot<PersistentStreamProviderMatcherOptions>>().Get(name);
+            return new PersistentStreamProviderMatcher(services, options.Providers);
         }
 
         readonly IActorSystem system;
@@ -34,7 +34,7 @@ namespace Orleankka.Legacy.Streams
         readonly StreamSubscriptionSpecificationRegistry subscriptions;
         readonly string[] providers;
 
-        StreamSubscriptionBootstrapper(IServiceProvider services, string[] providers)
+        PersistentStreamProviderMatcher(IServiceProvider services, string[] providers)
         {
             system = services.GetRequiredService<IActorSystem>();
             subscriptions = services.GetRequiredService<StreamSubscriptionSpecificationRegistry>();
@@ -45,13 +45,13 @@ namespace Orleankka.Legacy.Streams
 
         public void Participate(ISiloLifecycle lifecycle)
         {
-            lifecycle.Subscribe(OptionFormattingUtilities.Name<StreamSubscriptionBootstrapper>(), ServiceLifecycleStage.ApplicationServices, Init);
+            lifecycle.Subscribe(OptionFormattingUtilities.Name<PersistentStreamProviderMatcher>(), ServiceLifecycleStage.ApplicationServices, Init);
         }
 
         Task Init(CancellationToken cancellation)
         {
             StreamPubSubWrapper.Hook(services, providers, stream => 
-                StreamSubscriptionMatcher
+                StreamSubscriptionSpecification
                     .Match(system, stream.Id, subscriptions.Find(stream.Provider))
                     .Select(x => new StreamPubSubMatch(x.Receive))
                     .ToArray());

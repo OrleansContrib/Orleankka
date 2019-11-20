@@ -71,7 +71,8 @@ namespace Orleankka.Testing
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
                     .DirectClientActorRefMiddleware(new TestActorRefMiddleware()))
                 .UseOrleankkaLegacyFeatures(x => x
-                    .UseSimpleMessageStreamProvider("sms"));
+                    .AddSimpleMessageStreamProvider("sms")
+                    .RegisterPersistentStreamProviders("aqp"));
 
             var host = sb.Build();
             host.StartAsync().Wait();
