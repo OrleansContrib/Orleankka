@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Orleankka;
@@ -13,6 +14,8 @@ using Orleankka.Cluster;
 
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
@@ -189,9 +192,9 @@ namespace Example
             get; private set;
         }
 
-        public class Bootstrap : IBootstrapper
+        public class Bootstrap
         {
-            public async Task Run(IActorSystem system, object properties)
+            public static async Task Run()
             {
                 Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
                 await Connection.ConnectAsync();

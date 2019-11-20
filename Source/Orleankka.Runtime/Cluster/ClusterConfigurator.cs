@@ -28,9 +28,6 @@ namespace Orleankka.Cluster
 
         readonly HashSet<string> conventions = new HashSet<string>();
 
-        readonly HashSet<BootstrapProviderConfiguration> bootstrapProviders =
-             new HashSet<BootstrapProviderConfiguration>();
-
         readonly ActorInvocationPipeline pipeline = new ActorInvocationPipeline();
         
         IActorRefInvoker invoker;
@@ -69,16 +66,6 @@ namespace Orleankka.Cluster
         public ClusterConfigurator Assemblies(params Assembly[] assemblies)
         {
             registry.Register(assemblies, a => a.ActorTypes());
-
-            return this;
-        }
-
-        public ClusterConfigurator Bootstrapper<T>(object properties = null) where T : IBootstrapper
-        {
-            var configuration = new BootstrapProviderConfiguration(typeof(T), properties);
-
-            if (!bootstrapProviders.Add(configuration))
-                throw new ArgumentException($"Bootstrapper of the type {typeof(T)} has been already registered");
 
             return this;
         }
@@ -180,7 +167,6 @@ namespace Orleankka.Cluster
             generatedAssemblies.AddRange(RegisterTypes());
 
             RegisterStreamSubscriptions();
-            RegisterBootstrappers();
             RegisterBehaviors();
 
             return generatedAssemblies.ToArray();
@@ -189,12 +175,6 @@ namespace Orleankka.Cluster
         Assembly[] RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
 
         Assembly[] RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
-
-        void RegisterBootstrappers()
-        {
-            foreach (var each in bootstrapProviders)
-                each.Register(Configuration.Globals);
-        }
 
         void RegisterBehaviors()
         {

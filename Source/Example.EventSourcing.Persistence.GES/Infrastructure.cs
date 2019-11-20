@@ -171,9 +171,9 @@ namespace Example
             get; private set;
         }
 
-        public class Bootstrap : IBootstrapper
+        public class Bootstrap
         {
-            public async Task Run(IActorSystem system, object properties)
+            public static async Task Run()
             {
                 Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
                 await Connection.ConnectAsync();

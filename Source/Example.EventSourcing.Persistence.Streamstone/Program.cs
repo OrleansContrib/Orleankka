@@ -9,6 +9,8 @@ using Orleankka.Playground;
 
 using Microsoft.WindowsAzure.Storage;
 
+using Orleans.Hosting;
+
 namespace Example
 {
     public static class Program
@@ -28,11 +30,11 @@ namespace Example
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Cluster(x => x.Bootstrapper<SS.Bootstrap>(new SS.Properties
+                .Cluster(x => x.Builder(b => b.AddStartupTask((s, c) => SS.Bootstrap.Run(new SS.Properties
                 {
                     StorageAccount = account.ToString(true),
                     TableName = "ssexample"
-                }))
+                }))))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

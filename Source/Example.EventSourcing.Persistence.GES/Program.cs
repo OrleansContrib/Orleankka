@@ -6,6 +6,8 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
+using Orleans.Hosting;
+
 namespace Example
 {
     public static class Program
@@ -17,7 +19,7 @@ namespace Example
 
             var system = ActorSystem.Configure()
                 .Playground()
-                .Cluster(x => x.Bootstrapper<ES.Bootstrap>())
+                .Cluster(x => x.Builder(b => b.AddStartupTask((s, c) => ES.Bootstrap.Run())))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
