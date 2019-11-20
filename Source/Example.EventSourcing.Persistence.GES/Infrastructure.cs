@@ -168,16 +168,7 @@ namespace Example
     {
         public static IEventStoreConnection Connection
         {
-            get; private set;
-        }
-
-        public class Bootstrap
-        {
-            public static async Task Run()
-            {
-                Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
-                await Connection.ConnectAsync();
-            }
+            get; internal set;
         }
     }
 }

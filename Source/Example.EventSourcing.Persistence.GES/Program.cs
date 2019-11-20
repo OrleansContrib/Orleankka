@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using EventStore.ClientAPI;
 
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Playground;
 
-using Orleans.Hosting;
-
 namespace Example
 {
     public static class Program
     {   
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Make sure you've started local GES node using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
+            ES.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+            await ES.Connection.ConnectAsync();
+
             var system = ActorSystem.Configure()
                 .Playground()
-                .Cluster(x => x.Builder(b => b.AddStartupTask((s, c) => ES.Bootstrap.Run())))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

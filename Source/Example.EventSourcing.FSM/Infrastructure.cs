@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Cluster;
 
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Exceptions;
-
-using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
@@ -189,16 +184,7 @@ namespace Example
     {
         public static IEventStoreConnection Connection
         {
-            get; private set;
-        }
-
-        public class Bootstrap
-        {
-            public static async Task Run()
-            {
-                Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
-                await Connection.ConnectAsync();
-            }
+            get; internal set;
         }
     }
 }

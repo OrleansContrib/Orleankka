@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Cluster;
 
 using Streamstone;
 
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-
 using Newtonsoft.Json;
 
 namespace Example
@@ -176,24 +173,7 @@ namespace Example
     {
         public static CloudTable Table
         {
-            get; private set;
-        }
-
-        public class Bootstrap
-        {
-            public static Task Run(Properties properties)
-            {
-                var client = CloudStorageAccount.Parse(properties.StorageAccount).CreateCloudTableClient();
-                Table = client.GetTableReference(properties.TableName);
-                return Task.CompletedTask;
-            }
-        }
-
-        [Serializable]
-        public class Properties
-        {
-            public string StorageAccount;
-            public string TableName;
+            get; internal set;
         }
     }
 }

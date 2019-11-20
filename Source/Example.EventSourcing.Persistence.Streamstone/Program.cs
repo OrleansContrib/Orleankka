@@ -8,8 +8,7 @@ using Orleankka.Meta;
 using Orleankka.Playground;
 
 using Microsoft.WindowsAzure.Storage;
-
-using Orleans.Hosting;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Example
 {
@@ -26,15 +25,10 @@ namespace Example
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
             var account = CloudStorageAccount.DevelopmentStorageAccount;
-            SetupTable(account);
+            SS.Table = SetupTable(account);
 
             system = ActorSystem.Configure()
                 .Playground()
-                .Cluster(x => x.Builder(b => b.AddStartupTask((s, c) => SS.Bootstrap.Run(new SS.Properties
-                {
-                    StorageAccount = account.ToString(true),
-                    TableName = "ssexample"
-                }))))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 
@@ -57,7 +51,7 @@ namespace Example
             Environment.Exit(0);
         }
 
-        static void SetupTable(CloudStorageAccount account)
+        static CloudTable SetupTable(CloudStorageAccount account)
         {
             var table = account
                 .CreateCloudTableClient()
@@ -67,6 +61,8 @@ namespace Example
                 table.DeleteIfExistsAsync().Wait();
 
             table.CreateIfNotExistsAsync().Wait();
+
+            return table;
         }
 
         static async Task Run()
