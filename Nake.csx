@@ -31,8 +31,6 @@ var ReleasePath = @"{PackagePath}\Release";
 var AppVeyor = Var["APPVEYOR"] == "True";
 var GES = "EventStore-OSS-Win-v3.9.4";
 var Nuget = @"{RootPath}\Packages\NuGet.CommandLine\tools\Nuget.exe";
-var Vs17Versions = new [] {"Community", "Enterprise", "Professional"};
-var MsBuildExe = GetVisualStudio17MSBuild();
 
 /// Installs dependencies and builds sources in Debug mode
 [Task] void Default()
@@ -43,7 +41,7 @@ var MsBuildExe = GetVisualStudio17MSBuild();
 
 /// Builds sources using specified configuration and output path
 [Step] void Build(string config = "Debug", string outDir = OutputPath, bool verbose = false) => 
-    Exec(MsBuildExe, "{CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
+    Exec("dotnet", "msbuild {CoreProject}.sln /p:Configuration={config};OutDir=\"{outDir}\";ReferencePath=\"{outDir}\"" + (verbose ? "/v:d" : ""));
 
 /// Runs unit tests 
 [Step] void Test(string outDir = OutputPath, bool slow = false)
@@ -166,19 +164,4 @@ bool IsRunning(string processName)
 {
     var processes = Process.GetProcesses().Select(x => x.ProcessName).ToList();
     return (processes.Any(p => p == processName));
-}
-
-string GetVisualStudio17MSBuild()
-{
-    foreach (var each in Vs17Versions) 
-    {
-        var msBuildPath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\{each}\MSBuild\15.0\Bin\MSBuild.exe";
-        if (File.Exists(msBuildPath))
-            return msBuildPath;
-    }
-
-    Error("MSBuild not found!");
-    Exit();
-
-    return null;
 }

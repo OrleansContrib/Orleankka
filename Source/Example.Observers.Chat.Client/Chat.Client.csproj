@@ -8,6 +8,7 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject>Example.Program</StartupObject>
+    <AssemblyName>Example.Observers.Chat.Client</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Example.Observers.Chat.Shared\Chat.Shared.csproj" />

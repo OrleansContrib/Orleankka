@@ -5,6 +5,7 @@
     <RootNamespace>Example</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>Example.Observers.Chat.Client.Shared</AssemblyName>
   </PropertyGroup>
   
   <ItemGroup>
