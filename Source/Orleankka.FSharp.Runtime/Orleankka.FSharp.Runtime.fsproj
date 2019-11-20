@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Orleankka.FSharp</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>

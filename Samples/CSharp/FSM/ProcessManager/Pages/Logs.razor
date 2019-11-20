@@ -17,11 +17,10 @@
 </div>
 
 @functions {
-    ElementRef logPanel;
     StreamRef notifications;
     List<string> events = new List<string>();
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         notifications = ActorSystem.StreamOf("notifications", "copier");
         await notifications.Subscribe<JobEvent>(async e =>
@@ -30,7 +29,7 @@
                 events.RemoveAt(events.Count - 1);
 
             events.Add(e.ToString());
-            await base.Invoke(StateHasChanged);            
+            await InvokeAsync(StateHasChanged);            
         });
     }
 }
