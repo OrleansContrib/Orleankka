@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 using Orleans.Streams;
 using Orleans.Runtime.Configuration;
@@ -19,7 +18,6 @@ namespace Orleankka.Cluster
     using Core.Streams;
     using Behaviors;
     using Utility;
-    using Annotations;
 
     public sealed class ClusterConfigurator
     {
@@ -219,13 +217,6 @@ namespace Orleankka.Cluster
             var result = new ClusterConfiguration();
             result.Load(assembly.LoadEmbeddedResource(fullResourcePath));
             return result;
-        }
-
-        public static ClusterConfiguration DefaultKeepAliveTimeout(this ClusterConfiguration config, TimeSpan idle)
-        {
-            Requires.NotNull(config, nameof(config));
-            config.Globals.Application.SetDefaultCollectionAgeLimit(idle);
-            return config;
         }
     }
 }

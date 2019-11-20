@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Internals;
 using Orleans.Concurrency;
@@ -94,7 +93,6 @@ namespace Orleankka.Core
         public readonly int TypeCode;
         internal readonly Type Grain;
 
-        readonly TimeSpan keepAliveTimeout;
         readonly Func<object, bool> interleavePredicate;
         readonly string invoker;
         readonly Dispatcher dispatcher;
@@ -107,7 +105,6 @@ namespace Orleankka.Core
             TypeCode = grain.TypeCode();
             
             Sticky = StickyAttribute.IsApplied(@class);
-            keepAliveTimeout = Sticky ? TimeSpan.FromDays(365 * 10) : KeepAliveAttribute.Timeout(@class);
             interleavePredicate = Interleaving.MayInterleavePredicate(@class);
             invoker = InvokerAttribute.From(@class);
             
@@ -155,14 +152,6 @@ namespace Orleankka.Core
 
         static object UnwrapImmutable(object item) => 
             item is Immutable<object> ? ((Immutable<object>)item).Value : item;
-
-        internal void KeepAlive(Grain grain)
-        {
-            if (keepAliveTimeout == TimeSpan.Zero)
-                return;
-
-            grain.Runtime().DelayDeactivation(grain, keepAliveTimeout);
-        }
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
             StreamSubscriptionSpecification.From(Class, dispatcher);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -7,6 +8,9 @@ using Orleankka.Features.Stateful_actors;
 using Orleans.Runtime.Configuration;
 
 using Orleankka.Testing;
+
+using Orleans.Configuration;
+
 [assembly: TeardownSilo]
 
 namespace Orleankka.Testing
@@ -22,6 +26,7 @@ namespace Orleankka.Testing
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
+        [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
         public override void BeforeTest(ITest test)
         {
             if (!test.IsSuite)
@@ -37,7 +42,6 @@ namespace Orleankka.Testing
                     .Cluster(x =>
                     {
                         x.Configuration.Globals.CollectionQuantum = TimeSpan.FromSeconds(1);
-                        x.Configuration.DefaultKeepAliveTimeout(TimeSpan.FromMinutes(1));
                         x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
 
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
@@ -52,6 +56,13 @@ namespace Orleankka.Testing
                             });
 
                             b.AddStartupTask(Features.Autorun_actors.StartupTask.Run);
+
+                            b.Configure<GrainCollectionOptions>(o =>
+                            {
+                                o.CollectionAge = TimeSpan.FromMinutes(1);
+                                o.CollectionQuantum = TimeSpan.FromSeconds(10);
+                                o.ClassSpecificCollectionAge[typeof(Features.Keep_alive.TestActor).FullName] = TimeSpan.FromMinutes(2);
+                            });
                         });
 
                         x.RegisterPersistentStreamProviders("aqp");

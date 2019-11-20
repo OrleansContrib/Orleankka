@@ -2,29 +2,15 @@
 
         Actor instance;
         IActorInvoker invoker;
-
-        public Task Autorun()
-        {
-            KeepAlive();
-
-            return Task.CompletedTask;
-        }
-
-        public Task<object> Receive(object message)
-        {
-            KeepAlive();
-
-            return invoker.OnReceive(instance, message);
-        }
-
+        
+        // unused
+        public Task Autorun() => Task.CompletedTask;
+        public Task<object> Receive(object message) => invoker.OnReceive(instance, message);
         public Task ReceiveVoid(object message) => Receive(message);
-
         public Task Notify(object message) => Receive(message);
 
         async Task IRemindable.ReceiveReminder(string name, TickStatus status)
         {
-            KeepAlive();
-
             if (name == StickyReminderName)
                 return;
 
@@ -43,8 +29,6 @@
             var period = TimeSpan.FromMinutes(1);
             await RegisterOrUpdateReminder(StickyReminderName, period, period);
         }
-
-        void KeepAlive() => Actor.KeepAlive(this);
 
         public override async Task OnActivateAsync()
         {

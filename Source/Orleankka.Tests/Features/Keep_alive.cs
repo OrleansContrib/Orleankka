@@ -28,7 +28,7 @@ namespace Orleankka.Features
         public interface ITestActor : IActor
         { }
 
-        [KeepAlive(Minutes = 2)]
+        // GC age is set to 2 minutes via cluster config
         public class TestActor : Actor, ITestActor
         {
             bool reminded;

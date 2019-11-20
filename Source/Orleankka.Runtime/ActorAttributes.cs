@@ -86,29 +86,6 @@ namespace Orleankka
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class KeepAliveAttribute : Attribute
-    {
-        internal static TimeSpan Timeout(Type actor)
-        {
-            var attribute = actor.GetCustomAttribute<KeepAliveAttribute>(inherit: true);
-            if (attribute == null)
-                return TimeSpan.Zero;
-
-            var result = TimeSpan.FromHours(attribute.Hours)
-                .Add(TimeSpan.FromMinutes(attribute.Minutes));
-
-            if (result < TimeSpan.FromMinutes(1))
-                throw new ArgumentException(
-                    "Minimum activation GC timeout is 1 minute. Actor: " + actor);
-
-            return result;
-        }
-
-        public double Minutes;
-        public double Hours;
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
     public class StickyAttribute : Attribute
     {
         internal static bool IsApplied(Type actor) => 
