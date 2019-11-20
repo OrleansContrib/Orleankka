@@ -99,8 +99,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Runtime.Legacy", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{A996FEF3-9B45-4C3C-9FF0-614A51F5175D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.TestKit.Legacy", "Source\Orleankka.TestKit.Legacy\Orleankka.TestKit.Legacy.csproj", "{DF39BE5F-614A-4991-9105-3B32F9A6392A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,10 +233,6 @@ Global
 		{4B6DC915-C701-402C-B3C6-E7EB0E54F670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B6DC915-C701-402C-B3C6-E7EB0E54F670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B6DC915-C701-402C-B3C6-E7EB0E54F670}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF39BE5F-614A-4991-9105-3B32F9A6392A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF39BE5F-614A-4991-9105-3B32F9A6392A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF39BE5F-614A-4991-9105-3B32F9A6392A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF39BE5F-614A-4991-9105-3B32F9A6392A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -281,7 +275,6 @@ Global
 		{1B77BEF7-97D0-44FE-BB83-8413BDBA95B6} = {1AB8017D-8A6B-462B-95C9-02C881DD177F}
 		{BDE132A0-0174-4ECE-BC7E-25E39816ACD7} = {A996FEF3-9B45-4C3C-9FF0-614A51F5175D}
 		{4B6DC915-C701-402C-B3C6-E7EB0E54F670} = {A996FEF3-9B45-4C3C-9FF0-614A51F5175D}
-		{DF39BE5F-614A-4991-9105-3B32F9A6392A} = {A996FEF3-9B45-4C3C-9FF0-614A51F5175D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EF14123-7EA4-465F-8AC8-E0B952C1CAE1}
