@@ -104,7 +104,6 @@ namespace Orleankka.Core
             Grain = grain;
             TypeCode = grain.TypeCode();
             
-            Sticky = StickyAttribute.IsApplied(@class);
             interleavePredicate = Interleaving.MayInterleavePredicate(@class);
             invoker = InvokerAttribute.From(@class);
             
@@ -155,7 +154,5 @@ namespace Orleankka.Core
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
             StreamSubscriptionSpecification.From(Class, dispatcher);
-
-        internal bool Sticky { get; }
     }
 }

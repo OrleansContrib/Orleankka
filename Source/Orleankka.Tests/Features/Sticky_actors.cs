@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -23,13 +22,30 @@ namespace Orleankka.Features
         public interface ITestActor : IActor
         { }
 
-        [Sticky]
         public class TestActor : Actor, ITestActor
         {
+            const string StickyReminderName = "##sticky##";
+
+            async Task HandleStickyness()
+            {
+                var period = TimeSpan.FromMinutes(1);
+                await Reminders.Register(StickyReminderName, period, period);
+            }
+
+            public override async Task OnReminder(string id)
+            {
+                if (id == StickyReminderName)
+                    return;
+
+                await base.OnReminder(id);
+            }
+
             void On(Activate x) {}
 
             public override async Task OnActivate()
             {
+                await HandleStickyness();
+
                 var stream = System.StreamOf("sms", "sticky");
                 await stream.Push("alive!");
             }

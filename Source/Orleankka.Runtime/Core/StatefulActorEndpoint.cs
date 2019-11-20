@@ -18,8 +18,6 @@ namespace Orleankka.Core
     /// </summary>
     public abstract class StatefulActorEndpoint<TState> : Grain<TState>, IRemindable, IActorHost where TState : new()
     {
-        const string StickyReminderName = "##sticky##";
-
         Actor instance;
         IActorInvoker invoker;
         
@@ -29,13 +27,8 @@ namespace Orleankka.Core
         public Task ReceiveVoid(object message) => Receive(message);
         public Task Notify(object message) => Receive(message);
 
-        async Task IRemindable.ReceiveReminder(string name, TickStatus status)
-        {
-            if (name == StickyReminderName)
-                return;
-
+        async Task IRemindable.ReceiveReminder(string name, TickStatus status) => 
             await invoker.OnReminder(instance, name);
-        }
 
         public override Task OnDeactivateAsync()
         {
@@ -44,21 +37,7 @@ namespace Orleankka.Core
                 : base.OnDeactivateAsync();
         }
 
-        async Task HandleStickyness()
-        {
-            var period = TimeSpan.FromMinutes(1);
-            await RegisterOrUpdateReminder(StickyReminderName, period, period);
-        }
-
         public override async Task OnActivateAsync()
-        {
-            if (Actor.Sticky)
-                await HandleStickyness();
-
-            await Activate();
-        }
-
-        Task Activate()
         {
             var @interface = Actor.Interface.Mapping.CustomInterface;
             var path = ActorPath.For(@interface, IdentityOf(this));
@@ -71,7 +50,7 @@ namespace Orleankka.Core
             instance = Actor.Activate(this, path, runtime, activator);
             invoker = Actor.Invoker(system.Pipeline);
 
-            return invoker.OnActivate(instance);
+            await invoker.OnActivate(instance);
         }
 
         public IGrainRuntime Runtime => this.Runtime();

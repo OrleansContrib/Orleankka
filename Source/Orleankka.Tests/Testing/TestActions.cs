@@ -5,8 +5,6 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
 using Orleankka.Features.Stateful_actors;
-using Orleans.Runtime.Configuration;
-
 using Orleankka.Testing;
 
 using Orleans.Configuration;
@@ -15,7 +13,6 @@ using Orleans.Configuration;
 
 namespace Orleankka.Testing
 {
-    using Cluster;
     using Playground;
     using Utility;
     using Features.Intercepting_requests;
@@ -56,7 +53,7 @@ namespace Orleankka.Testing
                             });
 
                             b.AddStartupTask(Features.Autorun_actors.StartupTask.Run);
-
+                            
                             b.Configure<GrainCollectionOptions>(o =>
                             {
                                 o.CollectionAge = TimeSpan.FromMinutes(1);
