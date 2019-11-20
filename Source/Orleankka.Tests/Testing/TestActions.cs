@@ -50,6 +50,8 @@ namespace Orleankka.Testing
                             {
                                 options.Configure(c => c.ConnectionString = "UseDevelopmentStorage=true");
                             });
+
+                            b.AddStartupTask(Features.Autorun_actors.StartupTask.Run);
                         });
 
                         x.RegisterPersistentStreamProviders("aqp");
