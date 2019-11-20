@@ -179,7 +179,6 @@ namespace Orleankka.Cluster
             var generatedAssemblies = RegisterInterfaces().ToList();
             generatedAssemblies.AddRange(RegisterTypes());
 
-            RegisterAutoruns();
             RegisterStreamSubscriptions();
             RegisterBootstrappers();
             RegisterBehaviors();
@@ -190,20 +189,6 @@ namespace Orleankka.Cluster
         Assembly[] RegisterInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);
 
         Assembly[] RegisterTypes() => ActorType.Register(registry.Assemblies, conventions.Count > 0 ? conventions.ToArray() : null);
-
-        void RegisterAutoruns()
-        {
-            var autoruns = new Dictionary<string, string[]>();
-
-            foreach (var actor in registry.Assemblies.SelectMany(x => x.ActorTypes()))
-            {
-                var ids = AutorunAttribute.From(actor);
-                if (ids.Length > 0)
-                    autoruns.Add(ActorCustomInterface.Of(actor).AssemblyQualifiedName, ids);
-            }
-
-            Bootstrapper<AutorunBootstrapper>(autoruns);
-        }
 
         void RegisterBootstrappers()
         {
@@ -221,16 +206,6 @@ namespace Orleankka.Cluster
         {
             foreach (var actor in ActorType.Registered())
                 StreamSubscriptionMatcher.Register(actor.FullName, actor.Subscriptions());
-        }
-
-        [UsedImplicitly]
-        class AutorunBootstrapper : Bootstrapper<Dictionary<string, string[]>>
-        {
-            protected override Task Run(IActorSystem system, Dictionary<string, string[]> properties) =>
-                Task.WhenAll(properties.SelectMany(x => Autorun(system, x.Key, x.Value)));
-
-            static IEnumerable<Task> Autorun(IActorSystem system, string type, IEnumerable<string> ids) =>
-                ids.Select(id => system.ActorOf(ActorPath.For(Type.GetType(type), id)).Autorun());
         }
 
         public ClusterConfigurator UseInMemoryPubSubStore() => UseInMemoryGrainStore("PubSubStore");

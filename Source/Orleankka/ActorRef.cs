@@ -65,11 +65,6 @@ namespace Orleankka
             });
         }
 
-        internal Task Autorun()
-        {
-            return endpoint.Autorun();
-        }
-
         public bool Equals(ActorRef other)
         {
             return !ReferenceEquals(null, other) && (ReferenceEquals(this, other)
