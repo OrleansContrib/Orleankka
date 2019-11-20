@@ -2,21 +2,11 @@
 using System.Threading.Tasks;
 
 using Orleankka.Legacy.Behaviors;
-using Orleankka.TestKit;
 
 namespace Orleankka.Legacy.TestKit
 {
     public static class ActorBehaviorExtensions
     {
-        public static void Mock(this ActorBehavior behavior)
-        {
-            behavior.mocked = true;
-
-            var self = behavior.actor.Self as ActorRefMock;
-            if (self == null)
-                throw new InvalidOperationException("Actor runtime should be a mock as well");
-        }
-
         public static async Task Activate(this ActorBehavior behavior, Action action) => await Activate(behavior, action.Method.Name);
 
         public static async Task Activate(this ActorBehavior behavior, string name)

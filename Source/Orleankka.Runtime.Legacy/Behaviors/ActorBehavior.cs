@@ -83,7 +83,6 @@ namespace Orleankka.Legacy.Behaviors
             current = CustomBehavior.Null
         };
        
-        internal bool mocked;
         internal readonly Actor actor;
 
         CustomBehavior current;
