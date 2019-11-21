@@ -18,6 +18,7 @@ namespace Orleankka.Cluster
 {
     using Core;
     using Core.Streams;
+    using Facets;
     using Utility;
 
      public class ClusterActorSystem : ActorSystem, IDisposable
@@ -60,6 +61,10 @@ namespace Orleankka.Cluster
                     services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
 
                     services.TryAddSingleton<Func<IIncomingGrainCallContext, string>>(DashboardIntegration.Format);
+
+                    // storage feature facet attribute mapper
+                    services.AddSingleton(new StorageProviderFacet());
+                    services.AddSingleton(typeof(IAttributeToFactoryMapper<UseStorageProviderAttribute>), sp => new UseStorageProviderAttributeMapper(sp));
                 });
 
                 Register(sb, assemblies.Distinct());

@@ -15,16 +15,16 @@ namespace Orleankka
         {
             var instance = registeredActivator.Create(context);
 
-            if (instance is IActorLifecycleManager manager)
-                manager.Initialize(context);
+            if (instance is ActorEndpoint endpoint)
+                endpoint.Initialize(context);
 
             return instance;
         }
 
         public void Release(IGrainActivationContext context, object grain)
         {
-            if (grain is IActorLifecycleManager manager)
-                manager.Release(context);
+            if (grain is ActorEndpoint endpoint)
+                endpoint.Release(context);
 
             registeredActivator.Release(context, grain);
         }

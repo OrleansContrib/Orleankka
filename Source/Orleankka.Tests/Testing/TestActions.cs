@@ -4,10 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-using Orleankka.Features.Stateful_actors;
+using Orleankka.Features.Storage_provider_facet;
 using Orleankka.Testing;
 
 using Orleans.Configuration;
+using Orleans.Runtime;
+using Orleans.Storage;
 
 [assembly: TeardownSilo]
 
@@ -39,10 +41,12 @@ namespace Orleankka.Testing
                     .Cluster(x =>
                     {
                         x.Configuration.Globals.CollectionQuantum = TimeSpan.FromSeconds(1);
-                        x.Configuration.Globals.RegisterStorageProvider<TestActorStorageProvider>("Test");
-
+                        
                         x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
                         x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
+
+                        x.Services(services => services
+                            .AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name)));
 
                         x.Builder(b =>
                         {

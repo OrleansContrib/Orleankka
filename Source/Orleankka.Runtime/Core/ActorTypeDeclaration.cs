@@ -133,15 +133,7 @@ namespace Orleankka.Core
             if (mayInterleave)
                 src.AppendLine("[MayInterleave(\"MayInterleave\")]");
 
-            string impl = $"Orleankka.Core.ActorEndpoint<I{clazz}>";
-            if (IsStateful())
-            {
-                var stateType = GetStateArgument();
-                var stateTypeFullName = stateType.FullName.Replace("+", ".");
-                impl = $"Orleankka.Core.StatefulActorEndpoint<I{clazz}, global::{stateTypeFullName}>";
-                references.Add(stateType.Assembly);
-            }
-
+            var impl = $"Orleankka.Core.ActorEndpoint<I{clazz}>";
             src.AppendLine($"public class {clazz} : global::{impl}, I{clazz} {{");
             src.AppendLine($"public static bool MayInterleave(InvokeMethodRequest req) => type.MayInterleave(req);");
             src.AppendLine("}");
@@ -260,19 +252,6 @@ namespace Orleankka.Core
                 return $"{p.GetValue(obj)}f";
 
             return null;
-        }
-
-        bool IsStateful() => typeof(IStatefulActor).IsAssignableFrom(actor);
-
-        Type GetStateArgument()
-        {
-            var current = actor;
-            while (current.BaseType != null && 
-                current.BaseType.GetGenericTypeDefinition() != typeof(StatefulActor<>))
-                current = current.BaseType;
-
-            Debug.Assert(current.BaseType != null);
-            return current.BaseType.GetGenericArguments()[0];
         }
 
         class GenerateResult

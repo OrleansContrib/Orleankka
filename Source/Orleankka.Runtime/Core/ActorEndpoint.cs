@@ -14,7 +14,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost, IActorLifecycleManager
+    public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
     {
         Actor instance;
         IActorInvoker invoker;
