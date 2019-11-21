@@ -75,9 +75,8 @@ namespace Orleankka.Features
         [MayInterleave(nameof(Interleave))]
         public class TestReentrantStreamConsumerActor : DispatchActorGrain, ITestReentrantStreamConsumerActor
         {
-            public static bool Interleave(InvokeMethodRequest req) => req.Any(
-                typeof(GetStreamMessagesInProgress), 
-                typeof(int)); // 1-st stream message type
+            public static bool Interleave(InvokeMethodRequest req) => 
+                req.Message(x => x is GetStreamMessagesInProgress || x is int); // int is 1-st stream message type
 
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;

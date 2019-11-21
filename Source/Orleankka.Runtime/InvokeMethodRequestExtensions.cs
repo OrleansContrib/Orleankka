@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
@@ -8,13 +7,8 @@ namespace Orleankka
 {
     public static class InvokeMethodRequestExtensions
     {
-        public static bool Any(this InvokeMethodRequest request, params Type[] messages)
-        {
-            var message = request.Message().GetType();
-            return messages.Any(x => x == message);
-        }
-
-        public static T Message<T>(this InvokeMethodRequest request) => (T) request.Message();
+        public static bool Message(this InvokeMethodRequest request, Func<object, bool> predicate) => 
+            predicate(request.Message());
 
         public static object Message(this InvokeMethodRequest request)
         {
@@ -30,6 +24,6 @@ namespace Orleankka
         }
 
         static object UnwrapImmutable(object item) => 
-            item is Immutable<object> ? ((Immutable<object>)item).Value : item;
+            item is Immutable<object> immutable ? immutable.Value : item;
     }
 }
