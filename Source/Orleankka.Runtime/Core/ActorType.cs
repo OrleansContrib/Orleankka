@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans.CodeGeneration;
 using Orleans.Internals;
 using Orleans.Concurrency;
+using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
@@ -95,7 +98,7 @@ namespace Orleankka.Core
 
         readonly Func<object, bool> interleavePredicate;
         readonly string invoker;
-        readonly Dispatcher dispatcher;
+        internal readonly Dispatcher dispatcher;
 
         internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
         {
@@ -120,13 +123,6 @@ namespace Orleankka.Core
 
             Debug.Assert(field != null);
             field.SetValue(null, this);
-        }
-
-        internal Actor Activate(IActorHost host, ActorPath path, IActorRuntime runtime, IActorActivator activator)
-        {
-            var instance = activator.Activate(Class, path.Id, runtime, dispatcher);
-            instance.Initialize(host, path, runtime, dispatcher);
-            return instance;
         }
 
         internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 

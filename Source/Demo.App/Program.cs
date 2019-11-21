@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.Runtime;
 
 namespace Demo
 {
@@ -35,7 +36,7 @@ namespace Demo
                     .Cluster(c => c
                         .Builder(b => b.UseDashboard(_ => {}))
                         .Services(s => s
-                            .AddSingleton<IActorActivator>(activator)))
+                            .AddSingleton<IGrainActivator>(activator)))
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 

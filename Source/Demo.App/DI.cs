@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Orleankka;
 using Microsoft.WindowsAzure.Storage;
 
+using Orleans.Runtime;
+
 namespace Demo
 {
     class Options
@@ -11,7 +13,7 @@ namespace Demo
         public CloudStorageAccount Account;
     }
 
-    class DI : IActorActivator
+    class DI : IGrainActivator
     {
         ITopicStorage storage;
 
@@ -20,8 +22,11 @@ namespace Demo
             storage = await TopicStorage.Init(options.Account);
         }
 
-        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public object Create(IGrainActivationContext context)
         {
+            var type = context.GrainType;
+            var id = context.GrainIdentity.PrimaryKeyString;
+
             if (type == typeof(Api))
                 return new Api(new ObserverCollection(), ApiWorkerFactory.Create(id));
 
@@ -30,5 +35,7 @@ namespace Demo
 
             throw new InvalidOperationException($"Unknown actor type: {type}");
         }
+
+        public void Release(IGrainActivationContext context, object grain) {}
     }
 }

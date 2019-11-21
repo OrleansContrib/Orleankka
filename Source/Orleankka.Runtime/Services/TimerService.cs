@@ -138,15 +138,15 @@ namespace Orleankka.Services
     class TimerService : ITimerService
     {
         readonly IDictionary<string, IDisposable> timers = new Dictionary<string, IDisposable>();
-        readonly ITimerRegistry registry;
         readonly Grain grain;
 
         internal TimerService(Grain grain)
         {
             this.grain = grain;
-            this.registry = grain.Runtime().TimerRegistry;
         }
 
+        ITimerRegistry Registry => grain.Runtime().TimerRegistry;
+        
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
             ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), async () =>
@@ -158,7 +158,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback(), null, due, period));
+            timers.Add(id, Registry.RegisterTimer(grain, async s => await callback(), null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
@@ -172,7 +172,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback((TState) s), state, due, period));
+            timers.Add(id, Registry.RegisterTimer(grain, async s => await callback((TState) s), state, due, period));
         }
 
         void ITimerService.Unregister(string id)

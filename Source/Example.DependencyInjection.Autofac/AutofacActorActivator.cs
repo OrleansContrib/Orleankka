@@ -2,14 +2,19 @@ using System;
 using Orleankka;
 using Autofac;
 
+using Orleans.Runtime;
+
 namespace Example
 {
-    public sealed class AutofacActorActivator : IActorActivator
+    public sealed class AutofacActorActivator : IGrainActivator
     {
         readonly IContainer container;
+        readonly DefaultGrainActivator @default;
 
-        public AutofacActorActivator(Action<ContainerBuilder> setup)
+        public AutofacActorActivator(IServiceProvider services, Action<ContainerBuilder> setup)
         {
+            @default = new DefaultGrainActivator(services);
+
             if (setup == null)
                 throw new ArgumentNullException(
                     nameof(setup), "Expected setup action of type Action<ContainerBuilder>");
@@ -20,11 +25,17 @@ namespace Example
             container = builder.Build();
         }
 
-        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public object Create(IGrainActivationContext context)
         {
-            return (Actor) container.Resolve(type, 
-                new NamedParameter("id", id), 
-                new TypedParameter(typeof(IActorRuntime), runtime));
+            return typeof(Actor).IsAssignableFrom(context.GrainType)
+                    ? container.Resolve(context.GrainType)
+                    : @default.Create(context);
+        }
+
+        public void Release(IGrainActivationContext context, object grain)
+        {
+            if (!typeof(Actor).IsAssignableFrom(context.GrainType))
+                @default.Release(context, grain);
         }
     }
 }

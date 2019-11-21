@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleankka;
 using Orleankka.Playground;
 
+using Orleans.Runtime;
+
 namespace Example
 {
     class Program
@@ -31,7 +33,7 @@ namespace Example
                 .Playground()
                 .Cluster(c => c
                     .Services(s => s
-                        .AddSingleton<IActorActivator>(new AutofacActorActivator(setup))))
+                        .AddSingleton<IGrainActivator>(services => new AutofacActorActivator(services, setup))))
                 .Assemblies(Assembly.GetExecutingAssembly())
                 .Done();
 

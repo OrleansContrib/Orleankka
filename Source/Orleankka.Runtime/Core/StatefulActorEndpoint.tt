@@ -17,7 +17,7 @@ namespace Orleankka.Core
     /// <summary> 
     /// FOR INTERNAL USE ONLY!
     /// </summary>
-    public abstract class StatefulActorEndpoint<TState> : Grain<TState>, IRemindable, IActorHost where TState : new()
+    public abstract class StatefulActorEndpoint<TState> : Grain<TState>, IRemindable, IActorHost, IActorLifecycleManager where TState : new()
     {
 <#@ include file="ActorEndpoint.Common.cs" #>
 

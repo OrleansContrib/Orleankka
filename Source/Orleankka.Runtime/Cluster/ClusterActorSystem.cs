@@ -49,14 +49,17 @@ namespace Orleankka.Cluster
 
                 sb.ConfigureServices(services =>
                 {
+                    di?.Invoke(services);
+
                     BootStreamSubscriptions(services, persistentStreamProviders);
 
                     services.AddSingleton<IActorSystem>(this);
                     services.AddSingleton(this);
-                    services.TryAddSingleton<IActorActivator>(x => new DefaultActorActivator(x));
-                    services.TryAddSingleton<Func<IIncomingGrainCallContext, string>>(DashboardIntegration.Format);
 
-                    di?.Invoke(services);
+                    services.TryAdd(new ServiceDescriptor(typeof(IGrainActivator), sp => new DefaultGrainActivator(sp), ServiceLifetime.Singleton));
+                    services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
+
+                    services.TryAddSingleton<Func<IIncomingGrainCallContext, string>>(DashboardIntegration.Format);
                 });
 
                 Register(sb, assemblies.Distinct());

@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Orleankka.Core;
 
 namespace Orleankka
 {
-    using Core;
+    using Orleans.Runtime;
 
-    public interface IActorActivator
+    class ActorGrainActivator : IGrainActivator
     {
-        Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher);
-    }
+        readonly IGrainActivator registeredActivator;
 
-    class DefaultActorActivator : IActorActivator
-    {
-        readonly IServiceProvider services;
+        public ActorGrainActivator(IGrainActivator registeredActivator) => 
+            this.registeredActivator = registeredActivator;
 
-        readonly Dictionary<Type, ObjectFactory> factories = 
-             new Dictionary<Type, ObjectFactory>();
-
-        public DefaultActorActivator(IServiceProvider services)
+        public object Create(IGrainActivationContext context)
         {
-            this.services = services;
+            var instance = registeredActivator.Create(context);
 
-            foreach (var type in ActorType.Registered())
-                factories.Add(type.Class, ActivatorUtilities.CreateFactory(type.Class, Type.EmptyTypes));
+            if (instance is IActorLifecycleManager manager)
+                manager.Initialize(context);
+
+            return instance;
         }
 
-        public Actor Activate(Type type, string id, IActorRuntime runtime, Dispatcher dispatcher)
+        public void Release(IGrainActivationContext context, object grain)
         {
-            var factory = factories[type];
-            return (Actor) factory(services, null);
+            if (grain is IActorLifecycleManager manager)
+                manager.Release(context);
+
+            registeredActivator.Release(context, grain);
         }
     }
 }

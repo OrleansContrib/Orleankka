@@ -59,21 +59,23 @@ namespace Orleankka.Services
     class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly IReminderRegistry registry;
+        readonly Grain grain;
 
         internal ReminderService(Grain grain)
         {
-            registry = grain.Runtime().ReminderRegistry;
+            this.grain = grain;
         }
+        
+        IReminderRegistry Registry => grain.Runtime().ReminderRegistry;
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            reminders[id] = await registry.RegisterOrUpdateReminder(id, due, period);
+            reminders[id] = await Registry.RegisterOrUpdateReminder(id, due, period);
         }
 
         async Task IReminderService.Unregister(string id)
         {
-            var reminder = reminders.Find(id) ?? await registry.GetReminder(id);
+            var reminder = reminders.Find(id) ?? await Registry.GetReminder(id);
             
             if (reminder != null)
                 await TryUnregisterReminder(reminder);
@@ -85,11 +87,11 @@ namespace Orleankka.Services
         {
             try
             {
-                await registry.UnregisterReminder(reminder);
+                await Registry.UnregisterReminder(reminder);
             }
             catch (ReminderException)
             {
-                var fresh = await registry.GetReminder(reminder.ReminderName);
+                var fresh = await Registry.GetReminder(reminder.ReminderName);
                 if (fresh == null)
                     return;
 
@@ -99,12 +101,12 @@ namespace Orleankka.Services
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            return reminders.ContainsKey(id) || (await registry.GetReminder(id)) != null;
+            return reminders.ContainsKey(id) || (await Registry.GetReminder(id)) != null;
         }
 
         async Task<IEnumerable<string>> IReminderService.Registered()
         {
-            return (await registry.GetReminders()).Select(x => x.ReminderName);
+            return (await Registry.GetReminders()).Select(x => x.ReminderName);
         }
     }
 }
