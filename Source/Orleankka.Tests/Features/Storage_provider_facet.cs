@@ -43,7 +43,7 @@ namespace Orleankka.Features
 
             public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
             {
-                var state = new TestState {Data = $"fromStorage-{name}-{grainReference.GetPrimaryKeyString()}"};
+                var state = new TestState {Data = $"fromStorage-{grainType}-{name}-{grainReference.GetPrimaryKeyString()}"};
                 grainState.State = state;
                 return Task.CompletedTask;
             }
@@ -71,7 +71,7 @@ namespace Orleankka.Features
                 
                 var state = await actor.Ask<string>(new GetState());
                 
-                Assert.AreEqual($"fromStorage-test-{actor.Path.Id}", state);
+                Assert.AreEqual($"fromStorage-Orleankka.Features.Storage_provider_facet.TestActor-test-{actor.Path.Id}", state);
             }
         }
     }
