@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using Orleans.CodeGeneration;
 using Orleans.Internals;
 using Orleans.Concurrency;
 
@@ -13,7 +14,7 @@ namespace Orleankka
     
     class Interleaving
     {
-        internal static Func<object, bool> MayInterleavePredicate(Type actor)
+        internal static Func<InvokeMethodRequest, bool> MayInterleavePredicate(Type actor)
         {
             bool reentrant;
             return MayInterleavePredicate(actor, out reentrant);
@@ -26,7 +27,7 @@ namespace Orleankka
             return reentrant;
         }
 
-        static Func<object, bool> MayInterleavePredicate(Type actor, out bool reentrant)
+        static Func<InvokeMethodRequest, bool> MayInterleavePredicate(Type actor, out bool reentrant)
         {
             reentrant = false;
 
@@ -53,7 +54,7 @@ namespace Orleankka
                 : null;
         }
 
-        static Func<object, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
+        static Func<InvokeMethodRequest, bool> DeterminedByCallbackMethod(Type actor, string callbackMethod)
         {
             var method = actor.GetMethod(callbackMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (method == null)
@@ -63,15 +64,15 @@ namespace Orleankka
 
             if (method.ReturnType != typeof(bool) ||
                 method.GetParameters().Length != 1 ||
-                method.GetParameters()[0].ParameterType != typeof(object))
+                method.GetParameters()[0].ParameterType != typeof(InvokeMethodRequest))
                 throw new InvalidOperationException(
                     $"Wrong signature of callback method {callbackMethod} " +
-                    $"specified in Reentrant[] attribute for actor class {actor.FullName}. \n" +
-                    $"Expected: [public] static bool {callbackMethod}(object msg)");
+                    $"specified in MayInterleave[] attribute for actor class {actor.FullName}. \n" +
+                    $"Expected: [public] static bool {callbackMethod}(InvokeMethodRequest req)");
 
-            var parameter = Expression.Parameter(typeof(object));
+            var parameter = Expression.Parameter(typeof(InvokeMethodRequest));
             var call = Expression.Call(null, method, parameter);
-            var predicate = Expression.Lambda<Func<object, bool>>(call, parameter).Compile();
+            var predicate = Expression.Lambda<Func<InvokeMethodRequest, bool>>(call, parameter).Compile();
 
             return predicate;
         }

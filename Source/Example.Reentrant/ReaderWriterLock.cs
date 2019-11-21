@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Example
@@ -26,7 +27,7 @@ namespace Example
     [MayInterleave(nameof(IsReentrant))]
     public class ReaderWriterLock : Actor, IReaderWriterLock
     {
-        public static bool IsReentrant(object msg) => msg is Read;
+        public static bool IsReentrant(InvokeMethodRequest req) => req.Message(x => x is Read);
         
         int value;
         ConsolePosition indicator;

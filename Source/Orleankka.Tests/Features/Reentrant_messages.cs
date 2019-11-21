@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
+
+using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Orleankka.Features
@@ -39,7 +41,7 @@ namespace Orleankka.Features
         [MayInterleave(nameof(IsReentrant))]
         class TestActor : Actor, ITestActor
         {
-            public static bool IsReentrant(object msg) => msg is ReentrantMessage;
+            public static bool IsReentrant(InvokeMethodRequest req) => req.Message(x => x is ReentrantMessage);
 
             readonly ActorState state = new ActorState();
 
@@ -73,7 +75,8 @@ namespace Orleankka.Features
         [MayInterleave(nameof(IsReentrant))]
         class TestReentrantStreamConsumerActor : Actor, ITestReentrantStreamConsumerActor
         {
-            public static bool IsReentrant(object msg) => msg is GetStreamMessagesInProgress || msg is int;
+            public static bool IsReentrant(InvokeMethodRequest req) => 
+                req.Message(x => x is GetStreamMessagesInProgress || x is int);
 
             readonly List<object> streamMessagesInProgress = new List<object>();
             List<object> On(GetStreamMessagesInProgress x) => streamMessagesInProgress;

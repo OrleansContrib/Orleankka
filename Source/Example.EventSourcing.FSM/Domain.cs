@@ -4,6 +4,7 @@ using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Behaviors;
 
+using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Example
@@ -14,7 +15,7 @@ namespace Example
     [MayInterleave(nameof(IsReentrant))]
     public class InventoryItem : EventSourcedFsmActor, IInventoryItem
     {
-        public static bool IsReentrant(object msg) => msg is GetDetails;
+        public static bool IsReentrant(InvokeMethodRequest req) => req.Message(x => x is GetDetails);
 
         string name;
         int total;

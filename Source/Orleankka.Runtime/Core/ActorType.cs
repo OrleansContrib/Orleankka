@@ -4,12 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using Orleans.CodeGeneration;
 using Orleans.Internals;
-using Orleans.Concurrency;
-using Orleans.Runtime;
 
 namespace Orleankka.Core
 {
@@ -96,7 +92,7 @@ namespace Orleankka.Core
         public readonly int TypeCode;
         internal readonly Type Grain;
 
-        readonly Func<object, bool> interleavePredicate;
+        readonly Func<InvokeMethodRequest, bool> interleavePredicate;
         readonly string invoker;
         internal readonly Dispatcher dispatcher;
 
@@ -132,21 +128,7 @@ namespace Orleankka.Core
         /// FOR INTERNAL USE ONLY!
         /// </summary>
         [UsedImplicitly]
-        public bool MayInterleave(InvokeMethodRequest request)
-        {
-            if (request?.Arguments == null)
-                return false;
-
-            var receiveMessage = request.Arguments.Length == 1;
-            if (receiveMessage)
-                return interleavePredicate(UnwrapImmutable(request.Arguments[0]));
-
-            var streamMessage = request.Arguments.Length == 5;
-            return streamMessage && interleavePredicate(UnwrapImmutable(request.Arguments[2]));
-        }
-
-        static object UnwrapImmutable(object item) => 
-            item is Immutable<object> ? ((Immutable<object>)item).Value : item;
+        public bool MayInterleave(InvokeMethodRequest request) => interleavePredicate(request);
 
         internal IEnumerable<StreamSubscriptionSpecification> Subscriptions() => 
             StreamSubscriptionSpecification.From(Class, dispatcher);
