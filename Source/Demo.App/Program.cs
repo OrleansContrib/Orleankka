@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Orleankka;
 using Orleankka.Embedded;
@@ -17,16 +18,11 @@ namespace Demo
     {
         static Client client;
 
-        public static void Main()
+        public static async Task Main()
         {
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
 
-            var options = new Options {
-                Account = CloudStorageAccount.DevelopmentStorageAccount
-            };
-
-            var activator = new DI();
-            activator.Init(options).Wait();
+            var storage = await TopicStorage.Init(CloudStorageAccount.DevelopmentStorageAccount);
 
             EmbeddedActorSystem system;
             using (Trace.Execution("Full system startup"))
@@ -36,7 +32,8 @@ namespace Demo
                     .Cluster(c => c
                         .Builder(b => b.UseDashboard(_ => {}))
                         .Services(s => s
-                            .AddSingleton<IGrainActivator>(activator)))
+                            .AddSingleton<ITopicStorage>(storage)
+                            .AddSingleton<IGrainActivator>(sp => new DI(sp))))
                     .Assemblies(typeof(Api).Assembly)
                     .Done();
 
