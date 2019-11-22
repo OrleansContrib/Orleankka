@@ -23,7 +23,7 @@ namespace Orleankka.Cluster
 
      public class ClusterActorSystem : ActorSystem, IDisposable
     {
-        internal readonly ActorInvocationPipeline Pipeline;
+        internal readonly ActorMiddlewarePipeline Pipeline;
 
         internal ClusterActorSystem(
             ClusterConfiguration configuration,
@@ -32,9 +32,9 @@ namespace Orleankka.Cluster
             Assembly[] assemblies,
             Assembly[] generated,
             Action<IServiceCollection> di,
-            ActorInvocationPipeline pipeline,
-            IActorRefInvoker invoker)
-            : base(invoker)
+            ActorMiddlewarePipeline pipeline,
+            IActorRefMiddleware middleware)
+            : base(middleware)
         {
             Pipeline = pipeline;
 

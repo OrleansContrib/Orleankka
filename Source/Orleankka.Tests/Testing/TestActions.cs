@@ -42,8 +42,8 @@ namespace Orleankka.Testing
                     {
                         x.Configuration.Globals.CollectionQuantum = TimeSpan.FromSeconds(1);
                         
-                        x.ActorInvoker("test_actor_interception", new TestActorInterceptionInvoker());
-                        x.ActorInvoker("test_stream_interception", new TestStreamInterceptionInvoker());
+                        x.ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware());
+                        x.ActorRefMiddleware(new TestActorRefMiddleware());
 
                         x.Services(services => services
                             .AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name)));
@@ -70,7 +70,7 @@ namespace Orleankka.Testing
                     })
                     .Client(x =>
                     {
-                        x.ActorRefInvoker(new TestActorRefInvoker());
+                        x.ActorRefMiddleware(new TestActorRefMiddleware());
 
                         x.Builder(b =>
                         {

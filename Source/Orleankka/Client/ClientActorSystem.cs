@@ -45,8 +45,8 @@ namespace Orleankka.Client
             Assembly[] assemblies,
             Assembly[] generated,
             Action<IServiceCollection> di,
-            IActorRefInvoker invoker) 
-            : base(invoker)
+            IActorRefMiddleware middleware) 
+            : base(middleware)
         {
             this.configuration = configuration;
             this.builder = builder;

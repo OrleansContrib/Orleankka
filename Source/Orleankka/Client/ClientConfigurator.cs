@@ -20,7 +20,7 @@ namespace Orleankka.Client
              new ActorInterfaceRegistry();
 
         Action<IServiceCollection> di;
-        IActorRefInvoker invoker;
+        IActorRefMiddleware middleware;
         Action<IClientBuilder> builder;
 
         internal ClientConfigurator()
@@ -63,17 +63,17 @@ namespace Orleankka.Client
         }
 
         /// <summary>
-        /// Registers global <see cref="ActorRef"/> invoker (interceptor)
+        /// Registers global <see cref="ActorRef"/> middleware (interceptor)
         /// </summary>
-        /// <param name="invoker">The invoker.</param>
-        public ClientConfigurator ActorRefInvoker(IActorRefInvoker invoker)
+        /// <param name="middleware">The middleware.</param>
+        public ClientConfigurator ActorRefMiddleware(IActorRefMiddleware middleware)
         {
-            Requires.NotNull(invoker, nameof(invoker));
+            Requires.NotNull(middleware, nameof(middleware));
 
-            if (this.invoker != null)
-                throw new InvalidOperationException("ActorRef invoker has been already registered");
+            if (this.middleware != null)
+                throw new InvalidOperationException("ActorRef middleware has been already registered");
 
-            this.invoker = invoker;
+            this.middleware = middleware;
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace Orleankka.Client
         {
             var generatedAssemblies = RegisterActorInterfaces();
 
-            return new ClientActorSystem(Configuration, builder, registry.Assemblies, generatedAssemblies, di, invoker);
+            return new ClientActorSystem(Configuration, builder, registry.Assemblies, generatedAssemblies, di, middleware);
         }
 
         Assembly[] RegisterActorInterfaces() => ActorInterface.Register(registry.Assemblies, registry.Mappings);

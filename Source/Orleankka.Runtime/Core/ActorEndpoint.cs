@@ -1,9 +1,7 @@
-using System;
 using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Runtime;
-using Orleans.Internals;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +15,7 @@ namespace Orleankka.Core
     public abstract class ActorEndpoint : Grain, IRemindable, IActorHost
     {
         Actor instance;
-        IActorInvoker invoker;
+        IActorMiddleware middleware;
         ActorActivationContext ctx;
 
         public void Initialize(IGrainActivationContext context)
@@ -25,7 +23,7 @@ namespace Orleankka.Core
             ctx = new ActorActivationContext(context, Actor.Class);
 
             var system = context.ActivationServices.GetRequiredService<ClusterActorSystem>();
-            invoker = Actor.Invoker(system.Pipeline);
+            middleware = Actor.Middleware(system.Pipeline);
 
             var @interface = Actor.Interface.Mapping.CustomInterface;
             var path = ActorPath.For(@interface, context.GrainIdentity.PrimaryKeyString);
@@ -44,15 +42,37 @@ namespace Orleankka.Core
 
         // unused
         public Task Autorun() => Task.CompletedTask;
-        public Task<object> Receive(object message) => invoker.OnReceive(instance, message);
-        public Task ReceiveVoid(object message) => Receive(message);
         public Task Notify(object message) => Receive(message);
+        public Task ReceiveVoid(object message) => Receive(message);
+        
+        public Task<object> Receive(object message) => middleware.Receive(instance, message, instance.OnReceive);
 
-        async Task IRemindable.ReceiveReminder(string name, TickStatus status) => 
-        await invoker.OnReminder(instance, name);
+        async Task IRemindable.ReceiveReminder(string name, TickStatus status)
+        {
+            await middleware.Receive(instance, new Reminder(name, status), async x =>
+            {
+                await instance.OnReminder(((Reminder) x).Name);
+                return Done.Result;
+            });
+        }
 
-        public override Task OnDeactivateAsync() => invoker.OnDeactivate(instance);
-        public override Task OnActivateAsync() => invoker.OnActivate(instance);
+        public override async Task OnActivateAsync()
+        {
+            await middleware.Receive(instance, Activate.Message, async _ =>
+            {
+                await instance.OnActivate();
+                return Done.Result;
+            });
+        }
+
+        public override async Task OnDeactivateAsync()
+        {
+            await middleware.Receive(instance, Deactivate.Message, async _ =>
+            {
+                await instance.OnDeactivate();
+                return Done.Result;
+            });
+        }
 
         protected abstract ActorType Actor { get; }  
     }

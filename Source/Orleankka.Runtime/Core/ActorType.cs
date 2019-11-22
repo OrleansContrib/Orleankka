@@ -93,7 +93,6 @@ namespace Orleankka.Core
         internal readonly Type Grain;
 
         readonly Func<InvokeMethodRequest, bool> interleavePredicate;
-        readonly string invoker;
         internal readonly Dispatcher dispatcher;
 
         internal ActorType(Type @class, ActorInterface @interface, Type grain, string[] conventions)
@@ -104,7 +103,6 @@ namespace Orleankka.Core
             TypeCode = grain.TypeCode();
             
             interleavePredicate = Interleaving.MayInterleavePredicate(@class);
-            invoker = InvokerAttribute.From(@class);
             
             dispatcher = new Dispatcher(@class, conventions);
             dispatchers.Add(@class, dispatcher);
@@ -121,8 +119,7 @@ namespace Orleankka.Core
             field.SetValue(null, this);
         }
 
-        internal IActorInvoker Invoker(ActorInvocationPipeline pipeline) => 
-            pipeline.GetInvoker(Class, invoker);
+        internal IActorMiddleware Middleware(ActorMiddlewarePipeline pipeline) => pipeline.Middleware(Class);
 
         /// <summary> 
         /// FOR INTERNAL USE ONLY!

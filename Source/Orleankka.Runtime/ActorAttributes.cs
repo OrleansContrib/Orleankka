@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,8 +9,6 @@ using Orleans.Concurrency;
 
 namespace Orleankka
 {
-    using Utility;
-    
     class Interleaving
     {
         internal static Func<InvokeMethodRequest, bool> MayInterleavePredicate(Type actor)
@@ -84,21 +81,6 @@ namespace Orleankka
         public string Source;		
         public string Target;		
         public string Filter;		
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class InvokerAttribute : Attribute
-    {
-        internal static string From(Type actor) => 
-            actor.GetCustomAttribute<InvokerAttribute>(inherit: true)?.Name;
-
-        public readonly string Name;
-
-        public InvokerAttribute(string name)
-        {
-            Requires.NotNullOrWhitespace(name, nameof(name));
-            Name = name;
-        }
     }
 
     [AttributeUsage(AttributeTargets.Method)]
