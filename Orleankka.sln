@@ -95,7 +95,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager", "Samples\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleans.Internals", "Source\Orleans.Internals\Orleans.Internals.csproj", "{BDE132A0-0174-4ECE-BC7E-25E39816ACD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Runtime.Legacy", "Source\Orleankka.Runtime.Legacy\Orleankka.Runtime.Legacy.csproj", "{4B6DC915-C701-402C-B3C6-E7EB0E54F670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Legacy.Runtime", "Source\Orleankka.Legacy.Runtime\Orleankka.Legacy.Runtime.csproj", "{4B6DC915-C701-402C-B3C6-E7EB0E54F670}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{A996FEF3-9B45-4C3C-9FF0-614A51F5175D}"
 EndProject
