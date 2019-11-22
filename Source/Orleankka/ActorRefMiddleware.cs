@@ -2,11 +2,9 @@
 
 namespace Orleankka
 {
-    using System;
-
     public interface IActorRefMiddleware
     {
-        Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> sender);
+        Task<TResult> Send<TResult>(ActorPath actor, object message, Receive sender);
     }
 
     public abstract class ActorRefMiddleware : IActorRefMiddleware
@@ -16,7 +14,7 @@ namespace Orleankka
         protected ActorRefMiddleware(IActorRefMiddleware next = null) => 
             this.next = next ?? DefaultActorRefMiddleware.Instance;
 
-        public virtual Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> sender) => 
+        public virtual Task<TResult> Send<TResult>(ActorPath actor, object message, Receive sender) => 
             next.Send<TResult>(actor, message, sender);
     }
 
@@ -24,7 +22,7 @@ namespace Orleankka
     {
         public static readonly DefaultActorRefMiddleware Instance = new DefaultActorRefMiddleware();
 
-        public async Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> sender) => 
+        public async Task<TResult> Send<TResult>(ActorPath actor, object message, Receive sender) => 
             (TResult) await sender(message);
     }
 }

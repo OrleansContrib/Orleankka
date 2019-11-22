@@ -14,6 +14,7 @@ using Orleans.Storage;
 using Orleankka.Testing;
 using Orleankka.Cluster;
 using Orleankka.Features.Intercepting_requests;
+using Orleankka.Legacy.Cluster;
 
 [assembly: TeardownSilo]
 
@@ -56,7 +57,6 @@ namespace Orleankka.Testing
                 .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
-                .AddSimpleMessageStreamProvider("sms")
                 .UseInMemoryReminderService()
                 .ConfigureServices(services =>
                 {
@@ -69,7 +69,10 @@ namespace Orleankka.Testing
                     .WithCodeGeneration())
                 .UseOrleankka(x => x
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
-                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()));
+                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()))
+                .UseOrleankkaLegacyFeatures(x => x
+                    .AddSimpleMessageStreamProvider("sms")
+                    .RegisterPersistentStreamProviders("aqp"));
 
             var host = sb.Build();
             host.StartAsync().Wait();

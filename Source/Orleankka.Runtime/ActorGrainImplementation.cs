@@ -8,7 +8,7 @@ namespace Orleankka
         internal static Type InterfaceOf(Type type)
         {
             var interfaces = type
-                .GetInterfaces().Except(new[] { typeof(IActorGrain) })
+                .GetInterfaces().Except(new[] {typeof(IActorGrain)})
                 .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
                 .Where(each => !each.IsConstructedGenericType)
                 .ToArray();

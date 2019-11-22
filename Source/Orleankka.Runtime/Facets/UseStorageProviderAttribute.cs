@@ -14,7 +14,36 @@ using Orleans.Storage;
 namespace Orleankka.Facets
 {
     using Cluster;
-    
+
+    /// <summary>
+    /// Provides activation of storage facets and
+    /// </summary>
+    public class StorageProviderFacet
+    {
+        readonly ConcurrentDictionary<Type, IStateStorageBridgeActivator> activators = 
+             new ConcurrentDictionary<Type, IStateStorageBridgeActivator>();
+
+        public Factory<IGrainActivationContext, IStorage<TState>> GetFactory<TState>(string provider) where TState : new() => 
+            ctx => (IStorage<TState>) GetFactory(provider, typeof(TState))(ctx);
+
+        public Factory<IGrainActivationContext, object> GetFactory(string provider, Type state)
+        {
+            return context =>
+            {
+                var activator = activators.GetOrAdd(state, t =>
+                {
+                    var system = context.ActivationServices.GetRequiredService<ClusterActorSystem>();
+                    var storage = context.ActivationServices.GetRequiredServiceByName<IGrainStorage>(provider);
+                    var loggerFactory = context.ActivationServices.GetRequiredService<ILoggerFactory>();
+                    var activatorType = typeof(StateStorageBridgeActivator<>).MakeGenericType(state);
+                    return (IStateStorageBridgeActivator) Activator.CreateInstance(activatorType, provider, system, storage, loggerFactory);
+                });
+
+                return activator.Activate(context);
+            };
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Parameter)]
     public class UseStorageProviderAttribute : Attribute, IFacetMetadata
     {
@@ -26,29 +55,15 @@ namespace Orleankka.Facets
         }
     }
 
-    internal class UseStorageProviderAttributeMapper : IAttributeToFactoryMapper<UseStorageProviderAttribute>
+    class UseStorageProviderAttributeMapper : IAttributeToFactoryMapper<UseStorageProviderAttribute>
     {
-        readonly ConcurrentDictionary<Type, IStateStorageBridgeActivator> activators = 
-             new ConcurrentDictionary<Type, IStateStorageBridgeActivator>();
+        readonly StorageProviderFacet facet;
 
-        public Factory<IGrainActivationContext, object> GetFactory(ParameterInfo parameter, UseStorageProviderAttribute attribute)
-        {
-            return context =>
-            {
-                var state = parameter.ParameterType.GetGenericArguments()[0];
+        public UseStorageProviderAttributeMapper(IServiceProvider sp) => 
+            facet = sp.GetService<StorageProviderFacet>();
 
-                var activator = activators.GetOrAdd(state, t =>
-                {
-                    var system = context.ActivationServices.GetRequiredService<ClusterActorSystem>();
-                    var storage = context.ActivationServices.GetRequiredServiceByName<IGrainStorage>(attribute.Name);
-                    var loggerFactory = context.ActivationServices.GetRequiredService<ILoggerFactory>();
-                    var activatorType = typeof(StateStorageBridgeActivator<>).MakeGenericType(state);
-                    return (IStateStorageBridgeActivator) Activator.CreateInstance(activatorType, attribute.Name, system, storage, loggerFactory);
-                });
-
-                return activator.Activate(context);
-            };
-        }
+        public Factory<IGrainActivationContext, object> GetFactory(ParameterInfo parameter, UseStorageProviderAttribute attribute) => 
+            facet.GetFactory(attribute.Name, parameter.ParameterType.GetGenericArguments()[0]);
     }
 
     interface IStateStorageBridgeActivator

@@ -259,7 +259,7 @@ namespace Orleankka.Services
             {
                 ((ITimerService) this).Unregister(id);
 
-                await SendTimerMessage(interleave, fireAndForget, msg);
+                await SendTimerMessage(id, interleave, fireAndForget, msg);
             });
         }
         
@@ -269,11 +269,11 @@ namespace Orleankka.Services
 
             ((ITimerService) this).Register(id, due, period, async () =>
             {
-                await SendTimerMessage(interleave, fireAndForget, msg);
+                await SendTimerMessage(id, interleave, fireAndForget, msg);
             });
         }
 
-        async Task SendTimerMessage(bool interleave, bool fireAndForget, object message)
+        async Task SendTimerMessage(string id, bool interleave, bool fireAndForget, object message)
         {
             if (interleave)
             {

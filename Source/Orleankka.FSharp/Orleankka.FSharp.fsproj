@@ -1,6 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  
+  <PropertyGroup>
     <PackageId>Orleankka.FSharp</PackageId>
     <Title>Orleankka F# api core library</Title>
     <Description>F# api for Orleankka. Core and client-side library.</Description>

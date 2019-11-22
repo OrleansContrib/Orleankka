@@ -5,7 +5,7 @@ namespace Orleankka
 {
     public interface IActorMiddleware
     {
-        Task<object> Receive(ActorGrain actor, object message, Func<object, Task<object>> receiver);
+        Task<object> Receive(ActorGrain actor, object message, Receive receiver);
     }
 
     public abstract class ActorMiddleware : IActorMiddleware
@@ -15,14 +15,14 @@ namespace Orleankka
         protected ActorMiddleware(IActorMiddleware next = null) => 
             Next = next ?? DefaultActorMiddleware.Instance;
 
-        public abstract Task<object> Receive(ActorGrain actor, object message, Func<object, Task<object>> receiver);
+        public abstract Task<object> Receive(ActorGrain actor, object message, Receive receiver);
     }
 
     class DefaultActorMiddleware : IActorMiddleware
     {
         public static readonly DefaultActorMiddleware Instance = new DefaultActorMiddleware();
 
-        public Task<object> Receive(ActorGrain actor, object message, Func<object, Task<object>> receiver) => 
+        public Task<object> Receive(ActorGrain actor, object message, Receive receiver) => 
             receiver(message);
     }
 }
