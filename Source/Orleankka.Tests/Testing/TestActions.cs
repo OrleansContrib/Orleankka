@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
+using Orleankka.Core;
 using Orleankka.Features.Storage_provider_facet;
 using Orleankka.Testing;
 
@@ -62,7 +63,8 @@ namespace Orleankka.Testing
                             {
                                 o.CollectionAge = TimeSpan.FromMinutes(1);
                                 o.CollectionQuantum = TimeSpan.FromSeconds(10);
-                                o.ClassSpecificCollectionAge[typeof(Features.Keep_alive.TestActor).FullName] = TimeSpan.FromMinutes(2);
+
+                                o.ClassSpecificCollectionAge[$"Fun.{typeof(Features.Keep_alive.ITestActor).FullName}"] = TimeSpan.FromMinutes(2);
                             });
                         });
 
