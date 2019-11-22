@@ -90,7 +90,7 @@ namespace Orleankka.Features
 
         public class TestActorMiddleware : ActorMiddleware
         {
-            public override Task<object> Receive(ActorGrain actor, object message, Func<object, Task<object>> receiver)
+            public override Task<object> Receive(ActorGrain actor, object message, Receive receiver)
             {
                 switch (message)
                 {
@@ -113,7 +113,7 @@ namespace Orleankka.Features
 
         public class TestActorRefMiddleware : ActorRefMiddleware
         {
-            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Func<object, Task<object>> sender)
+            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Receive sender)
             {
                 if (message is CheckRef)
                     RequestContext.Set("SetByActorRefMiddleware", "it works!");
