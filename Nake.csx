@@ -112,7 +112,7 @@ MakeDir(ArtifactsPath);
         File.WriteAllText(each, processed);
     }
     
-    Exec("nuget", $"pack {ArtifactsPath}\\Template\\Orleankka.Template.nuspec -Version {Version} -o {ReleasePackagesPath}");
+    Exec("nuget", $"pack {ArtifactsPath}\\Template\\Orleankka.Template.nuspec -Version {Version} -OutputDirectory {ReleasePackagesPath}");
 }
 
 [Step] void PublishTemplate() => Push(TemplateProject);
