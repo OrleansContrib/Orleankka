@@ -127,6 +127,8 @@ namespace Orleankka.Features
                 await actor.Tell(new Attach {Observer = observer});
                 await actor.Tell(new Publish {Text = "a-a"});
 
+                await Task.Delay(500);
+
                 var received = await observer.Ask(new ReceivedNotifications());
                 Assert.That(received.Length,  Is.EqualTo(1));
                 Assert.That(received[0].Text, Is.EqualTo("a-a"));
