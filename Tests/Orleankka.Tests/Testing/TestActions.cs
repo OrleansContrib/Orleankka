@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.WindowsAzure.Storage;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -15,6 +17,9 @@ using Orleankka.Testing;
 using Orleankka.Cluster;
 using Orleankka.Features.Intercepting_requests;
 using Orleankka.Legacy.Cluster;
+
+using Orleans.Providers.Streams.AzureQueue;
+using Orleans.Streaming;
 
 [assembly: TeardownSilo]
 
@@ -58,6 +63,16 @@ namespace Orleankka.Testing
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
                 .UseInMemoryReminderService()
+                .AddAzureQueueStreams("aqp", (SiloAzureQueueStreamConfigurator<AzureQueueDataAdapterV2> x) =>
+                {
+                    x.ConfigureCache(1024);
+                    x.ConfigureAzureQueue(b => b.Configure(options =>
+                    {
+                        options.ConnectionString = CloudStorageAccount.DevelopmentStorageAccount.ToString();
+                        options.MessageVisibilityTimeout = TimeSpan.FromMinutes(1);
+                        options.QueueNames = new List<string>{"aqp1", "aqp2", "aqp3", "aqp4"};
+                    }));
+                })
                 .ConfigureServices(services =>
                 {
                     services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));

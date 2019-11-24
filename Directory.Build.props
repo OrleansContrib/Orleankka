@@ -49,6 +49,7 @@
         <MicrosoftOrleansServerVersion>2.3.0</MicrosoftOrleansServerVersion>
         <MicrosoftOrleansCodeGeneratorVersion>2.3.0</MicrosoftOrleansCodeGeneratorVersion>
         <MicrosoftOrleansRuntimeVersion>2.3.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>2.3.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>2.1.0</MicrosoftExtensionsLoggingVersion>

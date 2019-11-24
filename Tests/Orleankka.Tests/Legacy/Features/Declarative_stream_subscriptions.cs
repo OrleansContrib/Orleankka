@@ -286,7 +286,7 @@ namespace Orleankka.Legacy.Features
             { }
 
             [StreamSubscription(Source = "aqp:as", Target = "#")]
-            class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
+            public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
 
             public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain
