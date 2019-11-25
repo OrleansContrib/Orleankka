@@ -364,15 +364,12 @@ references:
   commentId: F:Orleankka.ActorMiddleware.Next
   fullName: Orleankka.ActorMiddleware.Next
   nameWithType: ActorMiddleware.Next
-- uid: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name: Receive(ActorGrain, Object, Func<Object, Task<Object>>)
-  href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
-  commentId: M:Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name.vb: Receive(ActorGrain, Object, Func(Of Object, Task(Of Object)))
-  fullName: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
-  fullName.vb: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
-  nameWithType: ActorMiddleware.Receive(ActorGrain, Object, Func<Object, Task<Object>>)
-  nameWithType.vb: ActorMiddleware.Receive(ActorGrain, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)
+  name: Receive(ActorGrain, Object, Receive)
+  href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)
+  fullName: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, Orleankka.Receive)
+  nameWithType: ActorMiddleware.Receive(ActorGrain, Object, Receive)
 - uid: Orleankka.ActorMiddleware.Receive*
   name: Receive
   href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Receive_
@@ -758,6 +755,15 @@ references:
   fullName.vb: Orleankka.ActorRef(Of TActor).Ask(Of TResult)(Orleankka.ActorMessage(Of TActor, TResult))
   nameWithType: ActorRef<TActor>.Ask<TResult>(ActorMessage<TActor, TResult>)
   nameWithType.vb: ActorRef(Of TActor).Ask(Of TResult)(ActorMessage(Of TActor, TResult))
+- uid: Orleankka.ActorRef`1.Ask``1(Orleankka.ActorMessage{`0})
+  name: Ask<TResult>(ActorMessage<TActor>)
+  href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Ask__1_Orleankka_ActorMessage__0__
+  commentId: M:Orleankka.ActorRef`1.Ask``1(Orleankka.ActorMessage{`0})
+  name.vb: Ask(Of TResult)(ActorMessage(Of TActor))
+  fullName: Orleankka.ActorRef<TActor>.Ask<TResult>(Orleankka.ActorMessage<TActor>)
+  fullName.vb: Orleankka.ActorRef(Of TActor).Ask(Of TResult)(Orleankka.ActorMessage(Of TActor))
+  nameWithType: ActorRef<TActor>.Ask<TResult>(ActorMessage<TActor>)
+  nameWithType.vb: ActorRef(Of TActor).Ask(Of TResult)(ActorMessage(Of TActor))
 - uid: Orleankka.ActorRef`1.Equals(Orleankka.ActorPath)
   name: Equals(ActorPath)
   href: api/Orleankka.ActorRef-1.html#Orleankka_ActorRef_1_Equals_Orleankka_ActorPath_
@@ -987,15 +993,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorRefMiddleware.Send
   nameWithType: ActorRefMiddleware.Send
-- uid: Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name: Send<TResult>(ActorPath, Object, Func<Object, Task<Object>>)
-  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
-  commentId: M:Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name.vb: Send(Of TResult)(ActorPath, Object, Func(Of Object, Task(Of Object)))
-  fullName: Orleankka.ActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
-  fullName.vb: Orleankka.ActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
-  nameWithType: ActorRefMiddleware.Send<TResult>(ActorPath, Object, Func<Object, Task<Object>>)
-  nameWithType.vb: ActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name: Send<TResult>(ActorPath, Object, Receive)
+  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name.vb: Send(Of TResult)(ActorPath, Object, Receive)
+  fullName: Orleankka.ActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  fullName.vb: Orleankka.ActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  nameWithType: ActorRefMiddleware.Send<TResult>(ActorPath, Object, Receive)
+  nameWithType.vb: ActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Receive)
 - uid: Orleankka.ActorRuntime
   name: ActorRuntime
   href: api/Orleankka.ActorRuntime.html
@@ -1229,230 +1235,6 @@ references:
   fullName.vb: Orleankka.ActorSystemExtensions.WorkerOf(Of TActor)(Orleankka.IActorSystem)
   nameWithType: ActorSystemExtensions.WorkerOf<TActor>(IActorSystem)
   nameWithType.vb: ActorSystemExtensions.WorkerOf(Of TActor)(IActorSystem)
-- uid: Orleankka.Annotations
-  name: Orleankka.Annotations
-  href: api/Orleankka.Annotations.html
-  commentId: N:Orleankka.Annotations
-  fullName: Orleankka.Annotations
-  nameWithType: Orleankka.Annotations
-- uid: Orleankka.Annotations.ImplicitUseKindFlags
-  name: ImplicitUseKindFlags
-  href: api/Orleankka.Annotations.ImplicitUseKindFlags.html
-  commentId: T:Orleankka.Annotations.ImplicitUseKindFlags
-  fullName: Orleankka.Annotations.ImplicitUseKindFlags
-  nameWithType: ImplicitUseKindFlags
-- uid: Orleankka.Annotations.ImplicitUseKindFlags.Access
-  name: Access
-  href: api/Orleankka.Annotations.ImplicitUseKindFlags.html#Orleankka_Annotations_ImplicitUseKindFlags_Access
-  commentId: F:Orleankka.Annotations.ImplicitUseKindFlags.Access
-  fullName: Orleankka.Annotations.ImplicitUseKindFlags.Access
-  nameWithType: ImplicitUseKindFlags.Access
-- uid: Orleankka.Annotations.ImplicitUseKindFlags.Assign
-  name: Assign
-  href: api/Orleankka.Annotations.ImplicitUseKindFlags.html#Orleankka_Annotations_ImplicitUseKindFlags_Assign
-  commentId: F:Orleankka.Annotations.ImplicitUseKindFlags.Assign
-  fullName: Orleankka.Annotations.ImplicitUseKindFlags.Assign
-  nameWithType: ImplicitUseKindFlags.Assign
-- uid: Orleankka.Annotations.ImplicitUseKindFlags.Default
-  name: Default
-  href: api/Orleankka.Annotations.ImplicitUseKindFlags.html#Orleankka_Annotations_ImplicitUseKindFlags_Default
-  commentId: F:Orleankka.Annotations.ImplicitUseKindFlags.Default
-  fullName: Orleankka.Annotations.ImplicitUseKindFlags.Default
-  nameWithType: ImplicitUseKindFlags.Default
-- uid: Orleankka.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature
-  name: InstantiatedWithFixedConstructorSignature
-  href: api/Orleankka.Annotations.ImplicitUseKindFlags.html#Orleankka_Annotations_ImplicitUseKindFlags_InstantiatedWithFixedConstructorSignature
-  commentId: F:Orleankka.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature
-  fullName: Orleankka.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature
-  nameWithType: ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature
-- uid: Orleankka.Annotations.ImplicitUseTargetFlags
-  name: ImplicitUseTargetFlags
-  href: api/Orleankka.Annotations.ImplicitUseTargetFlags.html
-  commentId: T:Orleankka.Annotations.ImplicitUseTargetFlags
-  fullName: Orleankka.Annotations.ImplicitUseTargetFlags
-  nameWithType: ImplicitUseTargetFlags
-- uid: Orleankka.Annotations.ImplicitUseTargetFlags.Default
-  name: Default
-  href: api/Orleankka.Annotations.ImplicitUseTargetFlags.html#Orleankka_Annotations_ImplicitUseTargetFlags_Default
-  commentId: F:Orleankka.Annotations.ImplicitUseTargetFlags.Default
-  fullName: Orleankka.Annotations.ImplicitUseTargetFlags.Default
-  nameWithType: ImplicitUseTargetFlags.Default
-- uid: Orleankka.Annotations.ImplicitUseTargetFlags.Itself
-  name: Itself
-  href: api/Orleankka.Annotations.ImplicitUseTargetFlags.html#Orleankka_Annotations_ImplicitUseTargetFlags_Itself
-  commentId: F:Orleankka.Annotations.ImplicitUseTargetFlags.Itself
-  fullName: Orleankka.Annotations.ImplicitUseTargetFlags.Itself
-  nameWithType: ImplicitUseTargetFlags.Itself
-- uid: Orleankka.Annotations.ImplicitUseTargetFlags.Members
-  name: Members
-  href: api/Orleankka.Annotations.ImplicitUseTargetFlags.html#Orleankka_Annotations_ImplicitUseTargetFlags_Members
-  commentId: F:Orleankka.Annotations.ImplicitUseTargetFlags.Members
-  fullName: Orleankka.Annotations.ImplicitUseTargetFlags.Members
-  nameWithType: ImplicitUseTargetFlags.Members
-- uid: Orleankka.Annotations.ImplicitUseTargetFlags.WithMembers
-  name: WithMembers
-  href: api/Orleankka.Annotations.ImplicitUseTargetFlags.html#Orleankka_Annotations_ImplicitUseTargetFlags_WithMembers
-  commentId: F:Orleankka.Annotations.ImplicitUseTargetFlags.WithMembers
-  fullName: Orleankka.Annotations.ImplicitUseTargetFlags.WithMembers
-  nameWithType: ImplicitUseTargetFlags.WithMembers
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute
-  name: MeansImplicitUseAttribute
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html
-  commentId: T:Orleankka.Annotations.MeansImplicitUseAttribute
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute
-  nameWithType: MeansImplicitUseAttribute
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.#ctor
-  name: MeansImplicitUseAttribute()
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute__ctor
-  commentId: M:Orleankka.Annotations.MeansImplicitUseAttribute.#ctor
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.MeansImplicitUseAttribute()
-  nameWithType: MeansImplicitUseAttribute.MeansImplicitUseAttribute()
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.#ctor(Orleankka.Annotations.ImplicitUseKindFlags,Orleankka.Annotations.ImplicitUseTargetFlags)
-  name: MeansImplicitUseAttribute(ImplicitUseKindFlags, ImplicitUseTargetFlags)
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute__ctor_Orleankka_Annotations_ImplicitUseKindFlags_Orleankka_Annotations_ImplicitUseTargetFlags_
-  commentId: M:Orleankka.Annotations.MeansImplicitUseAttribute.#ctor(Orleankka.Annotations.ImplicitUseKindFlags,Orleankka.Annotations.ImplicitUseTargetFlags)
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.MeansImplicitUseAttribute(Orleankka.Annotations.ImplicitUseKindFlags, Orleankka.Annotations.ImplicitUseTargetFlags)
-  nameWithType: MeansImplicitUseAttribute.MeansImplicitUseAttribute(ImplicitUseKindFlags, ImplicitUseTargetFlags)
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.#ctor(Orleankka.Annotations.ImplicitUseTargetFlags)
-  name: MeansImplicitUseAttribute(ImplicitUseTargetFlags)
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute__ctor_Orleankka_Annotations_ImplicitUseTargetFlags_
-  commentId: M:Orleankka.Annotations.MeansImplicitUseAttribute.#ctor(Orleankka.Annotations.ImplicitUseTargetFlags)
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.MeansImplicitUseAttribute(Orleankka.Annotations.ImplicitUseTargetFlags)
-  nameWithType: MeansImplicitUseAttribute.MeansImplicitUseAttribute(ImplicitUseTargetFlags)
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.#ctor*
-  name: MeansImplicitUseAttribute
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute__ctor_
-  commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.#ctor
-  isSpec: "True"
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.MeansImplicitUseAttribute
-  nameWithType: MeansImplicitUseAttribute.MeansImplicitUseAttribute
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
-  name: TargetFlags
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_TargetFlags
-  commentId: P:Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
-  nameWithType: MeansImplicitUseAttribute.TargetFlags
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags*
-  name: TargetFlags
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_TargetFlags_
-  commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
-  isSpec: "True"
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.TargetFlags
-  nameWithType: MeansImplicitUseAttribute.TargetFlags
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
-  name: UseKindFlags
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_UseKindFlags
-  commentId: P:Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
-  nameWithType: MeansImplicitUseAttribute.UseKindFlags
-- uid: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags*
-  name: UseKindFlags
-  href: api/Orleankka.Annotations.MeansImplicitUseAttribute.html#Orleankka_Annotations_MeansImplicitUseAttribute_UseKindFlags_
-  commentId: Overload:Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
-  isSpec: "True"
-  fullName: Orleankka.Annotations.MeansImplicitUseAttribute.UseKindFlags
-  nameWithType: MeansImplicitUseAttribute.UseKindFlags
-- uid: Orleankka.Annotations.NotNullAttribute
-  name: NotNullAttribute
-  href: api/Orleankka.Annotations.NotNullAttribute.html
-  commentId: T:Orleankka.Annotations.NotNullAttribute
-  fullName: Orleankka.Annotations.NotNullAttribute
-  nameWithType: NotNullAttribute
-- uid: Orleankka.Annotations.PublicAPIAttribute
-  name: PublicAPIAttribute
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html
-  commentId: T:Orleankka.Annotations.PublicAPIAttribute
-  fullName: Orleankka.Annotations.PublicAPIAttribute
-  nameWithType: PublicAPIAttribute
-- uid: Orleankka.Annotations.PublicAPIAttribute.#ctor
-  name: PublicAPIAttribute()
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute__ctor
-  commentId: M:Orleankka.Annotations.PublicAPIAttribute.#ctor
-  fullName: Orleankka.Annotations.PublicAPIAttribute.PublicAPIAttribute()
-  nameWithType: PublicAPIAttribute.PublicAPIAttribute()
-- uid: Orleankka.Annotations.PublicAPIAttribute.#ctor(System.String)
-  name: PublicAPIAttribute(String)
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute__ctor_System_String_
-  commentId: M:Orleankka.Annotations.PublicAPIAttribute.#ctor(System.String)
-  fullName: Orleankka.Annotations.PublicAPIAttribute.PublicAPIAttribute(System.String)
-  nameWithType: PublicAPIAttribute.PublicAPIAttribute(String)
-- uid: Orleankka.Annotations.PublicAPIAttribute.#ctor*
-  name: PublicAPIAttribute
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute__ctor_
-  commentId: Overload:Orleankka.Annotations.PublicAPIAttribute.#ctor
-  isSpec: "True"
-  fullName: Orleankka.Annotations.PublicAPIAttribute.PublicAPIAttribute
-  nameWithType: PublicAPIAttribute.PublicAPIAttribute
-- uid: Orleankka.Annotations.PublicAPIAttribute.Comment
-  name: Comment
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute_Comment
-  commentId: P:Orleankka.Annotations.PublicAPIAttribute.Comment
-  fullName: Orleankka.Annotations.PublicAPIAttribute.Comment
-  nameWithType: PublicAPIAttribute.Comment
-- uid: Orleankka.Annotations.PublicAPIAttribute.Comment*
-  name: Comment
-  href: api/Orleankka.Annotations.PublicAPIAttribute.html#Orleankka_Annotations_PublicAPIAttribute_Comment_
-  commentId: Overload:Orleankka.Annotations.PublicAPIAttribute.Comment
-  isSpec: "True"
-  fullName: Orleankka.Annotations.PublicAPIAttribute.Comment
-  nameWithType: PublicAPIAttribute.Comment
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute
-  name: UsedImplicitlyAttribute
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html
-  commentId: T:Orleankka.Annotations.UsedImplicitlyAttribute
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute
-  nameWithType: UsedImplicitlyAttribute
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.#ctor
-  name: UsedImplicitlyAttribute()
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute__ctor
-  commentId: M:Orleankka.Annotations.UsedImplicitlyAttribute.#ctor
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UsedImplicitlyAttribute()
-  nameWithType: UsedImplicitlyAttribute.UsedImplicitlyAttribute()
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.#ctor(Orleankka.Annotations.ImplicitUseKindFlags,Orleankka.Annotations.ImplicitUseTargetFlags)
-  name: UsedImplicitlyAttribute(ImplicitUseKindFlags, ImplicitUseTargetFlags)
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute__ctor_Orleankka_Annotations_ImplicitUseKindFlags_Orleankka_Annotations_ImplicitUseTargetFlags_
-  commentId: M:Orleankka.Annotations.UsedImplicitlyAttribute.#ctor(Orleankka.Annotations.ImplicitUseKindFlags,Orleankka.Annotations.ImplicitUseTargetFlags)
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UsedImplicitlyAttribute(Orleankka.Annotations.ImplicitUseKindFlags, Orleankka.Annotations.ImplicitUseTargetFlags)
-  nameWithType: UsedImplicitlyAttribute.UsedImplicitlyAttribute(ImplicitUseKindFlags, ImplicitUseTargetFlags)
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.#ctor(Orleankka.Annotations.ImplicitUseTargetFlags)
-  name: UsedImplicitlyAttribute(ImplicitUseTargetFlags)
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute__ctor_Orleankka_Annotations_ImplicitUseTargetFlags_
-  commentId: M:Orleankka.Annotations.UsedImplicitlyAttribute.#ctor(Orleankka.Annotations.ImplicitUseTargetFlags)
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UsedImplicitlyAttribute(Orleankka.Annotations.ImplicitUseTargetFlags)
-  nameWithType: UsedImplicitlyAttribute.UsedImplicitlyAttribute(ImplicitUseTargetFlags)
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.#ctor*
-  name: UsedImplicitlyAttribute
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute__ctor_
-  commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.#ctor
-  isSpec: "True"
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UsedImplicitlyAttribute
-  nameWithType: UsedImplicitlyAttribute.UsedImplicitlyAttribute
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
-  name: TargetFlags
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_TargetFlags
-  commentId: P:Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
-  nameWithType: UsedImplicitlyAttribute.TargetFlags
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags*
-  name: TargetFlags
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_TargetFlags_
-  commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
-  isSpec: "True"
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.TargetFlags
-  nameWithType: UsedImplicitlyAttribute.TargetFlags
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
-  name: UseKindFlags
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_UseKindFlags
-  commentId: P:Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
-  nameWithType: UsedImplicitlyAttribute.UseKindFlags
-- uid: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags*
-  name: UseKindFlags
-  href: api/Orleankka.Annotations.UsedImplicitlyAttribute.html#Orleankka_Annotations_UsedImplicitlyAttribute_UseKindFlags_
-  commentId: Overload:Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
-  isSpec: "True"
-  fullName: Orleankka.Annotations.UsedImplicitlyAttribute.UseKindFlags
-  nameWithType: UsedImplicitlyAttribute.UseKindFlags
 - uid: Orleankka.Behaviors
   name: Orleankka.Behaviors
   href: api/Orleankka.Behaviors.html
@@ -2285,6 +2067,27 @@ references:
   isSpec: "True"
   fullName: Orleankka.Cluster.SiloHostBuilderExtension.ActorSystem
   nameWithType: SiloHostBuilderExtension.ActorSystem
+- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder)
+  name: UseOrleankka(ISiloBuilder)
+  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloBuilder_
+  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder)
+  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder)
+  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder)
+- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
+  name: UseOrleankka(ISiloBuilder, OrleankkaClusterOptions)
+  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloBuilder_Orleankka_Cluster_OrleankkaClusterOptions_
+  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
+  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, Orleankka.Cluster.OrleankkaClusterOptions)
+  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, OrleankkaClusterOptions)
+- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
+  name: UseOrleankka(ISiloBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
+  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloBuilder_System_Func_Orleankka_Cluster_OrleankkaClusterOptions_Orleankka_Cluster_OrleankkaClusterOptions__
+  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
+  name.vb: UseOrleankka(ISiloBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
+  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, System.Func<Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions>)
+  fullName.vb: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, System.Func(Of Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions))
+  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
+  nameWithType.vb: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
 - uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder)
   name: UseOrleankka(ISiloHostBuilder)
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloHostBuilder_
@@ -2548,6 +2351,34 @@ references:
   commentId: N:Orleankka.Facets
   fullName: Orleankka.Facets
   nameWithType: Orleankka.Facets
+- uid: Orleankka.Facets.StorageProviderFacet
+  name: StorageProviderFacet
+  href: api/Orleankka.Facets.StorageProviderFacet.html
+  commentId: T:Orleankka.Facets.StorageProviderFacet
+  fullName: Orleankka.Facets.StorageProviderFacet
+  nameWithType: StorageProviderFacet
+- uid: Orleankka.Facets.StorageProviderFacet.GetFactory(System.String,System.Type)
+  name: GetFactory(String, Type)
+  href: api/Orleankka.Facets.StorageProviderFacet.html#Orleankka_Facets_StorageProviderFacet_GetFactory_System_String_System_Type_
+  commentId: M:Orleankka.Facets.StorageProviderFacet.GetFactory(System.String,System.Type)
+  fullName: Orleankka.Facets.StorageProviderFacet.GetFactory(System.String, System.Type)
+  nameWithType: StorageProviderFacet.GetFactory(String, Type)
+- uid: Orleankka.Facets.StorageProviderFacet.GetFactory*
+  name: GetFactory
+  href: api/Orleankka.Facets.StorageProviderFacet.html#Orleankka_Facets_StorageProviderFacet_GetFactory_
+  commentId: Overload:Orleankka.Facets.StorageProviderFacet.GetFactory
+  isSpec: "True"
+  fullName: Orleankka.Facets.StorageProviderFacet.GetFactory
+  nameWithType: StorageProviderFacet.GetFactory
+- uid: Orleankka.Facets.StorageProviderFacet.GetFactory``1(System.String)
+  name: GetFactory<TState>(String)
+  href: api/Orleankka.Facets.StorageProviderFacet.html#Orleankka_Facets_StorageProviderFacet_GetFactory__1_System_String_
+  commentId: M:Orleankka.Facets.StorageProviderFacet.GetFactory``1(System.String)
+  name.vb: GetFactory(Of TState)(String)
+  fullName: Orleankka.Facets.StorageProviderFacet.GetFactory<TState>(System.String)
+  fullName.vb: Orleankka.Facets.StorageProviderFacet.GetFactory(Of TState)(System.String)
+  nameWithType: StorageProviderFacet.GetFactory<TState>(String)
+  nameWithType.vb: StorageProviderFacet.GetFactory(Of TState)(String)
 - uid: Orleankka.Facets.UseStorageProviderAttribute
   name: UseStorageProviderAttribute
   href: api/Orleankka.Facets.UseStorageProviderAttribute.html
@@ -2637,15 +2468,12 @@ references:
   commentId: T:Orleankka.IActorMiddleware
   fullName: Orleankka.IActorMiddleware
   nameWithType: IActorMiddleware
-- uid: Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name: Receive(ActorGrain, Object, Func<Object, Task<Object>>)
-  href: api/Orleankka.IActorMiddleware.html#Orleankka_IActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
-  commentId: M:Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name.vb: Receive(ActorGrain, Object, Func(Of Object, Task(Of Object)))
-  fullName: Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
-  fullName.vb: Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
-  nameWithType: IActorMiddleware.Receive(ActorGrain, Object, Func<Object, Task<Object>>)
-  nameWithType.vb: IActorMiddleware.Receive(ActorGrain, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)
+  name: Receive(ActorGrain, Object, Receive)
+  href: api/Orleankka.IActorMiddleware.html#Orleankka_IActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)
+  fullName: Orleankka.IActorMiddleware.Receive(Orleankka.ActorGrain, System.Object, Orleankka.Receive)
+  nameWithType: IActorMiddleware.Receive(ActorGrain, Object, Receive)
 - uid: Orleankka.IActorMiddleware.Receive*
   name: Receive
   href: api/Orleankka.IActorMiddleware.html#Orleankka_IActorMiddleware_Receive_
@@ -2666,15 +2494,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.IActorRefMiddleware.Send
   nameWithType: IActorRefMiddleware.Send
-- uid: Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name: Send<TResult>(ActorPath, Object, Func<Object, Task<Object>>)
-  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
-  commentId: M:Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
-  name.vb: Send(Of TResult)(ActorPath, Object, Func(Of Object, Task(Of Object)))
-  fullName: Orleankka.IActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
-  fullName.vb: Orleankka.IActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
-  nameWithType: IActorRefMiddleware.Send<TResult>(ActorPath, Object, Func<Object, Task<Object>>)
-  nameWithType.vb: IActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name: Send<TResult>(ActorPath, Object, Receive)
+  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name.vb: Send(Of TResult)(ActorPath, Object, Receive)
+  fullName: Orleankka.IActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  fullName.vb: Orleankka.IActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  nameWithType: IActorRefMiddleware.Send<TResult>(ActorPath, Object, Receive)
+  nameWithType.vb: IActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Receive)
 - uid: Orleankka.IActorRuntime
   name: IActorRuntime
   href: api/Orleankka.IActorRuntime.html
@@ -2854,28 +2682,21 @@ references:
   commentId: T:Orleankka.InvokeMethodRequestExtensions
   fullName: Orleankka.InvokeMethodRequestExtensions
   nameWithType: InvokeMethodRequestExtensions
-- uid: Orleankka.InvokeMethodRequestExtensions.Any(Orleans.CodeGeneration.InvokeMethodRequest,System.Type[])
-  name: Any(InvokeMethodRequest, Type[])
-  href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Any_Orleans_CodeGeneration_InvokeMethodRequest_System_Type___
-  commentId: M:Orleankka.InvokeMethodRequestExtensions.Any(Orleans.CodeGeneration.InvokeMethodRequest,System.Type[])
-  name.vb: Any(InvokeMethodRequest, Type())
-  fullName: Orleankka.InvokeMethodRequestExtensions.Any(Orleans.CodeGeneration.InvokeMethodRequest, System.Type[])
-  fullName.vb: Orleankka.InvokeMethodRequestExtensions.Any(Orleans.CodeGeneration.InvokeMethodRequest, System.Type())
-  nameWithType: InvokeMethodRequestExtensions.Any(InvokeMethodRequest, Type[])
-  nameWithType.vb: InvokeMethodRequestExtensions.Any(InvokeMethodRequest, Type())
-- uid: Orleankka.InvokeMethodRequestExtensions.Any*
-  name: Any
-  href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Any_
-  commentId: Overload:Orleankka.InvokeMethodRequestExtensions.Any
-  isSpec: "True"
-  fullName: Orleankka.InvokeMethodRequestExtensions.Any
-  nameWithType: InvokeMethodRequestExtensions.Any
 - uid: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest)
   name: Message(InvokeMethodRequest)
   href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message_Orleans_CodeGeneration_InvokeMethodRequest_
   commentId: M:Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest)
   fullName: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest)
   nameWithType: InvokeMethodRequestExtensions.Message(InvokeMethodRequest)
+- uid: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest,System.Func{System.Object,System.Boolean})
+  name: Message(InvokeMethodRequest, Func<Object, Boolean>)
+  href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message_Orleans_CodeGeneration_InvokeMethodRequest_System_Func_System_Object_System_Boolean__
+  commentId: M:Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest,System.Func{System.Object,System.Boolean})
+  name.vb: Message(InvokeMethodRequest, Func(Of Object, Boolean))
+  fullName: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest, System.Func<System.Object, System.Boolean>)
+  fullName.vb: Orleankka.InvokeMethodRequestExtensions.Message(Orleans.CodeGeneration.InvokeMethodRequest, System.Func(Of System.Object, System.Boolean))
+  nameWithType: InvokeMethodRequestExtensions.Message(InvokeMethodRequest, Func<Object, Boolean>)
+  nameWithType.vb: InvokeMethodRequestExtensions.Message(InvokeMethodRequest, Func(Of Object, Boolean))
 - uid: Orleankka.InvokeMethodRequestExtensions.Message*
   name: Message
   href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message_
@@ -2883,15 +2704,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.InvokeMethodRequestExtensions.Message
   nameWithType: InvokeMethodRequestExtensions.Message
-- uid: Orleankka.InvokeMethodRequestExtensions.Message``1(Orleans.CodeGeneration.InvokeMethodRequest)
-  name: Message<T>(InvokeMethodRequest)
-  href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message__1_Orleans_CodeGeneration_InvokeMethodRequest_
-  commentId: M:Orleankka.InvokeMethodRequestExtensions.Message``1(Orleans.CodeGeneration.InvokeMethodRequest)
-  name.vb: Message(Of T)(InvokeMethodRequest)
-  fullName: Orleankka.InvokeMethodRequestExtensions.Message<T>(Orleans.CodeGeneration.InvokeMethodRequest)
-  fullName.vb: Orleankka.InvokeMethodRequestExtensions.Message(Of T)(Orleans.CodeGeneration.InvokeMethodRequest)
-  nameWithType: InvokeMethodRequestExtensions.Message<T>(InvokeMethodRequest)
-  nameWithType.vb: InvokeMethodRequestExtensions.Message(Of T)(InvokeMethodRequest)
 - uid: Orleankka.IObserverCollection
   name: IObserverCollection
   href: api/Orleankka.IObserverCollection.html
@@ -2937,6 +2749,1075 @@ references:
   isSpec: "True"
   fullName: Orleankka.IObserverCollection.Remove
   nameWithType: IObserverCollection.Remove
+- uid: Orleankka.Legacy
+  name: Orleankka.Legacy
+  href: api/Orleankka.Legacy.html
+  commentId: N:Orleankka.Legacy
+  fullName: Orleankka.Legacy
+  nameWithType: Orleankka.Legacy
+- uid: Orleankka.Legacy.Actor
+  name: Actor
+  href: api/Orleankka.Legacy.Actor.html
+  commentId: T:Orleankka.Legacy.Actor
+  fullName: Orleankka.Legacy.Actor
+  nameWithType: Actor
+- uid: Orleankka.Legacy.Actor.#ctor
+  name: Actor()
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor
+  commentId: M:Orleankka.Legacy.Actor.#ctor
+  fullName: Orleankka.Legacy.Actor.Actor()
+  nameWithType: Actor.Actor()
+- uid: Orleankka.Legacy.Actor.#ctor(Orleankka.Dispatcher)
+  name: Actor(Dispatcher)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor_Orleankka_Dispatcher_
+  commentId: M:Orleankka.Legacy.Actor.#ctor(Orleankka.Dispatcher)
+  fullName: Orleankka.Legacy.Actor.Actor(Orleankka.Dispatcher)
+  nameWithType: Actor.Actor(Dispatcher)
+- uid: Orleankka.Legacy.Actor.#ctor(Orleankka.IActorRuntime,Orleankka.Dispatcher)
+  name: Actor(IActorRuntime, Dispatcher)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor_Orleankka_IActorRuntime_Orleankka_Dispatcher_
+  commentId: M:Orleankka.Legacy.Actor.#ctor(Orleankka.IActorRuntime,Orleankka.Dispatcher)
+  fullName: Orleankka.Legacy.Actor.Actor(Orleankka.IActorRuntime, Orleankka.Dispatcher)
+  nameWithType: Actor.Actor(IActorRuntime, Dispatcher)
+- uid: Orleankka.Legacy.Actor.#ctor(System.String,Orleankka.Dispatcher)
+  name: Actor(String, Dispatcher)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor_System_String_Orleankka_Dispatcher_
+  commentId: M:Orleankka.Legacy.Actor.#ctor(System.String,Orleankka.Dispatcher)
+  fullName: Orleankka.Legacy.Actor.Actor(System.String, Orleankka.Dispatcher)
+  nameWithType: Actor.Actor(String, Dispatcher)
+- uid: Orleankka.Legacy.Actor.#ctor(System.String,Orleankka.IActorRuntime,Orleankka.Dispatcher)
+  name: Actor(String, IActorRuntime, Dispatcher)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor_System_String_Orleankka_IActorRuntime_Orleankka_Dispatcher_
+  commentId: M:Orleankka.Legacy.Actor.#ctor(System.String,Orleankka.IActorRuntime,Orleankka.Dispatcher)
+  fullName: Orleankka.Legacy.Actor.Actor(System.String, Orleankka.IActorRuntime, Orleankka.Dispatcher)
+  nameWithType: Actor.Actor(String, IActorRuntime, Dispatcher)
+- uid: Orleankka.Legacy.Actor.#ctor*
+  name: Actor
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor__ctor_
+  commentId: Overload:Orleankka.Legacy.Actor.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.Actor
+  nameWithType: Actor.Actor
+- uid: Orleankka.Legacy.Actor.Behavior
+  name: Behavior
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Behavior
+  commentId: P:Orleankka.Legacy.Actor.Behavior
+  fullName: Orleankka.Legacy.Actor.Behavior
+  nameWithType: Actor.Behavior
+- uid: Orleankka.Legacy.Actor.Behavior*
+  name: Behavior
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Behavior_
+  commentId: Overload:Orleankka.Legacy.Actor.Behavior
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.Behavior
+  nameWithType: Actor.Behavior
+- uid: Orleankka.Legacy.Actor.Dispatch(System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: Dispatch(Object, Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Dispatch_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.Actor.Dispatch(System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: Dispatch(Object, Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.Actor.Dispatch(System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.Actor.Dispatch(System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: Actor.Dispatch(Object, Func<Object, Task<Object>>)
+  nameWithType.vb: Actor.Dispatch(Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.Actor.Dispatch*
+  name: Dispatch
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Dispatch_
+  commentId: Overload:Orleankka.Legacy.Actor.Dispatch
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.Dispatch
+  nameWithType: Actor.Dispatch
+- uid: Orleankka.Legacy.Actor.Dispatch``1(System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: Dispatch<TResult>(Object, Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Dispatch__1_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.Actor.Dispatch``1(System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: Dispatch(Of TResult)(Object, Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.Actor.Dispatch<TResult>(System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.Actor.Dispatch(Of TResult)(System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: Actor.Dispatch<TResult>(Object, Func<Object, Task<Object>>)
+  nameWithType.vb: Actor.Dispatch(Of TResult)(Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.Actor.OnActivate
+  name: OnActivate()
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnActivate
+  commentId: M:Orleankka.Legacy.Actor.OnActivate
+  fullName: Orleankka.Legacy.Actor.OnActivate()
+  nameWithType: Actor.OnActivate()
+- uid: Orleankka.Legacy.Actor.OnActivate*
+  name: OnActivate
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnActivate_
+  commentId: Overload:Orleankka.Legacy.Actor.OnActivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnActivate
+  nameWithType: Actor.OnActivate
+- uid: Orleankka.Legacy.Actor.OnDeactivate
+  name: OnDeactivate()
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnDeactivate
+  commentId: M:Orleankka.Legacy.Actor.OnDeactivate
+  fullName: Orleankka.Legacy.Actor.OnDeactivate()
+  nameWithType: Actor.OnDeactivate()
+- uid: Orleankka.Legacy.Actor.OnDeactivate*
+  name: OnDeactivate
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnDeactivate_
+  commentId: Overload:Orleankka.Legacy.Actor.OnDeactivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnDeactivate
+  nameWithType: Actor.OnDeactivate
+- uid: Orleankka.Legacy.Actor.OnReceive(System.Object)
+  name: OnReceive(Object)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnReceive_System_Object_
+  commentId: M:Orleankka.Legacy.Actor.OnReceive(System.Object)
+  fullName: Orleankka.Legacy.Actor.OnReceive(System.Object)
+  nameWithType: Actor.OnReceive(Object)
+- uid: Orleankka.Legacy.Actor.OnReceive*
+  name: OnReceive
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnReceive_
+  commentId: Overload:Orleankka.Legacy.Actor.OnReceive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnReceive
+  nameWithType: Actor.OnReceive
+- uid: Orleankka.Legacy.Actor.OnReminder(System.String)
+  name: OnReminder(String)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnReminder_System_String_
+  commentId: M:Orleankka.Legacy.Actor.OnReminder(System.String)
+  fullName: Orleankka.Legacy.Actor.OnReminder(System.String)
+  nameWithType: Actor.OnReminder(String)
+- uid: Orleankka.Legacy.Actor.OnReminder*
+  name: OnReminder
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnReminder_
+  commentId: Overload:Orleankka.Legacy.Actor.OnReminder
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnReminder
+  nameWithType: Actor.OnReminder
+- uid: Orleankka.Legacy.Actor.OnTransitioned(Orleankka.Legacy.Behaviors.Transition)
+  name: OnTransitioned(Transition)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitioned_Orleankka_Legacy_Behaviors_Transition_
+  commentId: M:Orleankka.Legacy.Actor.OnTransitioned(Orleankka.Legacy.Behaviors.Transition)
+  fullName: Orleankka.Legacy.Actor.OnTransitioned(Orleankka.Legacy.Behaviors.Transition)
+  nameWithType: Actor.OnTransitioned(Transition)
+- uid: Orleankka.Legacy.Actor.OnTransitioned*
+  name: OnTransitioned
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitioned_
+  commentId: Overload:Orleankka.Legacy.Actor.OnTransitioned
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnTransitioned
+  nameWithType: Actor.OnTransitioned
+- uid: Orleankka.Legacy.Actor.OnTransitionFailure(Orleankka.Legacy.Behaviors.Transition,System.Exception)
+  name: OnTransitionFailure(Transition, Exception)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitionFailure_Orleankka_Legacy_Behaviors_Transition_System_Exception_
+  commentId: M:Orleankka.Legacy.Actor.OnTransitionFailure(Orleankka.Legacy.Behaviors.Transition,System.Exception)
+  fullName: Orleankka.Legacy.Actor.OnTransitionFailure(Orleankka.Legacy.Behaviors.Transition, System.Exception)
+  nameWithType: Actor.OnTransitionFailure(Transition, Exception)
+- uid: Orleankka.Legacy.Actor.OnTransitionFailure*
+  name: OnTransitionFailure
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitionFailure_
+  commentId: Overload:Orleankka.Legacy.Actor.OnTransitionFailure
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnTransitionFailure
+  nameWithType: Actor.OnTransitionFailure
+- uid: Orleankka.Legacy.Actor.OnTransitioning(Orleankka.Legacy.Behaviors.Transition)
+  name: OnTransitioning(Transition)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitioning_Orleankka_Legacy_Behaviors_Transition_
+  commentId: M:Orleankka.Legacy.Actor.OnTransitioning(Orleankka.Legacy.Behaviors.Transition)
+  fullName: Orleankka.Legacy.Actor.OnTransitioning(Orleankka.Legacy.Behaviors.Transition)
+  nameWithType: Actor.OnTransitioning(Transition)
+- uid: Orleankka.Legacy.Actor.OnTransitioning*
+  name: OnTransitioning
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnTransitioning_
+  commentId: Overload:Orleankka.Legacy.Actor.OnTransitioning
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnTransitioning
+  nameWithType: Actor.OnTransitioning
+- uid: Orleankka.Legacy.Actor.OnUnhandledReceive(System.Object)
+  name: OnUnhandledReceive(Object)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnUnhandledReceive_System_Object_
+  commentId: M:Orleankka.Legacy.Actor.OnUnhandledReceive(System.Object)
+  fullName: Orleankka.Legacy.Actor.OnUnhandledReceive(System.Object)
+  nameWithType: Actor.OnUnhandledReceive(Object)
+- uid: Orleankka.Legacy.Actor.OnUnhandledReceive*
+  name: OnUnhandledReceive
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnUnhandledReceive_
+  commentId: Overload:Orleankka.Legacy.Actor.OnUnhandledReceive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnUnhandledReceive
+  nameWithType: Actor.OnUnhandledReceive
+- uid: Orleankka.Legacy.Actor.OnUnhandledReminder(System.String)
+  name: OnUnhandledReminder(String)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnUnhandledReminder_System_String_
+  commentId: M:Orleankka.Legacy.Actor.OnUnhandledReminder(System.String)
+  fullName: Orleankka.Legacy.Actor.OnUnhandledReminder(System.String)
+  nameWithType: Actor.OnUnhandledReminder(String)
+- uid: Orleankka.Legacy.Actor.OnUnhandledReminder*
+  name: OnUnhandledReminder
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_OnUnhandledReminder_
+  commentId: Overload:Orleankka.Legacy.Actor.OnUnhandledReminder
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.OnUnhandledReminder
+  nameWithType: Actor.OnUnhandledReminder
+- uid: Orleankka.Legacy.Actor.Receive(System.Object)
+  name: Receive(Object)
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Receive_System_Object_
+  commentId: M:Orleankka.Legacy.Actor.Receive(System.Object)
+  fullName: Orleankka.Legacy.Actor.Receive(System.Object)
+  nameWithType: Actor.Receive(Object)
+- uid: Orleankka.Legacy.Actor.Receive*
+  name: Receive
+  href: api/Orleankka.Legacy.Actor.html#Orleankka_Legacy_Actor_Receive_
+  commentId: Overload:Orleankka.Legacy.Actor.Receive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Actor.Receive
+  nameWithType: Actor.Receive
+- uid: Orleankka.Legacy.BehaviorAttribute
+  name: BehaviorAttribute
+  href: api/Orleankka.Legacy.BehaviorAttribute.html
+  commentId: T:Orleankka.Legacy.BehaviorAttribute
+  fullName: Orleankka.Legacy.BehaviorAttribute
+  nameWithType: BehaviorAttribute
+- uid: Orleankka.Legacy.BehaviorAttribute.Background
+  name: Background
+  href: api/Orleankka.Legacy.BehaviorAttribute.html#Orleankka_Legacy_BehaviorAttribute_Background
+  commentId: P:Orleankka.Legacy.BehaviorAttribute.Background
+  fullName: Orleankka.Legacy.BehaviorAttribute.Background
+  nameWithType: BehaviorAttribute.Background
+- uid: Orleankka.Legacy.BehaviorAttribute.Background*
+  name: Background
+  href: api/Orleankka.Legacy.BehaviorAttribute.html#Orleankka_Legacy_BehaviorAttribute_Background_
+  commentId: Overload:Orleankka.Legacy.BehaviorAttribute.Background
+  isSpec: "True"
+  fullName: Orleankka.Legacy.BehaviorAttribute.Background
+  nameWithType: BehaviorAttribute.Background
+- uid: Orleankka.Legacy.Behaviors
+  name: Orleankka.Legacy.Behaviors
+  href: api/Orleankka.Legacy.Behaviors.html
+  commentId: N:Orleankka.Legacy.Behaviors
+  fullName: Orleankka.Legacy.Behaviors
+  nameWithType: Orleankka.Legacy.Behaviors
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior
+  name: ActorBehavior
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html
+  commentId: T:Orleankka.Legacy.Behaviors.ActorBehavior
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior
+  nameWithType: ActorBehavior
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.Action)
+  name: Become(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Become_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.Action)
+  nameWithType: ActorBehavior.Become(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.String)
+  name: Become(String)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Become_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.String)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Become(System.String)
+  nameWithType: ActorBehavior.Become(String)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Become*
+  name: Become
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Become_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.Become
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Become
+  nameWithType: ActorBehavior.Become
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Current
+  name: Current
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Current
+  commentId: P:Orleankka.Legacy.Behaviors.ActorBehavior.Current
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Current
+  nameWithType: ActorBehavior.Current
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Current*
+  name: Current
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Current_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.Current
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Current
+  nameWithType: ActorBehavior.Current
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.Action)
+  name: Initial(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Initial_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.Action)
+  nameWithType: ActorBehavior.Initial(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.String)
+  name: Initial(String)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Initial_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.String)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.String)
+  nameWithType: ActorBehavior.Initial(String)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Initial*
+  name: Initial
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Initial_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.Initial
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Initial
+  nameWithType: ActorBehavior.Initial
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Action)
+  name: OnActivate(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnActivate_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Action)
+  nameWithType: ActorBehavior.OnActivate(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Func{System.Threading.Tasks.Task})
+  name: OnActivate(Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnActivate_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Func{System.Threading.Tasks.Task})
+  name.vb: OnActivate(Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnActivate(Func<Task>)
+  nameWithType.vb: ActorBehavior.OnActivate(Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate*
+  name: OnActivate
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnActivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnActivate
+  nameWithType: ActorBehavior.OnActivate
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Action)
+  name: OnBecome(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnBecome_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Action)
+  nameWithType: ActorBehavior.OnBecome(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Func{System.Threading.Tasks.Task})
+  name: OnBecome(Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnBecome_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Func{System.Threading.Tasks.Task})
+  name.vb: OnBecome(Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnBecome(Func<Task>)
+  nameWithType.vb: ActorBehavior.OnBecome(Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome*
+  name: OnBecome
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnBecome_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnBecome
+  nameWithType: ActorBehavior.OnBecome
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Action)
+  name: OnDeactivate(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnDeactivate_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Action)
+  nameWithType: ActorBehavior.OnDeactivate(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Func{System.Threading.Tasks.Task})
+  name: OnDeactivate(Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnDeactivate_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Func{System.Threading.Tasks.Task})
+  name.vb: OnDeactivate(Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnDeactivate(Func<Task>)
+  nameWithType.vb: ActorBehavior.OnDeactivate(Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate*
+  name: OnDeactivate
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnDeactivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnDeactivate
+  nameWithType: ActorBehavior.OnDeactivate
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Action{System.Object})
+  name: OnReceive(Action<Object>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive_System_Action_System_Object__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Action{System.Object})
+  name.vb: OnReceive(Action(Of Object))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Action<System.Object>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Action(Of System.Object))
+  nameWithType: ActorBehavior.OnReceive(Action<Object>)
+  nameWithType.vb: ActorBehavior.OnReceive(Action(Of Object))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: OnReceive(Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: OnReceive(Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: ActorBehavior.OnReceive(Func<Object, Task<Object>>)
+  nameWithType.vb: ActorBehavior.OnReceive(Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func{System.Object,System.Threading.Tasks.Task})
+  name: OnReceive(Func<Object, Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive_System_Func_System_Object_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func{System.Object,System.Threading.Tasks.Task})
+  name.vb: OnReceive(Func(Of Object, Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func<System.Object, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(System.Func(Of System.Object, System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnReceive(Func<Object, Task>)
+  nameWithType.vb: ActorBehavior.OnReceive(Func(Of Object, Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive*
+  name: OnReceive
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive
+  nameWithType: ActorBehavior.OnReceive
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Action{``0})
+  name: OnReceive<TMessage>(Action<TMessage>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive__1_System_Action___0__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Action{``0})
+  name.vb: OnReceive(Of TMessage)(Action(Of TMessage))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive<TMessage>(System.Action<TMessage>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(Of TMessage)(System.Action(Of TMessage))
+  nameWithType: ActorBehavior.OnReceive<TMessage>(Action<TMessage>)
+  nameWithType.vb: ActorBehavior.OnReceive(Of TMessage)(Action(Of TMessage))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Func{``0,System.Threading.Tasks.Task{System.Object}})
+  name: OnReceive<TMessage>(Func<TMessage, Task<Object>>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive__1_System_Func___0_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Func{``0,System.Threading.Tasks.Task{System.Object}})
+  name.vb: OnReceive(Of TMessage)(Func(Of TMessage, Task(Of Object)))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive<TMessage>(System.Func<TMessage, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(Of TMessage)(System.Func(Of TMessage, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: ActorBehavior.OnReceive<TMessage>(Func<TMessage, Task<Object>>)
+  nameWithType.vb: ActorBehavior.OnReceive(Of TMessage)(Func(Of TMessage, Task(Of Object)))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Func{``0,System.Threading.Tasks.Task})
+  name: OnReceive<TMessage>(Func<TMessage, Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive__1_System_Func___0_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``1(System.Func{``0,System.Threading.Tasks.Task})
+  name.vb: OnReceive(Of TMessage)(Func(Of TMessage, Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive<TMessage>(System.Func<TMessage, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(Of TMessage)(System.Func(Of TMessage, System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnReceive<TMessage>(Func<TMessage, Task>)
+  nameWithType.vb: ActorBehavior.OnReceive(Of TMessage)(Func(Of TMessage, Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``2(System.Func{``0,``1})
+  name: OnReceive<TMessage, TResult>(Func<TMessage, TResult>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive__2_System_Func___0___1__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``2(System.Func{``0,``1})
+  name.vb: OnReceive(Of TMessage, TResult)(Func(Of TMessage, TResult))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive<TMessage, TResult>(System.Func<TMessage, TResult>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(Of TMessage, TResult)(System.Func(Of TMessage, TResult))
+  nameWithType: ActorBehavior.OnReceive<TMessage, TResult>(Func<TMessage, TResult>)
+  nameWithType.vb: ActorBehavior.OnReceive(Of TMessage, TResult)(Func(Of TMessage, TResult))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``2(System.Func{``0,System.Threading.Tasks.Task{``1}})
+  name: OnReceive<TMessage, TResult>(Func<TMessage, Task<TResult>>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReceive__2_System_Func___0_System_Threading_Tasks_Task___1___
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive``2(System.Func{``0,System.Threading.Tasks.Task{``1}})
+  name.vb: OnReceive(Of TMessage, TResult)(Func(Of TMessage, Task(Of TResult)))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive<TMessage, TResult>(System.Func<TMessage, System.Threading.Tasks.Task<TResult>>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReceive(Of TMessage, TResult)(System.Func(Of TMessage, System.Threading.Tasks.Task(Of TResult)))
+  nameWithType: ActorBehavior.OnReceive<TMessage, TResult>(Func<TMessage, Task<TResult>>)
+  nameWithType.vb: ActorBehavior.OnReceive(Of TMessage, TResult)(Func(Of TMessage, Task(Of TResult)))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Action{System.String})
+  name: OnReminder(Action<String>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReminder_System_Action_System_String__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Action{System.String})
+  name.vb: OnReminder(Action(Of String))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Action<System.String>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Action(Of System.String))
+  nameWithType: ActorBehavior.OnReminder(Action<String>)
+  nameWithType.vb: ActorBehavior.OnReminder(Action(Of String))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Func{System.String,System.Threading.Tasks.Task})
+  name: OnReminder(Func<String, Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReminder_System_Func_System_String_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Func{System.String,System.Threading.Tasks.Task})
+  name.vb: OnReminder(Func(Of String, Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Func<System.String, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.Func(Of System.String, System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnReminder(Func<String, Task>)
+  nameWithType.vb: ActorBehavior.OnReminder(Func(Of String, Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String,System.Action)
+  name: OnReminder(String, Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReminder_System_String_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String, System.Action)
+  nameWithType: ActorBehavior.OnReminder(String, Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String,System.Func{System.Threading.Tasks.Task})
+  name: OnReminder(String, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReminder_System_String_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnReminder(String, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder(System.String, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnReminder(String, Func<Task>)
+  nameWithType.vb: ActorBehavior.OnReminder(String, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder*
+  name: OnReminder
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnReminder_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnReminder
+  nameWithType: ActorBehavior.OnReminder
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Action)
+  name: OnUnbecome(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnUnbecome_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Action)
+  nameWithType: ActorBehavior.OnUnbecome(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Func{System.Threading.Tasks.Task})
+  name: OnUnbecome(Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnUnbecome_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Func{System.Threading.Tasks.Task})
+  name.vb: OnUnbecome(Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: ActorBehavior.OnUnbecome(Func<Task>)
+  nameWithType.vb: ActorBehavior.OnUnbecome(Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome*
+  name: OnUnbecome
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_OnUnbecome_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.OnUnbecome
+  nameWithType: ActorBehavior.OnUnbecome
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.Action)
+  name: Super(Action)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Super_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.Action)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.Action)
+  nameWithType: ActorBehavior.Super(Action)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.String)
+  name: Super(String)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Super_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.String)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Super(System.String)
+  nameWithType: ActorBehavior.Super(String)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Super*
+  name: Super
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Super_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.Super
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Super
+  nameWithType: ActorBehavior.Super
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.Action[])
+  name: Trait(Action[])
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Trait_System_Action___
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.Action[])
+  name.vb: Trait(Action())
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.Action[])
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.Action())
+  nameWithType: ActorBehavior.Trait(Action[])
+  nameWithType.vb: ActorBehavior.Trait(Action())
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.String[])
+  name: Trait(String[])
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Trait_System_String___
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.String[])
+  name.vb: Trait(String())
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.String[])
+  fullName.vb: Orleankka.Legacy.Behaviors.ActorBehavior.Trait(System.String())
+  nameWithType: ActorBehavior.Trait(String[])
+  nameWithType.vb: ActorBehavior.Trait(String())
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.Trait*
+  name: Trait
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Trait_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.Trait
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Trait
+  nameWithType: ActorBehavior.Trait
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions
+  name: BehaviorExtensions
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html
+  commentId: T:Orleankka.Legacy.Behaviors.BehaviorExtensions
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions
+  nameWithType: BehaviorExtensions
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor,System.Action)
+  name: Become(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Become_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.Become(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor,System.String)
+  name: Become(Actor, String)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Become_Orleankka_Legacy_Actor_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor,System.String)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become(Orleankka.Legacy.Actor, System.String)
+  nameWithType: BehaviorExtensions.Become(Actor, String)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become*
+  name: Become
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Become_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.Become
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Become
+  nameWithType: BehaviorExtensions.Become
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor,System.Action)
+  name: OnActivate(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnActivate_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.OnActivate(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name: OnActivate(Actor, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnActivate_Orleankka_Legacy_Actor_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnActivate(Actor, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate(Orleankka.Legacy.Actor, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnActivate(Actor, Func<Task>)
+  nameWithType.vb: BehaviorExtensions.OnActivate(Actor, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate*
+  name: OnActivate
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnActivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnActivate
+  nameWithType: BehaviorExtensions.OnActivate
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor,System.Action)
+  name: OnBecome(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnBecome_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.OnBecome(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name: OnBecome(Actor, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnBecome_Orleankka_Legacy_Actor_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnBecome(Actor, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome(Orleankka.Legacy.Actor, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnBecome(Actor, Func<Task>)
+  nameWithType.vb: BehaviorExtensions.OnBecome(Actor, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome*
+  name: OnBecome
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnBecome_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnBecome
+  nameWithType: BehaviorExtensions.OnBecome
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor,System.Action)
+  name: OnDeactivate(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnDeactivate_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.OnDeactivate(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name: OnDeactivate(Actor, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnDeactivate_Orleankka_Legacy_Actor_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnDeactivate(Actor, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate(Orleankka.Legacy.Actor, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnDeactivate(Actor, Func<Task>)
+  nameWithType.vb: BehaviorExtensions.OnDeactivate(Actor, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate*
+  name: OnDeactivate
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnDeactivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnDeactivate
+  nameWithType: BehaviorExtensions.OnDeactivate
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor,System.Action{System.Object})
+  name: OnReceive(Actor, Action<Object>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive_Orleankka_Legacy_Actor_System_Action_System_Object__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor,System.Action{System.Object})
+  name.vb: OnReceive(Actor, Action(Of Object))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor, System.Action<System.Object>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor, System.Action(Of System.Object))
+  nameWithType: BehaviorExtensions.OnReceive(Actor, Action<Object>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Actor, Action(Of Object))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor,System.Func{System.Object,System.Threading.Tasks.Task})
+  name: OnReceive(Actor, Func<Object, Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive_Orleankka_Legacy_Actor_System_Func_System_Object_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor,System.Func{System.Object,System.Threading.Tasks.Task})
+  name.vb: OnReceive(Actor, Func(Of Object, Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor, System.Func<System.Object, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Orleankka.Legacy.Actor, System.Func(Of System.Object, System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnReceive(Actor, Func<Object, Task>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Actor, Func(Of Object, Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive*
+  name: OnReceive
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive
+  nameWithType: BehaviorExtensions.OnReceive
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Action{``0})
+  name: OnReceive<TMessage>(Actor, Action<TMessage>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive__1_Orleankka_Legacy_Actor_System_Action___0__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Action{``0})
+  name.vb: OnReceive(Of TMessage)(Actor, Action(Of TMessage))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive<TMessage>(Orleankka.Legacy.Actor, System.Action<TMessage>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Of TMessage)(Orleankka.Legacy.Actor, System.Action(Of TMessage))
+  nameWithType: BehaviorExtensions.OnReceive<TMessage>(Actor, Action<TMessage>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Of TMessage)(Actor, Action(Of TMessage))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task{System.Object}})
+  name: OnReceive<TMessage>(Actor, Func<TMessage, Task<Object>>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive__1_Orleankka_Legacy_Actor_System_Func___0_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task{System.Object}})
+  name.vb: OnReceive(Of TMessage)(Actor, Func(Of TMessage, Task(Of Object)))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive<TMessage>(Orleankka.Legacy.Actor, System.Func<TMessage, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Of TMessage)(Orleankka.Legacy.Actor, System.Func(Of TMessage, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: BehaviorExtensions.OnReceive<TMessage>(Actor, Func<TMessage, Task<Object>>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Of TMessage)(Actor, Func(Of TMessage, Task(Of Object)))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task})
+  name: OnReceive<TMessage>(Actor, Func<TMessage, Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive__1_Orleankka_Legacy_Actor_System_Func___0_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``1(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task})
+  name.vb: OnReceive(Of TMessage)(Actor, Func(Of TMessage, Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive<TMessage>(Orleankka.Legacy.Actor, System.Func<TMessage, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Of TMessage)(Orleankka.Legacy.Actor, System.Func(Of TMessage, System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnReceive<TMessage>(Actor, Func<TMessage, Task>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Of TMessage)(Actor, Func(Of TMessage, Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``2(Orleankka.Legacy.Actor,System.Func{``0,``1})
+  name: OnReceive<TMessage, TResult>(Actor, Func<TMessage, TResult>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive__2_Orleankka_Legacy_Actor_System_Func___0___1__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``2(Orleankka.Legacy.Actor,System.Func{``0,``1})
+  name.vb: OnReceive(Of TMessage, TResult)(Actor, Func(Of TMessage, TResult))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive<TMessage, TResult>(Orleankka.Legacy.Actor, System.Func<TMessage, TResult>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Of TMessage, TResult)(Orleankka.Legacy.Actor, System.Func(Of TMessage, TResult))
+  nameWithType: BehaviorExtensions.OnReceive<TMessage, TResult>(Actor, Func<TMessage, TResult>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Of TMessage, TResult)(Actor, Func(Of TMessage, TResult))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``2(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task{``1}})
+  name: OnReceive<TMessage, TResult>(Actor, Func<TMessage, Task<TResult>>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReceive__2_Orleankka_Legacy_Actor_System_Func___0_System_Threading_Tasks_Task___1___
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive``2(Orleankka.Legacy.Actor,System.Func{``0,System.Threading.Tasks.Task{``1}})
+  name.vb: OnReceive(Of TMessage, TResult)(Actor, Func(Of TMessage, Task(Of TResult)))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive<TMessage, TResult>(Orleankka.Legacy.Actor, System.Func<TMessage, System.Threading.Tasks.Task<TResult>>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReceive(Of TMessage, TResult)(Orleankka.Legacy.Actor, System.Func(Of TMessage, System.Threading.Tasks.Task(Of TResult)))
+  nameWithType: BehaviorExtensions.OnReceive<TMessage, TResult>(Actor, Func<TMessage, Task<TResult>>)
+  nameWithType.vb: BehaviorExtensions.OnReceive(Of TMessage, TResult)(Actor, Func(Of TMessage, Task(Of TResult)))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.Action{System.String})
+  name: OnReminder(Actor, Action<String>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReminder_Orleankka_Legacy_Actor_System_Action_System_String__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.Action{System.String})
+  name.vb: OnReminder(Actor, Action(Of String))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.Action<System.String>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.Action(Of System.String))
+  nameWithType: BehaviorExtensions.OnReminder(Actor, Action<String>)
+  nameWithType.vb: BehaviorExtensions.OnReminder(Actor, Action(Of String))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.Func{System.String,System.Threading.Tasks.Task})
+  name: OnReminder(Actor, Func<String, Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReminder_Orleankka_Legacy_Actor_System_Func_System_String_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.Func{System.String,System.Threading.Tasks.Task})
+  name.vb: OnReminder(Actor, Func(Of String, Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.Func<System.String, System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.Func(Of System.String, System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnReminder(Actor, Func<String, Task>)
+  nameWithType.vb: BehaviorExtensions.OnReminder(Actor, Func(Of String, Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.String,System.Action)
+  name: OnReminder(Actor, String, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReminder_Orleankka_Legacy_Actor_System_String_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.String,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.String, System.Action)
+  nameWithType: BehaviorExtensions.OnReminder(Actor, String, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.String,System.Func{System.Threading.Tasks.Task})
+  name: OnReminder(Actor, String, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReminder_Orleankka_Legacy_Actor_System_String_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor,System.String,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnReminder(Actor, String, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.String, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder(Orleankka.Legacy.Actor, System.String, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnReminder(Actor, String, Func<Task>)
+  nameWithType.vb: BehaviorExtensions.OnReminder(Actor, String, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder*
+  name: OnReminder
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnReminder_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnReminder
+  nameWithType: BehaviorExtensions.OnReminder
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor,System.Action)
+  name: OnUnbecome(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnUnbecome_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.OnUnbecome(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name: OnUnbecome(Actor, Func<Task>)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnUnbecome_Orleankka_Legacy_Actor_System_Func_System_Threading_Tasks_Task__
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor,System.Func{System.Threading.Tasks.Task})
+  name.vb: OnUnbecome(Actor, Func(Of Task))
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor, System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome(Orleankka.Legacy.Actor, System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: BehaviorExtensions.OnUnbecome(Actor, Func<Task>)
+  nameWithType.vb: BehaviorExtensions.OnUnbecome(Actor, Func(Of Task))
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome*
+  name: OnUnbecome
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_OnUnbecome_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.OnUnbecome
+  nameWithType: BehaviorExtensions.OnUnbecome
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor,System.Action)
+  name: Super(Actor, Action)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Super_Orleankka_Legacy_Actor_System_Action_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor,System.Action)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor, System.Action)
+  nameWithType: BehaviorExtensions.Super(Actor, Action)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor,System.String)
+  name: Super(Actor, String)
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Super_Orleankka_Legacy_Actor_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor,System.String)
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super(Orleankka.Legacy.Actor, System.String)
+  nameWithType: BehaviorExtensions.Super(Actor, String)
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super*
+  name: Super
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Super_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.Super
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Super
+  nameWithType: BehaviorExtensions.Super
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor,System.Action[])
+  name: Trait(Actor, Action[])
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Trait_Orleankka_Legacy_Actor_System_Action___
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor,System.Action[])
+  name.vb: Trait(Actor, Action())
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor, System.Action[])
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor, System.Action())
+  nameWithType: BehaviorExtensions.Trait(Actor, Action[])
+  nameWithType.vb: BehaviorExtensions.Trait(Actor, Action())
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor,System.String[])
+  name: Trait(Actor, String[])
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Trait_Orleankka_Legacy_Actor_System_String___
+  commentId: M:Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor,System.String[])
+  name.vb: Trait(Actor, String())
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor, System.String[])
+  fullName.vb: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait(Orleankka.Legacy.Actor, System.String())
+  nameWithType: BehaviorExtensions.Trait(Actor, String[])
+  nameWithType.vb: BehaviorExtensions.Trait(Actor, String())
+- uid: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait*
+  name: Trait
+  href: api/Orleankka.Legacy.Behaviors.BehaviorExtensions.html#Orleankka_Legacy_Behaviors_BehaviorExtensions_Trait_
+  commentId: Overload:Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.BehaviorExtensions.Trait
+  nameWithType: BehaviorExtensions.Trait
+- uid: Orleankka.Legacy.Behaviors.Transition
+  name: Transition
+  href: api/Orleankka.Legacy.Behaviors.Transition.html
+  commentId: T:Orleankka.Legacy.Behaviors.Transition
+  fullName: Orleankka.Legacy.Behaviors.Transition
+  nameWithType: Transition
+- uid: Orleankka.Legacy.Behaviors.Transition.From
+  name: From
+  href: api/Orleankka.Legacy.Behaviors.Transition.html#Orleankka_Legacy_Behaviors_Transition_From
+  commentId: P:Orleankka.Legacy.Behaviors.Transition.From
+  fullName: Orleankka.Legacy.Behaviors.Transition.From
+  nameWithType: Transition.From
+- uid: Orleankka.Legacy.Behaviors.Transition.From*
+  name: From
+  href: api/Orleankka.Legacy.Behaviors.Transition.html#Orleankka_Legacy_Behaviors_Transition_From_
+  commentId: Overload:Orleankka.Legacy.Behaviors.Transition.From
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.Transition.From
+  nameWithType: Transition.From
+- uid: Orleankka.Legacy.Behaviors.Transition.To
+  name: To
+  href: api/Orleankka.Legacy.Behaviors.Transition.html#Orleankka_Legacy_Behaviors_Transition_To
+  commentId: P:Orleankka.Legacy.Behaviors.Transition.To
+  fullName: Orleankka.Legacy.Behaviors.Transition.To
+  nameWithType: Transition.To
+- uid: Orleankka.Legacy.Behaviors.Transition.To*
+  name: To
+  href: api/Orleankka.Legacy.Behaviors.Transition.html#Orleankka_Legacy_Behaviors_Transition_To_
+  commentId: Overload:Orleankka.Legacy.Behaviors.Transition.To
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.Transition.To
+  nameWithType: Transition.To
+- uid: Orleankka.Legacy.Behaviors.UnhandledReminderException
+  name: UnhandledReminderException
+  href: api/Orleankka.Legacy.Behaviors.UnhandledReminderException.html
+  commentId: T:Orleankka.Legacy.Behaviors.UnhandledReminderException
+  fullName: Orleankka.Legacy.Behaviors.UnhandledReminderException
+  nameWithType: UnhandledReminderException
+- uid: Orleankka.Legacy.Behaviors.UnhandledReminderException.#ctor(Orleankka.Legacy.Actor,System.String)
+  name: UnhandledReminderException(Actor, String)
+  href: api/Orleankka.Legacy.Behaviors.UnhandledReminderException.html#Orleankka_Legacy_Behaviors_UnhandledReminderException__ctor_Orleankka_Legacy_Actor_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.UnhandledReminderException.#ctor(Orleankka.Legacy.Actor,System.String)
+  fullName: Orleankka.Legacy.Behaviors.UnhandledReminderException.UnhandledReminderException(Orleankka.Legacy.Actor, System.String)
+  nameWithType: UnhandledReminderException.UnhandledReminderException(Actor, String)
+- uid: Orleankka.Legacy.Behaviors.UnhandledReminderException.#ctor*
+  name: UnhandledReminderException
+  href: api/Orleankka.Legacy.Behaviors.UnhandledReminderException.html#Orleankka_Legacy_Behaviors_UnhandledReminderException__ctor_
+  commentId: Overload:Orleankka.Legacy.Behaviors.UnhandledReminderException.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.UnhandledReminderException.UnhandledReminderException
+  nameWithType: UnhandledReminderException.UnhandledReminderException
+- uid: Orleankka.Legacy.Cluster
+  name: Orleankka.Legacy.Cluster
+  href: api/Orleankka.Legacy.Cluster.html
+  commentId: N:Orleankka.Legacy.Cluster
+  fullName: Orleankka.Legacy.Cluster
+  nameWithType: Orleankka.Legacy.Cluster
+- uid: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions
+  name: LegacyOrleankkaClusterOptions
+  href: api/Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.html
+  commentId: T:Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions
+  fullName: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions
+  nameWithType: LegacyOrleankkaClusterOptions
+- uid: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(System.String,System.Action{Microsoft.Extensions.Options.OptionsBuilder{Orleans.Configuration.SimpleMessageStreamProviderOptions}})
+  name: AddSimpleMessageStreamProvider(String, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>>)
+  href: api/Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.html#Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_AddSimpleMessageStreamProvider_System_String_System_Action_Microsoft_Extensions_Options_OptionsBuilder_Orleans_Configuration_SimpleMessageStreamProviderOptions___
+  commentId: M:Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(System.String,System.Action{Microsoft.Extensions.Options.OptionsBuilder{Orleans.Configuration.SimpleMessageStreamProviderOptions}})
+  name.vb: AddSimpleMessageStreamProvider(String, Action(Of OptionsBuilder(Of SimpleMessageStreamProviderOptions)))
+  fullName: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(System.String, System.Action<Microsoft.Extensions.Options.OptionsBuilder<Orleans.Configuration.SimpleMessageStreamProviderOptions>>)
+  fullName.vb: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(System.String, System.Action(Of Microsoft.Extensions.Options.OptionsBuilder(Of Orleans.Configuration.SimpleMessageStreamProviderOptions)))
+  nameWithType: LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(String, Action<OptionsBuilder<SimpleMessageStreamProviderOptions>>)
+  nameWithType.vb: LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider(String, Action(Of OptionsBuilder(Of SimpleMessageStreamProviderOptions)))
+- uid: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider*
+  name: AddSimpleMessageStreamProvider
+  href: api/Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.html#Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_AddSimpleMessageStreamProvider_
+  commentId: Overload:Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider
+  nameWithType: LegacyOrleankkaClusterOptions.AddSimpleMessageStreamProvider
+- uid: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(System.String[])
+  name: RegisterPersistentStreamProviders(String[])
+  href: api/Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.html#Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_RegisterPersistentStreamProviders_System_String___
+  commentId: M:Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(System.String[])
+  name.vb: RegisterPersistentStreamProviders(String())
+  fullName: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(System.String[])
+  fullName.vb: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(System.String())
+  nameWithType: LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(String[])
+  nameWithType.vb: LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders(String())
+- uid: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders*
+  name: RegisterPersistentStreamProviders
+  href: api/Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.html#Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_RegisterPersistentStreamProviders_
+  commentId: Overload:Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders
+  nameWithType: LegacyOrleankkaClusterOptions.RegisterPersistentStreamProviders
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions
+  name: LegacySiloHostBuilderExtensions
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html
+  commentId: T:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions
+  nameWithType: LegacySiloHostBuilderExtensions
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder)
+  name: UseOrleankkaLegacyFeatures(ISiloBuilder)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloBuilder_
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder)
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder)
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloBuilder)
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  name: UseOrleankkaLegacyFeatures(ISiloBuilder, LegacyOrleankkaClusterOptions)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloBuilder_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloBuilder, LegacyOrleankkaClusterOptions)
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions})
+  name: UseOrleankkaLegacyFeatures(ISiloBuilder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions>)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloBuilder_System_Func_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions__
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions})
+  name.vb: UseOrleankkaLegacyFeatures(ISiloBuilder, Func(Of LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions))
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder, System.Func<Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions>)
+  fullName.vb: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloBuilder, System.Func(Of Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions))
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloBuilder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions>)
+  nameWithType.vb: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloBuilder, Func(Of LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions))
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder)
+  name: UseOrleankkaLegacyFeatures(ISiloHostBuilder)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloHostBuilder_
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder)
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder)
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloHostBuilder)
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  name: UseOrleankkaLegacyFeatures(ISiloHostBuilder, LegacyOrleankkaClusterOptions)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloHostBuilder_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions)
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloHostBuilder, LegacyOrleankkaClusterOptions)
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder,System.Func{Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions})
+  name: UseOrleankkaLegacyFeatures(ISiloHostBuilder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions>)
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_Orleans_Hosting_ISiloHostBuilder_System_Func_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions_Orleankka_Legacy_Cluster_LegacyOrleankkaClusterOptions__
+  commentId: M:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder,System.Func{Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions,Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions})
+  name.vb: UseOrleankkaLegacyFeatures(ISiloHostBuilder, Func(Of LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions))
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder, System.Func<Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions>)
+  fullName.vb: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(Orleans.Hosting.ISiloHostBuilder, System.Func(Of Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions, Orleankka.Legacy.Cluster.LegacyOrleankkaClusterOptions))
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloHostBuilder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions>)
+  nameWithType.vb: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures(ISiloHostBuilder, Func(Of LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions))
+- uid: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures*
+  name: UseOrleankkaLegacyFeatures
+  href: api/Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.html#Orleankka_Legacy_Cluster_LegacySiloHostBuilderExtensions_UseOrleankkaLegacyFeatures_
+  commentId: Overload:Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Cluster.LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures
+  nameWithType: LegacySiloHostBuilderExtensions.UseOrleankkaLegacyFeatures
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions
+  name: LegacyDispatcherExtensions
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html
+  commentId: T:Orleankka.Legacy.LegacyDispatcherExtensions
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions
+  nameWithType: LegacyDispatcherExtensions
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: Dispatch(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_Dispatch_Orleankka_Dispatcher_System_Object_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: Dispatch(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch(Orleankka.Dispatcher, System.Object, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch(Orleankka.Dispatcher, System.Object, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: LegacyDispatcherExtensions.Dispatch(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  nameWithType.vb: LegacyDispatcherExtensions.Dispatch(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch*
+  name: Dispatch
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_Dispatch_
+  commentId: Overload:Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch
+  isSpec: "True"
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.Dispatch
+  nameWithType: LegacyDispatcherExtensions.Dispatch
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: DispatchAction(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_DispatchAction_Orleankka_Dispatcher_System_Object_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: DispatchAction(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction(Orleankka.Dispatcher, System.Object, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction(Orleankka.Dispatcher, System.Object, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: LegacyDispatcherExtensions.DispatchAction(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  nameWithType.vb: LegacyDispatcherExtensions.DispatchAction(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction*
+  name: DispatchAction
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_DispatchAction_
+  commentId: Overload:Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction
+  isSpec: "True"
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchAction
+  nameWithType: LegacyDispatcherExtensions.DispatchAction
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name: DispatchFunc(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_DispatchFunc_Orleankka_Dispatcher_System_Object_System_Object_System_Func_System_Object_System_Threading_Tasks_Task_System_Object___
+  commentId: M:Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc(Orleankka.Dispatcher,System.Object,System.Object,System.Func{System.Object,System.Threading.Tasks.Task{System.Object}})
+  name.vb: DispatchFunc(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc(Orleankka.Dispatcher, System.Object, System.Object, System.Func<System.Object, System.Threading.Tasks.Task<System.Object>>)
+  fullName.vb: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc(Orleankka.Dispatcher, System.Object, System.Object, System.Func(Of System.Object, System.Threading.Tasks.Task(Of System.Object)))
+  nameWithType: LegacyDispatcherExtensions.DispatchFunc(Dispatcher, Object, Object, Func<Object, Task<Object>>)
+  nameWithType.vb: LegacyDispatcherExtensions.DispatchFunc(Dispatcher, Object, Object, Func(Of Object, Task(Of Object)))
+- uid: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc*
+  name: DispatchFunc
+  href: api/Orleankka.Legacy.LegacyDispatcherExtensions.html#Orleankka_Legacy_LegacyDispatcherExtensions_DispatchFunc_
+  commentId: Overload:Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc
+  isSpec: "True"
+  fullName: Orleankka.Legacy.LegacyDispatcherExtensions.DispatchFunc
+  nameWithType: LegacyDispatcherExtensions.DispatchFunc
+- uid: Orleankka.Legacy.Streams
+  name: Orleankka.Legacy.Streams
+  href: api/Orleankka.Legacy.Streams.html
+  commentId: N:Orleankka.Legacy.Streams
+  fullName: Orleankka.Legacy.Streams
+  nameWithType: Orleankka.Legacy.Streams
+- uid: Orleankka.Legacy.Streams.StreamSubscriptionSpecification
+  name: StreamSubscriptionSpecification
+  href: api/Orleankka.Legacy.Streams.StreamSubscriptionSpecification.html
+  commentId: T:Orleankka.Legacy.Streams.StreamSubscriptionSpecification
+  fullName: Orleankka.Legacy.Streams.StreamSubscriptionSpecification
+  nameWithType: StreamSubscriptionSpecification
+- uid: Orleankka.Legacy.Streams.StreamSubscriptionSpecification.Provider
+  name: Provider
+  href: api/Orleankka.Legacy.Streams.StreamSubscriptionSpecification.html#Orleankka_Legacy_Streams_StreamSubscriptionSpecification_Provider
+  commentId: F:Orleankka.Legacy.Streams.StreamSubscriptionSpecification.Provider
+  fullName: Orleankka.Legacy.Streams.StreamSubscriptionSpecification.Provider
+  nameWithType: StreamSubscriptionSpecification.Provider
+- uid: Orleankka.Legacy.StreamSubscriptionAttribute
+  name: StreamSubscriptionAttribute
+  href: api/Orleankka.Legacy.StreamSubscriptionAttribute.html
+  commentId: T:Orleankka.Legacy.StreamSubscriptionAttribute
+  fullName: Orleankka.Legacy.StreamSubscriptionAttribute
+  nameWithType: StreamSubscriptionAttribute
+- uid: Orleankka.Legacy.StreamSubscriptionAttribute.Filter
+  name: Filter
+  href: api/Orleankka.Legacy.StreamSubscriptionAttribute.html#Orleankka_Legacy_StreamSubscriptionAttribute_Filter
+  commentId: F:Orleankka.Legacy.StreamSubscriptionAttribute.Filter
+  fullName: Orleankka.Legacy.StreamSubscriptionAttribute.Filter
+  nameWithType: StreamSubscriptionAttribute.Filter
+- uid: Orleankka.Legacy.StreamSubscriptionAttribute.Source
+  name: Source
+  href: api/Orleankka.Legacy.StreamSubscriptionAttribute.html#Orleankka_Legacy_StreamSubscriptionAttribute_Source
+  commentId: F:Orleankka.Legacy.StreamSubscriptionAttribute.Source
+  fullName: Orleankka.Legacy.StreamSubscriptionAttribute.Source
+  nameWithType: StreamSubscriptionAttribute.Source
+- uid: Orleankka.Legacy.StreamSubscriptionAttribute.Target
+  name: Target
+  href: api/Orleankka.Legacy.StreamSubscriptionAttribute.html#Orleankka_Legacy_StreamSubscriptionAttribute_Target
+  commentId: F:Orleankka.Legacy.StreamSubscriptionAttribute.Target
+  fullName: Orleankka.Legacy.StreamSubscriptionAttribute.Target
+  nameWithType: StreamSubscriptionAttribute.Target
+- uid: Orleankka.Legacy.TraitAttribute
+  name: TraitAttribute
+  href: api/Orleankka.Legacy.TraitAttribute.html
+  commentId: T:Orleankka.Legacy.TraitAttribute
+  fullName: Orleankka.Legacy.TraitAttribute
+  nameWithType: TraitAttribute
 - uid: Orleankka.LifecycleMessage
   name: LifecycleMessage
   href: api/Orleankka.LifecycleMessage.html
@@ -7220,28 +8101,77 @@ references:
   isSpec: "True"
   fullName: Orleankka.UnhandledMessageException.UnhandledMessageException
   nameWithType: UnhandledMessageException.UnhandledMessageException
-- uid: Orleankka.Utility
-  name: Orleankka.Utility
-  href: api/Orleankka.Utility.html
-  commentId: N:Orleankka.Utility
-  fullName: Orleankka.Utility
-  nameWithType: Orleankka.Utility
-- uid: Orleankka.Utility.AssemblyExtensions
-  name: AssemblyExtensions
-  href: api/Orleankka.Utility.AssemblyExtensions.html
-  commentId: T:Orleankka.Utility.AssemblyExtensions
-  fullName: Orleankka.Utility.AssemblyExtensions
-  nameWithType: AssemblyExtensions
-- uid: Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource(System.Reflection.Assembly,System.String)
-  name: LoadEmbeddedResource(Assembly, String)
-  href: api/Orleankka.Utility.AssemblyExtensions.html#Orleankka_Utility_AssemblyExtensions_LoadEmbeddedResource_System_Reflection_Assembly_System_String_
-  commentId: M:Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource(System.Reflection.Assembly,System.String)
-  fullName: Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource(System.Reflection.Assembly, System.String)
-  nameWithType: AssemblyExtensions.LoadEmbeddedResource(Assembly, String)
-- uid: Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource*
-  name: LoadEmbeddedResource
-  href: api/Orleankka.Utility.AssemblyExtensions.html#Orleankka_Utility_AssemblyExtensions_LoadEmbeddedResource_
-  commentId: Overload:Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource
+- uid: Orleans.Internals
+  name: Orleans.Internals
+  href: api/Orleans.Internals.html
+  commentId: N:Orleans.Internals
+  fullName: Orleans.Internals
+  nameWithType: Orleans.Internals
+- uid: Orleans.Internals.StreamIdentity
+  name: StreamIdentity
+  href: api/Orleans.Internals.StreamIdentity.html
+  commentId: T:Orleans.Internals.StreamIdentity
+  fullName: Orleans.Internals.StreamIdentity
+  nameWithType: StreamIdentity
+- uid: Orleans.Internals.StreamIdentity.Id
+  name: Id
+  href: api/Orleans.Internals.StreamIdentity.html#Orleans_Internals_StreamIdentity_Id
+  commentId: F:Orleans.Internals.StreamIdentity.Id
+  fullName: Orleans.Internals.StreamIdentity.Id
+  nameWithType: StreamIdentity.Id
+- uid: Orleans.Internals.StreamIdentity.Provider
+  name: Provider
+  href: api/Orleans.Internals.StreamIdentity.html#Orleans_Internals_StreamIdentity_Provider
+  commentId: F:Orleans.Internals.StreamIdentity.Provider
+  fullName: Orleans.Internals.StreamIdentity.Provider
+  nameWithType: StreamIdentity.Provider
+- uid: Orleans.Internals.StreamPubSubMatch
+  name: StreamPubSubMatch
+  href: api/Orleans.Internals.StreamPubSubMatch.html
+  commentId: T:Orleans.Internals.StreamPubSubMatch
+  fullName: Orleans.Internals.StreamPubSubMatch
+  nameWithType: StreamPubSubMatch
+- uid: Orleans.Internals.StreamPubSubMatch.#ctor(System.Func{System.Object,System.Threading.Tasks.Task})
+  name: StreamPubSubMatch(Func<Object, Task>)
+  href: api/Orleans.Internals.StreamPubSubMatch.html#Orleans_Internals_StreamPubSubMatch__ctor_System_Func_System_Object_System_Threading_Tasks_Task__
+  commentId: M:Orleans.Internals.StreamPubSubMatch.#ctor(System.Func{System.Object,System.Threading.Tasks.Task})
+  name.vb: StreamPubSubMatch(Func(Of Object, Task))
+  fullName: Orleans.Internals.StreamPubSubMatch.StreamPubSubMatch(System.Func<System.Object, System.Threading.Tasks.Task>)
+  fullName.vb: Orleans.Internals.StreamPubSubMatch.StreamPubSubMatch(System.Func(Of System.Object, System.Threading.Tasks.Task))
+  nameWithType: StreamPubSubMatch.StreamPubSubMatch(Func<Object, Task>)
+  nameWithType.vb: StreamPubSubMatch.StreamPubSubMatch(Func(Of Object, Task))
+- uid: Orleans.Internals.StreamPubSubMatch.#ctor*
+  name: StreamPubSubMatch
+  href: api/Orleans.Internals.StreamPubSubMatch.html#Orleans_Internals_StreamPubSubMatch__ctor_
+  commentId: Overload:Orleans.Internals.StreamPubSubMatch.#ctor
   isSpec: "True"
-  fullName: Orleankka.Utility.AssemblyExtensions.LoadEmbeddedResource
-  nameWithType: AssemblyExtensions.LoadEmbeddedResource
+  fullName: Orleans.Internals.StreamPubSubMatch.StreamPubSubMatch
+  nameWithType: StreamPubSubMatch.StreamPubSubMatch
+- uid: Orleans.Internals.StreamPubSubMatch.Handler
+  name: Handler
+  href: api/Orleans.Internals.StreamPubSubMatch.html#Orleans_Internals_StreamPubSubMatch_Handler
+  commentId: F:Orleans.Internals.StreamPubSubMatch.Handler
+  fullName: Orleans.Internals.StreamPubSubMatch.Handler
+  nameWithType: StreamPubSubMatch.Handler
+- uid: Orleans.Internals.StreamPubSubWrapper
+  name: StreamPubSubWrapper
+  href: api/Orleans.Internals.StreamPubSubWrapper.html
+  commentId: T:Orleans.Internals.StreamPubSubWrapper
+  fullName: Orleans.Internals.StreamPubSubWrapper
+  nameWithType: StreamPubSubWrapper
+- uid: Orleans.Internals.StreamPubSubWrapper.Hook(System.IServiceProvider,System.String[],System.Func{Orleans.Internals.StreamIdentity,Orleans.Internals.StreamPubSubMatch[]})
+  name: Hook(IServiceProvider, String[], Func<StreamIdentity, StreamPubSubMatch[]>)
+  href: api/Orleans.Internals.StreamPubSubWrapper.html#Orleans_Internals_StreamPubSubWrapper_Hook_System_IServiceProvider_System_String___System_Func_Orleans_Internals_StreamIdentity_Orleans_Internals_StreamPubSubMatch____
+  commentId: M:Orleans.Internals.StreamPubSubWrapper.Hook(System.IServiceProvider,System.String[],System.Func{Orleans.Internals.StreamIdentity,Orleans.Internals.StreamPubSubMatch[]})
+  name.vb: Hook(IServiceProvider, String(), Func(Of StreamIdentity, StreamPubSubMatch()))
+  fullName: Orleans.Internals.StreamPubSubWrapper.Hook(System.IServiceProvider, System.String[], System.Func<Orleans.Internals.StreamIdentity, Orleans.Internals.StreamPubSubMatch[]>)
+  fullName.vb: Orleans.Internals.StreamPubSubWrapper.Hook(System.IServiceProvider, System.String(), System.Func(Of Orleans.Internals.StreamIdentity, Orleans.Internals.StreamPubSubMatch()))
+  nameWithType: StreamPubSubWrapper.Hook(IServiceProvider, String[], Func<StreamIdentity, StreamPubSubMatch[]>)
+  nameWithType.vb: StreamPubSubWrapper.Hook(IServiceProvider, String(), Func(Of StreamIdentity, StreamPubSubMatch()))
+- uid: Orleans.Internals.StreamPubSubWrapper.Hook*
+  name: Hook
+  href: api/Orleans.Internals.StreamPubSubWrapper.html#Orleans_Internals_StreamPubSubWrapper_Hook_
+  commentId: Overload:Orleans.Internals.StreamPubSubWrapper.Hook
+  isSpec: "True"
+  fullName: Orleans.Internals.StreamPubSubWrapper.Hook
+  nameWithType: StreamPubSubWrapper.Hook

@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class NotNullAttribute
+    <title>Class StreamSubscriptionAttribute
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class NotNullAttribute
+    <meta name="title" content="Class StreamSubscriptionAttribute
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.40.12.0">
+    <meta name="generator" content="docfx 2.47.0.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -80,19 +80,18 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.Annotations.NotNullAttribute">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Legacy.StreamSubscriptionAttribute">
   
   
-  <h1 id="Orleankka_Annotations_NotNullAttribute" data-uid="Orleankka.Annotations.NotNullAttribute" class="text-break">Class NotNullAttribute
+  <h1 id="Orleankka_Legacy_StreamSubscriptionAttribute" data-uid="Orleankka.Legacy.StreamSubscriptionAttribute" class="text-break">Class StreamSubscriptionAttribute
   </h1>
-  <div class="markdown level0 summary"><p>Indicates that the value of the marked element could never be <code>null</code></p>
-</div>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
     <div class="level1"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.attribute(v=vs.110).aspx">Attribute</a></div>
-    <div class="level2"><span class="xref">NotNullAttribute</span></div>
+    <div class="level2"><span class="xref">StreamSubscriptionAttribute</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -223,17 +222,102 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Annotations.html">Orleankka.Annotations</a></h6>
-  <h6><strong>Assembly</strong>: Orleankka.dll</h6>
-  <h5 id="Orleankka_Annotations_NotNullAttribute_syntax">Syntax</h5>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Legacy.html">Orleankka.Legacy</a></h6>
+  <h6><strong>Assembly</strong>: Orleankka.Legacy.Runtime.dll</h6>
+  <h5 id="Orleankka_Legacy_StreamSubscriptionAttribute_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-public sealed class NotNullAttribute : Attribute</code></pre>
+    <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class StreamSubscriptionAttribute : Attribute</code></pre>
   </div>
-  <h5 id="Orleankka_Annotations_NotNullAttribute_examples"><strong>Examples</strong></h5>
-  <pre><code>    [NotNull] public object Foo() {
-      return null; // Warning: Possible &apos;null&apos; assignment
-    }</code></pre>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Legacy_StreamSubscriptionAttribute_Filter.md&amp;value=---%0Auid%3A%20Orleankka.Legacy.StreamSubscriptionAttribute.Filter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Legacy.Runtime/ActorAttributes.cs/#L10">View Source</a>
+  </span>
+  <h4 id="Orleankka_Legacy_StreamSubscriptionAttribute_Filter" data-uid="Orleankka.Legacy.StreamSubscriptionAttribute.Filter">Filter</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Filter</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Legacy_StreamSubscriptionAttribute_Source.md&amp;value=---%0Auid%3A%20Orleankka.Legacy.StreamSubscriptionAttribute.Source%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Legacy.Runtime/ActorAttributes.cs/#L8">View Source</a>
+  </span>
+  <h4 id="Orleankka_Legacy_StreamSubscriptionAttribute_Source" data-uid="Orleankka.Legacy.StreamSubscriptionAttribute.Source">Source</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Source</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Legacy_StreamSubscriptionAttribute_Target.md&amp;value=---%0Auid%3A%20Orleankka.Legacy.StreamSubscriptionAttribute.Target%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Legacy.Runtime/ActorAttributes.cs/#L9">View Source</a>
+  </span>
+  <h4 id="Orleankka_Legacy_StreamSubscriptionAttribute_Target" data-uid="Orleankka.Legacy.StreamSubscriptionAttribute.Target">Target</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Target</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.string(v=vs.110).aspx">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -242,10 +326,10 @@ public sealed class NotNullAttribute : Attribute</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Annotations_NotNullAttribute.md&amp;value=---%0Auid%3A%20Orleankka.Annotations.NotNullAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Legacy_StreamSubscriptionAttribute.md&amp;value=---%0Auid%3A%20Orleankka.Legacy.StreamSubscriptionAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Utility/Annotations.cs/#L16" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Legacy.Runtime/ActorAttributes.cs/#L5" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
