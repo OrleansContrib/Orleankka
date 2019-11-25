@@ -7,12 +7,12 @@
 @inject IClientActorSystem ActorSystem
 
 <p>
-    <input placeholder="job #id" bind="@jobId"/>
-    <button class="btn btn-primary" onclick="@StartJob()">Start</button>
-    <button class="btn btn-warning" onclick="@RestartJob()">Restart</button>
-    <button class="btn btn-secondary" onclick="@SuspendJob()">Suspend</button>
-    <button class="btn btn-success" onclick="@ContinueJob()">Continue</button>
-    <button class="btn btn-danger" onclick="@CancelJob()">Cancel</button>
+    <input placeholder="job #id" @bind="jobId"/>
+    <button class="btn btn-primary" @onclick="StartJob">Start</button>
+    <button class="btn btn-warning" @onclick="RestartJob">Restart</button>
+    <button class="btn btn-secondary" @onclick="SuspendJob">Suspend</button>
+    <button class="btn btn-success" @onclick="ContinueJob">Continue</button>
+    <button class="btn btn-danger" @onclick="CancelJob">Cancel</button>
 </p>
 
 <p>
@@ -51,7 +51,7 @@ else
     </table>
 }
 
-@functions {
+@code {
     List<JobItem> jobs;
     StreamRef notifications;
     string jobId = null;
@@ -93,8 +93,11 @@ else
 
     async Task Send(ActorMessage<ICopier> cmd)
     {
+        lastCommandResult = "";
+        
         var job = ActorSystem.TypedActorOf<ICopier>(jobId);
         var result = await job.Ask<object>(cmd);
+        
         lastCommandResult = result.GetType().Name;
         StateHasChanged();
     }
