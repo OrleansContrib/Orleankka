@@ -68,7 +68,7 @@ MakeDir(ArtifactsPath);
     {    	
 	    if (AppVeyorJobId != null)
         {
-            var workerApi = "https://ci.appveyor.com/api/testresults/nunit/{AppVeyorJobId}";
+            var workerApi = "https://ci.appveyor.com/api/testresults/mstest/{AppVeyorJobId}";
             Info($"Uploading {results} to {workerApi} using job id {AppVeyorJobId} ...");
             
             var response = new WebClient().UploadFile(workerApi, results);
