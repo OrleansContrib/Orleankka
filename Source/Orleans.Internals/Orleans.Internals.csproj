@@ -3,6 +3,9 @@
 
   <PropertyGroup>
     <AssemblyName>OrleansManager</AssemblyName>
+    <PackageId>Orleankka.Runtime.Legacy.Support</PackageId>
+    <Title>Supporting package for Orleankka.Runtime.Legacy</Title>
+    <Description>Do not reference this package directly, instead reference Orleankka.Runtime.Legacy</Description>
   </PropertyGroup>
 
   <ItemGroup>
