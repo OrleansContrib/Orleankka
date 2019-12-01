@@ -1,3 +1,5 @@
+using Orleans;
+
 namespace Orleankka.Meta
 {
     public interface Query : Message
@@ -6,6 +8,6 @@ namespace Orleankka.Meta
     public interface Query<TResult> : Query
     {}
 
-    public interface Query<TActor, TResult> : ActorMessage<TActor, TResult>, Query<TResult> where TActor : IActorGrain
+    public interface Query<TActor, TResult> : ActorMessage<TActor, TResult>, Query<TResult> where TActor : IActorGrain, IGrainWithStringKey
     {}
 }

@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.TestKit
 {
     [TestFixture]
@@ -39,7 +41,7 @@ namespace Orleankka.TestKit
             Assert.AreSame(mock1, mock2);
         }
 
-        interface ITestActor : IActorGrain
+        interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         class TestActor : DispatchActorGrain, ITestActor

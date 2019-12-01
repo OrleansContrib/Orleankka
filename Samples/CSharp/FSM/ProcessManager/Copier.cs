@@ -10,6 +10,8 @@ using Orleankka.Behaviors;
 using Orleankka.Facets;
 using Orleankka.Meta;
 using Orleankka.Services;
+
+using Orleans;
 using Orleans.Core;
 
 namespace ProcessManager
@@ -60,7 +62,7 @@ namespace ProcessManager
         public int LastCopiedLine { get; set; }
     }
 
-    public interface ICopier : IActorGrain {}
+    public interface ICopier : IActorGrain, IGrainWithStringKey {}
     
     public class Copier : ActorGrain, ICopier
     {

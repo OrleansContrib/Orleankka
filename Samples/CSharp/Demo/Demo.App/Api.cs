@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
+
 namespace Demo
 {
     [Serializable]
@@ -54,7 +56,7 @@ namespace Demo
         {}
     }
 
-    public interface IApi : IActorGrain
+    public interface IApi : IActorGrain, IGrainWithStringKey
     {}
     
     public class Api : DispatchActorGrain, IApi

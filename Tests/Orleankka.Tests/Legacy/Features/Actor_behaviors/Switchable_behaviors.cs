@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Legacy.Features.Actor_behaviors
 {
     using Behaviors;
@@ -17,7 +19,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
             class Y {}
             class Z {}
 
-            public interface ITestActor : IActorGrain {}
+            public interface ITestActor : IActorGrain, IGrainWithStringKey {}
 
             public class TestActor : Actor, ITestActor
             {
@@ -138,7 +140,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
                 [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
             }
 
-            public interface ITestDefaultActor : IActorGrain
+            public interface ITestDefaultActor : IActorGrain, IGrainWithStringKey
             { }
 
             public class TestDefaultActor : Actor, ITestDefaultActor

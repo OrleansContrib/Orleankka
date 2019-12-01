@@ -3,6 +3,7 @@
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Example
@@ -21,7 +22,7 @@ namespace Example
         public Item Item;
     }
 
-    public interface IAnotherActor : IActorGrain 
+    public interface IAnotherActor : IActorGrain, IGrainWithStringKey 
     {}
     
     public class AnotherActor : DispatchActorGrain, IAnotherActor

@@ -1,5 +1,6 @@
 ﻿namespace Messages
 
+open Orleans
 open Orleankka.FSharp
    
 type ChatUserMessage =
@@ -8,4 +9,5 @@ type ChatUserMessage =
    | Say   of room:string * message:string
 
 type IChatUser =
+   inherit IGrainWithStringKey 
    inherit IActorGrain<ChatUserMessage>

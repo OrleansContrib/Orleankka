@@ -2,9 +2,11 @@
 
 using Orleankka;
 
+using Orleans;
+
 namespace Example
 {
-    public interface IChatUser : IActorGrain
+    public interface IChatUser : IActorGrain, IGrainWithStringKey
     {}
 
     [Serializable]

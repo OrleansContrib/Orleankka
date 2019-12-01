@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Request_response
@@ -20,7 +22,7 @@ namespace Orleankka.Features
         public class GetText : Query<string>
         {}
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor
@@ -45,7 +47,7 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public interface ITestInsideActor : IActorGrain
+        public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor

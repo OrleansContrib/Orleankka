@@ -1,6 +1,8 @@
 ﻿module Account
 
 open FSharp.Control.Tasks
+
+open Orleans
 open Orleankka
 open Orleankka.FSharp
 
@@ -10,6 +12,7 @@ type AccountMessage =
    | Withdraw of int 
 
 type IAccount = 
+   inherit IGrainWithStringKey
    inherit IActorGrain<AccountMessage>
 
 type Account() = 

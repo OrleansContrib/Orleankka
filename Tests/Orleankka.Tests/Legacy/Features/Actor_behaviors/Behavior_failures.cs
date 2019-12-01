@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Legacy.Features.Actor_behaviors
 {
     using Behaviors;
@@ -12,7 +14,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
         [TestFixture]
         public class Tests
         {
-            interface ITestActor : IActorGrain
+            interface ITestActor : IActorGrain, IGrainWithStringKey
             { }
 
             class TestActor : Actor, ITestActor

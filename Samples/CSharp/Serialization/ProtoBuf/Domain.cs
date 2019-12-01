@@ -2,9 +2,11 @@
 
 using Orleankka;
 
+using Orleans;
+
 namespace Example
 {
-    public interface IInventoryItem : IActorGrain
+    public interface IInventoryItem : IActorGrain, IGrainWithStringKey
     {}
 
     public class InventoryItem : DispatchActorGrain, IInventoryItem

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
@@ -28,7 +29,7 @@ namespace Orleankka.Features
         [Serializable] 
         public class NumberOfTimesTimerTicked : Query<int> {}
 
-        public interface ITestInterleavedTimerMessageActor : IActorGrain
+        public interface ITestInterleavedTimerMessageActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestInterleavedTimerMessageActor : ActorGrain, ITestInterleavedTimerMessageActor
@@ -65,7 +66,7 @@ namespace Orleankka.Features
         [Serializable] public class CustomTimerMessageReceived : Query<bool> {}
         [Serializable] public class CustomTimerMessage {}
 
-        public interface ITestCustomTimerMessageActor : IActorGrain
+        public interface ITestCustomTimerMessageActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestCustomTimerMessageActor : ActorGrain, ITestCustomTimerMessageActor
@@ -106,7 +107,7 @@ namespace Orleankka.Features
             }
         }
 
-        public interface ITestFireAndForgetWithNonInterleavedTimerMessageActor : IActorGrain
+        public interface ITestFireAndForgetWithNonInterleavedTimerMessageActor : IActorGrain, IGrainWithStringKey
         {}
 
         [MayInterleave("MayInterleave")]

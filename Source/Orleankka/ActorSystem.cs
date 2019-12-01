@@ -136,7 +136,7 @@ namespace Orleankka
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The actor id</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
+        public static ActorRef ActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain, IGrainWithStringKey
         {
             return system.ActorOf(typeof(TActor), id);
         }
@@ -169,7 +169,7 @@ namespace Orleankka
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <returns>An actor reference</returns>
-        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
+        public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain, IGrainWithStringKey
         {
             return system.WorkerOf(typeof(TActor));
         }
@@ -193,7 +193,7 @@ namespace Orleankka
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
         /// <param name="id">The id</param>
-        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain
+        public static ActorRef<TActor> TypedActorOf<TActor>(this IActorSystem system, string id) where TActor : IActorGrain, IGrainWithStringKey
         {
             return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), id)));
         }
@@ -204,7 +204,7 @@ namespace Orleankka
         /// </summary>
         /// <typeparam name="TActor">The type of the actor</typeparam>
         /// <param name="system">The reference to actor system</param>
-        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain
+        public static ActorRef<TActor> TypedWorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain, IGrainWithStringKey
         {
             return new ActorRef<TActor>(system.ActorOf(ActorPath.For(typeof(TActor), "#")));
         }

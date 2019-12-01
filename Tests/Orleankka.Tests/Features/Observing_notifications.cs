@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Observing_notifications
@@ -37,7 +39,7 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor
@@ -53,7 +55,7 @@ namespace Orleankka.Features
         public class ReceivedNotifications : Query<Notification[]>
         {}
 
-        public interface ITestInsideActor : IActorGrain
+        public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor

@@ -5,10 +5,12 @@ open System.Net
 open System.Reflection
 
 open FSharp.Control.Tasks
+
 open Orleans
 open Orleans.Hosting
 open Orleans.Configuration
 open Orleans.Runtime
+
 open Orleankka
 open Orleankka.Cluster
 open Orleankka.Client
@@ -19,6 +21,7 @@ type GreeterMessage =
    | Hi
 
 type IGreeter = 
+   inherit IGrainWithStringKey
    inherit IActorGrain<GreeterMessage>
 
 type Greeter() = 

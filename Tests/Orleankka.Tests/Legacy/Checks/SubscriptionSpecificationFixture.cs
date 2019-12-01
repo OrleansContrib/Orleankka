@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Legacy.Checks
 {
     using Testing;
@@ -100,10 +102,10 @@ namespace Orleankka.Legacy.Checks
             Assert.That(system.RequestedRef.MessagePassedToTell, Is.SameAs(message));
         }
 
-        public interface ITestActor : IActorGrain {}
+        public interface ITestActor : IActorGrain, IGrainWithStringKey {}
         class TestActor : Actor, ITestActor {}
 
-        public interface IDynamicTargetSelectorActor : IActorGrain {}
+        public interface IDynamicTargetSelectorActor : IActorGrain, IGrainWithStringKey {}
         [StreamSubscription(Source = "sms:foo", Target = "ComputeSubscriptionTarget()")]
         class DynamicTargetSelectorActor : Actor, IDynamicTargetSelectorActor
         {

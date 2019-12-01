@@ -2,9 +2,13 @@
 
 open System
 open System.Threading.Tasks
+
 open FSharp.Control.Tasks
+
 open Orleankka
 open Orleankka.FSharp
+
+open Orleans
 open Orleans.Concurrency
 open Orleans.CodeGeneration
 
@@ -14,6 +18,7 @@ type CounterMessage =
    | GetCount
 
 type ICounter = 
+    inherit IGrainWithStringKey
     inherit IActorGrain<CounterMessage>
 
 [<MayInterleave("IsReentrant")>]

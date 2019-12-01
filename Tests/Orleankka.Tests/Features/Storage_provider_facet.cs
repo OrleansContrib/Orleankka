@@ -18,7 +18,7 @@ namespace Orleankka.Features
 
         [Serializable] public class GetState : Query<string> {}
 
-        public interface ITestActor : IActorGrain {}
+        public interface ITestActor : IActorGrain, IGrainWithStringKey {}
 
         public class TestActor : ActorGrain, ITestActor
         {

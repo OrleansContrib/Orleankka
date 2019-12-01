@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Strongly_typed_actors
@@ -16,7 +18,7 @@ namespace Orleankka.Features
         [Serializable]
         public class TestActorQuery : Query<ITestActor, long> {}
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor
@@ -31,7 +33,7 @@ namespace Orleankka.Features
             public ActorRef<ITestActor> Ref;
         }
 
-        public interface ITestAnotherActor : IActorGrain
+        public interface ITestAnotherActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestAnotherActor : DispatchActorGrain, ITestAnotherActor

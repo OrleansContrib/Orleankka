@@ -11,7 +11,7 @@ namespace Orleankka
     using Cluster;
     using Services;
 
-    public abstract class ActorGrain : Grain, IRemindable, IActor
+    public abstract class ActorGrain : Grain, IActorGrain, IGrainWithStringKey
     {
         public static readonly Done Done = Done.Result;
         public static readonly Unhandled Unhandled = Unhandled.Result;
@@ -71,9 +71,9 @@ namespace Orleankka
         public ITimerService Timers => Runtime.Timers;
         public IBackgroundJobService Jobs => Runtime.Jobs;
 
-        Task<object> IActor.ReceiveAsk(object message) => ReceiveRequest(message);
-        Task IActor.ReceiveTell(object message) => ReceiveRequest(message);
-        Task IActor.ReceiveNotify(object message) => ReceiveRequest(message);
+        Task<object> IActorGrain.ReceiveAsk(object message) => ReceiveRequest(message);
+        Task IActorGrain.ReceiveTell(object message) => ReceiveRequest(message);
+        Task IActorGrain.ReceiveNotify(object message) => ReceiveRequest(message);
 
         internal Task<object> ReceiveRequest(object message) => 
             middleware.Receive(this, message, Receive);

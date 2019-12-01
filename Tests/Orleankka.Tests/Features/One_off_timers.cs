@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace One_off_timers
@@ -19,7 +21,7 @@ namespace Orleankka.Features
         public class NumberOfTimesTimerFired : Query<int>
         {}
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor

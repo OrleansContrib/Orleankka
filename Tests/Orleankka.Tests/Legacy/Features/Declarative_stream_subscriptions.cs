@@ -45,7 +45,7 @@ namespace Orleankka.Legacy.Features
             }
         }
 
-        public interface ITestProducerActor : IActorGrain
+        public interface ITestProducerActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestProducerActor : Actor, ITestProducerActor
@@ -66,7 +66,7 @@ namespace Orleankka.Legacy.Features
                 system = TestActorSystem.Instance;
             }
 
-            public async Task Client_to_stream<T>() where T : IActorGrain
+            public async Task Client_to_stream<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "cs");
 
@@ -78,7 +78,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ce"}));
             }
 
-            public async Task Actor_to_stream<T>() where T : IActorGrain
+            public async Task Actor_to_stream<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "as");
 
@@ -90,7 +90,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"ae"}));
             }
 
-            public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActorGrain
+            public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var a = system.StreamOf(provider, "a");
                 var b = system.StreamOf(provider, "b");
@@ -104,7 +104,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
 
-            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActorGrain
+            public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var s1 = system.StreamOf(provider, "INV-001");
                 var s2 = system.StreamOf(provider, "INV-002");
@@ -118,7 +118,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
 
-            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActorGrain
+            public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "declared-auto");
                 Assert.DoesNotThrowAsync(async ()=> await Push(stream, 123),
@@ -133,7 +133,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received[0], Is.EqualTo("e-123"));
             }
 
-            public async Task Select_all_filter<T>() where T : IActorGrain
+            public async Task Select_all_filter<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "select-all");
 
@@ -147,7 +147,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received[0], Is.EqualTo("42"));
             }
 
-            public async Task Explicit_filter<T>() where T : IActorGrain
+            public async Task Explicit_filter<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "filtered");
 
@@ -160,7 +160,7 @@ namespace Orleankka.Legacy.Features
                 Assert.That(received.Count, Is.EqualTo(0));
             }
 
-            public async Task Dynamic_target_selection<T>() where T : IActorGrain
+            public async Task Dynamic_target_selection<T>() where T : IActorGrain, IGrainWithStringKey
             {
                 var stream = system.StreamOf(provider, "dynamic-target");
 
@@ -207,21 +207,21 @@ namespace Orleankka.Legacy.Features
 
         namespace SimpleMessageStreamProviderVerification
         {
-            public interface ITestClientToStreamConsumerActor : IActorGrain
+            public interface ITestClientToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:cs", Target = "#")]
             public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
-            public interface ITestActorToStreamConsumerActor : IActorGrain
+            public interface ITestActorToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:as", Target = "#")]
             public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
 
-            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain
+            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:a", Target = "#")]
@@ -229,21 +229,21 @@ namespace Orleankka.Legacy.Features
             public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
 
-            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain
+            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#")]
             public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
 
-            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain
+            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:declared-auto", Target = "#")]
             public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
-            public interface ITestSelectAllFilterActor : IActorGrain
+            public interface ITestSelectAllFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
@@ -261,7 +261,7 @@ namespace Orleankka.Legacy.Features
                 }
             }
 
-            public interface ITestExplicitFilterActor : IActorGrain
+            public interface ITestExplicitFilterActor : IActorGrain, IGrainWithStringKey
             {}
 
             [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
@@ -270,7 +270,7 @@ namespace Orleankka.Legacy.Features
                 public static bool SelectItem(object item) => false;
             }
 
-            public interface ITestDynamicTargetSelectorActor : IActorGrain
+            public interface ITestDynamicTargetSelectorActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "sms:dynamic-target", Target = "ComputeTarget()")]
@@ -308,21 +308,21 @@ namespace Orleankka.Legacy.Features
 
         namespace AzureQueueStreamProviderVerification
         {
-            public interface ITestClientToStreamConsumerActor : IActorGrain
+            public interface ITestClientToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:cs", Target = "#")]
             public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
-            public interface ITestActorToStreamConsumerActor : IActorGrain
+            public interface ITestActorToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:as", Target = "#")]
             public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
 
-            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain
+            public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:a", Target = "#")]
@@ -330,21 +330,21 @@ namespace Orleankka.Legacy.Features
             public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
 
-            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain
+            public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#")]
             public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
 
-            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain
+            public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:declared-auto", Target = "#")]
             public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
-            public interface ITestSelectAllFilterActor : IActorGrain
+            public interface ITestSelectAllFilterActor : IActorGrain, IGrainWithStringKey
             {}
 
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
@@ -362,7 +362,7 @@ namespace Orleankka.Legacy.Features
                 }
             }
 
-            public interface ITestExplicitFilterActor : IActorGrain
+            public interface ITestExplicitFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
@@ -371,7 +371,7 @@ namespace Orleankka.Legacy.Features
                 public static bool SelectItem(object item) => false;
             }
 
-            public interface ITestDynamicTargetSelectorActor : IActorGrain
+            public interface ITestDynamicTargetSelectorActor : IActorGrain, IGrainWithStringKey
             { }
 
             [StreamSubscription(Source = "aqp:dynamic-target", Target = "ComputeTarget()")]

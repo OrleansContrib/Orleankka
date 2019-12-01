@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
@@ -20,7 +21,7 @@ namespace Example
     public class Read : Query<int>
     {}
 
-    public interface IReaderWriterLock : IActorGrain
+    public interface IReaderWriterLock : IActorGrain, IGrainWithStringKey
     {}
 
     [MayInterleave(nameof(Interleave))]

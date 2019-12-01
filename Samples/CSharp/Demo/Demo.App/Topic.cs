@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.Placement;
 
 namespace Demo
@@ -22,8 +23,7 @@ namespace Demo
         }
     }
 
-    public interface ITopic : IActorGrain
-    {}
+    public interface ITopic : IActorGrain, IGrainWithStringKey {}
 
     [ActivationCountBasedPlacement]
     public class Topic : DispatchActorGrain, ITopic

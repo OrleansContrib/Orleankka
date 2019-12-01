@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Using_reminders
@@ -29,7 +31,7 @@ namespace Orleankka.Features
         public class GetInstanceHashcode : Query<long>
         {}
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Orleankka
@@ -14,7 +15,7 @@ namespace Orleankka
         public static readonly ActorPath Empty = new ActorPath();
         public static readonly string[] Separator = {":"};
 
-        public static ActorPath For<T>(string id) where T : IActorGrain => 
+        public static ActorPath For<T>(string id) where T : IActorGrain, IGrainWithStringKey => 
             For(typeof(T), id);
         
         public static ActorPath For(Type @interface, string id)

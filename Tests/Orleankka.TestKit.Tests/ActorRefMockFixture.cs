@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.TestKit
 {
     [TestFixture]
@@ -120,7 +122,7 @@ namespace Orleankka.TestKit
                 Is.EqualTo(222));
         }
 
-        interface ITestActor : IActorGrain
+        interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         class TestActor : DispatchActorGrain, ITestActor

@@ -26,7 +26,7 @@ namespace Demo
         public string Who { get; set; }
     }
 
-    public interface IGreeter : IActorGrain {}
+    public interface IGreeter : IActorGrain, IGrainWithStringKey {}
 
     public class Greeter : DispatchActorGrain, IGreeter
     {

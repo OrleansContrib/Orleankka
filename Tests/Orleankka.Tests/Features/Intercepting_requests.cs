@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
+
+using Orleans;
 using Orleans.Runtime;
 
 namespace Orleankka.Features
@@ -32,7 +34,7 @@ namespace Orleankka.Features
             public string Text;
         }
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public abstract class TestActorBase : DispatchActorGrain
@@ -69,7 +71,7 @@ namespace Orleankka.Features
             public object Message;
         }
 
-        public interface ITestInsideActor : IActorGrain
+        public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor

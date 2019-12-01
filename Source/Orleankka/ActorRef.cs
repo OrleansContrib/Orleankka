@@ -10,6 +10,8 @@ using Orleans.Serialization;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Orleans;
+
 namespace Orleankka
 {
     using Utility;
@@ -114,7 +116,7 @@ namespace Orleankka
 
     [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActorGrain
+    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActorGrain, IGrainWithStringKey
     {
         readonly ActorRef @ref;
 

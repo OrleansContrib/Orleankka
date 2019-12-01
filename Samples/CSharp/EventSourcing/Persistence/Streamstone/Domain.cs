@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Example
 {
-    public interface IInventoryItem : IActorGrain
-    {}
+    public interface IInventoryItem : IActorGrain, IGrainWithStringKey {}
 
     [MayInterleave(nameof(Interleave))]
     public class InventoryItem : EventSourcedActor, IInventoryItem

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Checks
 {
     using Testing;
@@ -70,7 +72,7 @@ namespace Orleankka.Checks
             Assert.AreEqual(0, collection.Count());
         }
 
-        interface ITestObservableActor : IActorGrain
+        interface ITestObservableActor : IActorGrain, IGrainWithStringKey
         {}
 
         class TestObservableActor : DispatchActorGrain, ITestObservableActor

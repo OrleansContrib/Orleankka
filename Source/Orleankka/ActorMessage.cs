@@ -1,10 +1,12 @@
-﻿namespace Orleankka
+﻿using Orleans;
+
+namespace Orleankka
 {
     /// <summary>
     /// Base message interface for strongly typed actor messages
     /// </summary>
     /// <typeparam name="TActor">The type of the actor to which this message belongs</typeparam>
-    public interface ActorMessage<TActor> where TActor : IActorGrain
+    public interface ActorMessage<TActor> where TActor : IActorGrain, IGrainWithStringKey
     {}
 
     /// <summary>
@@ -12,7 +14,7 @@
     /// </summary>
     /// <typeparam name="TActor">The type of the actor to which this message belongs</typeparam>
     /// <typeparam name="TResult">The type of the returned result</typeparam>
-    public interface ActorMessage<TActor, TResult> where TActor : IActorGrain
+    public interface ActorMessage<TActor, TResult> where TActor : IActorGrain, IGrainWithStringKey
     {}
 
     /// <summary>
@@ -38,6 +40,6 @@
         /// <typeparam name="TResult">The type of the returned result</typeparam>
         /// <returns>The value passed to <paramref name="result"/> argument</returns>
         public static TResult Response<TActor, TResult>(this ActorMessage<TActor, TResult> message, TResult result) 
-            where TActor : IActorGrain => result;
+            where TActor : IActorGrain, IGrainWithStringKey => result;
     }
 }

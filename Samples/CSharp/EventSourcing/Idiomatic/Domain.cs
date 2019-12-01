@@ -12,7 +12,7 @@ using Orleans.Streams;
 
 namespace Example
 {
-    public interface IInventoryItem : IActorGrain
+    public interface IInventoryItem : IActorGrain, IGrainWithStringKey
     {}
 
     [MayInterleave(nameof(Interleave))]
@@ -96,10 +96,10 @@ namespace Example
         }
     }
 
-    public interface IInventoryDispatcher : IActorGrain
+    public interface IInventoryDispatcher : IActorGrain, IGrainWithStringKey
     {}
 
-    public interface IInventory : IActorGrain
+    public interface IInventory : IActorGrain, IGrainWithStringKey
     { }
 
     [StartsWithImplicitStreamSubscription("InventoryItem")]

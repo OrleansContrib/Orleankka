@@ -30,7 +30,7 @@ namespace Orleankka.Features
             public string Name;
         }
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor

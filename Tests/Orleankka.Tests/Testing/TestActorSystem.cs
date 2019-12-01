@@ -13,7 +13,7 @@ namespace Orleankka.Testing
         public static IClusterClient Client;
         public static IClientActorSystem Instance;
 
-        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : IActorGrain
+        public static ActorRef FreshActorOf<TActor>(this IActorSystem system) where TActor : IActorGrain, IGrainWithStringKey
         {
             return system.ActorOf<TActor>(Guid.NewGuid().ToString());
         }

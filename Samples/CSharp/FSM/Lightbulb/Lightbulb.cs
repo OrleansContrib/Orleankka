@@ -4,14 +4,15 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Behaviors;
 
+using Orleans;
+
 namespace Example
 {
     [Serializable] public class PressSwitch {}
     [Serializable] public class Touch {}
     [Serializable] public class HitWithHammer {}
 
-    public interface ILightbulb : IActorGrain
-    {}
+    public interface ILightbulb : IActorGrain, IGrainWithStringKey {}
 
     public class Lightbulb : ActorGrain, ILightbulb
     {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
@@ -35,7 +36,7 @@ namespace Orleankka.Features
             public readonly List<int> NonReentrantInProgress = new List<int>();
         }
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         [MayInterleave(nameof(Interleave))]
@@ -69,7 +70,7 @@ namespace Orleankka.Features
         [Serializable] class Subscribe : Command {}
         [Serializable] class GetStreamMessagesInProgress : Query<List<object>> {}
 
-        public interface ITestReentrantStreamConsumerActor : IActorGrain
+        public interface ITestReentrantStreamConsumerActor : IActorGrain, IGrainWithStringKey
         {}
 
         [MayInterleave(nameof(Interleave))]
@@ -100,7 +101,7 @@ namespace Orleankka.Features
             }
         }
 
-        public interface ITestReentrantByCallbackMethodActor : IActorGrain
+        public interface ITestReentrantByCallbackMethodActor : IActorGrain, IGrainWithStringKey
         {}
 
         [MayInterleave(nameof(Interleave))]
@@ -131,7 +132,7 @@ namespace Orleankka.Features
             }
         }
 
-        public interface ITestReentrantByCallbackMethodActorFromAnotherActor : IActorGrain
+        public interface ITestReentrantByCallbackMethodActorFromAnotherActor : IActorGrain, IGrainWithStringKey
         {}
 
         [Reentrant]

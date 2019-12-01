@@ -1,6 +1,8 @@
 ﻿module Shop
 
 open FSharp.Control.Tasks
+
+open Orleans
 open Orleankka
 open Orleankka.FSharp
 
@@ -13,6 +15,7 @@ type ShopMessage =
    | Stock
 
 type IShop = 
+   inherit IGrainWithStringKey
    inherit IActorGrain<ShopMessage>
 
 type Shop() =

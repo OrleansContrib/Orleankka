@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Stream_subscriptions
@@ -25,7 +27,7 @@ namespace Orleankka.Features
         public class Received : Query<List<string>>
         {}
 
-        public interface ITestConsumerActor : IActorGrain
+        public interface ITestConsumerActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TesITestConsumerActorActor : DispatchActorGrain, ITestConsumerActor

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Example
@@ -20,7 +21,7 @@ namespace Example
         public DateTimeOffset Paid;
     }
 
-    public interface ISomeActor : IActorGrain
+    public interface ISomeActor : IActorGrain, IGrainWithStringKey
     {}
 
     public class SomeActor : DispatchActorGrain, ISomeActor

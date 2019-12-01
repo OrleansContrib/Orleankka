@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Features
 {
     namespace Background_jobs
@@ -37,7 +39,7 @@ namespace Orleankka.Features
         [Serializable] public class NumberOfTimesJobRan : JobMessage, Query<int> {}
         [Serializable] public class NumberOfTimesJobTerminated : JobMessage,  Query<int> {}
 
-        public interface ITestActor : IActorGrain
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         public class TestActor : DispatchActorGrain, ITestActor

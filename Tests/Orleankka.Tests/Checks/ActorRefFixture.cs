@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
 
+using Orleans;
+
 namespace Orleankka.Checks
 {
     [TestFixture]
     public class ActorRefFixture
     {
-        interface ITestActor : IActorGrain
+        interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         class TestActor : DispatchActorGrain, ITestActor
