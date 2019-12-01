@@ -258,7 +258,7 @@
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static ActorRef ActorOf&lt;TActor&gt;(this IActorSystem system, string id)
-    where TActor : IActorGrain</code></pre>
+    where TActor : IActorGrain, IGrainWithStringKey</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -394,7 +394,7 @@ The type could be either an interface or implementation class.</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static ActorRef&lt;TActor&gt; TypedActorOf&lt;TActor&gt;(this IActorSystem system, string id)
-    where TActor : IActorGrain</code></pre>
+    where TActor : IActorGrain, IGrainWithStringKey</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -467,7 +467,7 @@ The type could be either an interface or implementation class.</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static ActorRef&lt;TActor&gt; TypedWorkerOf&lt;TActor&gt;(this IActorSystem system)
-    where TActor : IActorGrain</code></pre>
+    where TActor : IActorGrain, IGrainWithStringKey</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -589,7 +589,7 @@ The type could be either an interface or implementation class.</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static ActorRef WorkerOf&lt;TActor&gt;(this IActorSystem system)
-    where TActor : IActorGrain</code></pre>
+    where TActor : IActorGrain, IGrainWithStringKey</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">

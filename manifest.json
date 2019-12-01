@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorGrain.html",
-          "hash": "x0Kb8weyO4uE3CpE44awmw=="
+          "hash": "FlGUNy7/I9z3arHTv1Ka/g=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorMessage-1.html",
-          "hash": "Ysje88hf5w76sKEqvfufUQ=="
+          "hash": "FrWBvBnUfH/lgP1P+ikIbQ=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorMessage-2.html",
-          "hash": "zygDGFTE/8K0OZ10Z5Hmzw=="
+          "hash": "6lJZVktv5KjTAiVpK94lYA=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorMessageExtensions.html",
-          "hash": "p9XfwRXJAkH+GE5yGXBtmg=="
+          "hash": "EA+QasAmZnFylUx07Iz76Q=="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorPath.html",
-          "hash": "N1971D9BSLFwHX7eh8iZ9A=="
+          "hash": "RfRBntPp23DaTax8dqlMfQ=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorRef-1.html",
-          "hash": "ZnPJlxE3LMCUifhdxJDRUw=="
+          "hash": "rMPTb0N+vpD0NRO+JDK0Ag=="
         }
       },
       "is_incremental": false,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorRef.html",
-          "hash": "YRToRZUvV6fYbYcKn31VwA=="
+          "hash": "idyK58LLTivuDnB2B6PYtA=="
         }
       },
       "is_incremental": false,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorSystemExtensions.html",
-          "hash": "GyUYOfS1JM9Z6j6pKlATcA=="
+          "hash": "y20SgYCzBrfCxeNPnU0B8Q=="
         }
       },
       "is_incremental": false,
@@ -393,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.DispatchActorGrain.html",
-          "hash": "pkqaBYLag5D14vFL9OzvIg=="
+          "hash": "4RXr/qLM04OMrlhYd7GZqA=="
         }
       },
       "is_incremental": false,
@@ -461,23 +461,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.IActor.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.IActor.html",
-          "hash": "zKPQGUBno0xYLvts60O0RQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.IActorGrain.yml",
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.IActorGrain.html",
-          "hash": "yfadlOtPGQ+4uOUJGz3AEA=="
+          "hash": "3E3lGjxuhbQkhzG7Z96CrA=="
         }
       },
       "is_incremental": false,
@@ -597,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Legacy.Actor.html",
-          "hash": "K6iQZKzlo2nGmlb15G1qBw=="
+          "hash": "ai9jTb7euJP1OL+32g5lwg=="
         }
       },
       "is_incremental": false,
@@ -801,7 +789,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Command-1.html",
-          "hash": "f/i8cEkokyeK0yZeENc+QA=="
+          "hash": "j5aTYN3oQsrDkNclmVeMJg=="
         }
       },
       "is_incremental": false,
@@ -813,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Command.html",
-          "hash": "emzVKiUwVHC0K3eFWRke4Q=="
+          "hash": "qHk8VeNSAFWc0GbKf6vC2w=="
         }
       },
       "is_incremental": false,
@@ -825,7 +813,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Event-1.html",
-          "hash": "gicVaT2bekrMiMbpvJWIUA=="
+          "hash": "7wQPCn1FeWhB/GnqfPVeUg=="
         }
       },
       "is_incremental": false,
@@ -837,7 +825,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Event.html",
-          "hash": "hw8Am8st0bGhbAtUDK84jw=="
+          "hash": "F0X/6mCEnXT87MOE0/DuMA=="
         }
       },
       "is_incremental": false,
@@ -849,7 +837,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Extensions.html",
-          "hash": "rFaEwV5JhSM+2XINOpYv6A=="
+          "hash": "teIKdRgOs0kGnA+hCeJDvg=="
         }
       },
       "is_incremental": false,
@@ -873,7 +861,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Query-1.html",
-          "hash": "hXKDOs/HHcEZahXoOOnLKw=="
+          "hash": "laZ+z+GByVkbTsFUgRfnBw=="
         }
       },
       "is_incremental": false,
@@ -885,7 +873,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Query-2.html",
-          "hash": "FwZkmDkeASlW6dpyYHeIWQ=="
+          "hash": "oyjFZBcCb24aoOCf384y7A=="
         }
       },
       "is_incremental": false,
@@ -897,7 +885,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Meta.Query.html",
-          "hash": "y5/pF1gJg69e52LmsWdrow=="
+          "hash": "qHOYnVw3sX3tlArmNGTqZQ=="
         }
       },
       "is_incremental": false,
@@ -945,7 +933,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ObserverRef-1.html",
-          "hash": "SyIV6UNeYN4sIROAAXp6GQ=="
+          "hash": "OdNOhxHVIkFjpxIrymzGWA=="
         }
       },
       "is_incremental": false,
@@ -957,7 +945,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ObserverRef.html",
-          "hash": "9GHGJ6DSQubJSQmkvZqNmQ=="
+          "hash": "tW8YlnMLLfA67c3XzAt4/w=="
         }
       },
       "is_incremental": false,
@@ -1245,7 +1233,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorRefMock-1.html",
-          "hash": "7L4m3ad2kHjGO5I1AOcr6A=="
+          "hash": "1aCrbFioVn7K5xp7WLa1dA=="
         }
       },
       "is_incremental": false,
@@ -1257,7 +1245,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorRefMock.html",
-          "hash": "qCLbCQn0pgxLhrTjAwd9Zw=="
+          "hash": "Z99kxjQrmvq49inCksixZQ=="
         }
       },
       "is_incremental": false,
@@ -1293,7 +1281,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorSystemMockExtensions.html",
-          "hash": "M6jesc0tIK9Q4TCZUsiApg=="
+          "hash": "1/mB7MgQzjDZj1LW1muksA=="
         }
       },
       "is_incremental": false,
@@ -1365,7 +1353,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.DoNotExpectResult.html",
-          "hash": "nbzJ+gwmOr52NbzjzWKO+g=="
+          "hash": "R2qqbZuQYePJvgLtNCI6DA=="
         }
       },
       "is_incremental": false,
@@ -1569,7 +1557,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.RecordedMessage.html",
-          "hash": "M1+Jxnd7ynl3kn1Lcrmtbw=="
+          "hash": "W5vg32g3v2DhfSqWKqVPHg=="
         }
       },
       "is_incremental": false,
@@ -1773,7 +1761,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.html",
-          "hash": "D/yoIyJEY+Yp0LQSlBKqlg=="
+          "hash": "LeKhWvMhVIbTmCxld1ZIrQ=="
         }
       },
       "is_incremental": false,
@@ -1833,7 +1821,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "CQ49iTvr8d/ktRS8xyoJag=="
+          "hash": "isdliKGd9ZhT4p5MyfzRpg=="
         }
       },
       "is_incremental": false,
@@ -1984,7 +1972,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 152,
+          "total_file_count": 151,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

@@ -98,10 +98,11 @@
   <div classs="implements">
     <h5>Implements</h5>
     <div><span class="xref">Orleans.ILifecycleParticipant</span>&lt;<span class="xref">Orleans.Runtime.IGrainLifecycle</span>&gt;</div>
+    <div><a class="xref" href="Orleankka.IActorGrain.html">IActorGrain</a></div>
     <div><span class="xref">Orleans.IRemindable</span></div>
+    <div><span class="xref">Orleans.IGrainWithStringKey</span></div>
     <div><span class="xref">Orleans.IGrain</span></div>
     <div><span class="xref">Orleans.Runtime.IAddressable</span></div>
-    <div><a class="xref" href="Orleankka.IActor.html">IActor</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -142,13 +143,13 @@
       <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Jobs">ActorGrain.Jobs</a>
     </div>
     <div>
-      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveAsk_System_Object_">ActorGrain.IActor.ReceiveAsk(Object)</a>
+      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActorGrain_ReceiveAsk_System_Object_">ActorGrain.IActorGrain.ReceiveAsk(Object)</a>
     </div>
     <div>
-      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveTell_System_Object_">ActorGrain.IActor.ReceiveTell(Object)</a>
+      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActorGrain_ReceiveTell_System_Object_">ActorGrain.IActorGrain.ReceiveTell(Object)</a>
     </div>
     <div>
-      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActor_ReceiveNotify_System_Object_">ActorGrain.IActor.ReceiveNotify(Object)</a>
+      <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleankka_IActorGrain_ReceiveNotify_System_Object_">ActorGrain.IActorGrain.ReceiveNotify(Object)</a>
     </div>
     <div>
       <a class="xref" href="Orleankka.ActorGrain.html#Orleankka_ActorGrain_Orleans_IRemindable_ReceiveReminder_System_String_Orleans_Runtime_TickStatus_">ActorGrain.IRemindable.ReceiveReminder(String, TickStatus)</a>
@@ -227,7 +228,7 @@
   <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
   <h5 id="Orleankka_DispatchActorGrain_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class DispatchActorGrain : ActorGrain, ILifecycleParticipant&lt;IGrainLifecycle&gt;, IRemindable, IGrain, IAddressable, IActor</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class DispatchActorGrain : ActorGrain, ILifecycleParticipant&lt;IGrainLifecycle&gt;, IActorGrain, IRemindable, IGrainWithStringKey, IGrain, IAddressable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -457,16 +458,19 @@
       <span class="xref">Orleans.ILifecycleParticipant&lt;TLifecycleObservable&gt;</span>
   </div>
   <div>
+      <a class="xref" href="Orleankka.IActorGrain.html">IActorGrain</a>
+  </div>
+  <div>
       <span class="xref">Orleans.IRemindable</span>
+  </div>
+  <div>
+      <span class="xref">Orleans.IGrainWithStringKey</span>
   </div>
   <div>
       <span class="xref">Orleans.IGrain</span>
   </div>
   <div>
       <span class="xref">Orleans.Runtime.IAddressable</span>
-  </div>
-  <div>
-      <a class="xref" href="Orleankka.IActor.html">IActor</a>
   </div>
   <h3 id="extensionmethods">Extension Methods</h3>
   <div>

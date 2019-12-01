@@ -90,15 +90,6 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="Orleankka.IActor.html#Orleankka_IActor_ReceiveAsk_System_Object_">IActor.ReceiveAsk(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="Orleankka.IActor.html#Orleankka_IActor_ReceiveTell_System_Object_">IActor.ReceiveTell(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="Orleankka.IActor.html#Orleankka_IActor_ReceiveNotify_System_Object_">IActor.ReceiveNotify(Object)</a>
-    </div>
-    <div>
       <span class="xref">Orleans.IRemindable.ReceiveReminder(System.String, Orleans.Runtime.TickStatus)</span>
     </div>
   </div>
@@ -106,8 +97,152 @@
   <h6><strong>Assembly</strong>: Orleankka.dll</h6>
   <h5 id="Orleankka_IActorGrain_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface IActorGrain : IActor, IGrainWithStringKey, IRemindable, IGrain, IAddressable</code></pre>
+    <pre><code class="lang-csharp hljs">public interface IActorGrain : IRemindable, IGrain, IAddressable</code></pre>
   </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorGrain_ReceiveAsk_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.IActorGrain.ReceiveAsk(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/IActorGrain.cs/#L12">View Source</a>
+  </span>
+  <a id="Orleankka_IActorGrain_ReceiveAsk_" data-uid="Orleankka.IActorGrain.ReceiveAsk*"></a>
+  <h4 id="Orleankka_IActorGrain_ReceiveAsk_System_Object_" data-uid="Orleankka.IActorGrain.ReceiveAsk(System.Object)">ReceiveAsk(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Task&lt;object&gt; ReceiveAsk(object message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorGrain_ReceiveNotify_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.IActorGrain.ReceiveNotify(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/IActorGrain.cs/#L14">View Source</a>
+  </span>
+  <a id="Orleankka_IActorGrain_ReceiveNotify_" data-uid="Orleankka.IActorGrain.ReceiveNotify*"></a>
+  <h4 id="Orleankka_IActorGrain_ReceiveNotify_System_Object_" data-uid="Orleankka.IActorGrain.ReceiveNotify(System.Object)">ReceiveNotify(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[OneWay]
+Task ReceiveNotify(object message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorGrain_ReceiveTell_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.IActorGrain.ReceiveTell(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/IActorGrain.cs/#L13">View Source</a>
+  </span>
+  <a id="Orleankka_IActorGrain_ReceiveTell_" data-uid="Orleankka.IActorGrain.ReceiveTell*"></a>
+  <h4 id="Orleankka_IActorGrain_ReceiveTell_System_Object_" data-uid="Orleankka.IActorGrain.ReceiveTell(System.Object)">ReceiveTell(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Task ReceiveTell(object message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -119,7 +254,7 @@
                     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorGrain.md&amp;value=---%0Auid%3A%20Orleankka.IActorGrain%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/IActorGrain.cs/#L16" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/IActorGrain.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
