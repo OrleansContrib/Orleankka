@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -45,9 +46,16 @@ namespace Orleankka
 
         public StreamPath Path { get; }
         
-        public virtual Task Push(object item)
+        /// <summary>
+        /// Pushes given item of batch of items to a stream.
+        /// </summary>
+        /// <param name="itemOrBatch">Single item or batch (<see cref="IEnumerable{T}"/>) </param>
+        /// <returns></returns>
+        public virtual Task Push(object itemOrBatch)
         {
-            return Endpoint.OnNextAsync(item);
+            return itemOrBatch is IEnumerable<object> batch
+                ? Endpoint.OnNextBatchAsync(batch)
+                : Endpoint.OnNextAsync(itemOrBatch);
         }
 
         /// <summary>

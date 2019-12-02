@@ -43,11 +43,15 @@ namespace Orleankka.Legacy.Streams
                 var recipients = StreamSubscriptionSpecification.Match(system, id, specifications);
 
                 Func<T, Task> fan = item => Task.CompletedTask;
+                Func<IEnumerable<T>, Task> batchFan = batch => Task.CompletedTask;
 
                 if (recipients.Length > 0)
+                {
                     fan = item => Task.WhenAll(recipients.Select(x => x.Receive(item)));
+                    batchFan = batch => Task.WhenAll(recipients.Select(x => x.Receive(batch)));
+                }
 
-                return new StreamVentilator<T>(stream, fan);
+                return new StreamVentilator<T>(stream, fan, batchFan);
             });
         }
 
@@ -55,16 +59,25 @@ namespace Orleankka.Legacy.Streams
         {
             readonly IAsyncStream<T> stream;
             readonly Func<T, Task> fan;
+            readonly Func<IEnumerable<T>, Task> batchFan;
 
-            public StreamVentilator(IAsyncStream<T> stream, Func<T, Task> fan)
+            public StreamVentilator(IAsyncStream<T> stream, Func<T, Task> fan, Func<IEnumerable<T>, Task> batchFan)
             {
                 this.stream = stream;
                 this.fan = fan;
+                this.batchFan = batchFan;
             }
 
             public Task OnNextAsync(T item, StreamSequenceToken token = null)
             {
                 return Task.WhenAll(stream.OnNextAsync(item, token), fan(item));
+            }
+
+            public Task OnNextBatchAsync(IEnumerable<T> batch, StreamSequenceToken token = null)
+            {
+                // ReSharper disable PossibleMultipleEnumeration
+                return Task.WhenAll(stream.OnNextBatchAsync(batch, token), batchFan(batch));
+                // ReSharper restore PossibleMultipleEnumeration
             }
 
             #region Uninteresting Delegation (Nothing To See Here)

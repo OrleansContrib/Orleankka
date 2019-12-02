@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using Orleans;
-
 namespace Orleankka.Legacy.Features
 {
     namespace Declarative_stream_subscriptions
@@ -344,8 +342,13 @@ namespace Orleankka.Legacy.Features
             public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
+<<<<<<< HEAD
             public interface ITestSelectAllFilterActor : IActorGrain
+            { }
+=======
+            public interface ITestSelectAllFilterActor : IActorGrain, IGrainWithStringKey
             {}
+>>>>>>> 1fad6629... Update to Orleans 2.4.4
 
             [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
