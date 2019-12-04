@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.html",
-          "hash": "aRCbZ/Tvw39Rze//Mn6jCA=="
+          "hash": "n49afVVB55+i3nxmpnf5Dg=="
         }
       },
       "is_incremental": false,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.html",
-          "hash": "OWWkiyAhBzkrUfVGn9biuw=="
+          "hash": "KvJiVwHlv1OKNiuHqHF6OA=="
         }
       },
       "is_incremental": false,
@@ -418,42 +418,6 @@
         ".html": {
           "relative_path": "api/Orleankka.Done.html",
           "hash": "N/F7AZIKDA+iKYhR+wfB/w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Facets.StorageProviderFacet.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Facets.StorageProviderFacet.html",
-          "hash": "wHTE2E1xH7LgIrBVvnyYYg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Facets.UseStorageProviderAttribute.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Facets.UseStorageProviderAttribute.html",
-          "hash": "/MFBkYGfwvP39Gsj5LSagg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Facets.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Facets.html",
-          "hash": "SWQY0g8pk+ExKcZeX0FjPg=="
         }
       },
       "is_incremental": false,
@@ -1821,7 +1785,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "isdliKGd9ZhT4p5MyfzRpg=="
+          "hash": "nEwo5tCQSj0K3RQWcdOiJA=="
         }
       },
       "is_incremental": false,
@@ -1963,6 +1927,13 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
@@ -1972,14 +1943,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 151,
-          "skipped_file_count": 0
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 148,
           "skipped_file_count": 0
         }
       }
