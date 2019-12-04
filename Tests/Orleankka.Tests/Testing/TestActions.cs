@@ -25,8 +25,7 @@ using Orleans.Streaming;
 
 namespace Orleankka.Testing
 {
-    using Features.Storage_provider_facet;
-
+    using Features.State_persistence;
     using Orleans.Runtime;
 
     [AttributeUsage(AttributeTargets.Class)]

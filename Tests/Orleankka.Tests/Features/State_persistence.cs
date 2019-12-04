@@ -10,9 +10,8 @@ using Orleans.Storage;
 
 namespace Orleankka.Features
 {
-    namespace Storage_provider_facet
+    namespace State_persistence
     {
-        using Facets;
         using Meta;
         using Testing;
 
@@ -24,7 +23,7 @@ namespace Orleankka.Features
         {
             readonly IStorage<TestState> storage;
 
-            public TestActor([UseStorageProvider("test")] IStorage<TestState> storage) => 
+            public TestActor([PersistentState("#foo", "test")] IStorage<TestState> storage) => 
                 this.storage = storage;
 
             public override Task<object> Receive(object message)
@@ -52,7 +51,8 @@ namespace Orleankka.Features
 
             public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
             {
-                var state = new TestState {Data = $"fromStorage-{name}-{grainReference.GetPrimaryKeyString()}"};
+                var stateName = grainType.Substring(grainType.IndexOf('#') + 1);
+                var state = new TestState {Data = $"fromStorage-{name}-{stateName}-{grainReference.GetPrimaryKeyString()}"};
                 grainState.State = state;
                 return Task.CompletedTask;
             }
@@ -80,7 +80,7 @@ namespace Orleankka.Features
                 
                 var state = await actor.Ask<string>(new GetState());
                 
-                Assert.AreEqual($"fromStorage-test-{actor.Path.Id}", state);
+                Assert.AreEqual($"fromStorage-test-foo-{actor.Path.Id}", state);
             }
         }
     }

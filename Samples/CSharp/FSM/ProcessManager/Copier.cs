@@ -7,12 +7,12 @@ using IOPath = System.IO.Path;
 
 using Orleankka;
 using Orleankka.Behaviors;
-using Orleankka.Facets;
 using Orleankka.Meta;
 using Orleankka.Services;
 
 using Orleans;
 using Orleans.Core;
+using Orleans.Runtime;
 
 namespace ProcessManager
 {
@@ -85,8 +85,7 @@ namespace ProcessManager
         StreamRef notifications;
 
         // injected storage provider
-        public Copier([UseStorageProvider("copier")]
-                      IStorage<CopierState> storage)
+        public Copier([PersistentState("copier")] IStorage<CopierState> storage)
         {
             this.storage = storage;
             
