@@ -45,10 +45,4 @@ type Counter() =
         | _ -> return unhandled()
     }
 
-    static member IsReentrant(request:InvokeMethodRequest) = 
-        match request.Message() with
-        | :? CounterMessage as m -> 
-            match m with
-            | GetCount  -> true 
-            | _ -> false
-        | _ -> false
+    static member IsReentrant(req:InvokeMethodRequest) = req.Message(fun x -> x > GetCount)
