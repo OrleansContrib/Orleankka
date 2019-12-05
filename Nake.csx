@@ -22,6 +22,8 @@ using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
 const string RuntimeProject = "Orleankka.Runtime";
+const string LegacyRuntimeProject = "Orleankka.Runtime.Legacy";
+const string LegacyRuntimeSupportProject = "Orleankka.Runtime.Legacy.Support";
 const string TestKitProject = "Orleankka.TestKit";
 const string FSharpProject = "Orleankka.FSharp";
 const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
@@ -92,7 +94,9 @@ MakeDir(ArtifactsPath);
 [Step] void Publish()
 {
     Push(CoreProject); 
-    Push(RuntimeProject); 
+    Push(RuntimeProject);
+    Push(LegacyRuntimeProject);
+    Push(LegacyRuntimeSupportProject);  
     Push(TestKitProject); 
     Push(FSharpProject);
     Push(FSharpRuntimeProject);
