@@ -93,11 +93,11 @@ namespace Orleankka.Legacy.Behaviors
             this.actor = actor;
         }
 
-        internal Task HandleActivate() => current.HandleActivate(default(Transition));
-        internal Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
+        public Task HandleActivate() => current.HandleActivate(default(Transition));
+        public Task HandleDeactivate() => current.HandleDeactivate(default(Transition));
 
-        internal Task<object> HandleReceive(object message) =>  current.HandleReceive(actor, message);
-        internal Task HandleReminder(string id) => current.HandleReminder(actor, id);
+        public Task<object> HandleReceive(object message) =>  current.HandleReceive(actor, message);
+        public Task HandleReminder(string id) => current.HandleReminder(actor, id);
 
         CustomBehavior Next
         {
