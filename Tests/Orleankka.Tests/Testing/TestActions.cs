@@ -83,7 +83,7 @@ namespace Orleankka.Testing
                     .WithCodeGeneration())
                 .UseOrleankka(x => x
                     .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
-                    .DirectClientActorRefMiddleware(new TestActorRefMiddleware()))
+                    .ActorRefMiddleware(new TestActorRefMiddleware()))
                 .UseOrleankkaLegacyFeatures(x => x
                     .AddSimpleMessageStreamProvider("sms")
                     .RegisterPersistentStreamProviders("aqp"));

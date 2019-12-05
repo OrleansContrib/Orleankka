@@ -25,8 +25,7 @@ namespace Orleankka.Cluster
         readonly ActorMiddlewarePipeline pipeline = 
              new ActorMiddlewarePipeline();
         
-        IActorRefMiddleware clusterMiddleware;
-        IActorRefMiddleware directClientMiddleware;
+        IActorRefMiddleware actorRefMiddleware;
 
         /// <summary>
         /// Registers global actor middleware (interceptor). This middleware will be used for every actor 
@@ -59,28 +58,13 @@ namespace Orleankka.Cluster
         {
             Requires.NotNull(middleware, nameof(middleware));
 
-            if (clusterMiddleware != null)
+            if (actorRefMiddleware != null)
                 throw new InvalidOperationException("ActorRef middleware for cluster has been already registered");
 
-            clusterMiddleware = middleware;
+            actorRefMiddleware = middleware;
             return this;
         }
         
-        /// <summary>
-        /// Registers direct client <see cref="ActorRef"/> middleware (interceptor)
-        /// </summary>
-        /// <param name="middleware">The middleware.</param>
-        public OrleankkaClusterOptions DirectClientActorRefMiddleware(IActorRefMiddleware middleware)
-        {
-            Requires.NotNull(middleware, nameof(middleware));
-
-            if (directClientMiddleware != null)
-                throw new InvalidOperationException("ActorRef middleware for direct client has been already registered");
-
-            directClientMiddleware = middleware;
-            return this;
-        }
-
         public OrleankkaClusterOptions HandlerNamingConventions(params string[] conventions)
         {
             Requires.NotNull(conventions, nameof(conventions));
@@ -99,8 +83,8 @@ namespace Orleankka.Cluster
                                 .OfType<AssemblyPart>().Select(x => x.Assembly)
                                 .ToArray();
 
-            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, clusterMiddleware));
-            services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, directClientMiddleware));
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, actorRefMiddleware));
+            services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, actorRefMiddleware));
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
