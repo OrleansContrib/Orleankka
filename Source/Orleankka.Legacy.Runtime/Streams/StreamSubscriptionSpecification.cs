@@ -131,8 +131,9 @@ namespace Orleankka.Legacy.Streams
             Requires.NotNullOrWhitespace(provider, nameof(provider));
             Requires.NotNull(matcher, nameof(matcher));
 
-            Interface = ActorGrainImplementation.InterfaceOf(actor);
+            Interface = ActorGrain.InterfaceOf(actor);
             Provider = provider;
+
             this.matcher = matcher;
             this.selector = selector;
 

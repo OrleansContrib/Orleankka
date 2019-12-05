@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,28 @@ namespace Orleankka
 
     public abstract class ActorGrain : Grain, IActorGrain, IGrainWithStringKey
     {
+        /// <summary>
+        /// Returns actual <see cref="IActorGrain"/> interface implemented by give actor class
+        /// </summary>
+        /// <param name="type">The actor class type</param>
+        /// <returns>Type of the interface</returns>
+        public static Type InterfaceOf(Type type)
+        {
+            var interfaces = type
+                .GetInterfaces().Except(new[] {typeof(IActorGrain)})
+                .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
+                .Where(each => !each.IsConstructedGenericType)
+                .ToArray();
+
+            if (interfaces.Length > 1)
+                throw new InvalidOperationException($"Type '{type.FullName}' can only implement single custom IActorGrain interface");
+
+            if (interfaces.Length == 0)
+                throw new InvalidOperationException($"Type '{type.FullName}' does not implement custom IActorGrain interface");
+
+            return interfaces[0];
+        }
+        
         public static readonly Done Done = Done.Result;
         public static readonly Unhandled Unhandled = Unhandled.Result;
 
@@ -38,7 +61,7 @@ namespace Orleankka
         /// </summary>
         protected ActorGrain(string id = null, IActorRuntime runtime = null)
         {
-            var @interface = ActorGrainImplementation.InterfaceOf(GetType());
+            var @interface = InterfaceOf(GetType());
             Path = ActorPath.For(@interface, id ?? Guid.NewGuid().ToString("N"));
             System = runtime?.System;
             this.runtime = runtime;
