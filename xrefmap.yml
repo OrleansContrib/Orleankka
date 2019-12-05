@@ -2019,19 +2019,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware
   nameWithType: OrleankkaClusterOptions.ActorRefMiddleware
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  name: DirectClientActorRefMiddleware(IActorRefMiddleware)
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_DirectClientActorRefMiddleware_Orleankka_IActorRefMiddleware_
-  commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  nameWithType: OrleankkaClusterOptions.DirectClientActorRefMiddleware(IActorRefMiddleware)
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware*
-  name: DirectClientActorRefMiddleware
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_DirectClientActorRefMiddleware_
-  commentId: Overload:Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware
-  isSpec: "True"
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.DirectClientActorRefMiddleware
-  nameWithType: OrleankkaClusterOptions.DirectClientActorRefMiddleware
 - uid: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String[])
   name: HandlerNamingConventions(String[])
   href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_System_String___

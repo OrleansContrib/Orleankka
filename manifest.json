@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.html",
-          "hash": "n49afVVB55+i3nxmpnf5Dg=="
+          "hash": "2BXCOTRdvDTd7D7gp6m3DQ=="
         }
       },
       "is_incremental": false,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.html",
-          "hash": "KvJiVwHlv1OKNiuHqHF6OA=="
+          "hash": "Ej6N+UVLpqXaIEjeTT+wgw=="
         }
       },
       "is_incremental": false,
@@ -1927,13 +1927,6 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
@@ -1944,6 +1937,13 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 148,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
           "skipped_file_count": 0
         }
       }
