@@ -58,6 +58,9 @@ namespace Orleankka.Legacy
                 case Deactivate _ : 
                     await OnDeactivate(); 
                     return Done;
+                case Reminder x : 
+                    await OnReminder(x.Name); 
+                    return Done;
                 default: return await OnReceive(message);
             }
         }
