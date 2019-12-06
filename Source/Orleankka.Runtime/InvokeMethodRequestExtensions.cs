@@ -10,6 +10,9 @@ namespace Orleankka
         public static bool Message(this InvokeMethodRequest request, Func<object, bool> predicate) => 
             predicate(request.Message());
 
+        public static bool Message<T>(this InvokeMethodRequest request, Func<T, bool> predicate) => 
+            request.Message() is T m && predicate(m);
+
         public static object Message(this InvokeMethodRequest request)
         {
             if (request?.Arguments == null)

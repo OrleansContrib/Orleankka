@@ -45,4 +45,7 @@ type Counter() =
         | _ -> return unhandled()
     }
 
-    static member IsReentrant(req:InvokeMethodRequest) = req.Message(fun x -> x > GetCount)
+    static member IsReentrant(req:InvokeMethodRequest) = req.Message(fun x -> 
+        match x with 
+        | GetCount -> true 
+        | _ -> false)
