@@ -82,6 +82,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorGrain.Id
   nameWithType: ActorGrain.Id
+- uid: Orleankka.ActorGrain.InterfaceOf(System.Type)
+  name: InterfaceOf(Type)
+  href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_InterfaceOf_System_Type_
+  commentId: M:Orleankka.ActorGrain.InterfaceOf(System.Type)
+  fullName: Orleankka.ActorGrain.InterfaceOf(System.Type)
+  nameWithType: ActorGrain.InterfaceOf(Type)
+- uid: Orleankka.ActorGrain.InterfaceOf*
+  name: InterfaceOf
+  href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_InterfaceOf_
+  commentId: Overload:Orleankka.ActorGrain.InterfaceOf
+  isSpec: "True"
+  fullName: Orleankka.ActorGrain.InterfaceOf
+  nameWithType: ActorGrain.InterfaceOf
 - uid: Orleankka.ActorGrain.Jobs
   name: Jobs
   href: api/Orleankka.ActorGrain.html#Orleankka_ActorGrain_Jobs
@@ -2619,6 +2632,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.InvokeMethodRequestExtensions.Message
   nameWithType: InvokeMethodRequestExtensions.Message
+- uid: Orleankka.InvokeMethodRequestExtensions.Message``1(Orleans.CodeGeneration.InvokeMethodRequest,System.Func{``0,System.Boolean})
+  name: Message<T>(InvokeMethodRequest, Func<T, Boolean>)
+  href: api/Orleankka.InvokeMethodRequestExtensions.html#Orleankka_InvokeMethodRequestExtensions_Message__1_Orleans_CodeGeneration_InvokeMethodRequest_System_Func___0_System_Boolean__
+  commentId: M:Orleankka.InvokeMethodRequestExtensions.Message``1(Orleans.CodeGeneration.InvokeMethodRequest,System.Func{``0,System.Boolean})
+  name.vb: Message(Of T)(InvokeMethodRequest, Func(Of T, Boolean))
+  fullName: Orleankka.InvokeMethodRequestExtensions.Message<T>(Orleans.CodeGeneration.InvokeMethodRequest, System.Func<T, System.Boolean>)
+  fullName.vb: Orleankka.InvokeMethodRequestExtensions.Message(Of T)(Orleans.CodeGeneration.InvokeMethodRequest, System.Func(Of T, System.Boolean))
+  nameWithType: InvokeMethodRequestExtensions.Message<T>(InvokeMethodRequest, Func<T, Boolean>)
+  nameWithType.vb: InvokeMethodRequestExtensions.Message(Of T)(InvokeMethodRequest, Func(Of T, Boolean))
 - uid: Orleankka.IObserverCollection
   name: IObserverCollection
   href: api/Orleankka.IObserverCollection.html
@@ -2944,6 +2966,58 @@ references:
   isSpec: "True"
   fullName: Orleankka.Legacy.Behaviors.ActorBehavior.Current
   nameWithType: ActorBehavior.Current
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate
+  name: HandleActivate()
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleActivate
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate()
+  nameWithType: ActorBehavior.HandleActivate()
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate*
+  name: HandleActivate
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleActivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleActivate
+  nameWithType: ActorBehavior.HandleActivate
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate
+  name: HandleDeactivate()
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleDeactivate
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate()
+  nameWithType: ActorBehavior.HandleDeactivate()
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate*
+  name: HandleDeactivate
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleDeactivate_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleDeactivate
+  nameWithType: ActorBehavior.HandleDeactivate
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive(System.Object)
+  name: HandleReceive(Object)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleReceive_System_Object_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive(System.Object)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive(System.Object)
+  nameWithType: ActorBehavior.HandleReceive(Object)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive*
+  name: HandleReceive
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleReceive_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReceive
+  nameWithType: ActorBehavior.HandleReceive
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder(System.String)
+  name: HandleReminder(String)
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleReminder_System_String_
+  commentId: M:Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder(System.String)
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder(System.String)
+  nameWithType: ActorBehavior.HandleReminder(String)
+- uid: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder*
+  name: HandleReminder
+  href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_HandleReminder_
+  commentId: Overload:Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder
+  isSpec: "True"
+  fullName: Orleankka.Legacy.Behaviors.ActorBehavior.HandleReminder
+  nameWithType: ActorBehavior.HandleReminder
 - uid: Orleankka.Legacy.Behaviors.ActorBehavior.Initial(System.Action)
   name: Initial(Action)
   href: api/Orleankka.Legacy.Behaviors.ActorBehavior.html#Orleankka_Legacy_Behaviors_ActorBehavior_Initial_System_Action_
