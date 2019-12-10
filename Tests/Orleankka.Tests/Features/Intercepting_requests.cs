@@ -109,18 +109,18 @@ namespace Orleankka.Features
                         break;
                 }
 
-                return Next.Receive(actor, message, receiver);
+                return base.Receive(actor, message, receiver);
             }
         }
 
         public class TestActorRefMiddleware : ActorRefMiddleware
         {
-            public override Task<TResult> Send<TResult>(ActorPath actor, object message, Receive sender)
+            public override Task<object> Receive(ActorPath actor, object message, Receive receiver)
             {
                 if (message is CheckRef)
                     RequestContext.Set("SetByActorRefMiddleware", "it works!");
 
-                return base.Send<TResult>(actor, message, sender);
+                return base.Receive(actor, message, receiver);
             }
         }
 

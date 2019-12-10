@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Orleankka
 {
@@ -10,12 +9,13 @@ namespace Orleankka
 
     public abstract class ActorMiddleware : IActorMiddleware
     {
-        public readonly IActorMiddleware Next;
+        readonly IActorMiddleware next;
 
         protected ActorMiddleware(IActorMiddleware next = null) => 
-            Next = next ?? DefaultActorMiddleware.Instance;
+            this.next = next ?? DefaultActorMiddleware.Instance;
 
-        public abstract Task<object> Receive(ActorGrain actor, object message, Receive receiver);
+        public virtual Task<object> Receive(ActorGrain actor, object message, Receive receiver) =>
+            next.Receive(actor, message, receiver);
     }
 
     class DefaultActorMiddleware : IActorMiddleware

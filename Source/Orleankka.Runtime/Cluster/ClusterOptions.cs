@@ -22,31 +22,16 @@ namespace Orleankka.Cluster
         readonly HashSet<string> conventions = 
              new HashSet<string>();
 
-        readonly ActorMiddlewarePipeline pipeline = 
-             new ActorMiddlewarePipeline();
-        
         IActorRefMiddleware actorRefMiddleware;
+        IActorMiddleware actorMiddleware;
 
         /// <summary>
-        /// Registers global actor middleware (interceptor). This middleware will be used for every actor 
-        /// which doesn't specify an individual middleware via call to <see cref="ActorMiddleware(Type,IActorMiddleware) "/>.
+        /// Registers global actor middleware (interceptor).
         /// </summary>
-        /// <param name="global">The middleware.</param>
-        public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware global)
-        {
-            pipeline.Register(global);
-            return this;
-        }
-
-        /// <summary>
-        /// Registers type-based actor middleware (interceptor). 
-        /// The middleware is inherited by all subclasses.
-        /// </summary>
-        /// <param name="type">The actor type (could be the base class)</param>
         /// <param name="middleware">The middleware.</param>
-        public OrleankkaClusterOptions ActorMiddleware(Type type, IActorMiddleware middleware)
+        public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware middleware)
         {
-            pipeline.Register(type, middleware);
+            actorMiddleware = middleware;
             return this;
         }
 
@@ -80,10 +65,10 @@ namespace Orleankka.Cluster
         internal void Configure(IApplicationPartManager apm, IServiceCollection services)
         {
             var assemblies = apm.ApplicationParts
-                                .OfType<AssemblyPart>().Select(x => x.Assembly)
-                                .ToArray();
+                .OfType<AssemblyPart>().Select(x => x.Assembly)
+                .ToArray();
 
-            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, pipeline, actorRefMiddleware));
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, actorRefMiddleware, actorMiddleware));
             services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, actorRefMiddleware));
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
@@ -99,7 +84,7 @@ namespace Orleankka.Cluster
         DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
         {
             var dispatchActors = assemblies.SelectMany(x => x.GetTypes())
-                                           .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
+                .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
 
             var dispatcherRegistry = new DispatcherRegistry();
             var handlerNamingConventions = conventions.Count > 0 ? conventions.ToArray() : null;

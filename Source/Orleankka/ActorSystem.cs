@@ -50,16 +50,16 @@ namespace Orleankka
 
         readonly IServiceProvider serviceProvider;
         readonly IGrainFactory grainFactory;
-        readonly IActorRefMiddleware middleware;
+        readonly IActorRefMiddleware actorRefMiddleware;
 
         protected ActorSystem(
             Assembly[] assemblies,
             IServiceProvider serviceProvider,
-            IActorRefMiddleware middleware = null)
+            IActorRefMiddleware actorRefMiddleware = null)
         {
             this.serviceProvider = serviceProvider;
             this.grainFactory = serviceProvider.GetService<IGrainFactory>();
-            this.middleware = middleware ?? DefaultActorRefMiddleware.Instance;
+            this.actorRefMiddleware = actorRefMiddleware ?? DefaultActorRefMiddleware.Instance;
 
             Register(assemblies);
         }
@@ -89,7 +89,7 @@ namespace Orleankka
 
             var proxy = @interface.Proxy(path.Id, grainFactory);
 
-            return new ActorRef(path, proxy, middleware);
+            return new ActorRef(path, proxy, actorRefMiddleware);
         }
         
         /// <inheritdoc />

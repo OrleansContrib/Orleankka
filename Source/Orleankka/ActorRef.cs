@@ -3,14 +3,13 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using Orleans;
 using Orleans.Concurrency;
 using Orleans.Runtime;
 using Orleans.CodeGeneration;
 using Orleans.Serialization;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Orleans;
 
 namespace Orleankka
 {
@@ -41,25 +40,25 @@ namespace Orleankka
         {
             Requires.NotNull(message, nameof(message));
 
-            return middleware.Send<object>(Path, message, async x =>
+            return middleware.Receive(Path, message, async x =>
             {
                 await endpoint.ReceiveTell(x);
                 return null;
             });
         }
 
-        public virtual Task<TResult> Ask<TResult>(object message)
+        public virtual async Task<TResult> Ask<TResult>(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            return middleware.Send<TResult>(Path, message, endpoint.ReceiveAsk);
+            return (TResult) await middleware.Receive(Path, message, endpoint.ReceiveAsk);
         }
 
         public override void Notify(object message)
         {
             Requires.NotNull(message, nameof(message));
 
-            middleware.Send<object>(Path, message, async x =>
+            middleware.Receive(Path, message, async x =>
             {
                 await endpoint.ReceiveNotify(x);
                 return null;

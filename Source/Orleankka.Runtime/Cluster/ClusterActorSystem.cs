@@ -12,21 +12,24 @@ namespace Orleankka.Cluster
         readonly Dictionary<Type, ActorGrainImplementation> implementations = 
              new Dictionary<Type, ActorGrainImplementation>();
 
+        readonly IActorMiddleware actorMiddleware;
+
         internal ClusterActorSystem(
             Assembly[] assemblies,
             IServiceProvider serviceProvider,
-            ActorMiddlewarePipeline pipeline,
-            IActorRefMiddleware middleware = null)
-            : base(assemblies, serviceProvider, middleware)
+            IActorRefMiddleware actorRefMiddleware = null, 
+            IActorMiddleware actorMiddleware = null)
+            : base(assemblies, serviceProvider, actorRefMiddleware)
         {
-            Register(pipeline, assemblies);
+            this.actorMiddleware = actorMiddleware ?? DefaultActorMiddleware.Instance;
+            Register(assemblies);
         }
 
-        void Register(ActorMiddlewarePipeline pipeline, IEnumerable<Assembly> assemblies)
+        void Register(IEnumerable<Assembly> assemblies)
         {
             foreach (var each in assemblies.SelectMany(x => x.GetTypes().Where(IsActorGrain)))
             {
-                var implementation = new ActorGrainImplementation(each, pipeline.Middleware(each));
+                var implementation = new ActorGrainImplementation(each, actorMiddleware);
                 implementations.Add(each, implementation);
             }
 

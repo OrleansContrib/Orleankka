@@ -82,7 +82,7 @@ namespace Orleankka.Testing
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
                 .UseOrleankka(x => x
-                    .ActorMiddleware(typeof(TestActorBase), new TestActorMiddleware())
+                    .ActorMiddleware(new TestActorMiddleware())
                     .ActorRefMiddleware(new TestActorRefMiddleware()))
                 .UseOrleankkaLegacyFeatures(x => x
                     .AddSimpleMessageStreamProvider("sms")

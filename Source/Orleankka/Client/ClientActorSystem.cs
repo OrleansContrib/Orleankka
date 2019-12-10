@@ -30,8 +30,8 @@ namespace Orleankka.Client
         internal ClientActorSystem(
             Assembly[] assemblies,
             IServiceProvider serviceProvider,
-            IActorRefMiddleware middleware = null)
-            : base(assemblies, serviceProvider, middleware)
+            IActorRefMiddleware actorRefMiddleware = null)
+            : base(assemblies, serviceProvider, actorRefMiddleware)
         {
             grainFactory = serviceProvider.GetService<IGrainFactory>();
         }
