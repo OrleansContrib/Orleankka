@@ -371,12 +371,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorMiddleware.ActorMiddleware
   nameWithType: ActorMiddleware.ActorMiddleware
-- uid: Orleankka.ActorMiddleware.Next
-  name: Next
-  href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Next
-  commentId: F:Orleankka.ActorMiddleware.Next
-  fullName: Orleankka.ActorMiddleware.Next
-  nameWithType: ActorMiddleware.Next
 - uid: Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)
   name: Receive(ActorGrain, Object, Receive)
   href: api/Orleankka.ActorMiddleware.html#Orleankka_ActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_Orleankka_Receive_
@@ -999,22 +993,19 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorRefMiddleware.ActorRefMiddleware
   nameWithType: ActorRefMiddleware.ActorRefMiddleware
-- uid: Orleankka.ActorRefMiddleware.Send*
-  name: Send
-  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Send_
-  commentId: Overload:Orleankka.ActorRefMiddleware.Send
+- uid: Orleankka.ActorRefMiddleware.Receive(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name: Receive(ActorPath, Object, Receive)
+  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Receive_Orleankka_ActorPath_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.ActorRefMiddleware.Receive(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  fullName: Orleankka.ActorRefMiddleware.Receive(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  nameWithType: ActorRefMiddleware.Receive(ActorPath, Object, Receive)
+- uid: Orleankka.ActorRefMiddleware.Receive*
+  name: Receive
+  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Receive_
+  commentId: Overload:Orleankka.ActorRefMiddleware.Receive
   isSpec: "True"
-  fullName: Orleankka.ActorRefMiddleware.Send
-  nameWithType: ActorRefMiddleware.Send
-- uid: Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
-  name: Send<TResult>(ActorPath, Object, Receive)
-  href: api/Orleankka.ActorRefMiddleware.html#Orleankka_ActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_
-  commentId: M:Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
-  name.vb: Send(Of TResult)(ActorPath, Object, Receive)
-  fullName: Orleankka.ActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, Orleankka.Receive)
-  fullName.vb: Orleankka.ActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, Orleankka.Receive)
-  nameWithType: ActorRefMiddleware.Send<TResult>(ActorPath, Object, Receive)
-  nameWithType.vb: ActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Receive)
+  fullName: Orleankka.ActorRefMiddleware.Receive
+  nameWithType: ActorRefMiddleware.Receive
 - uid: Orleankka.ActorRuntime
   name: ActorRuntime
   href: api/Orleankka.ActorRuntime.html
@@ -2006,12 +1997,6 @@ references:
   commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)
   fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)
   nameWithType: OrleankkaClusterOptions.ActorMiddleware(IActorMiddleware)
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(System.Type,Orleankka.IActorMiddleware)
-  name: ActorMiddleware(Type, IActorMiddleware)
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_System_Type_Orleankka_IActorMiddleware_
-  commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(System.Type,Orleankka.IActorMiddleware)
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(System.Type, Orleankka.IActorMiddleware)
-  nameWithType: OrleankkaClusterOptions.ActorMiddleware(Type, IActorMiddleware)
 - uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware*
   name: ActorMiddleware
   href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_
@@ -2415,22 +2400,19 @@ references:
   commentId: T:Orleankka.IActorRefMiddleware
   fullName: Orleankka.IActorRefMiddleware
   nameWithType: IActorRefMiddleware
-- uid: Orleankka.IActorRefMiddleware.Send*
-  name: Send
-  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Send_
-  commentId: Overload:Orleankka.IActorRefMiddleware.Send
+- uid: Orleankka.IActorRefMiddleware.Receive(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  name: Receive(ActorPath, Object, Receive)
+  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Receive_Orleankka_ActorPath_System_Object_Orleankka_Receive_
+  commentId: M:Orleankka.IActorRefMiddleware.Receive(Orleankka.ActorPath,System.Object,Orleankka.Receive)
+  fullName: Orleankka.IActorRefMiddleware.Receive(Orleankka.ActorPath, System.Object, Orleankka.Receive)
+  nameWithType: IActorRefMiddleware.Receive(ActorPath, Object, Receive)
+- uid: Orleankka.IActorRefMiddleware.Receive*
+  name: Receive
+  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Receive_
+  commentId: Overload:Orleankka.IActorRefMiddleware.Receive
   isSpec: "True"
-  fullName: Orleankka.IActorRefMiddleware.Send
-  nameWithType: IActorRefMiddleware.Send
-- uid: Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
-  name: Send<TResult>(ActorPath, Object, Receive)
-  href: api/Orleankka.IActorRefMiddleware.html#Orleankka_IActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_
-  commentId: M:Orleankka.IActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)
-  name.vb: Send(Of TResult)(ActorPath, Object, Receive)
-  fullName: Orleankka.IActorRefMiddleware.Send<TResult>(Orleankka.ActorPath, System.Object, Orleankka.Receive)
-  fullName.vb: Orleankka.IActorRefMiddleware.Send(Of TResult)(Orleankka.ActorPath, System.Object, Orleankka.Receive)
-  nameWithType: IActorRefMiddleware.Send<TResult>(ActorPath, Object, Receive)
-  nameWithType.vb: IActorRefMiddleware.Send(Of TResult)(ActorPath, Object, Receive)
+  fullName: Orleankka.IActorRefMiddleware.Receive
+  nameWithType: IActorRefMiddleware.Receive
 - uid: Orleankka.IActorRuntime
   name: IActorRuntime
   href: api/Orleankka.IActorRuntime.html

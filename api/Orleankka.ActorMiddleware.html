@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ActorMiddleware
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.48.0.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -133,7 +133,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMiddleware__ctor_Orleankka_IActorMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.ActorMiddleware.%23ctor(Orleankka.IActorMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L15">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L14">View Source</a>
   </span>
   <a id="Orleankka_ActorMiddleware__ctor_" data-uid="Orleankka.ActorMiddleware.#ctor*"></a>
   <h4 id="Orleankka_ActorMiddleware__ctor_Orleankka_IActorMiddleware_" data-uid="Orleankka.ActorMiddleware.#ctor(Orleankka.IActorMiddleware)">ActorMiddleware(IActorMiddleware)</h4>
@@ -160,37 +160,6 @@
       </tr>
     </tbody>
   </table>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMiddleware_Next.md&amp;value=---%0Auid%3A%20Orleankka.ActorMiddleware.Next%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L13">View Source</a>
-  </span>
-  <h4 id="Orleankka_ActorMiddleware_Next" data-uid="Orleankka.ActorMiddleware.Next">Next</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly IActorMiddleware Next</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.IActorMiddleware.html">IActorMiddleware</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
@@ -198,7 +167,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_Orleankka_Receive_.md&amp;value=---%0Auid%3A%20Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain%2CSystem.Object%2COrleankka.Receive)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L18">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L17">View Source</a>
   </span>
   <a id="Orleankka_ActorMiddleware_Receive_" data-uid="Orleankka.ActorMiddleware.Receive*"></a>
   <h4 id="Orleankka_ActorMiddleware_Receive_Orleankka_ActorGrain_System_Object_Orleankka_Receive_" data-uid="Orleankka.ActorMiddleware.Receive(Orleankka.ActorGrain,System.Object,Orleankka.Receive)">Receive(ActorGrain, Object, Receive)</h4>
@@ -206,7 +175,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract Task&lt;object&gt; Receive(ActorGrain actor, object message, Receive receiver)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual Task&lt;object&gt; Receive(ActorGrain actor, object message, Receive receiver)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -265,7 +234,7 @@
                     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorMiddleware.md&amp;value=---%0Auid%3A%20Orleankka.ActorMiddleware%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/ActorMiddleware.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

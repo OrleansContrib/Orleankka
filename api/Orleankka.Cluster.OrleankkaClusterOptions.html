@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class OrleankkaClusterOptions
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.48.0.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -129,17 +129,16 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_Orleankka_IActorMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L35">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L32">View Source</a>
   </span>
   <a id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware*"></a>
   <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_Orleankka_IActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)">ActorMiddleware(IActorMiddleware)</h4>
-  <div class="markdown level1 summary"><p>Registers global actor middleware (interceptor). This middleware will be used for every actor 
-which doesn&apos;t specify an individual middleware via call to <a class="xref" href="Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_System_Type_Orleankka_IActorMiddleware_">ActorMiddleware(Type, IActorMiddleware)</a>.</p>
+  <div class="markdown level1 summary"><p>Registers global actor middleware (interceptor).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware global)</code></pre>
+    <pre><code class="lang-csharp hljs">public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware middleware)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -151,62 +150,6 @@ which doesn&apos;t specify an individual middleware via call to <a class="xref" 
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.IActorMiddleware.html">IActorMiddleware</a></td>
-        <td><span class="parametername">global</span></td>
-        <td><p>The middleware.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.Cluster.OrleankkaClusterOptions.html">OrleankkaClusterOptions</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_System_Type_Orleankka_IActorMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(System.Type%2COrleankka.IActorMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L47">View Source</a>
-  </span>
-  <a id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware*"></a>
-  <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_System_Type_Orleankka_IActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(System.Type,Orleankka.IActorMiddleware)">ActorMiddleware(Type, IActorMiddleware)</h4>
-  <div class="markdown level1 summary"><p>Registers type-based actor middleware (interceptor). 
-The middleware is inherited by all subclasses.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public OrleankkaClusterOptions ActorMiddleware(Type type, IActorMiddleware middleware)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.type(v=vs.110).aspx">Type</a></td>
-        <td><span class="parametername">type</span></td>
-        <td><p>The actor type (could be the base class)</p>
-</td>
-      </tr>
       <tr>
         <td><a class="xref" href="Orleankka.IActorMiddleware.html">IActorMiddleware</a></td>
         <td><span class="parametername">middleware</span></td>
@@ -235,7 +178,7 @@ The middleware is inherited by all subclasses.</p>
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L57">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L42">View Source</a>
   </span>
   <a id="Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware*"></a>
   <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)">ActorRefMiddleware(IActorRefMiddleware)</h4>
@@ -284,7 +227,7 @@ The middleware is inherited by all subclasses.</p>
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_System_String___.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L68">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L53">View Source</a>
   </span>
   <a id="Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions*"></a>
   <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_System_String___" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String[])">HandlerNamingConventions(String[])</h4>

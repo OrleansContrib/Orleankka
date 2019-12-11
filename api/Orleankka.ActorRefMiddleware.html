@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ActorRefMiddleware
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.48.0.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -164,18 +164,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_.md&amp;value=---%0Auid%3A%20Orleankka.ActorRefMiddleware.Send%60%601(Orleankka.ActorPath%2CSystem.Object%2COrleankka.Receive)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_ActorRefMiddleware_Receive_Orleankka_ActorPath_System_Object_Orleankka_Receive_.md&amp;value=---%0Auid%3A%20Orleankka.ActorRefMiddleware.Receive(Orleankka.ActorPath%2CSystem.Object%2COrleankka.Receive)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorRefMiddleware.cs/#L17">View Source</a>
   </span>
-  <a id="Orleankka_ActorRefMiddleware_Send_" data-uid="Orleankka.ActorRefMiddleware.Send*"></a>
-  <h4 id="Orleankka_ActorRefMiddleware_Send__1_Orleankka_ActorPath_System_Object_Orleankka_Receive_" data-uid="Orleankka.ActorRefMiddleware.Send``1(Orleankka.ActorPath,System.Object,Orleankka.Receive)">Send&lt;TResult&gt;(ActorPath, Object, Receive)</h4>
+  <a id="Orleankka_ActorRefMiddleware_Receive_" data-uid="Orleankka.ActorRefMiddleware.Receive*"></a>
+  <h4 id="Orleankka_ActorRefMiddleware_Receive_Orleankka_ActorPath_System_Object_Orleankka_Receive_" data-uid="Orleankka.ActorRefMiddleware.Receive(Orleankka.ActorPath,System.Object,Orleankka.Receive)">Receive(ActorPath, Object, Receive)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual Task&lt;TResult&gt; Send&lt;TResult&gt;(ActorPath actor, object message, Receive sender)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual Task&lt;object&gt; Receive(ActorPath actor, object message, Receive receiver)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -199,7 +199,7 @@
       </tr>
       <tr>
         <td><a class="xref" href="Orleankka.Receive.html">Receive</a></td>
-        <td><span class="parametername">sender</span></td>
+        <td><span class="parametername">receiver</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -214,22 +214,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;TResult&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">TResult</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
