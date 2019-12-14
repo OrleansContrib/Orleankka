@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -76,6 +77,12 @@ namespace Orleankka.Testing
                 {
                     services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
                     services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
+                    
+                    services.Configure<DispatcherOptions>(o =>
+                    {
+                        var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
+                        o.HandlerNamingConventions = customConventions.ToArray();
+                    });
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)

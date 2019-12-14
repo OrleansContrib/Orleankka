@@ -6,6 +6,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Orleans;
+using Orleans.Configuration;
 
 namespace Orleankka
 {
@@ -23,6 +26,49 @@ namespace Orleankka
         public void Register(Type type, Dispatcher dispatcher) => dispatchers.Add(type, dispatcher);
         public Dispatcher GetDispatcher(Type type) => dispatchers[type];
     }
+
+    /// <summary>
+    /// Configures built-in <see cref="Dispatcher"/>
+    /// </summary>
+    public class DispatcherOptions
+    {
+        /// <summary>
+        /// The handler naming conventions to use
+        /// </summary>
+        public string[] HandlerNamingConventions { get; set; } = Dispatcher.DefaultHandlerNamingConventions;
+
+        /// <summary>
+        /// The base types where the handler traversal should stop (ie root types)
+        /// </summary>
+        public Type[] RootTypes { get; set; } = Dispatcher.DefaultRootTypes;
+    }
+
+    /// <summary>
+    /// Validator for <see cref=DispatcherOptions/>
+    /// </summary>
+    public class DispatcherOptionsValidator : IConfigurationValidator
+    {
+        readonly DispatcherOptions options;
+
+        public DispatcherOptionsValidator(IOptions<DispatcherOptions> options) => 
+            this.options = options.Value;
+
+        public void ValidateConfiguration()
+        {
+            if (options.HandlerNamingConventions == null ||
+                options.HandlerNamingConventions.Length == 0)
+                throw new Exception(
+                    $"Configuration for {nameof(DispatcherOptions)} is invalid. " +
+                    $"A non-null, non-empty array for {nameof(options.HandlerNamingConventions)} is required");
+
+            if (options.RootTypes == null ||
+                options.RootTypes.Length == 0)
+                throw new Exception(
+                    $"Configuration for {nameof(DispatcherOptions)} is invalid. " +
+                    $"A non-null, non-empty array for {nameof(options.RootTypes)} is required");
+        }
+    }
+
 
     public class Dispatcher
     {

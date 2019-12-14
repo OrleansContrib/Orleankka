@@ -5,10 +5,11 @@ using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-
+using Microsoft.Extensions.Options;
 using Orleans;
 using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
+using Orleans.Configuration.Overrides;
 using Orleans.Hosting;
 using Orleans.Runtime;
 
@@ -19,9 +20,6 @@ namespace Orleankka.Cluster
 
     public sealed class OrleankkaClusterOptions
     {
-        readonly HashSet<string> conventions = 
-             new HashSet<string>();
-
         IActorRefMiddleware actorRefMiddleware;
         IActorMiddleware actorMiddleware;
 
@@ -50,18 +48,6 @@ namespace Orleankka.Cluster
             return this;
         }
         
-        public OrleankkaClusterOptions HandlerNamingConventions(params string[] conventions)
-        {
-            Requires.NotNull(conventions, nameof(conventions));
-
-            if (conventions.Length == 0)
-                throw new ArgumentException("conventions are empty", nameof(conventions));
-
-            Array.ForEach(conventions, x => this.conventions.Add(x));
-
-            return this;
-        }
-
         internal void Configure(IApplicationPartManager apm, IServiceCollection services)
         {
             var assemblies = apm.ApplicationParts
@@ -74,23 +60,26 @@ namespace Orleankka.Cluster
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
 
-            services.TryAddSingleton<IDispatcherRegistry>(BuildDispatcherRegistry(assemblies));
+            services.TryAddSingleton<IDispatcherRegistry>(x => BuildDispatcherRegistry(x, assemblies));
             services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
 
             services.TryAdd(new ServiceDescriptor(typeof(IGrainActivator), sp => new DefaultGrainActivator(sp), ServiceLifetime.Singleton));
             services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
+
+            services.AddTransient<IConfigurationValidator, DispatcherOptionsValidator>();
+            services.AddOptions<DispatcherOptions>();
         }
 
-        DispatcherRegistry BuildDispatcherRegistry(IEnumerable<Assembly> assemblies)
+        DispatcherRegistry BuildDispatcherRegistry(IServiceProvider services, IEnumerable<Assembly> assemblies)
         {
             var dispatchActors = assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
 
             var dispatcherRegistry = new DispatcherRegistry();
-            var handlerNamingConventions = conventions.Count > 0 ? conventions.ToArray() : null;
+            var options = services.GetService<IOptions<DispatcherOptions>>().Value;
 
             foreach (var actor in dispatchActors)
-                dispatcherRegistry.Register(actor, new Dispatcher(actor, handlerNamingConventions));
+                dispatcherRegistry.Register(actor, new Dispatcher(actor, options.HandlerNamingConventions, options.RootTypes));
 
             return dispatcherRegistry;
         }
