@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka.Cluster
 {
@@ -14,14 +15,10 @@ namespace Orleankka.Cluster
 
         readonly IActorMiddleware actorMiddleware;
 
-        internal ClusterActorSystem(
-            Assembly[] assemblies,
-            IServiceProvider serviceProvider,
-            IActorRefMiddleware actorRefMiddleware = null, 
-            IActorMiddleware actorMiddleware = null)
-            : base(assemblies, serviceProvider, actorRefMiddleware)
+        internal ClusterActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
+            : base(assemblies, serviceProvider)
         {
-            this.actorMiddleware = actorMiddleware ?? DefaultActorMiddleware.Instance;
+            this.actorMiddleware = serviceProvider.GetService<IActorMiddleware>() ?? DefaultActorMiddleware.Instance;
             Register(assemblies);
         }
 

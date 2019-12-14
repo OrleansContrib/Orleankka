@@ -52,14 +52,11 @@ namespace Orleankka
         readonly IGrainFactory grainFactory;
         readonly IActorRefMiddleware actorRefMiddleware;
 
-        protected ActorSystem(
-            Assembly[] assemblies,
-            IServiceProvider serviceProvider,
-            IActorRefMiddleware actorRefMiddleware = null)
+        protected ActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.grainFactory = serviceProvider.GetService<IGrainFactory>();
-            this.actorRefMiddleware = actorRefMiddleware ?? DefaultActorRefMiddleware.Instance;
+            this.actorRefMiddleware = serviceProvider.GetService<IActorRefMiddleware>() ?? DefaultActorRefMiddleware.Instance;
 
             Register(assemblies);
         }

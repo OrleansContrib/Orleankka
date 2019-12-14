@@ -27,11 +27,8 @@ namespace Orleankka.Client
     {
         readonly IGrainFactory grainFactory;
 
-        internal ClientActorSystem(
-            Assembly[] assemblies,
-            IServiceProvider serviceProvider,
-            IActorRefMiddleware actorRefMiddleware = null)
-            : base(assemblies, serviceProvider, actorRefMiddleware)
+        internal ClientActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
+            : base(assemblies, serviceProvider)
         {
             grainFactory = serviceProvider.GetService<IGrainFactory>();
         }

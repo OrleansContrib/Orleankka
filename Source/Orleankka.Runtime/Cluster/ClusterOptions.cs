@@ -6,56 +6,40 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+
 using Orleans;
 using Orleans.ApplicationParts;
 using Orleans.CodeGeneration;
-using Orleans.Configuration.Overrides;
 using Orleans.Hosting;
 using Orleans.Runtime;
 
 namespace Orleankka.Cluster
 {
     using Client;
-    using Utility;
 
-    public sealed class OrleankkaClusterOptions
+    public static class SiloHostBuilderExtension
     {
-        IActorRefMiddleware actorRefMiddleware;
-        IActorMiddleware actorMiddleware;
+        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder) => 
+            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services));
 
-        /// <summary>
-        /// Registers global actor middleware (interceptor).
-        /// </summary>
-        /// <param name="middleware">The middleware.</param>
-        public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware middleware)
+        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder) => 
+            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services));
+
+        static void UseOrleankka(IApplicationPartManager apm, IServiceCollection services)
         {
-            actorMiddleware = middleware;
-            return this;
+            Configure(apm, services);
+            apm.AddApplicationPart(typeof(IClientEndpoint).Assembly)
+                .WithCodeGeneration();
         }
 
-        /// <summary>
-        /// Registers global cluster-wide <see cref="ActorRef"/> middleware (interceptor)
-        /// </summary>
-        /// <param name="middleware">The middleware.</param>
-        public OrleankkaClusterOptions ActorRefMiddleware(IActorRefMiddleware middleware)
-        {
-            Requires.NotNull(middleware, nameof(middleware));
-
-            if (actorRefMiddleware != null)
-                throw new InvalidOperationException("ActorRef middleware for cluster has been already registered");
-
-            actorRefMiddleware = middleware;
-            return this;
-        }
-        
-        internal void Configure(IApplicationPartManager apm, IServiceCollection services)
+        static void Configure(IApplicationPartManager apm, IServiceCollection services)
         {
             var assemblies = apm.ApplicationParts
                 .OfType<AssemblyPart>().Select(x => x.Assembly)
                 .ToArray();
 
-            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp, actorRefMiddleware, actorMiddleware));
-            services.AddSingleton(sp => new ClientActorSystem(assemblies, sp, actorRefMiddleware));
+            services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp));
+            services.AddSingleton(sp => new ClientActorSystem(assemblies, sp));
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClusterActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
@@ -70,7 +54,7 @@ namespace Orleankka.Cluster
             services.AddOptions<DispatcherOptions>();
         }
 
-        DispatcherRegistry BuildDispatcherRegistry(IServiceProvider services, IEnumerable<Assembly> assemblies)
+        static DispatcherRegistry BuildDispatcherRegistry(IServiceProvider services, IEnumerable<Assembly> assemblies)
         {
             var dispatchActors = assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => typeof(DispatchActorGrain).IsAssignableFrom(x) && !x.IsAbstract);
@@ -82,33 +66,6 @@ namespace Orleankka.Cluster
                 dispatcherRegistry.Register(actor, new Dispatcher(actor, options.HandlerNamingConventions, options.RootTypes));
 
             return dispatcherRegistry;
-        }
-    }
-
-    public static class SiloHostBuilderExtension
-    {
-        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder) => 
-            UseOrleankka(builder, new OrleankkaClusterOptions());
-
-        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions> configure) => 
-            UseOrleankka(builder, configure(new OrleankkaClusterOptions()));
-
-        public static ISiloHostBuilder UseOrleankka(this ISiloHostBuilder builder, OrleankkaClusterOptions cfg) => 
-            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services, cfg));
-
-        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder) => 
-            UseOrleankka(builder, new OrleankkaClusterOptions());
-
-        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions> configure) => 
-            UseOrleankka(builder, configure(new OrleankkaClusterOptions()));
-
-        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder, OrleankkaClusterOptions cfg) => 
-            builder.ConfigureServices(services => UseOrleankka(builder.GetApplicationPartManager(), services, cfg));
-
-        static void UseOrleankka(IApplicationPartManager apm, IServiceCollection services, OrleankkaClusterOptions cfg)
-        {
-            cfg.Configure(apm, services);
-            apm.AddApplicationPart(typeof(IClientEndpoint).Assembly).WithCodeGeneration();
         }
 
         public static IClientActorSystem ActorSystem(this ISiloHost host) => host.Services.GetRequiredService<IClientActorSystem>();

@@ -83,14 +83,15 @@ namespace Orleankka.Testing
                         var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
                         o.HandlerNamingConventions = customConventions.ToArray();
                     });
+
+                    services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
+                    services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
-                .UseOrleankka(x => x
-                    .ActorMiddleware(new TestActorMiddleware())
-                    .ActorRefMiddleware(new TestActorRefMiddleware()))
+                .UseOrleankka()
                 .UseOrleankkaLegacyFeatures(x => x
                     .AddSimpleMessageStreamProvider("sms")
                     .RegisterPersistentStreamProviders("aqp"));
