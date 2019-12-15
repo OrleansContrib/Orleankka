@@ -44,7 +44,7 @@ namespace Orleankka
     }
 
     /// <summary>
-    /// Validator for <see cref=DispatcherOptions/>
+    /// Validator for <see cref="DispatcherOptions"/>
     /// </summary>
     public class DispatcherOptionsValidator : IConfigurationValidator
     {
