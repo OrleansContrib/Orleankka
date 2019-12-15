@@ -2017,22 +2017,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware
   nameWithType: OrleankkaClusterOptions.ActorRefMiddleware
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String[])
-  name: HandlerNamingConventions(String[])
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_System_String___
-  commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String[])
-  name.vb: HandlerNamingConventions(String())
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String[])
-  fullName.vb: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions(System.String())
-  nameWithType: OrleankkaClusterOptions.HandlerNamingConventions(String[])
-  nameWithType.vb: OrleankkaClusterOptions.HandlerNamingConventions(String())
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions*
-  name: HandlerNamingConventions
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_HandlerNamingConventions_
-  commentId: Overload:Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions
-  isSpec: "True"
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.HandlerNamingConventions
-  nameWithType: OrleankkaClusterOptions.HandlerNamingConventions
 - uid: Orleankka.Cluster.SiloHostBuilderExtension
   name: SiloHostBuilderExtension
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html
@@ -2318,6 +2302,73 @@ references:
   isSpec: "True"
   fullName: Orleankka.Dispatcher.Handlers
   nameWithType: Dispatcher.Handlers
+- uid: Orleankka.DispatcherOptions
+  name: DispatcherOptions
+  href: api/Orleankka.DispatcherOptions.html
+  commentId: T:Orleankka.DispatcherOptions
+  fullName: Orleankka.DispatcherOptions
+  nameWithType: DispatcherOptions
+- uid: Orleankka.DispatcherOptions.HandlerNamingConventions
+  name: HandlerNamingConventions
+  href: api/Orleankka.DispatcherOptions.html#Orleankka_DispatcherOptions_HandlerNamingConventions
+  commentId: P:Orleankka.DispatcherOptions.HandlerNamingConventions
+  fullName: Orleankka.DispatcherOptions.HandlerNamingConventions
+  nameWithType: DispatcherOptions.HandlerNamingConventions
+- uid: Orleankka.DispatcherOptions.HandlerNamingConventions*
+  name: HandlerNamingConventions
+  href: api/Orleankka.DispatcherOptions.html#Orleankka_DispatcherOptions_HandlerNamingConventions_
+  commentId: Overload:Orleankka.DispatcherOptions.HandlerNamingConventions
+  isSpec: "True"
+  fullName: Orleankka.DispatcherOptions.HandlerNamingConventions
+  nameWithType: DispatcherOptions.HandlerNamingConventions
+- uid: Orleankka.DispatcherOptions.RootTypes
+  name: RootTypes
+  href: api/Orleankka.DispatcherOptions.html#Orleankka_DispatcherOptions_RootTypes
+  commentId: P:Orleankka.DispatcherOptions.RootTypes
+  fullName: Orleankka.DispatcherOptions.RootTypes
+  nameWithType: DispatcherOptions.RootTypes
+- uid: Orleankka.DispatcherOptions.RootTypes*
+  name: RootTypes
+  href: api/Orleankka.DispatcherOptions.html#Orleankka_DispatcherOptions_RootTypes_
+  commentId: Overload:Orleankka.DispatcherOptions.RootTypes
+  isSpec: "True"
+  fullName: Orleankka.DispatcherOptions.RootTypes
+  nameWithType: DispatcherOptions.RootTypes
+- uid: Orleankka.DispatcherOptionsValidator
+  name: DispatcherOptionsValidator
+  href: api/Orleankka.DispatcherOptionsValidator.html
+  commentId: T:Orleankka.DispatcherOptionsValidator
+  fullName: Orleankka.DispatcherOptionsValidator
+  nameWithType: DispatcherOptionsValidator
+- uid: Orleankka.DispatcherOptionsValidator.#ctor(Microsoft.Extensions.Options.IOptions{Orleankka.DispatcherOptions})
+  name: DispatcherOptionsValidator(IOptions<DispatcherOptions>)
+  href: api/Orleankka.DispatcherOptionsValidator.html#Orleankka_DispatcherOptionsValidator__ctor_Microsoft_Extensions_Options_IOptions_Orleankka_DispatcherOptions__
+  commentId: M:Orleankka.DispatcherOptionsValidator.#ctor(Microsoft.Extensions.Options.IOptions{Orleankka.DispatcherOptions})
+  name.vb: DispatcherOptionsValidator(IOptions(Of DispatcherOptions))
+  fullName: Orleankka.DispatcherOptionsValidator.DispatcherOptionsValidator(Microsoft.Extensions.Options.IOptions<Orleankka.DispatcherOptions>)
+  fullName.vb: Orleankka.DispatcherOptionsValidator.DispatcherOptionsValidator(Microsoft.Extensions.Options.IOptions(Of Orleankka.DispatcherOptions))
+  nameWithType: DispatcherOptionsValidator.DispatcherOptionsValidator(IOptions<DispatcherOptions>)
+  nameWithType.vb: DispatcherOptionsValidator.DispatcherOptionsValidator(IOptions(Of DispatcherOptions))
+- uid: Orleankka.DispatcherOptionsValidator.#ctor*
+  name: DispatcherOptionsValidator
+  href: api/Orleankka.DispatcherOptionsValidator.html#Orleankka_DispatcherOptionsValidator__ctor_
+  commentId: Overload:Orleankka.DispatcherOptionsValidator.#ctor
+  isSpec: "True"
+  fullName: Orleankka.DispatcherOptionsValidator.DispatcherOptionsValidator
+  nameWithType: DispatcherOptionsValidator.DispatcherOptionsValidator
+- uid: Orleankka.DispatcherOptionsValidator.ValidateConfiguration
+  name: ValidateConfiguration()
+  href: api/Orleankka.DispatcherOptionsValidator.html#Orleankka_DispatcherOptionsValidator_ValidateConfiguration
+  commentId: M:Orleankka.DispatcherOptionsValidator.ValidateConfiguration
+  fullName: Orleankka.DispatcherOptionsValidator.ValidateConfiguration()
+  nameWithType: DispatcherOptionsValidator.ValidateConfiguration()
+- uid: Orleankka.DispatcherOptionsValidator.ValidateConfiguration*
+  name: ValidateConfiguration
+  href: api/Orleankka.DispatcherOptionsValidator.html#Orleankka_DispatcherOptionsValidator_ValidateConfiguration_
+  commentId: Overload:Orleankka.DispatcherOptionsValidator.ValidateConfiguration
+  isSpec: "True"
+  fullName: Orleankka.DispatcherOptionsValidator.ValidateConfiguration
+  nameWithType: DispatcherOptionsValidator.ValidateConfiguration
 - uid: Orleankka.Done
   name: Done
   href: api/Orleankka.Done.html

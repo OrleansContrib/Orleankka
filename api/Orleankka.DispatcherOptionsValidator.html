@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class OrleankkaClusterOptions
+    <title>Class DispatcherOptionsValidator
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class OrleankkaClusterOptions
+    <meta name="title" content="Class DispatcherOptionsValidator
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.48.0.0">
     
@@ -80,17 +80,22 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.Cluster.OrleankkaClusterOptions">
+            <article class="content wrap" id="_content" data-uid="Orleankka.DispatcherOptionsValidator">
   
   
-  <h1 id="Orleankka_Cluster_OrleankkaClusterOptions" data-uid="Orleankka.Cluster.OrleankkaClusterOptions" class="text-break">Class OrleankkaClusterOptions
+  <h1 id="Orleankka_DispatcherOptionsValidator" data-uid="Orleankka.DispatcherOptionsValidator" class="text-break">Class DispatcherOptionsValidator
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Validator for <a class="xref" href="Orleankka.DispatcherOptions.html">DispatcherOptions</a></p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">OrleankkaClusterOptions</span></div>
+    <div class="level1"><span class="xref">DispatcherOptionsValidator</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">Orleans.IConfigurationValidator</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -116,112 +121,67 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.Cluster.html">Orleankka.Cluster</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
-  <h5 id="Orleankka_Cluster_OrleankkaClusterOptions_syntax">Syntax</h5>
+  <h5 id="Orleankka_DispatcherOptionsValidator_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class OrleankkaClusterOptions</code></pre>
+    <pre><code class="lang-csharp hljs">public class DispatcherOptionsValidator : IConfigurationValidator</code></pre>
   </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_DispatcherOptionsValidator__ctor_Microsoft_Extensions_Options_IOptions_Orleankka_DispatcherOptions__.md&amp;value=---%0Auid%3A%20Orleankka.DispatcherOptionsValidator.%23ctor(Microsoft.Extensions.Options.IOptions%7BOrleankka.DispatcherOptions%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Dispatcher.cs/#L53">View Source</a>
+  </span>
+  <a id="Orleankka_DispatcherOptionsValidator__ctor_" data-uid="Orleankka.DispatcherOptionsValidator.#ctor*"></a>
+  <h4 id="Orleankka_DispatcherOptionsValidator__ctor_Microsoft_Extensions_Options_IOptions_Orleankka_DispatcherOptions__" data-uid="Orleankka.DispatcherOptionsValidator.#ctor(Microsoft.Extensions.Options.IOptions{Orleankka.DispatcherOptions})">DispatcherOptionsValidator(IOptions&lt;DispatcherOptions&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DispatcherOptionsValidator(IOptions&lt;DispatcherOptions&gt; options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Microsoft.Extensions.Options.IOptions</span>&lt;<a class="xref" href="Orleankka.DispatcherOptions.html">DispatcherOptions</a>&gt;</td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_Orleankka_IActorMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_DispatcherOptionsValidator_ValidateConfiguration.md&amp;value=---%0Auid%3A%20Orleankka.DispatcherOptionsValidator.ValidateConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L30">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Dispatcher.cs/#L56">View Source</a>
   </span>
-  <a id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware*"></a>
-  <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_Orleankka_IActorMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)">ActorMiddleware(IActorMiddleware)</h4>
-  <div class="markdown level1 summary"><p>Registers global actor middleware (interceptor).</p>
-</div>
+  <a id="Orleankka_DispatcherOptionsValidator_ValidateConfiguration_" data-uid="Orleankka.DispatcherOptionsValidator.ValidateConfiguration*"></a>
+  <h4 id="Orleankka_DispatcherOptionsValidator_ValidateConfiguration" data-uid="Orleankka.DispatcherOptionsValidator.ValidateConfiguration">ValidateConfiguration()</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public OrleankkaClusterOptions ActorMiddleware(IActorMiddleware middleware)</code></pre>
+    <pre><code class="lang-csharp hljs">public void ValidateConfiguration()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.IActorMiddleware.html">IActorMiddleware</a></td>
-        <td><span class="parametername">middleware</span></td>
-        <td><p>The middleware.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.Cluster.OrleankkaClusterOptions.html">OrleankkaClusterOptions</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L40">View Source</a>
-  </span>
-  <a id="Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware*"></a>
-  <h4 id="Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_" data-uid="Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)">ActorRefMiddleware(IActorRefMiddleware)</h4>
-  <div class="markdown level1 summary"><p>Registers global cluster-wide <a class="xref" href="Orleankka.ActorRef.html">ActorRef</a> middleware (interceptor)</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public OrleankkaClusterOptions ActorRefMiddleware(IActorRefMiddleware middleware)</code></pre>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">Orleans.IConfigurationValidator</span>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.IActorRefMiddleware.html">IActorRefMiddleware</a></td>
-        <td><span class="parametername">middleware</span></td>
-        <td><p>The middleware.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Orleankka.Cluster.OrleankkaClusterOptions.html">OrleankkaClusterOptions</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
           
@@ -230,10 +190,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Cluster_OrleankkaClusterOptions.md&amp;value=---%0Auid%3A%20Orleankka.Cluster.OrleankkaClusterOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_DispatcherOptionsValidator.md&amp;value=---%0Auid%3A%20Orleankka.DispatcherOptionsValidator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Cluster/ClusterOptions.cs/#L21" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/Dispatcher.cs/#L49" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

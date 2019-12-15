@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.html",
-          "hash": "k85qK/83Mw3zmGZvuP7Alw=="
+          "hash": "LAn27e4aRSVEQZfu2acZ6g=="
         }
       },
       "is_incremental": false,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.html",
-          "hash": "Dd3uiSTskB21TiAyEii1BQ=="
+          "hash": "qykCmFT10q3SBJ0A0za1mw=="
         }
       },
       "is_incremental": false,
@@ -405,7 +405,31 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Dispatcher.html",
-          "hash": "Gmt4TGxBgp9LtkipvdGRIg=="
+          "hash": "TuwEBtG5j2rn4Fsw5R6vTg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.DispatcherOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.DispatcherOptions.html",
+          "hash": "2Q3kZjXP2exH9yHIjxgKVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.DispatcherOptionsValidator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.DispatcherOptionsValidator.html",
+          "hash": "LSBzZ+E3kn64hrJumQ9EMQ=="
         }
       },
       "is_incremental": false,
@@ -513,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.IDispatcherRegistry.html",
-          "hash": "t1bT+dFXI6EFfVXqE9mwyA=="
+          "hash": "LqC161ItCjV1Q4AB0R2XHg=="
         }
       },
       "is_incremental": false,
@@ -1725,7 +1749,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.html",
-          "hash": "qURaRQETMzvIfL1AfT42dw=="
+          "hash": "/4KhfcuAvJ0Ewps6dcgxUw=="
         }
       },
       "is_incremental": false,
@@ -1785,7 +1809,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "nEwo5tCQSj0K3RQWcdOiJA=="
+          "hash": "JNy9cLEkCoZfRM7tZdt9uA=="
         }
       },
       "is_incremental": false,
@@ -1920,17 +1944,10 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 148,
+          "total_file_count": 150,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -1942,6 +1959,13 @@
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
           "skipped_file_count": 0
