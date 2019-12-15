@@ -33,6 +33,9 @@ obj/
 *.sln.ide/
 _ReSharper*
 
+#ignore intermediary output
+*.orig
+
 #ignore certain folders
 /paket-files/
 /Artifacts/
