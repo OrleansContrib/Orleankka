@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorSystem.html",
-          "hash": "ycnSFy1N5Cn8VNz5I0cgiw=="
+          "hash": "h6DyqB7M0pAcaipE3F5jTA=="
         }
       },
       "is_incremental": false,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorSystemExtensions.html",
-          "hash": "XSJE/316ITKiS22xG3Xs0g=="
+          "hash": "s66yOwH5/KTLbQW+Nz3k1g=="
         }
       },
       "is_incremental": false,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.ClientActorSystem.html",
-          "hash": "W619+HawjJEw9mCtad6qkg=="
+          "hash": "QH97UB5/Rtz+1XQqpeWo6g=="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.ClientBuilderExtension.html",
-          "hash": "KM2IfsNHmNh+YgsfbcrqxQ=="
+          "hash": "yGojakU9oH6Y00JZAeHsfA=="
         }
       },
       "is_incremental": false,
@@ -293,23 +293,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Client.OrleankkaClientOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Client.OrleankkaClientOptions.html",
-          "hash": "h79MlGgd1Qz6M6teeJE83A=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Client.yml",
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.html",
-          "hash": "lT5SUpnWS0qk0YztUKJBHQ=="
+          "hash": "jm7M6B0Yylh+awIMg+9RSQ=="
         }
       },
       "is_incremental": false,
@@ -341,23 +329,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.Cluster.OrleankkaClusterOptions.html",
-          "hash": "LAn27e4aRSVEQZfu2acZ6g=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.yml",
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.SiloHostBuilderExtension.html",
-          "hash": "qykCmFT10q3SBJ0A0za1mw=="
+          "hash": "SS5Mp2vz5R2cKd8zHQAHTQ=="
         }
       },
       "is_incremental": false,
@@ -369,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Cluster.html",
-          "hash": "NHUurHE8J2q8GcHgnnDNiQ=="
+          "hash": "5M3G1FUmJ2rS9OFHoxpUbQ=="
         }
       },
       "is_incremental": false,
@@ -1809,7 +1785,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "JNy9cLEkCoZfRM7tZdt9uA=="
+          "hash": "UyLOlb0TTnMcyPT+AvPjHQ=="
         }
       },
       "is_incremental": false,
@@ -1944,16 +1920,16 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 150,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 5,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 148,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

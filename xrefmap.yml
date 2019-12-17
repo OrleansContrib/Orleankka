@@ -1083,15 +1083,15 @@ references:
   commentId: T:Orleankka.ActorSystem
   fullName: Orleankka.ActorSystem
   nameWithType: ActorSystem
-- uid: Orleankka.ActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider,Orleankka.IActorRefMiddleware)
-  name: ActorSystem(Assembly[], IServiceProvider, IActorRefMiddleware)
-  href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem__ctor_System_Reflection_Assembly___System_IServiceProvider_Orleankka_IActorRefMiddleware_
-  commentId: M:Orleankka.ActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider,Orleankka.IActorRefMiddleware)
-  name.vb: ActorSystem(Assembly(), IServiceProvider, IActorRefMiddleware)
-  fullName: Orleankka.ActorSystem.ActorSystem(System.Reflection.Assembly[], System.IServiceProvider, Orleankka.IActorRefMiddleware)
-  fullName.vb: Orleankka.ActorSystem.ActorSystem(System.Reflection.Assembly(), System.IServiceProvider, Orleankka.IActorRefMiddleware)
-  nameWithType: ActorSystem.ActorSystem(Assembly[], IServiceProvider, IActorRefMiddleware)
-  nameWithType.vb: ActorSystem.ActorSystem(Assembly(), IServiceProvider, IActorRefMiddleware)
+- uid: Orleankka.ActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider)
+  name: ActorSystem(Assembly[], IServiceProvider)
+  href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem__ctor_System_Reflection_Assembly___System_IServiceProvider_
+  commentId: M:Orleankka.ActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider)
+  name.vb: ActorSystem(Assembly(), IServiceProvider)
+  fullName: Orleankka.ActorSystem.ActorSystem(System.Reflection.Assembly[], System.IServiceProvider)
+  fullName.vb: Orleankka.ActorSystem.ActorSystem(System.Reflection.Assembly(), System.IServiceProvider)
+  nameWithType: ActorSystem.ActorSystem(Assembly[], IServiceProvider)
+  nameWithType.vb: ActorSystem.ActorSystem(Assembly(), IServiceProvider)
 - uid: Orleankka.ActorSystem.#ctor*
   name: ActorSystem
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem__ctor_
@@ -1760,21 +1760,6 @@ references:
   commentId: M:Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder)
   fullName: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder)
   nameWithType: ClientBuilderExtension.UseOrleankka(IClientBuilder)
-- uid: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder,Orleankka.Client.OrleankkaClientOptions)
-  name: UseOrleankka(IClientBuilder, OrleankkaClientOptions)
-  href: api/Orleankka.Client.ClientBuilderExtension.html#Orleankka_Client_ClientBuilderExtension_UseOrleankka_Orleans_IClientBuilder_Orleankka_Client_OrleankkaClientOptions_
-  commentId: M:Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder,Orleankka.Client.OrleankkaClientOptions)
-  fullName: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder, Orleankka.Client.OrleankkaClientOptions)
-  nameWithType: ClientBuilderExtension.UseOrleankka(IClientBuilder, OrleankkaClientOptions)
-- uid: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder,System.Func{Orleankka.Client.OrleankkaClientOptions,Orleankka.Client.OrleankkaClientOptions})
-  name: UseOrleankka(IClientBuilder, Func<OrleankkaClientOptions, OrleankkaClientOptions>)
-  href: api/Orleankka.Client.ClientBuilderExtension.html#Orleankka_Client_ClientBuilderExtension_UseOrleankka_Orleans_IClientBuilder_System_Func_Orleankka_Client_OrleankkaClientOptions_Orleankka_Client_OrleankkaClientOptions__
-  commentId: M:Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder,System.Func{Orleankka.Client.OrleankkaClientOptions,Orleankka.Client.OrleankkaClientOptions})
-  name.vb: UseOrleankka(IClientBuilder, Func(Of OrleankkaClientOptions, OrleankkaClientOptions))
-  fullName: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder, System.Func<Orleankka.Client.OrleankkaClientOptions, Orleankka.Client.OrleankkaClientOptions>)
-  fullName.vb: Orleankka.Client.ClientBuilderExtension.UseOrleankka(Orleans.IClientBuilder, System.Func(Of Orleankka.Client.OrleankkaClientOptions, Orleankka.Client.OrleankkaClientOptions))
-  nameWithType: ClientBuilderExtension.UseOrleankka(IClientBuilder, Func<OrleankkaClientOptions, OrleankkaClientOptions>)
-  nameWithType.vb: ClientBuilderExtension.UseOrleankka(IClientBuilder, Func(Of OrleankkaClientOptions, OrleankkaClientOptions))
 - uid: Orleankka.Client.ClientBuilderExtension.UseOrleankka*
   name: UseOrleankka
   href: api/Orleankka.Client.ClientBuilderExtension.html#Orleankka_Client_ClientBuilderExtension_UseOrleankka_
@@ -1801,25 +1786,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.Client.IClientActorSystem.CreateObservable
   nameWithType: IClientActorSystem.CreateObservable
-- uid: Orleankka.Client.OrleankkaClientOptions
-  name: OrleankkaClientOptions
-  href: api/Orleankka.Client.OrleankkaClientOptions.html
-  commentId: T:Orleankka.Client.OrleankkaClientOptions
-  fullName: Orleankka.Client.OrleankkaClientOptions
-  nameWithType: OrleankkaClientOptions
-- uid: Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  name: ActorRefMiddleware(IActorRefMiddleware)
-  href: api/Orleankka.Client.OrleankkaClientOptions.html#Orleankka_Client_OrleankkaClientOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_
-  commentId: M:Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  fullName: Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  nameWithType: OrleankkaClientOptions.ActorRefMiddleware(IActorRefMiddleware)
-- uid: Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware*
-  name: ActorRefMiddleware
-  href: api/Orleankka.Client.OrleankkaClientOptions.html#Orleankka_Client_OrleankkaClientOptions_ActorRefMiddleware_
-  commentId: Overload:Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware
-  isSpec: "True"
-  fullName: Orleankka.Client.OrleankkaClientOptions.ActorRefMiddleware
-  nameWithType: OrleankkaClientOptions.ActorRefMiddleware
 - uid: Orleankka.ClientObservableExtensions
   name: ClientObservableExtensions
   href: api/Orleankka.ClientObservableExtensions.html
@@ -1985,38 +1951,6 @@ references:
   commentId: N:Orleankka.Cluster
   fullName: Orleankka.Cluster
   nameWithType: Orleankka.Cluster
-- uid: Orleankka.Cluster.OrleankkaClusterOptions
-  name: OrleankkaClusterOptions
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html
-  commentId: T:Orleankka.Cluster.OrleankkaClusterOptions
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions
-  nameWithType: OrleankkaClusterOptions
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)
-  name: ActorMiddleware(IActorMiddleware)
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_Orleankka_IActorMiddleware_
-  commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware(Orleankka.IActorMiddleware)
-  nameWithType: OrleankkaClusterOptions.ActorMiddleware(IActorMiddleware)
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware*
-  name: ActorMiddleware
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorMiddleware_
-  commentId: Overload:Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware
-  isSpec: "True"
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorMiddleware
-  nameWithType: OrleankkaClusterOptions.ActorMiddleware
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  name: ActorRefMiddleware(IActorRefMiddleware)
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_Orleankka_IActorRefMiddleware_
-  commentId: M:Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware(Orleankka.IActorRefMiddleware)
-  nameWithType: OrleankkaClusterOptions.ActorRefMiddleware(IActorRefMiddleware)
-- uid: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware*
-  name: ActorRefMiddleware
-  href: api/Orleankka.Cluster.OrleankkaClusterOptions.html#Orleankka_Cluster_OrleankkaClusterOptions_ActorRefMiddleware_
-  commentId: Overload:Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware
-  isSpec: "True"
-  fullName: Orleankka.Cluster.OrleankkaClusterOptions.ActorRefMiddleware
-  nameWithType: OrleankkaClusterOptions.ActorRefMiddleware
 - uid: Orleankka.Cluster.SiloHostBuilderExtension
   name: SiloHostBuilderExtension
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html
@@ -2042,42 +1976,12 @@ references:
   commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder)
   fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder)
   nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder)
-- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
-  name: UseOrleankka(ISiloBuilder, OrleankkaClusterOptions)
-  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloBuilder_Orleankka_Cluster_OrleankkaClusterOptions_
-  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
-  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, Orleankka.Cluster.OrleankkaClusterOptions)
-  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, OrleankkaClusterOptions)
-- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
-  name: UseOrleankka(ISiloBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
-  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloBuilder_System_Func_Orleankka_Cluster_OrleankkaClusterOptions_Orleankka_Cluster_OrleankkaClusterOptions__
-  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
-  name.vb: UseOrleankka(ISiloBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
-  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, System.Func<Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions>)
-  fullName.vb: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloBuilder, System.Func(Of Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions))
-  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
-  nameWithType.vb: SiloHostBuilderExtension.UseOrleankka(ISiloBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
 - uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder)
   name: UseOrleankka(ISiloHostBuilder)
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloHostBuilder_
   commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder)
   fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder)
   nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloHostBuilder)
-- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
-  name: UseOrleankka(ISiloHostBuilder, OrleankkaClusterOptions)
-  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloHostBuilder_Orleankka_Cluster_OrleankkaClusterOptions_
-  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder,Orleankka.Cluster.OrleankkaClusterOptions)
-  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder, Orleankka.Cluster.OrleankkaClusterOptions)
-  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloHostBuilder, OrleankkaClusterOptions)
-- uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
-  name: UseOrleankka(ISiloHostBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
-  href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_Orleans_Hosting_ISiloHostBuilder_System_Func_Orleankka_Cluster_OrleankkaClusterOptions_Orleankka_Cluster_OrleankkaClusterOptions__
-  commentId: M:Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder,System.Func{Orleankka.Cluster.OrleankkaClusterOptions,Orleankka.Cluster.OrleankkaClusterOptions})
-  name.vb: UseOrleankka(ISiloHostBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
-  fullName: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder, System.Func<Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions>)
-  fullName.vb: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka(Orleans.Hosting.ISiloHostBuilder, System.Func(Of Orleankka.Cluster.OrleankkaClusterOptions, Orleankka.Cluster.OrleankkaClusterOptions))
-  nameWithType: SiloHostBuilderExtension.UseOrleankka(ISiloHostBuilder, Func<OrleankkaClusterOptions, OrleankkaClusterOptions>)
-  nameWithType.vb: SiloHostBuilderExtension.UseOrleankka(ISiloHostBuilder, Func(Of OrleankkaClusterOptions, OrleankkaClusterOptions))
 - uid: Orleankka.Cluster.SiloHostBuilderExtension.UseOrleankka*
   name: UseOrleankka
   href: api/Orleankka.Cluster.SiloHostBuilderExtension.html#Orleankka_Cluster_SiloHostBuilderExtension_UseOrleankka_
