@@ -44,7 +44,7 @@ namespace Orleankka
         IActorMiddleware middleware;
         ActorRef self;
 
-        public ActorRef Self => self ?? (self = System.ActorOf(Path));
+        public ActorRef Self => self ??= System.ActorOf(Path);
 
         /// <inheritdoc />
         protected ActorGrain(IActorRuntime runtime)
@@ -98,8 +98,19 @@ namespace Orleankka
         Task IActorGrain.ReceiveTell(object message) => ReceiveRequest(message);
         Task IActorGrain.ReceiveNotify(object message) => ReceiveRequest(message);
 
-        internal Task<object> ReceiveRequest(object message) => 
-            middleware.Receive(this, message, Receive);
+        internal Task<object> ReceiveRequest(object message)
+        {
+            switch (message)
+            {
+                case Activate _:
+                    return TaskResult.Done;
+                case Deactivate _:
+                    Activation.DeactivateOnIdle();
+                    return TaskResult.Done;
+                default:
+                    return middleware.Receive(this, message, Receive);
+            }
+        }
 
         Task IRemindable.ReceiveReminder(string name, TickStatus status) =>
             middleware.Receive(this, new Reminder(name, status), Receive);

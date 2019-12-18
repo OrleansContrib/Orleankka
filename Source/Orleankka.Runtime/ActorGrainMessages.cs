@@ -1,23 +1,9 @@
 ﻿using System;
-
 using Orleans.Concurrency;
 using Orleans.Runtime;
 
 namespace Orleankka
 {
-    public interface LifecycleMessage
-    {}
-
-    public sealed class Activate : LifecycleMessage
-    {
-        public static readonly Activate Message = new Activate();
-    }
-
-    public sealed class Deactivate : LifecycleMessage
-    {
-        public static readonly Deactivate Message = new Deactivate();
-    }
-
     public class Reminder
     {
         public string Name { get; }
