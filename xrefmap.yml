@@ -974,6 +974,38 @@ references:
   fullName.vb: Orleankka.ActorRef(Of TActor).ToString
   nameWithType: ActorRef<TActor>.ToString
   nameWithType.vb: ActorRef(Of TActor).ToString
+- uid: Orleankka.ActorRefExtensions
+  name: ActorRefExtensions
+  href: api/Orleankka.ActorRefExtensions.html
+  commentId: T:Orleankka.ActorRefExtensions
+  fullName: Orleankka.ActorRefExtensions
+  nameWithType: ActorRefExtensions
+- uid: Orleankka.ActorRefExtensions.Activate(Orleankka.ActorRef)
+  name: Activate(ActorRef)
+  href: api/Orleankka.ActorRefExtensions.html#Orleankka_ActorRefExtensions_Activate_Orleankka_ActorRef_
+  commentId: M:Orleankka.ActorRefExtensions.Activate(Orleankka.ActorRef)
+  fullName: Orleankka.ActorRefExtensions.Activate(Orleankka.ActorRef)
+  nameWithType: ActorRefExtensions.Activate(ActorRef)
+- uid: Orleankka.ActorRefExtensions.Activate*
+  name: Activate
+  href: api/Orleankka.ActorRefExtensions.html#Orleankka_ActorRefExtensions_Activate_
+  commentId: Overload:Orleankka.ActorRefExtensions.Activate
+  isSpec: "True"
+  fullName: Orleankka.ActorRefExtensions.Activate
+  nameWithType: ActorRefExtensions.Activate
+- uid: Orleankka.ActorRefExtensions.Deactivate(Orleankka.ActorRef)
+  name: Deactivate(ActorRef)
+  href: api/Orleankka.ActorRefExtensions.html#Orleankka_ActorRefExtensions_Deactivate_Orleankka_ActorRef_
+  commentId: M:Orleankka.ActorRefExtensions.Deactivate(Orleankka.ActorRef)
+  fullName: Orleankka.ActorRefExtensions.Deactivate(Orleankka.ActorRef)
+  nameWithType: ActorRefExtensions.Deactivate(ActorRef)
+- uid: Orleankka.ActorRefExtensions.Deactivate*
+  name: Deactivate
+  href: api/Orleankka.ActorRefExtensions.html#Orleankka_ActorRefExtensions_Deactivate_
+  commentId: Overload:Orleankka.ActorRefExtensions.Deactivate
+  isSpec: "True"
+  fullName: Orleankka.ActorRefExtensions.Deactivate
+  nameWithType: ActorRefExtensions.Deactivate
 - uid: Orleankka.ActorRefMiddleware
   name: ActorRefMiddleware
   href: api/Orleankka.ActorRefMiddleware.html
@@ -1251,12 +1283,42 @@ references:
   commentId: T:Orleankka.Behaviors.Become
   fullName: Orleankka.Behaviors.Become
   nameWithType: Become
+- uid: Orleankka.Behaviors.Become.#ctor
+  name: Become()
+  href: api/Orleankka.Behaviors.Become.html#Orleankka_Behaviors_Become__ctor
+  commentId: M:Orleankka.Behaviors.Become.#ctor
+  fullName: Orleankka.Behaviors.Become.Become()
+  nameWithType: Become.Become()
+- uid: Orleankka.Behaviors.Become.#ctor*
+  name: Become
+  href: api/Orleankka.Behaviors.Become.html#Orleankka_Behaviors_Become__ctor_
+  commentId: Overload:Orleankka.Behaviors.Become.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Behaviors.Become.Become
+  nameWithType: Become.Become
 - uid: Orleankka.Behaviors.Become.Message
   name: Message
   href: api/Orleankka.Behaviors.Become.html#Orleankka_Behaviors_Become_Message
   commentId: F:Orleankka.Behaviors.Become.Message
   fullName: Orleankka.Behaviors.Become.Message
   nameWithType: Become.Message
+- uid: Orleankka.Behaviors.Become`1
+  name: Become<TArg>
+  href: api/Orleankka.Behaviors.Become-1.html
+  commentId: T:Orleankka.Behaviors.Become`1
+  name.vb: Become(Of TArg)
+  fullName: Orleankka.Behaviors.Become<TArg>
+  fullName.vb: Orleankka.Behaviors.Become(Of TArg)
+  nameWithType: Become<TArg>
+  nameWithType.vb: Become(Of TArg)
+- uid: Orleankka.Behaviors.Become`1.Argument
+  name: Argument
+  href: api/Orleankka.Behaviors.Become-1.html#Orleankka_Behaviors_Become_1_Argument
+  commentId: F:Orleankka.Behaviors.Become`1.Argument
+  fullName: Orleankka.Behaviors.Become<TArg>.Argument
+  fullName.vb: Orleankka.Behaviors.Become(Of TArg).Argument
+  nameWithType: Become<TArg>.Argument
+  nameWithType.vb: Become(Of TArg).Argument
 - uid: Orleankka.Behaviors.Behavior
   name: Behavior
   href: api/Orleankka.Behaviors.Behavior.html
@@ -1298,6 +1360,24 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.Become
   nameWithType: Behavior.Become
+- uid: Orleankka.Behaviors.Behavior.Become``1(Orleankka.Receive,``0)
+  name: Become<TArg>(Receive, TArg)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Become__1_Orleankka_Receive___0_
+  commentId: M:Orleankka.Behaviors.Behavior.Become``1(Orleankka.Receive,``0)
+  name.vb: Become(Of TArg)(Receive, TArg)
+  fullName: Orleankka.Behaviors.Behavior.Become<TArg>(Orleankka.Receive, TArg)
+  fullName.vb: Orleankka.Behaviors.Behavior.Become(Of TArg)(Orleankka.Receive, TArg)
+  nameWithType: Behavior.Become<TArg>(Receive, TArg)
+  nameWithType.vb: Behavior.Become(Of TArg)(Receive, TArg)
+- uid: Orleankka.Behaviors.Behavior.Become``1(System.String,``0)
+  name: Become<TArg>(String, TArg)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Become__1_System_String___0_
+  commentId: M:Orleankka.Behaviors.Behavior.Become``1(System.String,``0)
+  name.vb: Become(Of TArg)(String, TArg)
+  fullName: Orleankka.Behaviors.Behavior.Become<TArg>(System.String, TArg)
+  fullName.vb: Orleankka.Behaviors.Behavior.Become(Of TArg)(System.String, TArg)
+  nameWithType: Behavior.Become<TArg>(String, TArg)
+  nameWithType.vb: Behavior.Become(Of TArg)(String, TArg)
 - uid: Orleankka.Behaviors.Behavior.BecomeStacked(Orleankka.Receive)
   name: BecomeStacked(Receive)
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked_Orleankka_Receive_
@@ -1317,6 +1397,24 @@ references:
   isSpec: "True"
   fullName: Orleankka.Behaviors.Behavior.BecomeStacked
   nameWithType: Behavior.BecomeStacked
+- uid: Orleankka.Behaviors.Behavior.BecomeStacked``1(Orleankka.Receive,``0)
+  name: BecomeStacked<TArg>(Receive, TArg)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked__1_Orleankka_Receive___0_
+  commentId: M:Orleankka.Behaviors.Behavior.BecomeStacked``1(Orleankka.Receive,``0)
+  name.vb: BecomeStacked(Of TArg)(Receive, TArg)
+  fullName: Orleankka.Behaviors.Behavior.BecomeStacked<TArg>(Orleankka.Receive, TArg)
+  fullName.vb: Orleankka.Behaviors.Behavior.BecomeStacked(Of TArg)(Orleankka.Receive, TArg)
+  nameWithType: Behavior.BecomeStacked<TArg>(Receive, TArg)
+  nameWithType.vb: Behavior.BecomeStacked(Of TArg)(Receive, TArg)
+- uid: Orleankka.Behaviors.Behavior.BecomeStacked``1(System.String,``0)
+  name: BecomeStacked<TArg>(String, TArg)
+  href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_BecomeStacked__1_System_String___0_
+  commentId: M:Orleankka.Behaviors.Behavior.BecomeStacked``1(System.String,``0)
+  name.vb: BecomeStacked(Of TArg)(String, TArg)
+  fullName: Orleankka.Behaviors.Behavior.BecomeStacked<TArg>(System.String, TArg)
+  fullName.vb: Orleankka.Behaviors.Behavior.BecomeStacked(Of TArg)(System.String, TArg)
+  nameWithType: Behavior.BecomeStacked<TArg>(String, TArg)
+  nameWithType.vb: Behavior.BecomeStacked(Of TArg)(String, TArg)
 - uid: Orleankka.Behaviors.Behavior.Current
   name: Current
   href: api/Orleankka.Behaviors.Behavior.html#Orleankka_Behaviors_Behavior_Current
