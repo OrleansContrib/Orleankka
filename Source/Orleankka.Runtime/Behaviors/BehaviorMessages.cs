@@ -3,10 +3,19 @@
     public interface BehaviorMessage
     {}
 
-    public sealed class Become : BehaviorMessage, LifecycleMessage
+    public class Become : BehaviorMessage, LifecycleMessage
     {
-        Become(){}
+        protected Become(){}
+
         public static readonly Become Message = new Become();
+    }
+
+    public sealed class Become<TArg> : Become
+    {
+        public readonly TArg Argument;
+
+        internal Become(TArg argument) => 
+            Argument = argument;
     }
 
     public sealed class Unbecome : BehaviorMessage, LifecycleMessage

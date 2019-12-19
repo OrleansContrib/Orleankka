@@ -231,6 +231,31 @@ namespace Orleankka.Features.Actor_behaviors
                
                 Assert.ThrowsAsync<InvalidOperationException>(async () => await behavior.Become("B"));
             }
+
+            [Test]
+            public async Task When_become_with_arguments()
+            {
+                string passedArg = null;
+
+                Task<object> Receive(object message)
+                {
+                    if (message is Become<string> m)
+                        passedArg = m.Argument;
+
+                    return TaskResult.Done;
+                };
+
+                Behavior behavior = new BehaviorTester(events)
+                    .State("A", Receive)
+                    .State("B", Receive)
+                    .Initial("A");
+
+                await behavior.Become("B", "arg1");
+                Assert.That(passedArg, Is.EqualTo("arg1"));
+
+                await behavior.BecomeStacked("A", "arg2");
+                Assert.That(passedArg, Is.EqualTo("arg2"));
+            }
         }
     }
 }

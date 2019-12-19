@@ -47,15 +47,15 @@ namespace Orleankka.Behaviors
             return result;
         }
 
-        internal async Task HandleBecome(Transition transition)
+        internal async Task HandleBecome(Transition transition, Become message)
         {
             if (IsSuperOf(transition.From))
                 return;
 
             if (Super != null)
-                await Super.HandleBecome(transition);
+                await Super.HandleBecome(transition, message);
 
-            await CallBehavior(Become.Message);
+            await CallBehavior(message);
         }
 
         internal async Task HandleUnbecome(Transition transition)
