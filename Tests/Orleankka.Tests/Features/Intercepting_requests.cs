@@ -174,7 +174,7 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
-                await stream.Push(new StreamItem {Text = "foo"});
+                await stream.Publish(new StreamItem {Text = "foo"});
                 await Task.Delay(TimeSpan.FromMilliseconds(10));
 
                 var received = await actor.Ask(new GetReceivedFromStream());

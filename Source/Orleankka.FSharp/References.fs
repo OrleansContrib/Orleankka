@@ -21,7 +21,7 @@ type ActorRef<'TMsg>(ref:ActorRef) =
 
 type StreamRef<'TMsg>(ref:StreamRef) = 
    member this.Path = ref.Path
-   member this.Push(item:'TMsg) = ref.Push(item)
+   member this.Publish(item:'TMsg) = ref.Publish(item)
    member this.Subscribe(callback:'TMsg -> unit) = ref.Subscribe<'TMsg>(callback)
    member this.Subscribe(callback:'TMsg -> unit, filter:StreamFilter) = ref.Subscribe<'TMsg>(callback, filter)   
 
@@ -32,4 +32,4 @@ type StreamRef<'TMsg>(ref:StreamRef) =
        
    override this.GetHashCode() = ref.GetHashCode()
 
-   static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Push(item)
+   static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Publish(item)

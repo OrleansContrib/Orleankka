@@ -48,7 +48,7 @@ namespace Example
         Task Project(Event @event)
         {
             var envelope = Wrap(@event);
-            return stream.Push(envelope);
+            return stream.Publish(envelope);
         }
 
         object Wrap(Event @event)

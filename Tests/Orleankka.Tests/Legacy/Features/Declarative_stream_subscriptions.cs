@@ -50,7 +50,7 @@ namespace Orleankka.Legacy.Features
 
         public class TestProducerActor : Actor, ITestProducerActor
         {
-            Task On(Push x) => x.Stream.Push(x.Item);
+            Task On(Push x) => x.Stream.Publish(x.Item);
         }
 
         class TestCases
@@ -70,7 +70,7 @@ namespace Orleankka.Legacy.Features
             {
                 var stream = system.StreamOf(provider, "cs");
 
-                await stream.Push("ce");
+                await stream.Publish("ce");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -181,14 +181,14 @@ namespace Orleankka.Legacy.Features
 
                 if (unsupported)
                 { 
-                    var e = Assert.ThrowsAsync<NotImplementedException>(async () => await stream.Push(new[] {"i1", "i2"}));
+                    var e = Assert.ThrowsAsync<NotImplementedException>(async () => await stream.Publish(new[] {"i1", "i2"}));
                     Assert.That(e.Message,
                         Is.EqualTo("We still don't support OnNextBatchAsync()"),
                         "Orleans still doesn't support batching in 2.4.4");
                     return;
                 }
 
-                await stream.Push(new[] {"i1", "i2"});
+                await stream.Publish(new[] {"i1", "i2"});
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");

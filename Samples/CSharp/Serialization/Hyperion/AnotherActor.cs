@@ -28,6 +28,6 @@ namespace Example
     public class AnotherActor : DispatchActorGrain, IAnotherActor
     {
         void On(Notify x) => x.Observer.Notify(x.Item);
-        Task On(Push x) => x.Stream.Push(x.Item);
+        Task On(Push x) => x.Stream.Publish(x.Item);
     }
 }

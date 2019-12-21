@@ -183,7 +183,7 @@ namespace ProcessManager
         async Task Notify(JobEvent e)
         {
             e.Id = Id;
-            await notifications.Push(e);
+            await notifications.Publish(e);
         }
 
         static Task<object> Inactive(object message) => TaskResult.Unhandled;

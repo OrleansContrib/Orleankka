@@ -76,7 +76,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe());
 
                 var stream = system.StreamOf("sms", "sms-42");
-                await stream.Push("e-123");
+                await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
@@ -86,7 +86,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Kill());
                 await Task.Delay(TimeSpan.FromSeconds(61));
 
-                await stream.Push("e-456");
+                await stream.Publish("e-456");
                 await Task.Delay(timeout);
 
                 received = await consumer.Ask(new Received());
@@ -103,7 +103,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe());
 
                 var stream = system.StreamOf("sms", "sms-42");
-                await stream.Push("e-123");
+                await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
@@ -117,7 +117,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe {Filter = StreamFilter.ReceiveAll});
 
                 var stream = system.StreamOf("sms", "sms-42");
-                await stream.Push(123);
+                await stream.Publish(123);
                 await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
@@ -134,7 +134,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe { Filter = filter });
 
                 var stream = system.StreamOf("sms", $"{"sms"}-filtered");
-                await stream.Push("e-123");
+                await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());

@@ -31,7 +31,7 @@ namespace Orleankka.TestKit
             return expectation;
         }
 
-        public override Task Push(object message)
+        public override Task Publish(object message)
         {
             message = Roundtrip(message);
 

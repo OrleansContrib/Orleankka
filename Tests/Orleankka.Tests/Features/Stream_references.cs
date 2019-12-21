@@ -54,7 +54,7 @@ namespace Orleankka.Features
 
         public class TestProducerActor : DispatchActorGrain, ITestProducerActor
         {
-            Task On(Produce x) => x.Stream.Push(x.Item);
+            Task On(Produce x) => x.Stream.Publish(x.Item);
         }
 
         public class TestConsumerActor : DispatchActorGrain, ITestConsumerActor
@@ -85,7 +85,7 @@ namespace Orleankka.Features
                 var subscription = await stream.Subscribe<Item>(
                     item => received.Add(item));
 
-                await stream.Push(new Item("foo"));
+                await stream.Publish(new Item("foo"));
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -94,7 +94,7 @@ namespace Orleankka.Features
                 await subscription.Unsubscribe();
                 received.Clear();
 
-                await stream.Push("bar");
+                await stream.Publish("bar");
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
@@ -136,7 +136,7 @@ namespace Orleankka.Features
                     callback: item => received.Add(item),
                     filter: new StreamFilter(Item.DropAll));
 
-                await stream.Push(new Item("foo"));
+                await stream.Publish(new Item("foo"));
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));

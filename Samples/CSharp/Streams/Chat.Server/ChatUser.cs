@@ -17,7 +17,7 @@ namespace Example
 
             var stream = System.StreamOf("sms", room);
 
-            return stream.Push(new ChatRoomMessage
+            return stream.Publish(new ChatRoomMessage
             {
                 User = Id,
                 Text = message

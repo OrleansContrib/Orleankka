@@ -47,11 +47,11 @@ namespace Orleankka
         public StreamPath Path { get; }
         
         /// <summary>
-        /// Pushes given item of batch of items to a stream.
+        /// Publishes given item of batch of items to a stream.
         /// </summary>
         /// <param name="itemOrBatch">Single item or batch (<see cref="IEnumerable{T}"/>) </param>
         /// <returns></returns>
-        public virtual Task Push(object itemOrBatch)
+        public virtual Task Publish(object itemOrBatch)
         {
             return itemOrBatch is IEnumerable<object> batch
                 ? Endpoint.OnNextBatchAsync(batch)

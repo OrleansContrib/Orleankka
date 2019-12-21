@@ -227,10 +227,10 @@ namespace Orleankka.Features
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");
 
-                var i1 = stream2.Push("1");
+                var i1 = stream2.Publish("1");
                 await Task.Delay(100);
 
-                var i2 = stream1.Push(2);
+                var i2 = stream1.Publish(2);
                 await Task.Delay(100);
 
                 var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
@@ -251,10 +251,10 @@ namespace Orleankka.Features
                 var stream1 = system.StreamOf("sms", "s1");
                 var stream2 = system.StreamOf("sms", "s2");
 
-                var i1 = stream1.Push(1);
+                var i1 = stream1.Publish(1);
                 await Task.Delay(100);
 
-                var i2 = stream2.Push("2");
+                var i2 = stream2.Publish("2");
                 await Task.Delay(100);
 
                 var inProgress = await actor.Ask(new GetStreamMessagesInProgress());
