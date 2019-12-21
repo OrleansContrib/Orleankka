@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-
+using Microsoft.Azure.Storage;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.WindowsAzure.Storage;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -18,9 +17,6 @@ using Orleankka.Testing;
 using Orleankka.Cluster;
 using Orleankka.Features.Intercepting_requests;
 using Orleankka.Legacy.Cluster;
-
-using Orleans.Providers.Streams.AzureQueue;
-using Orleans.Streaming;
 
 [assembly: TeardownSilo]
 
@@ -63,9 +59,8 @@ namespace Orleankka.Testing
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
                 .UseInMemoryReminderService()
-                .AddAzureQueueStreams("aqp", (SiloAzureQueueStreamConfigurator<AzureQueueDataAdapterV2> x) =>
+                .AddAzureQueueStreams("aqp", x =>
                 {
-                    x.ConfigureCache(1024);
                     x.ConfigureAzureQueue(b => b.Configure(options =>
                     {
                         options.ConnectionString = CloudStorageAccount.DevelopmentStorageAccount.ToString();

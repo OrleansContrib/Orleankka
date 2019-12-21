@@ -89,8 +89,8 @@ namespace Orleankka.Features
             {
                 var getGrainGeneric = typeof(IGrainFactory).GetMethod("GetGrain", new[]{typeof(long), typeof(string)});
                 var getGrain = getGrainGeneric.MakeGenericMethod(typeof(IReminderTable).Assembly.GetType("Orleans.IReminderTableGrain"));
-                var grain = (IReminderTable)getGrain.Invoke(TestActorSystem.Client, new object[]{12345, null});
-                await grain.TestOnlyClearTable();
+                var grain = getGrain.Invoke(TestActorSystem.Client, new object[]{12345, null});
+                await (Task) grain.GetType().GetMethod("TestOnlyClearTable").Invoke(grain, new object[0]);
             }
         }
     }

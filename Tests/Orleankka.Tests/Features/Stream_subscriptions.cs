@@ -60,6 +60,7 @@ namespace Orleankka.Features
         }
 
         [TestFixture] 
+        [RequiresSilo]
         class Tests
         {
             static readonly TimeSpan timeout = TimeSpan.FromMilliseconds(100);

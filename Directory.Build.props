@@ -45,11 +45,11 @@
     <PropertyGroup>
 
         <!-- Orleans packages -->
-        <MicrosoftOrleansClientVersion>2.4.4</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>2.4.4</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>2.4.4</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>2.4.4</MicrosoftOrleansRuntimeVersion>
-        <MicrosoftOrleansStreamingAzureStorageVersion>2.4.4</MicrosoftOrleansStreamingAzureStorageVersion>
+        <MicrosoftOrleansClientVersion>3.0.2</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>3.0.2</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>3.0.2</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>3.0.2</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>3.0.2</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>2.1.1</MicrosoftExtensionsLoggingVersion>
