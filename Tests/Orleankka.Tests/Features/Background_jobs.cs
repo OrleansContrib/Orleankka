@@ -118,7 +118,7 @@ namespace Orleankka.Features
             }
 
             int On(NumberOfTimesJobRan q) => runs[q.Name];
-            int On(NumberOfTimesJobTerminated q) => terminations.First(x => x.Key.name == q.Name).Value;
+            int On(NumberOfTimesJobTerminated q) => terminations.FirstOrDefault(x => x.Key.name == q.Name).Value;
         }
 
         [TestFixture]
@@ -139,10 +139,9 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestActor>();
 
                 await actor.Tell(new RunOneOffJob {Name="test"});
-                Thread.Sleep(200);
 
-                Assert.AreEqual(1, await actor.Ask(new NumberOfTimesJobRan{Name="test"}));
-                Assert.AreEqual(1, await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesJobRan{Name="test"}) == 1);
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}) == 1);
             }
             
             [Test]
@@ -157,10 +156,8 @@ namespace Orleankka.Features
                     Retries = 3
                 });
 
-                Thread.Sleep(200);
-
-                Assert.AreEqual(3, await actor.Ask(new NumberOfTimesJobRan{Name="test"}));
-                Assert.AreEqual(1, await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesJobRan{Name="test"}) == 3);
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}) == 1);
             }
 
             [Test]
@@ -176,13 +173,15 @@ namespace Orleankka.Features
                 });
 
                 const int loops = 5;
-                Thread.Sleep(loopDelay * loops);
+                var due = loopDelay * loops;
+
+                await Try.Until(async () => await
+                    actor.Ask(new NumberOfTimesJobRan {Name = "test"}) >= loops, due);
 
                 await actor.Tell(new TerminateJob{Name="test"});
-                Thread.Sleep(200);
                 
-                Assert.That(await actor.Ask(new NumberOfTimesJobRan{Name="test"}), Is.GreaterThanOrEqualTo(loops - 1));
-                Assert.That(await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}), Is.EqualTo(1));
+                await Try.Until(async ()=> 
+                    await actor.Ask(new NumberOfTimesJobTerminated{Name="test"}) == 1);
             }
         }
     }

@@ -159,9 +159,8 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestInterleavedTimerMessageActor>();
 
                 await actor.Tell(new SetOneOffTimer());
-                Thread.Sleep(100);
 
-                Assert.AreEqual(1, await actor.Ask(new NumberOfTimesTimerTicked()));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesTimerTicked()) == 1);
             }
             
             [Test]
@@ -173,9 +172,9 @@ namespace Orleankka.Features
                 var period = TimeSpan.FromMilliseconds(15);
 
                 await actor.Tell(new SetPeriodicTimer(period));
-                Thread.Sleep(period * times * 2);
+                var due = period * times * 2;
 
-                Assert.That(await actor.Ask(new NumberOfTimesTimerTicked()), Is.GreaterThanOrEqualTo(times));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesTimerTicked()) > times, due);
             }
 
             [Test]
@@ -184,9 +183,8 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestCustomTimerMessageActor>();
 
                 await actor.Tell(new SetCustomTimerMessage());
-                Thread.Sleep(100);
 
-                Assert.True(await actor.Ask(new CustomTimerMessageReceived()));
+                await Try.Until(async ()=> await actor.Ask(new CustomTimerMessageReceived()));
             }
             
             [Test]
@@ -198,9 +196,9 @@ namespace Orleankka.Features
                 await actor.Tell(new SetTimer(period, interleave: true, fireAndForget: true));
                 
                 const int times = 10;
-                Thread.Sleep(period * times * 2);
+                var due = period * times * 2;
 
-                Assert.That(await actor.Ask(new NumberOfTimesTimerTicked()), Is.GreaterThanOrEqualTo(times));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesTimerTicked()) > 10, due);
             }
             
             [Test]
@@ -212,9 +210,9 @@ namespace Orleankka.Features
                 await actor.Tell(new SetTimer(period, interleave: false, fireAndForget: true));
                 
                 const int times = 10;
-                Thread.Sleep(period * times * 2);
+                var due = period * times * 2;
 
-                Assert.That(await actor.Ask(new NumberOfTimesTimerTicked()), Is.EqualTo(1));
+                await Try.Until(async ()=> await actor.Ask(new NumberOfTimesTimerTicked()) == 1, due);
             }
         }
     }
