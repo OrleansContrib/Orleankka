@@ -47,16 +47,22 @@ namespace Orleankka
         public StreamPath Path { get; }
         
         /// <summary>
-        /// Publishes given item of batch of items to a stream.
+        /// Publishes given item to a stream.
         /// </summary>
-        /// <param name="itemOrBatch">Single item or batch (<see cref="IEnumerable{T}"/>) </param>
-        /// <returns></returns>
-        public virtual Task Publish(object itemOrBatch)
-        {
-            return itemOrBatch is IEnumerable<object> batch
-                ? Endpoint.OnNextBatchAsync(batch)
-                : Endpoint.OnNextAsync(itemOrBatch);
-        }
+        /// <param name="item">The item to be published</param>
+        /// <param name="token">The optional stream sequence token</param>
+        /// <returns>A Task that is completed when the item has been accepted</returns>
+        public virtual Task Publish(object item, StreamSequenceToken token = null) => 
+            Endpoint.OnNextAsync(item, token);
+
+        /// <summary>
+        /// Publishes given batch of items to a stream.
+        /// </summary>
+        /// <param name="batch">The items to be published as a batch</param>
+        /// <param name="token">The optional stream sequence token</param>
+        /// <returns>A Task that is completed when the batch has been accepted</returns>
+        public virtual Task Publish(IEnumerable<object> batch, StreamSequenceToken token = null) => 
+            Endpoint.OnNextBatchAsync(batch, token);
 
         /// <summary>
         /// Subscribe a consumer to this stream reference using weakly-typed delegate.

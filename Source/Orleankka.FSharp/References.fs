@@ -1,6 +1,7 @@
 ﻿namespace Orleankka.FSharp
 
 open Orleankka
+open Orleans.Streams
 
 type ActorRef<'TMsg>(ref:ActorRef) =    
    member this.Path = ref.Path
@@ -22,6 +23,7 @@ type ActorRef<'TMsg>(ref:ActorRef) =
 type StreamRef<'TMsg>(ref:StreamRef) = 
    member this.Path = ref.Path
    member this.Publish(item:'TMsg) = ref.Publish(item)
+   member this.Publish(item:'TMsg, token: StreamSequenceToken) = ref.Publish(item, token)
    member this.Subscribe(callback:'TMsg -> unit) = ref.Subscribe<'TMsg>(callback)
    member this.Subscribe(callback:'TMsg -> unit, filter:StreamFilter) = ref.Subscribe<'TMsg>(callback, filter)   
 
@@ -33,3 +35,4 @@ type StreamRef<'TMsg>(ref:StreamRef) =
    override this.GetHashCode() = ref.GetHashCode()
 
    static member (<!) (ref:StreamRef<'TMsg>, item:'TMsg) = ref.Publish(item)
+   static member (<!) (ref:StreamRef<'TMsg>, (item:'TMsg, token: StreamSequenceToken)) = ref.Publish(item, token)

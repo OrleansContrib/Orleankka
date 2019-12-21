@@ -99,7 +99,7 @@ namespace Orleankka.TestKit
         bool IExpectation.Match(object message)
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw IncompleteExpectationException();
 
             return expectation.Match(message);
         }
@@ -107,10 +107,13 @@ namespace Orleankka.TestKit
         object IExpectation.Apply()
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw IncompleteExpectationException();
 
             return expectation.Apply();
         }
+
+        static InvalidOperationException IncompleteExpectationException() => new InvalidOperationException(
+            "Expectation is incomplete. Configure the expectation by calling either 'Throw(') or 'Times()' methods");
     }
 
     public sealed class AskExpectation<TMessage> : IRepeatExpectation
@@ -153,7 +156,7 @@ namespace Orleankka.TestKit
         bool IExpectation.Match(object message)
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
+                throw IncompleteExpectationException();
 
             return expectation.Match(message);
         }
@@ -161,19 +164,22 @@ namespace Orleankka.TestKit
         object IExpectation.Apply()
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling either 'Throw()' or 'Return()' methods");
+                throw IncompleteExpectationException();
 
             return expectation.Apply();
         }
+
+        static InvalidOperationException IncompleteExpectationException() => new InvalidOperationException(
+            "Expectation is incomplete. Configure the expectation by calling either 'Throw()', 'Times()' or `Return` methods");
     }
 
-    public sealed class PushExpectation<TItem> : IRepeatExpectation
+    public sealed class PublishExpectation<TItem> : IRepeatExpectation
     {
         Expectation<TItem> expectation;
         readonly Expression<Func<TItem, bool>> expression;
         Exception exception;
 
-        internal PushExpectation(Expression<Func<TItem, bool>> expression)
+        internal PublishExpectation(Expression<Func<TItem, bool>> expression)
         {
             this.expression = expression;
         }
@@ -199,7 +205,7 @@ namespace Orleankka.TestKit
         bool IExpectation.Match(object message)
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw IncompleteExpectationException();
 
             return expectation.Match(message);
         }
@@ -207,10 +213,13 @@ namespace Orleankka.TestKit
         object IExpectation.Apply()
         {
             if (expectation == null)
-                throw new InvalidOperationException("Expectation is incomplete. Cofigure the expectation by calling 'Throw()' method");
+                throw IncompleteExpectationException();
 
             return expectation.Apply();
         }
+
+        static InvalidOperationException IncompleteExpectationException() => new InvalidOperationException(
+            "Expectation is incomplete. Configure the expectation by calling either 'Throw()' or 'Times()' methods");
     }
 
     public static class ExpectationExtensions
