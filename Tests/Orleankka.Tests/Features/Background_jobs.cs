@@ -117,7 +117,7 @@ namespace Orleankka.Features
                 terminations[key] = counter + 1;
             }
 
-            int On(NumberOfTimesJobRan q) => runs[q.Name];
+            int On(NumberOfTimesJobRan q) => runs.Find(q.Name, 0);
             int On(NumberOfTimesJobTerminated q) => terminations.FirstOrDefault(x => x.Key.name == q.Name).Value;
         }
 
