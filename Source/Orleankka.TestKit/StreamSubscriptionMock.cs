@@ -3,51 +3,34 @@ using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
 {
-    public class StreamSubscriptionMock : StreamSubscription
+    public class StreamSubscriptionMock<TItem> : StreamSubscription<TItem>
     {
-        public object Callback      { get; private set; }
-        public StreamFilter Filter  { get; private set; }
-        public bool Resumed         { get; private set; }
-        public bool Unsubscribed    { get; private set; }
+        readonly StreamRefMock<TItem> stream;
 
-        public StreamSubscriptionMock(object callback, StreamFilter filter)
-            : base(null)
+        public Func<StreamMessage, Task> Callback { get; private set; }
+        public SubscribeOptions SubscribeOptions { get; private set; }
+        public ResumeOptions ResumeOptions { get; private set; }
+        public bool Unsubscribed { get; private set; }
+
+        public StreamSubscriptionMock(
+            StreamRefMock<TItem> stream, 
+            Func<StreamMessage, Task> callback, 
+            SubscribeOptions subscribe = null, 
+            ResumeOptions resume = null)
+            : base(stream, null)
         {
+            this.stream = stream;
             Callback = callback;
-            Filter = filter;
+            SubscribeOptions = subscribe;
+            ResumeOptions = resume;
         }
 
-        public override Task<StreamSubscription> Resume(Func<object, Task> callback)
-        {
-            Resumed = true;
-            Callback = callback;
-            return Task.FromResult((StreamSubscription)this);
-        }
-
-        public override Task<StreamSubscription> Resume<T>(Func<T, Task> callback)
-        {
-            Resumed = true;
-            Callback = callback;
-            return Task.FromResult((StreamSubscription)this);
-        }
-
-        public override Task<StreamSubscription> Resume(Action<object> callback)
-        {
-            Resumed = true;
-            Callback = callback;
-            return Task.FromResult((StreamSubscription)this);
-        }
-
-        public override Task<StreamSubscription> Resume<T>(Action<T> callback)
-        {
-            Resumed = true;
-            Callback = callback;
-            return Task.FromResult((StreamSubscription)this);
-        }
+        public override Task<StreamSubscription<TItem>> Resume<TOptions>(Func<StreamMessage, Task> callback, TOptions options) => 
+            stream.Resume(callback, options);
 
         public override Task Unsubscribe()
         {
-            Unsubscribed = false; 
+            Unsubscribed = true; 
             return Task.CompletedTask;
         }
     }

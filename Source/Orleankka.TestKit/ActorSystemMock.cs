@@ -13,8 +13,8 @@ namespace Orleankka.TestKit
         readonly Dictionary<ActorPath, ActorRefMock> actors =
              new Dictionary<ActorPath, ActorRefMock>();
 
-        readonly Dictionary<StreamPath, StreamRefMock> streams =
-             new Dictionary<StreamPath, StreamRefMock>();
+        readonly Dictionary<StreamPath, object> streams =
+             new Dictionary<StreamPath, object>();
 
         readonly Queue<ClientObservableMock> observables = 
              new Queue<ClientObservableMock>();
@@ -51,23 +51,23 @@ namespace Orleankka.TestKit
             return mock;
         }
 
-        public StreamRefMock MockStreamOf(string provider, string id)
+        public StreamRefMock<TItem> MockStreamOf<TItem>(string provider, string id)
         {
             var path = StreamPath.From(provider, id);
-            return GetOrCreateMock(path);
+            return GetOrCreateMock<TItem>(path);
         }
 
-        StreamRef IActorSystem.StreamOf(StreamPath path)
+        StreamRef<TItem> IActorSystem.StreamOf<TItem>(StreamPath path)
         {
-            return GetOrCreateMock(path);
+            return GetOrCreateMock<TItem>(path);
         }
 
-        StreamRefMock GetOrCreateMock(StreamPath path)
+        StreamRefMock<TItem> GetOrCreateMock<TItem>(StreamPath path)
         {
             if (streams.ContainsKey(path))
-                return streams[path];
+                return (StreamRefMock<TItem>) streams[path];
 
-            var mock = new StreamRefMock(path, serialization);
+            var mock = new StreamRefMock<TItem>(path, serialization);
             streams.Add(path, mock);
 
             return mock;

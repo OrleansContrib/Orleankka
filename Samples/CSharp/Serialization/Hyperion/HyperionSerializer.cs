@@ -27,7 +27,7 @@ namespace Example
                 Surrogate.Create<ActorPath, ActorPathSurrogate>(ActorPathSurrogate.From, x => x.Original()),
                 Surrogate.Create<StreamPath, StreamPathSurrogate>(StreamPathSurrogate.From, x => x.Original()),
                 Surrogate.Create<ActorRef, ActorRefSurrogate>(ActorRefSurrogate.From, x => x.Original(this)),
-                Surrogate.Create<StreamRef, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original(this)),
+                Surrogate.Create<StreamRef<Item>, StreamRefSurrogate>(StreamRefSurrogate.From, x => x.Original<Item>(this)),
                 Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original(this)),
             };
 
@@ -136,11 +136,11 @@ namespace Example
 
         class StreamRefSurrogate : StringPayloadSurrogate
         {
-            public static StreamRefSurrogate From(StreamRef @ref) =>
+            public static StreamRefSurrogate From<TItem>(StreamRef<TItem> @ref) =>
                 new StreamRefSurrogate { S = @ref.Path };
 
-            public StreamRef Original(HyperionSerializer ctx) =>
-                ctx.system.StreamOf(StreamPath.Parse(S));
+            public StreamRef<TItem> Original<TItem>(HyperionSerializer ctx) =>
+                ctx.system.StreamOf<TItem>(StreamPath.Parse(S));
         }
 
         class ClientRefSurrogate : StringPayloadSurrogate

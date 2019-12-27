@@ -33,12 +33,12 @@ namespace Orleankka.Legacy.Features
         }
 
         [Serializable]
-        public class Push : Command
+        public class Publish : Command
         {
-            public readonly StreamRef Stream;
+            public readonly StreamRef<object> Stream;
             public readonly object Item;
 
-            public Push(StreamRef stream, object item)
+            public Publish(StreamRef<object> stream, object item)
             {
                 Stream = stream;
                 Item = item;
@@ -50,7 +50,7 @@ namespace Orleankka.Legacy.Features
 
         public class TestProducerActor : Actor, ITestProducerActor
         {
-            Task On(Push x) => x.Stream.Publish(x.Item);
+            Task On(Publish x) => x.Stream.Publish(x.Item);
         }
 
         class TestCases
@@ -68,7 +68,7 @@ namespace Orleankka.Legacy.Features
 
             public async Task Client_to_stream<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "cs");
+                var stream = system.StreamOf<object>(provider, "cs");
 
                 await stream.Publish("ce");
                 await Task.Delay(timeout);
@@ -80,9 +80,9 @@ namespace Orleankka.Legacy.Features
 
             public async Task Actor_to_stream<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "as");
+                var stream = system.StreamOf<object>(provider, "as");
 
-                await Push(stream, "ae");
+                await Publish(stream, "ae");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -92,11 +92,11 @@ namespace Orleankka.Legacy.Features
 
             public async Task Multistream_subscription_with_fixed_ids<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var a = system.StreamOf(provider, "a");
-                var b = system.StreamOf(provider, "b");
+                var a = system.StreamOf<object>(provider, "a");
+                var b = system.StreamOf<object>(provider, "b");
 
-                await Push(a, "a-001");
-                await Push(b, "b-001");
+                await Publish(a, "a-001");
+                await Publish(b, "b-001");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -106,11 +106,11 @@ namespace Orleankka.Legacy.Features
 
             public async Task Multistream_subscription_based_on_regex_matching<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var s1 = system.StreamOf(provider, "INV-001");
-                var s2 = system.StreamOf(provider, "INV-002");
+                var s1 = system.StreamOf<object>(provider, "INV-001");
+                var s2 = system.StreamOf<object>(provider, "INV-002");
 
-                await Push(s1, "001");
-                await Push(s2, "002");
+                await Publish(s1, "001");
+                await Publish(s2, "002");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -120,11 +120,11 @@ namespace Orleankka.Legacy.Features
 
             public async Task Declared_handler_only_automatic_item_filtering<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "declared-auto");
-                Assert.DoesNotThrowAsync(async ()=> await Push(stream, 123),
+                var stream = system.StreamOf<object>(provider, "declared-auto");
+                Assert.DoesNotThrowAsync(async ()=> await Publish(stream, 123),
                     "Should not throw handler not found exception");
 
-                await Push(stream, "e-123");
+                await Publish(stream, "e-123");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -135,9 +135,9 @@ namespace Orleankka.Legacy.Features
 
             public async Task Select_all_filter<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "select-all");
+                var stream = system.StreamOf<object>(provider, "select-all");
 
-                await Push(stream, 42);
+                await Publish(stream, 42);
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -149,10 +149,10 @@ namespace Orleankka.Legacy.Features
 
             public async Task Explicit_filter<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "filtered");
+                var stream = system.StreamOf<object>(provider, "filtered");
 
-                await Push(stream, "f-001");
-                await Push(stream, "f-002");
+                await Publish(stream, "f-001");
+                await Publish(stream, "f-002");
                 await Task.Delay(timeout);
 
                 var consumer = system.ActorOf<T>("#");
@@ -162,10 +162,10 @@ namespace Orleankka.Legacy.Features
 
             public async Task Dynamic_target_selection<T>() where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "dynamic-target");
+                var stream = system.StreamOf<object>(provider, "dynamic-target");
 
-                await Push(stream, "red");
-                await Push(stream, "blue");
+                await Publish(stream, "red");
+                await Publish(stream, "blue");
                 await Task.Delay(timeout);
 
                 var consumer1 = system.ActorOf<T>("red-pill");
@@ -177,7 +177,7 @@ namespace Orleankka.Legacy.Features
 
             public async Task Batch_receive<T>(bool unsupported = false) where T : IActorGrain, IGrainWithStringKey
             {
-                var stream = system.StreamOf(provider, "batched");
+                var stream = system.StreamOf<object>(provider, "batched");
 
                 if (unsupported)
                 { 
@@ -198,10 +198,10 @@ namespace Orleankka.Legacy.Features
                     "The batch will be unrolled at a grain and items will be delivered to Receive one by one");
             }
 
-            async Task Push(StreamRef stream, object item)
+            async Task Publish(StreamRef<object> stream, object item)
             {
                 var producer = system.ActorOf<ITestProducerActor>("foo");
-                await producer.Tell(new Push(stream, item));
+                await producer.Tell(new Publish(stream, item));
             }
         }
 

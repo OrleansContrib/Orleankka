@@ -9,14 +9,14 @@ namespace Example
 {
     public abstract class EventSourcedActor : DispatchActorGrain
     {
-        StreamRef stream;
+        StreamRef<IEventEnvelope> stream;
 
         public override Task<object> Receive(object message)
         {
             switch (message)
             {
                 case Activate _:
-                    stream = System.StreamOf("sms", $"{GetType().Name}-{Id}");
+                    stream = System.StreamOf<IEventEnvelope>("sms", $"{GetType().Name}-{Id}");
                     return Result(Done);
 
                 case Command cmd:
@@ -51,10 +51,10 @@ namespace Example
             return stream.Publish(envelope);
         }
 
-        object Wrap(Event @event)
+        IEventEnvelope Wrap(Event @event)
         {
             var envelopeType = typeof(EventEnvelope<>).MakeGenericType(@event.GetType());
-            return Activator.CreateInstance(envelopeType, Id, @event);
+            return (IEventEnvelope) Activator.CreateInstance(envelopeType, Id, @event);
         }
     }
 }

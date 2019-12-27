@@ -17,12 +17,12 @@
 </div>
 
 @code {
-    StreamRef notifications;
+    StreamRef<JobEvent> notifications;
     readonly List<string> events = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
-        notifications = ActorSystem.StreamOf("notifications", "copier");
+        notifications = ActorSystem.StreamOf<JobEvent>("notifications", "copier");
         await notifications.Subscribe<JobEvent>(async e =>
         {
             if (events.Count > 200)

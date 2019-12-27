@@ -29,7 +29,7 @@ namespace Orleankka.Features
         {}
 
         [Serializable]
-        public class StreamItem : Event
+        public class ItemData : Event
         {
             public string Text;
         }
@@ -54,7 +54,7 @@ namespace Orleankka.Features
             List<string> On(GetReceivedFromStream x) => fromStream;
 
             Task On(Subscribe x) => x.Stream.Subscribe(this);
-            void On(StreamItem x) => fromStream.Add(x.Text);
+            void On(StreamItem<ItemData> x) => fromStream.Add(x.Item.Text);
         }
 
         [Serializable]
@@ -83,7 +83,7 @@ namespace Orleankka.Features
         [Serializable]
         public class Subscribe : Command
         {
-            public StreamRef Stream;
+            public StreamRef<ItemData> Stream;
         }
 
         [Serializable]
@@ -104,8 +104,9 @@ namespace Orleankka.Features
                         msg.Text += ".intercepted";
                         break;
 
-                    case StreamItem item:
-                        item.Text += ".intercepted";
+                    case StreamItem<ItemData> msg:
+
+                        msg.Item.Text += ".intercepted";
                         break;
                 }
 
@@ -169,12 +170,12 @@ namespace Orleankka.Features
             [Test]
             public async Task Intercepting_stream_messages()
             {
-                var stream = system.StreamOf("sms", "test-stream-interception");
+                var stream = system.StreamOf<ItemData>("sms", "test-stream-interception");
                 
                 var actor = system.FreshActorOf<ITestActor>();
                 await actor.Tell(new Subscribe {Stream = stream});
 
-                await stream.Publish(new StreamItem {Text = "foo"});
+                await stream.Publish(new ItemData {Text = "foo"});
                 await Task.Delay(TimeSpan.FromMilliseconds(10));
 
                 var received = await actor.Ask(new GetReceivedFromStream());

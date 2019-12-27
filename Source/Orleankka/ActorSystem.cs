@@ -29,8 +29,9 @@ namespace Orleankka
         /// Acquires the stream reference for the given stream path
         /// </summary>
         /// <param name="path">The path of the stream</param>
+        /// <typeparam name="TItem">The type of the stream item</typeparam>
         /// <returns>The stream reference</returns>
-        StreamRef StreamOf(StreamPath path);
+        StreamRef<TItem> StreamOf<TItem>(StreamPath path);
         
         /// <summary>
         /// Acquires the client reference for the given client path
@@ -90,13 +91,13 @@ namespace Orleankka
         }
         
         /// <inheritdoc />
-        public StreamRef StreamOf(StreamPath path)
+        public StreamRef<TItem> StreamOf<TItem>(StreamPath path)
         {
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
             var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
-            return new StreamRef(path, provider);
+            return new StreamRef<TItem>(path, provider);
         }
 
         /// <inheritdoc />
@@ -172,15 +173,16 @@ namespace Orleankka
         }
 
         /// <summary>
-        /// Acquires the stream reference for the given id and type of the stream.
+        /// Acquires the stream reference for the given provider name and id of the stream.
         /// </summary>
         /// <param name="system">The reference to actor system</param>
         /// <param name="provider">The name of the stream provider</param>
         /// <param name="id">The id</param>
+        /// <typeparam name="TItem">The type of the stream item</typeparam>
         /// <returns>A stream reference</returns>
-        public static StreamRef StreamOf(this IActorSystem system, string provider, string id)
+        public static StreamRef<TItem> StreamOf<TItem>(this IActorSystem system, string provider, string id)
         {
-            return system.StreamOf(StreamPath.From(provider, id));
+            return system.StreamOf<TItem>(StreamPath.From(provider, id));
         }
 
         /// <summary>

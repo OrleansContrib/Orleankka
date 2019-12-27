@@ -7,53 +7,58 @@ namespace Orleankka
 {
     using Utility; 
 
-    public class StreamSubscription
+    public class StreamSubscription<TItem>
     {
-        readonly StreamSubscriptionHandle<object> handle;
+        readonly StreamRef<TItem> stream;
+        readonly StreamSubscriptionHandle<TItem> handle;
 
-        protected internal StreamSubscription(StreamSubscriptionHandle<object> handle)
+        protected internal StreamSubscription(StreamRef<TItem> stream, StreamSubscriptionHandle<TItem> handle)
         {
+            this.stream = stream;
             this.handle = handle;
         }
 
-        public virtual Task Unsubscribe()
-        {
-            return handle.UnsubscribeAsync();
-        }
+        /// <summary>
+        /// Unsubscribe a stream consumer from the stream.
+        /// </summary>
+        /// <returns>A promise to await for subscription to be removed</returns>
+        public virtual Task Unsubscribe() => handle.UnsubscribeAsync();
 
-        public virtual async Task<StreamSubscription> Resume(Func<object, Task> callback)
+        /// <summary>
+        /// Resumes receiving messages published to a stream via given consumer callback 
+        /// </summary>
+        /// <param name="callback">The callback delegate.</param>
+        /// <param name="options">The stream resume options</param>
+        /// <typeparam name="TOptions">The type of stream resume options</typeparam>
+        /// <returns>
+        /// A promise for a new <see cref="StreamSubscription{TItem}"/> that represents the subscription.
+        /// The consumer may unsubscribe by using this object.
+        /// The subscription remains active for as long as it is not explicitly unsubscribed.
+        /// </returns>
+        public virtual async Task<StreamSubscription<TItem>> Resume<TOptions>(Func<StreamMessage, Task> callback, TOptions options) 
+            where TOptions : ResumeOptions
         {
             Requires.NotNull(callback, nameof(callback));
-            var observer = new StreamRef.Observer((item, token) => callback(item));
-            return new StreamSubscription(await handle.ResumeAsync(observer));
-        }
 
-        public virtual Task<StreamSubscription> Resume<T>(Func<T, Task> callback)
-        {
-            Requires.NotNull(callback, nameof(callback));
-            return Resume(item => callback((T)item));
-        }
-
-        public virtual Task<StreamSubscription> Resume(Action<object> callback)
-        {
-            Requires.NotNull(callback, nameof(callback));
-
-            return Resume(item =>
+            return options switch 
             {
-                callback(item);
-                return Task.CompletedTask;
-            });
-        }
+                ResumeReceiveBatch o => await ResumeBatch(o), 
+                ResumeReceiveItem o  => await Resume(o),
+                _ => throw new ArgumentOutOfRangeException(nameof(options), 
+                    $"Unsupported type of options: '{options.GetType()}'")
+            };
 
-        public virtual Task<StreamSubscription> Resume<T>(Action<T> callback)
-        {
-            Requires.NotNull(callback, nameof(callback));
-
-            return Resume(item =>
+            async Task<StreamSubscription<TItem>> Resume(ResumeReceiveItem o)
             {
-                callback((T)item);
-                return Task.CompletedTask;
-            });
+                var observer = new StreamRef<TItem>.Observer(stream, callback);
+                return new StreamSubscription<TItem>(stream, await handle.ResumeAsync(observer, o.Token));
+            }
+
+            async Task<StreamSubscription<TItem>> ResumeBatch(ResumeReceiveBatch o)
+            {
+                var observer = new StreamRef<TItem>.BatchObserver(stream, callback);
+                return new StreamSubscription<TItem>(stream, await handle.ResumeAsync(observer, o.Token));
+            }
         }
     }
 }

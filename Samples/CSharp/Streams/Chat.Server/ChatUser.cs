@@ -15,7 +15,7 @@ namespace Example
         {
             Console.WriteLine("[server]: " + message);
 
-            var stream = System.StreamOf("sms", room);
+            var stream = System.StreamOf<ChatRoomMessage>("sms", room);
 
             return stream.Publish(new ChatRoomMessage
             {

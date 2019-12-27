@@ -82,7 +82,7 @@ namespace ProcessManager
 
         readonly IStorage<CopierState> storage;
         readonly Behavior behavior;
-        StreamRef notifications;
+        StreamRef<JobEvent> notifications;
 
         // injected storage provider
         public Copier([PersistentState("copier")] IStorage<CopierState> storage)
@@ -132,7 +132,7 @@ namespace ProcessManager
                     behavior.Initial(state);
 
                     // grab reference to notifications stream
-                    notifications = System.StreamOf("notifications", "copier");
+                    notifications = System.StreamOf<JobEvent>("notifications", "copier");
                     break;
                 }
             }

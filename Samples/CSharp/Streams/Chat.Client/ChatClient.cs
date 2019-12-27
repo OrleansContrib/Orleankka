@@ -9,7 +9,7 @@ namespace Example
     {
         readonly ActorRef<IChatUser> user;
         readonly IActorSystem system;
-        StreamSubscription subscription;
+        StreamSubscription<ChatRoomMessage> subscription;
 
         public ChatClient(IActorSystem system, string user, string room)
         {
@@ -26,8 +26,8 @@ namespace Example
 
         async Task Subscribe()
         {
-            var room = system.StreamOf("sms", RoomName);
-            subscription = await room.Subscribe<ChatRoomMessage>(message =>
+            var room = system.StreamOf<ChatRoomMessage>("sms", RoomName);
+            subscription = await room.Subscribe((message, _) =>
             {
                 if (message.User != UserName)
                     Console.WriteLine(message.Text);

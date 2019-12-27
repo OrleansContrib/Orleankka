@@ -173,13 +173,13 @@ namespace Orleankka.TestKit
             "Expectation is incomplete. Configure the expectation by calling either 'Throw()', 'Times()' or `Return` methods");
     }
 
-    public sealed class PublishExpectation<TItem> : IRepeatExpectation
+    public sealed class PublishExpectation<TMessage> : IRepeatExpectation
     {
-        Expectation<TItem> expectation;
-        readonly Expression<Func<TItem, bool>> expression;
+        Expectation<TMessage> expectation;
+        readonly Expression<Func<TMessage, bool>> expression;
         Exception exception;
 
-        internal PublishExpectation(Expression<Func<TItem, bool>> expression)
+        internal PublishExpectation(Expression<Func<TMessage, bool>> expression)
         {
             this.expression = expression;
         }
@@ -197,9 +197,107 @@ namespace Orleankka.TestKit
             return this;
         }
 
-        Expectation<TItem> Create(int times = int.MaxValue)
+        Expectation<TMessage> Create(int times = int.MaxValue)
         {
-            return new Expectation<TItem>(expression, null, exception, times);
+            return new Expectation<TMessage>(expression, null, exception, times);
+        }
+
+        bool IExpectation.Match(object message)
+        {
+            if (expectation == null)
+                throw IncompleteExpectationException();
+
+            return expectation.Match(message);
+        }
+
+        object IExpectation.Apply()
+        {
+            if (expectation == null)
+                throw IncompleteExpectationException();
+
+            return expectation.Apply();
+        }
+
+        static InvalidOperationException IncompleteExpectationException() => new InvalidOperationException(
+            "Expectation is incomplete. Configure the expectation by calling either 'Throw()' or 'Times()' methods");
+    }
+
+    public sealed class SubscribeExpectation<TOptions> : IRepeatExpectation
+    {
+        Expectation<TOptions> expectation;
+        readonly Expression<Func<TOptions, bool>> expression;
+        Exception exception;
+
+        internal SubscribeExpectation(Expression<Func<TOptions, bool>> expression)
+        {
+            this.expression = expression;
+        }
+
+        public IRepeatExpectation Throw(Exception exception)
+        {
+            this.exception = exception;
+            expectation = Create();
+            return this;
+        }
+
+        IExpectation IRepeatExpectation.Times(int times)
+        {
+            expectation = Create(times);
+            return this;
+        }
+
+        Expectation<TOptions> Create(int times = int.MaxValue)
+        {
+            return new Expectation<TOptions>(expression, null, exception, times);
+        }
+
+        bool IExpectation.Match(object message)
+        {
+            if (expectation == null)
+                throw IncompleteExpectationException();
+
+            return expectation.Match(message);
+        }
+
+        object IExpectation.Apply()
+        {
+            if (expectation == null)
+                throw IncompleteExpectationException();
+
+            return expectation.Apply();
+        }
+
+        static InvalidOperationException IncompleteExpectationException() => new InvalidOperationException(
+            "Expectation is incomplete. Configure the expectation by calling either 'Throw()' or 'Times()' methods");
+    }
+
+    public sealed class ResumeExpectation<TOptions> : IRepeatExpectation
+    {
+        Expectation<TOptions> expectation;
+        readonly Expression<Func<TOptions, bool>> expression;
+        Exception exception;
+
+        internal ResumeExpectation(Expression<Func<TOptions, bool>> expression)
+        {
+            this.expression = expression;
+        }
+
+        public IRepeatExpectation Throw(Exception exception)
+        {
+            this.exception = exception;
+            expectation = Create();
+            return this;
+        }
+
+        IExpectation IRepeatExpectation.Times(int times)
+        {
+            expectation = Create(times);
+            return this;
+        }
+
+        Expectation<TOptions> Create(int times = int.MaxValue)
+        {
+            return new Expectation<TOptions>(expression, null, exception, times);
         }
 
         bool IExpectation.Match(object message)

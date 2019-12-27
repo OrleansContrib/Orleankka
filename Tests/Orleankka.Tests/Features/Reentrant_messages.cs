@@ -84,16 +84,16 @@ namespace Orleankka.Features
 
             async Task On(Subscribe x)
             {
-                var stream1 = System.StreamOf("sms", "s1");
-                var stream2 = System.StreamOf("sms", "s2");
+                var stream1 = System.StreamOf<int>("sms", "s1");
+                var stream2 = System.StreamOf<string>("sms", "s2");
 
-                await stream1.Subscribe<int>(item =>
+                await stream1.Subscribe((item, _) =>
                 {
                     streamMessagesInProgress.Add(item);
                     return Task.Delay(500);
                 });
 
-                await stream2.Subscribe<string>(item =>
+                await stream2.Subscribe((item, _) =>
                 {
                     streamMessagesInProgress.Add(item);
                     return Task.Delay(500);
@@ -224,8 +224,8 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Subscribe());
 
-                var stream1 = system.StreamOf("sms", "s1");
-                var stream2 = system.StreamOf("sms", "s2");
+                var stream1 = system.StreamOf<int>("sms", "s1");
+                var stream2 = system.StreamOf<string>("sms", "s2");
 
                 var i1 = stream2.Publish("1");
                 await Task.Delay(100);
@@ -248,8 +248,8 @@ namespace Orleankka.Features
                 var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
                 await actor.Tell(new Subscribe());
 
-                var stream1 = system.StreamOf("sms", "s1");
-                var stream2 = system.StreamOf("sms", "s2");
+                var stream1 = system.StreamOf<int>("sms", "s1");
+                var stream2 = system.StreamOf<string>("sms", "s2");
 
                 var i1 = stream1.Publish(1);
                 await Task.Delay(100);

@@ -16,16 +16,16 @@ namespace Orleankka.Features
         [Serializable]
         public class Produce : Command
         {
-            public StreamRef Stream;
-            public Item Item;
+            public StreamRef<ItemData> Stream;
+            public ItemData ItemData;
         }
 
         [Serializable]
-        public class Item
+        public class ItemData
         {
             public readonly string Text;
 
-            public Item(string text)
+            public ItemData(string text)
             {
                 Text = text;
             }
@@ -36,17 +36,17 @@ namespace Orleankka.Features
         [Serializable]
         public class Subscribe : Command
         {
-            public StreamRef Stream;
+            public StreamRef<ItemData> Stream;
         }
 
         [Serializable]
         public class Unsubscribe : Command
         {
-            public StreamRef Stream;
+            public StreamRef<ItemData> Stream;
         }
 
         [Serializable]
-        class Received : Query<List<Item>>
+        class Received : Query<List<ItemData>>
         {}
 
         public interface ITestProducerActor : IActorGrain, IGrainWithStringKey {}
@@ -54,18 +54,18 @@ namespace Orleankka.Features
 
         public class TestProducerActor : DispatchActorGrain, ITestProducerActor
         {
-            Task On(Produce x) => x.Stream.Publish(x.Item);
+            Task On(Produce x) => x.Stream.Publish(x.ItemData);
         }
 
         public class TestConsumerActor : DispatchActorGrain, ITestConsumerActor
         {
-            readonly List<Item> received = new List<Item>();
+            readonly List<ItemData> received = new List<ItemData>();
 
             Task On(Subscribe x) => x.Stream.Subscribe(this);
             Task On(Unsubscribe x) => x.Stream.Unsubscribe(this);
 
-            void On(Item x) => received.Add(x);
-            List<Item> On(Received x) => received;
+            void On(StreamItem<ItemData> x) => received.Add(x.Item);
+            List<ItemData> On(Received x) => received;
         }
 
         class Tests
@@ -79,13 +79,13 @@ namespace Orleankka.Features
             [Test]
             public async Task Client_to_stream()
             {
-                var stream = system.StreamOf("sms", "sms-123");
+                var stream = system.StreamOf<ItemData>("sms", "sms-123");
 
-                var received = new List<Item>();
-                var subscription = await stream.Subscribe<Item>(
-                    item => received.Add(item));
+                var received = new List<ItemData>();
+                var subscription = await stream.Subscribe(
+                    (item, _) => received.Add(item));
 
-                await stream.Publish(new Item("foo"));
+                await stream.Publish(new ItemData("foo"));
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -94,7 +94,7 @@ namespace Orleankka.Features
                 await subscription.Unsubscribe();
                 received.Clear();
 
-                await stream.Publish("bar");
+                await stream.Publish(new ItemData("bar"));
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
@@ -103,13 +103,13 @@ namespace Orleankka.Features
             [Test]
             public async Task Actor_to_stream()
             {
-                var stream = system.StreamOf("sms", "sms-123");
+                var stream = system.StreamOf<ItemData>("sms", "sms-123");
 
                 var producer = system.ActorOf<ITestProducerActor>("p");
                 var consumer = system.ActorOf<ITestConsumerActor>("c");
 
                 await consumer.Tell(new Subscribe {Stream = stream});
-                await producer.Tell(new Produce {Stream = stream, Item = new Item("foo")});
+                await producer.Tell(new Produce {Stream = stream, ItemData = new ItemData("foo")});
 
                 await Task.Delay(timeout);
                 var received = await consumer.Ask(new Received());
@@ -120,7 +120,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Unsubscribe {Stream = stream});
                 received.Clear();
 
-                await producer.Tell(new Produce {Stream = stream, Item = new Item("bar")});
+                await producer.Tell(new Produce {Stream = stream, ItemData = new ItemData("bar")});
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));
@@ -129,14 +129,14 @@ namespace Orleankka.Features
             [Test]
             public async Task Filtering_items()
             {
-                var stream = system.StreamOf("sms", "sms-fff");
+                var stream = system.StreamOf<ItemData>("sms", "sms-fff");
 
-                var received = new List<Item>();
-                await stream.Subscribe<Item>(
-                    callback: item => received.Add(item),
-                    filter: new StreamFilter(Item.DropAll));
+                var received = new List<ItemData>();
+                await stream.Subscribe(
+                    (item, _) => received.Add(item),
+                    new StreamFilter(ItemData.DropAll));
 
-                await stream.Publish(new Item("foo"));
+                await stream.Publish(new ItemData("foo"));
                 await Task.Delay(timeout);
 
                 Assert.That(received.Count, Is.EqualTo(0));

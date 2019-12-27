@@ -18,7 +18,7 @@ namespace Example
     [Immutable]
     public class Push : Command
     {
-        public StreamRef Stream;
+        public StreamRef<Item> Stream;
         public Item Item;
     }
 

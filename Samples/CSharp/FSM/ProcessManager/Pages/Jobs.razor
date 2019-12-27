@@ -53,7 +53,7 @@ else
 
 @code {
     List<JobItem> jobs;
-    StreamRef notifications;
+    StreamRef<JobEvent> notifications;
     string jobId = null;
     string lastCommandResult;
 
@@ -61,8 +61,8 @@ else
     {
         jobs = new List<JobItem>();
 
-        notifications = ActorSystem.StreamOf("notifications", "copier");
-        await notifications.Subscribe<JobEvent>(async e =>
+        notifications = ActorSystem.StreamOf<JobEvent>("notifications", "copier");
+        await notifications.Subscribe(async (e, _) =>
         {
             var job = jobs.SingleOrDefault(x => x.Id == e.Id);
 

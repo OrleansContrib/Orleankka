@@ -121,7 +121,7 @@ namespace Orleankka.Legacy.Checks
                 return (RequestedRef = new ActorRefMock(path));
             }
 
-            public StreamRef StreamOf(StreamPath path)
+            public StreamRef<TItem> StreamOf<TItem>(StreamPath path)
             {
                 throw new NotImplementedException();
             }
