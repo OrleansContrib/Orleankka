@@ -1157,12 +1157,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorSystem.ClientOf
   nameWithType: ActorSystem.ClientOf
-- uid: Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)
-  name: StreamOf(StreamPath)
-  href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamOf_Orleankka_StreamPath_
-  commentId: M:Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)
-  fullName: Orleankka.ActorSystem.StreamOf(Orleankka.StreamPath)
-  nameWithType: ActorSystem.StreamOf(StreamPath)
 - uid: Orleankka.ActorSystem.StreamOf*
   name: StreamOf
   href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamOf_
@@ -1170,6 +1164,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorSystem.StreamOf
   nameWithType: ActorSystem.StreamOf
+- uid: Orleankka.ActorSystem.StreamOf``1(Orleankka.StreamPath)
+  name: StreamOf<TItem>(StreamPath)
+  href: api/Orleankka.ActorSystem.html#Orleankka_ActorSystem_StreamOf__1_Orleankka_StreamPath_
+  commentId: M:Orleankka.ActorSystem.StreamOf``1(Orleankka.StreamPath)
+  name.vb: StreamOf(Of TItem)(StreamPath)
+  fullName: Orleankka.ActorSystem.StreamOf<TItem>(Orleankka.StreamPath)
+  fullName.vb: Orleankka.ActorSystem.StreamOf(Of TItem)(Orleankka.StreamPath)
+  nameWithType: ActorSystem.StreamOf<TItem>(StreamPath)
+  nameWithType.vb: ActorSystem.StreamOf(Of TItem)(StreamPath)
 - uid: Orleankka.ActorSystemExtensions
   name: ActorSystemExtensions
   href: api/Orleankka.ActorSystemExtensions.html
@@ -1204,12 +1207,6 @@ references:
   fullName.vb: Orleankka.ActorSystemExtensions.ActorOf(Of TActor)(Orleankka.IActorSystem, System.String)
   nameWithType: ActorSystemExtensions.ActorOf<TActor>(IActorSystem, String)
   nameWithType.vb: ActorSystemExtensions.ActorOf(Of TActor)(IActorSystem, String)
-- uid: Orleankka.ActorSystemExtensions.StreamOf(Orleankka.IActorSystem,System.String,System.String)
-  name: StreamOf(IActorSystem, String, String)
-  href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_Orleankka_IActorSystem_System_String_System_String_
-  commentId: M:Orleankka.ActorSystemExtensions.StreamOf(Orleankka.IActorSystem,System.String,System.String)
-  fullName: Orleankka.ActorSystemExtensions.StreamOf(Orleankka.IActorSystem, System.String, System.String)
-  nameWithType: ActorSystemExtensions.StreamOf(IActorSystem, String, String)
 - uid: Orleankka.ActorSystemExtensions.StreamOf*
   name: StreamOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_
@@ -1217,6 +1214,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.ActorSystemExtensions.StreamOf
   nameWithType: ActorSystemExtensions.StreamOf
+- uid: Orleankka.ActorSystemExtensions.StreamOf``1(Orleankka.IActorSystem,System.String,System.String)
+  name: StreamOf<TItem>(IActorSystem, String, String)
+  href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf__1_Orleankka_IActorSystem_System_String_System_String_
+  commentId: M:Orleankka.ActorSystemExtensions.StreamOf``1(Orleankka.IActorSystem,System.String,System.String)
+  name.vb: StreamOf(Of TItem)(IActorSystem, String, String)
+  fullName: Orleankka.ActorSystemExtensions.StreamOf<TItem>(Orleankka.IActorSystem, System.String, System.String)
+  fullName.vb: Orleankka.ActorSystemExtensions.StreamOf(Of TItem)(Orleankka.IActorSystem, System.String, System.String)
+  nameWithType: ActorSystemExtensions.StreamOf<TItem>(IActorSystem, String, String)
+  nameWithType.vb: ActorSystemExtensions.StreamOf(Of TItem)(IActorSystem, String, String)
 - uid: Orleankka.ActorSystemExtensions.TypedActorOf*
   name: TypedActorOf
   href: api/Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedActorOf_
@@ -2569,12 +2575,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.IActorSystem.ClientOf
   nameWithType: IActorSystem.ClientOf
-- uid: Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)
-  name: StreamOf(StreamPath)
-  href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_StreamOf_Orleankka_StreamPath_
-  commentId: M:Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)
-  fullName: Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)
-  nameWithType: IActorSystem.StreamOf(StreamPath)
 - uid: Orleankka.IActorSystem.StreamOf*
   name: StreamOf
   href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_StreamOf_
@@ -2582,6 +2582,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.IActorSystem.StreamOf
   nameWithType: IActorSystem.StreamOf
+- uid: Orleankka.IActorSystem.StreamOf``1(Orleankka.StreamPath)
+  name: StreamOf<TItem>(StreamPath)
+  href: api/Orleankka.IActorSystem.html#Orleankka_IActorSystem_StreamOf__1_Orleankka_StreamPath_
+  commentId: M:Orleankka.IActorSystem.StreamOf``1(Orleankka.StreamPath)
+  name.vb: StreamOf(Of TItem)(StreamPath)
+  fullName: Orleankka.IActorSystem.StreamOf<TItem>(Orleankka.StreamPath)
+  fullName.vb: Orleankka.IActorSystem.StreamOf(Of TItem)(Orleankka.StreamPath)
+  nameWithType: IActorSystem.StreamOf<TItem>(StreamPath)
+  nameWithType.vb: IActorSystem.StreamOf(Of TItem)(StreamPath)
 - uid: Orleankka.IClientEndpoint
   name: IClientEndpoint
   href: api/Orleankka.IClientEndpoint.html
@@ -3992,6 +4001,338 @@ references:
   commentId: T:Orleankka.Meta.Result
   fullName: Orleankka.Meta.Result
   nameWithType: Result
+- uid: Orleankka.NextItem`1
+  name: NextItem<T>
+  href: api/Orleankka.NextItem-1.html
+  commentId: T:Orleankka.NextItem`1
+  name.vb: NextItem(Of T)
+  fullName: Orleankka.NextItem<T>
+  fullName.vb: Orleankka.NextItem(Of T)
+  nameWithType: NextItem<T>
+  nameWithType.vb: NextItem(Of T)
+- uid: Orleankka.NextItem`1.#ctor(`0,Orleans.Streams.StreamSequenceToken)
+  name: NextItem(T, StreamSequenceToken)
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1__ctor__0_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.NextItem`1.#ctor(`0,Orleans.Streams.StreamSequenceToken)
+  fullName: Orleankka.NextItem<T>.NextItem(T, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.NextItem(Of T).NextItem(T, Orleans.Streams.StreamSequenceToken)
+  nameWithType: NextItem<T>.NextItem(T, StreamSequenceToken)
+  nameWithType.vb: NextItem(Of T).NextItem(T, StreamSequenceToken)
+- uid: Orleankka.NextItem`1.#ctor*
+  name: NextItem
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1__ctor_
+  commentId: Overload:Orleankka.NextItem`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.NextItem<T>.NextItem
+  fullName.vb: Orleankka.NextItem(Of T).NextItem
+  nameWithType: NextItem<T>.NextItem
+  nameWithType.vb: NextItem(Of T).NextItem
+- uid: Orleankka.NextItem`1.Equals(Orleankka.NextItem{`0})
+  name: Equals(NextItem<T>)
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_Equals_Orleankka_NextItem__0__
+  commentId: M:Orleankka.NextItem`1.Equals(Orleankka.NextItem{`0})
+  name.vb: Equals(NextItem(Of T))
+  fullName: Orleankka.NextItem<T>.Equals(Orleankka.NextItem<T>)
+  fullName.vb: Orleankka.NextItem(Of T).Equals(Orleankka.NextItem(Of T))
+  nameWithType: NextItem<T>.Equals(NextItem<T>)
+  nameWithType.vb: NextItem(Of T).Equals(NextItem(Of T))
+- uid: Orleankka.NextItem`1.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_Equals_System_Object_
+  commentId: M:Orleankka.NextItem`1.Equals(System.Object)
+  fullName: Orleankka.NextItem<T>.Equals(System.Object)
+  fullName.vb: Orleankka.NextItem(Of T).Equals(System.Object)
+  nameWithType: NextItem<T>.Equals(Object)
+  nameWithType.vb: NextItem(Of T).Equals(Object)
+- uid: Orleankka.NextItem`1.Equals*
+  name: Equals
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_Equals_
+  commentId: Overload:Orleankka.NextItem`1.Equals
+  isSpec: "True"
+  fullName: Orleankka.NextItem<T>.Equals
+  fullName.vb: Orleankka.NextItem(Of T).Equals
+  nameWithType: NextItem<T>.Equals
+  nameWithType.vb: NextItem(Of T).Equals
+- uid: Orleankka.NextItem`1.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_GetHashCode
+  commentId: M:Orleankka.NextItem`1.GetHashCode
+  fullName: Orleankka.NextItem<T>.GetHashCode()
+  fullName.vb: Orleankka.NextItem(Of T).GetHashCode()
+  nameWithType: NextItem<T>.GetHashCode()
+  nameWithType.vb: NextItem(Of T).GetHashCode()
+- uid: Orleankka.NextItem`1.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_GetHashCode_
+  commentId: Overload:Orleankka.NextItem`1.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.NextItem<T>.GetHashCode
+  fullName.vb: Orleankka.NextItem(Of T).GetHashCode
+  nameWithType: NextItem<T>.GetHashCode
+  nameWithType.vb: NextItem(Of T).GetHashCode
+- uid: Orleankka.NextItem`1.Item
+  name: Item
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_Item
+  commentId: F:Orleankka.NextItem`1.Item
+  fullName: Orleankka.NextItem<T>.Item
+  fullName.vb: Orleankka.NextItem(Of T).Item
+  nameWithType: NextItem<T>.Item
+  nameWithType.vb: NextItem(Of T).Item
+- uid: Orleankka.NextItem`1.op_Equality(Orleankka.NextItem{`0},Orleankka.NextItem{`0})
+  name: Equality(NextItem<T>, NextItem<T>)
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_op_Equality_Orleankka_NextItem__0__Orleankka_NextItem__0__
+  commentId: M:Orleankka.NextItem`1.op_Equality(Orleankka.NextItem{`0},Orleankka.NextItem{`0})
+  name.vb: Equality(NextItem(Of T), NextItem(Of T))
+  fullName: Orleankka.NextItem<T>.Equality(Orleankka.NextItem<T>, Orleankka.NextItem<T>)
+  fullName.vb: Orleankka.NextItem(Of T).Equality(Orleankka.NextItem(Of T), Orleankka.NextItem(Of T))
+  nameWithType: NextItem<T>.Equality(NextItem<T>, NextItem<T>)
+  nameWithType.vb: NextItem(Of T).Equality(NextItem(Of T), NextItem(Of T))
+- uid: Orleankka.NextItem`1.op_Equality*
+  name: Equality
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_op_Equality_
+  commentId: Overload:Orleankka.NextItem`1.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.NextItem<T>.Equality
+  fullName.vb: Orleankka.NextItem(Of T).Equality
+  nameWithType: NextItem<T>.Equality
+  nameWithType.vb: NextItem(Of T).Equality
+- uid: Orleankka.NextItem`1.op_Inequality(Orleankka.NextItem{`0},Orleankka.NextItem{`0})
+  name: Inequality(NextItem<T>, NextItem<T>)
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_op_Inequality_Orleankka_NextItem__0__Orleankka_NextItem__0__
+  commentId: M:Orleankka.NextItem`1.op_Inequality(Orleankka.NextItem{`0},Orleankka.NextItem{`0})
+  name.vb: Inequality(NextItem(Of T), NextItem(Of T))
+  fullName: Orleankka.NextItem<T>.Inequality(Orleankka.NextItem<T>, Orleankka.NextItem<T>)
+  fullName.vb: Orleankka.NextItem(Of T).Inequality(Orleankka.NextItem(Of T), Orleankka.NextItem(Of T))
+  nameWithType: NextItem<T>.Inequality(NextItem<T>, NextItem<T>)
+  nameWithType.vb: NextItem(Of T).Inequality(NextItem(Of T), NextItem(Of T))
+- uid: Orleankka.NextItem`1.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_op_Inequality_
+  commentId: Overload:Orleankka.NextItem`1.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.NextItem<T>.Inequality
+  fullName.vb: Orleankka.NextItem(Of T).Inequality
+  nameWithType: NextItem<T>.Inequality
+  nameWithType.vb: NextItem(Of T).Inequality
+- uid: Orleankka.NextItem`1.Token
+  name: Token
+  href: api/Orleankka.NextItem-1.html#Orleankka_NextItem_1_Token
+  commentId: F:Orleankka.NextItem`1.Token
+  fullName: Orleankka.NextItem<T>.Token
+  fullName.vb: Orleankka.NextItem(Of T).Token
+  nameWithType: NextItem<T>.Token
+  nameWithType.vb: NextItem(Of T).Token
+- uid: Orleankka.NextItemBatch`1
+  name: NextItemBatch<T>
+  href: api/Orleankka.NextItemBatch-1.html
+  commentId: T:Orleankka.NextItemBatch`1
+  name.vb: NextItemBatch(Of T)
+  fullName: Orleankka.NextItemBatch<T>
+  fullName.vb: Orleankka.NextItemBatch(Of T)
+  nameWithType: NextItemBatch<T>
+  nameWithType.vb: NextItemBatch(Of T)
+- uid: Orleankka.NextItemBatch`1.#ctor(System.Collections.Generic.IEnumerable{`0},Orleans.Streams.StreamSequenceToken)
+  name: NextItemBatch(IEnumerable<T>, StreamSequenceToken)
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1__ctor_System_Collections_Generic_IEnumerable__0__Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.NextItemBatch`1.#ctor(System.Collections.Generic.IEnumerable{`0},Orleans.Streams.StreamSequenceToken)
+  name.vb: NextItemBatch(IEnumerable(Of T), StreamSequenceToken)
+  fullName: Orleankka.NextItemBatch<T>.NextItemBatch(System.Collections.Generic.IEnumerable<T>, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.NextItemBatch(Of T).NextItemBatch(System.Collections.Generic.IEnumerable(Of T), Orleans.Streams.StreamSequenceToken)
+  nameWithType: NextItemBatch<T>.NextItemBatch(IEnumerable<T>, StreamSequenceToken)
+  nameWithType.vb: NextItemBatch(Of T).NextItemBatch(IEnumerable(Of T), StreamSequenceToken)
+- uid: Orleankka.NextItemBatch`1.#ctor*
+  name: NextItemBatch
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1__ctor_
+  commentId: Overload:Orleankka.NextItemBatch`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.NextItemBatch<T>.NextItemBatch
+  fullName.vb: Orleankka.NextItemBatch(Of T).NextItemBatch
+  nameWithType: NextItemBatch<T>.NextItemBatch
+  nameWithType.vb: NextItemBatch(Of T).NextItemBatch
+- uid: Orleankka.NextItemBatch`1.Equals(Orleankka.NextItemBatch{`0})
+  name: Equals(NextItemBatch<T>)
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_Equals_Orleankka_NextItemBatch__0__
+  commentId: M:Orleankka.NextItemBatch`1.Equals(Orleankka.NextItemBatch{`0})
+  name.vb: Equals(NextItemBatch(Of T))
+  fullName: Orleankka.NextItemBatch<T>.Equals(Orleankka.NextItemBatch<T>)
+  fullName.vb: Orleankka.NextItemBatch(Of T).Equals(Orleankka.NextItemBatch(Of T))
+  nameWithType: NextItemBatch<T>.Equals(NextItemBatch<T>)
+  nameWithType.vb: NextItemBatch(Of T).Equals(NextItemBatch(Of T))
+- uid: Orleankka.NextItemBatch`1.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_Equals_System_Object_
+  commentId: M:Orleankka.NextItemBatch`1.Equals(System.Object)
+  fullName: Orleankka.NextItemBatch<T>.Equals(System.Object)
+  fullName.vb: Orleankka.NextItemBatch(Of T).Equals(System.Object)
+  nameWithType: NextItemBatch<T>.Equals(Object)
+  nameWithType.vb: NextItemBatch(Of T).Equals(Object)
+- uid: Orleankka.NextItemBatch`1.Equals*
+  name: Equals
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_Equals_
+  commentId: Overload:Orleankka.NextItemBatch`1.Equals
+  isSpec: "True"
+  fullName: Orleankka.NextItemBatch<T>.Equals
+  fullName.vb: Orleankka.NextItemBatch(Of T).Equals
+  nameWithType: NextItemBatch<T>.Equals
+  nameWithType.vb: NextItemBatch(Of T).Equals
+- uid: Orleankka.NextItemBatch`1.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_GetHashCode
+  commentId: M:Orleankka.NextItemBatch`1.GetHashCode
+  fullName: Orleankka.NextItemBatch<T>.GetHashCode()
+  fullName.vb: Orleankka.NextItemBatch(Of T).GetHashCode()
+  nameWithType: NextItemBatch<T>.GetHashCode()
+  nameWithType.vb: NextItemBatch(Of T).GetHashCode()
+- uid: Orleankka.NextItemBatch`1.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_GetHashCode_
+  commentId: Overload:Orleankka.NextItemBatch`1.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.NextItemBatch<T>.GetHashCode
+  fullName.vb: Orleankka.NextItemBatch(Of T).GetHashCode
+  nameWithType: NextItemBatch<T>.GetHashCode
+  nameWithType.vb: NextItemBatch(Of T).GetHashCode
+- uid: Orleankka.NextItemBatch`1.Items
+  name: Items
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_Items
+  commentId: F:Orleankka.NextItemBatch`1.Items
+  fullName: Orleankka.NextItemBatch<T>.Items
+  fullName.vb: Orleankka.NextItemBatch(Of T).Items
+  nameWithType: NextItemBatch<T>.Items
+  nameWithType.vb: NextItemBatch(Of T).Items
+- uid: Orleankka.NextItemBatch`1.op_Equality(Orleankka.NextItemBatch{`0},Orleankka.NextItemBatch{`0})
+  name: Equality(NextItemBatch<T>, NextItemBatch<T>)
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_op_Equality_Orleankka_NextItemBatch__0__Orleankka_NextItemBatch__0__
+  commentId: M:Orleankka.NextItemBatch`1.op_Equality(Orleankka.NextItemBatch{`0},Orleankka.NextItemBatch{`0})
+  name.vb: Equality(NextItemBatch(Of T), NextItemBatch(Of T))
+  fullName: Orleankka.NextItemBatch<T>.Equality(Orleankka.NextItemBatch<T>, Orleankka.NextItemBatch<T>)
+  fullName.vb: Orleankka.NextItemBatch(Of T).Equality(Orleankka.NextItemBatch(Of T), Orleankka.NextItemBatch(Of T))
+  nameWithType: NextItemBatch<T>.Equality(NextItemBatch<T>, NextItemBatch<T>)
+  nameWithType.vb: NextItemBatch(Of T).Equality(NextItemBatch(Of T), NextItemBatch(Of T))
+- uid: Orleankka.NextItemBatch`1.op_Equality*
+  name: Equality
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_op_Equality_
+  commentId: Overload:Orleankka.NextItemBatch`1.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.NextItemBatch<T>.Equality
+  fullName.vb: Orleankka.NextItemBatch(Of T).Equality
+  nameWithType: NextItemBatch<T>.Equality
+  nameWithType.vb: NextItemBatch(Of T).Equality
+- uid: Orleankka.NextItemBatch`1.op_Inequality(Orleankka.NextItemBatch{`0},Orleankka.NextItemBatch{`0})
+  name: Inequality(NextItemBatch<T>, NextItemBatch<T>)
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_op_Inequality_Orleankka_NextItemBatch__0__Orleankka_NextItemBatch__0__
+  commentId: M:Orleankka.NextItemBatch`1.op_Inequality(Orleankka.NextItemBatch{`0},Orleankka.NextItemBatch{`0})
+  name.vb: Inequality(NextItemBatch(Of T), NextItemBatch(Of T))
+  fullName: Orleankka.NextItemBatch<T>.Inequality(Orleankka.NextItemBatch<T>, Orleankka.NextItemBatch<T>)
+  fullName.vb: Orleankka.NextItemBatch(Of T).Inequality(Orleankka.NextItemBatch(Of T), Orleankka.NextItemBatch(Of T))
+  nameWithType: NextItemBatch<T>.Inequality(NextItemBatch<T>, NextItemBatch<T>)
+  nameWithType.vb: NextItemBatch(Of T).Inequality(NextItemBatch(Of T), NextItemBatch(Of T))
+- uid: Orleankka.NextItemBatch`1.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_op_Inequality_
+  commentId: Overload:Orleankka.NextItemBatch`1.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.NextItemBatch<T>.Inequality
+  fullName.vb: Orleankka.NextItemBatch(Of T).Inequality
+  nameWithType: NextItemBatch<T>.Inequality
+  nameWithType.vb: NextItemBatch(Of T).Inequality
+- uid: Orleankka.NextItemBatch`1.Token
+  name: Token
+  href: api/Orleankka.NextItemBatch-1.html#Orleankka_NextItemBatch_1_Token
+  commentId: F:Orleankka.NextItemBatch`1.Token
+  fullName: Orleankka.NextItemBatch<T>.Token
+  fullName.vb: Orleankka.NextItemBatch(Of T).Token
+  nameWithType: NextItemBatch<T>.Token
+  nameWithType.vb: NextItemBatch(Of T).Token
+- uid: Orleankka.NotifyStreamCompleted
+  name: NotifyStreamCompleted
+  href: api/Orleankka.NotifyStreamCompleted.html
+  commentId: T:Orleankka.NotifyStreamCompleted
+  fullName: Orleankka.NotifyStreamCompleted
+  nameWithType: NotifyStreamCompleted
+- uid: Orleankka.NotifyStreamError
+  name: NotifyStreamError
+  href: api/Orleankka.NotifyStreamError.html
+  commentId: T:Orleankka.NotifyStreamError
+  fullName: Orleankka.NotifyStreamError
+  nameWithType: NotifyStreamError
+- uid: Orleankka.NotifyStreamError.#ctor(System.Exception)
+  name: NotifyStreamError(Exception)
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError__ctor_System_Exception_
+  commentId: M:Orleankka.NotifyStreamError.#ctor(System.Exception)
+  fullName: Orleankka.NotifyStreamError.NotifyStreamError(System.Exception)
+  nameWithType: NotifyStreamError.NotifyStreamError(Exception)
+- uid: Orleankka.NotifyStreamError.#ctor*
+  name: NotifyStreamError
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError__ctor_
+  commentId: Overload:Orleankka.NotifyStreamError.#ctor
+  isSpec: "True"
+  fullName: Orleankka.NotifyStreamError.NotifyStreamError
+  nameWithType: NotifyStreamError.NotifyStreamError
+- uid: Orleankka.NotifyStreamError.Equals(Orleankka.NotifyStreamError)
+  name: Equals(NotifyStreamError)
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_Equals_Orleankka_NotifyStreamError_
+  commentId: M:Orleankka.NotifyStreamError.Equals(Orleankka.NotifyStreamError)
+  fullName: Orleankka.NotifyStreamError.Equals(Orleankka.NotifyStreamError)
+  nameWithType: NotifyStreamError.Equals(NotifyStreamError)
+- uid: Orleankka.NotifyStreamError.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_Equals_System_Object_
+  commentId: M:Orleankka.NotifyStreamError.Equals(System.Object)
+  fullName: Orleankka.NotifyStreamError.Equals(System.Object)
+  nameWithType: NotifyStreamError.Equals(Object)
+- uid: Orleankka.NotifyStreamError.Equals*
+  name: Equals
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_Equals_
+  commentId: Overload:Orleankka.NotifyStreamError.Equals
+  isSpec: "True"
+  fullName: Orleankka.NotifyStreamError.Equals
+  nameWithType: NotifyStreamError.Equals
+- uid: Orleankka.NotifyStreamError.Exception
+  name: Exception
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_Exception
+  commentId: F:Orleankka.NotifyStreamError.Exception
+  fullName: Orleankka.NotifyStreamError.Exception
+  nameWithType: NotifyStreamError.Exception
+- uid: Orleankka.NotifyStreamError.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_GetHashCode
+  commentId: M:Orleankka.NotifyStreamError.GetHashCode
+  fullName: Orleankka.NotifyStreamError.GetHashCode()
+  nameWithType: NotifyStreamError.GetHashCode()
+- uid: Orleankka.NotifyStreamError.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_GetHashCode_
+  commentId: Overload:Orleankka.NotifyStreamError.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.NotifyStreamError.GetHashCode
+  nameWithType: NotifyStreamError.GetHashCode
+- uid: Orleankka.NotifyStreamError.op_Equality(Orleankka.NotifyStreamError,Orleankka.NotifyStreamError)
+  name: Equality(NotifyStreamError, NotifyStreamError)
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_op_Equality_Orleankka_NotifyStreamError_Orleankka_NotifyStreamError_
+  commentId: M:Orleankka.NotifyStreamError.op_Equality(Orleankka.NotifyStreamError,Orleankka.NotifyStreamError)
+  fullName: Orleankka.NotifyStreamError.Equality(Orleankka.NotifyStreamError, Orleankka.NotifyStreamError)
+  nameWithType: NotifyStreamError.Equality(NotifyStreamError, NotifyStreamError)
+- uid: Orleankka.NotifyStreamError.op_Equality*
+  name: Equality
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_op_Equality_
+  commentId: Overload:Orleankka.NotifyStreamError.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.NotifyStreamError.Equality
+  nameWithType: NotifyStreamError.Equality
+- uid: Orleankka.NotifyStreamError.op_Inequality(Orleankka.NotifyStreamError,Orleankka.NotifyStreamError)
+  name: Inequality(NotifyStreamError, NotifyStreamError)
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_op_Inequality_Orleankka_NotifyStreamError_Orleankka_NotifyStreamError_
+  commentId: M:Orleankka.NotifyStreamError.op_Inequality(Orleankka.NotifyStreamError,Orleankka.NotifyStreamError)
+  fullName: Orleankka.NotifyStreamError.Inequality(Orleankka.NotifyStreamError, Orleankka.NotifyStreamError)
+  nameWithType: NotifyStreamError.Inequality(NotifyStreamError, NotifyStreamError)
+- uid: Orleankka.NotifyStreamError.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.NotifyStreamError.html#Orleankka_NotifyStreamError_op_Inequality_
+  commentId: Overload:Orleankka.NotifyStreamError.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.NotifyStreamError.Inequality
+  nameWithType: NotifyStreamError.Inequality
 - uid: Orleankka.ObserverCollection
   name: ObserverCollection
   href: api/Orleankka.ObserverCollection.html
@@ -4125,6 +4466,12 @@ references:
   fullName.vb: Orleankka.ObserverRef(Of TActor).Notify
   nameWithType: ObserverRef<TActor>.Notify
   nameWithType.vb: ObserverRef(Of TActor).Notify
+- uid: Orleankka.PublishMessage
+  name: PublishMessage
+  href: api/Orleankka.PublishMessage.html
+  commentId: T:Orleankka.PublishMessage
+  fullName: Orleankka.PublishMessage
+  nameWithType: PublishMessage
 - uid: Orleankka.Receive
   name: Receive
   href: api/Orleankka.Receive.html
@@ -4182,6 +4529,62 @@ references:
   isSpec: "True"
   fullName: Orleankka.Reminder.Status
   nameWithType: Reminder.Status
+- uid: Orleankka.ResumeOptions
+  name: ResumeOptions
+  href: api/Orleankka.ResumeOptions.html
+  commentId: T:Orleankka.ResumeOptions
+  fullName: Orleankka.ResumeOptions
+  nameWithType: ResumeOptions
+- uid: Orleankka.ResumeReceiveBatch
+  name: ResumeReceiveBatch
+  href: api/Orleankka.ResumeReceiveBatch.html
+  commentId: T:Orleankka.ResumeReceiveBatch
+  fullName: Orleankka.ResumeReceiveBatch
+  nameWithType: ResumeReceiveBatch
+- uid: Orleankka.ResumeReceiveBatch.#ctor(Orleans.Streams.StreamSequenceToken)
+  name: ResumeReceiveBatch(StreamSequenceToken)
+  href: api/Orleankka.ResumeReceiveBatch.html#Orleankka_ResumeReceiveBatch__ctor_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.ResumeReceiveBatch.#ctor(Orleans.Streams.StreamSequenceToken)
+  fullName: Orleankka.ResumeReceiveBatch.ResumeReceiveBatch(Orleans.Streams.StreamSequenceToken)
+  nameWithType: ResumeReceiveBatch.ResumeReceiveBatch(StreamSequenceToken)
+- uid: Orleankka.ResumeReceiveBatch.#ctor*
+  name: ResumeReceiveBatch
+  href: api/Orleankka.ResumeReceiveBatch.html#Orleankka_ResumeReceiveBatch__ctor_
+  commentId: Overload:Orleankka.ResumeReceiveBatch.#ctor
+  isSpec: "True"
+  fullName: Orleankka.ResumeReceiveBatch.ResumeReceiveBatch
+  nameWithType: ResumeReceiveBatch.ResumeReceiveBatch
+- uid: Orleankka.ResumeReceiveBatch.Token
+  name: Token
+  href: api/Orleankka.ResumeReceiveBatch.html#Orleankka_ResumeReceiveBatch_Token
+  commentId: F:Orleankka.ResumeReceiveBatch.Token
+  fullName: Orleankka.ResumeReceiveBatch.Token
+  nameWithType: ResumeReceiveBatch.Token
+- uid: Orleankka.ResumeReceiveItem
+  name: ResumeReceiveItem
+  href: api/Orleankka.ResumeReceiveItem.html
+  commentId: T:Orleankka.ResumeReceiveItem
+  fullName: Orleankka.ResumeReceiveItem
+  nameWithType: ResumeReceiveItem
+- uid: Orleankka.ResumeReceiveItem.#ctor(Orleans.Streams.StreamSequenceToken)
+  name: ResumeReceiveItem(StreamSequenceToken)
+  href: api/Orleankka.ResumeReceiveItem.html#Orleankka_ResumeReceiveItem__ctor_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.ResumeReceiveItem.#ctor(Orleans.Streams.StreamSequenceToken)
+  fullName: Orleankka.ResumeReceiveItem.ResumeReceiveItem(Orleans.Streams.StreamSequenceToken)
+  nameWithType: ResumeReceiveItem.ResumeReceiveItem(StreamSequenceToken)
+- uid: Orleankka.ResumeReceiveItem.#ctor*
+  name: ResumeReceiveItem
+  href: api/Orleankka.ResumeReceiveItem.html#Orleankka_ResumeReceiveItem__ctor_
+  commentId: Overload:Orleankka.ResumeReceiveItem.#ctor
+  isSpec: "True"
+  fullName: Orleankka.ResumeReceiveItem.ResumeReceiveItem
+  nameWithType: ResumeReceiveItem.ResumeReceiveItem
+- uid: Orleankka.ResumeReceiveItem.Token
+  name: Token
+  href: api/Orleankka.ResumeReceiveItem.html#Orleankka_ResumeReceiveItem_Token
+  commentId: F:Orleankka.ResumeReceiveItem.Token
+  fullName: Orleankka.ResumeReceiveItem.Token
+  nameWithType: ResumeReceiveItem.Token
 - uid: Orleankka.Services
   name: Orleankka.Services
   href: api/Orleankka.Services.html
@@ -4838,6 +5241,83 @@ references:
   isSpec: "True"
   fullName: Orleankka.Services.ITimerService.Unregister
   nameWithType: ITimerService.Unregister
+- uid: Orleankka.StreamCompleted
+  name: StreamCompleted
+  href: api/Orleankka.StreamCompleted.html
+  commentId: T:Orleankka.StreamCompleted
+  fullName: Orleankka.StreamCompleted
+  nameWithType: StreamCompleted
+- uid: Orleankka.StreamCompleted.#ctor(Orleankka.StreamPath)
+  name: StreamCompleted(StreamPath)
+  href: api/Orleankka.StreamCompleted.html#Orleankka_StreamCompleted__ctor_Orleankka_StreamPath_
+  commentId: M:Orleankka.StreamCompleted.#ctor(Orleankka.StreamPath)
+  fullName: Orleankka.StreamCompleted.StreamCompleted(Orleankka.StreamPath)
+  nameWithType: StreamCompleted.StreamCompleted(StreamPath)
+- uid: Orleankka.StreamCompleted.#ctor*
+  name: StreamCompleted
+  href: api/Orleankka.StreamCompleted.html#Orleankka_StreamCompleted__ctor_
+  commentId: Overload:Orleankka.StreamCompleted.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamCompleted.StreamCompleted
+  nameWithType: StreamCompleted.StreamCompleted
+- uid: Orleankka.StreamCompleted.Path
+  name: Path
+  href: api/Orleankka.StreamCompleted.html#Orleankka_StreamCompleted_Path
+  commentId: P:Orleankka.StreamCompleted.Path
+  fullName: Orleankka.StreamCompleted.Path
+  nameWithType: StreamCompleted.Path
+- uid: Orleankka.StreamCompleted.Path*
+  name: Path
+  href: api/Orleankka.StreamCompleted.html#Orleankka_StreamCompleted_Path_
+  commentId: Overload:Orleankka.StreamCompleted.Path
+  isSpec: "True"
+  fullName: Orleankka.StreamCompleted.Path
+  nameWithType: StreamCompleted.Path
+- uid: Orleankka.StreamError
+  name: StreamError
+  href: api/Orleankka.StreamError.html
+  commentId: T:Orleankka.StreamError
+  fullName: Orleankka.StreamError
+  nameWithType: StreamError
+- uid: Orleankka.StreamError.#ctor(Orleankka.StreamPath,System.Exception)
+  name: StreamError(StreamPath, Exception)
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError__ctor_Orleankka_StreamPath_System_Exception_
+  commentId: M:Orleankka.StreamError.#ctor(Orleankka.StreamPath,System.Exception)
+  fullName: Orleankka.StreamError.StreamError(Orleankka.StreamPath, System.Exception)
+  nameWithType: StreamError.StreamError(StreamPath, Exception)
+- uid: Orleankka.StreamError.#ctor*
+  name: StreamError
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError__ctor_
+  commentId: Overload:Orleankka.StreamError.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamError.StreamError
+  nameWithType: StreamError.StreamError
+- uid: Orleankka.StreamError.Exception
+  name: Exception
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError_Exception
+  commentId: P:Orleankka.StreamError.Exception
+  fullName: Orleankka.StreamError.Exception
+  nameWithType: StreamError.Exception
+- uid: Orleankka.StreamError.Exception*
+  name: Exception
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError_Exception_
+  commentId: Overload:Orleankka.StreamError.Exception
+  isSpec: "True"
+  fullName: Orleankka.StreamError.Exception
+  nameWithType: StreamError.Exception
+- uid: Orleankka.StreamError.Path
+  name: Path
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError_Path
+  commentId: P:Orleankka.StreamError.Path
+  fullName: Orleankka.StreamError.Path
+  nameWithType: StreamError.Path
+- uid: Orleankka.StreamError.Path*
+  name: Path
+  href: api/Orleankka.StreamError.html#Orleankka_StreamError_Path_
+  commentId: Overload:Orleankka.StreamError.Path
+  isSpec: "True"
+  fullName: Orleankka.StreamError.Path
+  nameWithType: StreamError.Path
 - uid: Orleankka.StreamFilter
   name: StreamFilter
   href: api/Orleankka.StreamFilter.html
@@ -4942,6 +5422,191 @@ references:
   commentId: F:Orleankka.StreamFilter.ReceiveAll
   fullName: Orleankka.StreamFilter.ReceiveAll
   nameWithType: StreamFilter.ReceiveAll
+- uid: Orleankka.StreamItem`1
+  name: StreamItem<TItem>
+  href: api/Orleankka.StreamItem-1.html
+  commentId: T:Orleankka.StreamItem`1
+  name.vb: StreamItem(Of TItem)
+  fullName: Orleankka.StreamItem<TItem>
+  fullName.vb: Orleankka.StreamItem(Of TItem)
+  nameWithType: StreamItem<TItem>
+  nameWithType.vb: StreamItem(Of TItem)
+- uid: Orleankka.StreamItem`1.#ctor(Orleankka.StreamRef{`0},`0,Orleans.Streams.StreamSequenceToken)
+  name: StreamItem(StreamRef<TItem>, TItem, StreamSequenceToken)
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1__ctor_Orleankka_StreamRef__0___0_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamItem`1.#ctor(Orleankka.StreamRef{`0},`0,Orleans.Streams.StreamSequenceToken)
+  name.vb: StreamItem(StreamRef(Of TItem), TItem, StreamSequenceToken)
+  fullName: Orleankka.StreamItem<TItem>.StreamItem(Orleankka.StreamRef<TItem>, TItem, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamItem(Of TItem).StreamItem(Orleankka.StreamRef(Of TItem), TItem, Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamItem<TItem>.StreamItem(StreamRef<TItem>, TItem, StreamSequenceToken)
+  nameWithType.vb: StreamItem(Of TItem).StreamItem(StreamRef(Of TItem), TItem, StreamSequenceToken)
+- uid: Orleankka.StreamItem`1.#ctor*
+  name: StreamItem
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1__ctor_
+  commentId: Overload:Orleankka.StreamItem`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamItem<TItem>.StreamItem
+  fullName.vb: Orleankka.StreamItem(Of TItem).StreamItem
+  nameWithType: StreamItem<TItem>.StreamItem
+  nameWithType.vb: StreamItem(Of TItem).StreamItem
+- uid: Orleankka.StreamItem`1.Item
+  name: Item
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1_Item
+  commentId: P:Orleankka.StreamItem`1.Item
+  fullName: Orleankka.StreamItem<TItem>.Item
+  fullName.vb: Orleankka.StreamItem(Of TItem).Item
+  nameWithType: StreamItem<TItem>.Item
+  nameWithType.vb: StreamItem(Of TItem).Item
+- uid: Orleankka.StreamItem`1.Item*
+  name: Item
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1_Item_
+  commentId: Overload:Orleankka.StreamItem`1.Item
+  isSpec: "True"
+  fullName: Orleankka.StreamItem<TItem>.Item
+  fullName.vb: Orleankka.StreamItem(Of TItem).Item
+  nameWithType: StreamItem<TItem>.Item
+  nameWithType.vb: StreamItem(Of TItem).Item
+- uid: Orleankka.StreamItem`1.Token
+  name: Token
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1_Token
+  commentId: P:Orleankka.StreamItem`1.Token
+  fullName: Orleankka.StreamItem<TItem>.Token
+  fullName.vb: Orleankka.StreamItem(Of TItem).Token
+  nameWithType: StreamItem<TItem>.Token
+  nameWithType.vb: StreamItem(Of TItem).Token
+- uid: Orleankka.StreamItem`1.Token*
+  name: Token
+  href: api/Orleankka.StreamItem-1.html#Orleankka_StreamItem_1_Token_
+  commentId: Overload:Orleankka.StreamItem`1.Token
+  isSpec: "True"
+  fullName: Orleankka.StreamItem<TItem>.Token
+  fullName.vb: Orleankka.StreamItem(Of TItem).Token
+  nameWithType: StreamItem<TItem>.Token
+  nameWithType.vb: StreamItem(Of TItem).Token
+- uid: Orleankka.StreamItemBatch`1
+  name: StreamItemBatch<TItem>
+  href: api/Orleankka.StreamItemBatch-1.html
+  commentId: T:Orleankka.StreamItemBatch`1
+  name.vb: StreamItemBatch(Of TItem)
+  fullName: Orleankka.StreamItemBatch<TItem>
+  fullName.vb: Orleankka.StreamItemBatch(Of TItem)
+  nameWithType: StreamItemBatch<TItem>
+  nameWithType.vb: StreamItemBatch(Of TItem)
+- uid: Orleankka.StreamItemBatch`1.#ctor(Orleankka.StreamRef{`0},System.Collections.Generic.IList{Orleans.Streams.SequentialItem{`0}})
+  name: StreamItemBatch(StreamRef<TItem>, IList<SequentialItem<TItem>>)
+  href: api/Orleankka.StreamItemBatch-1.html#Orleankka_StreamItemBatch_1__ctor_Orleankka_StreamRef__0__System_Collections_Generic_IList_Orleans_Streams_SequentialItem__0___
+  commentId: M:Orleankka.StreamItemBatch`1.#ctor(Orleankka.StreamRef{`0},System.Collections.Generic.IList{Orleans.Streams.SequentialItem{`0}})
+  name.vb: StreamItemBatch(StreamRef(Of TItem), IList(Of SequentialItem(Of TItem)))
+  fullName: Orleankka.StreamItemBatch<TItem>.StreamItemBatch(Orleankka.StreamRef<TItem>, System.Collections.Generic.IList<Orleans.Streams.SequentialItem<TItem>>)
+  fullName.vb: Orleankka.StreamItemBatch(Of TItem).StreamItemBatch(Orleankka.StreamRef(Of TItem), System.Collections.Generic.IList(Of Orleans.Streams.SequentialItem(Of TItem)))
+  nameWithType: StreamItemBatch<TItem>.StreamItemBatch(StreamRef<TItem>, IList<SequentialItem<TItem>>)
+  nameWithType.vb: StreamItemBatch(Of TItem).StreamItemBatch(StreamRef(Of TItem), IList(Of SequentialItem(Of TItem)))
+- uid: Orleankka.StreamItemBatch`1.#ctor*
+  name: StreamItemBatch
+  href: api/Orleankka.StreamItemBatch-1.html#Orleankka_StreamItemBatch_1__ctor_
+  commentId: Overload:Orleankka.StreamItemBatch`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamItemBatch<TItem>.StreamItemBatch
+  fullName.vb: Orleankka.StreamItemBatch(Of TItem).StreamItemBatch
+  nameWithType: StreamItemBatch<TItem>.StreamItemBatch
+  nameWithType.vb: StreamItemBatch(Of TItem).StreamItemBatch
+- uid: Orleankka.StreamItemBatch`1.Items
+  name: Items
+  href: api/Orleankka.StreamItemBatch-1.html#Orleankka_StreamItemBatch_1_Items
+  commentId: P:Orleankka.StreamItemBatch`1.Items
+  fullName: Orleankka.StreamItemBatch<TItem>.Items
+  fullName.vb: Orleankka.StreamItemBatch(Of TItem).Items
+  nameWithType: StreamItemBatch<TItem>.Items
+  nameWithType.vb: StreamItemBatch(Of TItem).Items
+- uid: Orleankka.StreamItemBatch`1.Items*
+  name: Items
+  href: api/Orleankka.StreamItemBatch-1.html#Orleankka_StreamItemBatch_1_Items_
+  commentId: Overload:Orleankka.StreamItemBatch`1.Items
+  isSpec: "True"
+  fullName: Orleankka.StreamItemBatch<TItem>.Items
+  fullName.vb: Orleankka.StreamItemBatch(Of TItem).Items
+  nameWithType: StreamItemBatch<TItem>.Items
+  nameWithType.vb: StreamItemBatch(Of TItem).Items
+- uid: Orleankka.StreamMessage
+  name: StreamMessage
+  href: api/Orleankka.StreamMessage.html
+  commentId: T:Orleankka.StreamMessage
+  fullName: Orleankka.StreamMessage
+  nameWithType: StreamMessage
+- uid: Orleankka.StreamMessage.Path
+  name: Path
+  href: api/Orleankka.StreamMessage.html#Orleankka_StreamMessage_Path
+  commentId: P:Orleankka.StreamMessage.Path
+  fullName: Orleankka.StreamMessage.Path
+  nameWithType: StreamMessage.Path
+- uid: Orleankka.StreamMessage.Path*
+  name: Path
+  href: api/Orleankka.StreamMessage.html#Orleankka_StreamMessage_Path_
+  commentId: Overload:Orleankka.StreamMessage.Path
+  isSpec: "True"
+  fullName: Orleankka.StreamMessage.Path
+  nameWithType: StreamMessage.Path
+- uid: Orleankka.StreamMessage`1
+  name: StreamMessage<TItem>
+  href: api/Orleankka.StreamMessage-1.html
+  commentId: T:Orleankka.StreamMessage`1
+  name.vb: StreamMessage(Of TItem)
+  fullName: Orleankka.StreamMessage<TItem>
+  fullName.vb: Orleankka.StreamMessage(Of TItem)
+  nameWithType: StreamMessage<TItem>
+  nameWithType.vb: StreamMessage(Of TItem)
+- uid: Orleankka.StreamMessage`1.#ctor(Orleankka.StreamRef{`0})
+  name: StreamMessage(StreamRef<TItem>)
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1__ctor_Orleankka_StreamRef__0__
+  commentId: M:Orleankka.StreamMessage`1.#ctor(Orleankka.StreamRef{`0})
+  name.vb: StreamMessage(StreamRef(Of TItem))
+  fullName: Orleankka.StreamMessage<TItem>.StreamMessage(Orleankka.StreamRef<TItem>)
+  fullName.vb: Orleankka.StreamMessage(Of TItem).StreamMessage(Orleankka.StreamRef(Of TItem))
+  nameWithType: StreamMessage<TItem>.StreamMessage(StreamRef<TItem>)
+  nameWithType.vb: StreamMessage(Of TItem).StreamMessage(StreamRef(Of TItem))
+- uid: Orleankka.StreamMessage`1.#ctor*
+  name: StreamMessage
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1__ctor_
+  commentId: Overload:Orleankka.StreamMessage`1.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamMessage<TItem>.StreamMessage
+  fullName.vb: Orleankka.StreamMessage(Of TItem).StreamMessage
+  nameWithType: StreamMessage<TItem>.StreamMessage
+  nameWithType.vb: StreamMessage(Of TItem).StreamMessage
+- uid: Orleankka.StreamMessage`1.Path
+  name: Path
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1_Path
+  commentId: P:Orleankka.StreamMessage`1.Path
+  fullName: Orleankka.StreamMessage<TItem>.Path
+  fullName.vb: Orleankka.StreamMessage(Of TItem).Path
+  nameWithType: StreamMessage<TItem>.Path
+  nameWithType.vb: StreamMessage(Of TItem).Path
+- uid: Orleankka.StreamMessage`1.Path*
+  name: Path
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1_Path_
+  commentId: Overload:Orleankka.StreamMessage`1.Path
+  isSpec: "True"
+  fullName: Orleankka.StreamMessage<TItem>.Path
+  fullName.vb: Orleankka.StreamMessage(Of TItem).Path
+  nameWithType: StreamMessage<TItem>.Path
+  nameWithType.vb: StreamMessage(Of TItem).Path
+- uid: Orleankka.StreamMessage`1.Stream
+  name: Stream
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1_Stream
+  commentId: P:Orleankka.StreamMessage`1.Stream
+  fullName: Orleankka.StreamMessage<TItem>.Stream
+  fullName.vb: Orleankka.StreamMessage(Of TItem).Stream
+  nameWithType: StreamMessage<TItem>.Stream
+  nameWithType.vb: StreamMessage(Of TItem).Stream
+- uid: Orleankka.StreamMessage`1.Stream*
+  name: Stream
+  href: api/Orleankka.StreamMessage-1.html#Orleankka_StreamMessage_1_Stream_
+  commentId: Overload:Orleankka.StreamMessage`1.Stream
+  isSpec: "True"
+  fullName: Orleankka.StreamMessage<TItem>.Stream
+  fullName.vb: Orleankka.StreamMessage(Of TItem).Stream
+  nameWithType: StreamMessage<TItem>.Stream
+  nameWithType.vb: StreamMessage(Of TItem).Stream
 - uid: Orleankka.StreamPath
   name: StreamPath
   href: api/Orleankka.StreamPath.html
@@ -5088,237 +5753,256 @@ references:
   isSpec: "True"
   fullName: Orleankka.StreamPath.ToString
   nameWithType: StreamPath.ToString
-- uid: Orleankka.StreamRef
-  name: StreamRef
-  href: api/Orleankka.StreamRef.html
-  commentId: T:Orleankka.StreamRef
-  fullName: Orleankka.StreamRef
-  nameWithType: StreamRef
-- uid: Orleankka.StreamRef.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
+- uid: Orleankka.StreamRef`1
+  name: StreamRef<TItem>
+  href: api/Orleankka.StreamRef-1.html
+  commentId: T:Orleankka.StreamRef`1
+  name.vb: StreamRef(Of TItem)
+  fullName: Orleankka.StreamRef<TItem>
+  fullName.vb: Orleankka.StreamRef(Of TItem)
+  nameWithType: StreamRef<TItem>
+  nameWithType.vb: StreamRef(Of TItem)
+- uid: Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
   name: StreamRef(StreamPath, IStreamProvider)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef__ctor_Orleankka_StreamPath_Orleans_Streams_IStreamProvider_
-  commentId: M:Orleankka.StreamRef.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
-  fullName: Orleankka.StreamRef.StreamRef(Orleankka.StreamPath, Orleans.Streams.IStreamProvider)
-  nameWithType: StreamRef.StreamRef(StreamPath, IStreamProvider)
-- uid: Orleankka.StreamRef.#ctor*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1__ctor_Orleankka_StreamPath_Orleans_Streams_IStreamProvider_
+  commentId: M:Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
+  fullName: Orleankka.StreamRef<TItem>.StreamRef(Orleankka.StreamPath, Orleans.Streams.IStreamProvider)
+  fullName.vb: Orleankka.StreamRef(Of TItem).StreamRef(Orleankka.StreamPath, Orleans.Streams.IStreamProvider)
+  nameWithType: StreamRef<TItem>.StreamRef(StreamPath, IStreamProvider)
+  nameWithType.vb: StreamRef(Of TItem).StreamRef(StreamPath, IStreamProvider)
+- uid: Orleankka.StreamRef`1.#ctor*
   name: StreamRef
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef__ctor_
-  commentId: Overload:Orleankka.StreamRef.#ctor
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1__ctor_
+  commentId: Overload:Orleankka.StreamRef`1.#ctor
   isSpec: "True"
-  fullName: Orleankka.StreamRef.StreamRef
-  nameWithType: StreamRef.StreamRef
-- uid: Orleankka.StreamRef.Equals(Orleankka.StreamPath)
+  fullName: Orleankka.StreamRef<TItem>.StreamRef
+  fullName.vb: Orleankka.StreamRef(Of TItem).StreamRef
+  nameWithType: StreamRef<TItem>.StreamRef
+  nameWithType.vb: StreamRef(Of TItem).StreamRef
+- uid: Orleankka.StreamRef`1.Equals(Orleankka.StreamPath)
   name: Equals(StreamPath)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Equals_Orleankka_StreamPath_
-  commentId: M:Orleankka.StreamRef.Equals(Orleankka.StreamPath)
-  fullName: Orleankka.StreamRef.Equals(Orleankka.StreamPath)
-  nameWithType: StreamRef.Equals(StreamPath)
-- uid: Orleankka.StreamRef.Equals(Orleankka.StreamRef)
-  name: Equals(StreamRef)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Equals_Orleankka_StreamRef_
-  commentId: M:Orleankka.StreamRef.Equals(Orleankka.StreamRef)
-  fullName: Orleankka.StreamRef.Equals(Orleankka.StreamRef)
-  nameWithType: StreamRef.Equals(StreamRef)
-- uid: Orleankka.StreamRef.Equals(System.Object)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Equals_Orleankka_StreamPath_
+  commentId: M:Orleankka.StreamRef`1.Equals(Orleankka.StreamPath)
+  fullName: Orleankka.StreamRef<TItem>.Equals(Orleankka.StreamPath)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equals(Orleankka.StreamPath)
+  nameWithType: StreamRef<TItem>.Equals(StreamPath)
+  nameWithType.vb: StreamRef(Of TItem).Equals(StreamPath)
+- uid: Orleankka.StreamRef`1.Equals(Orleankka.StreamRef{`0})
+  name: Equals(StreamRef<TItem>)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Equals_Orleankka_StreamRef__0__
+  commentId: M:Orleankka.StreamRef`1.Equals(Orleankka.StreamRef{`0})
+  name.vb: Equals(StreamRef(Of TItem))
+  fullName: Orleankka.StreamRef<TItem>.Equals(Orleankka.StreamRef<TItem>)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equals(Orleankka.StreamRef(Of TItem))
+  nameWithType: StreamRef<TItem>.Equals(StreamRef<TItem>)
+  nameWithType.vb: StreamRef(Of TItem).Equals(StreamRef(Of TItem))
+- uid: Orleankka.StreamRef`1.Equals(System.Object)
   name: Equals(Object)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Equals_System_Object_
-  commentId: M:Orleankka.StreamRef.Equals(System.Object)
-  fullName: Orleankka.StreamRef.Equals(System.Object)
-  nameWithType: StreamRef.Equals(Object)
-- uid: Orleankka.StreamRef.Equals*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Equals_System_Object_
+  commentId: M:Orleankka.StreamRef`1.Equals(System.Object)
+  fullName: Orleankka.StreamRef<TItem>.Equals(System.Object)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equals(System.Object)
+  nameWithType: StreamRef<TItem>.Equals(Object)
+  nameWithType.vb: StreamRef(Of TItem).Equals(Object)
+- uid: Orleankka.StreamRef`1.Equals*
   name: Equals
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Equals_
-  commentId: Overload:Orleankka.StreamRef.Equals
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Equals_
+  commentId: Overload:Orleankka.StreamRef`1.Equals
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Equals
-  nameWithType: StreamRef.Equals
-- uid: Orleankka.StreamRef.GetHashCode
+  fullName: Orleankka.StreamRef<TItem>.Equals
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equals
+  nameWithType: StreamRef<TItem>.Equals
+  nameWithType.vb: StreamRef(Of TItem).Equals
+- uid: Orleankka.StreamRef`1.GetHashCode
   name: GetHashCode()
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_GetHashCode
-  commentId: M:Orleankka.StreamRef.GetHashCode
-  fullName: Orleankka.StreamRef.GetHashCode()
-  nameWithType: StreamRef.GetHashCode()
-- uid: Orleankka.StreamRef.GetHashCode*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_GetHashCode
+  commentId: M:Orleankka.StreamRef`1.GetHashCode
+  fullName: Orleankka.StreamRef<TItem>.GetHashCode()
+  fullName.vb: Orleankka.StreamRef(Of TItem).GetHashCode()
+  nameWithType: StreamRef<TItem>.GetHashCode()
+  nameWithType.vb: StreamRef(Of TItem).GetHashCode()
+- uid: Orleankka.StreamRef`1.GetHashCode*
   name: GetHashCode
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_GetHashCode_
-  commentId: Overload:Orleankka.StreamRef.GetHashCode
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_GetHashCode_
+  commentId: Overload:Orleankka.StreamRef`1.GetHashCode
   isSpec: "True"
-  fullName: Orleankka.StreamRef.GetHashCode
-  nameWithType: StreamRef.GetHashCode
-- uid: Orleankka.StreamRef.op_Equality(Orleankka.StreamRef,Orleankka.StreamRef)
-  name: Equality(StreamRef, StreamRef)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Equality_Orleankka_StreamRef_Orleankka_StreamRef_
-  commentId: M:Orleankka.StreamRef.op_Equality(Orleankka.StreamRef,Orleankka.StreamRef)
-  fullName: Orleankka.StreamRef.Equality(Orleankka.StreamRef, Orleankka.StreamRef)
-  nameWithType: StreamRef.Equality(StreamRef, StreamRef)
-- uid: Orleankka.StreamRef.op_Equality*
+  fullName: Orleankka.StreamRef<TItem>.GetHashCode
+  fullName.vb: Orleankka.StreamRef(Of TItem).GetHashCode
+  nameWithType: StreamRef<TItem>.GetHashCode
+  nameWithType.vb: StreamRef(Of TItem).GetHashCode
+- uid: Orleankka.StreamRef`1.op_Equality(Orleankka.StreamRef{`0},Orleankka.StreamRef{`0})
+  name: Equality(StreamRef<TItem>, StreamRef<TItem>)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Equality_Orleankka_StreamRef__0__Orleankka_StreamRef__0__
+  commentId: M:Orleankka.StreamRef`1.op_Equality(Orleankka.StreamRef{`0},Orleankka.StreamRef{`0})
+  name.vb: Equality(StreamRef(Of TItem), StreamRef(Of TItem))
+  fullName: Orleankka.StreamRef<TItem>.Equality(Orleankka.StreamRef<TItem>, Orleankka.StreamRef<TItem>)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equality(Orleankka.StreamRef(Of TItem), Orleankka.StreamRef(Of TItem))
+  nameWithType: StreamRef<TItem>.Equality(StreamRef<TItem>, StreamRef<TItem>)
+  nameWithType.vb: StreamRef(Of TItem).Equality(StreamRef(Of TItem), StreamRef(Of TItem))
+- uid: Orleankka.StreamRef`1.op_Equality*
   name: Equality
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Equality_
-  commentId: Overload:Orleankka.StreamRef.op_Equality
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Equality_
+  commentId: Overload:Orleankka.StreamRef`1.op_Equality
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Equality
-  nameWithType: StreamRef.Equality
-- uid: Orleankka.StreamRef.op_Implicit(Orleankka.StreamRef)~Orleankka.StreamPath
-  name: Implicit(StreamRef to StreamPath)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Implicit_Orleankka_StreamRef__Orleankka_StreamPath
-  commentId: M:Orleankka.StreamRef.op_Implicit(Orleankka.StreamRef)~Orleankka.StreamPath
-  name.vb: Widening(StreamRef to StreamPath)
-  fullName: Orleankka.StreamRef.Implicit(Orleankka.StreamRef to Orleankka.StreamPath)
-  fullName.vb: Orleankka.StreamRef.Widening(Orleankka.StreamRef to Orleankka.StreamPath)
-  nameWithType: StreamRef.Implicit(StreamRef to StreamPath)
-  nameWithType.vb: StreamRef.Widening(StreamRef to StreamPath)
-- uid: Orleankka.StreamRef.op_Implicit*
+  fullName: Orleankka.StreamRef<TItem>.Equality
+  fullName.vb: Orleankka.StreamRef(Of TItem).Equality
+  nameWithType: StreamRef<TItem>.Equality
+  nameWithType.vb: StreamRef(Of TItem).Equality
+- uid: Orleankka.StreamRef`1.op_Implicit(Orleankka.StreamRef{`0})~Orleankka.StreamPath
+  name: Implicit(StreamRef<TItem> to StreamPath)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Implicit_Orleankka_StreamRef__0___Orleankka_StreamPath
+  commentId: M:Orleankka.StreamRef`1.op_Implicit(Orleankka.StreamRef{`0})~Orleankka.StreamPath
+  name.vb: Widening(StreamRef(Of TItem) to StreamPath)
+  fullName: Orleankka.StreamRef<TItem>.Implicit(Orleankka.StreamRef<TItem> to Orleankka.StreamPath)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Widening(Orleankka.StreamRef(Of TItem) to Orleankka.StreamPath)
+  nameWithType: StreamRef<TItem>.Implicit(StreamRef<TItem> to StreamPath)
+  nameWithType.vb: StreamRef(Of TItem).Widening(StreamRef(Of TItem) to StreamPath)
+- uid: Orleankka.StreamRef`1.op_Implicit*
   name: Implicit
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Implicit_
-  commentId: Overload:Orleankka.StreamRef.op_Implicit
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Implicit_
+  commentId: Overload:Orleankka.StreamRef`1.op_Implicit
   isSpec: "True"
   name.vb: Widening
-  fullName: Orleankka.StreamRef.Implicit
-  fullName.vb: Orleankka.StreamRef.Widening
-  nameWithType: StreamRef.Implicit
-  nameWithType.vb: StreamRef.Widening
-- uid: Orleankka.StreamRef.op_Inequality(Orleankka.StreamRef,Orleankka.StreamRef)
-  name: Inequality(StreamRef, StreamRef)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Inequality_Orleankka_StreamRef_Orleankka_StreamRef_
-  commentId: M:Orleankka.StreamRef.op_Inequality(Orleankka.StreamRef,Orleankka.StreamRef)
-  fullName: Orleankka.StreamRef.Inequality(Orleankka.StreamRef, Orleankka.StreamRef)
-  nameWithType: StreamRef.Inequality(StreamRef, StreamRef)
-- uid: Orleankka.StreamRef.op_Inequality*
+  fullName: Orleankka.StreamRef<TItem>.Implicit
+  fullName.vb: Orleankka.StreamRef(Of TItem).Widening
+  nameWithType: StreamRef<TItem>.Implicit
+  nameWithType.vb: StreamRef(Of TItem).Widening
+- uid: Orleankka.StreamRef`1.op_Inequality(Orleankka.StreamRef{`0},Orleankka.StreamRef{`0})
+  name: Inequality(StreamRef<TItem>, StreamRef<TItem>)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Inequality_Orleankka_StreamRef__0__Orleankka_StreamRef__0__
+  commentId: M:Orleankka.StreamRef`1.op_Inequality(Orleankka.StreamRef{`0},Orleankka.StreamRef{`0})
+  name.vb: Inequality(StreamRef(Of TItem), StreamRef(Of TItem))
+  fullName: Orleankka.StreamRef<TItem>.Inequality(Orleankka.StreamRef<TItem>, Orleankka.StreamRef<TItem>)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Inequality(Orleankka.StreamRef(Of TItem), Orleankka.StreamRef(Of TItem))
+  nameWithType: StreamRef<TItem>.Inequality(StreamRef<TItem>, StreamRef<TItem>)
+  nameWithType.vb: StreamRef(Of TItem).Inequality(StreamRef(Of TItem), StreamRef(Of TItem))
+- uid: Orleankka.StreamRef`1.op_Inequality*
   name: Inequality
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_op_Inequality_
-  commentId: Overload:Orleankka.StreamRef.op_Inequality
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_op_Inequality_
+  commentId: Overload:Orleankka.StreamRef`1.op_Inequality
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Inequality
-  nameWithType: StreamRef.Inequality
-- uid: Orleankka.StreamRef.Path
+  fullName: Orleankka.StreamRef<TItem>.Inequality
+  fullName.vb: Orleankka.StreamRef(Of TItem).Inequality
+  nameWithType: StreamRef<TItem>.Inequality
+  nameWithType.vb: StreamRef(Of TItem).Inequality
+- uid: Orleankka.StreamRef`1.Path
   name: Path
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Path
-  commentId: P:Orleankka.StreamRef.Path
-  fullName: Orleankka.StreamRef.Path
-  nameWithType: StreamRef.Path
-- uid: Orleankka.StreamRef.Path*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Path
+  commentId: P:Orleankka.StreamRef`1.Path
+  fullName: Orleankka.StreamRef<TItem>.Path
+  fullName.vb: Orleankka.StreamRef(Of TItem).Path
+  nameWithType: StreamRef<TItem>.Path
+  nameWithType.vb: StreamRef(Of TItem).Path
+- uid: Orleankka.StreamRef`1.Path*
   name: Path
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Path_
-  commentId: Overload:Orleankka.StreamRef.Path
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Path_
+  commentId: Overload:Orleankka.StreamRef`1.Path
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Path
-  nameWithType: StreamRef.Path
-- uid: Orleankka.StreamRef.Push(System.Object)
-  name: Push(Object)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Push_System_Object_
-  commentId: M:Orleankka.StreamRef.Push(System.Object)
-  fullName: Orleankka.StreamRef.Push(System.Object)
-  nameWithType: StreamRef.Push(Object)
-- uid: Orleankka.StreamRef.Push*
-  name: Push
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Push_
-  commentId: Overload:Orleankka.StreamRef.Push
+  fullName: Orleankka.StreamRef<TItem>.Path
+  fullName.vb: Orleankka.StreamRef(Of TItem).Path
+  nameWithType: StreamRef<TItem>.Path
+  nameWithType.vb: StreamRef(Of TItem).Path
+- uid: Orleankka.StreamRef`1.Publish*
+  name: Publish
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Publish_
+  commentId: Overload:Orleankka.StreamRef`1.Publish
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Push
-  nameWithType: StreamRef.Push
-- uid: Orleankka.StreamRef.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
-  name: Subscribe(Action<Object>, StreamFilter)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_System_Action_System_Object__Orleankka_StreamFilter_
-  commentId: M:Orleankka.StreamRef.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
-  name.vb: Subscribe(Action(Of Object), StreamFilter)
-  fullName: Orleankka.StreamRef.Subscribe(System.Action<System.Object>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.StreamRef.Subscribe(System.Action(Of System.Object), Orleankka.StreamFilter)
-  nameWithType: StreamRef.Subscribe(Action<Object>, StreamFilter)
-  nameWithType.vb: StreamRef.Subscribe(Action(Of Object), StreamFilter)
-- uid: Orleankka.StreamRef.Subscribe(System.Func{System.Object,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name: Subscribe(Func<Object, Task>, StreamFilter)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_System_Func_System_Object_System_Threading_Tasks_Task__Orleankka_StreamFilter_
-  commentId: M:Orleankka.StreamRef.Subscribe(System.Func{System.Object,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name.vb: Subscribe(Func(Of Object, Task), StreamFilter)
-  fullName: Orleankka.StreamRef.Subscribe(System.Func<System.Object, System.Threading.Tasks.Task>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.StreamRef.Subscribe(System.Func(Of System.Object, System.Threading.Tasks.Task), Orleankka.StreamFilter)
-  nameWithType: StreamRef.Subscribe(Func<Object, Task>, StreamFilter)
-  nameWithType.vb: StreamRef.Subscribe(Func(Of Object, Task), StreamFilter)
-- uid: Orleankka.StreamRef.Subscribe(System.Func{System.Object[],System.Threading.Tasks.Task})
-  name: Subscribe(Func<Object[], Task>)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_System_Func_System_Object___System_Threading_Tasks_Task__
-  commentId: M:Orleankka.StreamRef.Subscribe(System.Func{System.Object[],System.Threading.Tasks.Task})
-  name.vb: Subscribe(Func(Of Object(), Task))
-  fullName: Orleankka.StreamRef.Subscribe(System.Func<System.Object[], System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.StreamRef.Subscribe(System.Func(Of System.Object(), System.Threading.Tasks.Task))
-  nameWithType: StreamRef.Subscribe(Func<Object[], Task>)
-  nameWithType.vb: StreamRef.Subscribe(Func(Of Object(), Task))
-- uid: Orleankka.StreamRef.Subscribe*
+  fullName: Orleankka.StreamRef<TItem>.Publish
+  fullName.vb: Orleankka.StreamRef(Of TItem).Publish
+  nameWithType: StreamRef<TItem>.Publish
+  nameWithType.vb: StreamRef(Of TItem).Publish
+- uid: Orleankka.StreamRef`1.Publish``1(``0)
+  name: Publish<TMessage>(TMessage)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Publish__1___0_
+  commentId: M:Orleankka.StreamRef`1.Publish``1(``0)
+  name.vb: Publish(Of TMessage)(TMessage)
+  fullName: Orleankka.StreamRef<TItem>.Publish<TMessage>(TMessage)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Publish(Of TMessage)(TMessage)
+  nameWithType: StreamRef<TItem>.Publish<TMessage>(TMessage)
+  nameWithType.vb: StreamRef(Of TItem).Publish(Of TMessage)(TMessage)
+- uid: Orleankka.StreamRef`1.Subscribe*
   name: Subscribe
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe_
-  commentId: Overload:Orleankka.StreamRef.Subscribe
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Subscribe_
+  commentId: Overload:Orleankka.StreamRef`1.Subscribe
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Subscribe
-  nameWithType: StreamRef.Subscribe
-- uid: Orleankka.StreamRef.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
-  name: Subscribe<T>(Action<T>, StreamFilter)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe__1_System_Action___0__Orleankka_StreamFilter_
-  commentId: M:Orleankka.StreamRef.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
-  name.vb: Subscribe(Of T)(Action(Of T), StreamFilter)
-  fullName: Orleankka.StreamRef.Subscribe<T>(System.Action<T>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.StreamRef.Subscribe(Of T)(System.Action(Of T), Orleankka.StreamFilter)
-  nameWithType: StreamRef.Subscribe<T>(Action<T>, StreamFilter)
-  nameWithType.vb: StreamRef.Subscribe(Of T)(Action(Of T), StreamFilter)
-- uid: Orleankka.StreamRef.Subscribe``1(System.Func{``0,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name: Subscribe<T>(Func<T, Task>, StreamFilter)
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscribe__1_System_Func___0_System_Threading_Tasks_Task__Orleankka_StreamFilter_
-  commentId: M:Orleankka.StreamRef.Subscribe``1(System.Func{``0,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name.vb: Subscribe(Of T)(Func(Of T, Task), StreamFilter)
-  fullName: Orleankka.StreamRef.Subscribe<T>(System.Func<T, System.Threading.Tasks.Task>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.StreamRef.Subscribe(Of T)(System.Func(Of T, System.Threading.Tasks.Task), Orleankka.StreamFilter)
-  nameWithType: StreamRef.Subscribe<T>(Func<T, Task>, StreamFilter)
-  nameWithType.vb: StreamRef.Subscribe(Of T)(Func(Of T, Task), StreamFilter)
-- uid: Orleankka.StreamRef.Subscriptions
+  fullName: Orleankka.StreamRef<TItem>.Subscribe
+  fullName.vb: Orleankka.StreamRef(Of TItem).Subscribe
+  nameWithType: StreamRef<TItem>.Subscribe
+  nameWithType.vb: StreamRef(Of TItem).Subscribe
+- uid: Orleankka.StreamRef`1.Subscribe``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name: Subscribe<TOptions>(Func<StreamMessage, Task>, TOptions)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Subscribe__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_
+  commentId: M:Orleankka.StreamRef`1.Subscribe``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name.vb: Subscribe(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+  fullName: Orleankka.StreamRef<TItem>.Subscribe<TOptions>(System.Func<Orleankka.StreamMessage, System.Threading.Tasks.Task>, TOptions)
+  fullName.vb: Orleankka.StreamRef(Of TItem).Subscribe(Of TOptions)(System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), TOptions)
+  nameWithType: StreamRef<TItem>.Subscribe<TOptions>(Func<StreamMessage, Task>, TOptions)
+  nameWithType.vb: StreamRef(Of TItem).Subscribe(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+- uid: Orleankka.StreamRef`1.Subscriptions
   name: Subscriptions()
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscriptions
-  commentId: M:Orleankka.StreamRef.Subscriptions
-  fullName: Orleankka.StreamRef.Subscriptions()
-  nameWithType: StreamRef.Subscriptions()
-- uid: Orleankka.StreamRef.Subscriptions*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Subscriptions
+  commentId: M:Orleankka.StreamRef`1.Subscriptions
+  fullName: Orleankka.StreamRef<TItem>.Subscriptions()
+  fullName.vb: Orleankka.StreamRef(Of TItem).Subscriptions()
+  nameWithType: StreamRef<TItem>.Subscriptions()
+  nameWithType.vb: StreamRef(Of TItem).Subscriptions()
+- uid: Orleankka.StreamRef`1.Subscriptions*
   name: Subscriptions
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_Subscriptions_
-  commentId: Overload:Orleankka.StreamRef.Subscriptions
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Subscriptions_
+  commentId: Overload:Orleankka.StreamRef`1.Subscriptions
   isSpec: "True"
-  fullName: Orleankka.StreamRef.Subscriptions
-  nameWithType: StreamRef.Subscriptions
-- uid: Orleankka.StreamRef.ToString
+  fullName: Orleankka.StreamRef<TItem>.Subscriptions
+  fullName.vb: Orleankka.StreamRef(Of TItem).Subscriptions
+  nameWithType: StreamRef<TItem>.Subscriptions
+  nameWithType.vb: StreamRef(Of TItem).Subscriptions
+- uid: Orleankka.StreamRef`1.ToString
   name: ToString()
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_ToString
-  commentId: M:Orleankka.StreamRef.ToString
-  fullName: Orleankka.StreamRef.ToString()
-  nameWithType: StreamRef.ToString()
-- uid: Orleankka.StreamRef.ToString*
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_ToString
+  commentId: M:Orleankka.StreamRef`1.ToString
+  fullName: Orleankka.StreamRef<TItem>.ToString()
+  fullName.vb: Orleankka.StreamRef(Of TItem).ToString()
+  nameWithType: StreamRef<TItem>.ToString()
+  nameWithType.vb: StreamRef(Of TItem).ToString()
+- uid: Orleankka.StreamRef`1.ToString*
   name: ToString
-  href: api/Orleankka.StreamRef.html#Orleankka_StreamRef_ToString_
-  commentId: Overload:Orleankka.StreamRef.ToString
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_ToString_
+  commentId: Overload:Orleankka.StreamRef`1.ToString
   isSpec: "True"
-  fullName: Orleankka.StreamRef.ToString
-  nameWithType: StreamRef.ToString
+  fullName: Orleankka.StreamRef<TItem>.ToString
+  fullName.vb: Orleankka.StreamRef(Of TItem).ToString
+  nameWithType: StreamRef<TItem>.ToString
+  nameWithType.vb: StreamRef(Of TItem).ToString
 - uid: Orleankka.StreamRefExtensions
   name: StreamRefExtensions
   href: api/Orleankka.StreamRefExtensions.html
   commentId: T:Orleankka.StreamRefExtensions
   fullName: Orleankka.StreamRefExtensions
   nameWithType: StreamRefExtensions
-- uid: Orleankka.StreamRefExtensions.Resume(Orleankka.StreamRef,Orleankka.ActorGrain)
-  name: Resume(StreamRef, ActorGrain)
-  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Resume_Orleankka_StreamRef_Orleankka_ActorGrain_
-  commentId: M:Orleankka.StreamRefExtensions.Resume(Orleankka.StreamRef,Orleankka.ActorGrain)
-  fullName: Orleankka.StreamRefExtensions.Resume(Orleankka.StreamRef, Orleankka.ActorGrain)
-  nameWithType: StreamRefExtensions.Resume(StreamRef, ActorGrain)
-- uid: Orleankka.StreamRefExtensions.Resume*
-  name: Resume
-  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Resume_
-  commentId: Overload:Orleankka.StreamRefExtensions.Resume
+- uid: Orleankka.StreamRefExtensions.Publish*
+  name: Publish
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Publish_
+  commentId: Overload:Orleankka.StreamRefExtensions.Publish
   isSpec: "True"
-  fullName: Orleankka.StreamRefExtensions.Resume
-  nameWithType: StreamRefExtensions.Resume
-- uid: Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef,Orleankka.ActorGrain,Orleankka.StreamFilter)
-  name: Subscribe(StreamRef, ActorGrain, StreamFilter)
-  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe_Orleankka_StreamRef_Orleankka_ActorGrain_Orleankka_StreamFilter_
-  commentId: M:Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef,Orleankka.ActorGrain,Orleankka.StreamFilter)
-  fullName: Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef, Orleankka.ActorGrain, Orleankka.StreamFilter)
-  nameWithType: StreamRefExtensions.Subscribe(StreamRef, ActorGrain, StreamFilter)
+  fullName: Orleankka.StreamRefExtensions.Publish
+  nameWithType: StreamRefExtensions.Publish
+- uid: Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},``0,Orleans.Streams.StreamSequenceToken)
+  name: Publish<TItem>(StreamRef<TItem>, TItem, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0____0_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},``0,Orleans.Streams.StreamSequenceToken)
+  name.vb: Publish(Of TItem)(StreamRef(Of TItem), TItem, StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Publish<TItem>(Orleankka.StreamRef<TItem>, TItem, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Publish(Of TItem)(Orleankka.StreamRef(Of TItem), TItem, Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Publish<TItem>(StreamRef<TItem>, TItem, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Publish(Of TItem)(StreamRef(Of TItem), TItem, StreamSequenceToken)
+- uid: Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},System.Collections.Generic.IEnumerable{``0},Orleans.Streams.StreamSequenceToken)
+  name: Publish<TItem>(StreamRef<TItem>, IEnumerable<TItem>, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0__System_Collections_Generic_IEnumerable___0__Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},System.Collections.Generic.IEnumerable{``0},Orleans.Streams.StreamSequenceToken)
+  name.vb: Publish(Of TItem)(StreamRef(Of TItem), IEnumerable(Of TItem), StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Publish<TItem>(Orleankka.StreamRef<TItem>, System.Collections.Generic.IEnumerable<TItem>, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Publish(Of TItem)(Orleankka.StreamRef(Of TItem), System.Collections.Generic.IEnumerable(Of TItem), Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Publish<TItem>(StreamRef<TItem>, IEnumerable<TItem>, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Publish(Of TItem)(StreamRef(Of TItem), IEnumerable(Of TItem), StreamSequenceToken)
 - uid: Orleankka.StreamRefExtensions.Subscribe*
   name: Subscribe
   href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe_
@@ -5326,97 +6010,282 @@ references:
   isSpec: "True"
   fullName: Orleankka.StreamRefExtensions.Subscribe
   nameWithType: StreamRefExtensions.Subscribe
-- uid: Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef,Orleankka.ActorGrain)
-  name: Unsubscribe(StreamRef, ActorGrain)
-  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Unsubscribe_Orleankka_StreamRef_Orleankka_ActorGrain_
-  commentId: M:Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef,Orleankka.ActorGrain)
-  fullName: Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef, Orleankka.ActorGrain)
-  nameWithType: StreamRefExtensions.Unsubscribe(StreamRef, ActorGrain)
-- uid: Orleankka.StreamRefExtensions.Unsubscribe*
-  name: Unsubscribe
-  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Unsubscribe_
-  commentId: Overload:Orleankka.StreamRefExtensions.Unsubscribe
-  isSpec: "True"
-  fullName: Orleankka.StreamRefExtensions.Unsubscribe
-  nameWithType: StreamRefExtensions.Unsubscribe
-- uid: Orleankka.StreamSubscription
+- uid: Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{``0,Orleans.Streams.StreamSequenceToken},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  name: Subscribe<TItem>(StreamRef<TItem>, Action<TItem, StreamSequenceToken>, StreamFilter, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action___0_Orleans_Streams_StreamSequenceToken__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{``0,Orleans.Streams.StreamSequenceToken},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  name.vb: Subscribe(Of TItem)(StreamRef(Of TItem), Action(Of TItem, StreamSequenceToken), StreamFilter, StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Subscribe<TItem>(Orleankka.StreamRef<TItem>, System.Action<TItem, Orleans.Streams.StreamSequenceToken>, Orleankka.StreamFilter, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Subscribe(Of TItem)(Orleankka.StreamRef(Of TItem), System.Action(Of TItem, Orleans.Streams.StreamSequenceToken), Orleankka.StreamFilter, Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Subscribe<TItem>(StreamRef<TItem>, Action<TItem, StreamSequenceToken>, StreamFilter, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Subscribe(Of TItem)(StreamRef(Of TItem), Action(Of TItem, StreamSequenceToken), StreamFilter, StreamSequenceToken)
+- uid: Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}}},Orleans.Streams.StreamSequenceToken)
+  name: Subscribe<TItem>(StreamRef<TItem>, Action<IList<SequentialItem<TItem>>>, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0____Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}}},Orleans.Streams.StreamSequenceToken)
+  name.vb: Subscribe(Of TItem)(StreamRef(Of TItem), Action(Of IList(Of SequentialItem(Of TItem))), StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Subscribe<TItem>(Orleankka.StreamRef<TItem>, System.Action<System.Collections.Generic.IList<Orleans.Streams.SequentialItem<TItem>>>, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Subscribe(Of TItem)(Orleankka.StreamRef(Of TItem), System.Action(Of System.Collections.Generic.IList(Of Orleans.Streams.SequentialItem(Of TItem))), Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Subscribe<TItem>(StreamRef<TItem>, Action<IList<SequentialItem<TItem>>>, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Subscribe(Of TItem)(StreamRef(Of TItem), Action(Of IList(Of SequentialItem(Of TItem))), StreamSequenceToken)
+- uid: Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  name: Subscribe<TItem>(StreamRef<TItem>, Func<TItem, StreamSequenceToken, Task>, StreamFilter, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func___0_Orleans_Streams_StreamSequenceToken_System_Threading_Tasks_Task__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  name.vb: Subscribe(Of TItem)(StreamRef(Of TItem), Func(Of TItem, StreamSequenceToken, Task), StreamFilter, StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Subscribe<TItem>(Orleankka.StreamRef<TItem>, System.Func<TItem, Orleans.Streams.StreamSequenceToken, System.Threading.Tasks.Task>, Orleankka.StreamFilter, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Subscribe(Of TItem)(Orleankka.StreamRef(Of TItem), System.Func(Of TItem, Orleans.Streams.StreamSequenceToken, System.Threading.Tasks.Task), Orleankka.StreamFilter, Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Subscribe<TItem>(StreamRef<TItem>, Func<TItem, StreamSequenceToken, Task>, StreamFilter, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Subscribe(Of TItem)(StreamRef(Of TItem), Func(Of TItem, StreamSequenceToken, Task), StreamFilter, StreamSequenceToken)
+- uid: Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}},System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken)
+  name: Subscribe<TItem>(StreamRef<TItem>, Func<IList<SequentialItem<TItem>>, Task>, StreamSequenceToken)
+  href: api/Orleankka.StreamRefExtensions.html#Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0___System_Threading_Tasks_Task__Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}},System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken)
+  name.vb: Subscribe(Of TItem)(StreamRef(Of TItem), Func(Of IList(Of SequentialItem(Of TItem)), Task), StreamSequenceToken)
+  fullName: Orleankka.StreamRefExtensions.Subscribe<TItem>(Orleankka.StreamRef<TItem>, System.Func<System.Collections.Generic.IList<Orleans.Streams.SequentialItem<TItem>>, System.Threading.Tasks.Task>, Orleans.Streams.StreamSequenceToken)
+  fullName.vb: Orleankka.StreamRefExtensions.Subscribe(Of TItem)(Orleankka.StreamRef(Of TItem), System.Func(Of System.Collections.Generic.IList(Of Orleans.Streams.SequentialItem(Of TItem)), System.Threading.Tasks.Task), Orleans.Streams.StreamSequenceToken)
+  nameWithType: StreamRefExtensions.Subscribe<TItem>(StreamRef<TItem>, Func<IList<SequentialItem<TItem>>, Task>, StreamSequenceToken)
+  nameWithType.vb: StreamRefExtensions.Subscribe(Of TItem)(StreamRef(Of TItem), Func(Of IList(Of SequentialItem(Of TItem)), Task), StreamSequenceToken)
+- uid: Orleankka.StreamSubscription`1
+  name: StreamSubscription<TItem>
+  href: api/Orleankka.StreamSubscription-1.html
+  commentId: T:Orleankka.StreamSubscription`1
+  name.vb: StreamSubscription(Of TItem)
+  fullName: Orleankka.StreamSubscription<TItem>
+  fullName.vb: Orleankka.StreamSubscription(Of TItem)
+  nameWithType: StreamSubscription<TItem>
+  nameWithType.vb: StreamSubscription(Of TItem)
+- uid: Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0})
+  name: StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__
+  commentId: M:Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0})
+  name.vb: StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem))
+  fullName: Orleankka.StreamSubscription<TItem>.StreamSubscription(Orleankka.StreamRef<TItem>, Orleans.Streams.StreamSubscriptionHandle<TItem>)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).StreamSubscription(Orleankka.StreamRef(Of TItem), Orleans.Streams.StreamSubscriptionHandle(Of TItem))
+  nameWithType: StreamSubscription<TItem>.StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>)
+  nameWithType.vb: StreamSubscription(Of TItem).StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem))
+- uid: Orleankka.StreamSubscription`1.#ctor*
   name: StreamSubscription
-  href: api/Orleankka.StreamSubscription.html
-  commentId: T:Orleankka.StreamSubscription
-  fullName: Orleankka.StreamSubscription
-  nameWithType: StreamSubscription
-- uid: Orleankka.StreamSubscription.#ctor(Orleans.Streams.StreamSubscriptionHandle{System.Object})
-  name: StreamSubscription(StreamSubscriptionHandle<Object>)
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription__ctor_Orleans_Streams_StreamSubscriptionHandle_System_Object__
-  commentId: M:Orleankka.StreamSubscription.#ctor(Orleans.Streams.StreamSubscriptionHandle{System.Object})
-  name.vb: StreamSubscription(StreamSubscriptionHandle(Of Object))
-  fullName: Orleankka.StreamSubscription.StreamSubscription(Orleans.Streams.StreamSubscriptionHandle<System.Object>)
-  fullName.vb: Orleankka.StreamSubscription.StreamSubscription(Orleans.Streams.StreamSubscriptionHandle(Of System.Object))
-  nameWithType: StreamSubscription.StreamSubscription(StreamSubscriptionHandle<Object>)
-  nameWithType.vb: StreamSubscription.StreamSubscription(StreamSubscriptionHandle(Of Object))
-- uid: Orleankka.StreamSubscription.#ctor*
-  name: StreamSubscription
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription__ctor_
-  commentId: Overload:Orleankka.StreamSubscription.#ctor
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1__ctor_
+  commentId: Overload:Orleankka.StreamSubscription`1.#ctor
   isSpec: "True"
-  fullName: Orleankka.StreamSubscription.StreamSubscription
-  nameWithType: StreamSubscription.StreamSubscription
-- uid: Orleankka.StreamSubscription.Resume(System.Action{System.Object})
-  name: Resume(Action<Object>)
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume_System_Action_System_Object__
-  commentId: M:Orleankka.StreamSubscription.Resume(System.Action{System.Object})
-  name.vb: Resume(Action(Of Object))
-  fullName: Orleankka.StreamSubscription.Resume(System.Action<System.Object>)
-  fullName.vb: Orleankka.StreamSubscription.Resume(System.Action(Of System.Object))
-  nameWithType: StreamSubscription.Resume(Action<Object>)
-  nameWithType.vb: StreamSubscription.Resume(Action(Of Object))
-- uid: Orleankka.StreamSubscription.Resume(System.Func{System.Object,System.Threading.Tasks.Task})
-  name: Resume(Func<Object, Task>)
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume_System_Func_System_Object_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.StreamSubscription.Resume(System.Func{System.Object,System.Threading.Tasks.Task})
-  name.vb: Resume(Func(Of Object, Task))
-  fullName: Orleankka.StreamSubscription.Resume(System.Func<System.Object, System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.StreamSubscription.Resume(System.Func(Of System.Object, System.Threading.Tasks.Task))
-  nameWithType: StreamSubscription.Resume(Func<Object, Task>)
-  nameWithType.vb: StreamSubscription.Resume(Func(Of Object, Task))
-- uid: Orleankka.StreamSubscription.Resume*
+  fullName: Orleankka.StreamSubscription<TItem>.StreamSubscription
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).StreamSubscription
+  nameWithType: StreamSubscription<TItem>.StreamSubscription
+  nameWithType.vb: StreamSubscription(Of TItem).StreamSubscription
+- uid: Orleankka.StreamSubscription`1.Resume*
   name: Resume
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume_
-  commentId: Overload:Orleankka.StreamSubscription.Resume
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Resume_
+  commentId: Overload:Orleankka.StreamSubscription`1.Resume
   isSpec: "True"
-  fullName: Orleankka.StreamSubscription.Resume
-  nameWithType: StreamSubscription.Resume
-- uid: Orleankka.StreamSubscription.Resume``1(System.Action{``0})
-  name: Resume<T>(Action<T>)
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume__1_System_Action___0__
-  commentId: M:Orleankka.StreamSubscription.Resume``1(System.Action{``0})
-  name.vb: Resume(Of T)(Action(Of T))
-  fullName: Orleankka.StreamSubscription.Resume<T>(System.Action<T>)
-  fullName.vb: Orleankka.StreamSubscription.Resume(Of T)(System.Action(Of T))
-  nameWithType: StreamSubscription.Resume<T>(Action<T>)
-  nameWithType.vb: StreamSubscription.Resume(Of T)(Action(Of T))
-- uid: Orleankka.StreamSubscription.Resume``1(System.Func{``0,System.Threading.Tasks.Task})
-  name: Resume<T>(Func<T, Task>)
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Resume__1_System_Func___0_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.StreamSubscription.Resume``1(System.Func{``0,System.Threading.Tasks.Task})
-  name.vb: Resume(Of T)(Func(Of T, Task))
-  fullName: Orleankka.StreamSubscription.Resume<T>(System.Func<T, System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.StreamSubscription.Resume(Of T)(System.Func(Of T, System.Threading.Tasks.Task))
-  nameWithType: StreamSubscription.Resume<T>(Func<T, Task>)
-  nameWithType.vb: StreamSubscription.Resume(Of T)(Func(Of T, Task))
-- uid: Orleankka.StreamSubscription.Unsubscribe
+  fullName: Orleankka.StreamSubscription<TItem>.Resume
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Resume
+  nameWithType: StreamSubscription<TItem>.Resume
+  nameWithType.vb: StreamSubscription(Of TItem).Resume
+- uid: Orleankka.StreamSubscription`1.Resume``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name: Resume<TOptions>(Func<StreamMessage, Task>, TOptions)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Resume__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_
+  commentId: M:Orleankka.StreamSubscription`1.Resume``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name.vb: Resume(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+  fullName: Orleankka.StreamSubscription<TItem>.Resume<TOptions>(System.Func<Orleankka.StreamMessage, System.Threading.Tasks.Task>, TOptions)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Resume(Of TOptions)(System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), TOptions)
+  nameWithType: StreamSubscription<TItem>.Resume<TOptions>(Func<StreamMessage, Task>, TOptions)
+  nameWithType.vb: StreamSubscription(Of TItem).Resume(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+- uid: Orleankka.StreamSubscription`1.Unsubscribe
   name: Unsubscribe()
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Unsubscribe
-  commentId: M:Orleankka.StreamSubscription.Unsubscribe
-  fullName: Orleankka.StreamSubscription.Unsubscribe()
-  nameWithType: StreamSubscription.Unsubscribe()
-- uid: Orleankka.StreamSubscription.Unsubscribe*
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Unsubscribe
+  commentId: M:Orleankka.StreamSubscription`1.Unsubscribe
+  fullName: Orleankka.StreamSubscription<TItem>.Unsubscribe()
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Unsubscribe()
+  nameWithType: StreamSubscription<TItem>.Unsubscribe()
+  nameWithType.vb: StreamSubscription(Of TItem).Unsubscribe()
+- uid: Orleankka.StreamSubscription`1.Unsubscribe*
   name: Unsubscribe
-  href: api/Orleankka.StreamSubscription.html#Orleankka_StreamSubscription_Unsubscribe_
-  commentId: Overload:Orleankka.StreamSubscription.Unsubscribe
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Unsubscribe_
+  commentId: Overload:Orleankka.StreamSubscription`1.Unsubscribe
   isSpec: "True"
-  fullName: Orleankka.StreamSubscription.Unsubscribe
-  nameWithType: StreamSubscription.Unsubscribe
+  fullName: Orleankka.StreamSubscription<TItem>.Unsubscribe
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Unsubscribe
+  nameWithType: StreamSubscription<TItem>.Unsubscribe
+  nameWithType.vb: StreamSubscription(Of TItem).Unsubscribe
+- uid: Orleankka.SubscribeOptions
+  name: SubscribeOptions
+  href: api/Orleankka.SubscribeOptions.html
+  commentId: T:Orleankka.SubscribeOptions
+  fullName: Orleankka.SubscribeOptions
+  nameWithType: SubscribeOptions
+- uid: Orleankka.SubscribeReceiveBatch
+  name: SubscribeReceiveBatch
+  href: api/Orleankka.SubscribeReceiveBatch.html
+  commentId: T:Orleankka.SubscribeReceiveBatch
+  fullName: Orleankka.SubscribeReceiveBatch
+  nameWithType: SubscribeReceiveBatch
+- uid: Orleankka.SubscribeReceiveBatch.#ctor(Orleans.Streams.StreamSequenceToken)
+  name: SubscribeReceiveBatch(StreamSequenceToken)
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch__ctor_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.SubscribeReceiveBatch.#ctor(Orleans.Streams.StreamSequenceToken)
+  fullName: Orleankka.SubscribeReceiveBatch.SubscribeReceiveBatch(Orleans.Streams.StreamSequenceToken)
+  nameWithType: SubscribeReceiveBatch.SubscribeReceiveBatch(StreamSequenceToken)
+- uid: Orleankka.SubscribeReceiveBatch.#ctor*
+  name: SubscribeReceiveBatch
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch__ctor_
+  commentId: Overload:Orleankka.SubscribeReceiveBatch.#ctor
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveBatch.SubscribeReceiveBatch
+  nameWithType: SubscribeReceiveBatch.SubscribeReceiveBatch
+- uid: Orleankka.SubscribeReceiveBatch.Equals(Orleankka.SubscribeReceiveBatch)
+  name: Equals(SubscribeReceiveBatch)
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_Equals_Orleankka_SubscribeReceiveBatch_
+  commentId: M:Orleankka.SubscribeReceiveBatch.Equals(Orleankka.SubscribeReceiveBatch)
+  fullName: Orleankka.SubscribeReceiveBatch.Equals(Orleankka.SubscribeReceiveBatch)
+  nameWithType: SubscribeReceiveBatch.Equals(SubscribeReceiveBatch)
+- uid: Orleankka.SubscribeReceiveBatch.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_Equals_System_Object_
+  commentId: M:Orleankka.SubscribeReceiveBatch.Equals(System.Object)
+  fullName: Orleankka.SubscribeReceiveBatch.Equals(System.Object)
+  nameWithType: SubscribeReceiveBatch.Equals(Object)
+- uid: Orleankka.SubscribeReceiveBatch.Equals*
+  name: Equals
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_Equals_
+  commentId: Overload:Orleankka.SubscribeReceiveBatch.Equals
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveBatch.Equals
+  nameWithType: SubscribeReceiveBatch.Equals
+- uid: Orleankka.SubscribeReceiveBatch.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_GetHashCode
+  commentId: M:Orleankka.SubscribeReceiveBatch.GetHashCode
+  fullName: Orleankka.SubscribeReceiveBatch.GetHashCode()
+  nameWithType: SubscribeReceiveBatch.GetHashCode()
+- uid: Orleankka.SubscribeReceiveBatch.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_GetHashCode_
+  commentId: Overload:Orleankka.SubscribeReceiveBatch.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveBatch.GetHashCode
+  nameWithType: SubscribeReceiveBatch.GetHashCode
+- uid: Orleankka.SubscribeReceiveBatch.op_Equality(Orleankka.SubscribeReceiveBatch,Orleankka.SubscribeReceiveBatch)
+  name: Equality(SubscribeReceiveBatch, SubscribeReceiveBatch)
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_op_Equality_Orleankka_SubscribeReceiveBatch_Orleankka_SubscribeReceiveBatch_
+  commentId: M:Orleankka.SubscribeReceiveBatch.op_Equality(Orleankka.SubscribeReceiveBatch,Orleankka.SubscribeReceiveBatch)
+  fullName: Orleankka.SubscribeReceiveBatch.Equality(Orleankka.SubscribeReceiveBatch, Orleankka.SubscribeReceiveBatch)
+  nameWithType: SubscribeReceiveBatch.Equality(SubscribeReceiveBatch, SubscribeReceiveBatch)
+- uid: Orleankka.SubscribeReceiveBatch.op_Equality*
+  name: Equality
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_op_Equality_
+  commentId: Overload:Orleankka.SubscribeReceiveBatch.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveBatch.Equality
+  nameWithType: SubscribeReceiveBatch.Equality
+- uid: Orleankka.SubscribeReceiveBatch.op_Inequality(Orleankka.SubscribeReceiveBatch,Orleankka.SubscribeReceiveBatch)
+  name: Inequality(SubscribeReceiveBatch, SubscribeReceiveBatch)
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_op_Inequality_Orleankka_SubscribeReceiveBatch_Orleankka_SubscribeReceiveBatch_
+  commentId: M:Orleankka.SubscribeReceiveBatch.op_Inequality(Orleankka.SubscribeReceiveBatch,Orleankka.SubscribeReceiveBatch)
+  fullName: Orleankka.SubscribeReceiveBatch.Inequality(Orleankka.SubscribeReceiveBatch, Orleankka.SubscribeReceiveBatch)
+  nameWithType: SubscribeReceiveBatch.Inequality(SubscribeReceiveBatch, SubscribeReceiveBatch)
+- uid: Orleankka.SubscribeReceiveBatch.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_op_Inequality_
+  commentId: Overload:Orleankka.SubscribeReceiveBatch.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveBatch.Inequality
+  nameWithType: SubscribeReceiveBatch.Inequality
+- uid: Orleankka.SubscribeReceiveBatch.Token
+  name: Token
+  href: api/Orleankka.SubscribeReceiveBatch.html#Orleankka_SubscribeReceiveBatch_Token
+  commentId: F:Orleankka.SubscribeReceiveBatch.Token
+  fullName: Orleankka.SubscribeReceiveBatch.Token
+  nameWithType: SubscribeReceiveBatch.Token
+- uid: Orleankka.SubscribeReceiveItem
+  name: SubscribeReceiveItem
+  href: api/Orleankka.SubscribeReceiveItem.html
+  commentId: T:Orleankka.SubscribeReceiveItem
+  fullName: Orleankka.SubscribeReceiveItem
+  nameWithType: SubscribeReceiveItem
+- uid: Orleankka.SubscribeReceiveItem.#ctor(Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  name: SubscribeReceiveItem(StreamFilter, StreamSequenceToken)
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem__ctor_Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_
+  commentId: M:Orleankka.SubscribeReceiveItem.#ctor(Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)
+  fullName: Orleankka.SubscribeReceiveItem.SubscribeReceiveItem(Orleankka.StreamFilter, Orleans.Streams.StreamSequenceToken)
+  nameWithType: SubscribeReceiveItem.SubscribeReceiveItem(StreamFilter, StreamSequenceToken)
+- uid: Orleankka.SubscribeReceiveItem.#ctor*
+  name: SubscribeReceiveItem
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem__ctor_
+  commentId: Overload:Orleankka.SubscribeReceiveItem.#ctor
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveItem.SubscribeReceiveItem
+  nameWithType: SubscribeReceiveItem.SubscribeReceiveItem
+- uid: Orleankka.SubscribeReceiveItem.Equals(Orleankka.SubscribeReceiveItem)
+  name: Equals(SubscribeReceiveItem)
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_Equals_Orleankka_SubscribeReceiveItem_
+  commentId: M:Orleankka.SubscribeReceiveItem.Equals(Orleankka.SubscribeReceiveItem)
+  fullName: Orleankka.SubscribeReceiveItem.Equals(Orleankka.SubscribeReceiveItem)
+  nameWithType: SubscribeReceiveItem.Equals(SubscribeReceiveItem)
+- uid: Orleankka.SubscribeReceiveItem.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_Equals_System_Object_
+  commentId: M:Orleankka.SubscribeReceiveItem.Equals(System.Object)
+  fullName: Orleankka.SubscribeReceiveItem.Equals(System.Object)
+  nameWithType: SubscribeReceiveItem.Equals(Object)
+- uid: Orleankka.SubscribeReceiveItem.Equals*
+  name: Equals
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_Equals_
+  commentId: Overload:Orleankka.SubscribeReceiveItem.Equals
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveItem.Equals
+  nameWithType: SubscribeReceiveItem.Equals
+- uid: Orleankka.SubscribeReceiveItem.Filter
+  name: Filter
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_Filter
+  commentId: F:Orleankka.SubscribeReceiveItem.Filter
+  fullName: Orleankka.SubscribeReceiveItem.Filter
+  nameWithType: SubscribeReceiveItem.Filter
+- uid: Orleankka.SubscribeReceiveItem.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_GetHashCode
+  commentId: M:Orleankka.SubscribeReceiveItem.GetHashCode
+  fullName: Orleankka.SubscribeReceiveItem.GetHashCode()
+  nameWithType: SubscribeReceiveItem.GetHashCode()
+- uid: Orleankka.SubscribeReceiveItem.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_GetHashCode_
+  commentId: Overload:Orleankka.SubscribeReceiveItem.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveItem.GetHashCode
+  nameWithType: SubscribeReceiveItem.GetHashCode
+- uid: Orleankka.SubscribeReceiveItem.op_Equality(Orleankka.SubscribeReceiveItem,Orleankka.SubscribeReceiveItem)
+  name: Equality(SubscribeReceiveItem, SubscribeReceiveItem)
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_op_Equality_Orleankka_SubscribeReceiveItem_Orleankka_SubscribeReceiveItem_
+  commentId: M:Orleankka.SubscribeReceiveItem.op_Equality(Orleankka.SubscribeReceiveItem,Orleankka.SubscribeReceiveItem)
+  fullName: Orleankka.SubscribeReceiveItem.Equality(Orleankka.SubscribeReceiveItem, Orleankka.SubscribeReceiveItem)
+  nameWithType: SubscribeReceiveItem.Equality(SubscribeReceiveItem, SubscribeReceiveItem)
+- uid: Orleankka.SubscribeReceiveItem.op_Equality*
+  name: Equality
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_op_Equality_
+  commentId: Overload:Orleankka.SubscribeReceiveItem.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveItem.Equality
+  nameWithType: SubscribeReceiveItem.Equality
+- uid: Orleankka.SubscribeReceiveItem.op_Inequality(Orleankka.SubscribeReceiveItem,Orleankka.SubscribeReceiveItem)
+  name: Inequality(SubscribeReceiveItem, SubscribeReceiveItem)
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_op_Inequality_Orleankka_SubscribeReceiveItem_Orleankka_SubscribeReceiveItem_
+  commentId: M:Orleankka.SubscribeReceiveItem.op_Inequality(Orleankka.SubscribeReceiveItem,Orleankka.SubscribeReceiveItem)
+  fullName: Orleankka.SubscribeReceiveItem.Inequality(Orleankka.SubscribeReceiveItem, Orleankka.SubscribeReceiveItem)
+  nameWithType: SubscribeReceiveItem.Inequality(SubscribeReceiveItem, SubscribeReceiveItem)
+- uid: Orleankka.SubscribeReceiveItem.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_op_Inequality_
+  commentId: Overload:Orleankka.SubscribeReceiveItem.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.SubscribeReceiveItem.Inequality
+  nameWithType: SubscribeReceiveItem.Inequality
+- uid: Orleankka.SubscribeReceiveItem.Token
+  name: Token
+  href: api/Orleankka.SubscribeReceiveItem.html#Orleankka_SubscribeReceiveItem_Token
+  commentId: F:Orleankka.SubscribeReceiveItem.Token
+  fullName: Orleankka.SubscribeReceiveItem.Token
+  nameWithType: SubscribeReceiveItem.Token
 - uid: Orleankka.TaskResult
   name: TaskResult
   href: api/Orleankka.TaskResult.html
@@ -6020,12 +6889,6 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.MockCreateObservable
   nameWithType: ActorSystemMock.MockCreateObservable
-- uid: Orleankka.TestKit.ActorSystemMock.MockStreamOf(System.String,System.String)
-  name: MockStreamOf(String, String)
-  href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockStreamOf_System_String_System_String_
-  commentId: M:Orleankka.TestKit.ActorSystemMock.MockStreamOf(System.String,System.String)
-  fullName: Orleankka.TestKit.ActorSystemMock.MockStreamOf(System.String, System.String)
-  nameWithType: ActorSystemMock.MockStreamOf(String, String)
 - uid: Orleankka.TestKit.ActorSystemMock.MockStreamOf*
   name: MockStreamOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockStreamOf_
@@ -6033,6 +6896,15 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.ActorSystemMock.MockStreamOf
   nameWithType: ActorSystemMock.MockStreamOf
+- uid: Orleankka.TestKit.ActorSystemMock.MockStreamOf``1(System.String,System.String)
+  name: MockStreamOf<TItem>(String, String)
+  href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_MockStreamOf__1_System_String_System_String_
+  commentId: M:Orleankka.TestKit.ActorSystemMock.MockStreamOf``1(System.String,System.String)
+  name.vb: MockStreamOf(Of TItem)(String, String)
+  fullName: Orleankka.TestKit.ActorSystemMock.MockStreamOf<TItem>(System.String, System.String)
+  fullName.vb: Orleankka.TestKit.ActorSystemMock.MockStreamOf(Of TItem)(System.String, System.String)
+  nameWithType: ActorSystemMock.MockStreamOf<TItem>(String, String)
+  nameWithType.vb: ActorSystemMock.MockStreamOf(Of TItem)(String, String)
 - uid: Orleankka.TestKit.ActorSystemMock.Orleankka#Client#IClientActorSystem#CreateObservable
   name: IClientActorSystem.CreateObservable()
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_Client_IClientActorSystem_CreateObservable
@@ -6084,14 +6956,6 @@ references:
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.ClientOf
   nameWithType: ActorSystemMock.IActorSystem.ClientOf
   nameWithType.vb: ActorSystemMock.Orleankka.IActorSystem.ClientOf
-- uid: Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf(Orleankka.StreamPath)
-  name: IActorSystem.StreamOf(StreamPath)
-  href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_StreamOf_Orleankka_StreamPath_
-  commentId: M:Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf(Orleankka.StreamPath)
-  name.vb: Orleankka.IActorSystem.StreamOf(StreamPath)
-  fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)
-  nameWithType: ActorSystemMock.IActorSystem.StreamOf(StreamPath)
-  nameWithType.vb: ActorSystemMock.Orleankka.IActorSystem.StreamOf(StreamPath)
 - uid: Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf*
   name: IActorSystem.StreamOf
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_StreamOf_
@@ -6101,6 +6965,15 @@ references:
   fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.StreamOf
   nameWithType: ActorSystemMock.IActorSystem.StreamOf
   nameWithType.vb: ActorSystemMock.Orleankka.IActorSystem.StreamOf
+- uid: Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf``1(Orleankka.StreamPath)
+  name: IActorSystem.StreamOf<TItem>(StreamPath)
+  href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Orleankka_IActorSystem_StreamOf__1_Orleankka_StreamPath_
+  commentId: M:Orleankka.TestKit.ActorSystemMock.Orleankka#IActorSystem#StreamOf``1(Orleankka.StreamPath)
+  name.vb: Orleankka.IActorSystem.StreamOf(Of TItem)(StreamPath)
+  fullName: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.StreamOf<TItem>(Orleankka.StreamPath)
+  fullName.vb: Orleankka.TestKit.ActorSystemMock.Orleankka.IActorSystem.StreamOf(Of TItem)(Orleankka.StreamPath)
+  nameWithType: ActorSystemMock.IActorSystem.StreamOf<TItem>(StreamPath)
+  nameWithType.vb: ActorSystemMock.Orleankka.IActorSystem.StreamOf(Of TItem)(StreamPath)
 - uid: Orleankka.TestKit.ActorSystemMock.Reset
   name: Reset()
   href: api/Orleankka.TestKit.ActorSystemMock.html#Orleankka_TestKit_ActorSystemMock_Reset
@@ -6869,89 +7742,89 @@ references:
   isSpec: "True"
   fullName: Orleankka.TestKit.ObserverRefStub.Notify
   nameWithType: ObserverRefStub.Notify
-- uid: Orleankka.TestKit.PushExpectation`1
-  name: PushExpectation<TItem>
-  href: api/Orleankka.TestKit.PushExpectation-1.html
-  commentId: T:Orleankka.TestKit.PushExpectation`1
-  name.vb: PushExpectation(Of TItem)
-  fullName: Orleankka.TestKit.PushExpectation<TItem>
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem)
-  nameWithType: PushExpectation<TItem>
-  nameWithType.vb: PushExpectation(Of TItem)
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Apply
+- uid: Orleankka.TestKit.PublishExpectation`1
+  name: PublishExpectation<TMessage>
+  href: api/Orleankka.TestKit.PublishExpectation-1.html
+  commentId: T:Orleankka.TestKit.PublishExpectation`1
+  name.vb: PublishExpectation(Of TMessage)
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage)
+  nameWithType: PublishExpectation<TMessage>
+  nameWithType.vb: PublishExpectation(Of TMessage)
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Apply
   name: IExpectation.Apply()
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Apply
-  commentId: M:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IExpectation_Apply
+  commentId: M:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Apply
   name.vb: Orleankka.TestKit.IExpectation.Apply()
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Apply()
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Apply()
-  nameWithType: PushExpectation<TItem>.IExpectation.Apply()
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Apply()
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Apply*
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IExpectation.Apply()
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply()
+  nameWithType: PublishExpectation<TMessage>.IExpectation.Apply()
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply()
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Apply*
   name: IExpectation.Apply
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Apply_
-  commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IExpectation_Apply_
+  commentId: Overload:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Apply
   isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Apply
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Apply
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Apply
-  nameWithType: PushExpectation<TItem>.IExpectation.Apply
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Apply
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IExpectation.Apply
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply
+  nameWithType: PublishExpectation<TMessage>.IExpectation.Apply
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Apply
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
   name: IExpectation.Match(Object)
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Match_System_Object_
-  commentId: M:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IExpectation_Match_System_Object_
+  commentId: M:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
   name.vb: Orleankka.TestKit.IExpectation.Match(Object)
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Match(System.Object)
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Match(System.Object)
-  nameWithType: PushExpectation<TItem>.IExpectation.Match(Object)
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Match(Object)
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Match*
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IExpectation.Match(System.Object)
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match(System.Object)
+  nameWithType: PublishExpectation<TMessage>.IExpectation.Match(Object)
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match(Object)
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Match*
   name: IExpectation.Match
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IExpectation_Match_
-  commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IExpectation#Match
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IExpectation_Match_
+  commentId: Overload:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IExpectation#Match
   isSpec: "True"
   name.vb: Orleankka.TestKit.IExpectation.Match
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IExpectation.Match
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Match
-  nameWithType: PushExpectation<TItem>.IExpectation.Match
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IExpectation.Match
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IExpectation.Match
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match
+  nameWithType: PublishExpectation<TMessage>.IExpectation.Match
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IExpectation.Match
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
   name: IRepeatExpectation.Times(Int32)
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_System_Int32_
-  commentId: M:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_System_Int32_
+  commentId: M:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
   name.vb: Orleankka.TestKit.IRepeatExpectation.Times(Int32)
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
-  nameWithType: PushExpectation<TItem>.IRepeatExpectation.Times(Int32)
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IRepeatExpectation.Times(Int32)
-- uid: Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times*
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  nameWithType: PublishExpectation<TMessage>.IRepeatExpectation.Times(Int32)
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times(Int32)
+- uid: Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times*
   name: IRepeatExpectation.Times
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
-  commentId: Overload:Orleankka.TestKit.PushExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
+  commentId: Overload:Orleankka.TestKit.PublishExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
   isSpec: "True"
   name.vb: Orleankka.TestKit.IRepeatExpectation.Times
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Orleankka.TestKit.IRepeatExpectation.Times
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Orleankka.TestKit.IRepeatExpectation.Times
-  nameWithType: PushExpectation<TItem>.IRepeatExpectation.Times
-  nameWithType.vb: PushExpectation(Of TItem).Orleankka.TestKit.IRepeatExpectation.Times
-- uid: Orleankka.TestKit.PushExpectation`1.Throw(System.Exception)
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Orleankka.TestKit.IRepeatExpectation.Times
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times
+  nameWithType: PublishExpectation<TMessage>.IRepeatExpectation.Times
+  nameWithType.vb: PublishExpectation(Of TMessage).Orleankka.TestKit.IRepeatExpectation.Times
+- uid: Orleankka.TestKit.PublishExpectation`1.Throw(System.Exception)
   name: Throw(Exception)
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Throw_System_Exception_
-  commentId: M:Orleankka.TestKit.PushExpectation`1.Throw(System.Exception)
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Throw(System.Exception)
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Throw(System.Exception)
-  nameWithType: PushExpectation<TItem>.Throw(Exception)
-  nameWithType.vb: PushExpectation(Of TItem).Throw(Exception)
-- uid: Orleankka.TestKit.PushExpectation`1.Throw*
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Throw_System_Exception_
+  commentId: M:Orleankka.TestKit.PublishExpectation`1.Throw(System.Exception)
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Throw(System.Exception)
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Throw(System.Exception)
+  nameWithType: PublishExpectation<TMessage>.Throw(Exception)
+  nameWithType.vb: PublishExpectation(Of TMessage).Throw(Exception)
+- uid: Orleankka.TestKit.PublishExpectation`1.Throw*
   name: Throw
-  href: api/Orleankka.TestKit.PushExpectation-1.html#Orleankka_TestKit_PushExpectation_1_Throw_
-  commentId: Overload:Orleankka.TestKit.PushExpectation`1.Throw
+  href: api/Orleankka.TestKit.PublishExpectation-1.html#Orleankka_TestKit_PublishExpectation_1_Throw_
+  commentId: Overload:Orleankka.TestKit.PublishExpectation`1.Throw
   isSpec: "True"
-  fullName: Orleankka.TestKit.PushExpectation<TItem>.Throw
-  fullName.vb: Orleankka.TestKit.PushExpectation(Of TItem).Throw
-  nameWithType: PushExpectation<TItem>.Throw
-  nameWithType.vb: PushExpectation(Of TItem).Throw
+  fullName: Orleankka.TestKit.PublishExpectation<TMessage>.Throw
+  fullName.vb: Orleankka.TestKit.PublishExpectation(Of TMessage).Throw
+  nameWithType: PublishExpectation<TMessage>.Throw
+  nameWithType.vb: PublishExpectation(Of TMessage).Throw
 - uid: Orleankka.TestKit.RecordedBackgroundJob
   name: RecordedBackgroundJob
   href: api/Orleankka.TestKit.RecordedBackgroundJob.html
@@ -7064,37 +7937,6 @@ references:
   commentId: T:Orleankka.TestKit.RecordedDeactivationRequest
   fullName: Orleankka.TestKit.RecordedDeactivationRequest
   nameWithType: RecordedDeactivationRequest
-- uid: Orleankka.TestKit.RecordedItem
-  name: RecordedItem
-  href: api/Orleankka.TestKit.RecordedItem.html
-  commentId: T:Orleankka.TestKit.RecordedItem
-  fullName: Orleankka.TestKit.RecordedItem
-  nameWithType: RecordedItem
-- uid: Orleankka.TestKit.RecordedItem.#ctor(System.Boolean,System.Object)
-  name: RecordedItem(Boolean, Object)
-  href: api/Orleankka.TestKit.RecordedItem.html#Orleankka_TestKit_RecordedItem__ctor_System_Boolean_System_Object_
-  commentId: M:Orleankka.TestKit.RecordedItem.#ctor(System.Boolean,System.Object)
-  fullName: Orleankka.TestKit.RecordedItem.RecordedItem(System.Boolean, System.Object)
-  nameWithType: RecordedItem.RecordedItem(Boolean, Object)
-- uid: Orleankka.TestKit.RecordedItem.#ctor*
-  name: RecordedItem
-  href: api/Orleankka.TestKit.RecordedItem.html#Orleankka_TestKit_RecordedItem__ctor_
-  commentId: Overload:Orleankka.TestKit.RecordedItem.#ctor
-  isSpec: "True"
-  fullName: Orleankka.TestKit.RecordedItem.RecordedItem
-  nameWithType: RecordedItem.RecordedItem
-- uid: Orleankka.TestKit.RecordedItem.Expected
-  name: Expected
-  href: api/Orleankka.TestKit.RecordedItem.html#Orleankka_TestKit_RecordedItem_Expected
-  commentId: F:Orleankka.TestKit.RecordedItem.Expected
-  fullName: Orleankka.TestKit.RecordedItem.Expected
-  nameWithType: RecordedItem.Expected
-- uid: Orleankka.TestKit.RecordedItem.Item
-  name: Item
-  href: api/Orleankka.TestKit.RecordedItem.html#Orleankka_TestKit_RecordedItem_Item
-  commentId: F:Orleankka.TestKit.RecordedItem.Item
-  fullName: Orleankka.TestKit.RecordedItem.Item
-  nameWithType: RecordedItem.Item
 - uid: Orleankka.TestKit.RecordedMessage
   name: RecordedMessage
   href: api/Orleankka.TestKit.RecordedMessage.html
@@ -7169,6 +8011,37 @@ references:
   commentId: F:Orleankka.TestKit.RecordedMessageTimer.Message
   fullName: Orleankka.TestKit.RecordedMessageTimer.Message
   nameWithType: RecordedMessageTimer.Message
+- uid: Orleankka.TestKit.RecordedPublishMessage
+  name: RecordedPublishMessage
+  href: api/Orleankka.TestKit.RecordedPublishMessage.html
+  commentId: T:Orleankka.TestKit.RecordedPublishMessage
+  fullName: Orleankka.TestKit.RecordedPublishMessage
+  nameWithType: RecordedPublishMessage
+- uid: Orleankka.TestKit.RecordedPublishMessage.#ctor(System.Boolean,Orleankka.PublishMessage)
+  name: RecordedPublishMessage(Boolean, PublishMessage)
+  href: api/Orleankka.TestKit.RecordedPublishMessage.html#Orleankka_TestKit_RecordedPublishMessage__ctor_System_Boolean_Orleankka_PublishMessage_
+  commentId: M:Orleankka.TestKit.RecordedPublishMessage.#ctor(System.Boolean,Orleankka.PublishMessage)
+  fullName: Orleankka.TestKit.RecordedPublishMessage.RecordedPublishMessage(System.Boolean, Orleankka.PublishMessage)
+  nameWithType: RecordedPublishMessage.RecordedPublishMessage(Boolean, PublishMessage)
+- uid: Orleankka.TestKit.RecordedPublishMessage.#ctor*
+  name: RecordedPublishMessage
+  href: api/Orleankka.TestKit.RecordedPublishMessage.html#Orleankka_TestKit_RecordedPublishMessage__ctor_
+  commentId: Overload:Orleankka.TestKit.RecordedPublishMessage.#ctor
+  isSpec: "True"
+  fullName: Orleankka.TestKit.RecordedPublishMessage.RecordedPublishMessage
+  nameWithType: RecordedPublishMessage.RecordedPublishMessage
+- uid: Orleankka.TestKit.RecordedPublishMessage.Expected
+  name: Expected
+  href: api/Orleankka.TestKit.RecordedPublishMessage.html#Orleankka_TestKit_RecordedPublishMessage_Expected
+  commentId: F:Orleankka.TestKit.RecordedPublishMessage.Expected
+  fullName: Orleankka.TestKit.RecordedPublishMessage.Expected
+  nameWithType: RecordedPublishMessage.Expected
+- uid: Orleankka.TestKit.RecordedPublishMessage.Message
+  name: Message
+  href: api/Orleankka.TestKit.RecordedPublishMessage.html#Orleankka_TestKit_RecordedPublishMessage_Message
+  commentId: F:Orleankka.TestKit.RecordedPublishMessage.Message
+  fullName: Orleankka.TestKit.RecordedPublishMessage.Message
+  nameWithType: RecordedPublishMessage.Message
 - uid: Orleankka.TestKit.RecordedReminder
   name: RecordedReminder
   href: api/Orleankka.TestKit.RecordedReminder.html
@@ -7522,263 +8395,486 @@ references:
   fullName: Orleankka.TestKit.ReminderServiceMock.System.Collections.IEnumerable.GetEnumerator
   nameWithType: ReminderServiceMock.IEnumerable.GetEnumerator
   nameWithType.vb: ReminderServiceMock.System.Collections.IEnumerable.GetEnumerator
-- uid: Orleankka.TestKit.StreamRefMock
-  name: StreamRefMock
-  href: api/Orleankka.TestKit.StreamRefMock.html
-  commentId: T:Orleankka.TestKit.StreamRefMock
-  fullName: Orleankka.TestKit.StreamRefMock
-  nameWithType: StreamRefMock
-- uid: Orleankka.TestKit.StreamRefMock.Expect*
-  name: Expect
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Expect_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.Expect
+- uid: Orleankka.TestKit.ResumeExpectation`1
+  name: ResumeExpectation<TOptions>
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html
+  commentId: T:Orleankka.TestKit.ResumeExpectation`1
+  name.vb: ResumeExpectation(Of TOptions)
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions)
+  nameWithType: ResumeExpectation<TOptions>
+  nameWithType.vb: ResumeExpectation(Of TOptions)
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  name: IExpectation.Apply()
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IExpectation_Apply
+  commentId: M:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  name.vb: Orleankka.TestKit.IExpectation.Apply()
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Apply()
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply()
+  nameWithType: ResumeExpectation<TOptions>.IExpectation.Apply()
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply()
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Apply*
+  name: IExpectation.Apply
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IExpectation_Apply_
+  commentId: Overload:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Apply
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.Expect
-  nameWithType: StreamRefMock.Expect
-- uid: Orleankka.TestKit.StreamRefMock.Expect``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
-  name: Expect<TItem>(Expression<Func<TItem, Boolean>>)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Expect__1_System_Linq_Expressions_Expression_System_Func___0_System_Boolean___
-  commentId: M:Orleankka.TestKit.StreamRefMock.Expect``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
-  name.vb: Expect(Of TItem)(Expression(Of Func(Of TItem, Boolean)))
-  fullName: Orleankka.TestKit.StreamRefMock.Expect<TItem>(System.Linq.Expressions.Expression<System.Func<TItem, System.Boolean>>)
-  fullName.vb: Orleankka.TestKit.StreamRefMock.Expect(Of TItem)(System.Linq.Expressions.Expression(Of System.Func(Of TItem, System.Boolean)))
-  nameWithType: StreamRefMock.Expect<TItem>(Expression<Func<TItem, Boolean>>)
-  nameWithType.vb: StreamRefMock.Expect(Of TItem)(Expression(Of Func(Of TItem, Boolean)))
-- uid: Orleankka.TestKit.StreamRefMock.Push(System.Object)
-  name: Push(Object)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Push_System_Object_
-  commentId: M:Orleankka.TestKit.StreamRefMock.Push(System.Object)
-  fullName: Orleankka.TestKit.StreamRefMock.Push(System.Object)
-  nameWithType: StreamRefMock.Push(Object)
-- uid: Orleankka.TestKit.StreamRefMock.Push*
-  name: Push
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Push_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.Push
+  name.vb: Orleankka.TestKit.IExpectation.Apply
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Apply
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply
+  nameWithType: ResumeExpectation<TOptions>.IExpectation.Apply
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  name: IExpectation.Match(Object)
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IExpectation_Match_System_Object_
+  commentId: M:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  name.vb: Orleankka.TestKit.IExpectation.Match(Object)
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Match(System.Object)
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match(System.Object)
+  nameWithType: ResumeExpectation<TOptions>.IExpectation.Match(Object)
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match(Object)
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Match*
+  name: IExpectation.Match
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IExpectation_Match_
+  commentId: Overload:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IExpectation#Match
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.Push
-  nameWithType: StreamRefMock.Push
-- uid: Orleankka.TestKit.StreamRefMock.RecordedItems
-  name: RecordedItems
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedItems
-  commentId: P:Orleankka.TestKit.StreamRefMock.RecordedItems
-  fullName: Orleankka.TestKit.StreamRefMock.RecordedItems
-  nameWithType: StreamRefMock.RecordedItems
-- uid: Orleankka.TestKit.StreamRefMock.RecordedItems*
-  name: RecordedItems
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedItems_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.RecordedItems
+  name.vb: Orleankka.TestKit.IExpectation.Match
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Match
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match
+  nameWithType: ResumeExpectation<TOptions>.IExpectation.Match
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  name: IRepeatExpectation.Times(Int32)
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_System_Int32_
+  commentId: M:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  name.vb: Orleankka.TestKit.IRepeatExpectation.Times(Int32)
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  nameWithType: ResumeExpectation<TOptions>.IRepeatExpectation.Times(Int32)
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times(Int32)
+- uid: Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times*
+  name: IRepeatExpectation.Times
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
+  commentId: Overload:Orleankka.TestKit.ResumeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.RecordedItems
-  nameWithType: StreamRefMock.RecordedItems
-- uid: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
-  name: RecordedSubscriptions
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedSubscriptions
-  commentId: P:Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
-  fullName: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
-  nameWithType: StreamRefMock.RecordedSubscriptions
-- uid: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions*
-  name: RecordedSubscriptions
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_RecordedSubscriptions_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
+  name.vb: Orleankka.TestKit.IRepeatExpectation.Times
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Orleankka.TestKit.IRepeatExpectation.Times
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times
+  nameWithType: ResumeExpectation<TOptions>.IRepeatExpectation.Times
+  nameWithType.vb: ResumeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times
+- uid: Orleankka.TestKit.ResumeExpectation`1.Throw(System.Exception)
+  name: Throw(Exception)
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Throw_System_Exception_
+  commentId: M:Orleankka.TestKit.ResumeExpectation`1.Throw(System.Exception)
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Throw(System.Exception)
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Throw(System.Exception)
+  nameWithType: ResumeExpectation<TOptions>.Throw(Exception)
+  nameWithType.vb: ResumeExpectation(Of TOptions).Throw(Exception)
+- uid: Orleankka.TestKit.ResumeExpectation`1.Throw*
+  name: Throw
+  href: api/Orleankka.TestKit.ResumeExpectation-1.html#Orleankka_TestKit_ResumeExpectation_1_Throw_
+  commentId: Overload:Orleankka.TestKit.ResumeExpectation`1.Throw
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.RecordedSubscriptions
-  nameWithType: StreamRefMock.RecordedSubscriptions
-- uid: Orleankka.TestKit.StreamRefMock.Reset
+  fullName: Orleankka.TestKit.ResumeExpectation<TOptions>.Throw
+  fullName.vb: Orleankka.TestKit.ResumeExpectation(Of TOptions).Throw
+  nameWithType: ResumeExpectation<TOptions>.Throw
+  nameWithType.vb: ResumeExpectation(Of TOptions).Throw
+- uid: Orleankka.TestKit.StreamRefMock`1
+  name: StreamRefMock<TItem>
+  href: api/Orleankka.TestKit.StreamRefMock-1.html
+  commentId: T:Orleankka.TestKit.StreamRefMock`1
+  name.vb: StreamRefMock(Of TItem)
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem)
+  nameWithType: StreamRefMock<TItem>
+  nameWithType.vb: StreamRefMock(Of TItem)
+- uid: Orleankka.TestKit.StreamRefMock`1.ExpectPublish*
+  name: ExpectPublish
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ExpectPublish_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.ExpectPublish
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ExpectPublish
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ExpectPublish
+  nameWithType: StreamRefMock<TItem>.ExpectPublish
+  nameWithType.vb: StreamRefMock(Of TItem).ExpectPublish
+- uid: Orleankka.TestKit.StreamRefMock`1.ExpectPublish``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name: ExpectPublish<TMessage>(Expression<Func<TMessage, Boolean>>)
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ExpectPublish__1_System_Linq_Expressions_Expression_System_Func___0_System_Boolean___
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.ExpectPublish``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name.vb: ExpectPublish(Of TMessage)(Expression(Of Func(Of TMessage, Boolean)))
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ExpectPublish<TMessage>(System.Linq.Expressions.Expression<System.Func<TMessage, System.Boolean>>)
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ExpectPublish(Of TMessage)(System.Linq.Expressions.Expression(Of System.Func(Of TMessage, System.Boolean)))
+  nameWithType: StreamRefMock<TItem>.ExpectPublish<TMessage>(Expression<Func<TMessage, Boolean>>)
+  nameWithType.vb: StreamRefMock(Of TItem).ExpectPublish(Of TMessage)(Expression(Of Func(Of TMessage, Boolean)))
+- uid: Orleankka.TestKit.StreamRefMock`1.ExpectSubscribe*
+  name: ExpectSubscribe
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ExpectSubscribe_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.ExpectSubscribe
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ExpectSubscribe
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ExpectSubscribe
+  nameWithType: StreamRefMock<TItem>.ExpectSubscribe
+  nameWithType.vb: StreamRefMock(Of TItem).ExpectSubscribe
+- uid: Orleankka.TestKit.StreamRefMock`1.ExpectSubscribe``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name: ExpectSubscribe<TOptions>(Expression<Func<TOptions, Boolean>>)
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ExpectSubscribe__1_System_Linq_Expressions_Expression_System_Func___0_System_Boolean___
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.ExpectSubscribe``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name.vb: ExpectSubscribe(Of TOptions)(Expression(Of Func(Of TOptions, Boolean)))
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ExpectSubscribe<TOptions>(System.Linq.Expressions.Expression<System.Func<TOptions, System.Boolean>>)
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ExpectSubscribe(Of TOptions)(System.Linq.Expressions.Expression(Of System.Func(Of TOptions, System.Boolean)))
+  nameWithType: StreamRefMock<TItem>.ExpectSubscribe<TOptions>(Expression<Func<TOptions, Boolean>>)
+  nameWithType.vb: StreamRefMock(Of TItem).ExpectSubscribe(Of TOptions)(Expression(Of Func(Of TOptions, Boolean)))
+- uid: Orleankka.TestKit.StreamRefMock`1.Publish*
+  name: Publish
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Publish_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.Publish
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Publish
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Publish
+  nameWithType: StreamRefMock<TItem>.Publish
+  nameWithType.vb: StreamRefMock(Of TItem).Publish
+- uid: Orleankka.TestKit.StreamRefMock`1.Publish``1(``0)
+  name: Publish<TMessage>(TMessage)
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Publish__1___0_
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.Publish``1(``0)
+  name.vb: Publish(Of TMessage)(TMessage)
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Publish<TMessage>(TMessage)
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Publish(Of TMessage)(TMessage)
+  nameWithType: StreamRefMock<TItem>.Publish<TMessage>(TMessage)
+  nameWithType.vb: StreamRefMock(Of TItem).Publish(Of TMessage)(TMessage)
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedMessages
+  name: RecordedMessages
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedMessages
+  commentId: P:Orleankka.TestKit.StreamRefMock`1.RecordedMessages
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedMessages
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedMessages
+  nameWithType: StreamRefMock<TItem>.RecordedMessages
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedMessages
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedMessages*
+  name: RecordedMessages
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedMessages_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.RecordedMessages
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedMessages
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedMessages
+  nameWithType: StreamRefMock<TItem>.RecordedMessages
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedMessages
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedResumes
+  name: RecordedResumes
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedResumes
+  commentId: P:Orleankka.TestKit.StreamRefMock`1.RecordedResumes
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedResumes
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedResumes
+  nameWithType: StreamRefMock<TItem>.RecordedResumes
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedResumes
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedResumes*
+  name: RecordedResumes
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedResumes_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.RecordedResumes
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedResumes
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedResumes
+  nameWithType: StreamRefMock<TItem>.RecordedResumes
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedResumes
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedSubscribes
+  name: RecordedSubscribes
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedSubscribes
+  commentId: P:Orleankka.TestKit.StreamRefMock`1.RecordedSubscribes
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedSubscribes
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedSubscribes
+  nameWithType: StreamRefMock<TItem>.RecordedSubscribes
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedSubscribes
+- uid: Orleankka.TestKit.StreamRefMock`1.RecordedSubscribes*
+  name: RecordedSubscribes
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_RecordedSubscribes_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.RecordedSubscribes
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.RecordedSubscribes
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).RecordedSubscribes
+  nameWithType: StreamRefMock<TItem>.RecordedSubscribes
+  nameWithType.vb: StreamRefMock(Of TItem).RecordedSubscribes
+- uid: Orleankka.TestKit.StreamRefMock`1.Reset
   name: Reset()
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Reset
-  commentId: M:Orleankka.TestKit.StreamRefMock.Reset
-  fullName: Orleankka.TestKit.StreamRefMock.Reset()
-  nameWithType: StreamRefMock.Reset()
-- uid: Orleankka.TestKit.StreamRefMock.Reset*
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Reset
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.Reset
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Reset()
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Reset()
+  nameWithType: StreamRefMock<TItem>.Reset()
+  nameWithType.vb: StreamRefMock(Of TItem).Reset()
+- uid: Orleankka.TestKit.StreamRefMock`1.Reset*
   name: Reset
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Reset_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.Reset
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Reset_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.Reset
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.Reset
-  nameWithType: StreamRefMock.Reset
-- uid: Orleankka.TestKit.StreamRefMock.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
-  name: Subscribe(Action<Object>, StreamFilter)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe_System_Action_System_Object__Orleankka_StreamFilter_
-  commentId: M:Orleankka.TestKit.StreamRefMock.Subscribe(System.Action{System.Object},Orleankka.StreamFilter)
-  name.vb: Subscribe(Action(Of Object), StreamFilter)
-  fullName: Orleankka.TestKit.StreamRefMock.Subscribe(System.Action<System.Object>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.TestKit.StreamRefMock.Subscribe(System.Action(Of System.Object), Orleankka.StreamFilter)
-  nameWithType: StreamRefMock.Subscribe(Action<Object>, StreamFilter)
-  nameWithType.vb: StreamRefMock.Subscribe(Action(Of Object), StreamFilter)
-- uid: Orleankka.TestKit.StreamRefMock.Subscribe(System.Func{System.Object,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name: Subscribe(Func<Object, Task>, StreamFilter)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe_System_Func_System_Object_System_Threading_Tasks_Task__Orleankka_StreamFilter_
-  commentId: M:Orleankka.TestKit.StreamRefMock.Subscribe(System.Func{System.Object,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name.vb: Subscribe(Func(Of Object, Task), StreamFilter)
-  fullName: Orleankka.TestKit.StreamRefMock.Subscribe(System.Func<System.Object, System.Threading.Tasks.Task>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.TestKit.StreamRefMock.Subscribe(System.Func(Of System.Object, System.Threading.Tasks.Task), Orleankka.StreamFilter)
-  nameWithType: StreamRefMock.Subscribe(Func<Object, Task>, StreamFilter)
-  nameWithType.vb: StreamRefMock.Subscribe(Func(Of Object, Task), StreamFilter)
-- uid: Orleankka.TestKit.StreamRefMock.Subscribe*
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Reset
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Reset
+  nameWithType: StreamRefMock<TItem>.Reset
+  nameWithType.vb: StreamRefMock(Of TItem).Reset
+- uid: Orleankka.TestKit.StreamRefMock`1.ResumeSubscribe*
+  name: ResumeSubscribe
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ResumeSubscribe_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.ResumeSubscribe
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ResumeSubscribe
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ResumeSubscribe
+  nameWithType: StreamRefMock<TItem>.ResumeSubscribe
+  nameWithType.vb: StreamRefMock(Of TItem).ResumeSubscribe
+- uid: Orleankka.TestKit.StreamRefMock`1.ResumeSubscribe``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name: ResumeSubscribe<TOptions>(Expression<Func<TOptions, Boolean>>)
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_ResumeSubscribe__1_System_Linq_Expressions_Expression_System_Func___0_System_Boolean___
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.ResumeSubscribe``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})
+  name.vb: ResumeSubscribe(Of TOptions)(Expression(Of Func(Of TOptions, Boolean)))
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.ResumeSubscribe<TOptions>(System.Linq.Expressions.Expression<System.Func<TOptions, System.Boolean>>)
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).ResumeSubscribe(Of TOptions)(System.Linq.Expressions.Expression(Of System.Func(Of TOptions, System.Boolean)))
+  nameWithType: StreamRefMock<TItem>.ResumeSubscribe<TOptions>(Expression<Func<TOptions, Boolean>>)
+  nameWithType.vb: StreamRefMock(Of TItem).ResumeSubscribe(Of TOptions)(Expression(Of Func(Of TOptions, Boolean)))
+- uid: Orleankka.TestKit.StreamRefMock`1.Subscribe*
   name: Subscribe
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.Subscribe
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Subscribe_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.Subscribe
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.Subscribe
-  nameWithType: StreamRefMock.Subscribe
-- uid: Orleankka.TestKit.StreamRefMock.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
-  name: Subscribe<T>(Action<T>, StreamFilter)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe__1_System_Action___0__Orleankka_StreamFilter_
-  commentId: M:Orleankka.TestKit.StreamRefMock.Subscribe``1(System.Action{``0},Orleankka.StreamFilter)
-  name.vb: Subscribe(Of T)(Action(Of T), StreamFilter)
-  fullName: Orleankka.TestKit.StreamRefMock.Subscribe<T>(System.Action<T>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.TestKit.StreamRefMock.Subscribe(Of T)(System.Action(Of T), Orleankka.StreamFilter)
-  nameWithType: StreamRefMock.Subscribe<T>(Action<T>, StreamFilter)
-  nameWithType.vb: StreamRefMock.Subscribe(Of T)(Action(Of T), StreamFilter)
-- uid: Orleankka.TestKit.StreamRefMock.Subscribe``1(System.Func{``0,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name: Subscribe<T>(Func<T, Task>, StreamFilter)
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscribe__1_System_Func___0_System_Threading_Tasks_Task__Orleankka_StreamFilter_
-  commentId: M:Orleankka.TestKit.StreamRefMock.Subscribe``1(System.Func{``0,System.Threading.Tasks.Task},Orleankka.StreamFilter)
-  name.vb: Subscribe(Of T)(Func(Of T, Task), StreamFilter)
-  fullName: Orleankka.TestKit.StreamRefMock.Subscribe<T>(System.Func<T, System.Threading.Tasks.Task>, Orleankka.StreamFilter)
-  fullName.vb: Orleankka.TestKit.StreamRefMock.Subscribe(Of T)(System.Func(Of T, System.Threading.Tasks.Task), Orleankka.StreamFilter)
-  nameWithType: StreamRefMock.Subscribe<T>(Func<T, Task>, StreamFilter)
-  nameWithType.vb: StreamRefMock.Subscribe(Of T)(Func(Of T, Task), StreamFilter)
-- uid: Orleankka.TestKit.StreamRefMock.Subscriptions
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Subscribe
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Subscribe
+  nameWithType: StreamRefMock<TItem>.Subscribe
+  nameWithType.vb: StreamRefMock(Of TItem).Subscribe
+- uid: Orleankka.TestKit.StreamRefMock`1.Subscribe``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name: Subscribe<TOptions>(Func<StreamMessage, Task>, TOptions)
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Subscribe__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.Subscribe``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name.vb: Subscribe(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Subscribe<TOptions>(System.Func<Orleankka.StreamMessage, System.Threading.Tasks.Task>, TOptions)
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Subscribe(Of TOptions)(System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), TOptions)
+  nameWithType: StreamRefMock<TItem>.Subscribe<TOptions>(Func<StreamMessage, Task>, TOptions)
+  nameWithType.vb: StreamRefMock(Of TItem).Subscribe(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+- uid: Orleankka.TestKit.StreamRefMock`1.Subscriptions
   name: Subscriptions()
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscriptions
-  commentId: M:Orleankka.TestKit.StreamRefMock.Subscriptions
-  fullName: Orleankka.TestKit.StreamRefMock.Subscriptions()
-  nameWithType: StreamRefMock.Subscriptions()
-- uid: Orleankka.TestKit.StreamRefMock.Subscriptions*
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Subscriptions
+  commentId: M:Orleankka.TestKit.StreamRefMock`1.Subscriptions
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Subscriptions()
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Subscriptions()
+  nameWithType: StreamRefMock<TItem>.Subscriptions()
+  nameWithType.vb: StreamRefMock(Of TItem).Subscriptions()
+- uid: Orleankka.TestKit.StreamRefMock`1.Subscriptions*
   name: Subscriptions
-  href: api/Orleankka.TestKit.StreamRefMock.html#Orleankka_TestKit_StreamRefMock_Subscriptions_
-  commentId: Overload:Orleankka.TestKit.StreamRefMock.Subscriptions
+  href: api/Orleankka.TestKit.StreamRefMock-1.html#Orleankka_TestKit_StreamRefMock_1_Subscriptions_
+  commentId: Overload:Orleankka.TestKit.StreamRefMock`1.Subscriptions
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamRefMock.Subscriptions
-  nameWithType: StreamRefMock.Subscriptions
-- uid: Orleankka.TestKit.StreamSubscriptionMock
+  fullName: Orleankka.TestKit.StreamRefMock<TItem>.Subscriptions
+  fullName.vb: Orleankka.TestKit.StreamRefMock(Of TItem).Subscriptions
+  nameWithType: StreamRefMock<TItem>.Subscriptions
+  nameWithType.vb: StreamRefMock(Of TItem).Subscriptions
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1
+  name: StreamSubscriptionMock<TItem>
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html
+  commentId: T:Orleankka.TestKit.StreamSubscriptionMock`1
+  name.vb: StreamSubscriptionMock(Of TItem)
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem)
+  nameWithType: StreamSubscriptionMock<TItem>
+  nameWithType.vb: StreamSubscriptionMock(Of TItem)
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.#ctor(Orleankka.TestKit.StreamRefMock{`0},System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},Orleankka.SubscribeOptions,Orleankka.ResumeOptions)
+  name: StreamSubscriptionMock(StreamRefMock<TItem>, Func<StreamMessage, Task>, SubscribeOptions, ResumeOptions)
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1__ctor_Orleankka_TestKit_StreamRefMock__0__System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task__Orleankka_SubscribeOptions_Orleankka_ResumeOptions_
+  commentId: M:Orleankka.TestKit.StreamSubscriptionMock`1.#ctor(Orleankka.TestKit.StreamRefMock{`0},System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},Orleankka.SubscribeOptions,Orleankka.ResumeOptions)
+  name.vb: StreamSubscriptionMock(StreamRefMock(Of TItem), Func(Of StreamMessage, Task), SubscribeOptions, ResumeOptions)
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.StreamSubscriptionMock(Orleankka.TestKit.StreamRefMock<TItem>, System.Func<Orleankka.StreamMessage, System.Threading.Tasks.Task>, Orleankka.SubscribeOptions, Orleankka.ResumeOptions)
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).StreamSubscriptionMock(Orleankka.TestKit.StreamRefMock(Of TItem), System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), Orleankka.SubscribeOptions, Orleankka.ResumeOptions)
+  nameWithType: StreamSubscriptionMock<TItem>.StreamSubscriptionMock(StreamRefMock<TItem>, Func<StreamMessage, Task>, SubscribeOptions, ResumeOptions)
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).StreamSubscriptionMock(StreamRefMock(Of TItem), Func(Of StreamMessage, Task), SubscribeOptions, ResumeOptions)
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.#ctor*
   name: StreamSubscriptionMock
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html
-  commentId: T:Orleankka.TestKit.StreamSubscriptionMock
-  fullName: Orleankka.TestKit.StreamSubscriptionMock
-  nameWithType: StreamSubscriptionMock
-- uid: Orleankka.TestKit.StreamSubscriptionMock.#ctor(System.Object,Orleankka.StreamFilter)
-  name: StreamSubscriptionMock(Object, StreamFilter)
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock__ctor_System_Object_Orleankka_StreamFilter_
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.#ctor(System.Object,Orleankka.StreamFilter)
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.StreamSubscriptionMock(System.Object, Orleankka.StreamFilter)
-  nameWithType: StreamSubscriptionMock.StreamSubscriptionMock(Object, StreamFilter)
-- uid: Orleankka.TestKit.StreamSubscriptionMock.#ctor*
-  name: StreamSubscriptionMock
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock__ctor_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.#ctor
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1__ctor_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.#ctor
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.StreamSubscriptionMock
-  nameWithType: StreamSubscriptionMock.StreamSubscriptionMock
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Callback
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.StreamSubscriptionMock
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).StreamSubscriptionMock
+  nameWithType: StreamSubscriptionMock<TItem>.StreamSubscriptionMock
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).StreamSubscriptionMock
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Callback
   name: Callback
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Callback
-  commentId: P:Orleankka.TestKit.StreamSubscriptionMock.Callback
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Callback
-  nameWithType: StreamSubscriptionMock.Callback
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Callback*
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Callback
+  commentId: P:Orleankka.TestKit.StreamSubscriptionMock`1.Callback
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Callback
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Callback
+  nameWithType: StreamSubscriptionMock<TItem>.Callback
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Callback
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Callback*
   name: Callback
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Callback_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Callback
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Callback_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.Callback
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Callback
-  nameWithType: StreamSubscriptionMock.Callback
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Filter
-  name: Filter
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Filter
-  commentId: P:Orleankka.TestKit.StreamSubscriptionMock.Filter
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Filter
-  nameWithType: StreamSubscriptionMock.Filter
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Filter*
-  name: Filter
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Filter_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Filter
-  isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Filter
-  nameWithType: StreamSubscriptionMock.Filter
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Action{System.Object})
-  name: Resume(Action<Object>)
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume_System_Action_System_Object__
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Action{System.Object})
-  name.vb: Resume(Action(Of Object))
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Action<System.Object>)
-  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Action(Of System.Object))
-  nameWithType: StreamSubscriptionMock.Resume(Action<Object>)
-  nameWithType.vb: StreamSubscriptionMock.Resume(Action(Of Object))
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Func{System.Object,System.Threading.Tasks.Task})
-  name: Resume(Func<Object, Task>)
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume_System_Func_System_Object_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Func{System.Object,System.Threading.Tasks.Task})
-  name.vb: Resume(Func(Of Object, Task))
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Func<System.Object, System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock.Resume(System.Func(Of System.Object, System.Threading.Tasks.Task))
-  nameWithType: StreamSubscriptionMock.Resume(Func<Object, Task>)
-  nameWithType.vb: StreamSubscriptionMock.Resume(Func(Of Object, Task))
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resume*
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Callback
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Callback
+  nameWithType: StreamSubscriptionMock<TItem>.Callback
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Callback
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Resume*
   name: Resume
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Resume
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Resume_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.Resume
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume
-  nameWithType: StreamSubscriptionMock.Resume
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resume``1(System.Action{``0})
-  name: Resume<T>(Action<T>)
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume__1_System_Action___0__
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.Resume``1(System.Action{``0})
-  name.vb: Resume(Of T)(Action(Of T))
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume<T>(System.Action<T>)
-  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock.Resume(Of T)(System.Action(Of T))
-  nameWithType: StreamSubscriptionMock.Resume<T>(Action<T>)
-  nameWithType.vb: StreamSubscriptionMock.Resume(Of T)(Action(Of T))
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resume``1(System.Func{``0,System.Threading.Tasks.Task})
-  name: Resume<T>(Func<T, Task>)
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resume__1_System_Func___0_System_Threading_Tasks_Task__
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.Resume``1(System.Func{``0,System.Threading.Tasks.Task})
-  name.vb: Resume(Of T)(Func(Of T, Task))
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resume<T>(System.Func<T, System.Threading.Tasks.Task>)
-  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock.Resume(Of T)(System.Func(Of T, System.Threading.Tasks.Task))
-  nameWithType: StreamSubscriptionMock.Resume<T>(Func<T, Task>)
-  nameWithType.vb: StreamSubscriptionMock.Resume(Of T)(Func(Of T, Task))
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resumed
-  name: Resumed
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resumed
-  commentId: P:Orleankka.TestKit.StreamSubscriptionMock.Resumed
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resumed
-  nameWithType: StreamSubscriptionMock.Resumed
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Resumed*
-  name: Resumed
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Resumed_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Resumed
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Resume
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Resume
+  nameWithType: StreamSubscriptionMock<TItem>.Resume
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Resume
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Resume``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name: Resume<TOptions>(Func<StreamMessage, Task>, TOptions)
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Resume__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_
+  commentId: M:Orleankka.TestKit.StreamSubscriptionMock`1.Resume``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)
+  name.vb: Resume(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Resume<TOptions>(System.Func<Orleankka.StreamMessage, System.Threading.Tasks.Task>, TOptions)
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Resume(Of TOptions)(System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), TOptions)
+  nameWithType: StreamSubscriptionMock<TItem>.Resume<TOptions>(Func<StreamMessage, Task>, TOptions)
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Resume(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.ResumeOptions
+  name: ResumeOptions
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_ResumeOptions
+  commentId: P:Orleankka.TestKit.StreamSubscriptionMock`1.ResumeOptions
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.ResumeOptions
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).ResumeOptions
+  nameWithType: StreamSubscriptionMock<TItem>.ResumeOptions
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).ResumeOptions
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.ResumeOptions*
+  name: ResumeOptions
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_ResumeOptions_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.ResumeOptions
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Resumed
-  nameWithType: StreamSubscriptionMock.Resumed
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.ResumeOptions
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).ResumeOptions
+  nameWithType: StreamSubscriptionMock<TItem>.ResumeOptions
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).ResumeOptions
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.SubscribeOptions
+  name: SubscribeOptions
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_SubscribeOptions
+  commentId: P:Orleankka.TestKit.StreamSubscriptionMock`1.SubscribeOptions
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.SubscribeOptions
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).SubscribeOptions
+  nameWithType: StreamSubscriptionMock<TItem>.SubscribeOptions
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).SubscribeOptions
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.SubscribeOptions*
+  name: SubscribeOptions
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_SubscribeOptions_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.SubscribeOptions
+  isSpec: "True"
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.SubscribeOptions
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).SubscribeOptions
+  nameWithType: StreamSubscriptionMock<TItem>.SubscribeOptions
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).SubscribeOptions
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribe
   name: Unsubscribe()
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribe
-  commentId: M:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe()
-  nameWithType: StreamSubscriptionMock.Unsubscribe()
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe*
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Unsubscribe
+  commentId: M:Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribe
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Unsubscribe()
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Unsubscribe()
+  nameWithType: StreamSubscriptionMock<TItem>.Unsubscribe()
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Unsubscribe()
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribe*
   name: Unsubscribe
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribe_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Unsubscribe_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribe
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribe
-  nameWithType: StreamSubscriptionMock.Unsubscribe
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Unsubscribe
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Unsubscribe
+  nameWithType: StreamSubscriptionMock<TItem>.Unsubscribe
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Unsubscribe
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribed
   name: Unsubscribed
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribed
-  commentId: P:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
-  nameWithType: StreamSubscriptionMock.Unsubscribed
-- uid: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed*
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Unsubscribed
+  commentId: P:Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribed
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Unsubscribed
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Unsubscribed
+  nameWithType: StreamSubscriptionMock<TItem>.Unsubscribed
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Unsubscribed
+- uid: Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribed*
   name: Unsubscribed
-  href: api/Orleankka.TestKit.StreamSubscriptionMock.html#Orleankka_TestKit_StreamSubscriptionMock_Unsubscribed_
-  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
+  href: api/Orleankka.TestKit.StreamSubscriptionMock-1.html#Orleankka_TestKit_StreamSubscriptionMock_1_Unsubscribed_
+  commentId: Overload:Orleankka.TestKit.StreamSubscriptionMock`1.Unsubscribed
   isSpec: "True"
-  fullName: Orleankka.TestKit.StreamSubscriptionMock.Unsubscribed
-  nameWithType: StreamSubscriptionMock.Unsubscribed
+  fullName: Orleankka.TestKit.StreamSubscriptionMock<TItem>.Unsubscribed
+  fullName.vb: Orleankka.TestKit.StreamSubscriptionMock(Of TItem).Unsubscribed
+  nameWithType: StreamSubscriptionMock<TItem>.Unsubscribed
+  nameWithType.vb: StreamSubscriptionMock(Of TItem).Unsubscribed
+- uid: Orleankka.TestKit.SubscribeExpectation`1
+  name: SubscribeExpectation<TOptions>
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html
+  commentId: T:Orleankka.TestKit.SubscribeExpectation`1
+  name.vb: SubscribeExpectation(Of TOptions)
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions)
+  nameWithType: SubscribeExpectation<TOptions>
+  nameWithType.vb: SubscribeExpectation(Of TOptions)
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  name: IExpectation.Apply()
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IExpectation_Apply
+  commentId: M:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  name.vb: Orleankka.TestKit.IExpectation.Apply()
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Apply()
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply()
+  nameWithType: SubscribeExpectation<TOptions>.IExpectation.Apply()
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply()
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Apply*
+  name: IExpectation.Apply
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IExpectation_Apply_
+  commentId: Overload:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Apply
+  isSpec: "True"
+  name.vb: Orleankka.TestKit.IExpectation.Apply
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Apply
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply
+  nameWithType: SubscribeExpectation<TOptions>.IExpectation.Apply
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Apply
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  name: IExpectation.Match(Object)
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IExpectation_Match_System_Object_
+  commentId: M:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Match(System.Object)
+  name.vb: Orleankka.TestKit.IExpectation.Match(Object)
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Match(System.Object)
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match(System.Object)
+  nameWithType: SubscribeExpectation<TOptions>.IExpectation.Match(Object)
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match(Object)
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Match*
+  name: IExpectation.Match
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IExpectation_Match_
+  commentId: Overload:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IExpectation#Match
+  isSpec: "True"
+  name.vb: Orleankka.TestKit.IExpectation.Match
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IExpectation.Match
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match
+  nameWithType: SubscribeExpectation<TOptions>.IExpectation.Match
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IExpectation.Match
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  name: IRepeatExpectation.Times(Int32)
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_System_Int32_
+  commentId: M:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times(System.Int32)
+  name.vb: Orleankka.TestKit.IRepeatExpectation.Times(Int32)
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times(System.Int32)
+  nameWithType: SubscribeExpectation<TOptions>.IRepeatExpectation.Times(Int32)
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times(Int32)
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times*
+  name: IRepeatExpectation.Times
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Orleankka_TestKit_IRepeatExpectation_Times_
+  commentId: Overload:Orleankka.TestKit.SubscribeExpectation`1.Orleankka#TestKit#IRepeatExpectation#Times
+  isSpec: "True"
+  name.vb: Orleankka.TestKit.IRepeatExpectation.Times
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Orleankka.TestKit.IRepeatExpectation.Times
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times
+  nameWithType: SubscribeExpectation<TOptions>.IRepeatExpectation.Times
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Orleankka.TestKit.IRepeatExpectation.Times
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Throw(System.Exception)
+  name: Throw(Exception)
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Throw_System_Exception_
+  commentId: M:Orleankka.TestKit.SubscribeExpectation`1.Throw(System.Exception)
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Throw(System.Exception)
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Throw(System.Exception)
+  nameWithType: SubscribeExpectation<TOptions>.Throw(Exception)
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Throw(Exception)
+- uid: Orleankka.TestKit.SubscribeExpectation`1.Throw*
+  name: Throw
+  href: api/Orleankka.TestKit.SubscribeExpectation-1.html#Orleankka_TestKit_SubscribeExpectation_1_Throw_
+  commentId: Overload:Orleankka.TestKit.SubscribeExpectation`1.Throw
+  isSpec: "True"
+  fullName: Orleankka.TestKit.SubscribeExpectation<TOptions>.Throw
+  fullName.vb: Orleankka.TestKit.SubscribeExpectation(Of TOptions).Throw
+  nameWithType: SubscribeExpectation<TOptions>.Throw
+  nameWithType.vb: SubscribeExpectation(Of TOptions).Throw
 - uid: Orleankka.TestKit.TellExpectation`1
   name: TellExpectation<TMessage>
   href: api/Orleankka.TestKit.TellExpectation-1.html

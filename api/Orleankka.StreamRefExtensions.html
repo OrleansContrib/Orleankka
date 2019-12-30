@@ -117,7 +117,7 @@
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
-  <h6><strong>Assembly</strong>: Orleankka.Runtime.dll</h6>
+  <h6><strong>Assembly</strong>: Orleankka.dll</h6>
   <h5 id="Orleankka_StreamRefExtensions_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static class StreamRefExtensions</code></pre>
@@ -126,18 +126,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Resume_Orleankka_StreamRef_Orleankka_ActorGrain_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Resume(Orleankka.StreamRef%2COrleankka.ActorGrain)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0____0_Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Publish%60%601(Orleankka.StreamRef%7B%60%600%7D%2C%60%600%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/StreamRefExtensions.cs/#L39">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L11">View Source</a>
   </span>
-  <a id="Orleankka_StreamRefExtensions_Resume_" data-uid="Orleankka.StreamRefExtensions.Resume*"></a>
-  <h4 id="Orleankka_StreamRefExtensions_Resume_Orleankka_StreamRef_Orleankka_ActorGrain_" data-uid="Orleankka.StreamRefExtensions.Resume(Orleankka.StreamRef,Orleankka.ActorGrain)">Resume(StreamRef, ActorGrain)</h4>
+  <a id="Orleankka_StreamRefExtensions_Publish_" data-uid="Orleankka.StreamRefExtensions.Publish*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0____0_Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},``0,Orleans.Streams.StreamSequenceToken)">Publish&lt;TItem&gt;(StreamRef&lt;TItem&gt;, TItem, StreamSequenceToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task Resume(this StreamRef stream, ActorGrain actor)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task Publish&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, TItem item, StreamSequenceToken token = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -150,13 +150,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.StreamRef.html">StreamRef</a></td>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
         <td><span class="parametername">stream</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Orleankka.ActorGrain.html">ActorGrain</a></td>
-        <td><span class="parametername">actor</span></td>
+        <td><span class="xref">TItem</span></td>
+        <td><span class="parametername">item</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -176,20 +181,35 @@
       </tr>
     </tbody>
   </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Subscribe_Orleankka_StreamRef_Orleankka_ActorGrain_Orleankka_StreamFilter_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef%2COrleankka.ActorGrain%2COrleankka.StreamFilter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0__System_Collections_Generic_IEnumerable___0__Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Publish%60%601(Orleankka.StreamRef%7B%60%600%7D%2CSystem.Collections.Generic.IEnumerable%7B%60%600%7D%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/StreamRefExtensions.cs/#L11">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L14">View Source</a>
   </span>
-  <a id="Orleankka_StreamRefExtensions_Subscribe_" data-uid="Orleankka.StreamRefExtensions.Subscribe*"></a>
-  <h4 id="Orleankka_StreamRefExtensions_Subscribe_Orleankka_StreamRef_Orleankka_ActorGrain_Orleankka_StreamFilter_" data-uid="Orleankka.StreamRefExtensions.Subscribe(Orleankka.StreamRef,Orleankka.ActorGrain,Orleankka.StreamFilter)">Subscribe(StreamRef, ActorGrain, StreamFilter)</h4>
+  <a id="Orleankka_StreamRefExtensions_Publish_" data-uid="Orleankka.StreamRefExtensions.Publish*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Publish__1_Orleankka_StreamRef___0__System_Collections_Generic_IEnumerable___0__Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Publish``1(Orleankka.StreamRef{``0},System.Collections.Generic.IEnumerable{``0},Orleans.Streams.StreamSequenceToken)">Publish&lt;TItem&gt;(StreamRef&lt;TItem&gt;, IEnumerable&lt;TItem&gt;, StreamSequenceToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task Subscribe(this StreamRef stream, ActorGrain actor, StreamFilter filter = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task Publish&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, IEnumerable&lt;TItem&gt; batch, StreamSequenceToken token = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -202,13 +222,85 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.StreamRef.html">StreamRef</a></td>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
         <td><span class="parametername">stream</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Orleankka.ActorGrain.html">ActorGrain</a></td>
-        <td><span class="parametername">actor</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/9eekhta0(v=vs.110).aspx">IEnumerable</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">batch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action___0_Orleans_Streams_StreamSequenceToken__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Subscribe%60%601(Orleankka.StreamRef%7B%60%600%7D%2CSystem.Action%7B%60%600%2COrleans.Streams.StreamSequenceToken%7D%2COrleankka.StreamFilter%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L17">View Source</a>
+  </span>
+  <a id="Orleankka_StreamRefExtensions_Subscribe_" data-uid="Orleankka.StreamRefExtensions.Subscribe*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action___0_Orleans_Streams_StreamSequenceToken__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{``0,Orleans.Streams.StreamSequenceToken},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)">Subscribe&lt;TItem&gt;(StreamRef&lt;TItem&gt;, Action&lt;TItem, StreamSequenceToken&gt;, StreamFilter, StreamSequenceToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;StreamSubscription&lt;TItem&gt;&gt; Subscribe&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, Action&lt;TItem, StreamSequenceToken&gt; callback, StreamFilter filter = null, StreamSequenceToken token = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">stream</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549311(v=vs.110).aspx">Action</a>&lt;TItem, <span class="xref">Orleans.Streams.StreamSequenceToken</span>&gt;</td>
+        <td><span class="parametername">callback</span></td>
         <td></td>
       </tr>
       <tr>
@@ -216,6 +308,11 @@
         <td><span class="parametername">filter</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -228,25 +325,40 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Unsubscribe_Orleankka_StreamRef_Orleankka_ActorGrain_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef%2COrleankka.ActorGrain)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0____Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Subscribe%60%601(Orleankka.StreamRef%7B%60%600%7D%2CSystem.Action%7BSystem.Collections.Generic.IList%7BOrleans.Streams.SequentialItem%7B%60%600%7D%7D%7D%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/StreamRefExtensions.cs/#L25">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L44">View Source</a>
   </span>
-  <a id="Orleankka_StreamRefExtensions_Unsubscribe_" data-uid="Orleankka.StreamRefExtensions.Unsubscribe*"></a>
-  <h4 id="Orleankka_StreamRefExtensions_Unsubscribe_Orleankka_StreamRef_Orleankka_ActorGrain_" data-uid="Orleankka.StreamRefExtensions.Unsubscribe(Orleankka.StreamRef,Orleankka.ActorGrain)">Unsubscribe(StreamRef, ActorGrain)</h4>
+  <a id="Orleankka_StreamRefExtensions_Subscribe_" data-uid="Orleankka.StreamRefExtensions.Subscribe*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Action_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0____Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Action{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}}},Orleans.Streams.StreamSequenceToken)">Subscribe&lt;TItem&gt;(StreamRef&lt;TItem&gt;, Action&lt;IList&lt;SequentialItem&lt;TItem&gt;&gt;&gt;, StreamSequenceToken)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task Unsubscribe(this StreamRef stream, ActorGrain actor)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task&lt;StreamSubscription&lt;TItem&gt;&gt; Subscribe&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, Action&lt;IList&lt;SequentialItem&lt;TItem&gt;&gt;&gt; callback, StreamSequenceToken token = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -259,13 +371,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.StreamRef.html">StreamRef</a></td>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
         <td><span class="parametername">stream</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Orleankka.ActorGrain.html">ActorGrain</a></td>
-        <td><span class="parametername">actor</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/018hxwa8(v=vs.110).aspx">Action</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/5y536ey6(v=vs.110).aspx">IList</a>&lt;<span class="xref">Orleans.Streams.SequentialItem</span>&lt;TItem&gt;&gt;&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -280,7 +397,171 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func___0_Orleans_Streams_StreamSequenceToken_System_Threading_Tasks_Task__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Subscribe%60%601(Orleankka.StreamRef%7B%60%600%7D%2CSystem.Func%7B%60%600%2COrleans.Streams.StreamSequenceToken%2CSystem.Threading.Tasks.Task%7D%2COrleankka.StreamFilter%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L30">View Source</a>
+  </span>
+  <a id="Orleankka_StreamRefExtensions_Subscribe_" data-uid="Orleankka.StreamRefExtensions.Subscribe*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func___0_Orleans_Streams_StreamSequenceToken_System_Threading_Tasks_Task__Orleankka_StreamFilter_Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{``0,Orleans.Streams.StreamSequenceToken,System.Threading.Tasks.Task},Orleankka.StreamFilter,Orleans.Streams.StreamSequenceToken)">Subscribe&lt;TItem&gt;(StreamRef&lt;TItem&gt;, Func&lt;TItem, StreamSequenceToken, Task&gt;, StreamFilter, StreamSequenceToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;StreamSubscription&lt;TItem&gt;&gt; Subscribe&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, Func&lt;TItem, StreamSequenceToken, Task&gt; callback, StreamFilter filter = null, StreamSequenceToken token = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">stream</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb534647(v=vs.110).aspx">Func</a>&lt;TItem, <span class="xref">Orleans.Streams.StreamSequenceToken</span>, <a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a>&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamFilter.html">StreamFilter</a></td>
+        <td><span class="parametername">filter</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0___System_Threading_Tasks_Task__Orleans_Streams_StreamSequenceToken_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions.Subscribe%60%601(Orleankka.StreamRef%7B%60%600%7D%2CSystem.Func%7BSystem.Collections.Generic.IList%7BOrleans.Streams.SequentialItem%7B%60%600%7D%7D%2CSystem.Threading.Tasks.Task%7D%2COrleans.Streams.StreamSequenceToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L56">View Source</a>
+  </span>
+  <a id="Orleankka_StreamRefExtensions_Subscribe_" data-uid="Orleankka.StreamRefExtensions.Subscribe*"></a>
+  <h4 id="Orleankka_StreamRefExtensions_Subscribe__1_Orleankka_StreamRef___0__System_Func_System_Collections_Generic_IList_Orleans_Streams_SequentialItem___0___System_Threading_Tasks_Task__Orleans_Streams_StreamSequenceToken_" data-uid="Orleankka.StreamRefExtensions.Subscribe``1(Orleankka.StreamRef{``0},System.Func{System.Collections.Generic.IList{Orleans.Streams.SequentialItem{``0}},System.Threading.Tasks.Task},Orleans.Streams.StreamSequenceToken)">Subscribe&lt;TItem&gt;(StreamRef&lt;TItem&gt;, Func&lt;IList&lt;SequentialItem&lt;TItem&gt;&gt;, Task&gt;, StreamSequenceToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;StreamSubscription&lt;TItem&gt;&gt; Subscribe&lt;TItem&gt;(this StreamRef&lt;TItem&gt; stream, Func&lt;IList&lt;SequentialItem&lt;TItem&gt;&gt;, Task&gt; callback, StreamSequenceToken token = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">stream</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/bb549151(v=vs.110).aspx">Func</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/5y536ey6(v=vs.110).aspx">IList</a>&lt;<span class="xref">Orleans.Streams.SequentialItem</span>&lt;TItem&gt;&gt;, <a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a>&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Orleans.Streams.StreamSequenceToken</span></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/dd321424(v=vs.110).aspx">Task</a>&lt;<a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -296,7 +577,7 @@
                     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefExtensions.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefExtensions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.Runtime/StreamRefExtensions.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefExtensions.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

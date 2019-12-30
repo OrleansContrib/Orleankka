@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorSystem.html",
-          "hash": "h6DyqB7M0pAcaipE3F5jTA=="
+          "hash": "zmUpPUjLEVprH8Z986VdFA=="
         }
       },
       "is_incremental": false,
@@ -165,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.ActorSystemExtensions.html",
-          "hash": "s66yOwH5/KTLbQW+Nz3k1g=="
+          "hash": "y2MKJwo0KhGajo5Z9zZY4A=="
         }
       },
       "is_incremental": false,
@@ -285,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.ClientActorSystem.html",
-          "hash": "QH97UB5/Rtz+1XQqpeWo6g=="
+          "hash": "J7QOlcgBcUr+giuA/Le+tQ=="
         }
       },
       "is_incremental": false,
@@ -309,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.Client.IClientActorSystem.html",
-          "hash": "0hxZxDKMkIT6dlzxDNtoiw=="
+          "hash": "3KhQ8/lkOBN7jY/tD4yz2A=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.IActorSystem.html",
-          "hash": "4IqeVX6R5ZaUU5fYpXrQlw=="
+          "hash": "sIKsFrAwNAwLQg1g5p2vtw=="
         }
       },
       "is_incremental": false,
@@ -905,6 +905,54 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.NextItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.NextItem-1.html",
+          "hash": "oMJipVac7BANKYTJ8iTsWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.NextItemBatch-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.NextItemBatch-1.html",
+          "hash": "CxoSvcBS7rdD2MsnxXvonA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.NotifyStreamCompleted.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.NotifyStreamCompleted.html",
+          "hash": "8H25t9XpXa+cWUW8kRzRUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.NotifyStreamError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.NotifyStreamError.html",
+          "hash": "3BisqB+k4/FsGhMwCSpf+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.ObserverCollection.yml",
       "output": {
         ".html": {
@@ -941,6 +989,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.PublishMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.PublishMessage.html",
+          "hash": "2xeIpVZH5976MWgY4NQdpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.Receive.yml",
       "output": {
         ".html": {
@@ -970,6 +1030,42 @@
         ".html": {
           "relative_path": "api/Orleankka.Reminder.html",
           "hash": "+BsSWEIK+nZcuZKHjJ6sFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ResumeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ResumeOptions.html",
+          "hash": "5Jx3bBQq7MksnqGd1vVhFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ResumeReceiveBatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ResumeReceiveBatch.html",
+          "hash": "zJOJcaBMbaEVzbfyUltRKg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.ResumeReceiveItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.ResumeReceiveItem.html",
+          "hash": "CwY5IrrqySM+WFbZZKKXWg=="
         }
       },
       "is_incremental": false,
@@ -1133,11 +1229,83 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamCompleted.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamCompleted.html",
+          "hash": "nPr0XewTxABVs8XykyfZmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamError.html",
+          "hash": "/QPOqltsh6SHrn4z2aVRZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.StreamFilter.yml",
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.StreamFilter.html",
           "hash": "xn9/U5opYZpRzKwdD4+k8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamItem-1.html",
+          "hash": "c/vTJL0uOHOZ9h6BlwRi3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamItemBatch-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamItemBatch-1.html",
+          "hash": "1aEFUmbWSZQdoG4t7Dsp4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamMessage-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamMessage-1.html",
+          "hash": "Ial4+rEHvZGdzLLaLkkJKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.StreamMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.StreamMessage.html",
+          "hash": "nZn9k8lKpXo8dVSpsL/fWg=="
         }
       },
       "is_incremental": false,
@@ -1157,11 +1325,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.StreamRef.yml",
+      "source_relative_path": "api/Orleankka.StreamRef-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.StreamRef.html",
-          "hash": "yG8ZH9ObS2aGwDgNO9QPGg=="
+          "relative_path": "api/Orleankka.StreamRef-1.html",
+          "hash": "+fD0vfUCkQy1XuD365JOTg=="
         }
       },
       "is_incremental": false,
@@ -1173,7 +1341,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.StreamRefExtensions.html",
-          "hash": "TQYDQoeK3R84pwWA8yUa1w=="
+          "hash": "+/ot/PfsoK9TzwUqLOdmNQ=="
         }
       },
       "is_incremental": false,
@@ -1181,11 +1349,47 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.StreamSubscription.yml",
+      "source_relative_path": "api/Orleankka.StreamSubscription-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.StreamSubscription.html",
-          "hash": "fD0qRcpdK80QzwP2xvzN2Q=="
+          "relative_path": "api/Orleankka.StreamSubscription-1.html",
+          "hash": "2dQ9wywicOBAvzOVuHsKSw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.SubscribeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.SubscribeOptions.html",
+          "hash": "JHquMgAbf5lyg+q9BPiKxA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.SubscribeReceiveBatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.SubscribeReceiveBatch.html",
+          "hash": "12maX57ZDcLCQFX8+YqLSw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.SubscribeReceiveItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.SubscribeReceiveItem.html",
+          "hash": "qjy/VR/pFzkoppoKOERt6w=="
         }
       },
       "is_incremental": false,
@@ -1257,7 +1461,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ActorSystemMock.html",
-          "hash": "i2Qwg0RztmpdblAGv+MIrQ=="
+          "hash": "31tXWpkEnfSSJzPhX4radw=="
         }
       },
       "is_incremental": false,
@@ -1281,7 +1485,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.AskExpectation-1.html",
-          "hash": "XfwhYF+NNOqYIyZ6ec7URg=="
+          "hash": "cyKUJk6N2UjQXDBC+p87Pw=="
         }
       },
       "is_incremental": false,
@@ -1353,7 +1557,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ExpectationException.html",
-          "hash": "lQ7P6v3zaZxZSPEkgV9hag=="
+          "hash": "BmMszvXUQzZ8yUzGJ97JcQ=="
         }
       },
       "is_incremental": false,
@@ -1365,7 +1569,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.ExpectationExtensions.html",
-          "hash": "yY8M6agkymDN3z8LYoL2vg=="
+          "hash": "iZ3GzHW8ztmP2xbTILTX9A=="
         }
       },
       "is_incremental": false,
@@ -1469,11 +1673,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.TestKit.PushExpectation-1.yml",
+      "source_relative_path": "api/Orleankka.TestKit.PublishExpectation-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.TestKit.PushExpectation-1.html",
-          "hash": "DAXS++J4n1ooNYomGAXUeQ=="
+          "relative_path": "api/Orleankka.TestKit.PublishExpectation-1.html",
+          "hash": "6o6uzFi+1N0ey06EXQwZGw=="
         }
       },
       "is_incremental": false,
@@ -1529,18 +1733,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.TestKit.RecordedItem.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Orleankka.TestKit.RecordedItem.html",
-          "hash": "xqyrYQx90LsGKA84J7SArw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Orleankka.TestKit.RecordedMessage.yml",
       "output": {
         ".html": {
@@ -1558,6 +1750,18 @@
         ".html": {
           "relative_path": "api/Orleankka.TestKit.RecordedMessageTimer.html",
           "hash": "rjORq9SnWi+OCM8mY36mJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.RecordedPublishMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.RecordedPublishMessage.html",
+          "hash": "5RIAjOPDh/McwlzId0nYmg=="
         }
       },
       "is_incremental": false,
@@ -1649,11 +1853,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.TestKit.StreamRefMock.yml",
+      "source_relative_path": "api/Orleankka.TestKit.ResumeExpectation-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.TestKit.StreamRefMock.html",
-          "hash": "gh7Wrx4SoJ9G2pTmIdODrA=="
+          "relative_path": "api/Orleankka.TestKit.ResumeExpectation-1.html",
+          "hash": "ucTu7+c1/85v9vpWFCZYjg=="
         }
       },
       "is_incremental": false,
@@ -1661,11 +1865,35 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock.yml",
+      "source_relative_path": "api/Orleankka.TestKit.StreamRefMock-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock.html",
-          "hash": "7NT0rb9kPDXdHJh7NhWVhg=="
+          "relative_path": "api/Orleankka.TestKit.StreamRefMock-1.html",
+          "hash": "FXsNJdyNXzb8A1tQW1h3dw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.StreamSubscriptionMock-1.html",
+          "hash": "fX5ETwR0JXhEPq/r71yPCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Orleankka.TestKit.SubscribeExpectation-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Orleankka.TestKit.SubscribeExpectation-1.html",
+          "hash": "EkrLSrO0/xOWc0Gm/afzLw=="
         }
       },
       "is_incremental": false,
@@ -1701,7 +1929,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.TestKit.html",
-          "hash": "Yx8ORXSC5J4u0rgFzQerqw=="
+          "hash": "Op2QEINXaM/42B4NF98ckA=="
         }
       },
       "is_incremental": false,
@@ -1749,7 +1977,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.html",
-          "hash": "mOyFsnOatyx3I5uaeC4T/w=="
+          "hash": "L4LcvP18HDByvE4C5VCenQ=="
         }
       },
       "is_incremental": false,
@@ -1809,7 +2037,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "D3FyKy6UfDh/Owxr/m/rlw=="
+          "hash": "D7inpPtVYDjC53yzG/jR7g=="
         }
       },
       "is_incremental": false,
@@ -1822,18 +2050,6 @@
         ".html": {
           "relative_path": "articles/intro/getting-started-csharp.html",
           "hash": "p1Yu+sIIv8mngWP/xu1CRQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/intro/getting-started-fsharp.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/intro/getting-started-fsharp.html",
-          "hash": "Rj4fAm+lXwX7OyTtHu/ybQ=="
         }
       },
       "is_incremental": false,
@@ -1869,7 +2085,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "msNY/zui69MzNdk687QZ9A=="
+          "hash": "v/o/ABDItwGgiP9n5q/yCQ=="
         }
       },
       "is_incremental": false,
@@ -1954,13 +2170,13 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 5,
+          "total_file_count": 4,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 150,
+          "total_file_count": 169,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

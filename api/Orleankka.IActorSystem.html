@@ -151,7 +151,7 @@
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorSystem_ClientOf_System_String_.md&amp;value=---%0Auid%3A%20Orleankka.IActorSystem.ClientOf(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L40">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L41">View Source</a>
   </span>
   <a id="Orleankka_IActorSystem_ClientOf_" data-uid="Orleankka.IActorSystem.ClientOf*"></a>
   <h4 id="Orleankka_IActorSystem_ClientOf_System_String_" data-uid="Orleankka.IActorSystem.ClientOf(System.String)">ClientOf(String)</h4>
@@ -198,19 +198,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorSystem_StreamOf_Orleankka_StreamPath_.md&amp;value=---%0Auid%3A%20Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_IActorSystem_StreamOf__1_Orleankka_StreamPath_.md&amp;value=---%0Auid%3A%20Orleankka.IActorSystem.StreamOf%60%601(Orleankka.StreamPath)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L33">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/ActorSystem.cs/#L34">View Source</a>
   </span>
   <a id="Orleankka_IActorSystem_StreamOf_" data-uid="Orleankka.IActorSystem.StreamOf*"></a>
-  <h4 id="Orleankka_IActorSystem_StreamOf_Orleankka_StreamPath_" data-uid="Orleankka.IActorSystem.StreamOf(Orleankka.StreamPath)">StreamOf(StreamPath)</h4>
+  <h4 id="Orleankka_IActorSystem_StreamOf__1_Orleankka_StreamPath_" data-uid="Orleankka.IActorSystem.StreamOf``1(Orleankka.StreamPath)">StreamOf&lt;TItem&gt;(StreamPath)</h4>
   <div class="markdown level1 summary"><p>Acquires the stream reference for the given stream path</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">StreamRef StreamOf(StreamPath path)</code></pre>
+    <pre><code class="lang-csharp hljs">StreamRef&lt;TItem&gt; StreamOf&lt;TItem&gt;(StreamPath path)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -240,8 +240,24 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Orleankka.StreamRef.html">StreamRef</a></td>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
         <td><p>The stream reference</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TItem</span></td>
+        <td><p>The type of the stream item</p>
 </td>
       </tr>
     </tbody>
@@ -263,7 +279,7 @@
       <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_WorkerOf__1_Orleankka_IActorSystem_">ActorSystemExtensions.WorkerOf&lt;TActor&gt;(IActorSystem)</a>
   </div>
   <div>
-      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.StreamOf(IActorSystem, String, String)</a>
+      <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_StreamOf__1_Orleankka_IActorSystem_System_String_System_String_">ActorSystemExtensions.StreamOf&lt;TItem&gt;(IActorSystem, String, String)</a>
   </div>
   <div>
       <a class="xref" href="Orleankka.ActorSystemExtensions.html#Orleankka_ActorSystemExtensions_TypedActorOf__1_Orleankka_IActorSystem_System_String_">ActorSystemExtensions.TypedActorOf&lt;TActor&gt;(IActorSystem, String)</a>

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class RecordedItem
+    <title>Class StreamError
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class RecordedItem
+    <meta name="title" content="Class StreamError
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.48.0.0">
     
@@ -80,17 +80,21 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.TestKit.RecordedItem">
+            <article class="content wrap" id="_content" data-uid="Orleankka.StreamError">
   
   
-  <h1 id="Orleankka_TestKit_RecordedItem" data-uid="Orleankka.TestKit.RecordedItem" class="text-break">Class RecordedItem
+  <h1 id="Orleankka_StreamError" data-uid="Orleankka.StreamError" class="text-break">Class StreamError
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">RecordedItem</span></div>
+    <div class="level1"><span class="xref">StreamError</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Orleankka.StreamMessage.html">StreamMessage</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -116,28 +120,28 @@
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/7bxwbwt2(v=vs.110).aspx">Object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.TestKit.html">Orleankka.TestKit</a></h6>
-  <h6><strong>Assembly</strong>: Orleankka.TestKit.dll</h6>
-  <h5 id="Orleankka_TestKit_RecordedItem_syntax">Syntax</h5>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
+  <h6><strong>Assembly</strong>: Orleankka.dll</h6>
+  <h5 id="Orleankka_StreamError_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RecordedItem</code></pre>
+    <pre><code class="lang-csharp hljs">public class StreamError : StreamMessage</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedItem__ctor_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedItem.%23ctor(System.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError__ctor_Orleankka_StreamPath_System_Exception_.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.%23ctor(Orleankka.StreamPath%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/StreamRefMock.cs/#L81">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L306">View Source</a>
   </span>
-  <a id="Orleankka_TestKit_RecordedItem__ctor_" data-uid="Orleankka.TestKit.RecordedItem.#ctor*"></a>
-  <h4 id="Orleankka_TestKit_RecordedItem__ctor_System_Boolean_System_Object_" data-uid="Orleankka.TestKit.RecordedItem.#ctor(System.Boolean,System.Object)">RecordedItem(Boolean, Object)</h4>
+  <a id="Orleankka_StreamError__ctor_" data-uid="Orleankka.StreamError.#ctor*"></a>
+  <h4 id="Orleankka_StreamError__ctor_Orleankka_StreamPath_System_Exception_" data-uid="Orleankka.StreamError.#ctor(Orleankka.StreamPath,System.Exception)">StreamError(StreamPath, Exception)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RecordedItem(bool expected, object item)</code></pre>
+    <pre><code class="lang-csharp hljs">public StreamError(StreamPath path, Exception exception)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -150,34 +154,35 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
-        <td><span class="parametername">expected</span></td>
+        <td><a class="xref" href="Orleankka.StreamPath.html">StreamPath</a></td>
+        <td><span class="parametername">path</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
-        <td><span class="parametername">item</span></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
+        <td><span class="parametername">exception</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="fields">Fields
+  <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedItem_Expected.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedItem.Expected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError_Exception.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/StreamRefMock.cs/#L78">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L304">View Source</a>
   </span>
-  <h4 id="Orleankka_TestKit_RecordedItem_Expected" data-uid="Orleankka.TestKit.RecordedItem.Expected">Expected</h4>
+  <a id="Orleankka_StreamError_Exception_" data-uid="Orleankka.StreamError.Exception*"></a>
+  <h4 id="Orleankka_StreamError_Exception" data-uid="Orleankka.StreamError.Exception">Exception</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly bool Expected</code></pre>
+    <pre><code class="lang-csharp hljs">public Exception Exception { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -187,26 +192,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedItem_Item.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedItem.Item%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError_Path.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.Path%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/StreamRefMock.cs/#L79">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L303">View Source</a>
   </span>
-  <h4 id="Orleankka_TestKit_RecordedItem_Item" data-uid="Orleankka.TestKit.RecordedItem.Item">Item</h4>
+  <a id="Orleankka_StreamError_Path_" data-uid="Orleankka.StreamError.Path*"></a>
+  <h4 id="Orleankka_StreamError_Path" data-uid="Orleankka.StreamError.Path">Path</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly object Item</code></pre>
+    <pre><code class="lang-csharp hljs">public StreamPath Path { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -216,11 +222,15 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><a class="xref" href="Orleankka.StreamPath.html">StreamPath</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Orleankka.StreamMessage.html">StreamMessage</a>
+  </div>
 </article>
           </div>
           
@@ -229,10 +239,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_TestKit_RecordedItem.md&amp;value=---%0Auid%3A%20Orleankka.TestKit.RecordedItem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError.md&amp;value=---%0Auid%3A%20Orleankka.StreamError%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka.TestKit/StreamRefMock.cs/#L76" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L301" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

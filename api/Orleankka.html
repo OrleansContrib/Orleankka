@@ -143,13 +143,23 @@
       <section></section>
       <h4><a class="xref" href="Orleankka.Reminder.html">Reminder</a></h4>
       <section></section>
+      <h4><a class="xref" href="Orleankka.StreamCompleted.html">StreamCompleted</a></h4>
+      <section></section>
+      <h4><a class="xref" href="Orleankka.StreamError.html">StreamError</a></h4>
+      <section></section>
       <h4><a class="xref" href="Orleankka.StreamFilter.html">StreamFilter</a></h4>
       <section></section>
-      <h4><a class="xref" href="Orleankka.StreamRef.html">StreamRef</a></h4>
+      <h4><a class="xref" href="Orleankka.StreamItem-1.html">StreamItem&lt;TItem&gt;</a></h4>
+      <section></section>
+      <h4><a class="xref" href="Orleankka.StreamItemBatch-1.html">StreamItemBatch&lt;TItem&gt;</a></h4>
+      <section></section>
+      <h4><a class="xref" href="Orleankka.StreamMessage-1.html">StreamMessage&lt;TItem&gt;</a></h4>
+      <section></section>
+      <h4><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef&lt;TItem&gt;</a></h4>
       <section></section>
       <h4><a class="xref" href="Orleankka.StreamRefExtensions.html">StreamRefExtensions</a></h4>
       <section></section>
-      <h4><a class="xref" href="Orleankka.StreamSubscription.html">StreamSubscription</a></h4>
+      <h4><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription&lt;TItem&gt;</a></h4>
       <section></section>
       <h4><a class="xref" href="Orleankka.TaskResult.html">TaskResult</a></h4>
       <section></section>
@@ -163,8 +173,34 @@
   </h3>
       <h4><a class="xref" href="Orleankka.ActorPath.html">ActorPath</a></h4>
       <section></section>
+      <h4><a class="xref" href="Orleankka.NextItem-1.html">NextItem&lt;T&gt;</a></h4>
+      <section><p>Represents the next item <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to be published to a stream
+with optional <span class="xref">Orleans.Streams.StreamSequenceToken</span></p>
+</section>
+      <h4><a class="xref" href="Orleankka.NextItemBatch-1.html">NextItemBatch&lt;T&gt;</a></h4>
+      <section><p>Represents the next batch of items <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to be published to a stream
+with optional <span class="xref">Orleans.Streams.StreamSequenceToken</span></p>
+</section>
+      <h4><a class="xref" href="Orleankka.NotifyStreamCompleted.html">NotifyStreamCompleted</a></h4>
+      <section><p>Represents the completion of a stream.</p>
+</section>
+      <h4><a class="xref" href="Orleankka.NotifyStreamError.html">NotifyStreamError</a></h4>
+      <section><p>Represents the publisher-side error.</p>
+</section>
+      <h4><a class="xref" href="Orleankka.ResumeReceiveBatch.html">ResumeReceiveBatch</a></h4>
+      <section><p>Represents consumer will to receive items in batches.</p>
+</section>
+      <h4><a class="xref" href="Orleankka.ResumeReceiveItem.html">ResumeReceiveItem</a></h4>
+      <section><p>Represents consumer will to receive items one-by-one.</p>
+</section>
       <h4><a class="xref" href="Orleankka.StreamPath.html">StreamPath</a></h4>
       <section></section>
+      <h4><a class="xref" href="Orleankka.SubscribeReceiveBatch.html">SubscribeReceiveBatch</a></h4>
+      <section><p>Represents consumer will to receive items in batches.</p>
+</section>
+      <h4><a class="xref" href="Orleankka.SubscribeReceiveItem.html">SubscribeReceiveItem</a></h4>
+      <section><p>Represents consumer will to receive items one-by-one.</p>
+</section>
     <h3 id="interfaces">Interfaces
   </h3>
       <h4><a class="xref" href="Orleankka.ActorMessage-1.html">ActorMessage&lt;TActor&gt;</a></h4>
@@ -197,8 +233,20 @@ It provides methods for adding/removing observers and for notifying about partic
 </section>
       <h4><a class="xref" href="Orleankka.LifecycleMessage.html">LifecycleMessage</a></h4>
       <section></section>
+      <h4><a class="xref" href="Orleankka.PublishMessage.html">PublishMessage</a></h4>
+      <section><p>Represents the base for all message types that could be published to a stream</p>
+</section>
       <h4><a class="xref" href="Orleankka.ReceiveResult.html">ReceiveResult</a></h4>
       <section></section>
+      <h4><a class="xref" href="Orleankka.ResumeOptions.html">ResumeOptions</a></h4>
+      <section><p>Base interface for all kinds of <a class="xref" href="Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Resume__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_">Resume&lt;TOptions&gt;(Func&lt;StreamMessage, Task&gt;, TOptions)</a> options</p>
+</section>
+      <h4><a class="xref" href="Orleankka.StreamMessage.html">StreamMessage</a></h4>
+      <section><p>Represents the base for all message types that could be received from a stream</p>
+</section>
+      <h4><a class="xref" href="Orleankka.SubscribeOptions.html">SubscribeOptions</a></h4>
+      <section><p>Base interface for all kinds of <a class="xref" href="Orleankka.StreamRef-1.html#Orleankka_StreamRef_1_Subscribe__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_">Subscribe&lt;TOptions&gt;(Func&lt;StreamMessage, Task&gt;, TOptions)</a> options</p>
+</section>
     <h3 id="delegates">Delegates
   </h3>
       <h4><a class="xref" href="Orleankka.Receive.html">Receive</a></h4>
