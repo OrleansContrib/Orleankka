@@ -84,7 +84,6 @@ MakeDir(ArtifactsPath);
     Test(!skipFullCheck);
     Build("Release");
     Exec("dotnet", $"pack -c Release -p:PackageVersion={Version} {CoreProject}.sln");
-    PackTemplate();
 }
 
 /// Publishes package to NuGet gallery

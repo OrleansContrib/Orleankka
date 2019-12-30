@@ -7,7 +7,6 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 ### Features
 
 + Message-based API with zero performance overhead
-+ Custom F# DSL and bindings (DU, Pattern Matching, Tasks)
 + Switchable actor behaviors with built-in hierarchical FSM (behaviors)
 + Additional api to simplify programming long-running background tasks (jobs)
 + Poweful actor/proxy middlewares (interceptors)
@@ -23,8 +22,7 @@ For server-side library:
 
 	PM> Install-Package Orleankka.Runtime
 
-Check out "Getting started" guide: [C#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp)
-, [F#](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-FSharp).
+Check out "Getting started" [guide](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp)
 
 ### Build sources
 
@@ -42,13 +40,8 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 | [Orleankka](https://www.nuget.org/packages/Orleankka) | Core and client lib
 | [Orleankka.Runtime](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
 | [Orleankka.TestKit](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
-| [Orleankka.FSharp](https://www.nuget.org/packages/Orleankka.FSharp/) | F# core and client lib
-| [Orleankka.FSharp.Runtime](https://www.nuget.org/packages/Orleankka.FSharp.Runtime/) | F# server-side runtime lib
-| [Orleankka.Template](https://www.nuget.org/packages/Orleankka.Template/) | Scaffolding template for `dotnet new` (F#)
 
 ### Examples
-
-##### C&#35;
 
 + Hello, world! [[demo]](Samples/CSharp/HelloWorld)
 + "WebScan" [[demo]](Samples/CSharp/Demo/Demo.App)
@@ -66,13 +59,6 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 + Switchable behaviors
 	+ Basics [[see]](Samples/CSharp/FSM/Lightbulb)
 	+ Durable FSM with supervision[[see]](Samples/CSharp/FSM/ProcessManager)
-
-##### F&#35;
-
-+ Hello, world! [[demo]](Samples/FSharp/HelloWorld) 
-+ eCommerce [[demo]](Samples/FSharp/Shop)
-+ Reentrant messages [[demo]](Samples/FSharp/Reentrant)
-+ Streams [[demo]](Samples/FSharp/Streams)
 
 ### Documentation
 
