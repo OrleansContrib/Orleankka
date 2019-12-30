@@ -2,10 +2,8 @@
   items:
   - name: What is Orleankka?
     href: intro/what-is-orleankka.md
-  - name: Getting started (C#)
+  - name: Getting started
     href: intro/getting-started-csharp.md
-  - name: Getting started (F#)
-    href: intro/getting-started-fsharp.md
 - name: Migration to 2.x
   items:
   - name: Migration from 1.5 to 2.x

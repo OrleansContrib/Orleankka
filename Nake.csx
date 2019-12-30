@@ -25,9 +25,6 @@ const string RuntimeProject = "Orleankka.Runtime";
 const string LegacyRuntimeProject = "Orleankka.Runtime.Legacy";
 const string LegacyRuntimeSupportProject = "Orleankka.Runtime.Legacy.Support";
 const string TestKitProject = "Orleankka.TestKit";
-const string FSharpProject = "Orleankka.FSharp";
-const string FSharpRuntimeProject = "Orleankka.FSharp.Runtime";
-const string TemplateProject = "Orleankka.Template";
 
 var RootPath = "%NakeScriptDirectory%";
 var ArtifactsPath = $@"{RootPath}\Artifacts";
@@ -98,28 +95,7 @@ MakeDir(ArtifactsPath);
     Push(LegacyRuntimeProject);
     Push(LegacyRuntimeSupportProject);  
     Push(TestKitProject); 
-    Push(FSharpProject);
-    Push(FSharpRuntimeProject);
-    PublishTemplate();
 }
-
-[Step] void PackTemplate() 
-{
-    var tmp = $"{ArtifactsPath}\\Template";
-    Mirror($"{RootPath}\\Template", tmp);
-
-    FileSet projects = $@"{tmp}\**\*.*proj";
-    foreach (var each in projects)
-    {
-        var contents = File.ReadAllText(each);
-        var processed = contents.Replace("Version=\"*\"", $"Version=\"{Version}\"");
-        File.WriteAllText(each, processed);
-    }
-    
-    Exec("nuget", $"pack {ArtifactsPath}\\Template\\Orleankka.Template.nuspec -Version {Version} -OutputDirectory {ReleasePackagesPath}");
-}
-
-[Step] void PublishTemplate() => Push(TemplateProject);
 
 void Push(string package) => Exec("dotnet", 
     @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
