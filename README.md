@@ -22,7 +22,7 @@ For server-side library:
 
 	PM> Install-Package Orleankka.Runtime
 
-Check out "Getting started" [guide](https://github.com/OrleansContrib/Orleankka/wiki/Getting-Started-CSharp)
+Check out "Getting started" [guide](http://orleanscontrib.github.io/Orleankka/articles/intro/getting-started-csharp.html)
 
 ### Build sources
 
