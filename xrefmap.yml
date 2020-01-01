@@ -6055,15 +6055,15 @@ references:
   fullName.vb: Orleankka.StreamSubscription(Of TItem)
   nameWithType: StreamSubscription<TItem>
   nameWithType.vb: StreamSubscription(Of TItem)
-- uid: Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0})
-  name: StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>)
-  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__
-  commentId: M:Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0})
-  name.vb: StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem))
-  fullName: Orleankka.StreamSubscription<TItem>.StreamSubscription(Orleankka.StreamRef<TItem>, Orleans.Streams.StreamSubscriptionHandle<TItem>)
-  fullName.vb: Orleankka.StreamSubscription(Of TItem).StreamSubscription(Orleankka.StreamRef(Of TItem), Orleans.Streams.StreamSubscriptionHandle(Of TItem))
-  nameWithType: StreamSubscription<TItem>.StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>)
-  nameWithType.vb: StreamSubscription(Of TItem).StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem))
+- uid: Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0},System.Nullable{System.Guid})
+  name: StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>, Nullable<Guid>)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__System_Nullable_System_Guid__
+  commentId: M:Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0},System.Nullable{System.Guid})
+  name.vb: StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem), Nullable(Of Guid))
+  fullName: Orleankka.StreamSubscription<TItem>.StreamSubscription(Orleankka.StreamRef<TItem>, Orleans.Streams.StreamSubscriptionHandle<TItem>, System.Nullable<System.Guid>)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).StreamSubscription(Orleankka.StreamRef(Of TItem), Orleans.Streams.StreamSubscriptionHandle(Of TItem), System.Nullable(Of System.Guid))
+  nameWithType: StreamSubscription<TItem>.StreamSubscription(StreamRef<TItem>, StreamSubscriptionHandle<TItem>, Nullable<Guid>)
+  nameWithType.vb: StreamSubscription(Of TItem).StreamSubscription(StreamRef(Of TItem), StreamSubscriptionHandle(Of TItem), Nullable(Of Guid))
 - uid: Orleankka.StreamSubscription`1.#ctor*
   name: StreamSubscription
   href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1__ctor_
@@ -6073,6 +6073,102 @@ references:
   fullName.vb: Orleankka.StreamSubscription(Of TItem).StreamSubscription
   nameWithType: StreamSubscription<TItem>.StreamSubscription
   nameWithType.vb: StreamSubscription(Of TItem).StreamSubscription
+- uid: Orleankka.StreamSubscription`1.Equals(Orleankka.StreamSubscription{`0})
+  name: Equals(StreamSubscription<TItem>)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Equals_Orleankka_StreamSubscription__0__
+  commentId: M:Orleankka.StreamSubscription`1.Equals(Orleankka.StreamSubscription{`0})
+  name.vb: Equals(StreamSubscription(Of TItem))
+  fullName: Orleankka.StreamSubscription<TItem>.Equals(Orleankka.StreamSubscription<TItem>)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Equals(Orleankka.StreamSubscription(Of TItem))
+  nameWithType: StreamSubscription<TItem>.Equals(StreamSubscription<TItem>)
+  nameWithType.vb: StreamSubscription(Of TItem).Equals(StreamSubscription(Of TItem))
+- uid: Orleankka.StreamSubscription`1.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Equals_System_Object_
+  commentId: M:Orleankka.StreamSubscription`1.Equals(System.Object)
+  fullName: Orleankka.StreamSubscription<TItem>.Equals(System.Object)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Equals(System.Object)
+  nameWithType: StreamSubscription<TItem>.Equals(Object)
+  nameWithType.vb: StreamSubscription(Of TItem).Equals(Object)
+- uid: Orleankka.StreamSubscription`1.Equals*
+  name: Equals
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Equals_
+  commentId: Overload:Orleankka.StreamSubscription`1.Equals
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.Equals
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Equals
+  nameWithType: StreamSubscription<TItem>.Equals
+  nameWithType.vb: StreamSubscription(Of TItem).Equals
+- uid: Orleankka.StreamSubscription`1.GetHashCode
+  name: GetHashCode()
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_GetHashCode
+  commentId: M:Orleankka.StreamSubscription`1.GetHashCode
+  fullName: Orleankka.StreamSubscription<TItem>.GetHashCode()
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).GetHashCode()
+  nameWithType: StreamSubscription<TItem>.GetHashCode()
+  nameWithType.vb: StreamSubscription(Of TItem).GetHashCode()
+- uid: Orleankka.StreamSubscription`1.GetHashCode*
+  name: GetHashCode
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_GetHashCode_
+  commentId: Overload:Orleankka.StreamSubscription`1.GetHashCode
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.GetHashCode
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).GetHashCode
+  nameWithType: StreamSubscription<TItem>.GetHashCode
+  nameWithType.vb: StreamSubscription(Of TItem).GetHashCode
+- uid: Orleankka.StreamSubscription`1.Id
+  name: Id
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Id
+  commentId: P:Orleankka.StreamSubscription`1.Id
+  fullName: Orleankka.StreamSubscription<TItem>.Id
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Id
+  nameWithType: StreamSubscription<TItem>.Id
+  nameWithType.vb: StreamSubscription(Of TItem).Id
+- uid: Orleankka.StreamSubscription`1.Id*
+  name: Id
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Id_
+  commentId: Overload:Orleankka.StreamSubscription`1.Id
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.Id
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Id
+  nameWithType: StreamSubscription<TItem>.Id
+  nameWithType.vb: StreamSubscription(Of TItem).Id
+- uid: Orleankka.StreamSubscription`1.op_Equality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})
+  name: Equality(StreamSubscription<TItem>, StreamSubscription<TItem>)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_op_Equality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__
+  commentId: M:Orleankka.StreamSubscription`1.op_Equality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})
+  name.vb: Equality(StreamSubscription(Of TItem), StreamSubscription(Of TItem))
+  fullName: Orleankka.StreamSubscription<TItem>.Equality(Orleankka.StreamSubscription<TItem>, Orleankka.StreamSubscription<TItem>)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Equality(Orleankka.StreamSubscription(Of TItem), Orleankka.StreamSubscription(Of TItem))
+  nameWithType: StreamSubscription<TItem>.Equality(StreamSubscription<TItem>, StreamSubscription<TItem>)
+  nameWithType.vb: StreamSubscription(Of TItem).Equality(StreamSubscription(Of TItem), StreamSubscription(Of TItem))
+- uid: Orleankka.StreamSubscription`1.op_Equality*
+  name: Equality
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_op_Equality_
+  commentId: Overload:Orleankka.StreamSubscription`1.op_Equality
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.Equality
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Equality
+  nameWithType: StreamSubscription<TItem>.Equality
+  nameWithType.vb: StreamSubscription(Of TItem).Equality
+- uid: Orleankka.StreamSubscription`1.op_Inequality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})
+  name: Inequality(StreamSubscription<TItem>, StreamSubscription<TItem>)
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_op_Inequality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__
+  commentId: M:Orleankka.StreamSubscription`1.op_Inequality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})
+  name.vb: Inequality(StreamSubscription(Of TItem), StreamSubscription(Of TItem))
+  fullName: Orleankka.StreamSubscription<TItem>.Inequality(Orleankka.StreamSubscription<TItem>, Orleankka.StreamSubscription<TItem>)
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Inequality(Orleankka.StreamSubscription(Of TItem), Orleankka.StreamSubscription(Of TItem))
+  nameWithType: StreamSubscription<TItem>.Inequality(StreamSubscription<TItem>, StreamSubscription<TItem>)
+  nameWithType.vb: StreamSubscription(Of TItem).Inequality(StreamSubscription(Of TItem), StreamSubscription(Of TItem))
+- uid: Orleankka.StreamSubscription`1.op_Inequality*
+  name: Inequality
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_op_Inequality_
+  commentId: Overload:Orleankka.StreamSubscription`1.op_Inequality
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.Inequality
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Inequality
+  nameWithType: StreamSubscription<TItem>.Inequality
+  nameWithType.vb: StreamSubscription(Of TItem).Inequality
 - uid: Orleankka.StreamSubscription`1.Resume*
   name: Resume
   href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Resume_
@@ -6091,6 +6187,23 @@ references:
   fullName.vb: Orleankka.StreamSubscription(Of TItem).Resume(Of TOptions)(System.Func(Of Orleankka.StreamMessage, System.Threading.Tasks.Task), TOptions)
   nameWithType: StreamSubscription<TItem>.Resume<TOptions>(Func<StreamMessage, Task>, TOptions)
   nameWithType.vb: StreamSubscription(Of TItem).Resume(Of TOptions)(Func(Of StreamMessage, Task), TOptions)
+- uid: Orleankka.StreamSubscription`1.Stream
+  name: Stream
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Stream
+  commentId: P:Orleankka.StreamSubscription`1.Stream
+  fullName: Orleankka.StreamSubscription<TItem>.Stream
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Stream
+  nameWithType: StreamSubscription<TItem>.Stream
+  nameWithType.vb: StreamSubscription(Of TItem).Stream
+- uid: Orleankka.StreamSubscription`1.Stream*
+  name: Stream
+  href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Stream_
+  commentId: Overload:Orleankka.StreamSubscription`1.Stream
+  isSpec: "True"
+  fullName: Orleankka.StreamSubscription<TItem>.Stream
+  fullName.vb: Orleankka.StreamSubscription(Of TItem).Stream
+  nameWithType: StreamSubscription<TItem>.Stream
+  nameWithType.vb: StreamSubscription(Of TItem).Stream
 - uid: Orleankka.StreamSubscription`1.Unsubscribe
   name: Unsubscribe()
   href: api/Orleankka.StreamSubscription-1.html#Orleankka_StreamSubscription_1_Unsubscribe

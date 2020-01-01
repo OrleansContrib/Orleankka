@@ -85,7 +85,8 @@
   
   <h1 id="Orleankka_StreamSubscription_1" data-uid="Orleankka.StreamSubscription`1" class="text-break">Class StreamSubscription&lt;TItem&gt;
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents handle to a stream subscription.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -93,16 +94,14 @@
     <div class="level1"><span class="xref">StreamSubscription&lt;TItem&gt;</span></div>
       <div class="level2"><a class="xref" href="Orleankka.TestKit.StreamSubscriptionMock-1.html">StreamSubscriptionMock&lt;TItem&gt;</a></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://msdn.microsoft.com/en-us/library/ms131187(v=vs.110).aspx">IEquatable</a>&lt;<a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;&gt;</div>
+  </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a>
-    </div>
-    <div>
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/w4hkze5k(v=vs.110).aspx">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://msdn.microsoft.com/en-us/library/zdee4b3y(v=vs.110).aspx">Object.GetHashCode()</a>
     </div>
     <div>
       <a class="xref" href="https://msdn.microsoft.com/en-us/library/dfwy45w9(v=vs.110).aspx">Object.GetType()</a>
@@ -121,7 +120,9 @@
   <h6><strong>Assembly</strong>: Orleankka.dll</h6>
   <h5 id="Orleankka_StreamSubscription_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class StreamSubscription&lt;TItem&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">[Serializable]
+[Immutable]
+public class StreamSubscription&lt;TItem&gt; : IEquatable&lt;StreamSubscription&lt;TItem&gt;&gt;</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -138,22 +139,26 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="Orleankka_StreamSubscription_1_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Consumers may store or serialize the handle
+in order to resume or unsubscribe later.</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.%23ctor(Orleankka.StreamRef%7B%600%7D%2COrleans.Streams.StreamSubscriptionHandle%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__System_Nullable_System_Guid__.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.%23ctor(Orleankka.StreamRef%7B%600%7D%2COrleans.Streams.StreamSubscriptionHandle%7B%600%7D%2CSystem.Nullable%7BSystem.Guid%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L15">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L26">View Source</a>
   </span>
   <a id="Orleankka_StreamSubscription_1__ctor_" data-uid="Orleankka.StreamSubscription`1.#ctor*"></a>
-  <h4 id="Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__" data-uid="Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0})">StreamSubscription(StreamRef&lt;TItem&gt;, StreamSubscriptionHandle&lt;TItem&gt;)</h4>
+  <h4 id="Orleankka_StreamSubscription_1__ctor_Orleankka_StreamRef__0__Orleans_Streams_StreamSubscriptionHandle__0__System_Nullable_System_Guid__" data-uid="Orleankka.StreamSubscription`1.#ctor(Orleankka.StreamRef{`0},Orleans.Streams.StreamSubscriptionHandle{`0},System.Nullable{System.Guid})">StreamSubscription(StreamRef&lt;TItem&gt;, StreamSubscriptionHandle&lt;TItem&gt;, Nullable&lt;Guid&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected StreamSubscription(StreamRef&lt;TItem&gt; stream, StreamSubscriptionHandle&lt;TItem&gt; handle)</code></pre>
+    <pre><code class="lang-csharp hljs">protected StreamSubscription(StreamRef&lt;TItem&gt; stream, StreamSubscriptionHandle&lt;TItem&gt; handle, Guid? id = default(Guid? ))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -175,16 +180,214 @@
         <td><span class="parametername">handle</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/b3h38hb0(v=vs.110).aspx">Nullable</a>&lt;<a class="xref" href="https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx">Guid</a>&gt;</td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Id.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L36">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_Id_" data-uid="Orleankka.StreamSubscription`1.Id*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_Id" data-uid="Orleankka.StreamSubscription`1.Id">Id</h4>
+  <div class="markdown level1 summary"><p>Unique identifier of the stream subscription</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Guid Id { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.guid(v=vs.110).aspx">Guid</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Stream.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Stream%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L42">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_Stream_" data-uid="Orleankka.StreamSubscription`1.Stream*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_Stream" data-uid="Orleankka.StreamSubscription`1.Stream">Stream</h4>
+  <div class="markdown level1 summary"><p>The reference to a stream that
+this subscription is subscribed to</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StreamRef&lt;TItem&gt; Stream { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamRef-1.html">StreamRef</a>&lt;TItem&gt;</td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Equals_Orleankka_StreamSubscription__0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Equals(Orleankka.StreamSubscription%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L87">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_Equals_" data-uid="Orleankka.StreamSubscription`1.Equals*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_Equals_Orleankka_StreamSubscription__0__" data-uid="Orleankka.StreamSubscription`1.Equals(Orleankka.StreamSubscription{`0})">Equals(StreamSubscription&lt;TItem&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(StreamSubscription&lt;TItem&gt; other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Equals_System_Object_.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L96">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_Equals_" data-uid="Orleankka.StreamSubscription`1.Equals*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_Equals_System_Object_" data-uid="Orleankka.StreamSubscription`1.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://msdn.microsoft.com/en-us/library/bsc2ak47(v=vs.110).aspx">Object.Equals(Object)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_GetHashCode.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L107">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_GetHashCode_" data-uid="Orleankka.StreamSubscription`1.GetHashCode*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_GetHashCode" data-uid="Orleankka.StreamSubscription`1.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.int32(v=vs.110).aspx">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://msdn.microsoft.com/en-us/library/zdee4b3y(v=vs.110).aspx">Object.GetHashCode()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Resume__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Resume%60%601(System.Func%7BOrleankka.StreamMessage%2CSystem.Threading.Tasks.Task%7D%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L38">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L61">View Source</a>
   </span>
   <a id="Orleankka_StreamSubscription_1_Resume_" data-uid="Orleankka.StreamSubscription`1.Resume*"></a>
   <h4 id="Orleankka_StreamSubscription_1_Resume__1_System_Func_Orleankka_StreamMessage_System_Threading_Tasks_Task____0_" data-uid="Orleankka.StreamSubscription`1.Resume``1(System.Func{Orleankka.StreamMessage,System.Threading.Tasks.Task},``0)">Resume&lt;TOptions&gt;(Func&lt;StreamMessage, Task&gt;, TOptions)</h4>
@@ -259,7 +462,7 @@ The subscription remains active for as long as it is not explicitly unsubscribed
     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_Unsubscribe.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.Unsubscribe%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L25">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L48">View Source</a>
   </span>
   <a id="Orleankka_StreamSubscription_1_Unsubscribe_" data-uid="Orleankka.StreamSubscription`1.Unsubscribe*"></a>
   <h4 id="Orleankka_StreamSubscription_1_Unsubscribe" data-uid="Orleankka.StreamSubscription`1.Unsubscribe">Unsubscribe()</h4>
@@ -286,6 +489,116 @@ The subscription remains active for as long as it is not explicitly unsubscribed
       </tr>
     </tbody>
   </table>
+  <h3 id="operators">Operators
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_op_Equality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.op_Equality(Orleankka.StreamSubscription%7B%600%7D%2COrleankka.StreamSubscription%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L112">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_op_Equality_" data-uid="Orleankka.StreamSubscription`1.op_Equality*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_op_Equality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__" data-uid="Orleankka.StreamSubscription`1.op_Equality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})">Equality(StreamSubscription&lt;TItem&gt;, StreamSubscription&lt;TItem&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(StreamSubscription&lt;TItem&gt; left, StreamSubscription&lt;TItem&gt; right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1_op_Inequality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601.op_Inequality(Orleankka.StreamSubscription%7B%600%7D%2COrleankka.StreamSubscription%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L117">View Source</a>
+  </span>
+  <a id="Orleankka_StreamSubscription_1_op_Inequality_" data-uid="Orleankka.StreamSubscription`1.op_Inequality*"></a>
+  <h4 id="Orleankka_StreamSubscription_1_op_Inequality_Orleankka_StreamSubscription__0__Orleankka_StreamSubscription__0__" data-uid="Orleankka.StreamSubscription`1.op_Inequality(Orleankka.StreamSubscription{`0},Orleankka.StreamSubscription{`0})">Inequality(StreamSubscription&lt;TItem&gt;, StreamSubscription&lt;TItem&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(StreamSubscription&lt;TItem&gt; left, StreamSubscription&lt;TItem&gt; right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.StreamSubscription-1.html">StreamSubscription</a>&lt;TItem&gt;</td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.boolean(v=vs.110).aspx">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://msdn.microsoft.com/en-us/library/ms131187(v=vs.110).aspx">IEquatable&lt;T&gt;</a>
+  </div>
 </article>
           </div>
           
@@ -297,7 +610,7 @@ The subscription remains active for as long as it is not explicitly unsubscribed
                     <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamSubscription_1.md&amp;value=---%0Auid%3A%20Orleankka.StreamSubscription%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamSubscription.cs/#L19" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
