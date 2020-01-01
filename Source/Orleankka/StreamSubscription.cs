@@ -1,22 +1,45 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
+using Orleans.Concurrency;
 using Orleans.Streams;
 
 namespace Orleankka
 {
     using Utility; 
 
+    /// <summary>
+    /// Represents handle to a stream subscription.
+    /// </summary>
+    /// <remarks>
+    /// Consumers may store or serialize the handle
+    /// in order to resume or unsubscribe later.
+    /// </remarks>
+    [Serializable, Immutable]
+    [DebuggerDisplay("sub::{Stream.ToString()}")]
     public class StreamSubscription<TItem>
+        : IEquatable<StreamSubscription<TItem>>
     {
-        readonly StreamRef<TItem> stream;
         readonly StreamSubscriptionHandle<TItem> handle;
 
-        protected internal StreamSubscription(StreamRef<TItem> stream, StreamSubscriptionHandle<TItem> handle)
+        protected internal StreamSubscription(StreamRef<TItem> stream, StreamSubscriptionHandle<TItem> handle, Guid? id = null)
         {
-            this.stream = stream;
             this.handle = handle;
+            Stream = stream;
+            Id = id ?? handle.HandleId;
         }
+
+        /// <summary>
+        /// Unique identifier of the stream subscription
+        /// </summary>
+        public Guid Id { get; }
+    
+        /// <summary>
+        /// The reference to a stream that
+        /// this subscription is subscribed to
+        /// </summary>
+        public StreamRef<TItem> Stream { get; }
 
         /// <summary>
         /// Unsubscribe a stream consumer from the stream.
@@ -50,15 +73,28 @@ namespace Orleankka
 
             async Task<StreamSubscription<TItem>> Resume(ResumeReceiveItem o)
             {
-                var observer = new StreamRef<TItem>.Observer(stream, callback);
-                return new StreamSubscription<TItem>(stream, await handle.ResumeAsync(observer, o.Token));
+                var observer = new StreamRef<TItem>.Observer(Stream, callback);
+                return new StreamSubscription<TItem>(Stream, await handle.ResumeAsync(observer, o.Token));
             }
 
             async Task<StreamSubscription<TItem>> ResumeBatch(ResumeReceiveBatch o)
             {
-                var observer = new StreamRef<TItem>.BatchObserver(stream, callback);
-                return new StreamSubscription<TItem>(stream, await handle.ResumeAsync(observer, o.Token));
+                var observer = new StreamRef<TItem>.BatchObserver(Stream, callback);
+                return new StreamSubscription<TItem>(Stream, await handle.ResumeAsync(observer, o.Token));
             }
         }
+
+        public bool Equals(StreamSubscription<TItem> other) =>
+            !ReferenceEquals(null, other) && (ReferenceEquals(this, other) || 
+            handle.Equals(other.handle));
+
+        public override bool Equals(object obj) =>
+            !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || 
+            obj.GetType() == this.GetType() && Equals((StreamSubscription<TItem>) obj));
+
+        public override int GetHashCode() => handle.GetHashCode();
+
+        public static bool operator ==(StreamSubscription<TItem> left, StreamSubscription<TItem> right) => Equals(left, right);
+        public static bool operator !=(StreamSubscription<TItem> left, StreamSubscription<TItem> right) => !Equals(left, right);
     }
 }

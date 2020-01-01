@@ -17,7 +17,7 @@ namespace Orleankka.TestKit
             Func<StreamMessage, Task> callback, 
             SubscribeOptions subscribe = null, 
             ResumeOptions resume = null)
-            : base(stream, null)
+            : base(stream, null, Guid.NewGuid())
         {
             this.stream = stream;
             Callback = callback;
