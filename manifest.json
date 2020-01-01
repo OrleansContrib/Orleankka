@@ -1353,7 +1353,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Orleankka.StreamSubscription-1.html",
-          "hash": "Mo/A9aCgCi6IBp2+GZOaHg=="
+          "hash": "BZPzDikesfNB9KdhMns2DQ=="
         }
       },
       "is_incremental": false,
@@ -2167,16 +2167,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 169,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 4,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 169,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
