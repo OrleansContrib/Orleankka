@@ -18,6 +18,9 @@ namespace Orleankka.Features
         [Serializable]
         public class TestActorQuery : Query<ITestActor, long> {}
 
+        [Serializable]
+        public class TestActorQueryAsync : Query<ITestActor, string> { }
+
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
@@ -25,6 +28,7 @@ namespace Orleankka.Features
         {
             void On(TestActorCommand msg) {}
             long On(TestActorQuery msg) => msg.Response(42);
+            async Task<string> On(TestActorQueryAsync msg) => await Task.FromResult(msg.Response("In base 13, what is 6 multiplied by 9?"));
         }
 
         [Serializable]
@@ -63,6 +67,18 @@ namespace Orleankka.Features
 
                 Assert.DoesNotThrowAsync(async () => await actor.Tell(new TestActorCommand()));
                 Assert.That(await actor.Ask(new TestActorQuery()), Is.EqualTo(42));
+            }
+
+            [Test]
+            public async Task Request_response_async()
+            {
+                var actor = system.TypedActorOf<ITestActor>("foo");
+
+                // below won't compile
+                // actor.Tell(new object());
+
+                Assert.DoesNotThrowAsync(async () => await actor.Tell(new TestActorCommand()));
+                Assert.That(await actor.Ask(new TestActorQueryAsync()), Is.EqualTo("In base 13, what is 6 multiplied by 9?"));
             }
 
             [Test]
