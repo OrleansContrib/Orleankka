@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 using Orleans;
 using Orleans.Concurrency;
@@ -26,10 +27,26 @@ namespace Orleankka
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("An actor id cannot be empty or contain whitespace only", nameof(id));
 
-            if (!@interface.IsInterface || !typeof(IActorGrain).IsAssignableFrom(@interface))
-                throw new InvalidOperationException($"Type '{@interface}' should be an interface which implements IActorGrain interface");
+            if (!typeof(IActorGrain).IsAssignableFrom(@interface))
+                throw new InvalidOperationException($"Type '{@interface}' should be a type which implements IActorGrain interface");
+
+            if (!@interface.IsInterface)
+                @interface = GetActorInterface(@interface);
 
             return new ActorPath(@interface.FullName, id);
+        }
+
+        private static Type GetActorInterface(Type type)
+        {
+            var interfaces = type
+                             .GetInterfaces().Except(new[] { typeof(IActorGrain) })
+                             .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
+                             .ToArray();
+
+            if (interfaces.Length > 1)
+                throw new InvalidOperationException("Type can only implement a single custom IActorGrain interface. Type: " + type.FullName);
+
+            return interfaces.Length == 1 ? interfaces[0] : type;
         }
 
         public static ActorPath Parse(string path)

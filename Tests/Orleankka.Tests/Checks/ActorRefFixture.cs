@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 
+using Orleankka.Testing;
+
 using Orleans;
 
 namespace Orleankka.Checks
@@ -7,12 +9,6 @@ namespace Orleankka.Checks
     [TestFixture]
     public class ActorRefFixture
     {
-        interface ITestActor : IActorGrain, IGrainWithStringKey
-        {}
-
-        class TestActor : DispatchActorGrain, ITestActor
-        {}
-
         [Test]
         public void Equatable_by_path()
         {
