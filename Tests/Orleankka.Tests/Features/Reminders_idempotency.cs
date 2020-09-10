@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using NUnit.Framework;
 
 using Orleans;
@@ -87,10 +89,8 @@ namespace Orleankka.Features
 
             static async Task CleanRemindersTable()
             {
-                var getGrainGeneric = typeof(IGrainFactory).GetMethod("GetGrain", new[]{typeof(long), typeof(string)});
-                var getGrain = getGrainGeneric.MakeGenericMethod(typeof(IReminderTable).Assembly.GetType("Orleans.IReminderTableGrain"));
-                var grain = getGrain.Invoke(TestActorSystem.Client, new object[]{12345, null});
-                await (Task) grain.GetType().GetMethod("TestOnlyClearTable").Invoke(grain, new object[0]);
+                var table = TestActorSystem.Host.Services.GetService<IReminderTable>();
+                await table.TestOnlyClearTable();
             }
         }
     }

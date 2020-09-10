@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.Azure.Storage;
+
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.DependencyInjection;
 
 using NUnit.Framework;

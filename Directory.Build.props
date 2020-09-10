@@ -45,15 +45,15 @@
     <PropertyGroup>
 
         <!-- Orleans packages -->
-        <MicrosoftOrleansClientVersion>3.0.2</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>3.0.2</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>3.0.2</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>3.0.2</MicrosoftOrleansRuntimeVersion>
-        <MicrosoftOrleansStreamingAzureStorageVersion>3.0.2</MicrosoftOrleansStreamingAzureStorageVersion>
+        <MicrosoftOrleansClientVersion>3.3.0</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>3.3.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>3.3.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>3.3.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>3.3.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
-        <MicrosoftExtensionsLoggingVersion>2.1.1</MicrosoftExtensionsLoggingVersion>
-        <MicrosoftExtensionsLoggingConsoleVersion>2.1.1</MicrosoftExtensionsLoggingConsoleVersion>
+        <MicrosoftExtensionsLoggingVersion>3.0.0</MicrosoftExtensionsLoggingVersion>
+        <MicrosoftExtensionsLoggingConsoleVersion>3.0.0</MicrosoftExtensionsLoggingConsoleVersion>
 
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
