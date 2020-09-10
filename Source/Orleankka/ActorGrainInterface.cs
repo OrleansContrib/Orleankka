@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 using Orleans;
@@ -7,6 +8,23 @@ namespace Orleankka
 {
     class ActorGrainInterface
     {
+        internal static Type InterfaceOf(Type type)
+        {
+            var interfaces = type
+                .GetInterfaces().Except(new[] {typeof(IActorGrain)})
+                .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
+                .Where(each => !each.IsConstructedGenericType)
+                .ToArray();
+
+            if (interfaces.Length > 1)
+                throw new InvalidOperationException($"Type '{type.FullName}' can only implement single custom IActorGrain interface");
+
+            if (interfaces.Length == 0)
+                throw new InvalidOperationException($"Type '{type.FullName}' does not implement custom IActorGrain interface");
+
+            return interfaces[0];
+        }
+
         readonly Func<IGrainFactory, string, object> factory;
 
         internal ActorGrainInterface(Type type)

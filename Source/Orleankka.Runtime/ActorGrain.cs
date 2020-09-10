@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -19,23 +18,8 @@ namespace Orleankka
         /// </summary>
         /// <param name="type">The actor class type</param>
         /// <returns>Type of the interface</returns>
-        public static Type InterfaceOf(Type type)
-        {
-            var interfaces = type
-                .GetInterfaces().Except(new[] {typeof(IActorGrain)})
-                .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
-                .Where(each => !each.IsConstructedGenericType)
-                .ToArray();
+        public static Type InterfaceOf(Type type) => ActorGrainInterface.InterfaceOf(type);
 
-            if (interfaces.Length > 1)
-                throw new InvalidOperationException($"Type '{type.FullName}' can only implement single custom IActorGrain interface");
-
-            if (interfaces.Length == 0)
-                throw new InvalidOperationException($"Type '{type.FullName}' does not implement custom IActorGrain interface");
-
-            return interfaces[0];
-        }
-        
         public static readonly Done Done = Done.Result;
         public static readonly Unhandled Unhandled = Unhandled.Result;
 

@@ -10,11 +10,10 @@ namespace Orleankka.Checks
         [Test]
         public void ActorPath_from_class_and_interface_equal()
         {
-            var path = ActorPath.For<ITestActor>("42");
-            var path1 = ActorPath.For<TestActor>("42");
+            var interfacePath = ActorPath.For<ITestActor>("42");
+            var classPath = ActorPath.For<TestActor>("42");
 
-            Assert.True(path == path1);
-            Assert.True(path.Equals(path1));
+            Assert.AreEqual(interfacePath, classPath);
         }
     }
 }
