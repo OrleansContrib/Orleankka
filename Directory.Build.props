@@ -18,7 +18,8 @@
         <PackageReleaseNotes></PackageReleaseNotes>
         <RepositoryUrl>https://github.com/OrleansContrib/Orleankka</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <IncludeSymbols>true</IncludeSymbols>
+		<IncludeSymbols>true</IncludeSymbols>
+    	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <IncludeSource>true</IncludeSource>
     </PropertyGroup>
 

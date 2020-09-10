@@ -98,7 +98,7 @@ MakeDir(ArtifactsPath);
 
 void Push(string package) => Exec("dotnet", 
     @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
-    "-k %NuGetApiKey% -s https://nuget.org/ -ss https://nuget.smbsrc.net");
+    "-k %NuGetApiKey% -s https://nuget.org/ --skip-duplicate");
 
 void Mirror(string source, string destination)
 {
