@@ -10,8 +10,9 @@
         <Authors>Yevhen Bobrov</Authors>
         <Product>Orleankka</Product>
         <Copyright>since 2016 © Yevhen Bobrov. All rights reserved.</Copyright>
-        <PackageLicenseUrl>https://github.com/OrleansContrib/Orleankka/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/OrleansContrib/Orleankka</PackageProjectUrl>
+        <PackageIcon>Logo.png</PackageIcon>
         <PackageIconUrl>https://github.com/OrleansContrib/Orleankka/raw/master/Logo.png</PackageIconUrl>
         <PackageTags>Orleans Distributed-Systems Messaging Actor Concurrency CQRS Functional F#</PackageTags>
         <PackageReleaseNotes></PackageReleaseNotes>
@@ -20,6 +21,11 @@
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
     </PropertyGroup>
+
+    <ItemGroup>
+    	<None Include="$(SourceRoot)\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+    	<None Include="$(SourceRoot)\Logo.png" Pack="true" PackagePath="\"/>
+  	</ItemGroup>
 
     <!-- Common compile parameters -->
     <PropertyGroup>
