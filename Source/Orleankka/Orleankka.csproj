@@ -12,7 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsDependencyInjectionAbstractionsVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(MicrosoftOrleansCoreAbstractionsVersion)" />
   </ItemGroup>
 
 </Project>
