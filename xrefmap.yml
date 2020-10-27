@@ -1826,6 +1826,22 @@ references:
   commentId: T:Orleankka.Client.ClientActorSystem
   fullName: Orleankka.Client.ClientActorSystem
   nameWithType: ClientActorSystem
+- uid: Orleankka.Client.ClientActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider)
+  name: ClientActorSystem(Assembly[], IServiceProvider)
+  href: api/Orleankka.Client.ClientActorSystem.html#Orleankka_Client_ClientActorSystem__ctor_System_Reflection_Assembly___System_IServiceProvider_
+  commentId: M:Orleankka.Client.ClientActorSystem.#ctor(System.Reflection.Assembly[],System.IServiceProvider)
+  name.vb: ClientActorSystem(Assembly(), IServiceProvider)
+  fullName: Orleankka.Client.ClientActorSystem.ClientActorSystem(System.Reflection.Assembly[], System.IServiceProvider)
+  fullName.vb: Orleankka.Client.ClientActorSystem.ClientActorSystem(System.Reflection.Assembly(), System.IServiceProvider)
+  nameWithType: ClientActorSystem.ClientActorSystem(Assembly[], IServiceProvider)
+  nameWithType.vb: ClientActorSystem.ClientActorSystem(Assembly(), IServiceProvider)
+- uid: Orleankka.Client.ClientActorSystem.#ctor*
+  name: ClientActorSystem
+  href: api/Orleankka.Client.ClientActorSystem.html#Orleankka_Client_ClientActorSystem__ctor_
+  commentId: Overload:Orleankka.Client.ClientActorSystem.#ctor
+  isSpec: "True"
+  fullName: Orleankka.Client.ClientActorSystem.ClientActorSystem
+  nameWithType: ClientActorSystem.ClientActorSystem
 - uid: Orleankka.Client.ClientActorSystem.CreateObservable
   name: CreateObservable()
   href: api/Orleankka.Client.ClientActorSystem.html#Orleankka_Client_ClientActorSystem_CreateObservable
