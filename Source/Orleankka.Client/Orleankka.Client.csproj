@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Orleankka.Client</PackageId>
     <Title>Orleankka client library</Title>
-    <Description>Functional API for MSR Orleans. Core and client-side library.</Description>
+    <Description>Functional API for MSR Orleans. Client-side library.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
