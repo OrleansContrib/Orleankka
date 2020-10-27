@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Orleankka.Client</PackageId>
+    <Title>Orleankka client library</Title>
+    <Description>Functional API for MSR Orleans. Client-side library.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\Release\Orleankka.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core" Version="$(MicrosoftOrleansCoreVersion)" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="$(MicrosoftOrleansCodeGeneratorVersion)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+  </ItemGroup>
+  
+</Project>

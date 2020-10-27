@@ -54,6 +54,8 @@
         <!-- Orleans packages -->
         <MicrosoftOrleansClientVersion>3.3.0</MicrosoftOrleansClientVersion>
         <MicrosoftOrleansServerVersion>3.3.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCoreVersion>3.3.0</MicrosoftOrleansCoreVersion>
+        <MicrosoftOrleansCoreAbstractionsVersion>3.3.0</MicrosoftOrleansCoreAbstractionsVersion>
         <MicrosoftOrleansCodeGeneratorVersion>3.3.0</MicrosoftOrleansCodeGeneratorVersion>
         <MicrosoftOrleansRuntimeVersion>3.3.0</MicrosoftOrleansRuntimeVersion>
         <MicrosoftOrleansStreamingAzureStorageVersion>3.3.0</MicrosoftOrleansStreamingAzureStorageVersion>
@@ -61,6 +63,7 @@
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>3.0.0</MicrosoftExtensionsLoggingVersion>
         <MicrosoftExtensionsLoggingConsoleVersion>3.0.0</MicrosoftExtensionsLoggingConsoleVersion>
+        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>3.1.9</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
 
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
