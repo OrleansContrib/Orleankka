@@ -84,7 +84,7 @@ MakeDir(ArtifactsPath);
 {
     Test(!skipFullCheck);
     Build("Release");
-    Exec("dotnet", $"pack -c Release -p:PackageVersion={Version} {CoreProject}.sln");
+    Exec("dotnet", $"pack -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:PackageVersion={Version} {CoreProject}.sln");
 }
 
 /// Publishes package to NuGet gallery
