@@ -10,6 +10,8 @@ using Orleans.Serialization;
 using Orleans.Streams;
 using Orleans.Runtime;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Orleankka
 {
     using Utility;
@@ -18,13 +20,20 @@ namespace Orleankka
     [DebuggerDisplay("s->{ToString()}")]
     public class StreamRef<TItem> : IEquatable<StreamRef<TItem>>, IEquatable<StreamPath>
     {
-        [NonSerialized]
-        readonly IStreamProvider provider;
+        [NonSerialized] readonly IStreamProvider provider;
+        [NonSerialized] readonly IStreamRefMiddleware middleware;
 
-        protected internal StreamRef(StreamPath path, IStreamProvider provider = null)
+        protected StreamRef(StreamPath path)
         {
             Path = path;
+        }
+
+        internal StreamRef(StreamPath path, IStreamProvider provider, IStreamRefMiddleware middleware) 
+            : this(path)
+        {
+
             this.provider = provider;
+            this.middleware = middleware;
         }
 
         [NonSerialized]
@@ -88,16 +97,28 @@ namespace Orleankka
             switch (message)
             {
                 case NextItem<TItem> next:
-                    await Endpoint.OnNextAsync(next.Item, next.Token);
+                    await middleware.Publish(Path, next, async x =>
+                    {
+                        await Endpoint.OnNextAsync(x.Item, x.Token);
+                    });
                     break;
                 case NextItemBatch<TItem> next:
-                    await Endpoint.OnNextBatchAsync(next.Items, next.Token);
+                    await middleware.Publish(Path, next, async x =>
+                    {
+                        await Endpoint.OnNextBatchAsync(x.Items, x.Token);
+                    });
                     break;
                 case NotifyStreamError error:
-                    await Endpoint.OnErrorAsync(error.Exception);
+                    await middleware.Publish(Path, error, async x =>
+                    {
+                        await Endpoint.OnErrorAsync(x.Exception);
+                    });
                     break;
-                case NotifyStreamCompleted _:
-                    await Endpoint.OnCompletedAsync();
+                case NotifyStreamCompleted completed:
+                    await middleware.Publish(Path, completed, async _ =>
+                    {
+                        await Endpoint.OnCompletedAsync();
+                    });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(message), $"Unsupported type of publish message: '{message.GetType()}'");
@@ -130,7 +151,7 @@ namespace Orleankka
 
             async Task<StreamSubscription<TItem>> Subscribe(SubscribeReceiveItem o)
             {
-                var observer = new Observer(this, callback);
+                var observer = CreateObserver(callback);
                 
                 var predicate = o.Filter != null
                     ? StreamFilter.Internal.Predicate
@@ -142,7 +163,7 @@ namespace Orleankka
 
             async Task<StreamSubscription<TItem>> SubscribeBatch(SubscribeReceiveBatch o)
             {
-                var observer = new BatchObserver(this, callback);
+                var observer = CreateBatchObserver(callback);
                 var handle = await Endpoint.SubscribeAsync(observer, o.Token);
                 return new StreamSubscription<TItem>(this, handle);
             }
@@ -198,46 +219,66 @@ namespace Orleankka
         {
             var reader = context.StreamReader;
             var path = StreamPath.Parse(reader.ReadString());
-            var provider = context.ServiceProvider.GetServiceByName<IStreamProvider>(path.Provider);
-            return new StreamRef<TItem>(path, provider);
+            var system = context.ServiceProvider.GetRequiredService<IActorSystem>();
+            return system.StreamOf<TItem>(path);
         }
 
         #endregion
+
+        internal BatchObserver CreateBatchObserver(Func<StreamMessage, Task> callback)
+        {
+            return new BatchObserver(this, callback, middleware);
+        }
+
+        internal Observer CreateObserver(Func<StreamMessage, Task> callback)
+        {
+            return new Observer(this, callback, middleware);
+        }
 
         internal class BatchObserver : IAsyncBatchObserver<TItem>
         {
             readonly StreamRef<TItem> stream;
             readonly Func<StreamMessage, Task> callback;
+            readonly IStreamRefMiddleware middleware;
 
-            public BatchObserver(StreamRef<TItem> stream, Func<StreamMessage, Task> callback)
+            public BatchObserver(StreamRef<TItem> stream, Func<StreamMessage, Task> callback, IStreamRefMiddleware middleware)
             {
                 this.stream = stream;
                 this.callback = callback;
+                this.middleware = middleware;
             }
 
-            public Task OnNextAsync(IList<SequentialItem<TItem>> items) => 
-                callback(new StreamItemBatch<TItem>(stream, items));
+            public Task OnNextAsync(IList<SequentialItem<TItem>> items) =>
+                middleware.Receive(stream.Path, new StreamItemBatch<TItem>(stream, items), x => callback(x));
 
-            public Task OnCompletedAsync() => callback(new StreamCompleted(stream));
-            public Task OnErrorAsync(Exception ex) => callback(new StreamError(stream, ex));
+            public Task OnCompletedAsync() => 
+                middleware.Receive(stream.Path, new StreamCompleted(stream), x => callback(x));
+
+            public Task OnErrorAsync(Exception ex) => 
+                middleware.Receive(stream.Path, new StreamError(stream, ex), x => callback(x));
         }
 
         internal class Observer : IAsyncObserver<TItem>
         {
             readonly StreamRef<TItem> stream;
             readonly Func<StreamMessage, Task> callback;
+            readonly IStreamRefMiddleware middleware;
 
-            public Observer(StreamRef<TItem> stream, Func<StreamMessage, Task> callback)
+            public Observer(StreamRef<TItem> stream, Func<StreamMessage, Task> callback, IStreamRefMiddleware middleware)
             {
                 this.stream = stream;
                 this.callback = callback;
+                this.middleware = middleware;
             }
 
-            public Task OnNextAsync(TItem item, StreamSequenceToken token = null) => 
-                callback(new StreamItem<TItem>(stream, item, token));
+            public Task OnNextAsync(TItem item, StreamSequenceToken token = null) =>
+                middleware.Receive(stream.Path, new StreamItem<TItem>(stream, item, token), x => callback(x));
 
-            public Task OnCompletedAsync() => callback(new StreamCompleted(stream));
-            public Task OnErrorAsync(Exception ex) => callback(new StreamError(stream, ex));
+            public Task OnCompletedAsync() => 
+                middleware.Receive(stream.Path, new StreamCompleted(stream), x => callback(x));
+
+            public Task OnErrorAsync(Exception ex) => 
+                middleware.Receive(stream.Path, new StreamError(stream, ex), x => callback(x));
         }
     }
 }
