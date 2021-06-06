@@ -52,12 +52,14 @@ namespace Orleankka
         readonly IServiceProvider serviceProvider;
         readonly IGrainFactory grainFactory;
         readonly IActorRefMiddleware actorRefMiddleware;
+        readonly IStreamRefMiddleware streamRefMiddleware;
 
         protected ActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.grainFactory = serviceProvider.GetService<IGrainFactory>();
             this.actorRefMiddleware = serviceProvider.GetService<IActorRefMiddleware>() ?? DefaultActorRefMiddleware.Instance;
+            this.streamRefMiddleware = serviceProvider.GetService<IStreamRefMiddleware>() ?? DefaultStreamRefMiddleware.Instance;
 
             Register(assemblies);
         }
@@ -97,7 +99,8 @@ namespace Orleankka
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
             var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
-            return new StreamRef<TItem>(path, provider);
+            
+            return new StreamRef<TItem>(path, provider, streamRefMiddleware);
         }
 
         /// <inheritdoc />

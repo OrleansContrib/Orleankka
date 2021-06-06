@@ -10,8 +10,8 @@ namespace Orleankka.Checks
         {
             var path = StreamPath.From("sms", "42");
 
-            var ref1 = new StreamRef<string>(path, null);
-            var ref2 = new StreamRef<string>(path, null);
+            var ref1 = new StreamRef<string>(path, null, null);
+            var ref2 = new StreamRef<string>(path, null, null);
             
             Assert.True(ref1 == ref2);
             Assert.True(ref1.Equals(ref2));

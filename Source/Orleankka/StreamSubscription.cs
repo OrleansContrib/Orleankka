@@ -73,13 +73,13 @@ namespace Orleankka
 
             async Task<StreamSubscription<TItem>> Resume(ResumeReceiveItem o)
             {
-                var observer = new StreamRef<TItem>.Observer(Stream, callback);
+                var observer = Stream.CreateObserver(callback);
                 return new StreamSubscription<TItem>(Stream, await handle.ResumeAsync(observer, o.Token));
             }
 
             async Task<StreamSubscription<TItem>> ResumeBatch(ResumeReceiveBatch o)
             {
-                var observer = new StreamRef<TItem>.BatchObserver(Stream, callback);
+                var observer = Stream.CreateBatchObserver(callback);
                 return new StreamSubscription<TItem>(Stream, await handle.ResumeAsync(observer, o.Token));
             }
         }

@@ -82,6 +82,7 @@ namespace Orleankka.Testing
 
                     services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
                     services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
+                    services.AddSingleton<IStreamRefMiddleware>(s => new TestStreamRefMiddleware());
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
