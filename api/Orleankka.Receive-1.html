@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Interface PublishMessage
+    <title>Delegate Receive&lt;TMessage&gt;
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Interface PublishMessage
+    <meta name="title" content="Delegate Receive&lt;TMessage&gt;
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.57.2.0">
     
@@ -80,20 +80,66 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.PublishMessage">
+            <article class="content wrap" id="_content" data-uid="Orleankka.Receive`1">
   
   
-  <h1 id="Orleankka_PublishMessage" data-uid="Orleankka.PublishMessage" class="text-break">Interface PublishMessage
+  <h1 id="Orleankka_Receive_1" data-uid="Orleankka.Receive`1" class="text-break">Delegate Receive&lt;TMessage&gt;
   </h1>
-  <div class="markdown level0 summary"><p>Represents the base for all message types that could be published to a stream</p>
-</div>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.dll</h6>
-  <h5 id="Orleankka_PublishMessage_syntax">Syntax</h5>
+  <h5 id="Orleankka_Receive_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface PublishMessage</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate Task Receive&lt;in TMessage&gt;(TMessage message);</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TMessage</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TMessage</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -102,10 +148,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_PublishMessage.md&amp;value=---%0Auid%3A%20Orleankka.PublishMessage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_Receive_1.md&amp;value=---%0Auid%3A%20Orleankka.Receive%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L137" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/Receive.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

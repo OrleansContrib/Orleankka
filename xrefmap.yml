@@ -2746,6 +2746,44 @@ references:
   isSpec: "True"
   fullName: Orleankka.IObserverCollection.Remove
   nameWithType: IObserverCollection.Remove
+- uid: Orleankka.IStreamRefMiddleware
+  name: IStreamRefMiddleware
+  href: api/Orleankka.IStreamRefMiddleware.html
+  commentId: T:Orleankka.IStreamRefMiddleware
+  fullName: Orleankka.IStreamRefMiddleware
+  nameWithType: IStreamRefMiddleware
+- uid: Orleankka.IStreamRefMiddleware.Publish*
+  name: Publish
+  href: api/Orleankka.IStreamRefMiddleware.html#Orleankka_IStreamRefMiddleware_Publish_
+  commentId: Overload:Orleankka.IStreamRefMiddleware.Publish
+  isSpec: "True"
+  fullName: Orleankka.IStreamRefMiddleware.Publish
+  nameWithType: IStreamRefMiddleware.Publish
+- uid: Orleankka.IStreamRefMiddleware.Publish``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name: Publish<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  href: api/Orleankka.IStreamRefMiddleware.html#Orleankka_IStreamRefMiddleware_Publish__1_Orleankka_StreamPath___0_Orleankka_Receive___0__
+  commentId: M:Orleankka.IStreamRefMiddleware.Publish``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name.vb: Publish(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+  fullName: Orleankka.IStreamRefMiddleware.Publish<TMessage>(Orleankka.StreamPath, TMessage, Orleankka.Receive<TMessage>)
+  fullName.vb: Orleankka.IStreamRefMiddleware.Publish(Of TMessage)(Orleankka.StreamPath, TMessage, Orleankka.Receive(Of TMessage))
+  nameWithType: IStreamRefMiddleware.Publish<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  nameWithType.vb: IStreamRefMiddleware.Publish(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+- uid: Orleankka.IStreamRefMiddleware.Receive*
+  name: Receive
+  href: api/Orleankka.IStreamRefMiddleware.html#Orleankka_IStreamRefMiddleware_Receive_
+  commentId: Overload:Orleankka.IStreamRefMiddleware.Receive
+  isSpec: "True"
+  fullName: Orleankka.IStreamRefMiddleware.Receive
+  nameWithType: IStreamRefMiddleware.Receive
+- uid: Orleankka.IStreamRefMiddleware.Receive``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name: Receive<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  href: api/Orleankka.IStreamRefMiddleware.html#Orleankka_IStreamRefMiddleware_Receive__1_Orleankka_StreamPath___0_Orleankka_Receive___0__
+  commentId: M:Orleankka.IStreamRefMiddleware.Receive``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name.vb: Receive(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+  fullName: Orleankka.IStreamRefMiddleware.Receive<TMessage>(Orleankka.StreamPath, TMessage, Orleankka.Receive<TMessage>)
+  fullName.vb: Orleankka.IStreamRefMiddleware.Receive(Of TMessage)(Orleankka.StreamPath, TMessage, Orleankka.Receive(Of TMessage))
+  nameWithType: IStreamRefMiddleware.Receive<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  nameWithType.vb: IStreamRefMiddleware.Receive(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
 - uid: Orleankka.Legacy
   name: Orleankka.Legacy
   href: api/Orleankka.Legacy.html
@@ -4494,6 +4532,15 @@ references:
   commentId: T:Orleankka.Receive
   fullName: Orleankka.Receive
   nameWithType: Receive
+- uid: Orleankka.Receive`1
+  name: Receive<TMessage>
+  href: api/Orleankka.Receive-1.html
+  commentId: T:Orleankka.Receive`1
+  name.vb: Receive(Of TMessage)
+  fullName: Orleankka.Receive<TMessage>
+  fullName.vb: Orleankka.Receive(Of TMessage)
+  nameWithType: Receive<TMessage>
+  nameWithType.vb: Receive(Of TMessage)
 - uid: Orleankka.ReceiveResult
   name: ReceiveResult
   href: api/Orleankka.ReceiveResult.html
@@ -5778,14 +5825,14 @@ references:
   fullName.vb: Orleankka.StreamRef(Of TItem)
   nameWithType: StreamRef<TItem>
   nameWithType.vb: StreamRef(Of TItem)
-- uid: Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
-  name: StreamRef(StreamPath, IStreamProvider)
-  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1__ctor_Orleankka_StreamPath_Orleans_Streams_IStreamProvider_
-  commentId: M:Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath,Orleans.Streams.IStreamProvider)
-  fullName: Orleankka.StreamRef<TItem>.StreamRef(Orleankka.StreamPath, Orleans.Streams.IStreamProvider)
-  fullName.vb: Orleankka.StreamRef(Of TItem).StreamRef(Orleankka.StreamPath, Orleans.Streams.IStreamProvider)
-  nameWithType: StreamRef<TItem>.StreamRef(StreamPath, IStreamProvider)
-  nameWithType.vb: StreamRef(Of TItem).StreamRef(StreamPath, IStreamProvider)
+- uid: Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath)
+  name: StreamRef(StreamPath)
+  href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1__ctor_Orleankka_StreamPath_
+  commentId: M:Orleankka.StreamRef`1.#ctor(Orleankka.StreamPath)
+  fullName: Orleankka.StreamRef<TItem>.StreamRef(Orleankka.StreamPath)
+  fullName.vb: Orleankka.StreamRef(Of TItem).StreamRef(Orleankka.StreamPath)
+  nameWithType: StreamRef<TItem>.StreamRef(StreamPath)
+  nameWithType.vb: StreamRef(Of TItem).StreamRef(StreamPath)
 - uid: Orleankka.StreamRef`1.#ctor*
   name: StreamRef
   href: api/Orleankka.StreamRef-1.html#Orleankka_StreamRef_1__ctor_
@@ -6062,6 +6109,57 @@ references:
   fullName.vb: Orleankka.StreamRefExtensions.Subscribe(Of TItem)(Orleankka.StreamRef(Of TItem), System.Func(Of System.Collections.Generic.IList(Of Orleans.Streams.SequentialItem(Of TItem)), System.Threading.Tasks.Task), Orleans.Streams.StreamSequenceToken)
   nameWithType: StreamRefExtensions.Subscribe<TItem>(StreamRef<TItem>, Func<IList<SequentialItem<TItem>>, Task>, StreamSequenceToken)
   nameWithType.vb: StreamRefExtensions.Subscribe(Of TItem)(StreamRef(Of TItem), Func(Of IList(Of SequentialItem(Of TItem)), Task), StreamSequenceToken)
+- uid: Orleankka.StreamRefMiddleware
+  name: StreamRefMiddleware
+  href: api/Orleankka.StreamRefMiddleware.html
+  commentId: T:Orleankka.StreamRefMiddleware
+  fullName: Orleankka.StreamRefMiddleware
+  nameWithType: StreamRefMiddleware
+- uid: Orleankka.StreamRefMiddleware.#ctor(Orleankka.IStreamRefMiddleware)
+  name: StreamRefMiddleware(IStreamRefMiddleware)
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware__ctor_Orleankka_IStreamRefMiddleware_
+  commentId: M:Orleankka.StreamRefMiddleware.#ctor(Orleankka.IStreamRefMiddleware)
+  fullName: Orleankka.StreamRefMiddleware.StreamRefMiddleware(Orleankka.IStreamRefMiddleware)
+  nameWithType: StreamRefMiddleware.StreamRefMiddleware(IStreamRefMiddleware)
+- uid: Orleankka.StreamRefMiddleware.#ctor*
+  name: StreamRefMiddleware
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware__ctor_
+  commentId: Overload:Orleankka.StreamRefMiddleware.#ctor
+  isSpec: "True"
+  fullName: Orleankka.StreamRefMiddleware.StreamRefMiddleware
+  nameWithType: StreamRefMiddleware.StreamRefMiddleware
+- uid: Orleankka.StreamRefMiddleware.Publish*
+  name: Publish
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware_Publish_
+  commentId: Overload:Orleankka.StreamRefMiddleware.Publish
+  isSpec: "True"
+  fullName: Orleankka.StreamRefMiddleware.Publish
+  nameWithType: StreamRefMiddleware.Publish
+- uid: Orleankka.StreamRefMiddleware.Publish``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name: Publish<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware_Publish__1_Orleankka_StreamPath___0_Orleankka_Receive___0__
+  commentId: M:Orleankka.StreamRefMiddleware.Publish``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name.vb: Publish(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+  fullName: Orleankka.StreamRefMiddleware.Publish<TMessage>(Orleankka.StreamPath, TMessage, Orleankka.Receive<TMessage>)
+  fullName.vb: Orleankka.StreamRefMiddleware.Publish(Of TMessage)(Orleankka.StreamPath, TMessage, Orleankka.Receive(Of TMessage))
+  nameWithType: StreamRefMiddleware.Publish<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  nameWithType.vb: StreamRefMiddleware.Publish(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+- uid: Orleankka.StreamRefMiddleware.Receive*
+  name: Receive
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware_Receive_
+  commentId: Overload:Orleankka.StreamRefMiddleware.Receive
+  isSpec: "True"
+  fullName: Orleankka.StreamRefMiddleware.Receive
+  nameWithType: StreamRefMiddleware.Receive
+- uid: Orleankka.StreamRefMiddleware.Receive``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name: Receive<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  href: api/Orleankka.StreamRefMiddleware.html#Orleankka_StreamRefMiddleware_Receive__1_Orleankka_StreamPath___0_Orleankka_Receive___0__
+  commentId: M:Orleankka.StreamRefMiddleware.Receive``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})
+  name.vb: Receive(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
+  fullName: Orleankka.StreamRefMiddleware.Receive<TMessage>(Orleankka.StreamPath, TMessage, Orleankka.Receive<TMessage>)
+  fullName.vb: Orleankka.StreamRefMiddleware.Receive(Of TMessage)(Orleankka.StreamPath, TMessage, Orleankka.Receive(Of TMessage))
+  nameWithType: StreamRefMiddleware.Receive<TMessage>(StreamPath, TMessage, Receive<TMessage>)
+  nameWithType.vb: StreamRefMiddleware.Receive(Of TMessage)(StreamPath, TMessage, Receive(Of TMessage))
 - uid: Orleankka.StreamSubscription`1
   name: StreamSubscription<TItem>
   href: api/Orleankka.StreamSubscription-1.html

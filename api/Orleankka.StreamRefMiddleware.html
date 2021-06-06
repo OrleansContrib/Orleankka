@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class StreamError
+    <title>Class StreamRefMiddleware
    | Orleankka Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class StreamError
+    <meta name="title" content="Class StreamRefMiddleware
    | Orleankka Documentation ">
     <meta name="generator" content="docfx 2.57.2.0">
     
@@ -80,21 +80,21 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Orleankka.StreamError">
+            <article class="content wrap" id="_content" data-uid="Orleankka.StreamRefMiddleware">
   
   
-  <h1 id="Orleankka_StreamError" data-uid="Orleankka.StreamError" class="text-break">Class StreamError
+  <h1 id="Orleankka_StreamRefMiddleware" data-uid="Orleankka.StreamRefMiddleware" class="text-break">Class StreamRefMiddleware
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.object(v=vs.110).aspx">Object</a></div>
-    <div class="level1"><span class="xref">StreamError</span></div>
+    <div class="level1"><span class="xref">StreamRefMiddleware</span></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
-    <div><a class="xref" href="Orleankka.StreamMessage.html">StreamMessage</a></div>
+    <div><a class="xref" href="Orleankka.IStreamRefMiddleware.html">IStreamRefMiddleware</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -122,26 +122,61 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Orleankka.html">Orleankka</a></h6>
   <h6><strong>Assembly</strong>: Orleankka.dll</h6>
-  <h5 id="Orleankka_StreamError_syntax">Syntax</h5>
+  <h5 id="Orleankka_StreamRefMiddleware_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class StreamError : StreamMessage</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class StreamRefMiddleware : IStreamRefMiddleware</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError__ctor_Orleankka_StreamPath_System_Exception_.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.%23ctor(Orleankka.StreamPath%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefMiddleware__ctor_Orleankka_IStreamRefMiddleware_.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefMiddleware.%23ctor(Orleankka.IStreamRefMiddleware)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L306">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefMiddleware.cs/#L15">View Source</a>
   </span>
-  <a id="Orleankka_StreamError__ctor_" data-uid="Orleankka.StreamError.#ctor*"></a>
-  <h4 id="Orleankka_StreamError__ctor_Orleankka_StreamPath_System_Exception_" data-uid="Orleankka.StreamError.#ctor(Orleankka.StreamPath,System.Exception)">StreamError(StreamPath, Exception)</h4>
+  <a id="Orleankka_StreamRefMiddleware__ctor_" data-uid="Orleankka.StreamRefMiddleware.#ctor*"></a>
+  <h4 id="Orleankka_StreamRefMiddleware__ctor_Orleankka_IStreamRefMiddleware_" data-uid="Orleankka.StreamRefMiddleware.#ctor(Orleankka.IStreamRefMiddleware)">StreamRefMiddleware(IStreamRefMiddleware)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public StreamError(StreamPath path, Exception exception)</code></pre>
+    <pre><code class="lang-csharp hljs">protected StreamRefMiddleware(IStreamRefMiddleware next = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Orleankka.IStreamRefMiddleware.html">IStreamRefMiddleware</a></td>
+        <td><span class="parametername">next</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefMiddleware_Publish__1_Orleankka_StreamPath___0_Orleankka_Receive___0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefMiddleware.Publish%60%601(Orleankka.StreamPath%2C%60%600%2COrleankka.Receive%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefMiddleware.cs/#L18">View Source</a>
+  </span>
+  <a id="Orleankka_StreamRefMiddleware_Publish_" data-uid="Orleankka.StreamRefMiddleware.Publish*"></a>
+  <h4 id="Orleankka_StreamRefMiddleware_Publish__1_Orleankka_StreamPath___0_Orleankka_Receive___0__" data-uid="Orleankka.StreamRefMiddleware.Publish``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})">Publish&lt;TMessage&gt;(StreamPath, TMessage, Receive&lt;TMessage&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Task Publish&lt;TMessage&gt;(StreamPath path, TMessage message, Receive&lt;TMessage&gt; receiver)
+    where TMessage : PublishMessage</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -159,30 +194,18 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
-        <td><span class="parametername">exception</span></td>
+        <td><span class="xref">TMessage</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.Receive-1.html">Receive</a>&lt;TMessage&gt;</td>
+        <td><span class="parametername">receiver</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="properties">Properties
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError_Exception.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L304">View Source</a>
-  </span>
-  <a id="Orleankka_StreamError_Exception_" data-uid="Orleankka.StreamError.Exception*"></a>
-  <h4 id="Orleankka_StreamError_Exception" data-uid="Orleankka.StreamError.Exception">Exception</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Exception Exception { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -192,44 +215,102 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.exception(v=vs.110).aspx">Exception</a></td>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TMessage</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError_Path.md&amp;value=---%0Auid%3A%20Orleankka.StreamError.Path%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefMiddleware_Receive__1_Orleankka_StreamPath___0_Orleankka_Receive___0__.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefMiddleware.Receive%60%601(Orleankka.StreamPath%2C%60%600%2COrleankka.Receive%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L303">View Source</a>
+    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefMiddleware.cs/#L21">View Source</a>
   </span>
-  <a id="Orleankka_StreamError_Path_" data-uid="Orleankka.StreamError.Path*"></a>
-  <h4 id="Orleankka_StreamError_Path" data-uid="Orleankka.StreamError.Path">Path</h4>
+  <a id="Orleankka_StreamRefMiddleware_Receive_" data-uid="Orleankka.StreamRefMiddleware.Receive*"></a>
+  <h4 id="Orleankka_StreamRefMiddleware_Receive__1_Orleankka_StreamPath___0_Orleankka_Receive___0__" data-uid="Orleankka.StreamRefMiddleware.Receive``1(Orleankka.StreamPath,``0,Orleankka.Receive{``0})">Receive&lt;TMessage&gt;(StreamPath, TMessage, Receive&lt;TMessage&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public StreamPath Path { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual Task Receive&lt;TMessage&gt;(StreamPath path, TMessage message, Receive&lt;TMessage&gt; receiver)
+    where TMessage : StreamMessage</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
         <th>Type</th>
+        <th>Name</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><a class="xref" href="Orleankka.StreamPath.html">StreamPath</a></td>
+        <td><span class="parametername">path</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">TMessage</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Orleankka.Receive-1.html">Receive</a>&lt;TMessage&gt;</td>
+        <td><span class="parametername">receiver</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TMessage</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <a class="xref" href="Orleankka.StreamMessage.html">StreamMessage</a>
+      <a class="xref" href="Orleankka.IStreamRefMiddleware.html">IStreamRefMiddleware</a>
   </div>
 </article>
           </div>
@@ -239,10 +320,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamError.md&amp;value=---%0Auid%3A%20Orleankka.StreamError%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/new/master/apiSpec/new?filename=Orleankka_StreamRefMiddleware.md&amp;value=---%0Auid%3A%20Orleankka.StreamRefMiddleware%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamMessages.cs/#L301" class="contribution-link">View Source</a>
+                    <a href="https://github.com/OrleansContrib/Orleankka/blob/master/Source/Orleankka/StreamRefMiddleware.cs/#L11" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
