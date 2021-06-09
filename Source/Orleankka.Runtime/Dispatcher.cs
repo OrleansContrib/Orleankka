@@ -12,6 +12,7 @@ using Orleans.Configuration;
 
 namespace Orleankka
 {
+    using System.Collections.Concurrent;
     using Utility;
 
     public interface IDispatcherRegistry
@@ -21,9 +22,9 @@ namespace Orleankka
 
     class DispatcherRegistry : IDispatcherRegistry
     {
-        static readonly Dictionary<Type, Dispatcher> dispatchers = new Dictionary<Type, Dispatcher>();
+        static readonly ConcurrentDictionary<Type, Dispatcher> dispatchers = new ConcurrentDictionary<Type, Dispatcher>();
 
-        public void Register(Type type, Dispatcher dispatcher) => dispatchers.Add(type, dispatcher);
+        public void Register(Type type, Dispatcher dispatcher) => dispatchers.TryAdd(type, dispatcher);
         public Dispatcher GetDispatcher(Type type) => dispatchers[type];
     }
 
