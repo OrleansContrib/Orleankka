@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class StreamSubscription&lt;TItem&gt;
    | Orleankka Documentation ">
-    <meta name="generator" content="docfx 2.57.2.0">
+    <meta name="generator" content="docfx 2.58.2.0">
     
     <link rel="shortcut icon" href="..//images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -158,7 +158,7 @@ in order to resume or unsubscribe later.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected StreamSubscription(StreamRef&lt;TItem&gt; stream, StreamSubscriptionHandle&lt;TItem&gt; handle, Guid? id = default(Guid? ))</code></pre>
+    <pre><code class="lang-csharp hljs">protected StreamSubscription(StreamRef&lt;TItem&gt; stream, StreamSubscriptionHandle&lt;TItem&gt; handle, Guid? id = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -396,7 +396,7 @@ this subscription is subscribed to</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual Task&lt;StreamSubscription&lt;TItem&gt;&gt; Resume&lt;TOptions&gt;(Func&lt;StreamMessage, Task&gt; callback, TOptions options)
+    <pre><code class="lang-csharp hljs">public virtual async Task&lt;StreamSubscription&lt;TItem&gt;&gt; Resume&lt;TOptions&gt;(Func&lt;StreamMessage, Task&gt; callback, TOptions options)
     where TOptions : ResumeOptions</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
