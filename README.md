@@ -16,7 +16,7 @@ Orleankka is a functional extension for Microsoft Orleans framework. It provides
 
 To install client Orleankka library via NuGet, run this command in NuGet package manager console:
 
-	PM> Install-Package Orleankka
+	PM> Install-Package Orleankka.Client
 
 For server-side library:
 
@@ -37,7 +37,8 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 | Package | Description|
 | ------- |------------|
-| [Orleankka](https://www.nuget.org/packages/Orleankka) | Core and client lib
+| [Orleankka](https://www.nuget.org/packages/Orleankka) | Core abstractions lib
+| [Orleankka.Client](https://www.nuget.org/packages/Orleankka.Client) | Client-side lib
 | [Orleankka.Runtime](https://www.nuget.org/packages/Orleankka.Runtime/) | Server-side runtime lib
 | [Orleankka.TestKit](https://www.nuget.org/packages/Orleankka.TestKit/) | Unit testing kit
 
