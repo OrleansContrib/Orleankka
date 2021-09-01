@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.IO.Pipelines;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
 
 using NUnit.Framework;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
 
@@ -19,17 +19,18 @@ namespace Orleankka.Features.Http_rpc
 {
     namespace Request_response
     {
-        using Meta;
+        using Http;
+        using Http.AspNetCore;
         using Testing;
 
         [Serializable]
-        public class SetText : Command
+        public class SetText : ActorMessage<IAutoMappedActor>
         {
             public string Text { get; set; }
         }
 
         [Serializable]
-        public class GetText : Query<Result>
+        public class GetText : ActorMessage<IAutoMappedActor, GetText.Result>
         {
             [Serializable]
             public class Result
@@ -38,10 +39,21 @@ namespace Orleankka.Features.Http_rpc
             }
         }
 
-        public interface ITestActor : IActorGrain, IGrainWithStringKey
-        {}
+        public interface IHandMappedActor : IActorGrain, IGrainWithStringKey
+        { }
 
-        public class TestActor : DispatchActorGrain, ITestActor
+        public class HandMappedActor : DispatchActorGrain, IHandMappedActor
+        {
+            string text = "";
+
+            public void On(SetText cmd) => text = cmd.Text;
+            public GetText.Result On(GetText q) => new GetText.Result {Text = text};
+        }
+
+        public interface IAutoMappedActor : IActorGrain, IGrainWithStringKey
+        { }
+
+        public class AutoMappedActor : DispatchActorGrain, IAutoMappedActor
         {
             string text = "";
 
@@ -53,97 +65,67 @@ namespace Orleankka.Features.Http_rpc
         [RequiresSilo]
         public class Tests
         {
-            IActorSystem system;
-            IHost host;
-            HttpClient http;
+            const string prefix = "actors";
+            readonly Uri baseAddress = new Uri($"http://localhost:9090/{prefix}/");
 
-            readonly JsonSerializerOptions options = new JsonSerializerOptions {
-                PropertyNameCaseInsensitive = true, 
+            readonly JsonSerializerOptions serializer = new JsonSerializerOptions 
+            {
+                PropertyNameCaseInsensitive = true,
                 AllowTrailingCommas = true,
                 IgnoreNullValues = true,
                 WriteIndented = true,
-                Converters = { new JsonStringEnumConverter() }
+                Converters = {new JsonStringEnumConverter()}
             };
+
+            IHost host;
+            IActorSystem system;
+            ActorRouteMapper mapper;
+            HttpActorSystem httpSystem;
+            HttpClient httpClient;
+
+            ActorRef handMappedActor;
+            ActorRef<IAutoMappedActor> autoMappedActor;
 
             [SetUp]
             public async Task SetUp()
             {
-                system = TestActorSystem.Instance;
+                var handMapped = new ActorRouteMapping(typeof(IHandMappedActor), "TestActor");
+                handMapped.Register(typeof(SetText), "SetText");
+                handMapped.Register(typeof(GetText), "GetText", typeof(GetText.Result));
 
-                http = new HttpClient {BaseAddress = new Uri("http://localhost:9090")};
+                var autoMapped = ActorRouteMapping.From(typeof(IAutoMappedActor));
                 
+                mapper = new ActorRouteMapper();
+                mapper.Register(handMapped);
+                mapper.Register(autoMapped);
+                
+                system = TestActorSystem.Instance;
+                
+                httpClient = new HttpClient {BaseAddress = baseAddress};
+                httpSystem = new HttpActorSystem(httpClient, serializer, mapper);
+
                 var builder = Host.CreateDefaultBuilder();
                 host = builder.ConfigureWebHostDefaults(web =>
                 {
-                  web.UseUrls("http://*:9090");
-                  web.Configure(app =>
-                  {
-                      app.UseRouting();
-                      app.UseEndpoints(endpoints =>
-                      {
-                          endpoints.MapPost("/grains/{grainKey}/{grainId}/{messageKey}", async context =>
-                          {
-                              var grainKey = context.Request.RouteValues["grainKey"].ToString();
-                              var grainId = context.Request.RouteValues["grainId"].ToString();
-                              var messageKey = context.Request.RouteValues["messageKey"].ToString();
-
-                              var grainType = GrainType(grainKey);
-                              var messageType = MessageType(grainKey, messageKey);
-
-                              var actor = system.ActorOf(grainType, grainId);
-                              var message = await Deserialize(context.Request.BodyReader, messageType, context.RequestAborted);
-
-                              var result = await actor.Ask<object>(message);
-                              if (result != null)
-                                await Serialize(result, context.Response.BodyWriter);
-                          });
-                      });
-                  });
+                    web.UseUrls("http://*:9090");
+                    web.ConfigureServices(services =>
+                    {
+                        services.AddSingleton(system);
+                        services.AddSingleton(serializer);
+                        services.AddSingleton(mapper);
+                    });
+                    web.Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(e => e.MapActors(prefix));
+                    });
                 })
                 .Build();
 
                 await host.StartAsync();
-            }
-
-            async ValueTask<object> Deserialize(PipeReader reader, Type type, CancellationToken cancellationToken)
-            {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    var frame = await reader.ReadAsync(cancellationToken);
-                    var buffer = frame.Buffer;
-
-                    var message = JsonSerializer.Deserialize(buffer.FirstSpan, type, options);
-                    reader.AdvanceTo(buffer.Start, buffer.End);
-
-                    if (frame.IsCompleted)
-                        return message;
-                }
-
-                return null;
-            }
-
-            async ValueTask Serialize(object obj, PipeWriter writer)
-            {
-                await JsonSerializer.SerializeAsync(writer.AsStream(), obj, obj.GetType(), options);
-            }
-
-
-            Type GrainType(string grainKey)
-            {
-                return grainKey.ToLower() switch {
-                    "testactor" => typeof(ITestActor),
-                    _ => throw new Exception("meh")
-                };
-            }
-
-            Type MessageType(string grainKey, string messageKey)
-            {
-                return messageKey switch {
-                    nameof(GetText) => typeof(GetText),
-                    nameof(SetText) => typeof(SetText),
-                    _ => throw new Exception("meh")
-                };
-
+                
+                handMappedActor = httpSystem.ActorOf<IHandMappedActor>(Guid.NewGuid().ToString());
+                autoMappedActor = httpSystem.TypedActorOf<IAutoMappedActor>(Guid.NewGuid().ToString());
             }
 
             [TearDown]
@@ -154,28 +136,61 @@ namespace Orleankka.Features.Http_rpc
             }
 
             [Test]
-            public async Task Test_http()
+            public async Task Hand_mapped()
             {
                 const string text = "Hello world!";
+                await handMappedActor.Tell(new SetText {Text = text});
 
-                var actor = system.FreshActorOf<ITestActor>();
-                await PostJson<object>($"/grains/TestActor/{actor.Path.Id}/{nameof(SetText)}", new SetText {Text = text});
-                
-                var response = await PostJson<GetText.Result>($"/grains/TestActor/{actor.Path.Id}/{nameof(GetText)}", new GetText());
+                var response = await handMappedActor.Ask<GetText.Result>(new GetText());
                 Assert.AreEqual(text, response.Text);
             }
 
-            async Task<TResponse> PostJson<TResponse>(string path, object value)
+            [Test]
+            public async Task Auto_mapped()
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, path);
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                request.Content = new StringContent(JsonSerializer.Serialize(value, options));
+                const string text = "Look ma, no hands!";
+                await autoMappedActor.Tell(new SetText {Text = text});
 
-                var response = await http.SendAsync(request);
+                var response = await autoMappedActor.Ask(new GetText());
+                Assert.AreEqual(text, response.Text);
+            }
+
+            [Test]
+            public async Task Http_get()
+            {
+                const string text = "Get it via GET!";
+                await handMappedActor.Tell(new SetText {Text = text});
+
+                var response = await GetHandMappedActor<GetText.Result>(handMappedActor, new GetText());
+                Assert.AreEqual(text, response.Text);
+            }
+
+            async Task<TResponse> GetHandMappedActor<TResponse>(ActorRef actor, object message)
+            {
+                var path = $"TestActor/{actor.Path.Id}/{message.GetType().Name}";
+                return (TResponse) await SendJson(path, result: typeof(TResponse));
+            }
+
+            async Task<object> SendJson(string path, object content = null, Type result = null)
+            {
+                var request = new HttpRequestMessage(content != null
+                    ? HttpMethod.Post
+                    : HttpMethod.Get, path);
+
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (content != null)
+                    request.Content = new StringContent(JsonSerializer.Serialize(content, serializer));
+
+                var response = await httpClient.SendAsync(request);
                 var responseBody = await response.Content.ReadAsStringAsync();
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw new Exception($"Request failed with {(int) response.StatusCode} code. See error below:\n{responseBody}");
+
                 return !string.IsNullOrWhiteSpace(responseBody)
-                      ? JsonSerializer.Deserialize<TResponse>(responseBody)
-                      : default;
+                    ? JsonSerializer.Deserialize(responseBody, result)
+                    : default;
             }
         }
     }

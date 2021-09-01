@@ -22,6 +22,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Orleankka.Http.AspNetCore\Orleankka.Http.AspNetCore.csproj" />
     <ProjectReference Include="..\..\Source\Orleankka.Legacy.Runtime\Orleankka.Legacy.Runtime.csproj" />
     <ProjectReference Include="..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\..\Source\Orleankka\Orleankka.csproj" />

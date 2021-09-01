@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Orleankka.Http.AspNetCore</PackageId>
+    <Title>Orleankka http protocol implementation for ASP.NET Core</Title>
+    <Description>Functional API for MSR Orleans. Server-side library for http protocol</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
+  </ItemGroup> 
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\Release\Orleankka.Http.AspNetCore.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>

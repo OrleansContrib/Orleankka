@@ -16,4 +16,10 @@
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(MicrosoftOrleansCoreAbstractionsVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Text.Json">
+      <HintPath>..\..\Packages\system.text.json\4.6.0\lib\netstandard2.0\System.Text.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
