@@ -9,19 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(MicrosoftNETTestSdkVersion)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
     <PackageReference Include="Microsoft.Orleans.Streaming.AzureStorage" Version="$(MicrosoftOrleansStreamingAzureStorageVersion)" />
     <PackageReference Include="NUnit" Version="$(NUnitVersion)" />
     <PackageReference Include="NUnit3TestAdapter" Version="$(NUnit3TestAdapterVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsHostingVersion)" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Orleankka.Legacy.Runtime\Orleankka.Legacy.Runtime.csproj" />
     <ProjectReference Include="..\..\Source\Orleankka.Runtime\Orleankka.Runtime.csproj" />
     <ProjectReference Include="..\..\Source\Orleankka\Orleankka.csproj" />
-  </ItemGroup> 
+  </ItemGroup>
   
-  
-
 </Project>
