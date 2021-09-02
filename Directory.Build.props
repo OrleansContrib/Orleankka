@@ -51,7 +51,10 @@
     <!-- Shared Package Versions -->
     <PropertyGroup>
 
-        <!-- Orleans packages -->
+        <!-- Framework packages -->
+        <SystemTextJsonVersion>4.6.0</SystemTextJsonVersion>
+
+        <!-- Orleans packages -->        
         <MicrosoftOrleansClientVersion>3.3.0</MicrosoftOrleansClientVersion>
         <MicrosoftOrleansServerVersion>3.3.0</MicrosoftOrleansServerVersion>
         <MicrosoftOrleansCoreVersion>3.3.0</MicrosoftOrleansCoreVersion>
