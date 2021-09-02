@@ -3,7 +3,6 @@
   
   <PropertyGroup>
     <RootNamespace>Example</RootNamespace>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>Exe</OutputType>
     <AssemblyName>Example.Observers.Chat.Client</AssemblyName>

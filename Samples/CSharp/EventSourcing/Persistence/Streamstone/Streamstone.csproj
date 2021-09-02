@@ -4,7 +4,6 @@
   <PropertyGroup>
     <RootNamespace>Example</RootNamespace>
     <AssemblyName>Example.EventSourcing.Streamstone</AssemblyName>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>

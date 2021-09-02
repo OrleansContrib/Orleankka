@@ -43,8 +43,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
-        <ConsoleProjectTargetFramework>netcoreapp3.0</ConsoleProjectTargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <ConsoleProjectTargetFramework>netcoreapp3.1</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 

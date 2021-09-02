@@ -3,7 +3,6 @@
 
   <PropertyGroup>
     <RootNamespace>Orleankka</RootNamespace>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>Orleankka.Tests</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
