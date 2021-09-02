@@ -22,6 +22,7 @@ using System.IO.Compression;
 
 const string CoreProject = "Orleankka";
 const string ClientProject = "Orleankka.Client";
+const string HttpAspNetCoreProject = "Orleankka.Http.AspNetCore";
 const string RuntimeProject = "Orleankka.Runtime";
 const string LegacyRuntimeProject = "Orleankka.Runtime.Legacy";
 const string LegacyRuntimeSupportProject = "Orleankka.Runtime.Legacy.Support";
@@ -92,6 +93,7 @@ MakeDir(ArtifactsPath);
 {
     Push(CoreProject);
     Push(ClientProject);
+    Push(HttpAspNetCoreProject);
     Push(RuntimeProject);
     Push(LegacyRuntimeProject);
     Push(LegacyRuntimeSupportProject);  
