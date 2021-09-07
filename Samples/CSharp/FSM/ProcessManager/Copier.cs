@@ -303,39 +303,39 @@ namespace ProcessManager
             async Task Copy(BackgroundJobToken job)
             {
                 var buffer = new List<char>();
+
+                await using var source = new FileStream(SourceFileName(), FileMode.Open, FileAccess.Read, FileShare.Read);
+                await using var target = new FileStream(TargetFileName(), FileMode.Append, FileAccess.Write, FileShare.None);
                 
-                using (var source = new FileStream(SourceFileName(), FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var target = new FileStream(TargetFileName(), FileMode.Append, FileAccess.Write, FileShare.None))
-                using (var reader = new StreamReader(source))
-                using (var writer = new StreamWriter(target))
+                using var reader = new StreamReader(source);
+                await using var writer = new StreamWriter(target);
+
+                var position = State.LastCopiedLine;
+                source.Seek(position * (5 + 2), SeekOrigin.Begin);
+
+                int read;
+                do
                 {
-                    var position = State.LastCopiedLine;
-                    source.Seek(position * (5 + 2), SeekOrigin.Begin);
+                    await Task.Delay(TimeSpan.FromMilliseconds(500)); // artificial delay for demo purposes
 
-                    int read;
-                    do
+                    read = 0;
+                    buffer.Clear();
+
+                    while (read < maxChunkSize)
                     {
-                        await Task.Delay(TimeSpan.FromMilliseconds(500)); // artificial delay for demo purposes
+                        var line = await reader.ReadLineAsync();
+                        if (line == null)
+                            break;
 
-                        read = 0;
-                        buffer.Clear();
-
-                        while (read < maxChunkSize)
-                        {
-                            var line = await reader.ReadLineAsync();
-                            if (line == null)
-                                break;
-
-                            read++;
-                            buffer.AddRange(line.ToCharArray());
-                        }
-                        await writer.WriteAsync(buffer.ToArray());
-
-                        // send message to self to checkpoint current progress
-                        await Fire(new Copied {Count = read});
+                        read++;
+                        buffer.AddRange(line.ToCharArray());
                     }
-                    while (read == maxChunkSize && !job.IsTerminationRequested);
+                    await writer.WriteAsync(buffer.ToArray());
+
+                    // send message to self to checkpoint current progress
+                    await Fire(new Copied {Count = read});
                 }
+                while (read == maxChunkSize && !job.IsTerminationRequested);
             }
 
             async Task NotifyProgressChanged(double progress) => await Notify(new ProgressChanged {Progress = progress});
