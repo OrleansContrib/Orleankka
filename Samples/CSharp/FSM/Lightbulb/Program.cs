@@ -7,6 +7,7 @@ using Orleankka;
 using Orleankka.Client;
 using Orleankka.Cluster;
 
+using Orleans.Configuration;
 using Orleans.Hosting;
 
 using static System.Console;
@@ -23,6 +24,11 @@ namespace Example
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())
                     .WithCodeGeneration())
+                .Configure<GrainCollectionOptions>(o =>
+                {
+                    o.CollectionAge = TimeSpan.FromSeconds(70);
+                    o.CollectionQuantum = TimeSpan.FromSeconds(30);
+                })
                 .UseOrleankka()
                 .Start();
 
@@ -42,8 +48,9 @@ namespace Example
             
             async Task Request(object message)
             {
-                var response = await lightbulb.Ask<string>(message);
-                WriteLine(response);
+                var response = await lightbulb.Ask<object>(message);
+                if (response is string)
+                    WriteLine(response);
             }
 
             await Request(new PressSwitch());
@@ -53,6 +60,16 @@ namespace Example
 
             await Request(new HitWithHammer());
             await Request(new PressSwitch());
+            await Request(new Touch());
+
+            await Request(new Fix());
+            await Request(new Touch());
+
+            // on
+            await Request(new PressSwitch());
+            await Task.Delay(5000);
+            await Request(new Deactivate());
+
             await Request(new Touch());
         }
     }

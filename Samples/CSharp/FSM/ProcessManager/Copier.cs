@@ -154,9 +154,10 @@ namespace ProcessManager
             }
             catch (Exception ex)
             {
-                // if an unhandled error occured during switching behavior
-                // deactivate an actor as state is indeterminate
-                // it will be either reactivated back by supervision (reminder)
+                // if an unhandled error occurred during switching behavior
+                // the best course of action will be is to deactivate an actor
+                // since state is indeterminate (Let it crash philosophy),
+                // it will be reactivated either by supervision (reminder)
                 // or by the user command, continuing from where it previously crashed
                 await NotifyError(ex);
                 Activation.DeactivateOnIdle();
@@ -168,7 +169,7 @@ namespace ProcessManager
                 Current = State.Current,
                 Previous = State.Previous,
 
-                // this is where modeling superstates is also handy
+                // this is where modeling of superstates could be handy
                 Active = behavior.Current.IsSubstateOf(nameof(Active))
             });
 

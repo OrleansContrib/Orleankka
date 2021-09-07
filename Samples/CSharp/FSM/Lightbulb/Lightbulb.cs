@@ -11,13 +11,13 @@ namespace Example
     [Serializable] public class PressSwitch {}
     [Serializable] public class Touch {}
     [Serializable] public class HitWithHammer {}
+    [Serializable] public class Fix {}
 
     public interface ILightbulb : IActorGrain, IGrainWithStringKey {}
 
     public class Lightbulb : ActorGrain, ILightbulb
     {
         readonly Behavior behavior;
-        bool smashed;
 
         public Lightbulb()
         {
@@ -27,20 +27,52 @@ namespace Example
 
         public override async Task<object> Receive(object message)
         {
+            var result = await DoReceive(message);
+            
+            if (behavior.Previous != behavior.Current)
+                await SaveState();
+
+            return result;
+        }
+
+        static Task SaveState() => Task.CompletedTask;
+        Task LoadState() => Task.CompletedTask;
+
+        async Task<object> DoReceive(object message)
+        {
             // any "global" message handling here
             switch (message)
             {
-                case HitWithHammer _:
-                    smashed = true;
+                case Activate _ : 
+                    await LoadState();
+                    return Done;
+                case HitWithHammer _ when behavior.Current.Name != nameof(Smashed):
+                    await behavior.BecomeStacked(Smashed);
                     return "Smashed!";
-                case PressSwitch _ when smashed:
-                    return "Broken";
-                case Touch _ when smashed:
-                    return "OW!";
+                case Deactivate _:
+                    Console.WriteLine("Deactivated");
+                    await Task.Delay(2000);
+                    return "";
             }
 
             // if not handled, use behavior specific
             return await behavior.Receive(message);
+        }
+
+        Task<object> Smashed(object message)
+        {
+            switch (message)
+            {
+                case PressSwitch _:
+                    return TaskResult.From("Broken");
+                case Touch _:
+                    return TaskResult.From("OW!");
+                case  Fix _:
+                    behavior.Unbecome();
+                    return TaskResult.From("Fixed");
+                default:
+                    return TaskResult.Unhandled;
+            }
         }
 
         async Task<object> Off(object message)
@@ -61,6 +93,15 @@ namespace Example
         {
             switch (message)
             {
+                case Reminder _: 
+                    Console.WriteLine("Reminded");
+                    return Done;
+                case Activate _: 
+                    await NotifyLightsOn();
+                    return "";
+                case Deactivate _: 
+                    await CleanupOn();
+                    return "";
                 case PressSwitch _:
                     await behavior.Become(Off);
                     return "Turning off";
@@ -69,7 +110,24 @@ namespace Example
                 default:
                     return Unhandled;
             }
-        }
 
+            async Task NotifyLightsOn()
+            {
+                await Reminders.Register("123", TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+
+                Timers.Register("123", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1), () =>
+                {
+                    Console.WriteLine("Lights, on!!!");
+                    return Task.CompletedTask;
+                });
+            }
+
+            async Task CleanupOn()
+            {
+                Timers.Unregister("123");
+
+                await Reminders.Unregister("123");
+            }
+        }
     }
 }
