@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Orleankka.Http
 {
-    class HttpActorSystem : IActorSystem
+    public class HttpActorSystem : IActorSystem
     {
         readonly ActorRouteMapper mapper;
         readonly HttpClient client;
