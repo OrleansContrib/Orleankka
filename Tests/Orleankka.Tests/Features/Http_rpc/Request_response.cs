@@ -24,9 +24,17 @@ namespace Orleankka.Features.Http_rpc
         using Testing;
 
         [Serializable]
+        public enum TextType
+        {
+            Blank,
+            Text
+        }
+
+        [Serializable]
         public class SetText : ActorMessage<IAutoMappedActor>
         {
             public string Text { get; set; }
+            public TextType Type { get; set; }
         }
 
         [Serializable]
@@ -36,6 +44,7 @@ namespace Orleankka.Features.Http_rpc
             public class Result
             {
                 public string Text { get; set; }
+                public TextType Type { get; set; }
             }
         }
 
@@ -45,9 +54,19 @@ namespace Orleankka.Features.Http_rpc
         public class HandMappedActor : DispatchActorGrain, IHandMappedActor
         {
             string text = "";
+            TextType type = TextType.Blank;
 
-            public void On(SetText cmd) => text = cmd.Text;
-            public GetText.Result On(GetText q) => new GetText.Result {Text = text};
+            public void On(SetText cmd)
+            {
+                text = cmd.Text;
+                type = cmd.Type;
+            }
+
+            public GetText.Result On(GetText q) => new GetText.Result
+            {
+                Text = text, 
+                Type = type
+            };
         }
 
         public interface IAutoMappedActor : IActorGrain, IGrainWithStringKey
@@ -139,10 +158,13 @@ namespace Orleankka.Features.Http_rpc
             public async Task Hand_mapped()
             {
                 const string text = "Hello world!";
-                await handMappedActor.Tell(new SetText {Text = text});
+                const TextType type = TextType.Text;
 
+                await handMappedActor.Tell(new SetText { Text = text, Type = type });
                 var response = await handMappedActor.Ask<GetText.Result>(new GetText());
+
                 Assert.AreEqual(text, response.Text);
+                Assert.AreEqual(type, response.Type);
             }
 
             [Test]
@@ -189,7 +211,7 @@ namespace Orleankka.Features.Http_rpc
                     throw new Exception($"Request failed with {(int) response.StatusCode} code. See error below:\n{responseBody}");
 
                 return !string.IsNullOrWhiteSpace(responseBody)
-                    ? JsonSerializer.Deserialize(responseBody, result)
+                    ? JsonSerializer.Deserialize(responseBody, result, serializer)
                     : default;
             }
         }

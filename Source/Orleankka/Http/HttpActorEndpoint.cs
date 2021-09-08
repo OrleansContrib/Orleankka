@@ -73,7 +73,7 @@ namespace Orleankka.Http
                 throw new Exception($"Request failed with {(int) response.StatusCode} code. See error below:\n{responseBody}");
 
             return !string.IsNullOrWhiteSpace(responseBody)
-                ? JsonSerializer.Deserialize(responseBody, result)
+                ? JsonSerializer.Deserialize(responseBody, result, serializer)
                 : default;
         }
 
