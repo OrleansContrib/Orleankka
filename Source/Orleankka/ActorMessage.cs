@@ -1,4 +1,5 @@
 ﻿using Orleans;
+using Orleans.CodeGeneration;
 
 namespace Orleankka
 {
@@ -6,6 +7,7 @@ namespace Orleankka
     /// Base message interface for strongly typed actor messages
     /// </summary>
     /// <typeparam name="TActor">The type of the actor to which this message belongs</typeparam>
+    [KnownBaseType]
     public interface ActorMessage<TActor> where TActor : IActorGrain, IGrainWithStringKey
     {}
 
@@ -14,7 +16,7 @@ namespace Orleankka
     /// </summary>
     /// <typeparam name="TActor">The type of the actor to which this message belongs</typeparam>
     /// <typeparam name="TResult">The type of the returned result</typeparam>
-    public interface ActorMessage<TActor, TResult> where TActor : IActorGrain, IGrainWithStringKey
+    public interface ActorMessage<TActor, TResult> : ActorMessage<TActor> where TActor : IActorGrain, IGrainWithStringKey
     {}
 
     /// <summary>
