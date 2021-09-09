@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +12,6 @@ namespace Orleankka.Features.Actor_behaviors
 
     namespace Hierarchical_state_machine
     {
-        using System;
-
         [TestFixture]
         class Tests
         {
