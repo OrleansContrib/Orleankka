@@ -55,13 +55,13 @@
         <SystemTextJsonVersion>4.6.0</SystemTextJsonVersion>
 
         <!-- Orleans packages -->        
-        <MicrosoftOrleansClientVersion>3.3.0</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>3.3.0</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCoreVersion>3.3.0</MicrosoftOrleansCoreVersion>
-        <MicrosoftOrleansCoreAbstractionsVersion>3.3.0</MicrosoftOrleansCoreAbstractionsVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>3.3.0</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>3.3.0</MicrosoftOrleansRuntimeVersion>
-        <MicrosoftOrleansStreamingAzureStorageVersion>3.3.0</MicrosoftOrleansStreamingAzureStorageVersion>
+        <MicrosoftOrleansClientVersion>3.5.0</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>3.5.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCoreVersion>3.5.0</MicrosoftOrleansCoreVersion>
+        <MicrosoftOrleansCoreAbstractionsVersion>3.5.0</MicrosoftOrleansCoreAbstractionsVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>3.5.0</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>3.5.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>3.5.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>3.0.0</MicrosoftExtensionsLoggingVersion>
