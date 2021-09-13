@@ -12,10 +12,16 @@ namespace Orleankka.Features
         using Meta;
         using Testing;
 
+        //[Serializable] public record SetText(string Text) : Command;
         [Serializable]
         public class SetText : Command
         {
-            public string Text;
+            public readonly string Text;
+
+            public SetText(string text)
+            {
+                Text = text;
+            }
         }
 
         [Serializable]
@@ -73,7 +79,7 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<ITestActor>();
 
-                await actor.Tell(new SetText {Text = "c-a"});
+                await actor.Tell(new SetText("c-a"));
                 Assert.AreEqual("c-a", await actor.Ask(new GetText()));
             }
 
@@ -83,7 +89,7 @@ namespace Orleankka.Features
                 var one = system.FreshActorOf<ITestInsideActor>();
                 var another = system.FreshActorOf<ITestActor>();
 
-                await one.Tell(new DoTell {Target = another, Message = new SetText {Text = "a-a"}});
+                await one.Tell(new DoTell {Target = another, Message = new SetText("a-a")});
                 Assert.AreEqual("a-a", await one.Ask(new DoAsk {Target = another, Message = new GetText()}));
             }
         }
