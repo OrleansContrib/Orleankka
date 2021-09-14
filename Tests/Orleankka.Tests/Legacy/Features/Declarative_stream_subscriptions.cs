@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
 using Orleans;
 
 namespace Orleankka.Legacy.Features
@@ -27,9 +27,8 @@ namespace Orleankka.Legacy.Features
             protected readonly List<string> received = new List<string>();
 
             void On(string x) => received.Add(x);
-            void On(int x) => received.Add(x.ToString());
-            List<string> On(Received x) => received;
-
+            void On(long x) => received.Add(x.ToString());
+            List<string> On(Received x) => received.ToList();
             void On(Deactivate x) => Activation.DeactivateOnIdle();
         }
 
@@ -74,7 +73,7 @@ namespace Orleankka.Legacy.Features
                 await stream.Publish("ce");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#cs");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received, Is.EquivalentTo(new[] {"ce"}));
             }
@@ -86,7 +85,7 @@ namespace Orleankka.Legacy.Features
                 await Publish(stream, "ae");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#as");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received, Is.EquivalentTo(new[] {"ae"}));
             }
@@ -100,7 +99,7 @@ namespace Orleankka.Legacy.Features
                 await Publish(b, "b-001");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#ms");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received, Is.EquivalentTo(new[] {"a-001", "b-001"}));
             }
@@ -114,7 +113,7 @@ namespace Orleankka.Legacy.Features
                 await Publish(s2, "002");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#msregex");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received, Is.EquivalentTo(new[] {"001", "002"}));
             }
@@ -128,10 +127,11 @@ namespace Orleankka.Legacy.Features
                 await Publish(stream, "e-123");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#auto");
                 var received = await consumer.Ask(new Received());
-                Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0], Is.EqualTo("e-123"));
+                Assert.That(received.Count, Is.EqualTo(2));
+                Assert.That(received[0], Is.EqualTo("123"));
+                Assert.That(received[1], Is.EqualTo("e-123"));
             }
 
             public async Task Select_all_filter<T>() where T : IActorGrain, IGrainWithStringKey
@@ -141,7 +141,7 @@ namespace Orleankka.Legacy.Features
                 await Publish(stream, 42);
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#select-all");
                 var received = await consumer.Ask(new Received());
 
                 Assert.That(received.Count, Is.EqualTo(1));
@@ -156,7 +156,7 @@ namespace Orleankka.Legacy.Features
                 await Publish(stream, "f-002");
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#filtered");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(0));
             }
@@ -192,7 +192,7 @@ namespace Orleankka.Legacy.Features
                 await stream.Publish(new[] {"i1", "i2"});
                 await Task.Delay(timeout);
 
-                var consumer = system.ActorOf<T>("#");
+                var consumer = system.ActorOf<T>("#batched");
                 var received = await consumer.Ask(new Received());
                 Assert.That(received, 
                     Is.EquivalentTo(new[] {"i1", "i2"}), 
@@ -211,43 +211,43 @@ namespace Orleankka.Legacy.Features
             public interface ITestClientToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:cs", Target = "#")]
+            [StreamSubscription(Source = "sms:cs", Target = "#cs")]
             public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
             public interface ITestActorToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:as", Target = "#")]
+            [StreamSubscription(Source = "sms:as", Target = "#as")]
             public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
 
             public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:a", Target = "#")]
-            [StreamSubscription(Source = "sms:b", Target = "#")]
+            [StreamSubscription(Source = "sms:a", Target = "#ms")]
+            [StreamSubscription(Source = "sms:b", Target = "#ms")]
             public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
 
             public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#")]
+            [StreamSubscription(Source = "sms:/INV-([0-9]+)/", Target = "#msregex")]
             public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
 
             public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:declared-auto", Target = "#")]
+            [StreamSubscription(Source = "sms:declared-auto", Target = "#auto")]
             public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
             public interface ITestSelectAllFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:select-all", Target = "#", Filter = "*")]
+            [StreamSubscription(Source = "sms:select-all", Target = "#select-all", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
@@ -265,7 +265,7 @@ namespace Orleankka.Legacy.Features
             public interface ITestExplicitFilterActor : IActorGrain, IGrainWithStringKey
             {}
 
-            [StreamSubscription(Source = "sms:filtered", Target = "#", Filter = "SelectItem()")]
+            [StreamSubscription(Source = "sms:filtered", Target = "#filtered", Filter = "SelectItem()")]
             public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
@@ -283,7 +283,7 @@ namespace Orleankka.Legacy.Features
             public interface ITestBatchReceiveActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "sms:batched", Target = "#")]
+            [StreamSubscription(Source = "sms:batched", Target = "#batched")]
             public class TestBatchReceiveActor : TestConsumerActorBase, ITestBatchReceiveActor
             {}
 
@@ -312,43 +312,43 @@ namespace Orleankka.Legacy.Features
             public interface ITestClientToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:cs", Target = "#")]
+            [StreamSubscription(Source = "aqp:cs", Target = "#cs")]
             public class TestClientToStreamConsumerActor : TestConsumerActorBase, ITestClientToStreamConsumerActor
             {}
 
             public interface ITestActorToStreamConsumerActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:as", Target = "#")]
+            [StreamSubscription(Source = "aqp:as", Target = "#as")]
             public class TestActorToStreamConsumerActor : TestConsumerActorBase, ITestActorToStreamConsumerActor
             {}
 
             public interface ITestMultistreamSubscriptionWithFixedIdsActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:a", Target = "#")]
-            [StreamSubscription(Source = "aqp:b", Target = "#")]
+            [StreamSubscription(Source = "aqp:a", Target = "#ms")]
+            [StreamSubscription(Source = "aqp:b", Target = "#ms")]
             public class TestMultistreamSubscriptionWithFixedIdsActor : TestConsumerActorBase, ITestMultistreamSubscriptionWithFixedIdsActor
             {}
 
             public interface ITestMultistreamRegexBasedSubscriptionActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#")]
+            [StreamSubscription(Source = "aqp:/INV-([0-9]+)/", Target = "#msregex")]
             public class TestMultistreamRegexBasedSubscriptionActor : TestConsumerActorBase, ITestMultistreamRegexBasedSubscriptionActor
             {}
 
             public interface ITestDeclaredHandlerOnlyAutomaticFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:declared-auto", Target = "#")]
+            [StreamSubscription(Source = "aqp:declared-auto", Target = "#auto")]
             public class TestDeclaredHandlerOnlyAutomaticFilterActor : TestConsumerActorBase, ITestDeclaredHandlerOnlyAutomaticFilterActor
             {}
 
             public interface ITestSelectAllFilterActor : IActorGrain, IGrainWithStringKey
             {}
 
-            [StreamSubscription(Source = "aqp:select-all", Target = "#", Filter = "*")]
+            [StreamSubscription(Source = "aqp:select-all", Target = "#select-all", Filter = "*")]
             public class TestSelectAllFilterActor : TestConsumerActorBase, ITestSelectAllFilterActor
             {
                 public override Task<object> OnReceive(object message)
@@ -366,7 +366,7 @@ namespace Orleankka.Legacy.Features
             public interface ITestExplicitFilterActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:filtered", Target = "#", Filter = "SelectItem()")]
+            [StreamSubscription(Source = "aqp:filtered", Target = "#filtered", Filter = "SelectItem()")]
             public class TestExplicitFilterActor : TestConsumerActorBase, ITestExplicitFilterActor
             {
                 public static bool SelectItem(object item) => false;
@@ -384,7 +384,7 @@ namespace Orleankka.Legacy.Features
             public interface ITestBatchReceiveActor : IActorGrain, IGrainWithStringKey
             { }
 
-            [StreamSubscription(Source = "aqp:batched", Target = "#")]
+            [StreamSubscription(Source = "aqp:batched", Target = "#batched")]
             public class TestBatchReceiveActor : TestConsumerActorBase, ITestBatchReceiveActor
             {}
 
