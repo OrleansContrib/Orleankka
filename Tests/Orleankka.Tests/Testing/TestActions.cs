@@ -25,6 +25,7 @@ namespace Orleankka.Testing
 {
     using Features.State_persistence;
     using Orleans.Runtime;
+    using Orleans.Serialization;
 
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
@@ -83,6 +84,11 @@ namespace Orleankka.Testing
                     services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
                     services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
                     services.AddSingleton<IStreamRefMiddleware>(s => new TestStreamRefMiddleware());
+
+                    services.Configure<SerializationProviderOptions>(options =>
+                    {
+                        options.SerializationProviders.Add(typeof(MessageSerializer));
+                    });
                 })
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(GetType().Assembly)
