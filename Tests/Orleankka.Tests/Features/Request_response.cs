@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-
 using Orleans;
 
 namespace Orleankka.Features
@@ -12,25 +11,10 @@ namespace Orleankka.Features
         using Meta;
         using Testing;
 
-        //[Serializable] public record SetText(string Text) : Command;
-        [Serializable]
-        public class SetText : Command
-        {
-            public readonly string Text;
+        public record SetText(string Text) : Command;
+        public record GetText : Query<string>;
 
-            public SetText(string text)
-            {
-                Text = text;
-            }
-        }
-
-        [Serializable]
-        public class GetText : Query<string>
-        {}
-
-        public interface ITestActor : IActorGrain, IGrainWithStringKey
-        {}
-
+        public interface ITestActor : IActorGrain, IGrainWithStringKey {}
         public class TestActor : DispatchActorGrain, ITestActor
         {
             string text = "";
@@ -39,23 +23,10 @@ namespace Orleankka.Features
             public string On(GetText q) => text;
         }
 
-        [Serializable]
-        public class DoTell : Command
-        {
-            public ActorRef Target;
-            public object Message;
-        }
+        public record DoTell(ActorRef Target, object Message) : Command;
+        public record DoAsk(ActorRef Target, object Message) : Query<string>;
 
-        [Serializable]
-        public class DoAsk : Query<string>
-        {
-            public ActorRef Target;
-            public object Message;
-        }
-
-        public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
-        {}
-
+        public interface ITestInsideActor : IActorGrain, IGrainWithStringKey {}
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
@@ -89,8 +60,8 @@ namespace Orleankka.Features
                 var one = system.FreshActorOf<ITestInsideActor>();
                 var another = system.FreshActorOf<ITestActor>();
 
-                await one.Tell(new DoTell {Target = another, Message = new SetText("a-a")});
-                Assert.AreEqual("a-a", await one.Ask(new DoAsk {Target = another, Message = new GetText()}));
+                await one.Tell(new DoTell(another, new SetText("a-a")));
+                Assert.AreEqual("a-a", await one.Ask(new DoAsk(another, new GetText())));
             }
         }
     }
