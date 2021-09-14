@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
+    using Meta;
     using Utility;
 
     [Serializable, Immutable]
@@ -88,6 +89,9 @@ namespace Orleankka
         public static implicit operator GrainReference(ActorRef arg) => (GrainReference) arg.endpoint;
         public static implicit operator ActorPath(ActorRef arg) => arg.Path;
 
+        public static Task operator <(ActorRef @ref, Message message) => @ref.Tell(message);
+        public static Task operator >(ActorRef @ref, Message message) => throw new NotImplementedException();
+
         #region Orleans Native Serialization
 
         [CopierMethod]
@@ -156,5 +160,8 @@ namespace Orleankka
         public static implicit operator ActorRef<TActor>(ActorRef arg) => new ActorRef<TActor>(arg);
         public static implicit operator GrainReference(ActorRef<TActor> arg) => arg.@ref;
         public static implicit operator ActorPath(ActorRef<TActor> arg) => arg.Path;
+
+        public static Task operator <(ActorRef<TActor> @ref, ActorMessage<TActor> message) => @ref.Tell(message);
+        public static Task operator >(ActorRef<TActor> @ref, ActorMessage<TActor> message) => throw new NotImplementedException();
     }
 }
