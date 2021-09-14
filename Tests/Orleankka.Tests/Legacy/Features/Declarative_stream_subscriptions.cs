@@ -27,6 +27,7 @@ namespace Orleankka.Legacy.Features
             protected readonly List<string> received = new List<string>();
 
             void On(string x) => received.Add(x);
+            void On(int x) => received.Add(x.ToString());
             List<string> On(Received x) => received;
 
             void On(Deactivate x) => Activation.DeactivateOnIdle();
