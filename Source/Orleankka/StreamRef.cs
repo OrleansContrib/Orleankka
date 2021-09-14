@@ -15,10 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Orleankka
 {
     using Utility;
-    
+
+    public interface IStreamRef {}
+
     [Serializable, Immutable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef<TItem> : IEquatable<StreamRef<TItem>>, IEquatable<StreamPath>
+    public class StreamRef<TItem> : IEquatable<StreamRef<TItem>>, IEquatable<StreamPath>, IStreamRef
     {
         [NonSerialized] readonly IStreamProvider provider;
         [NonSerialized] readonly IStreamRefMiddleware middleware;

@@ -113,9 +113,11 @@ namespace Orleankka
         #endregion
     }
 
+    public interface IStronglyTypedActorRef {}
+
     [Serializable, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath> where TActor : IActorGrain, IGrainWithStringKey
+    public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath>, IStronglyTypedActorRef where TActor : IActorGrain, IGrainWithStringKey
     {
         readonly ActorRef @ref;
 
