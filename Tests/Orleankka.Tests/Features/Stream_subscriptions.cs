@@ -37,26 +37,11 @@ namespace Orleankka.Features
             Task On(Subscribe x) => Stream().Subscribe(this, new SubscribeReceiveItem(x.Filter));
             void On(Kill x) => DeactivateOnIdle();
 
-            void On(StreamItem<string> x) => received.Add(x.Item);
+            void On(StreamItem<object> x) => received.Add(x.Item.ToString());
             List<string> On(Received x) => received;
 
             Task On(Activate _) => Stream().Resume(this);
-
-            StreamRef<string> Stream() => System.StreamOf<string>("sms", "sms-42");
-
-            public override async Task<object> Receive(object message)
-            {
-                switch (message)
-                {
-                    case int x:
-                        received.Add(x.ToString());
-                        break;
-                    default:
-                        return await base.Receive(message);
-                }
-
-                return Done;
-            }
+            StreamRef<object> Stream() => System.StreamOf<object>("sms", "sms-42");
         }
 
         [TestFixture] 
@@ -75,7 +60,7 @@ namespace Orleankka.Features
                 var consumer = system.ActorOf<ITestConsumerActor>("cons");
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf<string>("sms", "sms-42");
+                var stream = system.StreamOf<object>("sms", "sms-42");
                 await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
@@ -102,7 +87,7 @@ namespace Orleankka.Features
                 await consumer.Tell(new Subscribe());
                 await consumer.Tell(new Subscribe());
 
-                var stream = system.StreamOf<string>("sms", "sms-42");
+                var stream = system.StreamOf<object>("sms", "sms-42");
                 await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
@@ -116,7 +101,7 @@ namespace Orleankka.Features
                 var consumer = system.ActorOf<ITestConsumerActor>("select-all");
                 await consumer.Tell(new Subscribe {Filter = StreamFilter.ReceiveAll});
 
-                var stream = system.StreamOf<string>("sms", "sms-42");
+                var stream = system.StreamOf<object>("sms", "sms-42");
                 await stream.Publish("123");
                 await Task.Delay(timeout);
 
@@ -133,15 +118,34 @@ namespace Orleankka.Features
                 var filter = new StreamFilter(DropAll);
                 await consumer.Tell(new Subscribe { Filter = filter });
 
-                var stream = system.StreamOf<string>("sms", $"{"sms"}-filtered");
+                var stream = system.StreamOf<object>("sms", "sms-42");
                 await stream.Publish("e-123");
                 await Task.Delay(timeout);
 
                 var received = await consumer.Ask(new Received());
                 Assert.That(received.Count, Is.EqualTo(0));
             }
+            
+            [Test] 
+            public async Task Item_type_filter()
+            {
+                var consumer = system.ActorOf<ITestConsumerActor>("item-type");
+
+                var filter = new StreamFilter(DropInt);
+                await consumer.Tell(new Subscribe { Filter = filter });
+
+                var stream = system.StreamOf<object>("sms", "sms-42");
+                await stream.Publish(123);
+                await stream.Publish("e-123");
+                await Task.Delay(timeout);
+
+                var received = await consumer.Ask(new Received());
+                Assert.That(received.Count, Is.EqualTo(1));
+                Assert.That(received[0], Is.EqualTo("e-123"));
+            }
 
             static bool DropAll(object item) => false;
+            static bool DropInt(object item) => item is not int;
         }
     }
 }
