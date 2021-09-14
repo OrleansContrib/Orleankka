@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
 using NUnit.Framework;
 
 using Orleans;
@@ -12,11 +11,12 @@ namespace Orleankka.Features
     {
         using Meta;
         using Testing;
-
+        using static Syntax;
+        
         public record SetReminder(TimeSpan Period) : Command;
         public record Kill : Command;
         public record HasBeenReminded : Query<bool>;
-        public record GetInstanceHashcode : Query<long>;
+        public record InstanceHashcode : Query<long>;
 
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
         public class TestActor : DispatchActorGrain, ITestActor
@@ -24,10 +24,10 @@ namespace Orleankka.Features
             bool reminded;
 
             void On(Reminder _)             => reminded = true;
-            bool On(HasBeenReminded _)      => reminded;
+            bool On(HasBeenReminded x)      => reminded;
             void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
             void On(Kill _)                 => Activation.DeactivateOnIdle();
-            long On(GetInstanceHashcode _)  => RuntimeHelpers.GetHashCode(this);
+            long On(InstanceHashcode _)  => RuntimeHelpers.GetHashCode(this);
         }
 
         [TestFixture, RequiresSilo]
@@ -46,14 +46,14 @@ namespace Orleankka.Features
             public async Task When_reminder_is_fired_an_instance_of_correct_actor_type_should_be_activated()
             {
                 var actor = system.FreshActorOf<ITestActor>();
-                var hashcode = await actor.Ask(new GetInstanceHashcode());
+                var hashcode = await (result(new InstanceHashcode()) > actor);
 
-                await actor.Tell(new SetReminder(TimeSpan.FromMinutes(1.5)));
-                await actor.Tell(new Kill());
+                await (actor < new SetReminder(TimeSpan.FromMinutes(1.5)));
+                await (actor < new Kill());
                 await Task.Delay(TimeSpan.FromMinutes(2.0));
 
-                Assert.True(await actor.Ask<bool>(new HasBeenReminded()));
-                Assert.AreNotEqual(hashcode, await actor.Ask(new GetInstanceHashcode()));
+                Assert.True(await (result(new HasBeenReminded()) > actor));
+                Assert.AreNotEqual(hashcode, await actor.Ask(new InstanceHashcode()));
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Orleankka.Features
     {
         using Meta;
         using Testing;
+        using static Syntax;
 
         [Serializable]
         public class TestActorCommand : Command<ITestActor> {}
@@ -38,7 +39,7 @@ namespace Orleankka.Features
 
         public class TestAnotherActor : DispatchActorGrain, ITestAnotherActor
         {
-            Task On(TestAnotherActorCommand x) => x.Ref.Tell(new TestActorCommand());
+            Task On(TestAnotherActorCommand x) => x.Ref < new TestActorCommand();
         }
 
         [TestFixture]
@@ -61,8 +62,8 @@ namespace Orleankka.Features
                 // below won't compile
                 // actor.Tell(new object());
 
-                Assert.DoesNotThrowAsync(async () => await actor.Tell(new TestActorCommand()));
-                Assert.That(await actor.Ask(new TestActorQuery()), Is.EqualTo(42));
+                Assert.DoesNotThrowAsync(async () => await (actor < new TestActorCommand()));
+                Assert.That(await (result(new TestActorQuery()) > actor), Is.EqualTo(42));
             }
 
             [Test]
@@ -75,7 +76,7 @@ namespace Orleankka.Features
                     Ref = system.TypedActorOf<ITestActor>("foo")
                 };
 
-                Assert.DoesNotThrowAsync(async () => await actor.Tell(cmd));
+                Assert.DoesNotThrowAsync(async () => await (actor < cmd));
             }
         }
     }
