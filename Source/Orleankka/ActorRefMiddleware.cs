@@ -18,7 +18,7 @@ namespace Orleankka
             next.Receive(actor, message, receiver);
     }
 
-    class DefaultActorRefMiddleware : IActorRefMiddleware
+    public class DefaultActorRefMiddleware : IActorRefMiddleware
     {
         public static readonly DefaultActorRefMiddleware Instance = new DefaultActorRefMiddleware();
 

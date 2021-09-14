@@ -22,7 +22,7 @@ namespace Orleankka
             next.Receive(path, message, receiver);
     }
 
-    class DefaultStreamRefMiddleware : IStreamRefMiddleware
+    public class DefaultStreamRefMiddleware : IStreamRefMiddleware
     {
         public static readonly DefaultStreamRefMiddleware Instance = new DefaultStreamRefMiddleware();
 

@@ -1,7 +1,7 @@
-using System;
 using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Orleans;
 using Orleans.ApplicationParts;
@@ -23,6 +23,9 @@ namespace Orleankka.Client
             var assemblies = builder.GetApplicationPartManager().ApplicationParts
                 .OfType<AssemblyPart>().Select(x => x.Assembly)
                 .ToArray();
+
+            services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
+            services.TryAddSingleton<IStreamRefMiddleware>(DefaultStreamRefMiddleware.Instance);
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClientActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());

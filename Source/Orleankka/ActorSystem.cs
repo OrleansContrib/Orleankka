@@ -58,8 +58,8 @@ namespace Orleankka
         {
             this.serviceProvider = serviceProvider;
             this.grainFactory = serviceProvider.GetService<IGrainFactory>();
-            this.actorRefMiddleware = serviceProvider.GetService<IActorRefMiddleware>() ?? DefaultActorRefMiddleware.Instance;
-            this.streamRefMiddleware = serviceProvider.GetService<IStreamRefMiddleware>() ?? DefaultStreamRefMiddleware.Instance;
+            this.actorRefMiddleware = serviceProvider.GetService<IActorRefMiddleware>();
+            this.streamRefMiddleware = serviceProvider.GetService<IStreamRefMiddleware>();
 
             Register(assemblies);
         }

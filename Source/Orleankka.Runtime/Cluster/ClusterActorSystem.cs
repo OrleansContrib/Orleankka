@@ -18,7 +18,7 @@ namespace Orleankka.Cluster
         internal ClusterActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
             : base(assemblies, serviceProvider)
         {
-            this.actorMiddleware = serviceProvider.GetService<IActorMiddleware>() ?? DefaultActorMiddleware.Instance;
+            this.actorMiddleware = serviceProvider.GetService<IActorMiddleware>();
             Register(assemblies);
         }
 
