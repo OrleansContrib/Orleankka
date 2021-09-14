@@ -1,8 +1,8 @@
-﻿using Orleans.CodeGeneration;
-
-namespace Orleankka.Meta
+﻿namespace Orleankka.Meta
 {
-    [KnownBaseType]
     public interface Message
+    {}
+
+    public interface Message<TResult> : Message
     {}
 }
