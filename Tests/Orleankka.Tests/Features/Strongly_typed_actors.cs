@@ -25,7 +25,7 @@ namespace Orleankka.Features
         public class TestActor : DispatchActorGrain, ITestActor
         {
             void On(TestActorCommand msg) {}
-            long On(TestActorQuery msg) => msg.Response(42);
+            long On(TestActorQuery msg) => msg.Result(42);
         }
 
         [Serializable]
