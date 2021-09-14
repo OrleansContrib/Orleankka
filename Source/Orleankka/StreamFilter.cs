@@ -7,6 +7,8 @@ using Orleans.Streams;
 
 namespace Orleankka
 {
+    using System.Linq;
+
     using Utility;
 
     [Serializable]
@@ -38,6 +40,13 @@ namespace Orleankka
         public StreamFilter(params Type[] items) 
             : this((IEnumerable<Type>)items)
         {}
+
+        StreamFilter(string className, string methodName, List<Type> items)
+        {
+            this.className = className;
+            this.methodName = methodName;
+            this.items = items != null ? new HashSet<Type>(items) : null;
+        }
 
         public StreamFilter(IEnumerable<Type> items)
         {
@@ -93,6 +102,21 @@ namespace Orleankka
             }
         }
 
+        public StreamFilterData Serialize()
+        {
+            return new StreamFilterData 
+            {
+                ClassName = className,
+                MethodName = methodName,
+                Items = items?.ToList()
+            };
+        }
+
+        public static StreamFilter Deserialize(StreamFilterData data)
+        {
+            return new StreamFilter(data.ClassName, data.MethodName, data.Items);
+        }
+
         public bool Equals(StreamFilter other)
         {
             if (ReferenceEquals(null, other))
@@ -121,5 +145,13 @@ namespace Orleankka
 
         public static bool operator ==(StreamFilter left, StreamFilter right) => Equals(left, right);
         public static bool operator !=(StreamFilter left, StreamFilter right) => !Equals(left, right);
+    }
+
+    [Serializable]
+    public class StreamFilterData
+    {
+        public string ClassName { get; set; }
+        public string MethodName { get; set; }
+        public List<Type> Items { get; set; }
     }
 }
