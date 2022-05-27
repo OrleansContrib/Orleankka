@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -8,18 +9,39 @@ namespace Orleankka
 {
     class ActorGrainInterface
     {
+        static IEnumerable<Type> GetImmediateInterfaces(Type type)
+        {
+            var interfaces = type.GetInterfaces();
+            var result = new HashSet<Type>(interfaces);
+            foreach (Type i in interfaces)
+                result.ExceptWith(i.GetInterfaces());
+            return result;
+        }
+
         internal static Type InterfaceOf(Type type)
         {
-            var interfaces = type
-                .GetInterfaces().Except(new[] {typeof(IActorGrain)})
-                .Where(each => each.GetInterfaces().Contains(typeof(IActorGrain)))
-                .Where(each => !each.IsConstructedGenericType)
-                .ToArray();
+            var x = GetImmediateInterfaces(type);
 
-            if (interfaces.Length > 1)
+            List<Type> interfaces = new List<Type>();
+
+            foreach (var i in x)
+            {
+                var implemented = i
+                    .GetInterfaces()
+                    .Where(each => each == typeof(IActorGrain) || each.GetInterfaces().Contains(typeof(IActorGrain)))
+                    .Where(each => !each.IsConstructedGenericType)
+                    .ToArray();
+
+                if (implemented.Length > 0)
+                {
+                    interfaces.Add(i);
+                }
+            }
+
+            if (interfaces.Count > 1)
                 throw new InvalidOperationException($"Type '{type.FullName}' can only implement single custom IActorGrain interface");
 
-            if (interfaces.Length == 0)
+            if (interfaces.Count == 0)
                 throw new InvalidOperationException($"Type '{type.FullName}' does not implement custom IActorGrain interface");
 
             return interfaces[0];
