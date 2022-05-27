@@ -31,17 +31,17 @@ namespace Example
                 Surrogate.Create<ClientRef, ClientRefSurrogate>(ClientRefSurrogate.From, x => x.Original(this)),
             };
 
-            var options = new SerializerOptions(
-                versionTolerance: true,
-                preserveObjectReferences: true,
-                surrogates: surogates);
+            var options = SerializerOptions.Default
+                .WithVersionTolerance(true)
+                .WithPreserveObjectReferences(true)
+                .WithSurrogates(surogates);
 
             serializer = new Hyperion.Serializer(options);
 
-            options = new SerializerOptions(
-                versionTolerance: false,
-                preserveObjectReferences: true,
-                surrogates: surogates);
+            options = SerializerOptions.Default
+                .WithVersionTolerance(false)
+                .WithPreserveObjectReferences(true)
+                .WithSurrogates(surogates);
 
             copier = new Hyperion.Serializer(options);
         }

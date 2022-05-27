@@ -43,8 +43,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <ConsoleProjectTargetFramework>netcoreapp3.1</ConsoleProjectTargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <ConsoleProjectTargetFramework>net6.0</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 
@@ -52,41 +52,41 @@
     <PropertyGroup>
 
         <!-- Framework packages -->
-        <SystemTextJsonVersion>4.6.0</SystemTextJsonVersion>
+        <SystemTextJsonVersion>6.0.4</SystemTextJsonVersion>
 
         <!-- Orleans packages -->        
-        <MicrosoftOrleansClientVersion>3.5.0</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>3.5.0</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCoreVersion>3.5.0</MicrosoftOrleansCoreVersion>
-        <MicrosoftOrleansCoreAbstractionsVersion>3.5.0</MicrosoftOrleansCoreAbstractionsVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>3.5.0</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>3.5.0</MicrosoftOrleansRuntimeVersion>
-        <MicrosoftOrleansStreamingAzureStorageVersion>3.5.0</MicrosoftOrleansStreamingAzureStorageVersion>
+        <MicrosoftOrleansClientVersion>3.6.2</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>3.6.2</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCoreVersion>3.6.2</MicrosoftOrleansCoreVersion>
+        <MicrosoftOrleansCoreAbstractionsVersion>3.6.2</MicrosoftOrleansCoreAbstractionsVersion>
+        <MicrosoftOrleansCodeGeneratorVersion>3.6.2</MicrosoftOrleansCodeGeneratorVersion>
+        <MicrosoftOrleansRuntimeVersion>3.6.2</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>3.6.2</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
         <MicrosoftExtensionsLoggingVersion>3.0.0</MicrosoftExtensionsLoggingVersion>
-        <MicrosoftExtensionsLoggingConsoleVersion>3.0.0</MicrosoftExtensionsLoggingConsoleVersion>
-        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>3.1.9</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
-        <MicrosoftExtensionsHostingVersion>3.0.0</MicrosoftExtensionsHostingVersion>
+        <MicrosoftExtensionsLoggingConsoleVersion>6.0.0</MicrosoftExtensionsLoggingConsoleVersion>
+        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>6.0.0</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
+        <MicrosoftExtensionsHostingVersion>6.0.1</MicrosoftExtensionsHostingVersion>
 
         <!-- Testing packages -->
-        <NUnitVersion>3.9.0</NUnitVersion>
-        <NUnit3TestAdapterVersion>3.9.0</NUnit3TestAdapterVersion>
-        <MicrosoftNETTestSdkVersion>15.9.0</MicrosoftNETTestSdkVersion>
-        <PowerAssertVersion>1.0.79</PowerAssertVersion>
+        <NUnitVersion>3.13.3</NUnitVersion>
+        <NUnit3TestAdapterVersion>4.2.1</NUnit3TestAdapterVersion>
+        <MicrosoftNETTestSdkVersion>17.2.0</MicrosoftNETTestSdkVersion>
+        <PowerAssertVersion>1.0.87</PowerAssertVersion>
 
         <!-- 3rd party packages -->
-        <WindowsAzureStorageVersion>9.0.0</WindowsAzureStorageVersion>
+        <WindowsAzureStorageVersion>9.3.3</WindowsAzureStorageVersion>
         <EventStoreClientAPINetCoreVersion>4.1.0.23</EventStoreClientAPINetCoreVersion>
-        <StreamstoneVersion>2.0.0</StreamstoneVersion>
-        <HyperionVersion>0.9.8</HyperionVersion>
-        <GoogleProtobufVersion>3.5.1</GoogleProtobufVersion>
+        <StreamstoneVersion>2.3.1</StreamstoneVersion>
+        <HyperionVersion>0.12.2</HyperionVersion>
+        <GoogleProtobufVersion>3.21.0</GoogleProtobufVersion>
 
         <!-- 3rd party F# libs -->
         <TaskBuilderfsVersion>1.1.1</TaskBuilderfsVersion>
 
         <!-- Tooling related packages -->
-        <SourceLinkVersion>2.7.6</SourceLinkVersion>
+        <SourceLinkVersion>2.8.3</SourceLinkVersion>
 
     </PropertyGroup>
 

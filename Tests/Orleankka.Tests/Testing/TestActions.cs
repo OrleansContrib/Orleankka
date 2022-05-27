@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.DependencyInjection;
 
 using NUnit.Framework;
@@ -65,7 +64,7 @@ namespace Orleankka.Testing
                 {
                     x.ConfigureAzureQueue(b => b.Configure(options =>
                     {
-                        options.ConnectionString = CloudStorageAccount.DevelopmentStorageAccount.ToString();
+                        options.ConfigureQueueServiceClient("UseDevelopmentStorage=true");
                         options.MessageVisibilityTimeout = TimeSpan.FromMinutes(1);
                         options.QueueNames = new List<string>{"aqp1", "aqp2", "aqp3", "aqp4"};
                     }));

@@ -72,7 +72,7 @@ namespace Orleankka.Features.Http_rpc
             {
                 PropertyNameCaseInsensitive = true,
                 AllowTrailingCommas = true,
-                IgnoreNullValues = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true,
                 Converters = {new JsonStringEnumConverter()}
             };

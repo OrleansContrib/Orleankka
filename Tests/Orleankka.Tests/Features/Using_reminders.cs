@@ -10,6 +10,7 @@ namespace Orleankka.Features
     namespace Using_reminders
     {
         using Meta;
+        using Microsoft.CodeAnalysis;
         using Testing;
         using static Syntax;
         
@@ -27,7 +28,7 @@ namespace Orleankka.Features
             bool On(HasBeenReminded x)      => reminded;
             void On(SetReminder x)          => Reminders.Register("test", TimeSpan.Zero, x.Period);
             void On(Kill _)                 => Activation.DeactivateOnIdle();
-            long On(InstanceHashcode _)  => RuntimeHelpers.GetHashCode(this);
+            long On(InstanceHashcode _)  => this.GetHashCode();
         }
 
         [TestFixture, RequiresSilo]

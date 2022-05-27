@@ -11,6 +11,7 @@ namespace Orleankka.Features
     namespace Externally_managed_lifecycle
     {
         using Meta;
+        using Microsoft.CodeAnalysis;
         using Testing;
 
         [Serializable] public class Activated : Query<int> {}
@@ -31,7 +32,7 @@ namespace Orleankka.Features
                         break;
 
                     case GetInstanceHashcode _: 
-                        return Task.FromResult<object>(RuntimeHelpers.GetHashCode(this));
+                        return Task.FromResult<object>(this.GetHashCode());
 
                     case Activated _: 
                         return Task.FromResult<object>(activated);
