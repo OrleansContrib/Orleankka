@@ -59,19 +59,19 @@ namespace Example
             return await behavior.Receive(message);
         }
 
-        Task<object> Smashed(object message)
+        async Task<object> Smashed(object message)
         {
             switch (message)
             {
                 case PressSwitch _:
-                    return TaskResult.From("Broken");
+                    return "Broken";
                 case Touch _:
-                    return TaskResult.From("OW!");
+                    return "OW!";
                 case  Fix _:
-                    behavior.Unbecome();
-                    return TaskResult.From("Fixed");
+                    await behavior.Unbecome();
+                    return "Fixed";
                 default:
-                    return TaskResult.Unhandled;
+                    return Unhandled;
             }
         }
 
