@@ -2,13 +2,13 @@
 using System.Reflection;
 
 using Orleans;
-using Orleans.CodeGeneration;
+using Orleans.Runtime;
 
 namespace Orleankka.Cluster
 {
     static class DashboardIntegration
     {
-        public static string Format(MethodInfo method, InvokeMethodRequest request, IGrain grain)
+        public static string Format(MethodInfo method, RequestBase request, IGrain grain)
         {
             if (method == null)
                 return "Unknown";
@@ -21,7 +21,7 @@ namespace Orleankka.Cluster
                 method.Name != nameof(IActorGrain.ReceiveNotify))
                 return method.Name;
 
-            var argumentType = request.Arguments[0]?.GetType();
+            var argumentType = request.GetArgument(0)?.GetType();
 
             if (argumentType == null)
                 return $"{method.Name}(NULL)";

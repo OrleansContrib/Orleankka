@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleans;
-using Orleans.CodeGeneration;
+using Orleans.Runtime;
 using Orleans.Concurrency;
 
 namespace Orleankka.Features
@@ -42,7 +42,7 @@ namespace Orleankka.Features
         [MayInterleave(nameof(Interleave))]
         public  class TestActor : DispatchActorGrain, ITestActor
         {
-            public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
+            public static bool Interleave(RequestBase req) => req.Message() is ReentrantMessage;
 
             readonly ActorState state = new ActorState();
 
@@ -73,7 +73,7 @@ namespace Orleankka.Features
         [MayInterleave(nameof(Interleave))]
         public class TestReentrantByCallbackMethodActor : DispatchActorGrain, ITestReentrantByCallbackMethodActor
         {
-            public static bool Interleave(InvokeMethodRequest req) => req.Message() is ReentrantMessage;
+            public static bool Interleave(RequestBase req) => req.Message() is ReentrantMessage;
 
             readonly ActorState state = new ActorState();
 

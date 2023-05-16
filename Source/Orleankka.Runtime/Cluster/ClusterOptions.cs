@@ -31,7 +31,7 @@ namespace Orleankka.Cluster
                 services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());
 
                 services.TryAddSingleton<IDispatcherRegistry>(x => BuildDispatcherRegistry(x, assemblies));
-                services.TryAddSingleton<Func<MethodInfo, InvokeMethodRequest, IGrain, string>>(DashboardIntegration.Format);
+                services.TryAddSingleton<Func<MethodInfo, RequestBase, IGrain, string>>(DashboardIntegration.Format);
 
                 services.TryAddSingleton<IActorMiddleware>(DefaultActorMiddleware.Instance);
                 services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);

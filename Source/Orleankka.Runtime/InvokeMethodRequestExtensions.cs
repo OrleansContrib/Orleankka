@@ -1,29 +1,29 @@
 ﻿using System;
 
-using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.Runtime;
 
 namespace Orleankka
 {
-    public static class InvokeMethodRequestExtensions
+    public static class RequestBaseExtensions
     {
-        public static bool Message(this InvokeMethodRequest request, Func<object, bool> predicate) => 
+        public static bool Message(this RequestBase request, Func<object, bool> predicate) => 
             predicate(request.Message());
 
-        public static bool Message<T>(this InvokeMethodRequest request, Func<T, bool> predicate) => 
+        public static bool Message<T>(this RequestBase request, Func<T, bool> predicate) => 
             request.Message() is T m && predicate(m);
 
-        public static object Message(this InvokeMethodRequest request)
+        public static object Message(this RequestBase request)
         {
-            if (request?.Arguments == null)
+            if (request == null || request.GetArgumentCount() == 0)
                 return null;
 
-            var receiveMessage = request.Arguments.Length == 1;
+            var receiveMessage = request.GetArgumentCount() == 1;
             if (receiveMessage)
-                return UnwrapImmutable(request.Arguments[0]);
+                return UnwrapImmutable(request.GetArgument(0));
 
-            var streamMessage = request.Arguments.Length == 5;
-            return streamMessage ? UnwrapImmutable(request.Arguments[2]) : null;
+            var streamMessage = request.GetArgumentCount() == 5;
+            return streamMessage ? UnwrapImmutable(request.GetArgument(2)) : null;
         }
 
         static object UnwrapImmutable(object item) => 
