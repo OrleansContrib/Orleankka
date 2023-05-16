@@ -7,6 +7,8 @@ using Orleans.Timers;
 
 namespace Orleankka.Services
 {
+    using Orleans.Runtime;
+
     /// <summary>
     /// Manages registration of local actor timers
     /// </summary>
@@ -223,6 +225,8 @@ namespace Orleankka.Services
             this.registry = grain.Runtime().TimerRegistry;
         }
 
+        IGrainContext GrainContext() => ((IGrainBase)grain).GrainContext;
+
         void ITimerService.Register(string id, TimeSpan due, Func<Task> callback)
         {
             ((ITimerService) this).Register(id, due, TimeSpan.FromMilliseconds(1), async () =>
@@ -234,7 +238,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback(), null, due, period));
+            timers.Add(id, registry.RegisterTimer(GrainContext(), async s => await callback(), null, due, period));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
@@ -248,7 +252,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(grain, async s => await callback((TState) s), state, due, period));
+            timers.Add(id, registry.RegisterTimer(GrainContext(), async s => await callback((TState) s), state, due, period));
         }
 
         void ITimerService.Register(string id, TimeSpan due, bool interleave, bool fireAndForget, object message)

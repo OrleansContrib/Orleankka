@@ -4,6 +4,8 @@ using Orleans;
 
 namespace Orleankka.Services
 {
+    using Orleans.Runtime;
+
     /// <summary>
     /// Manages actor activation lifetime
     /// </summary>
@@ -42,12 +44,14 @@ namespace Orleankka.Services
 
         void IActivationService.DeactivateOnIdle()
         {
-            grain.Runtime().DeactivateOnIdle(grain);
+            grain.Runtime().DeactivateOnIdle(GrainContext());
         }
 
         void IActivationService.DelayDeactivation(TimeSpan period)
         {
-            grain.Runtime().DelayDeactivation(grain, period);
-        } 
+            grain.Runtime().DelayDeactivation(GrainContext(), period);
+        }
+
+        IGrainContext GrainContext() => ((IGrainBase)grain).GrainContext;
     }
 }
