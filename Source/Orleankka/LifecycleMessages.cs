@@ -1,5 +1,5 @@
 ﻿using System;
-using Orleans.Concurrency;
+using Orleans;
 
 namespace Orleankka
 {

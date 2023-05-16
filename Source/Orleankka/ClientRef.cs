@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-using Orleans.Concurrency;
+using Orleans;
 
 namespace Orleankka
 {
