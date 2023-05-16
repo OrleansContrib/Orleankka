@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
 using Orleans.Runtime;
-using Orleans.Streams;
 
 namespace Orleankka
 {

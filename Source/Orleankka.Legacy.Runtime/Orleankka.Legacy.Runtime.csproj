@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orleankka.Runtime\Orleankka.Runtime.csproj" />
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
   </ItemGroup> 
   
 </Project>

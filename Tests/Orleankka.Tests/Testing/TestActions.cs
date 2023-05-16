@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.DependencyInjection;
 
 using NUnit.Framework;
@@ -61,15 +60,6 @@ namespace Orleankka.Testing
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
                 .UseInMemoryReminderService()
-                .AddAzureQueueStreams("aqp", x =>
-                {
-                    x.ConfigureAzureQueue(b => b.Configure(options =>
-                    {
-                        options.ConnectionString = CloudStorageAccount.DevelopmentStorageAccount.ToString();
-                        options.MessageVisibilityTimeout = TimeSpan.FromMinutes(1);
-                        options.QueueNames = new List<string>{"aqp1", "aqp2", "aqp3", "aqp4"};
-                    }));
-                })
                 .ConfigureServices(services =>
                 {
                     services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));

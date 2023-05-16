@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orleankka\Orleankka.csproj" />
-    <ProjectReference Include="..\Orleans.Internals\Orleans.Internals.csproj" />
   </ItemGroup>
 
 
