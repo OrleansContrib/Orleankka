@@ -10,6 +10,7 @@ namespace Orleankka
 {
     using Cluster;
     using Services;
+    using System.Threading;
 
     public abstract class ActorGrain : Grain, IActorGrain, IGrainWithStringKey
     {
@@ -99,11 +100,11 @@ namespace Orleankka
         Task IRemindable.ReceiveReminder(string name, TickStatus status) =>
             middleware.Receive(this, new Reminder(name, status), Receive);
 
-        public override Task OnDeactivateAsync() =>
-            middleware.Receive(this, Deactivate.Message, Receive);
+        public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken) =>
+            middleware.Receive(this, new Deactivate(reason), Receive);
 
-        public override Task OnActivateAsync() => 
-            middleware.Receive(this, Activate.Message, Receive);
+        public override Task OnActivateAsync(CancellationToken cancellationToken) => 
+            middleware.Receive(this, Activate.External, Receive);
 
         public abstract Task<object> Receive(object message);
     }

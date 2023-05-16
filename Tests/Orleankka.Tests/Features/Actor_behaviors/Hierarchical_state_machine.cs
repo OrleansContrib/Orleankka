@@ -131,7 +131,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("A");
 
-                var result = await behavior.Receive(Activate.Message);
+                var result = await behavior.Receive(Activate.External);
                 Assert.That(result, Is.SameAs(Done.Result));
             }
 
@@ -144,7 +144,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("A");
 
-                var result = await behavior.Receive(Deactivate.Message);
+                var result = await behavior.Receive(Deactivate.State);
                 Assert.That(result, Is.SameAs(Done.Result));
             }
 

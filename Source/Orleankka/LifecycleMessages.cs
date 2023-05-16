@@ -9,12 +9,18 @@ namespace Orleankka
     [Serializable, Immutable]
     public sealed class Activate : LifecycleMessage
     {
-        public static readonly Activate Message = new Activate();
+        public static readonly Activate External = new Activate();
+        public static readonly Activate State = new Activate();
     }
 
     [Serializable, Immutable]
     public sealed class Deactivate : LifecycleMessage
     {
-        public static readonly Deactivate Message = new Deactivate();
+        public Deactivate(DeactivationReason reason) => Reason = reason;
+
+        public DeactivationReason Reason { get; }
+
+        public static readonly Deactivate External = new(new DeactivationReason(DeactivationReasonCode.ApplicationRequested, "Triggered externally"));
+        public static readonly Deactivate State = new(new DeactivationReason(DeactivationReasonCode.ApplicationRequested, "State transition"));
     }
 }

@@ -68,7 +68,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("Initial");
 
-                var result = await behavior.Receive(Activate.Message);
+                var result = await behavior.Receive(Activate.State);
                 Assert.That(result, Is.SameAs(Done.Result));
                 
                 Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));
@@ -83,7 +83,7 @@ namespace Orleankka.Features.Actor_behaviors
 
                 behavior.Initial("Initial");
 
-                var result = await behavior.Receive(Deactivate.Message);
+                var result = await behavior.Receive(Deactivate.State);
                 Assert.That(result, Is.SameAs(Done.Result));
                 
                 Assert.That(behavior.Current.Name, Is.EqualTo("Initial"));

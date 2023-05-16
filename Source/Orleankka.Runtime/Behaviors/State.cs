@@ -77,7 +77,7 @@ namespace Orleankka.Behaviors
             if (Super != null)
                 await Super.HandleActivate(transition);
 
-            await CallBehavior(Activate.Message); 
+            await CallBehavior(Activate.State); 
         }
 
         internal async Task HandleDeactivate(Transition transition)
@@ -85,7 +85,7 @@ namespace Orleankka.Behaviors
             if (IsSuperOf(transition.To))
                 return;
 
-            await CallBehavior(Deactivate.Message);
+            await CallBehavior(Deactivate.State);
 
             if (Super != null)
                 await Super.HandleDeactivate(transition);

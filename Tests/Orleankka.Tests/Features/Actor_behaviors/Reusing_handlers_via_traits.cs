@@ -130,8 +130,8 @@ namespace Orleankka.Features.Actor_behaviors
                 }
 
                 var receive = @base.Join(XTrait, YTrait);
-                Assert.AreSame(Done.Result, await receive(Activate.Message));
-                Assert.AreSame(Done.Result, await receive(Deactivate.Message));
+                Assert.AreSame(Done.Result, await receive(Activate.State));
+                Assert.AreSame(Done.Result, await receive(Deactivate.State));
                 Assert.AreSame(Done.Result, await receive(Become.Message));
                 Assert.AreSame(Done.Result, await receive(Unbecome.Message));
 
