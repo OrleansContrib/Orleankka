@@ -52,22 +52,21 @@
     <PropertyGroup>
 
         <!-- Framework packages -->
-        <SystemTextJsonVersion>4.6.0</SystemTextJsonVersion>
+        <SystemTextJsonVersion>7.0.0</SystemTextJsonVersion>
 
         <!-- Orleans packages -->        
-        <MicrosoftOrleansClientVersion>3.5.0</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>3.5.0</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCoreVersion>3.5.0</MicrosoftOrleansCoreVersion>
-        <MicrosoftOrleansCoreAbstractionsVersion>3.5.0</MicrosoftOrleansCoreAbstractionsVersion>
-        <MicrosoftOrleansCodeGeneratorVersion>3.5.0</MicrosoftOrleansCodeGeneratorVersion>
-        <MicrosoftOrleansRuntimeVersion>3.5.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansClientVersion>7.1.2</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>7.1.2</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCoreAbstractionsVersion>7.1.2</MicrosoftOrleansCoreAbstractionsVersion>
+        <MicrosoftOrleansRuntimeVersion>7.1.2</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansSdkVersion>7.1.2</MicrosoftOrleansSdkVersion>
         <MicrosoftOrleansStreamingAzureStorageVersion>3.5.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
-        <MicrosoftExtensionsLoggingVersion>3.0.0</MicrosoftExtensionsLoggingVersion>
-        <MicrosoftExtensionsLoggingConsoleVersion>3.0.0</MicrosoftExtensionsLoggingConsoleVersion>
-        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>3.1.9</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
-        <MicrosoftExtensionsHostingVersion>3.0.0</MicrosoftExtensionsHostingVersion>
+        <MicrosoftExtensionsLoggingVersion>7.0.0</MicrosoftExtensionsLoggingVersion>
+        <MicrosoftExtensionsLoggingConsoleVersion>7.0.0</MicrosoftExtensionsLoggingConsoleVersion>
+        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>7.0.0</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
+        <MicrosoftExtensionsHostingVersion>7.0.0</MicrosoftExtensionsHostingVersion>
 
         <!-- Testing packages -->
         <NUnitVersion>3.9.0</NUnitVersion>
