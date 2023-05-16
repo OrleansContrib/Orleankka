@@ -1,7 +1,7 @@
 ﻿using System;
 
+using Microsoft.Extensions.Hosting;
 using Orleans;
-using Orleans.Hosting;
 
 namespace Orleankka.Testing
 {
@@ -9,7 +9,7 @@ namespace Orleankka.Testing
 
     public static class TestActorSystem
     {
-        public static ISiloHost Host;
+        public static IHost Host;
         public static IClusterClient Client;
         public static IClientActorSystem Instance;
 

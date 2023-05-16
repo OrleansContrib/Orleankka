@@ -4,25 +4,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Orleans;
-using Orleans.ApplicationParts;
 using Orleans.Hosting;
 
 namespace Orleankka.Client
 {
+    using System;
+
     public static class ClientBuilderExtension
     {
         public static IClientBuilder UseOrleankka(this IClientBuilder builder) => 
-            builder
-                .ConfigureServices(services => Configure(builder, services))
-                .ConfigureApplicationParts(apm => apm
-                    .AddApplicationPart(typeof(IClientEndpoint).Assembly)
-                    .WithCodeGeneration());
+            builder.ConfigureServices(services => Configure(builder, services));
 
         static void Configure(IClientBuilder builder, IServiceCollection services)
         {
-            var assemblies = builder.GetApplicationPartManager().ApplicationParts
-                .OfType<AssemblyPart>().Select(x => x.Assembly)
-                .ToArray();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
 

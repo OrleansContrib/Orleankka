@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using NUnit.Framework;
@@ -12,6 +12,7 @@ using Orleans;
 using Orleans.Hosting;
 using Orleans.Configuration;
 using Orleans.Storage;
+using Orleans.Runtime;
 
 using Orleankka.Testing;
 using Orleankka.Cluster;
@@ -23,8 +24,6 @@ using Orleankka.Legacy.Cluster;
 namespace Orleankka.Testing
 {
     using Features.State_persistence;
-    using Orleans.Runtime;
-    using Orleans.Serialization;
 
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
@@ -44,47 +43,39 @@ namespace Orleankka.Testing
             if (TestActorSystem.Instance != null)
                 return;
 
-            var sb = new SiloHostBuilder()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = DemoClusterId;
-                    options.ServiceId = DemoServiceId;
-                })
-                .Configure<SchedulingOptions>(options =>
-                {
-                    options.AllowCallChainReentrancy = false;
-                    options.PerformDeadlockDetection = true;
-                })
-                .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
-                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
-                .AddMemoryGrainStorageAsDefault()
-                .AddMemoryGrainStorage("PubSubStore")
-                .UseInMemoryReminderService()
-                .ConfigureServices(services =>
-                {
-                    services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
-                    services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
-                    
-                    services.Configure<DispatcherOptions>(o =>
+            var sb = new HostBuilder()
+                .UseOrleans((ctx, sb) => sb
+                    .Configure<ClusterOptions>(options =>
                     {
-                        var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
-                        o.HandlerNamingConventions = customConventions.ToArray();
-                    });
-
-                    services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
-                    services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
-
-                    services.Configure<SerializationProviderOptions>(options =>
+                        options.ClusterId = DemoClusterId;
+                        options.ServiceId = DemoServiceId;
+                    })
+                    .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
+                    .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
+                    .AddMemoryGrainStorageAsDefault()
+                    .AddMemoryGrainStorage("PubSubStore")
+                    .UseInMemoryReminderService()
+                    .ConfigureServices(services =>
                     {
-                        options.SerializationProviders.Add(typeof(MessageSerializer));
-                    });
-                })
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(GetType().Assembly)
-                    .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
-                    .WithCodeGeneration())
-                .UseOrleankka()
-                .UseOrleankkaLegacyFeatures();
+                        services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
+                        services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
+                        
+                        services.Configure<DispatcherOptions>(o =>
+                        {
+                            var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
+                            o.HandlerNamingConventions = customConventions.ToArray();
+                        });
+
+                        services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
+                        services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
+
+                        services.Configure<SerializationProviderOptions>(options =>
+                        {
+                            options.SerializationProviders.Add(typeof(MessageSerializer));
+                        });
+                    })
+                    .UseOrleankka()
+                    .UseOrleankkaLegacyFeatures());
 
             var host = sb.Build();
             host.StartAsync().Wait();
@@ -107,9 +98,6 @@ namespace Orleankka.Testing
 
             var timeout = TimeSpan.FromSeconds(5);
 
-            TestActorSystem.Client.Close().Wait(timeout);
-            TestActorSystem.Client.Dispose();
-            
             TestActorSystem.Host.StopAsync().Wait(timeout);
             TestActorSystem.Host.Dispose();
 
