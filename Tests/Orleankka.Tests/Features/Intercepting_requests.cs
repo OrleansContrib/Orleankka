@@ -52,9 +52,6 @@ namespace Orleankka.Features
 
             readonly List<string> fromStream = new List<string>();
             List<string> On(GetReceivedFromStream x) => fromStream;
-
-            Task On(Subscribe x) => x.Stream.Subscribe(this);
-            void On(StreamItem<ItemData> x) => fromStream.Add(x.Item.Text);
         }
 
         [Serializable]
@@ -81,12 +78,6 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        public class Subscribe : Command
-        {
-            public StreamRef<ItemData> Stream;
-        }
-
-        [Serializable]
         public class GetReceivedFromStream : Query<List<string>>
         {}
 
@@ -103,11 +94,6 @@ namespace Orleankka.Features
                         
                         msg.Text += ".intercepted";
                         break;
-
-                    case StreamItem<ItemData> msg:
-
-                        msg.Item.Text += ".intercepted";
-                        break;
                 }
 
                 return base.Receive(actor, message, receiver);
@@ -122,29 +108,6 @@ namespace Orleankka.Features
                     RequestContext.Set("SetByActorRefMiddleware", "it works!");
 
                 return base.Receive(actor, message, receiver);
-            }
-        }
-
-        public class TestStreamRefMiddleware : StreamRefMiddleware
-        {
-            public override Task Publish<TMessage>(StreamPath path, TMessage message, Receive<TMessage> receiver)
-            {
-                if (message is NextItem<ItemData> nextItem && nextItem.Item.Text == "StreamRefMiddlewarePublishTest")
-                {
-                    nextItem.Item.Text += " - it works!";
-                }
-
-                return base.Publish(path, message, receiver);
-            }
-
-            public override Task Receive<TMessage>(StreamPath path, TMessage message, Receive<TMessage> receiver)
-            {
-                if (message is StreamItem<ItemData> streamItem && streamItem.Item.Text == "StreamRefMiddlewareSubscribeTest")
-                {
-                    streamItem.Item.Text += " - it works!";
-                }
-
-                return base.Receive(path, message, receiver);
             }
         }
 
@@ -191,57 +154,11 @@ namespace Orleankka.Features
             }
 
             [Test]
-            public async Task Intercepting_stream_messages()
-            {
-                var stream = system.StreamOf<ItemData>("sms", "test-stream-interception");
-                
-                var actor = system.FreshActorOf<ITestActor>();
-                await actor.Tell(new Subscribe {Stream = stream});
-
-                await stream.Publish(new ItemData {Text = "foo"});
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
-                
-                var received = await actor.Ask(new GetReceivedFromStream());
-                Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0], Is.EqualTo("foo.intercepted"));
-            }
-
-            [Test]
             public async Task Intercepting_actor_ref()
             {
                 var actor = system.FreshActorOf<ITestActor>();
                 var result = await actor.Ask<string>(new CheckRef());
                 Assert.That(result, Is.EqualTo("it works!"));
-            }
-
-            [Test]
-            public async Task Intercepting_stream_ref_publish()
-            {
-                var stream = system.StreamOf<ItemData>("sms", "test-stream-ref-publish-interception");
-
-                var received = new List<ItemData>();
-                await stream.Subscribe((item, _) => received.Add(item));
-                
-                await stream.Publish(new ItemData { Text = "StreamRefMiddlewarePublishTest" });
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
-
-                Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0].Text, Is.EqualTo("StreamRefMiddlewarePublishTest - it works!"));
-            }
-
-            [Test]
-            public async Task Intercepting_stream_ref_subscribe()
-            {
-                var stream = system.StreamOf<ItemData>("sms", "test-stream-ref-subscribe-interception");
-
-                var received = new List<ItemData>();
-                await stream.Subscribe((item, _) => received.Add(item));
-
-                await stream.Publish(new ItemData { Text = "StreamRefMiddlewareSubscribeTest" });
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
-
-                Assert.That(received.Count, Is.EqualTo(1));
-                Assert.That(received[0].Text, Is.EqualTo("StreamRefMiddlewareSubscribeTest - it works!"));
             }
         }
     }

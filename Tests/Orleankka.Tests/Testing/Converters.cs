@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using Orleans.Runtime;
-using Orleans.Streams;
 
 namespace Orleankka.Testing
 {
@@ -144,67 +143,6 @@ namespace Orleankka.Testing
             var args = new object[]{@ref};
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             return Activator.CreateInstance(objectType, flags, null, args, null);
-        }
-    }
-
-    public class StreamRefConverter : JsonConverter
-    {
-        readonly IServiceProvider services;
-
-        public StreamRefConverter(IServiceProvider services)
-        {
-            this.services = services;
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(IStreamRef).IsAssignableFrom(objectType);
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            writer.WriteValue(value.ToString());
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var jo = JToken.Load(reader);
-            var path = StreamPath.Parse(jo.Value<string>());
-            var middleware = services.GetService<IStreamRefMiddleware>();
-            var provider = services.GetServiceByName<IStreamProvider>(path.Provider);
-            var args = new object[]{path, provider, middleware};
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            return Activator.CreateInstance(objectType, flags, null, args, null);
-        }
-    }
-
-    public class StreamFilterConverter : JsonConverter
-    {
-        readonly JsonSerializer serializer;
-
-        public StreamFilterConverter()
-        {
-            this.serializer = JsonSerializer.Create(new JsonSerializerSettings {
-                TypeNameHandling = TypeNameHandling.All,
-                Formatting = Formatting.None,
-            });
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(StreamFilter) == objectType;
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var f = (StreamFilter) value;
-            serializer.Serialize(writer, f.Serialize());
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var data = (StreamFilterData) serializer.Deserialize(reader, typeof(StreamFilterData));
-            return StreamFilter.Deserialize(data);
         }
     }
 }

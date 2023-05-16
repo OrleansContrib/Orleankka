@@ -25,7 +25,6 @@ namespace Orleankka.Client
                 .ToArray();
 
             services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
-            services.TryAddSingleton<IStreamRefMiddleware>(DefaultStreamRefMiddleware.Instance);
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClientActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());

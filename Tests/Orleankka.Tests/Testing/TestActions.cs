@@ -83,7 +83,6 @@ namespace Orleankka.Testing
 
                     services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
                     services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
-                    services.AddSingleton<IStreamRefMiddleware>(s => new TestStreamRefMiddleware());
 
                     services.Configure<SerializationProviderOptions>(options =>
                     {
@@ -95,9 +94,7 @@ namespace Orleankka.Testing
                     .AddApplicationPart(typeof(MemoryGrainStorage).Assembly)
                     .WithCodeGeneration())
                 .UseOrleankka()
-                .UseOrleankkaLegacyFeatures(x => x
-                    .AddSimpleMessageStreamProvider("sms")
-                    .RegisterPersistentStreamProviders("aqp"));
+                .UseOrleankkaLegacyFeatures();
 
             var host = sb.Build();
             host.StartAsync().Wait();

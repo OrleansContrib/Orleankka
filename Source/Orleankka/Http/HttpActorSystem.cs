@@ -28,7 +28,6 @@ namespace Orleankka.Http
             return new ActorRef(path, endpoint, middleware);
         }
 
-        public StreamRef<TItem> StreamOf<TItem>(StreamPath path) => throw new NotImplementedException();
         public ClientRef ClientOf(string path) => throw new NotImplementedException();
     }
 }

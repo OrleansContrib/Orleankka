@@ -27,8 +27,6 @@ namespace Orleankka.Testing
                 settings!.Value.Converters.Add(new ClientRefConverter(system));
                 settings!.Value.Converters.Add(new ActorRefConverter(system));
                 settings!.Value.Converters.Add(new TypedActorRefConverter(system));
-                settings!.Value.Converters.Add(new StreamRefConverter(services));
-                settings!.Value.Converters.Add(new StreamFilterConverter());
                 return sr;
             });
         }
