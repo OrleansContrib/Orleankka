@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Orleans;
 using Orleans.Runtime;
-using Orleans.Timers;
 
 namespace Orleankka.Services
 {
@@ -57,21 +56,21 @@ namespace Orleankka.Services
     class ReminderService : IReminderService
     {
         readonly IDictionary<string, IGrainReminder> reminders = new Dictionary<string, IGrainReminder>();
-        readonly IReminderRegistry registry;
+        readonly Grain grain;
 
         internal ReminderService(Grain grain)
         {
-            registry = grain.Runtime().ReminderRegistry;
+            this.grain = grain;
         }
 
         async Task IReminderService.Register(string id, TimeSpan due, TimeSpan period)
         {
-            reminders[id] = await registry.RegisterOrUpdateReminder(id, due, period);
+            reminders[id] = await grain.RegisterOrUpdateReminder(id, due, period);
         }
 
         async Task IReminderService.Unregister(string id)
         {
-            var reminder = reminders.Find(id) ?? await registry.GetReminder(id);
+            var reminder = reminders.Find(id) ?? await grain.GetReminder(id);
             
             if (reminder != null)
                 await TryUnregisterReminder(reminder);
@@ -83,11 +82,11 @@ namespace Orleankka.Services
         {
             try
             {
-                await registry.UnregisterReminder(reminder);
+                await grain.UnregisterReminder(reminder);
             }
             catch (ReminderException)
             {
-                var fresh = await registry.GetReminder(reminder.ReminderName);
+                var fresh = await grain.GetReminder(reminder.ReminderName);
                 if (fresh == null)
                     return;
 
@@ -97,7 +96,7 @@ namespace Orleankka.Services
 
         async Task<bool> IReminderService.IsRegistered(string id)
         {
-            var registered = await registry.GetReminder(id) != null;
+            var registered = await grain.GetReminder(id) != null;
 
             if (!registered && reminders.ContainsKey(id))
                 reminders.Remove(id);
@@ -107,7 +106,7 @@ namespace Orleankka.Services
 
         async Task<IEnumerable<string>> IReminderService.Registered()
         {
-            return (await registry.GetReminders()).Select(x => x.ReminderName);
+            return (await grain.GetReminders()).Select(x => x.ReminderName);
         }
     }
 }
