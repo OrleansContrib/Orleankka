@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
 
 using Orleans;
-using Orleans.Runtime;
 using Orleans.Concurrency;
+using Orleans.Serialization.Invocation;
 
 namespace Orleankka.Features
 {
     namespace Message_based_timers
     {
         using Meta;
-
-        using Orleans.Serialization.Invocation;
-
         using Testing;
 
         [Serializable]
