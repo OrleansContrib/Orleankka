@@ -94,7 +94,7 @@ namespace Orleankka.Features
             {
                 var actor = system.FreshActorOf<ITestActor>();
 
-                using (var observable = await system.CreateObservable())
+                using (var observable = system.CreateObservable())
                 {
                     await actor.Tell(buildMessage(observable));
 

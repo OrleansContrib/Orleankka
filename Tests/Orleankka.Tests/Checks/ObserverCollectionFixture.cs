@@ -31,10 +31,10 @@ namespace Orleankka.Checks
         }
 
         [Test]
-        public async Task Notifies_all_observers()
+        public void Notifies_all_observers()
         {
-            var observer1 = await TestObserver.Create();
-            var observer2 = await TestObserver.Create();
+            var observer1 = TestObserver.Create();
+            var observer2 = TestObserver.Create();
             
             collection.Add(observer1);
             collection.Add(observer2);
@@ -51,9 +51,9 @@ namespace Orleankka.Checks
         }
         
         [Test]
-        public async Task Add_is_idempotent()
+        public void Add_is_idempotent()
         {
-            var observer = await TestObserver.Create();
+            var observer = TestObserver.Create();
             collection.Add(observer);
 
             Assert.DoesNotThrow(() => collection.Add(observer));
@@ -61,9 +61,9 @@ namespace Orleankka.Checks
         }
 
         [Test]
-        public async Task Remove_is_also_idempotent()
+        public void Remove_is_also_idempotent()
         {
-            var observer = await TestObserver.Create();
+            var observer = TestObserver.Create();
             
             collection.Add(observer);
             collection.Remove(observer);
@@ -80,9 +80,9 @@ namespace Orleankka.Checks
 
         class TestObserver
         {
-            public static async Task<TestObserver> Create()
+            public static TestObserver Create()
             {
-                var observable = await TestActorSystem.Instance.CreateObservable();
+                var observable = TestActorSystem.Instance.CreateObservable();
                 return new TestObserver(observable);
             }
 

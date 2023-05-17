@@ -12,11 +12,11 @@ namespace Orleankka
 {
     partial class ClientEndpoint : IClientEndpoint, IDisposable
     {
-        public static async Task<ClientEndpoint> Create(IGrainFactory factory)
+        public static ClientEndpoint Create(IGrainFactory factory)
         {
             var endpoint = new ClientEndpoint(factory);
 
-            var proxy = await factory.CreateObjectReference<IClientEndpoint>(endpoint);
+            var proxy = factory.CreateObjectReference<IClientEndpoint>(endpoint);
 
             return endpoint.Initialize(proxy);
         }
@@ -83,13 +83,12 @@ namespace Orleankka
 
         [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         internal static string Path(IClientEndpoint proxy) => 
-            ((GrainReference)proxy).ToKeyString();
+            ((GrainReference)proxy).GrainId.ToString();
 
         internal static IClientEndpoint Proxy(string path, IGrainFactory factory)
         {
             var reference = GrainReferenceInternals.FromKeyString(path);
-            factory.BindGrainReference(reference);
-            return GrainExtensions.AsReference<IClientEndpoint>(reference);
+            return reference.AsReference<IClientEndpoint>();
         }
     }
 }

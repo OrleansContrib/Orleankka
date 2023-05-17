@@ -17,7 +17,7 @@ namespace Orleankka.Client
         /// Creates new <see cref="IClientObservable"/>
         /// </summary>
         /// <returns>New instance of <see cref="IClientObservable"/></returns>
-        Task<IClientObservable> CreateObservable();
+        IClientObservable CreateObservable();
     }
 
     /// <summary>
@@ -34,9 +34,9 @@ namespace Orleankka.Client
         }
 
         /// <inheritdoc />
-        public async Task<IClientObservable> CreateObservable()
+        public IClientObservable CreateObservable()
         {
-            var proxy = await ClientEndpoint.Create(grainFactory);
+            var proxy = ClientEndpoint.Create(grainFactory);
             return new ClientObservable(proxy);
         }
     }
