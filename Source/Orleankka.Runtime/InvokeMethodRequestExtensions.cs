@@ -17,15 +17,15 @@ namespace Orleankka
 
         public static object Message(this IInvokable request)
         {
-            if (request == null || request.GetArgumentCount() == 0)
+            if (request.GetArgumentCount() == 0)
                 return null;
 
             var receiveMessage = request.GetArgumentCount() == 1;
             if (receiveMessage)
                 return UnwrapImmutable(request.GetArgument(0));
 
-            var streamMessage = request.GetArgumentCount() == 5;
-            return streamMessage ? UnwrapImmutable(request.GetArgument(2)) : null;
+            var streamMessage = request.GetArgumentCount() == 2;
+            return streamMessage ? UnwrapImmutable(request.GetArgument(1)) : null;
         }
 
         static object UnwrapImmutable(object item) => 
