@@ -13,12 +13,16 @@ namespace Orleankka.Features
     namespace State_persistence
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable] public class GetState : Query<string> {}
 
+        [DefaultGrainType("state-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
 
+        [GrainType("state-test")]
         public class TestActor : ActorGrain, ITestActor
         {
             readonly IStorage<TestState> storage;

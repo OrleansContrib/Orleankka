@@ -14,6 +14,7 @@ namespace Orleankka.Features
         using Meta;
         using Client;
         using Testing;
+        using Orleans.Metadata;
 
         [Serializable]
         public class Attach : Command
@@ -39,9 +40,11 @@ namespace Orleankka.Features
             public string Text;
         }
 
+        [DefaultGrainType("observer-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("observer-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             ObserverRef observer;
@@ -55,9 +58,11 @@ namespace Orleankka.Features
         public class ReceivedNotifications : Query<Notification[]>
         {}
 
+        [DefaultGrainType("inside-observer-test")]
         public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("inside-observer-test")]
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             readonly List<Notification> notifications = new List<Notification>();

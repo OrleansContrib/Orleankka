@@ -13,6 +13,8 @@ namespace Orleankka.Features
     namespace Reentrant_messages
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable]
@@ -36,10 +38,12 @@ namespace Orleankka.Features
             public readonly List<int> NonReentrantInProgress = new List<int>();
         }
 
+        [DefaultGrainType("reentrant-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
         [MayInterleave(nameof(Interleave))]
+        [GrainType("reentrant-test")]
         public  class TestActor : DispatchActorGrain, ITestActor
         {
             public static bool Interleave(RequestBase req) => req.Message() is ReentrantMessage;

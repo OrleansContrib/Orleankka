@@ -9,12 +9,17 @@ namespace Orleankka.Features
     namespace Request_response
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         public record SetText(string Text) : Command;
         public record GetText : Query<string>;
 
+        [DefaultGrainType("req-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
+
+        [GrainType("req-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             string text = "";
@@ -26,7 +31,10 @@ namespace Orleankka.Features
         public record DoTell(ActorRef Target, object Message) : Command;
         public record DoAsk(ActorRef Target, object Message) : Query<string>;
 
+        [DefaultGrainType("inside-req-test")]
         public interface ITestInsideActor : IActorGrain, IGrainWithStringKey {}
+
+        [GrainType("inside-req-test")]
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);

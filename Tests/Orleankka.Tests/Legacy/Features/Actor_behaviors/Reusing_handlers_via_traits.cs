@@ -10,13 +10,16 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
     namespace Reusing_handlers_via_traits
     {
         using Behaviors;
+        using Orleans.Metadata;
 
         class X { }
         class Y { }
 
+        [DefaultGrainType("reuse-handler-test")]
         interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("reuse-handler-test")]
         class TestActor : Actor, ITestActor
         {
             public readonly List<string> Events = new List<string>();

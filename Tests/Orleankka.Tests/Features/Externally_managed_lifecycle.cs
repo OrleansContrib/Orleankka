@@ -11,13 +11,18 @@ namespace Orleankka.Features
     namespace Externally_managed_lifecycle
     {
         using Meta;
+
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable] public class Activated : Query<int> {}
         [Serializable] public class GetInstanceHashcode : Query<int> {}
         
+        [DefaultGrainType("ext-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
         
+        [GrainType("ext-test")]
         public class TestActor : ActorGrain, ITestActor
         {
             int activated;

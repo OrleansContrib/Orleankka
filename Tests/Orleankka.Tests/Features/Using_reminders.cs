@@ -10,6 +10,8 @@ namespace Orleankka.Features
     namespace Using_reminders
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
         using static Syntax;
         
@@ -18,7 +20,10 @@ namespace Orleankka.Features
         public record HasBeenReminded : Query<bool>;
         public record InstanceHashcode : Query<long>;
 
+        [DefaultGrainType("reminder-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
+
+        [GrainType("reminder-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             bool reminded;

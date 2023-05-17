@@ -12,6 +12,8 @@ namespace Orleankka.Features
     namespace Reminders_idempotency
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable]
@@ -32,9 +34,11 @@ namespace Orleankka.Features
             public string Name;
         }
 
+        [DefaultGrainType("rem-idempotent-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("rem-idempotent-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             Task On(RegisterReminder x) => Reminders.Register(x.Name, TimeSpan.FromHours(10), TimeSpan.FromHours(10));

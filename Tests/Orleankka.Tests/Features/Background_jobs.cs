@@ -16,6 +16,7 @@ namespace Orleankka.Features
         using Testing;
         using Utility;
         using Services;
+        using Orleans.Metadata;
 
         [Serializable] public abstract class JobMessage : Message
         {
@@ -39,9 +40,11 @@ namespace Orleankka.Features
         [Serializable] public class NumberOfTimesJobRan : JobMessage, Query<int> {}
         [Serializable] public class NumberOfTimesJobTerminated : JobMessage,  Query<int> {}
 
+        [DefaultGrainType("bg-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("bg-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             readonly Dictionary<string, int> runs = new Dictionary<string, int>();

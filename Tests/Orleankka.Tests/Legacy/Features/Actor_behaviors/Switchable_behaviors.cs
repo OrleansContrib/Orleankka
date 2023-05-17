@@ -12,12 +12,16 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
 
     namespace Switchable_behaviors
     {
+        using Orleans.Metadata;
+
         class X {}
         class Y {}
         class Z {}
- 
+
+        [DefaultGrainType("switch-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey {}
 
+        [GrainType("switch-test")]
         public class TestActor : Actor, ITestActor
         {
             TestActor()

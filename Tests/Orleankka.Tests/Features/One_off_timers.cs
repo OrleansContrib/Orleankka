@@ -11,6 +11,8 @@ namespace Orleankka.Features
     namespace One_off_timers
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable]
@@ -21,9 +23,11 @@ namespace Orleankka.Features
         public class NumberOfTimesTimerFired : Query<int>
         {}
 
+        [DefaultGrainType("oneoff-timer-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("oneoff-timer-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             int fired;

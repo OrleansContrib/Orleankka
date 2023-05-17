@@ -10,6 +10,8 @@ namespace Orleankka.Features
     namespace Strongly_typed_actors
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
         using static Syntax;
 
@@ -19,9 +21,11 @@ namespace Orleankka.Features
         [Serializable]
         public class TestActorQuery : Query<ITestActor, long> {}
 
+        [DefaultGrainType("strong-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("strong-test")]
         public class TestActor : DispatchActorGrain, ITestActor
         {
             void On(TestActorCommand msg) {}

@@ -8,12 +8,15 @@ using Orleans;
 namespace Orleankka.Legacy.Features.Actor_behaviors
 {
     using Behaviors;
+    using Orleans.Metadata;
 
     namespace Behavior_failures
     {
+        [DefaultGrainType("behavior-err-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         { }
 
+        [GrainType("behavior-err-test")]
         public class TestActor : Actor, ITestActor
         {
             TestActor()

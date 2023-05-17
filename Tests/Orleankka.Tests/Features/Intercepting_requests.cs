@@ -12,6 +12,8 @@ namespace Orleankka.Features
     namespace Intercepting_requests
     {
         using Meta;
+        using Orleans.Metadata;
+
         using Testing;
 
         [Serializable]
@@ -34,6 +36,7 @@ namespace Orleankka.Features
             public string Text;
         }
 
+        [DefaultGrainType("interceptor-test")]
         public interface ITestActor : IActorGrain, IGrainWithStringKey
         {}
 
@@ -41,6 +44,7 @@ namespace Orleankka.Features
         {}
 
         /// middleware is set for the base actor type
+        [GrainType("interceptor-test")]
         public class TestActor : TestActorBase, ITestActor
         {
             string text = "";
@@ -68,9 +72,11 @@ namespace Orleankka.Features
             public object Message;
         }
 
+        [DefaultGrainType("inside-interceptor-test")]
         public interface ITestInsideActor : IActorGrain, IGrainWithStringKey
         {}
 
+        [GrainType("inside-interceptor-test")]
         public class TestInsideActor : DispatchActorGrain, ITestInsideActor
         {
             public async Task Handle(DoTell cmd) => await cmd.Target.Tell(cmd.Message);
