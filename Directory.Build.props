@@ -61,6 +61,7 @@
         <MicrosoftOrleansRuntimeVersion>7.1.2</MicrosoftOrleansRuntimeVersion>
         <MicrosoftOrleansRemindersVersion>7.1.2</MicrosoftOrleansRemindersVersion>
         <MicrosoftOrleansSdkVersion>7.1.2</MicrosoftOrleansSdkVersion>
+        <MicrosoftOrleansSerializationNewtonsoftJsonVersion>7.1.2</MicrosoftOrleansSerializationNewtonsoftJsonVersion>
         <MicrosoftOrleansStreamingAzureStorageVersion>3.5.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->

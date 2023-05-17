@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Reflection;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-using Orleans.Runtime;
-
 namespace Orleankka.Testing
 {
-    using System.Text.Json;
-
-    using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     public class ObserverRefConverter : JsonConverter
     {
         readonly ClientRefConverter clientRefConverter;
         readonly ActorRefConverter actorRefConverter;
 
-        public ObserverRefConverter(IActorSystem system)
+        public ObserverRefConverter(Lazy<IActorSystem> system)
         {
             clientRefConverter = new ClientRefConverter(system);
             actorRefConverter = new ActorRefConverter(system);
@@ -38,7 +30,7 @@ namespace Orleankka.Testing
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
-            var type = obj["type"].Value<string>();
+            var type = obj["type"]!.Value<string>();
 
             return type switch {
                 "cref" => clientRefConverter.Deserialize(obj),
@@ -50,9 +42,9 @@ namespace Orleankka.Testing
 
     public class ClientRefConverter : JsonConverter
     {
-        readonly IActorSystem system;
+        readonly Lazy<IActorSystem> system;
 
-        public ClientRefConverter(IActorSystem system)
+        public ClientRefConverter(Lazy<IActorSystem> system)
         {
             this.system = system;
         }
@@ -75,19 +67,19 @@ namespace Orleankka.Testing
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
-            if (obj["type"].Value<string>() != "cref")
+            if (obj["type"]!.Value<string>() != "cref")
                 throw new InvalidOperationException();
             return Deserialize(obj);
         }
 
-        public object Deserialize(JObject obj) => system.ClientOf(obj["path"].Value<string>());
+        public object Deserialize(JObject obj) => system.Value.ClientOf(obj["path"].Value<string>());
     }
 
     public class ActorRefConverter : JsonConverter
     {
-        readonly IActorSystem system;
+        readonly Lazy<IActorSystem> system;
 
-        public ActorRefConverter(IActorSystem system)
+        public ActorRefConverter(Lazy<IActorSystem> system)
         {
             this.system = system;
         }
@@ -110,19 +102,19 @@ namespace Orleankka.Testing
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
-            if (obj["type"].Value<string>() != "aref")
+            if (obj["type"]!.Value<string>() != "aref")
                 throw new InvalidOperationException();
             return Deserialize(obj);
         }
 
-        public object Deserialize(JObject obj) => system.ActorOf(obj["path"].Value<string>());
+        public object Deserialize(JObject obj) => system.Value.ActorOf(obj["path"].Value<string>());
     }
 
     public class TypedActorRefConverter : JsonConverter
     {
         readonly ActorRefConverter converter;
 
-        public TypedActorRefConverter(IActorSystem system)
+        public TypedActorRefConverter(Lazy<IActorSystem> system)
         {
             converter = new ActorRefConverter(system);
         }

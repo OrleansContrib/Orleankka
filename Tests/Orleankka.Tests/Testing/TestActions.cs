@@ -25,6 +25,8 @@ namespace Orleankka.Testing
 {
     using Features.State_persistence;
 
+    using Orleans.Serialization;
+
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
@@ -69,10 +71,19 @@ namespace Orleankka.Testing
                         services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
                         services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
 
-                        services.Configure<SerializationProviderOptions>(options =>
+                        services.AddSerializer(serializerBuilder =>
                         {
-                            options.SerializationProviders.Add(typeof(MessageSerializer));
-                        });
+                            serializerBuilder.AddNewtonsoftJsonSerializer(
+                                isSupported: type => typeof(Meta.Message).IsAssignableFrom(type), 
+                                options => options.Configure(c =>
+                                {
+                                    var system = new Lazy<IActorSystem>(()=> TestActorSystem.Instance);
+                                    c.SerializerSettings.Converters.Add(new ObserverRefConverter(system));
+                                    c.SerializerSettings.Converters.Add(new ClientRefConverter(system));
+                                    c.SerializerSettings.Converters.Add(new ActorRefConverter(system));
+                                    c.SerializerSettings.Converters.Add(new TypedActorRefConverter(system));
+                                }));
+                        });                    
                     })
                     .UseOrleankka()
                     .UseOrleankkaLegacyFeatures());
