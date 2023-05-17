@@ -87,8 +87,8 @@ namespace Orleankka
 
         internal static IClientEndpoint Proxy(string path, IGrainFactory factory)
         {
-            var reference = GrainReferenceInternals.FromKeyString(path);
-            return reference.AsReference<IClientEndpoint>();
+            var id = GrainId.Parse(path);
+            return factory.GetGrain<IClientEndpoint>(id);
         }
     }
 }
