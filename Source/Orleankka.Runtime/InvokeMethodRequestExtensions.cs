@@ -5,15 +5,17 @@ using Orleans.Runtime;
 
 namespace Orleankka
 {
+    using Orleans.Serialization.Invocation;
+
     public static class RequestBaseExtensions
     {
-        public static bool Message(this RequestBase request, Func<object, bool> predicate) => 
+        public static bool Message(this IInvokable request, Func<object, bool> predicate) => 
             predicate(request.Message());
 
-        public static bool Message<T>(this RequestBase request, Func<T, bool> predicate) => 
+        public static bool Message<T>(this IInvokable request, Func<T, bool> predicate) => 
             request.Message() is T m && predicate(m);
 
-        public static object Message(this RequestBase request)
+        public static object Message(this IInvokable request)
         {
             if (request == null || request.GetArgumentCount() == 0)
                 return null;

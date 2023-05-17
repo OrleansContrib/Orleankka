@@ -14,6 +14,7 @@ namespace Orleankka.Features
     {
         using Meta;
         using Orleans.Metadata;
+        using Orleans.Serialization.Invocation;
 
         using Testing;
 
@@ -46,7 +47,7 @@ namespace Orleankka.Features
         [GrainType("reentrant-test")]
         public  class TestActor : DispatchActorGrain, ITestActor
         {
-            public static bool Interleave(RequestBase req) => req.Message() is ReentrantMessage;
+            public static bool Interleave(IInvokable req) => req.Message() is ReentrantMessage;
 
             readonly ActorState state = new ActorState();
 
@@ -77,7 +78,7 @@ namespace Orleankka.Features
         [MayInterleave(nameof(Interleave))]
         public class TestReentrantByCallbackMethodActor : DispatchActorGrain, ITestReentrantByCallbackMethodActor
         {
-            public static bool Interleave(RequestBase req) => req.Message() is ReentrantMessage;
+            public static bool Interleave(IInvokable req) => req.Message() is ReentrantMessage;
 
             readonly ActorState state = new ActorState();
 

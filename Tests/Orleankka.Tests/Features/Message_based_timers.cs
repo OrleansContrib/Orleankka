@@ -14,6 +14,9 @@ namespace Orleankka.Features
     namespace Message_based_timers
     {
         using Meta;
+
+        using Orleans.Serialization.Invocation;
+
         using Testing;
 
         [Serializable]
@@ -113,7 +116,7 @@ namespace Orleankka.Features
         [MayInterleave("MayInterleave")]
         public class TestFireAndForgetWithNonInterleavedTimerMessageActor : ActorGrain, ITestFireAndForgetWithNonInterleavedTimerMessageActor
         {
-            public static bool MayInterleave(RequestBase req) => req.GetArgument(0) is NumberOfTimesTimerTicked;
+            public static bool MayInterleave(IInvokable req) => req.GetArgument(0) is NumberOfTimesTimerTicked;
 
             readonly List<TaskCompletionSource<bool>> outstanding = new List<TaskCompletionSource<bool>>();
 
