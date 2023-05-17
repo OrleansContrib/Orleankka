@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleans;
-using Orleans.Runtime;
 using Orleans.Concurrency;
 
 namespace Orleankka.Features
@@ -33,7 +32,7 @@ namespace Orleankka.Features
         }
 
         [Serializable]
-        class ActorState
+        class ActorState : Result
         {
             public readonly List<int> ReentrantInProgress = new List<int>();
             public readonly List<int> NonReentrantInProgress = new List<int>();

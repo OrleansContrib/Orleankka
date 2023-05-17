@@ -21,6 +21,8 @@ namespace Orleankka.Features.Http_rpc
     {
         using Http;
         using Http.AspNetCore;
+
+        using Meta;
         using Testing;
 
         [Serializable]
@@ -30,13 +32,13 @@ namespace Orleankka.Features.Http_rpc
         }
 
         [Serializable]
-        public class GetText : ActorMessage<IAutoMappedActor, GetText.Result>
+        public class GetText : ActorMessage<IAutoMappedActor, GetTextResult>
+        { }
+
+        [Serializable]
+        public class GetTextResult : Result
         {
-            [Serializable]
-            public class Result
-            {
-                public string Text { get; set; }
-            }
+            public string Text { get; set; }
         }
 
         public interface IHandMappedActor : IActorGrain, IGrainWithStringKey
@@ -47,7 +49,7 @@ namespace Orleankka.Features.Http_rpc
             string text = "";
 
             public void On(SetText cmd) => text = cmd.Text;
-            public GetText.Result On(GetText q) => new GetText.Result {Text = text};
+            public GetTextResult On(GetText q) => new GetTextResult {Text = text};
         }
 
         public interface IAutoMappedActor : IActorGrain, IGrainWithStringKey
@@ -58,7 +60,7 @@ namespace Orleankka.Features.Http_rpc
             string text = "";
 
             public void On(SetText cmd) => text = cmd.Text;
-            public GetText.Result On(GetText q) => new GetText.Result {Text = text};
+            public GetTextResult On(GetText q) => new GetTextResult {Text = text};
         }
 
         [TestFixture]
@@ -91,7 +93,7 @@ namespace Orleankka.Features.Http_rpc
             {
                 var handMapped = new ActorRouteMapping(typeof(IHandMappedActor), "TestActor");
                 handMapped.Register(typeof(SetText), "SetText");
-                handMapped.Register(typeof(GetText), "GetText", typeof(GetText.Result));
+                handMapped.Register(typeof(GetText), "GetText", typeof(GetTextResult));
 
                 var autoMapped = ActorRouteMapping.From(typeof(IAutoMappedActor));
                 
@@ -141,7 +143,7 @@ namespace Orleankka.Features.Http_rpc
                 const string text = "Hello world!";
                 await handMappedActor.Tell(new SetText {Text = text});
 
-                var response = await handMappedActor.Ask<GetText.Result>(new GetText());
+                var response = await handMappedActor.Ask<GetTextResult>(new GetText());
                 Assert.AreEqual(text, response.Text);
             }
 
@@ -161,7 +163,7 @@ namespace Orleankka.Features.Http_rpc
                 const string text = "Get it via GET!";
                 await handMappedActor.Tell(new SetText {Text = text});
 
-                var response = await GetHandMappedActor<GetText.Result>(handMappedActor, new GetText());
+                var response = await GetHandMappedActor<GetTextResult>(handMappedActor, new GetText());
                 Assert.AreEqual(text, response.Text);
             }
 
