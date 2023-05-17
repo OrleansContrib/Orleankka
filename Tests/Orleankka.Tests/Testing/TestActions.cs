@@ -78,6 +78,7 @@ namespace Orleankka.Testing
                                 options => options.Configure(c =>
                                 {
                                     var system = new Lazy<IActorSystem>(()=> TestActorSystem.Instance);
+                                    c.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
                                     c.SerializerSettings.Converters.Add(new ObserverRefConverter(system));
                                     c.SerializerSettings.Converters.Add(new ClientRefConverter(system));
                                     c.SerializerSettings.Converters.Add(new ActorRefConverter(system));
