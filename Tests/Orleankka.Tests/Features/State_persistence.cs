@@ -84,7 +84,7 @@ namespace Orleankka.Features
                 
                 var state = await actor.Ask<string>(new GetState());
                 
-                Assert.AreEqual($"fromStorage-test-foo-{actor.Path.Id}", state);
+                Assert.AreEqual($"fromStorage-test-foo-state-test/{actor.Path.Id}", state);
             }
         }
     }
