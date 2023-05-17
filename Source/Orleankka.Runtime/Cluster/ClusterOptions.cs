@@ -36,7 +36,6 @@ namespace Orleankka.Cluster
                 services.TryAddSingleton<IActorMiddleware>(DefaultActorMiddleware.Instance);
                 services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
 
-                services.TryAdd(new ServiceDescriptor(typeof(IGrainActivator), sp => new DefaultGrainActivator(sp), ServiceLifetime.Singleton));
                 services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
 
                 services.AddTransient<IConfigurationValidator, DispatcherOptionsValidator>();
