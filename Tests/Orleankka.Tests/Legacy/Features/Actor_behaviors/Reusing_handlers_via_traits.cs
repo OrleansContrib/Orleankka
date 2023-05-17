@@ -7,34 +7,34 @@ using Orleans;
 
 namespace Orleankka.Legacy.Features.Actor_behaviors
 {
-    using Behaviors;
-
     namespace Reusing_handlers_via_traits
     {
+        using Behaviors;
+
+        class X { }
+        class Y { }
+
+        interface ITestActor : IActorGrain, IGrainWithStringKey
+        {}
+
+        class TestActor : Actor, ITestActor
+        {
+            public readonly List<string> Events = new List<string>();
+
+            public TestActor() : base(new MockRuntime()) {}
+
+            [Trait] void ATrait() => this.OnReceive<X>(x => Events.Add("OnReceiveX_ATrait"));
+            [Trait] void BTrait() => this.OnReceive<Y>(x => Events.Add("OnReceiveY_BTrait"));
+
+            [Behavior] public void CombineTraits()
+            {
+                this.Trait(ATrait, BTrait);
+            }
+        }
+
         [TestFixture]
         class Tests
         {
-            class X { }
-            class Y { }
-
-            interface ITestActor : IActorGrain, IGrainWithStringKey
-            {}
-
-            class TestActor : Actor, ITestActor
-            {
-                public readonly List<string> Events = new List<string>();
-
-                public TestActor() : base(new MockRuntime()) {}
-
-                [Trait] void ATrait() => this.OnReceive<X>(x => Events.Add("OnReceiveX_ATrait"));
-                [Trait] void BTrait() => this.OnReceive<Y>(x => Events.Add("OnReceiveY_BTrait"));
-
-                [Behavior] public void CombineTraits()
-                {
-                    this.Trait(ATrait, BTrait);
-                }
-            }
-
             TestActor actor;
 
             [SetUp]

@@ -11,68 +11,68 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
 
     namespace Behavior_failures
     {
-        [TestFixture]
-        public class Tests
+        public interface ITestActor : IActorGrain, IGrainWithStringKey
+        { }
+
+        public class TestActor : Actor, ITestActor
         {
-            interface ITestActor : IActorGrain, IGrainWithStringKey
-            { }
+            TestActor()
+            {}
 
-            class TestActor : Actor, ITestActor
+            public TestActor(IActorRuntime runtime)
+                : base(runtime)
+            {}
+
+            public Transition PassedTransition;
+            public Exception PassedException;
+
+            public override Task OnTransitionFailure(Transition transition, Exception exception)
             {
-                TestActor()
-                {}
+                PassedTransition = transition;
+                PassedException = exception;
 
-                public TestActor(IActorRuntime runtime)
-                    : base(runtime)
-                {}
-
-                public Transition PassedTransition;
-                public Exception PassedException;
-
-                public override Task OnTransitionFailure(Transition transition, Exception exception)
-                {
-                    PassedTransition = transition;
-                    PassedException = exception;
-
-                    return base.OnTransitionFailure(transition, exception);
-                }
-
-                public bool ThrowInOnTransitioning;
-
-                public override Task OnTransitioning(Transition transition)
-                {
-                    if (ThrowInOnTransitioning)
-                        throw new ApplicationException(nameof(ThrowInOnTransitioning));
-
-                    return base.OnTransitioning(transition);
-                }
-
-                public bool ThrowInOnTransitioned;
-
-                public override Task OnTransitioned(Transition transition)
-                {
-                    if (ThrowInOnTransitioned)
-                        throw new ApplicationException(nameof(OnTransitioned));
-
-                    return base.OnTransitioned(transition);
-                }
-
-                [Behavior] public void Foo() {}
-                [Behavior] public void Bar() {}
-
-                [Behavior] public void FaultyBecome() => 
-                    this.OnBecome(()=> throw new ApplicationException(nameof(FaultyBecome)));
-
-                [Behavior] public void FaultyActivate() => 
-                    this.OnActivate(()=> throw new ApplicationException(nameof(FaultyActivate)));
-
-                [Behavior] public void FaultyUnbecome() => 
-                    this.OnUnbecome(()=> throw new ApplicationException(nameof(FaultyUnbecome)));
-
-                [Behavior] public void FaultyDeactivate() => 
-                    this.OnDeactivate(()=> throw new ApplicationException(nameof(FaultyDeactivate)));
+                return base.OnTransitionFailure(transition, exception);
             }
 
+            public bool ThrowInOnTransitioning;
+
+            public override Task OnTransitioning(Transition transition)
+            {
+                if (ThrowInOnTransitioning)
+                    throw new ApplicationException(nameof(ThrowInOnTransitioning));
+
+                return base.OnTransitioning(transition);
+            }
+
+            public bool ThrowInOnTransitioned;
+
+            public override Task OnTransitioned(Transition transition)
+            {
+                if (ThrowInOnTransitioned)
+                    throw new ApplicationException(nameof(OnTransitioned));
+
+                return base.OnTransitioned(transition);
+            }
+
+            [Behavior] public void Foo() {}
+            [Behavior] public void Bar() {}
+
+            [Behavior] public void FaultyBecome() => 
+                this.OnBecome(()=> throw new ApplicationException(nameof(FaultyBecome)));
+
+            [Behavior] public void FaultyActivate() => 
+                this.OnActivate(()=> throw new ApplicationException(nameof(FaultyActivate)));
+
+            [Behavior] public void FaultyUnbecome() => 
+                this.OnUnbecome(()=> throw new ApplicationException(nameof(FaultyUnbecome)));
+
+            [Behavior] public void FaultyDeactivate() => 
+                this.OnDeactivate(()=> throw new ApplicationException(nameof(FaultyDeactivate)));
+        }
+
+        [TestFixture]
+        public class Tests
+        { 
             TestActor actor;
             MockActivationService activation;
 

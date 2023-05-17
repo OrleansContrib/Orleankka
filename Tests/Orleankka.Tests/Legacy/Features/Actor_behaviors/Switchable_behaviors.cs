@@ -12,147 +12,147 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
 
     namespace Switchable_behaviors
     {
+        class X {}
+        class Y {}
+        class Z {}
+ 
+        public interface ITestActor : IActorGrain, IGrainWithStringKey {}
+
+        public class TestActor : Actor, ITestActor
+        {
+            TestActor()
+            {}
+
+            public TestActor(IActorRuntime runtime)
+                : base(runtime)
+            {}
+
+            public readonly List<string> Events = new List<string>();
+
+            public override Task OnTransitioning(Transition transition)
+            {
+                Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
+                return Task.CompletedTask;
+            }
+
+            public override Task OnTransitioned(Transition transition)
+            {
+                Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
+                return Task.CompletedTask;
+            }
+
+            public object UnhandledMessage;
+            
+            public override Task<object> OnUnhandledReceive(object message)
+            {
+                UnhandledMessage = message;
+                return Task.FromResult((object)"test");
+            }
+
+            public string UnhandledReminderId;
+
+            public override Task OnUnhandledReminder(string id)
+            {
+                UnhandledReminderId = id;
+                return Task.CompletedTask;
+            }
+
+            void Setup(string behavior)
+            {
+                this.OnBecome(() => Events.Add($"OnBecome_{behavior}"));
+                this.OnUnbecome(() => Events.Add($"OnUnbecome_{behavior}"));
+                this.OnActivate(() => Events.Add($"OnActivate_{behavior}"));
+                this.OnDeactivate(() => Events.Add($"OnDeactivate_{behavior}"));
+            }
+
+            [Behavior] public void Initial() => Setup(nameof(Initial));
+
+            [Behavior] public void A()
+            {
+                Setup(nameof(A));
+                this.Super(S);
+                this.OnReceive<X>(x => this.Become(B));
+                this.OnReminder(id => Events.Add($"OnReminder_{id}"));
+            }
+
+            [Behavior] public void B()
+            {
+                Setup(nameof(B));
+                this.Super(SS);
+                this.OnReceive<Y>(x => this.Become(A));
+            }
+
+            [Behavior] void S()
+            {
+                Setup(nameof(S));
+                this.Super(SS);
+            }
+
+            [Behavior] void SS()
+            {
+                Setup(nameof(SS));
+                this.Super(SSS);
+                this.OnReceive<Z>(x => this.Become(C));
+                this.OnReminder("foo", ()=> Events.Add("OnReminder_foo"));
+            }
+
+            [Behavior] void SSS()
+            {
+                Setup(nameof(SSS));
+            }
+
+            [Behavior] public void C()
+            {
+                Setup(nameof(C));
+                this.Super(SSSS);
+            }
+
+            [Behavior] void SSSS()
+            {
+                Setup(nameof(SSSS));
+            }
+
+            [Behavior] public void CyclicSuperA()
+            {
+                Setup(nameof(CyclicSuperA));
+                this.Super(CyclicSuperS);
+            }
+
+            [Behavior] void CyclicSuperS()
+            {
+                Setup(nameof(CyclicSuperS));
+                this.Super(CyclicSuperSS);
+            }
+
+            [Behavior] void CyclicSuperSS()
+            {
+                Setup(nameof(CyclicSuperSS));
+                this.Super(CyclicSuperS); // cycle
+            }
+
+            [Behavior] public void BecomeOtherOnBecome() => this.OnBecome(() => this.Become(B));
+            [Behavior] public void BecomeOtherOnActivate() => this.OnActivate(() => this.Become(B));
+
+            [Behavior] public void BecomeOtherOnUnbecome() => this.OnUnbecome(() => this.Become(B));
+            [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
+        }
+
+        public interface ITestDefaultActor : IActorGrain, IGrainWithStringKey
+        { }
+
+        public class TestDefaultActor : Actor, ITestDefaultActor
+        {
+            public TestDefaultActor()
+            {
+                Behavior.Initial(Initial);
+            }
+
+            [Behavior] void Initial() {}
+        }
+
         [TestFixture]
         class Tests
         {
-            class X {}
-            class Y {}
-            class Z {}
-
-            public interface ITestActor : IActorGrain, IGrainWithStringKey {}
-
-            public class TestActor : Actor, ITestActor
-            {
-                TestActor()
-                {}
-
-                public TestActor(IActorRuntime runtime)
-                    : base(runtime)
-                {}
-
-                public readonly List<string> Events = new List<string>();
-
-                public override Task OnTransitioning(Transition transition)
-                {
-                    Events.Add($"OnTransitioning_{transition.From}_{transition.To}");
-                    return Task.CompletedTask;
-                }
-
-                public override Task OnTransitioned(Transition transition)
-                {
-                    Events.Add($"OnTransitioned_{transition.To}_{transition.From}");
-                    return Task.CompletedTask;
-                }
-
-                public object UnhandledMessage;
-                
-                public override Task<object> OnUnhandledReceive(object message)
-                {
-                    UnhandledMessage = message;
-                    return Task.FromResult((object)"test");
-                }
-
-                public string UnhandledReminderId;
-
-                public override Task OnUnhandledReminder(string id)
-                {
-                    UnhandledReminderId = id;
-                    return Task.CompletedTask;
-                }
-
-                void Setup(string behavior)
-                {
-                    this.OnBecome(() => Events.Add($"OnBecome_{behavior}"));
-                    this.OnUnbecome(() => Events.Add($"OnUnbecome_{behavior}"));
-                    this.OnActivate(() => Events.Add($"OnActivate_{behavior}"));
-                    this.OnDeactivate(() => Events.Add($"OnDeactivate_{behavior}"));
-                }
-
-                [Behavior] public void Initial() => Setup(nameof(Initial));
-
-                [Behavior] public void A()
-                {
-                    Setup(nameof(A));
-                    this.Super(S);
-                    this.OnReceive<X>(x => this.Become(B));
-                    this.OnReminder(id => Events.Add($"OnReminder_{id}"));
-                }
-
-                [Behavior] public void B()
-                {
-                    Setup(nameof(B));
-                    this.Super(SS);
-                    this.OnReceive<Y>(x => this.Become(A));
-                }
-
-                [Behavior] void S()
-                {
-                    Setup(nameof(S));
-                    this.Super(SS);
-                }
-
-                [Behavior] void SS()
-                {
-                    Setup(nameof(SS));
-                    this.Super(SSS);
-                    this.OnReceive<Z>(x => this.Become(C));
-                    this.OnReminder("foo", ()=> Events.Add("OnReminder_foo"));
-                }
-
-                [Behavior] void SSS()
-                {
-                    Setup(nameof(SSS));
-                }
-
-                [Behavior] public void C()
-                {
-                    Setup(nameof(C));
-                    this.Super(SSSS);
-                }
-
-                [Behavior] void SSSS()
-                {
-                    Setup(nameof(SSSS));
-                }
-
-                [Behavior] public void CyclicSuperA()
-                {
-                    Setup(nameof(CyclicSuperA));
-                    this.Super(CyclicSuperS);
-                }
-
-                [Behavior] void CyclicSuperS()
-                {
-                    Setup(nameof(CyclicSuperS));
-                    this.Super(CyclicSuperSS);
-                }
-
-                [Behavior] void CyclicSuperSS()
-                {
-                    Setup(nameof(CyclicSuperSS));
-                    this.Super(CyclicSuperS); // cycle
-                }
-
-                [Behavior] public void BecomeOtherOnBecome() => this.OnBecome(() => this.Become(B));
-                [Behavior] public void BecomeOtherOnActivate() => this.OnActivate(() => this.Become(B));
-
-                [Behavior] public void BecomeOtherOnUnbecome() => this.OnUnbecome(() => this.Become(B));
-                [Behavior] public void BecomeOtherOnDeactivate() => this.OnDeactivate(() => this.Become(B));
-            }
-
-            public interface ITestDefaultActor : IActorGrain, IGrainWithStringKey
-            { }
-
-            public class TestDefaultActor : Actor, ITestDefaultActor
-            {
-                public TestDefaultActor()
-                {
-                    Behavior.Initial(Initial);
-                }
-
-                [Behavior] void Initial() {}
-            }
-
             TestActor actor;
 
             [SetUp]

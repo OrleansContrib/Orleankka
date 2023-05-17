@@ -72,10 +72,10 @@ namespace Orleankka.Checks
             Assert.AreEqual(0, collection.Count());
         }
 
-        interface ITestObservableActor : IActorGrain, IGrainWithStringKey
+        public interface ITestObservableActor : IActorGrain, IGrainWithStringKey
         {}
 
-        class TestObservableActor : DispatchActorGrain, ITestObservableActor
+        public class TestObservableActor : DispatchActorGrain, ITestObservableActor
         {}
 
         class TestObserver
