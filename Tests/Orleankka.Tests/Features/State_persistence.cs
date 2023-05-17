@@ -49,16 +49,16 @@ namespace Orleankka.Features
             
             public TestStorageProvider(string name) => this.name = name;
 
-            public Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
+            public Task ReadStateAsync<T>(string type, GrainId id, IGrainState<T> grainState)
             {
-                var stateName = grainType.Substring(grainType.IndexOf('#') + 1);
-                var state = new TestState {Data = $"fromStorage-{name}-{stateName}-{grainReference.GetPrimaryKeyString()}"};
-                grainState.State = state;
+                var stateName = type.Substring(type.IndexOf('#') + 1);
+                var state = new TestState {Data = $"fromStorage-{name}-{stateName}-{id}"};
+                grainState.State = (T)((object)state);
                 return Task.CompletedTask;
             }
 
-            public Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => throw new NotImplementedException();
-            public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState) => throw new NotImplementedException();
+            public Task WriteStateAsync<T>(string tyope, GrainId id, IGrainState<T> grainState) => throw new NotImplementedException();
+            public Task ClearStateAsync<T>(string type, GrainId id, IGrainState<T> grainState) => throw new NotImplementedException();
         }
 
         [TestFixture]
