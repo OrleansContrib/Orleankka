@@ -4,12 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Orleans;
-using Orleans.Concurrency;
 using Orleans.Runtime;
-using Orleans.CodeGeneration;
-using Orleans.Serialization;
-
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Orleankka
 {
@@ -91,30 +86,6 @@ namespace Orleankka
 
         public static Task operator <(ActorRef @ref, Message message) => @ref.Tell(message);
         public static Task operator >(ActorRef @ref, Message message) => throw new NotImplementedException();
-
-        #region Orleans Native Serialization
-
-        [CopierMethod]
-        static object Copy(object input, ICopyContext context) => input;
-
-        [SerializerMethod]
-        static void Serialize(object input, ISerializationContext context, Type expected)
-        {
-            var writer = context.StreamWriter;
-            var @ref = (ActorRef)input;
-            writer.Write(@ref.Path);
-        }
-
-        [DeserializerMethod]
-        static object Deserialize(Type t, IDeserializationContext context)
-        {
-            var reader = context.StreamReader;
-            var path = ActorPath.Parse(reader.ReadString());
-            var system = context.ServiceProvider.GetRequiredService<IActorSystem>();
-            return system.ActorOf(path);
-        }
-
-        #endregion
     }
 
     public interface IStronglyTypedActorRef {}
