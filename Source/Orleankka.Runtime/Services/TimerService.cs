@@ -303,7 +303,9 @@ namespace Orleankka.Services
 
         void ITimerService.Unregister(string id)
         {
-            var timer = timers[id];
+            if (!timers.TryGetValue(id, out var timer))
+                return;
+
             timers.Remove(id);
             timer.Dispose();
         }
