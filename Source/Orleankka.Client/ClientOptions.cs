@@ -8,6 +8,8 @@ using Orleans.Hosting;
 
 namespace Orleankka.Client
 {
+    using Orleans.Serialization;
+
     using System;
 
     public static class ClientBuilderExtension
@@ -17,7 +19,7 @@ namespace Orleankka.Client
 
         static void Configure(IClientBuilder builder, IServiceCollection services)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = services.GetRelevantAssemblies();
 
             services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
 

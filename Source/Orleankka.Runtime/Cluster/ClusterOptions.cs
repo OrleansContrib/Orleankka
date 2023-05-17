@@ -14,7 +14,10 @@ using Orleans.Runtime;
 
 namespace Orleankka.Cluster
 {
+    using System.Threading.Tasks;
+
     using Client;
+    using Orleans.Serialization;
 
     public static class SiloHostBuilderExtension
     {
@@ -22,7 +25,7 @@ namespace Orleankka.Cluster
         {
             return builder.ConfigureServices(services =>
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                var assemblies = services.GetRelevantAssemblies();
 
                 services.AddSingleton(sp => new ClusterActorSystem(assemblies, sp));
                 services.AddSingleton(sp => new ClientActorSystem(assemblies, sp));
@@ -36,7 +39,7 @@ namespace Orleankka.Cluster
                 services.TryAddSingleton<IActorMiddleware>(DefaultActorMiddleware.Instance);
                 services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
 
-                services.Decorate<IGrainActivator>(inner => new ActorGrainActivator(inner));
+                services.AddSingleton<IConfigureGrainContextProvider>(new ActorGrainActivator());
 
                 services.AddTransient<IConfigurationValidator, DispatcherOptionsValidator>();
                 services.AddOptions<DispatcherOptions>();

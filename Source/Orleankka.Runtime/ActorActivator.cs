@@ -1,27 +1,21 @@
-﻿namespace Orleankka
+﻿using Orleans.Runtime;
+
+namespace Orleankka
 {
-    using System.Threading.Tasks;
+    using Orleans.Metadata;
 
-    using Orleans.Runtime;
-
-    class ActorGrainActivator : IGrainActivator
+    class ActorGrainActivator : IConfigureGrainContext, IConfigureGrainContextProvider
     {
-        readonly IGrainActivator registeredActivator;
-
-        public ActorGrainActivator(IGrainActivator registeredActivator) => 
-            this.registeredActivator = registeredActivator;
-
-        public object CreateInstance(IGrainContext context)
+        public void Configure(IGrainContext context)
         {
-            var grain = registeredActivator.CreateInstance(context);
-            
-            if (grain is ActorGrain actor)
+            if (context.GrainInstance is ActorGrain actor)
                 actor.Initialize(context.ActivationServices, context.GrainId.ToString());
-
-            return grain;
         }
 
-        public ValueTask DisposeInstance(IGrainContext context, object instance) => 
-            registeredActivator.DisposeInstance(context, instance);
+        public bool TryGetConfigurator(GrainType grainType, GrainProperties properties, out IConfigureGrainContext configurator)
+        {
+            configurator = new ActorGrainActivator();
+            return true;
+        }
     }
 }

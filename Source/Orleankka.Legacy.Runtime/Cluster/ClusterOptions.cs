@@ -9,11 +9,13 @@ namespace Orleankka.Legacy.Cluster
 {
     using Behaviors;
 
+    using Orleans.Serialization;
+
     public class LegacyOrleankkaClusterOptions
     {
         internal void Configure(IServiceCollection services)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            var assemblies = services.GetRelevantAssemblies()
                 .Distinct()
                 .ToArray();
 
