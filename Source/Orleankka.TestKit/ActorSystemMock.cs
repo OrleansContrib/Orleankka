@@ -55,14 +55,14 @@ namespace Orleankka.TestKit
             return mock;
         }
 
-        Task<IClientObservable> IClientActorSystem.CreateObservable()
+        IClientObservable IClientActorSystem.CreateObservable()
         {
             if (observables.Count == 0)
                 throw new InvalidOperationException(
                     "No mock has been previosly setup for this client observable request.\n" +
                     $"Use {nameof(MockCreateObservable)} method to setup.");
             
-            return Task.FromResult((IClientObservable)observables.Dequeue());
+            return observables.Dequeue();
         }
 
         ClientRef IActorSystem.ClientOf(string path)
