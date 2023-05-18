@@ -62,9 +62,6 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 	+ Idiomatic (CQRS) [[see]](Samples/CSharp/EventSourcing/Idiomatic)
 	+ Persistence: GetEventStore [[see]](Samples/CSharp/EventSourcing/Persistence/GES)
 	+ Persistence: Streamstone [[see]](Samples/CSharp/EventSourcing/Persistence/Streamstone)
-+ Serialization
-	+ ProtoBuf [[see]](Samples/CSharp/Serialization/ProtoBuf)
-	+ Hyperion [[see]](Samples/CSharp/Serialization/Hyperion)
 + Reentrant messages [[rw-x]](Samples/CSharp/Reentrant)
 + Client-side observers [[chat]](Samples/CSharp/Observers)
 + Streams [[chat]](Samples/CSharp/Streams)
