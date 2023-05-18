@@ -1,23 +1,17 @@
-using System.Linq;
-
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using Orleans;
-using Orleans.Hosting;
+using Orleans.Serialization;
 
 namespace Orleankka.Client
 {
-    using Orleans.Serialization;
-
-    using System;
-
     public static class ClientBuilderExtension
     {
-        public static IClientBuilder UseOrleankka(this IClientBuilder builder) => 
-            builder.ConfigureServices(services => Configure(builder, services));
+        public static IHostBuilder UseOrleankka(this IHostBuilder builder) => 
+            builder.ConfigureServices((_, services) => Configure(builder, services));
 
-        static void Configure(IClientBuilder builder, IServiceCollection services)
+        static void Configure(IHostBuilder builder, IServiceCollection services)
         {
             var assemblies = services.GetRelevantAssemblies();
 
@@ -29,6 +23,6 @@ namespace Orleankka.Client
             services.AddSingleton(sp => new ClientActorSystem(assemblies, sp));
         }
 
-        public static IClientActorSystem ActorSystem(this IClusterClient client) => client.ServiceProvider.GetRequiredService<IClientActorSystem>();
+        public static IClientActorSystem ActorSystem(this IHost client) => client.Services.GetRequiredService<IClientActorSystem>();
     }
 }

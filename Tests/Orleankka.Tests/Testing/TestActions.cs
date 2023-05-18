@@ -46,7 +46,37 @@ namespace Orleankka.Testing
                 return;
 
             var sb = new HostBuilder()
-                .UseOrleans((ctx, sb) => sb
+                .ConfigureServices(services =>
+                {
+                    services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
+                    services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
+                    
+                    services.Configure<DispatcherOptions>(o =>
+                    {
+                        var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
+                        o.HandlerNamingConventions = customConventions.ToArray();
+                    });
+
+                    services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
+                    services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
+
+                    services.AddSerializer(serializerBuilder =>
+                    {
+                        serializerBuilder.AddNewtonsoftJsonSerializer(
+                            isSupported: type => typeof(Meta.Message).IsAssignableFrom(type), 
+                            options => options.Configure(c =>
+                            {
+                                var system = new Lazy<IActorSystem>(()=> TestActorSystem.Instance);
+                                c.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                                c.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+                                c.SerializerSettings.Converters.Add(new ObserverRefConverter(system));
+                                c.SerializerSettings.Converters.Add(new ClientRefConverter(system));
+                                c.SerializerSettings.Converters.Add(new ActorRefConverter(system));
+                                c.SerializerSettings.Converters.Add(new TypedActorRefConverter(system));
+                            }));
+                    });                    
+                })
+                .UseOrleans((_, builder) => builder
                     .Configure<ClusterOptions>(options =>
                     {
                         options.ClusterId = DemoClusterId;
@@ -56,39 +86,9 @@ namespace Orleankka.Testing
                     .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
                     .AddMemoryGrainStorageAsDefault()
                     .AddMemoryGrainStorage("PubSubStore")
-                    .UseInMemoryReminderService()
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
-                        services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
-                        
-                        services.Configure<DispatcherOptions>(o =>
-                        {
-                            var customConventions = Dispatcher.DefaultHandlerNamingConventions.Concat(new[]{"OnFoo"});
-                            o.HandlerNamingConventions = customConventions.ToArray();
-                        });
-
-                        services.AddSingleton<IActorRefMiddleware>(s => new TestActorRefMiddleware());
-                        services.AddSingleton<IActorMiddleware>(s => new TestActorMiddleware());
-
-                        services.AddSerializer(serializerBuilder =>
-                        {
-                            serializerBuilder.AddNewtonsoftJsonSerializer(
-                                isSupported: type => typeof(Meta.Message).IsAssignableFrom(type), 
-                                options => options.Configure(c =>
-                                {
-                                    var system = new Lazy<IActorSystem>(()=> TestActorSystem.Instance);
-                                    c.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                                    c.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
-                                    c.SerializerSettings.Converters.Add(new ObserverRefConverter(system));
-                                    c.SerializerSettings.Converters.Add(new ClientRefConverter(system));
-                                    c.SerializerSettings.Converters.Add(new ActorRefConverter(system));
-                                    c.SerializerSettings.Converters.Add(new TypedActorRefConverter(system));
-                                }));
-                        });                    
-                    })
-                    .UseOrleankka()
-                    .UseOrleankkaLegacyFeatures());
+                    .UseInMemoryReminderService())
+                .UseOrleankka()
+                .UseOrleankkaLegacyFeatures();
 
             var host = sb.Build();
             host.StartAsync().Wait();

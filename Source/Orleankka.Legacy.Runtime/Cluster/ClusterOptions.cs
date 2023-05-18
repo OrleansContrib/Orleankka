@@ -2,14 +2,13 @@
 using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-using Orleans.Hosting;
+using Orleans.Serialization;
 
 namespace Orleankka.Legacy.Cluster
 {
     using Behaviors;
-
-    using Orleans.Serialization;
 
     public class LegacyOrleankkaClusterOptions
     {
@@ -35,14 +34,14 @@ namespace Orleankka.Legacy.Cluster
 
     public static class LegacySiloHostBuilderExtensions
     {
-        public static ISiloBuilder UseOrleankkaLegacyFeatures(this ISiloBuilder builder) => 
+        public static IHostBuilder UseOrleankkaLegacyFeatures(this IHostBuilder builder) => 
             UseOrleankkaLegacyFeatures(builder, new LegacyOrleankkaClusterOptions());
 
-        public static ISiloBuilder UseOrleankkaLegacyFeatures(this ISiloBuilder builder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions> configure) => 
+        public static IHostBuilder UseOrleankkaLegacyFeatures(this IHostBuilder builder, Func<LegacyOrleankkaClusterOptions, LegacyOrleankkaClusterOptions> configure) => 
             UseOrleankkaLegacyFeatures(builder, configure(new LegacyOrleankkaClusterOptions()));
         
-        public static ISiloBuilder UseOrleankkaLegacyFeatures(this ISiloBuilder builder, LegacyOrleankkaClusterOptions cfg) => 
-            builder.ConfigureServices(services => UseOrleankkaLegacyFeatures(services, cfg));
+        public static IHostBuilder UseOrleankkaLegacyFeatures(this IHostBuilder builder, LegacyOrleankkaClusterOptions cfg) => 
+            builder.ConfigureServices((_, services) => UseOrleankkaLegacyFeatures(services, cfg));
 
         static void UseOrleankkaLegacyFeatures(IServiceCollection services, LegacyOrleankkaClusterOptions cfg) => 
             cfg.Configure(services);

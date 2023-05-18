@@ -9,21 +9,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 using Orleans;
-using Orleans.Hosting;
 using Orleans.Runtime;
 
 namespace Orleankka.Cluster
 {
-    using System.Threading.Tasks;
-
     using Client;
     using Orleans.Serialization;
 
     public static class SiloHostBuilderExtension
     {
-        public static ISiloBuilder UseOrleankka(this ISiloBuilder builder)
+        public static IHostBuilder UseOrleankka(this IHostBuilder builder)
         {
-            return builder.ConfigureServices(services =>
+            return builder.ConfigureServices((_, services) =>
             {
                 var assemblies = services.GetRelevantAssemblies();
 
