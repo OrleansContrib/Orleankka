@@ -10,11 +10,11 @@ using Orleans.Placement;
 
 namespace Demo
 {
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class CreateTopic : Command
     {
-        public readonly string Query;
-        public readonly IDictionary<ActorRef, TimeSpan> Schedule;
+        [Id(0)] public readonly string Query;
+        [Id(1)] public readonly IDictionary<ActorRef, TimeSpan> Schedule;
 
         public CreateTopic(string query, IDictionary<ActorRef, TimeSpan> schedule)
         {

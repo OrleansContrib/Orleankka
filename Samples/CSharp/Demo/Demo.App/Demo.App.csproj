@@ -14,7 +14,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsHostingVersion)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
-    <PackageReference Include="Microsoft.Orleans.Serialization.NewtonsoftJson" Version="$(MicrosoftOrleansSerializationNewtonsoftJsonVersion)" />
     <PackageReference Include="Microsoft.Orleans.Streaming" Version="$(MicrosoftOrleansStreamingVersion)" />
     <PackageReference Include="WindowsAzure.Storage" Version="$(WindowsAzureStorageVersion)" />
   </ItemGroup>

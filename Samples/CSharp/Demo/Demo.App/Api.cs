@@ -9,10 +9,10 @@ using Orleans;
 
 namespace Demo
 {
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Search : Query<int>
     {
-        public readonly string Subject;
+        [Id(0)] public readonly string Subject;
 
         public Search(string subject)
         {
@@ -20,10 +20,10 @@ namespace Demo
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Subscribe : Command
     {
-        public readonly ObserverRef Observer;
+        [Id(0)] public readonly ObserverRef Observer;
 
         public Subscribe(ObserverRef observer)
         {
@@ -31,11 +31,11 @@ namespace Demo
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class AvailabilityChanged : Event
     {
-        public readonly ActorRef Api;
-        public readonly bool Available;
+        [Id(0)] public readonly ActorRef Api;
+        [Id(1)] public readonly bool Available;
 
         public AvailabilityChanged(ActorRef api, bool available)
         {

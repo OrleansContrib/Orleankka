@@ -46,7 +46,7 @@ namespace Demo
             Log.Message(
                 !e.Available ? ConsoleColor.Red : ConsoleColor.Green,
                 !e.Available ? "*{0}* gone wild. Unavailable!" : "*{0}* is back available again!", 
-                e.Api);
+                e.Api.Path.Id);
         }
     }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Reflection;
+﻿using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-using Orleans;
 using Orleans.Hosting;
 using Orleans.Configuration;
 using Orleans.Runtime;
@@ -40,14 +35,16 @@ namespace Orleankka
             })
             .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
 
-        public static ISiloBuilder ConfigureServer(this ISiloBuilder builder)
+        public static async Task<IHost> StartServer(this IHostBuilder builder)
         {
-            return builder
-                .ConfigureDemoClustering()
-                .AddMemoryGrainStorageAsDefault()
-                .AddMemoryGrainStorage("PubSubStore")
-                .AddMemoryStreams("sms")
-                .UseInMemoryReminderService();
+            return await builder
+                .UseOrleans(c => c
+                    .ConfigureDemoClustering()
+                    .AddMemoryGrainStorageAsDefault()
+                    .AddMemoryGrainStorage("PubSubStore")
+                    .AddMemoryStreams("sms")
+                    .UseInMemoryReminderService())
+                .StartAsync();
         }
 
         /*

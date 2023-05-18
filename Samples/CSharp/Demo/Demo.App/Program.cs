@@ -19,22 +19,22 @@ namespace Demo
         {
             Console.WriteLine("Make sure you've started Azure storage emulator!");
             Console.WriteLine("Running demo. Booting cluster might take some time ...\n");
-
+            
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             var storage = await TopicStorage.Init(account);
 
             var builder = new HostBuilder()
                 .ConfigureServices(s => s
                     .AddSingleton(storage))
-                .UseOrleans(c => c
-                    .ConfigureServer()
-                    .UseOrleankka());
+                .UseOrleankka();
 
-            var host = await builder.StartAsync();
+            var host = await builder.StartServer();
             var system = host.ActorSystem();
 
             app = new App(system, system.CreateObservable());
             app.Run();
+
+            Console.WriteLine("Wait for 1 minute for demo to start\n");
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
