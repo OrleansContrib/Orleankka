@@ -18,6 +18,8 @@
   <ItemGroup>
     <PackageReference Include="EventStore.ClientAPI.NetCore" Version="$(EventStoreClientAPINetCoreVersion)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(MicrosoftOrleansServerVersion)" />
+    <PackageReference Include="Microsoft.Orleans.Streaming" Version="$(MicrosoftOrleansStreamingVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsHostingVersion)" />
   </ItemGroup>
   
   <ItemGroup>

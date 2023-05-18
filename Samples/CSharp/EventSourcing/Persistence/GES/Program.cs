@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Net;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using EventStore.ClientAPI;
 
 using Orleankka;
-using Orleankka.Client;
 using Orleankka.Cluster;
 using Orleankka.Meta;
 
-using Orleans;
-using Orleans.Hosting;
-
 namespace Example
 {
+    using Microsoft.Extensions.Hosting;
+
     public static class Program
     {   
         public static async Task Main()
@@ -25,15 +22,11 @@ namespace Example
             ES.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
             await ES.Connection.ConnectAsync();
 
-            var host = await new SiloHostBuilder()
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
+            var host = await new HostBuilder()
                 .UseOrleankka()
-                .Start();
+                .StartServer();
 
-            var client = await host.Connect();
-            await Run(client.ActorSystem());
+            await Run(host.ActorSystem());
 
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleankka;
-using Orleankka.Client;
 using Orleankka.Cluster;
 
 using Orleans.Configuration;
@@ -14,26 +11,25 @@ using static System.Console;
 
 namespace Example
 {
+    using Microsoft.Extensions.Hosting;
+
     public static class Program
     {   
         public static async Task Main()
         {
             WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var host = await new SiloHostBuilder()
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
-                .Configure<GrainCollectionOptions>(o =>
-                {
-                    o.CollectionAge = TimeSpan.FromSeconds(70);
-                    o.CollectionQuantum = TimeSpan.FromSeconds(30);
-                })
+            var host = await new HostBuilder()
+                .UseOrleans(c => c
+                    .Configure<GrainCollectionOptions>(o =>
+                    {
+                        o.CollectionAge = TimeSpan.FromSeconds(70);
+                        o.CollectionQuantum = TimeSpan.FromSeconds(30);
+                    }))
                 .UseOrleankka()
-                .Start();
+                .StartServer();
 
-            var client = await host.Connect();
-            await Run(client.ActorSystem());
+            await Run(host.ActorSystem());
 
             Write("\n\nPress any key to terminate ...");
             ReadKey(true);

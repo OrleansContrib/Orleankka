@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
+
 using Orleankka;
 using Orleankka.Client;
 using Orleankka.Cluster;
@@ -18,7 +20,7 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var host = await new SiloHostBuilder()
+            var host = await new HostBuilder().UseOrleans()
                 .UseSerializer<ProtobufSerializer>()
                 .ConfigureApplicationParts(x => x
                     .AddApplicationPart(Assembly.GetExecutingAssembly())

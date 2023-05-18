@@ -5,8 +5,8 @@ using Orleankka;
 using Orleankka.Meta;
 
 using Orleans;
-using Orleans.CodeGeneration;
 using Orleans.Concurrency;
+using Orleans.Serialization.Invocation;
 
 namespace Example
 {
@@ -15,7 +15,7 @@ namespace Example
     [MayInterleave(nameof(Interleave))]
     public class InventoryItem : EventSourcedActor, IInventoryItem
     {
-        public static bool Interleave(InvokeMethodRequest req) => req.Message() is GetDetails;
+        public static bool Interleave(IInvokable req) => req.Message() is GetDetails;
 
         int total;
         string name;

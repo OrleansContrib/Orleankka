@@ -5,11 +5,12 @@ using Orleankka;
 using Orleankka.Meta;
 
 using Orleans;
-using Orleans.CodeGeneration;
 using Orleans.Concurrency;
 
 namespace Example
 {
+    using Orleans.Serialization.Invocation;
+
     [Serializable]
     public class Write : Command
     {
@@ -27,7 +28,7 @@ namespace Example
     [MayInterleave(nameof(Interleave))]
     public class ReaderWriterLock : DispatchActorGrain, IReaderWriterLock
     {
-        public static bool Interleave(InvokeMethodRequest req) => req.Message() is Read;
+        public static bool Interleave(IInvokable req) => req.Message() is Read;
 
         int value;
         ConsolePosition indicator;

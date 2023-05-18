@@ -46,35 +46,5 @@ namespace Orleankka
                     .UseInMemoryReminderService())
                 .StartAsync();
         }
-
-        /*
-        public static async Task<IHost> Start(this ISiloBuilder builder)
-        {
-            var host = builder
-                .ConfigureDemoClustering()
-                .AddMemoryGrainStorageAsDefault()
-                .AddMemoryGrainStorage("PubSubStore")
-                .AddMemoryStreams("sms")
-                .UseInMemoryReminderService()
-                .Build();
-
-            await host.StartAsync();
-            return host;
-        }
-
-        public static async Task<IClusterClient> Connect(this ISiloBuilder host, Action<IClientBuilder> configure = null)
-        {
-            var builder = new ClientBuilder()
-                .ConfigureDemoClustering()
-                .AddSimpleMessageStreamProvider("sms")
-                .UseOrleankka();
-
-            configure?.Invoke(builder);
-            var client = builder.Build();
-
-            await client.Connect();
-            return client;
-        }
-    */
     }
 }

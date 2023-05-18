@@ -22,7 +22,7 @@ namespace Example
 
         public async Task Join()
         {
-            notifications = await system.CreateObservable();
+            notifications = system.CreateObservable();
             notifications.Subscribe((ChatRoomMessage msg) =>
             {
                 if (msg.User != user)

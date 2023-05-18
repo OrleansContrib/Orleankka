@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.WindowsAzure.Storage;
@@ -7,18 +6,16 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 using Orleankka;
 using Orleankka.Meta;
-using Orleankka.Client;
 using Orleankka.Cluster;
 
-using Orleans;
-using Orleans.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Example
 {
     public static class Program
     {
         static bool resume;
-        static IClientActorSystem system;
+        static IActorSystem system;
 
         public static async Task Main(string[] args)
         {
@@ -30,15 +27,11 @@ namespace Example
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             SS.Table = await SetupTable(account);
 
-            var host = await new SiloHostBuilder()
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
+            var host = await new HostBuilder()
                 .UseOrleankka()
-                .Start();
+                .StartServer();
 
-            var client = await host.Connect();
-            system = client.ActorSystem();
+            system = host.ActorSystem();
 
             try
             {

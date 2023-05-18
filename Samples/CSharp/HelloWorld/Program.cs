@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
+using System.Net;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
-using Orleankka;
-using Orleankka.Client;
-using Orleankka.Cluster;
 
 using Orleans;
 using Orleans.Hosting;
+using Orleans.Configuration;
+
+using Orleankka;
+using Orleankka.Cluster;
 
 using static System.Console;
 
 namespace Demo
 {
-    using System.Net;
-
-    using Orleans.Configuration;
-    using Orleans.Runtime;
-
     [Serializable]
     public class Greet
     {
@@ -46,51 +42,31 @@ namespace Demo
         {
             WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var host = new SiloHostBuilder()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = DemoClusterId;
-                    options.ServiceId = DemoServiceId;
-                })
-                .Configure<SchedulingOptions>(options =>
-                {
-                    options.AllowCallChainReentrancy = false;
-                })
-                .Configure<SiloMessagingOptions>(options =>
-                {
-                    options.ResponseTimeout = TimeSpan.FromSeconds(5);
-                    options.ResponseTimeoutWithDebugger = TimeSpan.FromSeconds(5);
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.SetMinimumLevel(LogLevel.Information);
-                    logging.AddConsole();
-                })
-                .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
-                .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
+            var host = new HostBuilder()
+                .UseOrleans(c => c
+                    .Configure<ClusterOptions>(options =>
+                    {
+                        options.ClusterId = DemoClusterId;
+                        options.ServiceId = DemoServiceId;
+                    })
+                    .Configure<SiloMessagingOptions>(options =>
+                    {
+                        options.ResponseTimeout = TimeSpan.FromSeconds(5);
+                        options.ResponseTimeoutWithDebugger = TimeSpan.FromSeconds(5);
+                    })
+                    .ConfigureLogging(logging =>
+                    {
+                        logging.SetMinimumLevel(LogLevel.Information);
+                        logging.AddConsole();
+                    })
+                    .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
+                    .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort))
                 .UseOrleankka()
                 .Build();
 
             await host.StartAsync();
 
-            var client = new ClientBuilder()
-                .Configure<ClusterOptions>(options => {
-                    options.ClusterId = DemoClusterId;
-                    options.ServiceId = DemoServiceId;
-                })
-                .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
-                .UseOrleankka()
-                .Build();
-
-            await client.Connect();
-
-            var greeter = client.ActorSystem().ActorOf<IGreeter>("id");
+            var greeter = host.ActorSystem().ActorOf<IGreeter>("id");
             await greeter.Tell(new Greet {Who = "world"});
 
             Write("\n\nPress any key to terminate ...");

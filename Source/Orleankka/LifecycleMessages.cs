@@ -16,7 +16,7 @@ namespace Orleankka
     [Serializable, Immutable]
     public sealed class Deactivate : LifecycleMessage
     {
-        public Deactivate(DeactivationReason reason) => Reason = reason;
+        public Deactivate(DeactivationReason reason = default) => Reason = reason;
 
         public DeactivationReason Reason { get; }
 

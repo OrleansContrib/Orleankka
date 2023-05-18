@@ -18,7 +18,7 @@ namespace Demo
         [SetUp]
         public virtual void SetUp()
         {
-            Runtime = new ActorRuntimeMock(new MessageSerialization(roundtrip: true));
+            Runtime = new ActorRuntimeMock(new MessageSerialization());
         }
 
         protected ActorSystemMock System => Runtime.System;

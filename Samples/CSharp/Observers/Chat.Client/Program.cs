@@ -2,7 +2,6 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Orleans;
 using Orleans.Hosting;
 using Orleans.Runtime;
 using Orleans.Configuration;
@@ -11,6 +10,8 @@ using Orleankka.Client;
 
 namespace Example
 {
+    using Microsoft.Extensions.Hosting;
+
     class Program
     {
         const string DemoClusterId = "localhost-demo";
@@ -62,20 +63,17 @@ namespace Example
             {
                 try
                 {
-                    var client = new ClientBuilder()
-                        .Configure<ClusterOptions>(options => {
-                            options.ClusterId = DemoClusterId;
-                            options.ServiceId = DemoServiceId;
-                        })
-                        .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
-                        .ConfigureApplicationParts(x => x
-                            .AddApplicationPart(typeof(Join).Assembly)
-                            .WithCodeGeneration())
+                    var host = new HostBuilder()
+                        .UseOrleansClient(c => c
+                            .Configure<ClusterOptions>(options => {
+                                options.ClusterId = DemoClusterId;
+                                options.ServiceId = DemoServiceId;
+                            })
+                            .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())))
                         .UseOrleankka()
                         .Build();
 
-                    await client.Connect();
-                    return client.ActorSystem();
+                    return host.ActorSystem();
                 }
                 catch (Exception ex)
                 {
