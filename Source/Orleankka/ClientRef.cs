@@ -1,17 +1,20 @@
 using System;
 using System.Diagnostics;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
+using Orleans.Serialization;
 
 namespace Orleankka
 {
     using Utility;
     
-    [Serializable, Immutable]
+    [Serializable, GenerateSerializer, Immutable]
     [DebuggerDisplay("{ToString()}")]
-    public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>
+    public class ClientRef : ObserverRef, IEquatable<ClientRef>, IEquatable<string>, IOnDeserialized
     {
-        readonly IClientEndpoint endpoint;
+        [NonSerialized] internal IClientEndpoint endpoint;
 
         internal ClientRef(string path)
         {
@@ -53,5 +56,11 @@ namespace Orleankka
         public static bool operator !=(ClientRef left, ClientRef right) => !Equals(left, right);
 
         public override string ToString() => Path;
+
+        public void OnDeserialized(DeserializationContext context)
+        {
+            var system = (ActorSystem) context.ServiceProvider.GetService<IActorSystem>();
+            system.Init(this);
+        }
     }
 }

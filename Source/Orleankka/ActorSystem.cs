@@ -6,7 +6,6 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
-using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -73,12 +72,21 @@ namespace Orleankka
             if (path == ActorPath.Empty)
                 throw new ArgumentException("Actor path is empty", nameof(path));
 
+            var @ref = new ActorRef(path);
+            Init(@ref);
+
+            return @ref;
+        }
+
+        internal void Init(ActorRef @ref)
+        {
+            var path = @ref.Path;
+
             if (!interfaces.TryGetValue(path.Interface, out ActorGrainInterface @interface))
                 throw new Exception($"Can't find registered interface for '{path.Interface}'");
 
-            var proxy = @interface.Proxy(path.Id, grainFactory);
-
-            return new ActorRef(path, proxy, actorRefMiddleware);
+            @ref.endpoint = @interface.Proxy(path.Id, grainFactory);
+            @ref.middleware = actorRefMiddleware;
         }
         
         /// <inheritdoc />
@@ -86,8 +94,16 @@ namespace Orleankka
         {
             Requires.NotNullOrWhitespace(path, nameof(path));
 
-            var endpoint = ClientEndpoint.Proxy(path, grainFactory);
-            return new ClientRef(endpoint);
+            var @ref = new ClientRef(path);
+            Init(@ref);
+
+            return @ref;
+        }
+
+        internal void Init(ClientRef @ref)
+        {
+            var endpoint = ClientEndpoint.Proxy(@ref.Path, grainFactory);
+            @ref.endpoint = endpoint;
         }
     }
 

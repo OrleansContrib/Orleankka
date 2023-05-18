@@ -3,22 +3,25 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Orleans;
 using Orleans.Runtime;
+using Orleans.Serialization;
 
 namespace Orleankka
 {
     using Meta;
     using Utility;
 
-    [Serializable, Immutable]
+    [Serializable, GenerateSerializer, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
-    public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>
+    public class ActorRef : ObserverRef, IEquatable<ActorRef>, IEquatable<ActorPath>, IOnDeserialized
     {
-        [NonSerialized] readonly IActorGrain endpoint;
-        [NonSerialized] readonly IActorRefMiddleware middleware;
+        [NonSerialized] internal IActorGrain endpoint;
+        [NonSerialized] internal IActorRefMiddleware middleware;
 
-        protected ActorRef(ActorPath path)
+        protected internal ActorRef(ActorPath path)
         {
             Path = path;
         }
@@ -77,6 +80,12 @@ namespace Orleankka
         public override int GetHashCode()   => Path.GetHashCode();
         public override string ToString()   => Path.ToString();
 
+        public void OnDeserialized(DeserializationContext context)
+        {
+            var system = (ActorSystem) context.ServiceProvider.GetService<IActorSystem>();
+            system.Init(this);
+        }
+
         public static bool operator ==(ActorRef left, ActorRef right) => Equals(left, right);
         public static bool operator !=(ActorRef left, ActorRef right) => !Equals(left, right);
 
@@ -90,7 +99,7 @@ namespace Orleankka
 
     public interface IStronglyTypedActorRef {}
 
-    [Serializable, Immutable]
+    [Serializable, GenerateSerializer, Immutable]
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath>, IStronglyTypedActorRef where TActor : IActorGrain, IGrainWithStringKey
     {
