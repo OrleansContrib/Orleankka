@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka", "Source\Orleank
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Tests", "Tests\Orleankka.Tests\Orleankka.Tests.csproj", "{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.TestKit", "Source\Orleankka.TestKit\Orleankka.TestKit.csproj", "{0EEC0553-0B9A-4E51-94BF-694DC7164B92}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.TestKit.Tests", "Tests\Orleankka.TestKit.Tests\Orleankka.TestKit.Tests.csproj", "{429B185F-3261-45BC-B992-B0D6B8A87E8D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Runtime", "Source\Orleankka.Runtime\Orleankka.Runtime.csproj", "{224568EA-BC0B-49BC-AF0F-B4A4A62858AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orleankka.Legacy.Runtime", "Source\Orleankka.Legacy.Runtime\Orleankka.Legacy.Runtime.csproj", "{4B6DC915-C701-402C-B3C6-E7EB0E54F670}"
@@ -31,6 +35,14 @@ Global
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BC7C6F2-B8CD-4EE8-B751-533BDC20AF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EEC0553-0B9A-4E51-94BF-694DC7164B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429B185F-3261-45BC-B992-B0D6B8A87E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{224568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{224568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{224568EA-BC0B-49BC-AF0F-B4A4A62858AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
