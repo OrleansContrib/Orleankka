@@ -5,20 +5,14 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleankka;
-using Orleankka.Client;
 using Orleankka.Cluster;
-
-using Orleans;
-using Orleans.Configuration;
-using Orleans.Hosting;
 
 namespace Demo
 {
+    using Microsoft.Extensions.Hosting;
+
     public static class Program
     {
-        const string DemoClusterId = "localhost-demo";
-        const string DemoServiceId = "localhsot-demo-service";
-
         static App app;
 
         public static async Task Main()
@@ -29,31 +23,22 @@ namespace Demo
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             var storage = await TopicStorage.Init(account);
 
-            var host = await new SiloHostBuilder()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = DemoClusterId;
-                    options.ServiceId = DemoServiceId;
-                })
-                .ConfigureServices(x => x
+            var builder = new HostBuilder()
+                .ConfigureServices(s => s
                     .AddSingleton(storage))
+                .UseOrleans(c => c
+                    .ConfigureServer()
+                    .UseOrleankka());
 
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(typeof(Api).Assembly)
-                    .WithCodeGeneration())
-                .UseOrleankka()
-                .Start();
+            var host = await builder.StartAsync();
+            var system = host.ActorSystem();
 
-            var client = await host.Connect();
-            var system = client.ActorSystem();
-
-            app = new App(system, await system.CreateObservable());
+            app = new App(system, system.CreateObservable());
             app.Run();
 
             Console.WriteLine("Press Enter to terminate ...");
             Console.ReadLine();
 
-            client.Dispose();
             host.Dispose();
         }
     }

@@ -4,16 +4,13 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
-using Orleans.ApplicationParts;
 using Orleans.Hosting;
 using Orleans.Configuration;
 using Orleans.Runtime;
-using Orleans.Storage;
-
-using Orleankka.Client;
 
 namespace Orleankka
 {
@@ -26,7 +23,7 @@ namespace Orleankka
         const int LocalhostGatewayPort = 30000;
         static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
 
-        static ISiloHostBuilder ConfigureDemoClustering(this ISiloHostBuilder builder) => builder
+        static ISiloBuilder ConfigureDemoClustering(this ISiloBuilder builder) => builder
             .Configure<ClusterOptions>(options =>
             {
                 options.ClusterId = DemoClusterId;
@@ -43,14 +40,24 @@ namespace Orleankka
             })
             .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
 
-        public static async Task<ISiloHost> Start(this ISiloHostBuilder builder)
+        public static ISiloBuilder ConfigureServer(this ISiloBuilder builder)
+        {
+            return builder
+                .ConfigureDemoClustering()
+                .AddMemoryGrainStorageAsDefault()
+                .AddMemoryGrainStorage("PubSubStore")
+                .AddMemoryStreams("sms")
+                .UseInMemoryReminderService();
+        }
+
+        /*
+        public static async Task<IHost> Start(this ISiloBuilder builder)
         {
             var host = builder
                 .ConfigureDemoClustering()
                 .AddMemoryGrainStorageAsDefault()
                 .AddMemoryGrainStorage("PubSubStore")
-                .AddSimpleMessageStreamProvider("sms")
-                .ConfigureApplicationParts(x => x.AddApplicationPart(typeof(MemoryGrainStorage).Assembly))
+                .AddMemoryStreams("sms")
                 .UseInMemoryReminderService()
                 .Build();
 
@@ -58,17 +65,11 @@ namespace Orleankka
             return host;
         }
 
-        public static async Task<IClusterClient> Connect(this ISiloHost host, Action<IClientBuilder> configure = null)
+        public static async Task<IClusterClient> Connect(this ISiloBuilder host, Action<IClientBuilder> configure = null)
         {
             var builder = new ClientBuilder()
                 .ConfigureDemoClustering()
                 .AddSimpleMessageStreamProvider("sms")
-                .ConfigureApplicationParts(x =>
-                {
-                    var apm = host.Services.GetRequiredService<IApplicationPartManager>();
-                    foreach (var part in apm.ApplicationParts.OfType<AssemblyPart>())
-                        x.AddApplicationPart(part.Assembly);
-                })
                 .UseOrleankka();
 
             configure?.Invoke(builder);
@@ -77,21 +78,6 @@ namespace Orleankka
             await client.Connect();
             return client;
         }
-
-        public static ISiloHostBuilder UseSerializer<T>(this ISiloHostBuilder builder)
-        {
-            return builder.ConfigureServices(services => services.Configure<SerializationProviderOptions>(options =>
-            {
-                options.SerializationProviders.Add(typeof(T).GetTypeInfo());
-            }));
-        }
-        
-        public static IClientBuilder UseSerializer<T>(this IClientBuilder builder)
-        {
-            return builder.ConfigureServices(services => services.Configure<SerializationProviderOptions>(options =>
-            {
-                options.SerializationProviders.Add(typeof(T).GetTypeInfo());
-            }));
-        }
+    */
     }
 }
