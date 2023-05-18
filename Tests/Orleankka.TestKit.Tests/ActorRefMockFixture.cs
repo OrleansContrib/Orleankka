@@ -7,6 +7,21 @@ using Orleans;
 
 namespace Orleankka.TestKit
 {
+    interface ITestActorRefMockActor : IActorGrain, IGrainWithStringKey
+    {}
+
+    class TestActorRefMockActor : DispatchActorGrain, ITestActorRefMockActor
+    {}
+
+    class TestCommand
+    {}
+
+    class TestQuery
+    {
+        public string Field;
+        public string AnotherField;
+    }
+
     [TestFixture]
     public class ActorRefMockFixture
     {
@@ -15,7 +30,7 @@ namespace Orleankka.TestKit
         [SetUp]
         public void SetUp()
         {
-            actor = new ActorRefMock(ActorPath.For<ITestActor>(Guid.NewGuid().ToString("D")));
+            actor = new ActorRefMock(ActorPath.For<ITestActorRefMockActor>(Guid.NewGuid().ToString("D")));
         }
 
         [Test]
@@ -120,21 +135,6 @@ namespace Orleankka.TestKit
 
             Assert.That(await actor.Ask<int>(new TestQuery()),
                 Is.EqualTo(222));
-        }
-
-        interface ITestActor : IActorGrain, IGrainWithStringKey
-        {}
-
-        class TestActor : DispatchActorGrain, ITestActor
-        {}
-
-        class TestCommand
-        {}
-
-        class TestQuery
-        {
-            public string Field;
-            public string AnotherField;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Orleankka.TestKit
         }
 
         public object Roundtrip(object obj) => serializer != null
-            ? Deserialize(obj)
+            ? Deserialize(obj)  
             : obj;
 
         object Deserialize(object obj)
