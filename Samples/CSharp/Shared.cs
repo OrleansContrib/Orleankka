@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 
 using Orleans.Hosting;
 using Orleans.Configuration;
-using Orleans.Runtime;
 
 namespace Orleankka
 {
@@ -26,14 +25,6 @@ namespace Orleankka
             })
             .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
             .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort);
-
-        static IClientBuilder ConfigureDemoClustering(this IClientBuilder builder) => builder
-            .Configure<ClusterOptions>(options =>
-            {
-                options.ClusterId = DemoClusterId;
-                options.ServiceId = DemoServiceId;
-            })
-            .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()));
 
         public static async Task<IHost> StartServer(this IHostBuilder builder)
         {
