@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-
 using Orleankka;
 using Orleankka.Meta;
 using Orleankka.Cluster;
 
 using Microsoft.Extensions.Hosting;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace Example
 {

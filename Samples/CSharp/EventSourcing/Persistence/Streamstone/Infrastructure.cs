@@ -5,11 +5,12 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Azure.Cosmos.Table;
+
 using Orleankka;
 using Orleankka.Meta;
 
 using Streamstone;
-using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 
 namespace Example
