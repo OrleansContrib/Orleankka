@@ -5,10 +5,12 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    [Serializable]
+    using Orleans;
+
+    [Serializable, GenerateSerializer]
     public class Create : Command
     {
-        public readonly string Name;
+        [Id(0)] public readonly string Name;
 
         public Create(string name)
         {
@@ -16,10 +18,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class CheckIn : Command
     {
-        public readonly int Quantity;
+        [Id(0)] public readonly int Quantity;
 
         public CheckIn(int quantity)
         {
@@ -27,10 +29,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class CheckOut : Command
     {
-        public readonly int Quantity;
+        [Id(0)] public readonly int Quantity;
 
         public CheckOut(int quantity)
         {
@@ -38,10 +40,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Rename : Command
     {
-        public readonly string NewName;
+        [Id(0)] public readonly string NewName;
 
         public Rename(string newName)
         {
@@ -49,20 +51,20 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class DeactivateItem : Command
     {}
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class GetDetails : Query<InventoryItemDetails>
     {}
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemDetails
     {
-        public readonly string Name;
-        public readonly int Total;
-        public readonly bool Active;
+        [Id(0)] public readonly string Name;
+        [Id(1)] public readonly int Total;
+        [Id(2)] public readonly bool Active;
 
         public InventoryItemDetails(string name, int total, bool active)
         {
@@ -72,10 +74,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemCreated : Event
     {
-        public readonly string Name;
+        [Id(0)] public readonly string Name;
 
         public InventoryItemCreated(string name)
         {
@@ -83,10 +85,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemCheckedIn : Event
     {
-        public readonly int Quantity;
+        [Id(0)] public readonly int Quantity;
 
         public InventoryItemCheckedIn(int quantity)
         {
@@ -94,10 +96,10 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemCheckedOut : Event
     {
-        public readonly int Quantity;
+        [Id(0)] public readonly int Quantity;
 
         public InventoryItemCheckedOut(int quantity)
         {
@@ -105,11 +107,11 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemRenamed : Event
     {
-        public readonly string OldName;
-        public readonly string NewName;
+        [Id(0)] public readonly string OldName;
+        [Id(1)] public readonly string NewName;
 
         public InventoryItemRenamed(string oldName, string newName)
         {
@@ -118,7 +120,7 @@ namespace Example
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class InventoryItemDeactivated : Event
     {}
 }
