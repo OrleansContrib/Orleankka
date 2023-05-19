@@ -8,10 +8,10 @@ using Orleans;
 
 namespace Example
 {
-    [Serializable] public class PressSwitch {}
-    [Serializable] public class Touch {}
-    [Serializable] public class HitWithHammer {}
-    [Serializable] public class Fix {}
+    [Serializable, GenerateSerializer] public class PressSwitch {}
+    [Serializable, GenerateSerializer] public class Touch {}
+    [Serializable, GenerateSerializer] public class HitWithHammer {}
+    [Serializable, GenerateSerializer] public class Fix {}
 
     public interface ILightbulb : IActorGrain, IGrainWithStringKey {}
 
