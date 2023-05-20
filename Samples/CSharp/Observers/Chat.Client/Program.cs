@@ -66,12 +66,7 @@ namespace Example
                 try
                 {
                     var host = new HostBuilder()
-                        .UseOrleansClient(c => c
-                            .Configure<ClusterOptions>(options => {
-                                options.ClusterId = DemoClusterId;
-                                options.ServiceId = DemoServiceId;
-                            })
-                            .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri())))
+                        .UseOrleansClient(c => c.UseLocalhostClustering())
                         .UseOrleankka()
                         .Build();
 

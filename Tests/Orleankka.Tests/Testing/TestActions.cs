@@ -13,6 +13,7 @@ using Orleans.Hosting;
 using Orleans.Configuration;
 using Orleans.Storage;
 using Orleans.Runtime;
+using Orleans.Serialization;
 
 using Orleankka.Testing;
 using Orleankka.Cluster;
@@ -25,18 +26,9 @@ namespace Orleankka.Testing
 {
     using Features.State_persistence;
 
-    using Orleans.Serialization;
-
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresSiloAttribute : TestActionAttribute
     {
-        const string DemoClusterId = "localhost-demo";
-        const string DemoServiceId = "localhost-demo-service";
-
-        const int LocalhostSiloPort = 11111;
-        const int LocalhostGatewayPort = 30000;
-        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
-
         public override void BeforeTest(ITest test)
         {
             if (!test.IsSuite)
@@ -77,13 +69,7 @@ namespace Orleankka.Testing
                     });                    
                 })
                 .UseOrleans((_, builder) => builder
-                    .Configure<ClusterOptions>(options =>
-                    {
-                        options.ClusterId = DemoClusterId;
-                        options.ServiceId = DemoServiceId;
-                    })
-                    .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(LocalhostSiloAddress, LocalhostSiloPort))
-                    .ConfigureEndpoints(LocalhostSiloAddress, LocalhostSiloPort, LocalhostGatewayPort)
+                    .UseLocalhostClustering()
                     .AddMemoryGrainStorageAsDefault()
                     .AddMemoryGrainStorage("PubSubStore")
                     .UseInMemoryReminderService())
