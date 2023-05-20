@@ -30,7 +30,7 @@ namespace Orleankka.Client
         public ClientActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
             : base(assemblies, serviceProvider)
         {
-            grainFactory = serviceProvider.GetService<IGrainFactory>();
+            grainFactory = serviceProvider.GetService<IClusterClient>();
         }
 
         /// <inheritdoc />
