@@ -31,7 +31,7 @@ namespace Orleankka.TestKit
         {
             var bytes = serializer.SerializeToArray(obj);
             var method = deserializer.MakeGenericMethod(obj.GetType());
-            return method.Invoke(deserializer, new object[]{bytes});
+            return method.Invoke(serializer, new object[]{bytes});
         }
     }
 }

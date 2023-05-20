@@ -11,14 +11,29 @@ using Orleankka.TestKit;
 
 namespace Demo
 {
+    using Microsoft.Extensions.Hosting;
+
+    using Orleans.Hosting;
+
     public abstract class ActorFixture
     {
+        static readonly IHost host;
+
+        static ActorFixture()
+        {
+            host = new HostBuilder()
+                .UseOrleans(c => c.UseLocalhostClustering())
+                .Build();
+
+            host.StartAsync().Wait();
+        }
+
         protected ActorRuntimeMock Runtime;
 
         [SetUp]
         public virtual void SetUp()
         {
-            Runtime = new ActorRuntimeMock(new MessageSerialization());
+            Runtime = new ActorRuntimeMock(new MessageSerialization(host.Services));
         }
 
         protected ActorSystemMock System => Runtime.System;
