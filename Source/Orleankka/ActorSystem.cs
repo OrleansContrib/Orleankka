@@ -6,6 +6,8 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
+using Orleans.Runtime;
+using Orleans.Streams;
 
 namespace Orleankka
 {
@@ -23,6 +25,14 @@ namespace Orleankka
         /// <returns>The actor reference</returns>
         ActorRef ActorOf(ActorPath path);
 
+        /// <summary>
+        /// Acquires the stream reference for the given stream path
+        /// </summary>
+        /// <param name="path">The path of the stream</param>
+        /// <typeparam name="TItem">The type of the stream item</typeparam>
+        /// <returns>The stream reference</returns>
+        StreamRef<TItem> StreamOf<TItem>(StreamPath path);
+        
         /// <summary>
         /// Acquires the client reference for the given client path
         /// </summary>
@@ -42,12 +52,14 @@ namespace Orleankka
         readonly IServiceProvider serviceProvider;
         readonly IGrainFactory grainFactory;
         readonly IActorRefMiddleware actorRefMiddleware;
+        readonly IStreamRefMiddleware streamRefMiddleware;
 
         protected ActorSystem(Assembly[] assemblies, IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             this.grainFactory = serviceProvider.GetService<IGrainFactory>();
             this.actorRefMiddleware = serviceProvider.GetService<IActorRefMiddleware>();
+            this.streamRefMiddleware = serviceProvider.GetService<IStreamRefMiddleware>();
 
             Register(assemblies);
         }
@@ -89,6 +101,17 @@ namespace Orleankka
             @ref.middleware = actorRefMiddleware;
         }
         
+        /// <inheritdoc />
+        public StreamRef<TItem> StreamOf<TItem>(StreamPath path)
+        {
+            if (path == StreamPath.Empty)
+                throw new ArgumentException("Stream path is empty", nameof(path));
+
+            var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
+            
+            return new StreamRef<TItem>(path, provider, streamRefMiddleware);
+        }
+
         /// <inheritdoc />
         public ClientRef ClientOf(string path)
         {
@@ -167,6 +190,19 @@ namespace Orleankka
         public static ActorRef WorkerOf<TActor>(this IActorSystem system) where TActor : IActorGrain, IGrainWithStringKey
         {
             return system.WorkerOf(typeof(TActor));
+        }
+
+        /// <summary>
+        /// Acquires the stream reference for the given provider name and id of the stream.
+        /// </summary>
+        /// <param name="system">The reference to actor system</param>
+        /// <param name="provider">The name of the stream provider</param>
+        /// <param name="id">The id</param>
+        /// <typeparam name="TItem">The type of the stream item</typeparam>
+        /// <returns>A stream reference</returns>
+        public static StreamRef<TItem> StreamOf<TItem>(this IActorSystem system, string provider, string id)
+        {
+            return system.StreamOf<TItem>(StreamPath.From(provider, id));
         }
 
         /// <summary>

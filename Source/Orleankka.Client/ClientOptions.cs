@@ -16,6 +16,7 @@ namespace Orleankka.Client
             var assemblies = services.GetRelevantAssemblies();
 
             services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
+            services.TryAddSingleton<IStreamRefMiddleware>(DefaultStreamRefMiddleware.Instance);
 
             services.AddSingleton<IActorSystem>(sp => sp.GetService<ClientActorSystem>());
             services.AddSingleton<IClientActorSystem>(sp => sp.GetService<ClientActorSystem>());

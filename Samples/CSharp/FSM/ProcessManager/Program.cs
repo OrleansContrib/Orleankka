@@ -1,25 +1,23 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-using Orleankka;
-using Orleankka.Client;
 using Orleankka.Cluster;
 
-using Orleans;
 using Orleans.Hosting;
 using Orleans.Runtime;
 using Orleans.Storage;
 
 namespace ProcessManager
 {
+    using Orleankka;
+    using Orleankka.Client;
+
     public static class Program
     {
-        static ISiloHost silo;
+        static IHost host;
         
         public static async Task<int> Main()
         {
@@ -33,21 +31,14 @@ namespace ProcessManager
         {
             var folder = Storage.Init();
 
-            silo = await new SiloHostBuilder()
-                .ConfigureServices(s => s
-                    .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder)))
-                .AddSimpleMessageStreamProvider("notifications", o =>
-                {
-                    o.FireAndForgetDelivery = false;
-                    o.OptimizeForImmutableData = false;
-                })
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
-                .UseOrleankka()
-                .Start();
+            host = await SiloHostBuilderExtension.UseOrleankka(new HostBuilder()
+                    .ConfigureServices(s => s
+                        .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder)))
+                    .UseOrleans(c => c
+                        .AddMemoryStreams("notifications")))
+                .StartServer();
 
-            return silo.ActorSystem();
+            return SiloHostBuilderExtension.ActorSystem(host);
         }
 
         static void RunGui(IClientActorSystem system)

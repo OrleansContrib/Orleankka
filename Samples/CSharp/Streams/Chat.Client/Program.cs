@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using Orleans;
 using Orleans.Hosting;
-using Orleans.Runtime;
-using Orleans.Configuration;
 
 using Orleankka.Client;
 
@@ -15,12 +13,6 @@ namespace Example
 {
     class Program
     {
-        const string DemoClusterId = "localhost-demo";
-        const string DemoServiceId = "localhsot-demo-service";
-
-        const int LocalhostGatewayPort = 30000;
-        static readonly IPAddress LocalhostSiloAddress = IPAddress.Loopback;
-
         public static event Action OnClusterConnectionLost = () => {};
 
         static async Task Main(string[] args)
@@ -74,24 +66,17 @@ namespace Example
             {
                 try
                 {
-                    var client = new ClientBuilder()
-                        .Configure<ClusterOptions>(options =>
-                        {
-                            options.ClusterId = DemoClusterId;
-                            options.ServiceId = DemoServiceId;
-                        })
-                        .UseStaticClustering(options => options.Gateways.Add(new IPEndPoint(LocalhostSiloAddress, LocalhostGatewayPort).ToGatewayUri()))
-                        .AddSimpleMessageStreamProvider("sms")
+                    var host = new HostBuilder()
+                        .UseOrleansClient(c => c
+                            .UseLocalhostClustering()
+                            .AddMemoryStreams("sms")
                         .ConfigureServices(x => x
-                            .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost()))
-                        .ConfigureApplicationParts(x => x
-                            .AddApplicationPart(typeof(IChatUser).Assembly)
-                            .WithCodeGeneration())
+                            .AddSingleton<ConnectionToClusterLostHandler>((s, e) => OnClusterConnectionLost())))
                         .UseOrleankka()
                         .Build();
 
-                    await client.Connect();
-                    return client.ActorSystem();
+                    await host.StartAsync();
+                    return host.ActorSystem();
                 }
                 catch (Exception ex)
                 {

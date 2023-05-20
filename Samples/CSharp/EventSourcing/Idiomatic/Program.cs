@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
+
 using Orleankka;
-using Orleankka.Client;
 using Orleankka.Cluster;
 using Orleankka.Meta;
-
-using Orleans;
-using Orleans.Hosting;
 
 namespace Example
 {
@@ -18,15 +15,11 @@ namespace Example
         {
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            var host = await new SiloHostBuilder()
-                .ConfigureApplicationParts(x => x
-                    .AddApplicationPart(Assembly.GetExecutingAssembly())
-                    .WithCodeGeneration())
+            var host = await new HostBuilder()
                 .UseOrleankka()
-                .Start();
+                .StartServer();
 
-            var client = await host.Connect();
-            await Run(client.ActorSystem());
+            await Run(host.ActorSystem());
             
             Console.WriteLine("\nPress any key to terminate ...");
             Console.ReadKey(true);

@@ -35,16 +35,16 @@ namespace ProcessManager
             this.logger = logger;
         }
 
-        public async Task ReadStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
+        public async Task ReadStateAsync<T>(string grainType, GrainId id, IGrainState<T> grainState)
         {
-            var blob = GetBlob(grainReference);
+            var blob = GetBlob(id);
             if (!File.Exists(blob))
                 return;
 
             try
             {
                 var json = await File.ReadAllTextAsync(blob, Encoding.UTF8);
-                grainState.State = JsonConvert.DeserializeObject(json, type);
+                grainState.State = (T)JsonConvert.DeserializeObject(json, type);
             }
             catch (FileNotFoundException)
             {
@@ -52,10 +52,10 @@ namespace ProcessManager
             }
         }
 
-        public async Task WriteStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
+        public async Task WriteStateAsync<T>(string grainType, GrainId id, IGrainState<T> grainState)
         {
             var state = grainState.State;
-            var blob = GetBlob(grainReference);
+            var blob = GetBlob(id);
             var json = JsonConvert.SerializeObject(state);
 
             try
@@ -70,14 +70,14 @@ namespace ProcessManager
             }
         }
 
-        public Task ClearStateAsync(string grainType, GrainReference grainReference, IGrainState grainState)
+        public Task ClearStateAsync<T>(string grainType, GrainId id, IGrainState<T> grainState)
         {
-            var blob = GetBlob(grainReference);
+            var blob = GetBlob(id);
 
             try
             {
                 File.Delete(blob);
-                grainState.State = new CopierState();
+                grainState.State = (T)((object)new CopierState());
             }
             catch (IOException ex)
             {
@@ -89,9 +89,8 @@ namespace ProcessManager
             return Task.CompletedTask;
         }
 
-        string GetBlob(GrainReference grainReference)
+        string GetBlob(GrainId id)
         {
-            var id = grainReference.GetPrimaryKeyString();
             return Path.Combine(folder, $"{id}.blob");
         }
     }

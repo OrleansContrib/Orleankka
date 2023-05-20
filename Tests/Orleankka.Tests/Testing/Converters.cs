@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Reflection;
 
+using Microsoft.Extensions.DependencyInjection;
+
+using Orleans.Runtime;
+using Orleans.Streams;
+
 namespace Orleankka.Testing
 {
     using Newtonsoft.Json;
@@ -133,6 +138,37 @@ namespace Orleankka.Testing
         {
             var @ref = converter.ReadJson(reader, objectType, existingValue, serializer);
             var args = new object[]{@ref};
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            return Activator.CreateInstance(objectType, flags, null, args, null);
+        }
+    }
+
+    public class StreamRefConverter : JsonConverter
+    {
+        readonly IServiceProvider services;
+
+        public StreamRefConverter(IServiceProvider services)
+        {
+            this.services = services;
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(IStreamRef).IsAssignableFrom(objectType);
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ToString());
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jo = JToken.Load(reader);
+            var path = StreamPath.Parse(jo.Value<string>());
+            var middleware = services.GetService<IStreamRefMiddleware>();
+            var provider = services.GetServiceByName<IStreamProvider>(path.Provider);
+            var args = new object[]{path, provider, middleware};
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             return Activator.CreateInstance(objectType, flags, null, args, null);
         }

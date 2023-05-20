@@ -19,6 +19,7 @@ namespace Orleankka.Legacy.Features.Actor_behaviors
     class MockActorSystem : IActorSystem
     {
         public ActorRef ActorOf(ActorPath path) => throw new NotImplementedException();
+        public StreamRef<TItem> StreamOf<TItem>(StreamPath path) => throw new NotImplementedException();
         public ClientRef ClientOf(string path) => throw new NotImplementedException();
     }
 

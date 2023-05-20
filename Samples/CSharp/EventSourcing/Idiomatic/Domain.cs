@@ -6,19 +6,21 @@ using Orleankka;
 using Orleankka.Meta;
 
 using Orleans;
-using Orleans.CodeGeneration;
 using Orleans.Concurrency;
-using Orleans.Streams;
+using Orleans.Serialization.Invocation;
 
 namespace Example
 {
+    using Orleans.Runtime;
+    using Orleans.Streams;
+
     public interface IInventoryItem : IActorGrain, IGrainWithStringKey
     {}
 
     [MayInterleave(nameof(Interleave))]
     public class InventoryItem : EventSourcedActor, IInventoryItem
     {
-        public static bool Interleave(InvokeMethodRequest req) => req.Message() is GetDetails;
+        public static bool Interleave(IInvokable req) => req.Message() is GetDetails;
 
         int total;
         string name;
@@ -102,17 +104,17 @@ namespace Example
     public interface IInventory : IActorGrain, IGrainWithStringKey
     { }
 
-    [StartsWithImplicitStreamSubscription("InventoryItem")]
+    [ImplicitStreamSubscription("InventoryItem")]
     public class InventoryDispatcher : DispatchActorGrain, IInventoryDispatcher, IGrainWithGuidCompoundKey
     {
         async Task On(Activate _)
         {
-            var streamProvider = GetStreamProvider("sms");
+            var streamProvider = this.GetStreamProvider("sms");
 
-            var guid = this.GetPrimaryKey(out var extension);
-            var stream = streamProvider.GetStream<IEventEnvelope>(guid, extension);
+            var key = this.GetPrimaryKey();
+            var stream = streamProvider.GetStream<IEventEnvelope>(StreamId.Create("InventoryItem", key));
 
-            await stream.SubscribeAsync((envelope, token) => Receive(envelope));
+            await stream.SubscribeAsync((envelope, _) => Receive(envelope));
         }
 
         async Task On(EventEnvelope<InventoryItemCreated> e) => await System.ActorOf<IInventory>("#").Tell(new TrackStockOfNewInventoryItem(e.Stream, e.Event.Name));
@@ -159,22 +161,5 @@ namespace Example
 
         InventoryItemDetails[] Answer(GetInventoryItems _) => items.Values.ToArray();
         int Answer(GetInventoryItemsTotal _) => items.Values.Sum(x => x.Total);
-    }
-
-    public class StartsWithPredicate : IStreamNamespacePredicate
-    {
-        readonly string startsWith;
-
-        public StartsWithPredicate(string startsWith) => this.startsWith = startsWith;
-
-        public bool IsMatch(string streamNamespace) => streamNamespace.StartsWith(startsWith);
-    }
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class StartsWithImplicitStreamSubscriptionAttribute : ImplicitStreamSubscriptionAttribute
-    {
-        public StartsWithImplicitStreamSubscriptionAttribute(string startsWith)
-            : base(new StartsWithPredicate(startsWith))
-        { }
     }
 }

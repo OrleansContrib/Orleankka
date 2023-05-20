@@ -35,6 +35,7 @@ namespace Orleankka.Cluster
 
                 services.TryAddSingleton<IActorMiddleware>(DefaultActorMiddleware.Instance);
                 services.TryAddSingleton<IActorRefMiddleware>(DefaultActorRefMiddleware.Instance);
+                services.TryAddSingleton<IStreamRefMiddleware>(DefaultStreamRefMiddleware.Instance);
 
                 services.AddSingleton<IConfigureGrainContextProvider>(new ActorGrainActivator());
 
