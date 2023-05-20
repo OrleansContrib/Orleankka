@@ -32,9 +32,11 @@ namespace Example
             var userName = Console.ReadLine();
 
             const string room = "Orleankka";
-            
+
             var client = new ChatClient(system, userName, room);
             await client.Join();
+
+            Console.WriteLine("Enter your messages or `quit` to terminate");
 
             while (true)
             {
@@ -73,6 +75,9 @@ namespace Example
                         .UseOrleankka()
                         .Build();
 
+                    await host.StartAsync();
+                    Console.WriteLine("Connected!");
+                    
                     return host.ActorSystem();
                 }
                 catch (Exception ex)

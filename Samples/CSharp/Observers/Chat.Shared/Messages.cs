@@ -4,30 +4,32 @@ using Orleankka;
 
 namespace Example
 {
-    [Serializable]
+    using Orleans;
+
+    [Serializable, GenerateSerializer]
     public class Join
     {
-        public string User;
-        public ObserverRef Client;
+        [Id(0)] public string User;
+        [Id(1)] public ObserverRef Client;
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Leave
     {
-        public string User;
+        [Id(0)] public string User;
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Say
     {
-        public string User;
-        public string Message;
+        [Id(0)] public string User;
+        [Id(1)] public string Message;
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class ChatRoomMessage
     {
-        public string User;
-        public string Text;
+        [Id(0)] public string User; 
+        [Id(1)] public string Text;
     }
 }
