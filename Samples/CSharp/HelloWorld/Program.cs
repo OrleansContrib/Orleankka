@@ -16,10 +16,10 @@ using static System.Console;
 
 namespace Demo
 {
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Greet
     {
-        public string Who { get; set; }
+        [Id(0)] public string Who { get; set; }
     }
 
     public interface IGreeter : IActorGrain, IGrainWithStringKey {}
