@@ -11,14 +11,14 @@ namespace Example
 {
     using Orleans.Serialization.Invocation;
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Write : Command
     {
-        public int Value;
-        public TimeSpan Delay;
+        [Id(0)] public int Value;
+        [Id(1)] public TimeSpan Delay;
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class Read : Query<int>
     {}
 
