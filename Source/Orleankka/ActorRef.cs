@@ -33,7 +33,7 @@ namespace Orleankka
             this.middleware = middleware;
         }
 
-        public ActorPath Path { get; }
+        [Id(0)] public ActorPath Path { get; }
 
         public virtual Task Tell(object message)
         {

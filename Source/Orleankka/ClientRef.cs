@@ -27,7 +27,7 @@ namespace Orleankka
             this.endpoint = endpoint;
         }
 
-        public string Path { get; }
+        [Id(0)] public string Path { get; }
 
         public override void Notify(object message)
         {
