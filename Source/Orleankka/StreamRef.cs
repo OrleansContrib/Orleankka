@@ -4,23 +4,26 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
+using Orleans;
+using Orleans.Serialization;
 using Orleans.Streams;
 
 namespace Orleankka
 {
-    using Orleans;
     using Utility;
 
     public interface IStreamRef {}
 
     [Serializable, GenerateSerializer, Immutable]
     [DebuggerDisplay("s->{ToString()}")]
-    public class StreamRef<TItem> : IEquatable<StreamRef<TItem>>, IEquatable<StreamPath>, IStreamRef
+    public class StreamRef<TItem> : IEquatable<StreamRef<TItem>>, IEquatable<StreamPath>, IStreamRef, IOnDeserialized
     {
-        [NonSerialized] readonly IStreamProvider provider;
-        [NonSerialized] readonly IStreamRefMiddleware middleware;
+        [NonSerialized] internal IStreamProvider provider;
+        [NonSerialized] internal IStreamRefMiddleware middleware;
 
-        protected StreamRef(StreamPath path)
+        protected internal StreamRef(StreamPath path)
         {
             Path = path;
         }
@@ -193,6 +196,12 @@ namespace Orleankka
         public static bool operator !=(StreamRef<TItem> left, StreamRef<TItem> right) => !Equals(left, right);
 
         public override string ToString() => Path.ToString();
+
+        public void OnDeserialized(DeserializationContext context)
+        {
+            var system = (ActorSystem) context.ServiceProvider.GetService<IActorSystem>();
+            system.Init(this);
+        }
 
         internal BatchObserver CreateBatchObserver(Func<StreamMessage, Task> callback)
         {

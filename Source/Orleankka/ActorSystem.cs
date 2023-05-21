@@ -107,9 +107,10 @@ namespace Orleankka
             if (path == StreamPath.Empty)
                 throw new ArgumentException("Stream path is empty", nameof(path));
 
-            var provider = serviceProvider.GetServiceByName<IStreamProvider>(path.Provider);
-            
-            return new StreamRef<TItem>(path, provider, streamRefMiddleware);
+            var @ref = new StreamRef<TItem>(path);
+            Init(@ref);
+
+            return @ref;
         }
 
         /// <inheritdoc />
@@ -127,6 +128,13 @@ namespace Orleankka
         {
             var endpoint = ClientEndpoint.Proxy(@ref.Path, grainFactory);
             @ref.endpoint = endpoint;
+        }
+
+        public void Init<TItem>(StreamRef<TItem> @ref)
+        {
+            var provider = serviceProvider.GetServiceByName<IStreamProvider>(@ref.Path.Provider);
+            @ref.provider = provider;
+            @ref.middleware = streamRefMiddleware;
         }
     }
 
