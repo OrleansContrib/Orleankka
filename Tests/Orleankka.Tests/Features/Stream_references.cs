@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Orleans;
+using Orleans.Metadata;
 
 namespace Orleankka.Features
 {
@@ -20,10 +21,10 @@ namespace Orleankka.Features
             public ItemData ItemData;
         }
 
-        [Serializable]
+        [Serializable, GenerateSerializer]
         public class ItemData
         {
-            public readonly string Text;
+            [Id(0)] public readonly string Text;
 
             public ItemData(string text)
             {
@@ -48,15 +49,20 @@ namespace Orleankka.Features
         [Serializable]
         class Received : Query<List<ItemData>>
         {}
-
+        
+        [DefaultGrainType("test-stream-refs-producer")]
         public interface ITestProducerActor : IActorGrain, IGrainWithStringKey {}
+
+        [DefaultGrainType("test-stream-refs-consumer")]
         public interface ITestConsumerActor : IActorGrain, IGrainWithStringKey {}
 
+        [GrainType("test-stream-refs-producer")]
         public class TestProducerActor : DispatchActorGrain, ITestProducerActor
         {
             Task On(Produce x) => x.Stream.Publish(x.ItemData);
         }
 
+        [GrainType("test-stream-refs-consumer")]
         public class TestConsumerActor : DispatchActorGrain, ITestConsumerActor
         {
             readonly List<ItemData> received = new List<ItemData>();

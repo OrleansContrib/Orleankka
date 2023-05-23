@@ -32,7 +32,7 @@ namespace Orleankka
         /// <typeparam name="TItem">The type of the stream item</typeparam>
         /// <returns>The stream reference</returns>
         StreamRef<TItem> StreamOf<TItem>(StreamPath path);
-        
+
         /// <summary>
         /// Acquires the client reference for the given client path
         /// </summary>

@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans.Runtime;
 using Orleans.Streams;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace Orleankka.Testing
 {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-
     public class ObserverRefConverter : JsonConverter
     {
         readonly ClientRefConverter clientRefConverter;
@@ -145,9 +145,9 @@ namespace Orleankka.Testing
 
     public class StreamRefConverter : JsonConverter
     {
-        readonly IServiceProvider services;
+        readonly Lazy<IServiceProvider> services;
 
-        public StreamRefConverter(IServiceProvider services)
+        public StreamRefConverter(Lazy<IServiceProvider> services)
         {
             this.services = services;
         }
@@ -166,8 +166,8 @@ namespace Orleankka.Testing
         {
             var jo = JToken.Load(reader);
             var path = StreamPath.Parse(jo.Value<string>());
-            var middleware = services.GetService<IStreamRefMiddleware>();
-            var provider = services.GetServiceByName<IStreamProvider>(path.Provider);
+            var middleware = services.Value.GetService<IStreamRefMiddleware>();
+            var provider = services.Value.GetServiceByName<IStreamProvider>(path.Provider);
             var args = new object[]{path, provider, middleware};
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             return Activator.CreateInstance(objectType, flags, null, args, null);

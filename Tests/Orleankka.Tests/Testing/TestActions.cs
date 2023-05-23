@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,12 +59,14 @@ namespace Orleankka.Testing
                             options => options.Configure(c =>
                             {
                                 var system = new Lazy<IActorSystem>(()=> TestActorSystem.Instance);
+                                var services = new Lazy<IServiceProvider>(()=> TestActorSystem.Client.ServiceProvider);
                                 c.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
                                 c.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
                                 c.SerializerSettings.Converters.Add(new ObserverRefConverter(system));
                                 c.SerializerSettings.Converters.Add(new ClientRefConverter(system));
                                 c.SerializerSettings.Converters.Add(new ActorRefConverter(system));
                                 c.SerializerSettings.Converters.Add(new TypedActorRefConverter(system));
+                                c.SerializerSettings.Converters.Add(new StreamRefConverter(services));
                             }));
                     });                    
                 })
@@ -73,6 +74,7 @@ namespace Orleankka.Testing
                     .UseLocalhostClustering()
                     .AddMemoryGrainStorageAsDefault()
                     .AddMemoryGrainStorage("PubSubStore")
+                    .AddMemoryStreams("sms")
                     .UseInMemoryReminderService())
                 .UseOrleankka()
                 .UseOrleankkaLegacyFeatures();

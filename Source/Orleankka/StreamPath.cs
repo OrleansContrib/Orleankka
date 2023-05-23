@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Orleans;
+
 namespace Orleankka
 {
-    using Orleans;
     using Utility;
 
     [Serializable, Immutable]
@@ -39,7 +40,7 @@ namespace Orleankka
         /// <summary>
         /// Name of the stream provider.
         /// </summary>
-        public readonly string Provider;
+        [Id(0)] public string Provider { get; }
 
         /// <summary>
         /// Unique stream id.
@@ -47,7 +48,7 @@ namespace Orleankka
         /// <remarks>
         /// This maps to Orleans' stream namespace.
         /// The GUID is not used by Orleankka's stream references and is always Guid.Empty.</remarks>
-        public readonly string Id;
+        [Id(1)] public string Id { get; }
 
         StreamPath(string provider, string id)
         {

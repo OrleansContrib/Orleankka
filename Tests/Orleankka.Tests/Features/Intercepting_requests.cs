@@ -6,14 +6,13 @@ using NUnit.Framework;
 
 using Orleans;
 using Orleans.Runtime;
+using Orleans.Metadata;
 
 namespace Orleankka.Features
 {
     namespace Intercepting_requests
     {
         using Meta;
-        using Orleans.Metadata;
-
         using Testing;
 
         [Serializable]
@@ -30,10 +29,10 @@ namespace Orleankka.Features
         public class CheckRef : Query<string>
         {}
 
-        [Serializable]
+        [Serializable, GenerateSerializer]
         public class ItemData : Event
         {
-            public string Text;
+            [Id(0)] public string Text;
         }
 
         [DefaultGrainType("interceptor-test")]

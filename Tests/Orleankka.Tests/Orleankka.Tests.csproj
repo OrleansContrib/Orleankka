@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Legacy\Features\Declarative_stream_subscriptions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Legacy\Features\Declarative_stream_subscriptions.cs" />
   </ItemGroup>
 
   <ItemGroup>
