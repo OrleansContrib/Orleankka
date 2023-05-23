@@ -12,6 +12,8 @@ namespace Orleankka.Features
 {
     namespace Intercepting_requests
     {
+        using System.Threading;
+
         using Meta;
         using Testing;
 
@@ -204,9 +206,15 @@ namespace Orleankka.Features
                 await actor.Tell(new Subscribe {Stream = stream});
 
                 await stream.Publish(new ItemData {Text = "foo"});
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
                 
-                var received = await actor.Ask(new GetReceivedFromStream());
+                List<string> received = new();
+                SpinWait.SpinUntil(() =>
+                {
+                    received = (actor.Ask(new GetReceivedFromStream()).GetAwaiter().GetResult());
+                    return received.Count != 0;
+                }, 
+                1000);
+
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0], Is.EqualTo("foo.intercepted"));
             }
@@ -224,11 +232,11 @@ namespace Orleankka.Features
             {
                 var stream = system.StreamOf<ItemData>("sms", "test-stream-ref-publish-interception");
 
-                var received = new List<ItemData>();
+                List<ItemData> received = new();
                 await stream.Subscribe((item, _) => received.Add(item));
                 
                 await stream.Publish(new ItemData { Text = "StreamRefMiddlewarePublishTest" });
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
+                SpinWait.SpinUntil(() => received.Count != 0, 1000);
 
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0].Text, Is.EqualTo("StreamRefMiddlewarePublishTest - it works!"));
@@ -243,7 +251,7 @@ namespace Orleankka.Features
                 await stream.Subscribe((item, _) => received.Add(item));
 
                 await stream.Publish(new ItemData { Text = "StreamRefMiddlewareSubscribeTest" });
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
+                SpinWait.SpinUntil(() => received.Count != 0, 1000);
 
                 Assert.That(received.Count, Is.EqualTo(1));
                 Assert.That(received[0].Text, Is.EqualTo("StreamRefMiddlewareSubscribeTest - it works!"));
