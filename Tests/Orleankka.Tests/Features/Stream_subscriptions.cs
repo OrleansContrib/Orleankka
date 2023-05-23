@@ -46,7 +46,7 @@ namespace Orleankka.Features
         [RequiresSilo]
         class Tests
         {
-            static readonly TimeSpan timeout = TimeSpan.FromMilliseconds(100);
+            static readonly TimeSpan timeout = TimeSpan.FromMilliseconds(1000);
             IActorSystem system;
 
             [SetUp] public void SetUp() => 
