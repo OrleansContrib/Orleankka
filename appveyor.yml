@@ -14,7 +14,6 @@ init:
   - git config --global core.autocrlf input
 
 build_script:
-  - call "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
   - Nake.bat restore --packagesOnly
   - Nake.bat AppVeyorJobId=%APPVEYOR_JOB_ID% pack
 
