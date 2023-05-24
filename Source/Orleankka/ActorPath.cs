@@ -7,11 +7,11 @@ namespace Orleankka
 {
     using Utility;
      
-    [Serializable, Immutable]
+    [GenerateSerializer, Immutable]
     [DebuggerDisplay("{ToString()}")]
-    public struct ActorPath : IEquatable<ActorPath>
+    public class ActorPath : IEquatable<ActorPath>
     {
-        public static readonly ActorPath Empty = new ActorPath();
+        public static readonly ActorPath Empty = new(null, null);
         public static readonly string[] Separator = {":"};
 
         public static ActorPath For<T>(string id) where T : IActorGrain, IGrainWithStringKey => 
@@ -48,8 +48,8 @@ namespace Orleankka
             return new ActorPath(@interface, id);
         }
 
-        public readonly string Interface;
-        public readonly string Id;
+        [Id(0)] public readonly string Interface;
+        [Id(1)] public readonly string Id;
 
         ActorPath(string @interface, string id)
         {            

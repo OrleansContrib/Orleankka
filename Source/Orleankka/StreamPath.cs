@@ -7,11 +7,11 @@ namespace Orleankka
 {
     using Utility;
 
-    [Serializable, Immutable]
+    [GenerateSerializer, Immutable]
     [DebuggerDisplay("{ToString()}")]
-    public struct StreamPath : IEquatable<StreamPath>
+    public class StreamPath : IEquatable<StreamPath>
     {
-        public static readonly StreamPath Empty = new StreamPath();
+        public static readonly StreamPath Empty = new(null, null);
         public static readonly string[] Separator = {":"};
 
         public static StreamPath From(string provider, string id)
@@ -40,7 +40,7 @@ namespace Orleankka
         /// <summary>
         /// Name of the stream provider.
         /// </summary>
-        [Id(0)] public string Provider { get; }
+        [Id(0)] public readonly string Provider;
 
         /// <summary>
         /// Unique stream id.
@@ -48,7 +48,7 @@ namespace Orleankka
         /// <remarks>
         /// This maps to Orleans' stream namespace.
         /// The GUID is not used by Orleankka's stream references and is always Guid.Empty.</remarks>
-        [Id(1)] public string Id { get; }
+        [Id(0)] public readonly string Id;
 
         StreamPath(string provider, string id)
         {
