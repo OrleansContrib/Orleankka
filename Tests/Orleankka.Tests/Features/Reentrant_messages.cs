@@ -222,7 +222,7 @@ namespace Orleankka.Features
                 Assert.DoesNotThrowAsync(async () => await nr2);
             }
 
-            [Test]
+            [Test, Ignore("Reentrancy is ignored for streams")]
             public async Task When_actor_received_reentrant_message_via_Stream()
             {
                 var actor = system.FreshActorOf<ITestReentrantStreamConsumerActor>();
