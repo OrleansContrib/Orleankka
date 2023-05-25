@@ -33,7 +33,7 @@ var ArtifactsPath = $@"{RootPath}\Artifacts";
 var ReleasePackagesPath = $@"{ArtifactsPath}\Release";
 
 string AppVeyorJobId = null;
-var GES = "EventStore-OSS-Win-v3.9.4";
+var GES = "v22.10.1";
 
 var Version = "2.0.0-dev";
 
@@ -133,14 +133,14 @@ void RestoreGetEventStoreBinaries()
     Info("EventStore binaries were not found. Downloading ...");
 
     new WebClient().DownloadFile(
-        "https://eventstore.org/downloads/{GES}.zip",
-        $@"{RootPath}/Packages/{GES}.zip"
+        "https://github.com/EventStore/EventStore/releases/download/oss-{GES}/EventStore-OSS-Windows-2019-{GES}.zip",
+        $@"{RootPath}/Packages/EventStore-{GES}.zip"
     );
 
     Info("Success! Extracting ...");
 
-    ZipFile.ExtractToDirectory($@"{RootPath}/Packages/{GES}.zip", $@"{RootPath}/Packages/{GES}");
-    File.Delete($@"{RootPath}/Packages/{GES}.zip");
+    ZipFile.ExtractToDirectory($@"{RootPath}/Packages/EventStore-{GES}.zip", $@"{RootPath}/Packages/");
+    File.Delete($@"{RootPath}/Packages/EventStore-{GES}.zip");
 
     Info("Done!");
 }
@@ -152,7 +152,7 @@ void RestoreGetEventStoreBinaries()
         return;
 
     Info("Starting local GES node ...");
-    Exec($@"{RootPath}/Packages/{GES}/EventStore.ClusterNode.exe", "");
+    Exec($@"{RootPath}/Packages/EventStore-OSS-Windows-2019-{GES}/EventStore.ClusterNode.exe", "--insecure");
 }
 
 bool IsRunning(string processName)

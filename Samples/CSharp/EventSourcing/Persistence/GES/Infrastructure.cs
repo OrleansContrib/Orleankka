@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 using Orleankka;
 using Orleankka.Meta;
 
-using EventStore.ClientAPI;
-using EventStore.ClientAPI.Exceptions;
-
 using Newtonsoft.Json;
 
 namespace Example
 {
+    using EventStore.Client;
+
     public abstract class EventSourcedActor : DispatchActorGrain
     {
         static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
@@ -32,7 +31,7 @@ namespace Example
             FloatParseHandling = FloatParseHandling.Decimal,
         };
 
-        long version = ExpectedVersion.NoStream;
+        StreamRevision revision = StreamRevision.None;
 
         public override async Task<object> Receive(object message)
         {
@@ -57,30 +56,24 @@ namespace Example
         {
             var stream = StreamName();
 
-            StreamEventsSlice currentSlice;
-            long nextSliceStart = StreamPosition.Start;
-
+            var nextSliceStart = StreamPosition.Start;
             do
             {
-                currentSlice = await ES.Connection
-                    .ReadStreamEventsForwardAsync(stream, nextSliceStart, 256, false);
-
-                if (currentSlice.Status == SliceReadStatus.StreamNotFound)
+                var result = ES.Client.ReadStreamAsync(Direction.Forwards, stream, nextSliceStart, 256);
+                
+                var state = await result.ReadState;
+                if (state == ReadState.StreamNotFound)
                     return;
+                
+                var events = await result.ToListAsync();
+                nextSliceStart = result.LastStreamPosition.GetValueOrDefault(StreamPosition.End);
 
-                if (currentSlice.Status == SliceReadStatus.StreamDeleted)
-                    throw new InvalidOperationException("Stream '" + stream + "' has beed unexpectedly deleted");
-
-                nextSliceStart = currentSlice.NextEventNumber;
-                Replay(currentSlice.Events);
+                Replay(events);
             } 
-            while (!currentSlice.IsEndOfStream);
+            while (nextSliceStart != StreamPosition.End);
         }
 
-        string StreamName()
-        {
-            return GetType().Name + "-" + Id;
-        }
+        string StreamName() => Id;
 
         void Replay(IEnumerable<ResolvedEvent> events)
         {
@@ -109,7 +102,7 @@ namespace Example
         void Apply(object @event)
         {
             Dispatcher.Dispatch(this, @event);
-            version++;
+            revision++;
         }
 
         async Task Store(ICollection<Event> events)
@@ -122,7 +115,7 @@ namespace Example
 
             try
             {
-                await ES.Connection.AppendToStreamAsync(stream, version, serialized);
+                await ES.Client.AppendToStreamAsync(stream, revision, serialized);
             }
             catch (WrongExpectedVersionException)
             {
@@ -135,33 +128,33 @@ namespace Example
             }
         }
 
-        static Event DeserializeEvent(RecordedEvent @event)
+        static Event DeserializeEvent(EventRecord @event)
         {
             var eventType = Type.GetType(@event.EventType);
             Debug.Assert(eventType != null, "Couldn't load type '{0}'. Are you missing an assembly reference?", @event.EventType);
 
-            var json = Encoding.UTF8.GetString(@event.Data);
+            var json = Encoding.UTF8.GetString(@event.Data.ToArray());
             return (Event) JsonConvert.DeserializeObject(json, eventType, SerializerSettings);
         }
 
         static EventData ToEventData(object processedEvent)
         {
-            return ToEventData(Guid.NewGuid(), processedEvent, new Dictionary<string, object>());
+            return ToEventData(Uuid.NewUuid(), processedEvent, new Dictionary<string, object>());
         }
 
-        static EventData ToEventData(Guid eventId, object evnt, IDictionary<string, object> headers)
+        static EventData ToEventData(Uuid eventId, object @event, IDictionary<string, object> headers)
         {
-            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evnt, SerializerSettings));
+            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event, SerializerSettings));
             var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(headers, SerializerSettings));
 
-            var eventTypeName = evnt.GetType().AssemblyQualifiedName;
-            return new EventData(eventId, eventTypeName, true, data, metadata);
+            var eventTypeName = @event.GetType().AssemblyQualifiedName;
+            return new EventData(eventId, eventTypeName, data, metadata);
         }
     }
 
     public static class ES
     {
-        public static IEventStoreConnection Connection
+        public static EventStoreClient Client
         {
             get; set;
         }

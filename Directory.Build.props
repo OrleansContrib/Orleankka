@@ -79,7 +79,7 @@
 
         <!-- 3rd party packages -->
         <WindowsAzureStorageVersion>9.0.0</WindowsAzureStorageVersion>
-        <EventStoreClientAPINetCoreVersion>4.1.0.23</EventStoreClientAPINetCoreVersion>
+        <EventStoreClientAPINetCoreVersion>23.0.0</EventStoreClientAPINetCoreVersion>
         <StreamstoneVersion>2.3.1</StreamstoneVersion>
         <HyperionVersion>0.9.8</HyperionVersion>
         <GoogleProtobufVersion>3.5.1</GoogleProtobufVersion>

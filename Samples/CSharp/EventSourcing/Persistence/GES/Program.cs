@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 
-using EventStore.ClientAPI;
+using EventStore.Client;
+using Microsoft.Extensions.Hosting;
 
 using Orleankka;
 using Orleankka.Cluster;
@@ -10,17 +10,14 @@ using Orleankka.Meta;
 
 namespace Example
 {
-    using Microsoft.Extensions.Hosting;
-
     public static class Program
-    {   
+    {
         public static async Task Main()
         {
             Console.WriteLine("Make sure you've started local GES node using \".\\Nake.bat run\"!");
             Console.WriteLine("Running example. Booting cluster might take some time ...\n");
 
-            ES.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
-            await ES.Connection.ConnectAsync();
+            ConfigureEventStoreClient();
 
             var host = await new HostBuilder()
                 .UseOrleankka()
@@ -35,9 +32,15 @@ namespace Example
             Environment.Exit(0);
         }
 
+        static void ConfigureEventStoreClient()
+        {
+            const string connectionString = "esdb+discover://127.0.0.1:2113?tls=false&keepAliveTimeout=10000&keepAliveInterval=10000";
+            ES.Client = new EventStoreClient(EventStoreClientSettings.Create(connectionString));
+        }
+
         static async Task Run(IActorSystem system)
         {
-            var item = system.ActorOf<IInventoryItem>("12345");
+            var item = system.ActorOf<IInventoryItem>(Guid.NewGuid().ToString("N"));
 
             await item.Tell(new Create("XBOX1"));
             await Print(item);
