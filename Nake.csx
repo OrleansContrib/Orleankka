@@ -1,5 +1,5 @@
-﻿#r "Packages/Nake/2.4.0/tools/net45/Meta.dll"
-#r "Packages/Nake/2.4.0/tools/net45/Utility.dll"
+﻿#r "nuget: Nake.Meta, 3.0.0"
+#r "nuget: Nake.Utility, 3.0.0"
 
 #r "System.Xml"
 #r "System.Xml.Linq"
@@ -41,7 +41,7 @@ var Version = "2.0.0-dev";
 MakeDir(ArtifactsPath);
 
 /// Installs dependencies and builds sources in Debug mode
-[Task] void Default()
+[Nake] void Default()
 {
     Restore();
     Build();
@@ -101,7 +101,7 @@ MakeDir(ArtifactsPath);
 }
 
 void Push(string package) => Exec("dotnet", 
-    @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
+    @$"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
     "-k %NuGetApiKey% -s https://nuget.org/ --skip-duplicate");
 
 void Mirror(string source, string destination)
@@ -115,7 +115,7 @@ void Mirror(string source, string destination)
 
 
 /// Restores build-time packages and 3rd party dependencies used in demo projects
-[Task] void Restore(bool packagesOnly = false)
+[Nake] void Restore(bool packagesOnly = false)
 {
     Exec("dotnet", "restore {CoreProject}.sln");
     
@@ -146,7 +146,7 @@ void RestoreGetEventStoreBinaries()
 }
 
 /// Runs 3rd party software, on which samples are dependent upon
-[Task] void Run()
+[Nake] void Run()
 {
     if (IsRunning("EventStore.ClusterNode"))
         return;
@@ -166,11 +166,11 @@ class Docs
     const string RootPath = "%NakeScriptDirectory%";
 
     /// Builds documentation
-    [Task] void Build() => Exec("bash", "build.sh", workingDirectory: $@"{RootPath}/Docs");
+    [Nake] void Build() => Exec("bash", "build.sh", workingDirectory: $@"{RootPath}/Docs");
 
     /// Releases documentation
-    [Task] void Release() => Exec("bash", "release.sh 'https://github.com/OrleansContrib/Orleankka'", workingDirectory: $@"{RootPath}/Docs", ignoreExitCode: true);
+    [Nake] void Release() => Exec("bash", "release.sh 'https://github.com/OrleansContrib/Orleankka'", workingDirectory: $@"{RootPath}/Docs", ignoreExitCode: true);
 
     /// Serves documentation from local _site folder
-    [Task] void Serve() => Exec("bash", "serve.sh", workingDirectory: $@"{RootPath}/Docs");
+    [Nake] void Serve() => Exec("bash", "serve.sh", workingDirectory: $@"{RootPath}/Docs");
 }

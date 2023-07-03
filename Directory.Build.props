@@ -43,8 +43,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ConsoleProjectTargetFramework>net6.0</ConsoleProjectTargetFramework>
+        <TargetFramework>netcoreapp6.0</TargetFramework>
+        <ConsoleProjectTargetFramework>netcoreapp6.0</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 

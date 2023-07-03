@@ -2,11 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nake" Version="2.4.0" />
     <PackageReference Include="msdn.4.5.2" Version="0.1.0-alpha-1611021200" />
   </ItemGroup>
 
