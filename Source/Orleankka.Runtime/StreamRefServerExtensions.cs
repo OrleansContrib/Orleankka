@@ -5,7 +5,7 @@ using Orleankka.Utility;
 
 namespace Orleankka
 {
-    public static class StreamRefExtensions
+    public static class StreamRefServerExtensions
     {
         public static Task Subscribe<TItem>(this StreamRef<TItem> stream, ActorGrain actor) =>
             stream.Subscribe(actor, new SubscribeReceiveItem());

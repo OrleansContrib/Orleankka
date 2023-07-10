@@ -203,11 +203,8 @@ namespace Orleankka.Services
         /// </summary>
         public void Terminate() => jts.Terminate();
 
-        /// <inheritdoc />
         public override string ToString() => $"{Name}[{Id}]";
-        /// <inheritdoc />
         public override bool Equals(object obj) => Id.Equals(Id);
-        /// <inheritdoc />
         public override int GetHashCode() => Id.GetHashCode();
     }
 
