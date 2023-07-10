@@ -114,14 +114,16 @@ namespace Orleankka.Features
 
                     await actor.Tell(new Publish {Text = "c-a"});
 
-                    done.WaitOne(TimeSpan.FromMilliseconds(100));
+                    done.WaitOne(TimeSpan.FromSeconds(5));
+                    Assert.NotNull(@event);
                     Assert.That(@event.Text, Is.EqualTo("c-a"));
 
+                    @event = null;
                     subscription.Dispose();
                     await actor.Tell(new Publish {Text = "kaboom"});
 
-                    done.WaitOne(TimeSpan.FromMilliseconds(100));
-                    Assert.That(@event.Text, Is.EqualTo("c-a"));
+                    done.WaitOne(TimeSpan.FromSeconds(1));
+                    Assert.Null(@event);
                 }
             }
 

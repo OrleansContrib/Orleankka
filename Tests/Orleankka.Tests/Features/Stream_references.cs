@@ -11,6 +11,8 @@ namespace Orleankka.Features
 {
     namespace Stream_references
     {
+        using System.Threading;
+
         using Meta;
         using Testing;
 
@@ -74,9 +76,11 @@ namespace Orleankka.Features
             List<ItemData> On(Received x) => received;
         }
 
+        [TestFixture]
+        [RequiresSilo]
         class Tests
         {
-            static readonly TimeSpan timeout = TimeSpan.FromMilliseconds(100);
+            static readonly TimeSpan timeout = TimeSpan.FromSeconds(1);
             IActorSystem system;
 
             [SetUp] public void SetUp() => 
@@ -92,9 +96,7 @@ namespace Orleankka.Features
                     (item, _) => received.Add(item));
 
                 await stream.Publish(new ItemData("foo"));
-                await Task.Delay(timeout);
-
-                Assert.That(received.Count, Is.EqualTo(1));
+                SpinWait.SpinUntil(() => received.Count == 1, timeout);
                 Assert.That(received[0].Text, Is.EqualTo("foo"));
 
                 await subscription.Unsubscribe();
