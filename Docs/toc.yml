@@ -1,6 +1,6 @@
-- name: Documentation
-  href: articles/
-  homepage: articles/intro/what-is-orleankka.md
+# - name: Documentation
+#   href: articles/
+#   homepage: articles/intro/what-is-orleankka.md
 - name: API Reference
   href: api/Orleankka.yml
 - name: Project Chat

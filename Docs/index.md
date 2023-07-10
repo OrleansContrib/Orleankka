@@ -35,8 +35,9 @@ h2:before{
     </div>
 </section>
 
-<section>
+<!-- <section>
 <div class="container centered">
   <a class="btn btn-lg btn-primary" href="articles/intro/getting-started-csharp.md">Getting started</a>
 </div>
 </section>
+-->
