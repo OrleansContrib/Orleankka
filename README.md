@@ -71,7 +71,7 @@ This will restore dependencies and build everything in `debug` mode. Run `Nake.b
 
 ### Documentation
 
-Documentation can be found [here](http://orleanscontrib.github.io/Orleankka/).
+At present, documentation is undergoing a major overhaul. Please, check the unit tests and examples above to get up-to-date information on API usage.
 
 ## Community
 
