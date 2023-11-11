@@ -26,7 +26,6 @@ const string ClientProject = "Orleankka.Client";
 const string HttpAspNetCoreProject = "Orleankka.Http.AspNetCore";
 const string RuntimeProject = "Orleankka.Runtime";
 const string LegacyRuntimeProject = "Orleankka.Runtime.Legacy";
-const string LegacyRuntimeSupportProject = "Orleankka.Runtime.Legacy.Support";
 const string TestKitProject = "Orleankka.TestKit";
 
 var RootPath = "%NakeScriptDirectory%";
@@ -97,7 +96,6 @@ MakeDir(ArtifactsPath);
     Push(HttpAspNetCoreProject);
     Push(RuntimeProject);
     Push(LegacyRuntimeProject);
-    Push(LegacyRuntimeSupportProject);  
     Push(TestKitProject); 
 }
 
