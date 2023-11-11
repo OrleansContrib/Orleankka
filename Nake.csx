@@ -1,10 +1,11 @@
-﻿#r "Packages/Nake/2.4.0/tools/net45/Meta.dll"
-#r "Packages/Nake/2.4.0/tools/net45/Utility.dll"
+﻿#r "nuget: Nake.Meta, 3.0.0"
+#r "nuget: Nake.Utility, 3.0.0"
 
 #r "System.Xml"
 #r "System.Xml.Linq"
 #r "System.IO.Compression"
 #r "System.IO.Compression.FileSystem"
+#r "System.Net.WebClient"
 
 using Nake;
 using static Nake.FS;
@@ -29,8 +30,8 @@ const string LegacyRuntimeSupportProject = "Orleankka.Runtime.Legacy.Support";
 const string TestKitProject = "Orleankka.TestKit";
 
 var RootPath = "%NakeScriptDirectory%";
-var ArtifactsPath = $@"{RootPath}\Artifacts";
-var ReleasePackagesPath = $@"{ArtifactsPath}\Release";
+var ArtifactsPath = $@"{RootPath}/Artifacts";
+var ReleasePackagesPath = $@"{ArtifactsPath}/Release";
 
 string AppVeyorJobId = null;
 var GES = "v22.10.1";
@@ -41,7 +42,7 @@ var Version = "2.0.0-dev";
 MakeDir(ArtifactsPath);
 
 /// Installs dependencies and builds sources in Debug mode
-[Task] void Default()
+[Nake] void Default()
 {
     Restore();
     Build();
@@ -49,15 +50,15 @@ MakeDir(ArtifactsPath);
 
 /// Builds sources using specified configuration
 [Step] void Build(string config = "Debug", bool verbose = false) => 
-    Exec("dotnet", $"build {CoreProject}.sln /p:Configuration={config}" + (verbose ? "/v:d" : ""));
+    Exec("dotnet", $@"build {CoreProject}.sln /p:Configuration={config}" + (verbose ? "/v:d" : ""));
 
 /// Runs unit tests 
 [Step] void Test(bool slow = false)
 {
     Build("Debug");
 
-    var tests = new FileSet{$@"{RootPath}\**\bin\Debug\**\*.Tests.dll"}.ToString(" ");
-    var results = $@"{ArtifactsPath}\nunit-test-results.xml";
+    var tests = new FileSet{$@"{RootPath}/**/bin/Debug/**/*.Tests.dll"}.ToString(" ");
+    var results = $@"{ArtifactsPath}/nunit-test-results.xml";
 
     try
     {
@@ -69,7 +70,7 @@ MakeDir(ArtifactsPath);
     {    	
 	    if (AppVeyorJobId != null)
         {
-            var workerApi = "https://ci.appveyor.com/api/testresults/mstest/{AppVeyorJobId}";
+            var workerApi = $@"https://ci.appveyor.com/api/testresults/mstest/{AppVeyorJobId}";
             Info($"Uploading {results} to {workerApi} using job id {AppVeyorJobId} ...");
             
             var response = new WebClient().UploadFile(workerApi, results);
@@ -101,7 +102,7 @@ MakeDir(ArtifactsPath);
 }
 
 void Push(string package) => Exec("dotnet", 
-    @"nuget push {ReleasePackagesPath}\{package}.{Version}.nupkg " +
+    $@"nuget push {ReleasePackagesPath}/{package}.{Version}.nupkg " +
     "-k %NuGetApiKey% -s https://nuget.org/ --skip-duplicate");
 
 void Mirror(string source, string destination)
@@ -115,9 +116,9 @@ void Mirror(string source, string destination)
 
 
 /// Restores build-time packages and 3rd party dependencies used in demo projects
-[Task] void Restore(bool packagesOnly = false)
+[Nake] void Restore(bool packagesOnly = false)
 {
-    Exec("dotnet", "restore {CoreProject}.sln");
+    Exec("dotnet", $"restore {CoreProject}.sln");
     
     if (packagesOnly)
         return;
@@ -133,7 +134,7 @@ void RestoreGetEventStoreBinaries()
     Info("EventStore binaries were not found. Downloading ...");
 
     new WebClient().DownloadFile(
-        "https://github.com/EventStore/EventStore/releases/download/oss-{GES}/EventStore-OSS-Windows-2019-{GES}.zip",
+        $@"https://github.com/EventStore/EventStore/releases/download/oss-{GES}/EventStore-OSS-Windows-2019-{GES}.zip",
         $@"{RootPath}/Packages/EventStore-{GES}.zip"
     );
 
@@ -146,7 +147,7 @@ void RestoreGetEventStoreBinaries()
 }
 
 /// Runs 3rd party software, on which samples are dependent upon
-[Task] void Run()
+[Nake] void Run()
 {
     if (IsRunning("EventStore.ClusterNode"))
         return;
@@ -166,11 +167,11 @@ class Docs
     const string RootPath = "%NakeScriptDirectory%";
 
     /// Builds documentation
-    [Task] void Build() => Exec("bash", "build.sh", workingDirectory: $@"{RootPath}/Docs");
+    [Nake] void Build() => Exec("bash", "build.sh", workingDirectory: $@"{RootPath}/Docs");
 
     /// Releases documentation
-    [Task] void Release() => Exec("bash", "release.sh 'https://github.com/OrleansContrib/Orleankka'", workingDirectory: $@"{RootPath}/Docs", ignoreExitCode: true);
+    [Nake] void Release() => Exec("bash", "release.sh 'https://github.com/OrleansContrib/Orleankka'", workingDirectory: $@"{RootPath}/Docs", ignoreExitCode: true);
 
     /// Serves documentation from local _site folder
-    [Task] void Serve() => Exec("bash", "serve.sh", workingDirectory: $@"{RootPath}/Docs");
+    [Nake] void Serve() => Exec("bash", "serve.sh", workingDirectory: $@"{RootPath}/Docs");
 }
