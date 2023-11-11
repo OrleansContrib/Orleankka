@@ -43,6 +43,10 @@ You will need VS2019 and .NET Core 3.x installed in order to build and open the 
 
 This will restore dependencies and build everything in `debug` mode. Run `Nake.bat` with `-T` switch to see available commands.
 
+On MacOS\Linux distributions use below script to build, package or run tests:
+
+	$> ./nake.sh
+
 
 ### Packages
 
