@@ -9,7 +9,7 @@ namespace Orleankka
         public void Configure(IGrainContext context)
         {
             if (context.GrainInstance is ActorGrain actor)
-                actor.Initialize(context.ActivationServices, context.GrainId.ToString());
+                actor.Initialize(context.ActivationServices, context.GrainId.Key.ToString());
         }
 
         public bool TryGetConfigurator(GrainType grainType, GrainProperties properties, out IConfigureGrainContext configurator)
