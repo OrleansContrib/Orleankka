@@ -10,8 +10,23 @@ namespace Orleankka.Legacy.Cluster
 {
     using Behaviors;
 
+    using Streams;
+    using Utility;
+
+    using Orleans;
+    using Orleans.Runtime;
+
     public class LegacyOrleankkaClusterOptions
     {
+        string[] persistentStreamProviders = new string[0];
+
+        public LegacyOrleankkaClusterOptions RegisterPersistentStreamProviders(params string[] names)
+        {
+            Requires.NotNull(names, nameof(names));
+            persistentStreamProviders = names;
+            return this;
+        }
+
         internal void Configure(IServiceCollection services)
         {
             var assemblies = services.GetRelevantAssemblies()
@@ -23,12 +38,23 @@ namespace Orleankka.Legacy.Cluster
                 .ToArray();
 
             RegisterBehaviors(actors);
+            BootStreamSubscriptions(services);
         }
 
         static void RegisterBehaviors(Type[] actors)
         {
             foreach (var each in actors)
                 ActorBehavior.Register(each);
+        }
+
+        void BootStreamSubscriptions(IServiceCollection services)
+        {
+            services.AddSingleton(sp => ActivatorUtilities.CreateInstance<StreamSubscriptionTable>(sp));
+
+            foreach (var provider in persistentStreamProviders)
+            {
+                services.AddSingleton<ILifecycleParticipant<ISiloLifecycle>>(sp => new StreamProviderPubSubRegistrar(sp, provider));
+            }
         }
     }
 

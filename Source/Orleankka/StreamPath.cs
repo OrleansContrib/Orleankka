@@ -48,7 +48,7 @@ namespace Orleankka
         /// <remarks>
         /// This maps to Orleans' stream namespace.
         /// The GUID is not used by Orleankka's stream references and is always Guid.Empty.</remarks>
-        [Id(0)] public readonly string Id;
+        [Id(1)] public readonly string Id;
 
         StreamPath(string provider, string id)
         {

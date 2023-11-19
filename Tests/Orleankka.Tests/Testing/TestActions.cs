@@ -77,7 +77,8 @@ namespace Orleankka.Testing
                     .AddMemoryStreams("sms")
                     .UseInMemoryReminderService())
                 .UseOrleankka()
-                .UseOrleankkaLegacyFeatures();
+                .UseOrleankkaLegacyFeatures(x => x
+                    .RegisterPersistentStreamProviders("sms"));
 
             var host = sb.Build();
             host.StartAsync().Wait();
