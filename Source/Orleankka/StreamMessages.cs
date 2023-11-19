@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Orleans.Streams;
+using Orleans;
 
 namespace Orleankka
 {
@@ -241,9 +242,12 @@ namespace Orleankka
         StreamPath Path { get; }
     }
 
+    [GenerateSerializer]
     public abstract class StreamMessage<TItem> : StreamMessage
     {
         public StreamPath Path => Stream.Path;
+
+        [Id(0)]
         public StreamRef<TItem> Stream { get; }
 
         protected StreamMessage(StreamRef<TItem> stream)
@@ -251,28 +255,33 @@ namespace Orleankka
             Requires.NotNull(stream, nameof(stream));
             Stream = stream;
         }
-
     }
 
+    [GenerateSerializer]
     public class StreamItem<TItem> : StreamMessage<TItem>
     {
+        [Id(0)]
         public TItem Item { get; }
+
+        [Id(1)]
         public StreamSequenceToken Token { get; }
 
         public StreamItem(StreamRef<TItem> stream, TItem item, StreamSequenceToken token = null)
-            : base(stream)
+        : base(stream)
         {
             Item = item;
             Token = token;
         }
     }
 
+    [GenerateSerializer]
     public class StreamItemBatch<TItem> : StreamMessage<TItem>
     {
+        [Id(0)]
         public IList<SequentialItem<TItem>> Items { get; }
 
         public StreamItemBatch(StreamRef<TItem> stream, IList<SequentialItem<TItem>> items)
-            : base(stream)
+        : base(stream)
         {
             // ReSharper disable PossibleMultipleEnumeration
             Requires.NotNull(items, nameof(items));
@@ -281,9 +290,13 @@ namespace Orleankka
         }
     }
 
+    [GenerateSerializer]
     public class StreamError : StreamMessage
     {
+        [Id(0)]
         public StreamPath Path { get; }
+
+        [Id(1)]
         public Exception Exception { get; }
 
         public StreamError(StreamPath path, Exception exception)
@@ -297,14 +310,17 @@ namespace Orleankka
         }
     }
 
+    [GenerateSerializer]
     public class StreamCompleted : StreamMessage
     {
+        [Id(0)]
         public StreamPath Path { get; }
 
         public StreamCompleted(StreamPath path)
         {
             if (path == StreamPath.Empty)
                 throw new InvalidOperationException("The stream path is empty");
+
             Path = path;
         }
     }
