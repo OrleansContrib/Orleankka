@@ -21,7 +21,7 @@ namespace Orleankka
 
     class DispatcherRegistry : IDispatcherRegistry
     {
-        static readonly Dictionary<Type, Dispatcher> dispatchers = new Dictionary<Type, Dispatcher>();
+        readonly Dictionary<Type, Dispatcher> dispatchers = new Dictionary<Type, Dispatcher>();
 
         public void Register(Type type, Dispatcher dispatcher) => dispatchers.Add(type, dispatcher);
         public Dispatcher GetDispatcher(Type type) => dispatchers[type];

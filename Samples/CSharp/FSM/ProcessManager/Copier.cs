@@ -17,38 +17,46 @@ using Orleans.Runtime;
 namespace ProcessManager
 {
     /* external commands */
-    [Serializable] public class Start    : Command<ICopier> {}
-    [Serializable] public class Suspend  : Command<ICopier> {}
-    [Serializable] public class Continue : Command<ICopier> {}
-    [Serializable] public class Cancel   : Command<ICopier> {}
-    [Serializable] public class Restart  : Command<ICopier> {}
+    [Serializable, GenerateSerializer] public class Start    : Command<ICopier> {}
+    [Serializable, GenerateSerializer] public class Suspend  : Command<ICopier> {}
+    [Serializable, GenerateSerializer] public class Continue : Command<ICopier> {}
+    [Serializable, GenerateSerializer] public class Cancel   : Command<ICopier> {}
+    [Serializable, GenerateSerializer] public class Restart  : Command<ICopier> {}
 
     /* external events (pushed via 'copier-notifications' stream) */
-    [Serializable] public abstract class JobEvent : Event
+    [Serializable, GenerateSerializer] public abstract class JobEvent : Event
     {
+        [Id(0)]
         public string Id { get; set; }
     }
 
-    [Serializable] public class StateChanged : JobEvent
+    [Serializable, GenerateSerializer] public class StateChanged : JobEvent
     {
+        [Id(0)]
         public string Current { get; set; }
+        [Id(1)]
         public string Previous { get; set; }
+        [Id(2)]
         public bool Active { get; set; }
 
         public override string ToString() => $"#{Id}: State changed from {Previous} to {Current}. Active: {(Active ? "yes" : "no")}";
     }
 
-    [Serializable] public class ProgressChanged : JobEvent
+    [Serializable, GenerateSerializer] public class ProgressChanged : JobEvent
     {
+        [Id(0)]
         public double Progress { get; set; }
          
         public override string ToString() => $"#{Id}: ProgressChanged to {(int)(Progress * 100)}%";
     }
 
-    [Serializable] public class Error : JobEvent
+    [Serializable, GenerateSerializer] public class Error : JobEvent
     {
+        [Id(0)]
         public string Type { get; set; }
+        [Id(1)]
         public string Message { get; set; }
+        [Id(2)]
         public string StackTrace { get; set; }
 
         public override string ToString() => $"#{Id}: Error -> {Type}:{Message}";

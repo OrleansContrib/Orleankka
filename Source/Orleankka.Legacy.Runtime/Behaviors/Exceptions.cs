@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
+using Orleans;
+
 namespace Orleankka.Legacy.Behaviors
 {
-    [Serializable]
+    [GenerateSerializer, Serializable]
     public class UnhandledReminderException : Exception
     {
         public UnhandledReminderException(Actor actor, string id)

@@ -14,8 +14,8 @@ namespace Demo
     {
         static readonly IDictionary<string, IApiWorker> registry = new Dictionary<string, IApiWorker>
         {
-            {"api/facebook", new Faulty(new FacebookApiWorker("facebook.com"))},
-            {"api/twitter",  new Faulty(new TwitterApiWorker("twitter.com"))},
+            {"facebook", new Faulty(new FacebookApiWorker("facebook.com"))},
+            {"twitter",  new Faulty(new TwitterApiWorker("twitter.com"))},
         };
 
         public static IApiWorker Create(string api) => registry[api];

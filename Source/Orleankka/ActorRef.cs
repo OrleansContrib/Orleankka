@@ -103,6 +103,7 @@ namespace Orleankka
     [DebuggerDisplay("a->{ToString()}")]
     public class ActorRef<TActor> : ObserverRef<TActor>, IEquatable<ActorRef<TActor>>, IEquatable<ActorPath>, IStronglyTypedActorRef where TActor : IActorGrain, IGrainWithStringKey
     {
+        [Id(0)]
         readonly ActorRef @ref;
 
         protected internal ActorRef(ActorRef @ref)
