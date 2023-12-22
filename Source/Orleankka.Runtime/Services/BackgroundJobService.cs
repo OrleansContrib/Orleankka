@@ -265,26 +265,31 @@ namespace Orleankka.Services
     /// This message is sent back to the actor hosting the job
     /// when job invocation has been failed
     /// </summary>
-    [Immutable] public class BackgroundJobFailed
+    [GenerateSerializer, Immutable] 
+    public class BackgroundJobFailed
     {
         /// <summary>
         /// The name of the job
         /// </summary>
+        [Id(0)]
         public readonly string Name;
 
         /// <summary>
         /// The unique id of the job (PID)
         /// </summary>
+        [Id(1)]
         public readonly int Id;
 
         /// <summary>
         /// The number of times this job has failed
         /// </summary>
+        [Id(2)]
         public readonly int Failures;
 
         /// <summary>
         /// The exception that was thrown
         /// </summary>
+        [Id(3)]
         public readonly Exception Exception;
 
         /// <summary>
@@ -303,16 +308,19 @@ namespace Orleankka.Services
     /// when job execution has been terminated, either
     /// by itself (ran to completion) or terminated externally.
     /// </summary>
-    [Immutable] public class BackgroundJobTerminated
+    [GenerateSerializer, Immutable] 
+    public class BackgroundJobTerminated
     {
         /// <summary>
         /// The name of the job
         /// </summary>
+        [Id(0)]
         public readonly string Name;
 
         /// <summary>
         /// The unique id of the job (PID)
         /// </summary>
+        [Id(1)]
         public readonly int Id;
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace Demo
         }
     }
 
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class ApiUnavailableException : ApplicationException
     {
         public ApiUnavailableException(string api)

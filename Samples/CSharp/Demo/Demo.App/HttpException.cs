@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Orleans;
+
 namespace Demo
 {
-    [Serializable]
+    [Serializable, GenerateSerializer]
     public class HttpException : Exception
     {
         public int StatusCode { get; }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
+using Orleans;
+
 namespace Orleankka
 {
-    [Serializable]
+    [GenerateSerializer, Serializable]
     public class UnhandledMessageException : Exception
     {
         public UnhandledMessageException(ActorGrain actor, object message, string details = "")

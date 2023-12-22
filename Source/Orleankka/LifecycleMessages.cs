@@ -6,14 +6,14 @@ namespace Orleankka
     public interface LifecycleMessage
     {}
 
-    [Serializable, GenerateSerializer, Immutable]
+    [GenerateSerializer, Immutable]
     public sealed class Activate : LifecycleMessage
     {
         public static readonly Activate External = new Activate();
         public static readonly Activate State = new Activate();
     }
 
-    [Serializable, GenerateSerializer, Immutable]
+    [GenerateSerializer, Immutable]
     public sealed class Deactivate : LifecycleMessage
     {
         public Deactivate(DeactivationReason reason = default) => Reason = reason;
