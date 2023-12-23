@@ -29,8 +29,9 @@ namespace Orleankka.TestKit
             return j;
         }
 
-        RecordedBackgroundJob[] Active() => jobs.Cast<RecordedBackgroundJob>().ToArray();
-        BackgroundJob[] IBackgroundJobService.Active() => jobs.ToArray();        
+        BackgroundJob[] IBackgroundJobService.Active() => jobs.ToArray();
+        
+        public IEnumerable<RecordedBackgroundJob> RecordedJobs => jobs.OfType<RecordedBackgroundJob>();
     }
 
     public class RecordedBackgroundJob : BackgroundJob
@@ -49,7 +50,8 @@ namespace Orleankka.TestKit
                 throw new InvalidOperationException("Can't invoke inactive job");
 
             var request = timers.Requests.First(x => x.Id == TimerUid);
-            await request.Timer.CallbackTimer().Callback();
+            var timer = request.Timer.CallbackTimer<BackgroundJobToken>(); 
+            await timer.Callback(timer.State);
         }
     }
 }
