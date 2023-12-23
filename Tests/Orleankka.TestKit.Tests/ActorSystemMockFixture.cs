@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Linq;
+
+using NUnit.Framework;
 
 using Orleans;
 
@@ -8,17 +11,26 @@ namespace Orleankka.TestKit
     {}
 
     class TestActorSystemActor : DispatchActorGrain, ITestActorSystemActor
-    {}
+    {
+        public TestActorSystemActor(string id = null, IActorRuntime runtime = null)
+        : base(id, runtime)
+        { }
+
+        public void Handle(string part) => System.ActorOf<ITestActorSystemActor>(part + Random.Shared.Next(10));
+        public void Handle(int part) => System.StreamOf<int>("sms", $"{part}{Random.Shared.Next(10)}");
+    }
 
     [TestFixture]
     public class ActorSystemMockFixture
     {
+        ActorRuntimeMock runtime;
         ActorSystemMock system;
 
         [SetUp]
         public void SetUpTest()
         {
-            system = new ActorSystemMock();           
+            runtime = new ActorRuntimeMock();
+            system = runtime.System;         
         }
 
         [Test]
@@ -45,6 +57,18 @@ namespace Orleankka.TestKit
             Assert.IsInstanceOf<ActorRefMock>(mock2);
 
             Assert.AreSame(mock1, mock2);
+        }
+        
+        [Test]
+        public void Records_actors_and_streams()
+        {
+            var actor = new TestActorSystemActor("test", runtime);
+
+            actor.Handle("other");
+            actor.Handle(1);
+
+            Assert.IsTrue(system.RecordedActors.Count() == 1);
+            Assert.IsTrue(system.RecordedStreams<int>().Count() == 1);
         }
     }
 }
