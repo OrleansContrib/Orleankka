@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Orleankka.TestKit
@@ -103,5 +104,9 @@ namespace Orleankka.TestKit
 
         public void Dispose()
         {}
+
+        public IEnumerable<ActorRefMock> RecordedActors => actors.Values;
+        
+        public IEnumerable<StreamRefMock<TItem>> RecordedStreams<TItem>() => streams.Values.OfType<StreamRefMock<TItem>>();
     }
 }
