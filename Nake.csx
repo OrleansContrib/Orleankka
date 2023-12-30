@@ -103,15 +103,6 @@ void Push(string package) => Exec("dotnet",
     $@"nuget push {ReleasePackagesPath}/{package}.{Version}.nupkg " +
     "-k %NuGetApiKey% -s https://nuget.org/ --skip-duplicate");
 
-void Mirror(string source, string destination)
-{
-    foreach (string dir in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
-        Directory.CreateDirectory(dir.Replace(source, destination));
-
-    foreach (string file in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
-        File.Copy(file, file.Replace(source, destination), true);
-}
-
 
 /// Restores build-time packages and 3rd party dependencies used in demo projects
 [Nake] void Restore(bool packagesOnly = false)
