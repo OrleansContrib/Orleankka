@@ -132,7 +132,7 @@ namespace Orleankka
 
         public void Init<TItem>(StreamRef<TItem> @ref)
         {
-            var provider = serviceProvider.GetServiceByName<IStreamProvider>(@ref.Path.Provider);
+            var provider = serviceProvider.GetRequiredKeyedService<IStreamProvider>(@ref.Path.Provider);
             @ref.provider = provider;
             @ref.middleware = streamRefMiddleware;
         }

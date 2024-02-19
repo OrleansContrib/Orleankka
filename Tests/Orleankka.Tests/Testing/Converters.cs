@@ -167,7 +167,7 @@ namespace Orleankka.Testing
             var jo = JToken.Load(reader);
             var path = StreamPath.Parse(jo.Value<string>());
             var middleware = services.Value.GetService<IStreamRefMiddleware>();
-            var provider = services.Value.GetServiceByName<IStreamProvider>(path.Provider);
+            var provider = services.Value.GetRequiredKeyedService<IStreamProvider>(path.Provider);
             var args = new object[]{path, provider, middleware};
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             return Activator.CreateInstance(objectType, flags, null, args, null);

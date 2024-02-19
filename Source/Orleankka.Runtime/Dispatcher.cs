@@ -243,10 +243,6 @@ namespace Orleankka
             internal HandlerNotFoundException(object target, Type message)
                 : base(string.Format(description, target.GetType(), message))
             {}
-
-            protected HandlerNotFoundException(SerializationInfo info, StreamingContext context)
-                : base(info, context)
-            {}
         }
 
         static class Bind

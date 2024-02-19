@@ -33,7 +33,7 @@ namespace ProcessManager
 
             host = await SiloHostBuilderExtension.UseOrleankka(new HostBuilder()
                     .ConfigureServices(s => s
-                        .AddSingletonNamedService<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder)))
+                        .AddKeyedSingleton<IGrainStorage>("copier",  (sp, __) => new Storage(sp, typeof(CopierState), folder)))
                     .UseOrleans(c => c
                         .AddMemoryStreams("notifications")))
                 .StartServer();

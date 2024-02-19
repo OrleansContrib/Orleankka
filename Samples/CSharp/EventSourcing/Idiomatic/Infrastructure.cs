@@ -22,15 +22,10 @@ namespace Example
                 case Command cmd:
                     return HandleCommand(cmd);
                 
-                case Query query:
-                    return HandleQuery(query);
-                    
                 default:
                     return base.Receive(message);
             }
         }
-
-        Task<object> HandleQuery(Query query) => Result(Dispatcher.DispatchResult(this, query));
 
         async Task<object> HandleCommand(Command cmd)
         {

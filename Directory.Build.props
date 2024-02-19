@@ -43,8 +43,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ConsoleProjectTargetFramework>net7.0</ConsoleProjectTargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
+        <ConsoleProjectTargetFramework>net8.0</ConsoleProjectTargetFramework>
         <TestProjectTargetFramework>$(ConsoleProjectTargetFramework)</TestProjectTargetFramework>
     </PropertyGroup>
 
@@ -52,43 +52,45 @@
     <PropertyGroup>
 
         <!-- Framework packages -->
-        <SystemTextJsonVersion>7.0.0</SystemTextJsonVersion>
+        <SystemTextJsonVersion>8.0.2</SystemTextJsonVersion>
 
         <!-- Orleans packages -->        
-        <MicrosoftOrleansClientVersion>7.1.2</MicrosoftOrleansClientVersion>
-        <MicrosoftOrleansServerVersion>7.1.2</MicrosoftOrleansServerVersion>
-        <MicrosoftOrleansCoreAbstractionsVersion>7.1.2</MicrosoftOrleansCoreAbstractionsVersion>
-        <MicrosoftOrleansRuntimeVersion>7.1.2</MicrosoftOrleansRuntimeVersion>
-        <MicrosoftOrleansRemindersVersion>7.1.2</MicrosoftOrleansRemindersVersion>
-        <MicrosoftOrleansSdkVersion>7.1.2</MicrosoftOrleansSdkVersion>
-        <MicrosoftOrleansStreamingVersion>7.1.2</MicrosoftOrleansStreamingVersion>
-        <MicrosoftOrleansSerializationNewtonsoftJsonVersion>7.1.2</MicrosoftOrleansSerializationNewtonsoftJsonVersion>
-        <MicrosoftOrleansStreamingAzureStorageVersion>3.5.0</MicrosoftOrleansStreamingAzureStorageVersion>
+        <MicrosoftOrleansClientVersion>8.0.0</MicrosoftOrleansClientVersion>
+        <MicrosoftOrleansServerVersion>8.0.0</MicrosoftOrleansServerVersion>
+        <MicrosoftOrleansCoreAbstractionsVersion>8.0.0</MicrosoftOrleansCoreAbstractionsVersion>
+        <MicrosoftOrleansRuntimeVersion>8.0.0</MicrosoftOrleansRuntimeVersion>
+        <MicrosoftOrleansRemindersVersion>8.0.0</MicrosoftOrleansRemindersVersion>
+        <MicrosoftOrleansSdkVersion>8.0.0</MicrosoftOrleansSdkVersion>
+        <MicrosoftOrleansStreamingVersion>8.0.0</MicrosoftOrleansStreamingVersion>
+        <MicrosoftOrleansSerializationNewtonsoftJsonVersion>8.0.0</MicrosoftOrleansSerializationNewtonsoftJsonVersion>
+        <MicrosoftOrleansStreamingAzureStorageVersion>8.0.0</MicrosoftOrleansStreamingAzureStorageVersion>
 
         <!-- Microsoft extensions -->
-        <MicrosoftExtensionsLoggingVersion>7.0.0</MicrosoftExtensionsLoggingVersion>
-        <MicrosoftExtensionsLoggingConsoleVersion>7.0.0</MicrosoftExtensionsLoggingConsoleVersion>
-        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>7.0.0</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
-        <MicrosoftExtensionsHostingVersion>7.0.0</MicrosoftExtensionsHostingVersion>
+        <MicrosoftExtensionsLoggingVersion>8.0.0</MicrosoftExtensionsLoggingVersion>
+        <MicrosoftExtensionsLoggingConsoleVersion>8.0.0</MicrosoftExtensionsLoggingConsoleVersion>
+        <MicrosoftExtensionsDependencyInjectionAbstractionsVersion>8.0.0</MicrosoftExtensionsDependencyInjectionAbstractionsVersion>
+        <MicrosoftExtensionsHostingVersion>8.0.0</MicrosoftExtensionsHostingVersion>
 
         <!-- Testing packages -->
-        <NUnitVersion>3.9.0</NUnitVersion>
-        <NUnit3TestAdapterVersion>3.9.0</NUnit3TestAdapterVersion>
-        <MicrosoftNETTestSdkVersion>15.9.0</MicrosoftNETTestSdkVersion>
-        <PowerAssertVersion>1.0.79</PowerAssertVersion>
+        <NUnitVersion>3.14.0</NUnitVersion>
+        <NUnit3TestAdapterVersion>3.17.0</NUnit3TestAdapterVersion>
+        <MicrosoftNETTestSdkVersion>17.9.0</MicrosoftNETTestSdkVersion>
+        <PowerAssertVersion>1.0.87</PowerAssertVersion>
 
         <!-- 3rd party packages -->
-        <WindowsAzureStorageVersion>9.0.0</WindowsAzureStorageVersion>
-        <EventStoreClientAPINetCoreVersion>23.0.0</EventStoreClientAPINetCoreVersion>
+        <WindowsAzureStorageVersion>9.3.3</WindowsAzureStorageVersion>
+        <EventStoreClientAPINetCoreVersion>23.1.0</EventStoreClientAPINetCoreVersion>
         <StreamstoneVersion>2.3.1</StreamstoneVersion>
         <HyperionVersion>0.9.8</HyperionVersion>
-        <GoogleProtobufVersion>3.5.1</GoogleProtobufVersion>
+        <GoogleProtobufVersion>3.25.3</GoogleProtobufVersion>
+		<MicrosoftCodeAnalysisCommonVersion>4.8.0</MicrosoftCodeAnalysisCommonVersion>
+		<MicrosoftCodeAnalysisCSharpVersion>4.8.0</MicrosoftCodeAnalysisCSharpVersion>
 
         <!-- 3rd party F# libs -->
         <TaskBuilderfsVersion>1.1.1</TaskBuilderfsVersion>
 
         <!-- Tooling related packages -->
-        <SourceLinkVersion>2.7.6</SourceLinkVersion>
+        <SourceLinkVersion>2.8.3</SourceLinkVersion>
 
     </PropertyGroup>
 
