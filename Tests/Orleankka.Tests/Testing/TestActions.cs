@@ -39,7 +39,7 @@ namespace Orleankka.Testing
             var sb = new HostBuilder()
                 .ConfigureServices(services =>
                 {
-                    services.AddSingletonNamedService<IGrainStorage>("test", (sp, name) => new TestStorageProvider(name));
+                    services.AddKeyedSingleton<IGrainStorage>("test", (sp, name) => new TestStorageProvider((string)name));
                     services.Configure<GrainCollectionOptions>(options => options.CollectionAge = TimeSpan.FromMinutes(1.1));
                     
                     services.Configure<DispatcherOptions>(o =>

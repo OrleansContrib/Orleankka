@@ -50,10 +50,6 @@ namespace Demo
         public ApiUnavailableException(string api)
             : base(api + " api is unavailable. Try later!")
         {}
-
-        protected ApiUnavailableException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {}
     }
 
     public interface IApi : IActorGrain, IGrainWithStringKey
