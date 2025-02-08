@@ -30,7 +30,7 @@ for:
       - master
 
   install:
-    - cinst docfx
+    - choco install docfx
 
   deploy_script:
     - Nake.bat docs.build
