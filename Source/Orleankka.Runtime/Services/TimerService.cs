@@ -238,7 +238,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register(string id, TimeSpan due, TimeSpan period, Func<Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(GrainContext(), async s => await callback(), null, due, period));
+            timers.Add(id, registry.RegisterGrainTimer<object>(GrainContext(), async (s,c) => await callback(), null, new () { DueTime = due, Period = period, Interleave = true }));
         }
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TState state, Func<TState, Task> callback)
@@ -252,7 +252,7 @@ namespace Orleankka.Services
 
         void ITimerService.Register<TState>(string id, TimeSpan due, TimeSpan period, TState state, Func<TState, Task> callback)
         {
-            timers.Add(id, registry.RegisterTimer(GrainContext(), async s => await callback((TState) s), state, due, period));
+            timers.Add(id, registry.RegisterGrainTimer<TState>(GrainContext(), async (s,c) => await callback((TState) s), state, new() { DueTime = due, Period = period, Interleave = true }));
         }
 
         void ITimerService.Register(string id, TimeSpan due, bool interleave, bool fireAndForget, object message)
